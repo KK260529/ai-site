@@ -3,7 +3,7 @@ title Git Setup - ai-site
 chcp 65001 >nul 2>&1
 cd /d "%~dp0"
 
-set "REMOTE=https://github.com/KK260529/ai-site.git"
+set "REMOTE=https://KK260529@github.com/KK260529/ai-site.git"
 
 echo.
 echo ========================================

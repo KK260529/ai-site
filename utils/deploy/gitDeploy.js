@@ -3,7 +3,7 @@ const fs = require("fs");
 const path = require("path");
 
 const ROOT = process.cwd();
-const DEFAULT_REMOTE = "https://github.com/KK260529/ai-site.git";
+const DEFAULT_REMOTE = "https://KK260529@github.com/KK260529/ai-site.git";
 
 /** Git に含める公開関連パス */
 const DEPLOY_PATHS = [

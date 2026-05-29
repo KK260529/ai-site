@@ -4,7 +4,7 @@ const fs = require("fs");
 const path = require("path");
 
 const ROOT = path.join(__dirname, "..");
-const REMOTE = "https://github.com/KK260529/ai-site.git";
+const REMOTE = "https://KK260529@github.com/KK260529/ai-site.git";
 
 function git(args) {
   const r = spawnSync("git", args, { cwd: ROOT, encoding: "utf8", windowsHide: true });

@@ -4,7 +4,7 @@ const { config } = require("./config");
 const { injectAds, getAdSlot, getAdHeadScript, injectAdsInCardList } = require("./ads");
 const articleStore = require("./articleStore");
 
-const TEMPLATES_DIR = path.join(config.rootDir, "templates");
+const TEMPLATES_DIR = path.join(__dirname, "..", "templates");
 
 const TEMPLATE_FILES = [
   "layout.html",

@@ -22,6 +22,8 @@ const DEPLOY_PATHS = [
   "templates",
   "utils",
   "routes",
+  "scripts/build-article-index.js",
+  "scripts/mirror-articles-public.js",
   "server.js",
   "vercel.json",
   "package.json",

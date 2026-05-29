@@ -9,6 +9,23 @@ const { canWriteToDisk } = require("./runtime");
 
 const ARTICLES_DIR = path.join(config.rootDir, config.articlesDir);
 const PUBLIC_ARTICLES_DIR = path.join(config.publicDir, "articles");
+const ARTICLE_INDEX = path.join(config.rootDir, "utils", "articleIndex.json");
+
+let articleIndexCache = null;
+
+function loadArticleIndex() {
+  if (articleIndexCache) return articleIndexCache;
+  try {
+    articleIndexCache = require("./articleIndex.json");
+  } catch {
+    try {
+      articleIndexCache = JSON.parse(fs.readFileSync(ARTICLE_INDEX, "utf-8"));
+    } catch {
+      articleIndexCache = {};
+    }
+  }
+  return articleIndexCache;
+}
 
 function ensurePublicArticlesDir() {
   if (!canWriteToDisk()) return;
@@ -70,6 +87,9 @@ function findArticlePath(slug) {
 }
 
 function readArticleFile(slug) {
+  const fromIndex = loadArticleIndex()[slug];
+  if (fromIndex) return fromIndex;
+
   const filePath = findArticlePath(slug);
   if (!filePath) return null;
   const raw = fs.readFileSync(filePath, "utf-8");
@@ -84,6 +104,7 @@ function writeArticleFile(article) {
   const filePath = getFilePath(article.slug);
   fs.writeFileSync(filePath, JSON.stringify(article, null, 2), "utf-8");
   mirrorPublishedArticle(article);
+  articleIndexCache = null;
   return article;
 }
 
@@ -99,7 +120,8 @@ function deleteArticleFile(slug) {
 }
 
 function listAllArticles() {
-  const bySlug = new Map();
+  const bySlug = new Map(Object.entries(loadArticleIndex()));
+
   for (const dir of articleDirsForRead()) {
     if (!fs.existsSync(dir)) continue;
     for (const f of fs.readdirSync(dir).filter((name) => name.endsWith(".json"))) {

@@ -1,0 +1,3879 @@
+{
+  "java-project-development": {
+    "slug": "java-project-development",
+    "title": "Javaのプロジェクト開発",
+    "summary": "小さな Java プロジェクトを設計・実装・ビルドする流れを学びます。パッケージ構成、Maven/Gradle の概要、テストと README の重要性を解説します。",
+    "body": "<h2>導入</h2><p>これまで学んだ文法・OOP・コレクション・IO を<strong>1つのプロジェクト</strong>にまとめる段階です。実務に近い流れを体験しましょう。</p><h2>プロジェクト構成</h2><pre><code>my-app/\n  src/main/java/com/example/App.java\n  src/test/java/com/example/AppTest.java\n  pom.xml  （Maven の場合）</code></pre><p>パッケージ名は逆ドメイン形式（<code>com.example</code>）が慣例です。</p><h3>ビルドツール</h3><p><strong>Maven</strong> と <strong>Gradle</strong> が主流です。依存ライブラリの取得、コンパイル、テスト、JAR 作成を自動化します。</p><h2>開発の流れ</h2><ol><li>要件を1段落で書く（誰が何をしたいか）</li><li>クラスと責務を紙に分割</li><li>main から動く最小版を作る</li><li>JUnit でテストを追加</li><li>README に実行手順を書く</li></ol><h2>ミニプロジェクト例</h2><p>「TODO をファイル保存する CLI アプリ」なら、<code>Todo</code> モデル、<code>TodoRepository</code>（ファイル IO）、<code>App</code>（CLI）に分けると拡張しやすいです。</p><h3>よくあるつまずき</h3><p>最初から大きな設計を目指すより、<strong>動く最小版</strong>を早く作る方が学習効率が高いです。リファクタリングは後からで構いません。</p><h2>確認方法</h2><p><code>mvn test</code> または <code>gradle test</code> が通る状態を目標にしてください。CI（GitHub Actions 等）は余裕があれば追加します。</p><h2>まとめ</h2><p>プロジェクト開発は「構成・ビルド・テスト・ドキュメント」の4点セットです。小さな完成品を1つ作る経験が、これまでの学習を定着させます。</p>",
+    "conclusion": "Java プロジェクトは標準ディレクトリ構成とビルドツールを使い、最小動作から育てるのが成功の近道です。README とテストを忘れず、オリジナルアプリ制作に挑戦して講座を締めくくりましょう。",
+    "tags": [
+      "Java",
+      "プロジェクト",
+      "Maven"
+    ],
+    "category": "プログラミング",
+    "theme": "java - Java",
+    "status": "published",
+    "createdAt": "2026-05-29T14:36:45.328Z",
+    "updatedAt": "2026-05-29T14:36:45.329Z",
+    "publishedAt": "2026-05-29T14:36:45.328Z",
+    "metaTitle": "Javaのプロジェクト開発",
+    "metaDescription": "小さな Java プロジェクトを設計・実装・ビルドする流れを学びます。パッケージ構成、Maven/Gradle の概要、テストと README の重要性を解説します。",
+    "ogTitle": "Javaのプロジェクト開発",
+    "ogDescription": "小さな Java プロジェクトを設計・実装・ビルドする流れを学びます。パッケージ構成、Maven/Gradle の概要、テストと README の重要性を解説します。",
+    "knowledge": {
+      "topic": "java",
+      "courseId": "java",
+      "episode": 20
+    },
+    "faq": [
+      {
+        "question": "Maven と Gradle はどちら？",
+        "answer": "どちらも主流です。教材や職場に合わせて選べば問題ありません。"
+      },
+      {
+        "question": "IDE は必要？",
+        "answer": "IntelliJ IDEA や Eclipse があると効率的ですが、エディタ+CLI でも可能です。"
+      }
+    ],
+    "nextEpisodeHint": "講座の総仕上げとして、学んだ内容を組み合わせたオリジナルアプリに挑戦してみましょう。",
+    "canonical": "https://ai-site-iota-nine.vercel.app/article/java-project-development",
+    "jsonLd": {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@context": "https://schema.org",
+          "@type": "BlogPosting",
+          "headline": "Javaのプロジェクト開発",
+          "description": "小さな Java プロジェクトを設計・実装・ビルドする流れを学びます。パッケージ構成、Maven/Gradle の概要、テストと README の重要性を解説します。",
+          "datePublished": "2026-05-29T14:36:45.328Z",
+          "dateModified": "2026-05-29T14:36:45.329Z",
+          "author": {
+            "@type": "Organization",
+            "name": "StackShelf"
+          },
+          "publisher": {
+            "@type": "Organization",
+            "name": "StackShelf",
+            "url": "https://ai-site-iota-nine.vercel.app"
+          },
+          "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https://ai-site-iota-nine.vercel.app/article/java-project-development"
+          },
+          "keywords": "Java, プロジェクト, Maven",
+          "articleSection": "プログラミング",
+          "url": "https://ai-site-iota-nine.vercel.app/article/java-project-development"
+        },
+        {
+          "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "ホーム",
+              "item": "https://ai-site-iota-nine.vercel.app"
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "name": "java",
+              "item": "https://ai-site-iota-nine.vercel.app/knowledge/java"
+            },
+            {
+              "@type": "ListItem",
+              "position": 3,
+              "name": "Java",
+              "item": "https://ai-site-iota-nine.vercel.app/course/java/java"
+            },
+            {
+              "@type": "ListItem",
+              "position": 4,
+              "name": "Javaのプロジェクト開発",
+              "item": "https://ai-site-iota-nine.vercel.app/article/java-project-development"
+            }
+          ]
+        },
+        {
+          "@context": "https://schema.org",
+          "@type": "Course",
+          "name": "Java",
+          "description": "Javaプログラミング言語の基礎から応用までを学習する講座です。初心者向けにJavaの基本構文、オブジェクト指向、データ構造、アルゴリズムなどを解説します。",
+          "provider": {
+            "@type": "Organization",
+            "name": "StackShelf"
+          }
+        },
+        {
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "Maven と Gradle はどちら？",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "どちらも主流です。教材や職場に合わせて選べば問題ありません。"
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "IDE は必要？",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "IntelliJ IDEA や Eclipse があると効率的ですが、エディタ+CLI でも可能です。"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    "breadcrumb": {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "ホーム",
+          "item": "https://ai-site-iota-nine.vercel.app"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "java",
+          "item": "https://ai-site-iota-nine.vercel.app/knowledge/java"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Java",
+          "item": "https://ai-site-iota-nine.vercel.app/course/java/java"
+        },
+        {
+          "@type": "ListItem",
+          "position": 4,
+          "name": "Javaのプロジェクト開発",
+          "item": "https://ai-site-iota-nine.vercel.app/article/java-project-development"
+        }
+      ]
+    },
+    "courseSchema": {
+      "@context": "https://schema.org",
+      "@type": "Course",
+      "name": "Java",
+      "description": "Javaプログラミング言語の基礎から応用までを学習する講座です。初心者向けにJavaの基本構文、オブジェクト指向、データ構造、アルゴリズムなどを解説します。",
+      "provider": {
+        "@type": "Organization",
+        "name": "StackShelf"
+      }
+    },
+    "faqSchema": {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Maven と Gradle はどちら？",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "どちらも主流です。教材や職場に合わせて選べば問題ありません。"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "IDE は必要？",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "IntelliJ IDEA や Eclipse があると効率的ですが、エディタ+CLI でも可能です。"
+          }
+        }
+      ]
+    }
+  },
+  "java-functional-programming": {
+    "slug": "java-functional-programming",
+    "title": "Javaの関数型プログラミング",
+    "summary": "Java における関数型プログラミングの考え方を学びます。不変性、副作用の削減、Optional、純粋関数のメリットを解説します。",
+    "body": "<h2>導入</h2><p>関数型プログラミング（FP）は「関数を中心にプログラムを組み立てる」スタイルです。Java はオブジェクト指向言語ですが、Java 8 以降 FP の要素を取り入れています。</p><h2>純粋関数と副作用</h2><p><strong>純粋関数</strong>は同じ引数なら常に同じ結果を返し、外部状態を変更しません。テストしやすく、並行処理でも扱いやすいです。</p><pre><code>static int add(int a, int b) { return a + b; }</code></pre><p>一方、ファイル書き込みやフィールド更新は副作用を伴います。FP では副作用を境界に押し出し、核心ロジックを純粋に保つことが多いです。</p><h2>Optional</h2><pre><code>Optional&lt;String&gt; name = Optional.ofNullable(user.getName());\nString display = name.orElse(\"guest\");</code></pre><p><code>null</code> チェックの代わりに「値があるかもしれない」ことを型で表現します。</p><h3>不変性</h3><p><code>List.of</code> や <code>record</code>（Java 16+）は不変データを作りやすくします。共有しても意図しない変更が起きにくいです。</p><h2>Java における FP の現実</h2><p>Java では完全な FP より、<strong>OO と FP のハイブリッド</strong>が一般的です。Stream・ラムダ・Optional をうまく使い、可読性と保守性を上げるのが実務的な目標です。</p><h2>確認方法</h2><p>null を返すメソッドを Optional 返却に書き換え、呼び出し側で <code>map</code> / <code>orElse</code> を使ってみてください。</p><h2>まとめ</h2><p>関数型の考え方は「副作用を減らし、データ変換を宣言的に書く」ことです。Java では Stream と Optional から始めるのがおすすめです。</p>",
+    "conclusion": "Java の関数型プログラミングは純粋関数・不変性・Optional の3点が鍵です。すべてを FP にする必要はなく、読みやすい部分から取り入れましょう。次回はベストプラクティスで実務向けの設計を学びます。",
+    "tags": [
+      "Java",
+      "関数型",
+      "Optional"
+    ],
+    "category": "プログラミング",
+    "theme": "java - Java",
+    "status": "published",
+    "createdAt": "2026-05-29T14:36:45.248Z",
+    "updatedAt": "2026-05-29T14:36:45.249Z",
+    "publishedAt": "2026-05-29T14:36:45.248Z",
+    "metaTitle": "Javaの関数型プログラミング",
+    "metaDescription": "Java における関数型プログラミングの考え方を学びます。不変性、副作用の削減、Optional、純粋関数のメリットを解説します。",
+    "ogTitle": "Javaの関数型プログラミング",
+    "ogDescription": "Java における関数型プログラミングの考え方を学びます。不変性、副作用の削減、Optional、純粋関数のメリットを解説します。",
+    "knowledge": {
+      "topic": "java",
+      "courseId": "java",
+      "episode": 18
+    },
+    "faq": [
+      {
+        "question": "Optional をフィールドに使う？",
+        "answer": "一般には推奨されません。戻り値型として使うのが定石です。"
+      },
+      {
+        "question": "record とは？",
+        "answer": "不変データを簡潔に定義するクラスで、Java 16 以降で利用できます。"
+      }
+    ],
+    "nextEpisodeHint": "次回はベストプラクティスとして、実務で役立つ設計のコツを学びます。",
+    "canonical": "https://ai-site-iota-nine.vercel.app/article/java-functional-programming",
+    "jsonLd": {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@context": "https://schema.org",
+          "@type": "BlogPosting",
+          "headline": "Javaの関数型プログラミング",
+          "description": "Java における関数型プログラミングの考え方を学びます。不変性、副作用の削減、Optional、純粋関数のメリットを解説します。",
+          "datePublished": "2026-05-29T14:36:45.248Z",
+          "dateModified": "2026-05-29T14:36:45.249Z",
+          "author": {
+            "@type": "Organization",
+            "name": "StackShelf"
+          },
+          "publisher": {
+            "@type": "Organization",
+            "name": "StackShelf",
+            "url": "https://ai-site-iota-nine.vercel.app"
+          },
+          "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https://ai-site-iota-nine.vercel.app/article/java-functional-programming"
+          },
+          "keywords": "Java, 関数型, Optional",
+          "articleSection": "プログラミング",
+          "url": "https://ai-site-iota-nine.vercel.app/article/java-functional-programming"
+        },
+        {
+          "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "ホーム",
+              "item": "https://ai-site-iota-nine.vercel.app"
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "name": "java",
+              "item": "https://ai-site-iota-nine.vercel.app/knowledge/java"
+            },
+            {
+              "@type": "ListItem",
+              "position": 3,
+              "name": "Java",
+              "item": "https://ai-site-iota-nine.vercel.app/course/java/java"
+            },
+            {
+              "@type": "ListItem",
+              "position": 4,
+              "name": "Javaの関数型プログラミング",
+              "item": "https://ai-site-iota-nine.vercel.app/article/java-functional-programming"
+            }
+          ]
+        },
+        {
+          "@context": "https://schema.org",
+          "@type": "Course",
+          "name": "Java",
+          "description": "Javaプログラミング言語の基礎から応用までを学習する講座です。初心者向けにJavaの基本構文、オブジェクト指向、データ構造、アルゴリズムなどを解説します。",
+          "provider": {
+            "@type": "Organization",
+            "name": "StackShelf"
+          }
+        },
+        {
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "Optional をフィールドに使う？",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "一般には推奨されません。戻り値型として使うのが定石です。"
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "record とは？",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "不変データを簡潔に定義するクラスで、Java 16 以降で利用できます。"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    "breadcrumb": {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "ホーム",
+          "item": "https://ai-site-iota-nine.vercel.app"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "java",
+          "item": "https://ai-site-iota-nine.vercel.app/knowledge/java"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Java",
+          "item": "https://ai-site-iota-nine.vercel.app/course/java/java"
+        },
+        {
+          "@type": "ListItem",
+          "position": 4,
+          "name": "Javaの関数型プログラミング",
+          "item": "https://ai-site-iota-nine.vercel.app/article/java-functional-programming"
+        }
+      ]
+    },
+    "courseSchema": {
+      "@context": "https://schema.org",
+      "@type": "Course",
+      "name": "Java",
+      "description": "Javaプログラミング言語の基礎から応用までを学習する講座です。初心者向けにJavaの基本構文、オブジェクト指向、データ構造、アルゴリズムなどを解説します。",
+      "provider": {
+        "@type": "Organization",
+        "name": "StackShelf"
+      }
+    },
+    "faqSchema": {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Optional をフィールドに使う？",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "一般には推奨されません。戻り値型として使うのが定石です。"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "record とは？",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "不変データを簡潔に定義するクラスで、Java 16 以降で利用できます。"
+          }
+        }
+      ]
+    }
+  },
+  "java-lambda-expression": {
+    "slug": "java-lambda-expression",
+    "title": "Javaのラムダ式",
+    "summary": "ラムダ式の構文と関数型インターフェースの関係を学びます。匿名クラスの短縮、メソッド参照、よく使う型を押さえます。",
+    "body": "<h2>導入</h2><p>ラムダ式は<strong>短い関数</strong>を書くための構文です。Stream やイベント処理で頻繁に登場します。</p><h2>基本構文</h2><pre><code>Runnable r = () -> System.out.println(\"run\");\nComparator&lt;String&gt; cmp = (a, b) -> a.compareTo(b);</code></pre><p>引数リスト → 矢印 → 本体です。本体が1式なら <code>{ }</code> を省略できます。</p><h3>型を明示する場合</h3><pre><code>BinaryOperator&lt;Integer&gt; add = (int a, int b) -> a + b;</code></pre><h2>関数型インターフェース</h2><p>抽象メソッドが1つだけのインターフェースにラムダを代入できます。<code>@FunctionalInterface</code> が付いている型が代表例です。</p><ul><li><code>Predicate&lt;T&gt;</code> — 真偽を返す</li><li><code>Function&lt;T,R&gt;</code> — 変換</li><li><code>Consumer&lt;T&gt;</code> — 値を受け取り返さない</li></ul><h2>メソッド参照</h2><pre><code>names.forEach(System.out::println);\nnums.stream().map(String::valueOf);</code></pre><p>既存メソッドをそのまま渡す短い書き方です。</p><h3>よくあるつまずき</h3><p>ラムダ内で使うローカル変数は実質 final である必要があります（effectively final）。ループ変数をそのまま捕まえるとコンパイルエラーになります。</p><h2>確認方法</h2><p><code>List.sort</code> にラムダで Comparator を渡し、文字列長順に並べ替えてみてください。</p><h2>まとめ</h2><p>ラムダは「関数を値として渡す」ための糖衣構文です。Stream とセットで練習すると定着が早いです。</p>",
+    "conclusion": "ラムダ式は (引数) -> 本体 の形と、関数型インターフェースとの組み合わせが核心です。メソッド参照も覚え、Stream 処理と一緒に使ってみましょう。次回は関数型プログラミングの考え方を整理します。",
+    "tags": [
+      "Java",
+      "ラムダ",
+      "関数型"
+    ],
+    "category": "プログラミング",
+    "theme": "java - Java",
+    "status": "published",
+    "createdAt": "2026-05-29T14:36:45.175Z",
+    "updatedAt": "2026-05-29T14:36:45.175Z",
+    "publishedAt": "2026-05-29T14:36:45.175Z",
+    "metaTitle": "Javaのラムダ式",
+    "metaDescription": "ラムダ式の構文と関数型インターフェースの関係を学びます。匿名クラスの短縮、メソッド参照、よく使う型を押さえます。",
+    "ogTitle": "Javaのラムダ式",
+    "ogDescription": "ラムダ式の構文と関数型インターフェースの関係を学びます。匿名クラスの短縮、メソッド参照、よく使う型を押さえます。",
+    "knowledge": {
+      "topic": "java",
+      "courseId": "java",
+      "episode": 17
+    },
+    "faq": [
+      {
+        "question": "匿名クラスとの違いは？",
+        "answer": "ラムダは関数型インターフェース向けの短い記法で、コード量を大幅に減らせます。"
+      },
+      {
+        "question": "return は書ける？",
+        "answer": "ブロック本体 { return x; } なら可能、単一式なら return 不要です。"
+      }
+    ],
+    "nextEpisodeHint": "次回は関数型プログラミングの考え方を、Java の文脈で整理します。",
+    "canonical": "https://ai-site-iota-nine.vercel.app/article/java-lambda-expression",
+    "jsonLd": {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@context": "https://schema.org",
+          "@type": "BlogPosting",
+          "headline": "Javaのラムダ式",
+          "description": "ラムダ式の構文と関数型インターフェースの関係を学びます。匿名クラスの短縮、メソッド参照、よく使う型を押さえます。",
+          "datePublished": "2026-05-29T14:36:45.175Z",
+          "dateModified": "2026-05-29T14:36:45.175Z",
+          "author": {
+            "@type": "Organization",
+            "name": "StackShelf"
+          },
+          "publisher": {
+            "@type": "Organization",
+            "name": "StackShelf",
+            "url": "https://ai-site-iota-nine.vercel.app"
+          },
+          "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https://ai-site-iota-nine.vercel.app/article/java-lambda-expression"
+          },
+          "keywords": "Java, ラムダ, 関数型",
+          "articleSection": "プログラミング",
+          "url": "https://ai-site-iota-nine.vercel.app/article/java-lambda-expression"
+        },
+        {
+          "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "ホーム",
+              "item": "https://ai-site-iota-nine.vercel.app"
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "name": "java",
+              "item": "https://ai-site-iota-nine.vercel.app/knowledge/java"
+            },
+            {
+              "@type": "ListItem",
+              "position": 3,
+              "name": "Java",
+              "item": "https://ai-site-iota-nine.vercel.app/course/java/java"
+            },
+            {
+              "@type": "ListItem",
+              "position": 4,
+              "name": "Javaのラムダ式",
+              "item": "https://ai-site-iota-nine.vercel.app/article/java-lambda-expression"
+            }
+          ]
+        },
+        {
+          "@context": "https://schema.org",
+          "@type": "Course",
+          "name": "Java",
+          "description": "Javaプログラミング言語の基礎から応用までを学習する講座です。初心者向けにJavaの基本構文、オブジェクト指向、データ構造、アルゴリズムなどを解説します。",
+          "provider": {
+            "@type": "Organization",
+            "name": "StackShelf"
+          }
+        },
+        {
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "匿名クラスとの違いは？",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "ラムダは関数型インターフェース向けの短い記法で、コード量を大幅に減らせます。"
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "return は書ける？",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "ブロック本体 { return x; } なら可能、単一式なら return 不要です。"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    "breadcrumb": {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "ホーム",
+          "item": "https://ai-site-iota-nine.vercel.app"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "java",
+          "item": "https://ai-site-iota-nine.vercel.app/knowledge/java"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Java",
+          "item": "https://ai-site-iota-nine.vercel.app/course/java/java"
+        },
+        {
+          "@type": "ListItem",
+          "position": 4,
+          "name": "Javaのラムダ式",
+          "item": "https://ai-site-iota-nine.vercel.app/article/java-lambda-expression"
+        }
+      ]
+    },
+    "courseSchema": {
+      "@context": "https://schema.org",
+      "@type": "Course",
+      "name": "Java",
+      "description": "Javaプログラミング言語の基礎から応用までを学習する講座です。初心者向けにJavaの基本構文、オブジェクト指向、データ構造、アルゴリズムなどを解説します。",
+      "provider": {
+        "@type": "Organization",
+        "name": "StackShelf"
+      }
+    },
+    "faqSchema": {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "匿名クラスとの違いは？",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "ラムダは関数型インターフェース向けの短い記法で、コード量を大幅に減らせます。"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "return は書ける？",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "ブロック本体 { return x; } なら可能、単一式なら return 不要です。"
+          }
+        }
+      ]
+    }
+  },
+  "java-stream-api": {
+    "slug": "java-stream-api",
+    "title": "JavaのStream API",
+    "summary": "Stream API でコレクションを filter、map、collect する方法を学びます。ループより宣言的にデータ処理を書く考え方を身につけます。",
+    "body": "<h2>導入</h2><p>Stream API は Java 8 で導入された<strong>宣言的なデータ処理</strong>の仕組みです。「for で1件ずつ」より「条件→変換→集約」と読みやすく書けます。</p><h2>基本の流れ</h2><pre><code>List&lt;Integer&gt; nums = List.of(1, 2, 3, 4, 5);\nList&lt;Integer&gt; evens = nums.stream()\n    .filter(n -> n % 2 == 0)\n    .map(n -> n * 10)\n    .collect(Collectors.toList());</code></pre><p>偶数だけ取り出し、10倍して新しい List にします。</p><h3>中間操作と終端操作</h3><p><code>filter</code> や <code>map</code> は中間操作、<code>collect</code> や <code>count</code> は終端操作です。終端操作がないと Stream は実行されません。</p><h2>よく使うメソッド</h2><ul><li><code>filter</code> — 条件に合う要素だけ残す</li><li><code>map</code> — 要素を別の形に変換</li><li><code>sorted</code> — 並べ替え</li><li><code>distinct</code> — 重複除去</li><li><code>collect</code> — List などにまとめる</li></ul><h2>集計例</h2><pre><code>int sum = nums.stream().mapToInt(Integer::intValue).sum();\nOptional&lt;Integer&gt; max = nums.stream().max(Integer::compareTo);</code></pre><h3>よくある誤解</h3><p>Stream は「すべてを置き換える」ものではありません。単純なループの方が読みやすい場合もあります。複数段の変換があるときに特に威力を発揮します。</p><h2>確認方法</h2><p>文字列リストから長さ3以上の単語だけを大文字に変換する処理を Stream で書いてみてください。</p><h2>まとめ</h2><p>Stream は filter → map → collect のパイプラインを覚えると実務で十分戦えます。次回はその核となるラムダ式を詳しく学びます。</p>",
+    "conclusion": "Stream API ではパイプライン思考が重要です。filter・map・collect を組み合わせ、ループとの使い分けも意識しましょう。次回はラムダ式の構文を深掘りします。",
+    "tags": [
+      "Java",
+      "Stream",
+      "関数型"
+    ],
+    "category": "プログラミング",
+    "theme": "java - Java",
+    "status": "published",
+    "createdAt": "2026-05-29T14:36:45.100Z",
+    "updatedAt": "2026-05-29T14:36:45.100Z",
+    "publishedAt": "2026-05-29T14:36:45.100Z",
+    "metaTitle": "JavaのStream API",
+    "metaDescription": "Stream API でコレクションを filter、map、collect する方法を学びます。ループより宣言的にデータ処理を書く考え方を身につけます。",
+    "ogTitle": "JavaのStream API",
+    "ogDescription": "Stream API でコレクションを filter、map、collect する方法を学びます。ループより宣言的にデータ処理を書く考え方を身につけます。",
+    "knowledge": {
+      "topic": "java",
+      "courseId": "java",
+      "episode": 16
+    },
+    "faq": [
+      {
+        "question": "Stream は元リストを変更する？",
+        "answer": "基本的に新しい結果を作り、元コレクションは変更しません。"
+      },
+      {
+        "question": "parallelStream とは？",
+        "answer": "並列処理版の Stream です。小さなデータでは逆に遅くなることもあります。"
+      }
+    ],
+    "nextEpisodeHint": "次回はラムダ式の構文と書き方を詳しく学びます。",
+    "canonical": "https://ai-site-iota-nine.vercel.app/article/java-stream-api",
+    "jsonLd": {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@context": "https://schema.org",
+          "@type": "BlogPosting",
+          "headline": "JavaのStream API",
+          "description": "Stream API でコレクションを filter、map、collect する方法を学びます。ループより宣言的にデータ処理を書く考え方を身につけます。",
+          "datePublished": "2026-05-29T14:36:45.100Z",
+          "dateModified": "2026-05-29T14:36:45.100Z",
+          "author": {
+            "@type": "Organization",
+            "name": "StackShelf"
+          },
+          "publisher": {
+            "@type": "Organization",
+            "name": "StackShelf",
+            "url": "https://ai-site-iota-nine.vercel.app"
+          },
+          "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https://ai-site-iota-nine.vercel.app/article/java-stream-api"
+          },
+          "keywords": "Java, Stream, 関数型",
+          "articleSection": "プログラミング",
+          "url": "https://ai-site-iota-nine.vercel.app/article/java-stream-api"
+        },
+        {
+          "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "ホーム",
+              "item": "https://ai-site-iota-nine.vercel.app"
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "name": "java",
+              "item": "https://ai-site-iota-nine.vercel.app/knowledge/java"
+            },
+            {
+              "@type": "ListItem",
+              "position": 3,
+              "name": "Java",
+              "item": "https://ai-site-iota-nine.vercel.app/course/java/java"
+            },
+            {
+              "@type": "ListItem",
+              "position": 4,
+              "name": "JavaのStream API",
+              "item": "https://ai-site-iota-nine.vercel.app/article/java-stream-api"
+            }
+          ]
+        },
+        {
+          "@context": "https://schema.org",
+          "@type": "Course",
+          "name": "Java",
+          "description": "Javaプログラミング言語の基礎から応用までを学習する講座です。初心者向けにJavaの基本構文、オブジェクト指向、データ構造、アルゴリズムなどを解説します。",
+          "provider": {
+            "@type": "Organization",
+            "name": "StackShelf"
+          }
+        },
+        {
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "Stream は元リストを変更する？",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "基本的に新しい結果を作り、元コレクションは変更しません。"
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "parallelStream とは？",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "並列処理版の Stream です。小さなデータでは逆に遅くなることもあります。"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    "breadcrumb": {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "ホーム",
+          "item": "https://ai-site-iota-nine.vercel.app"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "java",
+          "item": "https://ai-site-iota-nine.vercel.app/knowledge/java"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Java",
+          "item": "https://ai-site-iota-nine.vercel.app/course/java/java"
+        },
+        {
+          "@type": "ListItem",
+          "position": 4,
+          "name": "JavaのStream API",
+          "item": "https://ai-site-iota-nine.vercel.app/article/java-stream-api"
+        }
+      ]
+    },
+    "courseSchema": {
+      "@context": "https://schema.org",
+      "@type": "Course",
+      "name": "Java",
+      "description": "Javaプログラミング言語の基礎から応用までを学習する講座です。初心者向けにJavaの基本構文、オブジェクト指向、データ構造、アルゴリズムなどを解説します。",
+      "provider": {
+        "@type": "Organization",
+        "name": "StackShelf"
+      }
+    },
+    "faqSchema": {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Stream は元リストを変更する？",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "基本的に新しい結果を作り、元コレクションは変更しません。"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "parallelStream とは？",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "並列処理版の Stream です。小さなデータでは逆に遅くなることもあります。"
+          }
+        }
+      ]
+    }
+  },
+  "java-collection-framework": {
+    "slug": "java-collection-framework",
+    "title": "Javaのコレクションフレームワーク",
+    "summary": "List、Set、Map の使い分けと ArrayList、HashMap の基本操作を学びます。ジェネリクス付きコレクションの書き方も押さえます。",
+    "body": "<h2>導入</h2><p>複数のデータをまとめて扱う仕組みが<strong>コレクションフレームワーク</strong>です。配列より柔軟で、標準 API が豊富です。</p><h2>List（リスト）</h2><pre><code>List&lt;String&gt; names = new ArrayList&lt;&gt;();\nnames.add(\"Java\");\nnames.add(\"Kotlin\");\nSystem.out.println(names.get(0));</code></pre><p>順序があり、同じ要素を許容します。インデックスでアクセスできます。</p><h3>Set（セット）</h3><pre><code>Set&lt;Integer&gt; ids = new HashSet&lt;&gt;();\nids.add(1);\nids.add(1);\nSystem.out.println(ids.size()); // 1</code></pre><p>重複を許しません。存在確認に向いています。</p><h2>Map（マップ）</h2><pre><code>Map&lt;String, Integer&gt; scores = new HashMap&lt;&gt;();\nscores.put(\"Alice\", 90);\nscores.put(\"Bob\", 85);\nSystem.out.println(scores.get(\"Alice\"));</code></pre><p>キーと値のペアでデータを管理します。辞書のようなイメージです。</p><h2>使い分けの目安</h2><ul><li>順序付きリスト → ArrayList</li><li>重複排除 → HashSet</li><li>ID からオブジェクト検索 → HashMap</li></ul><h3>よくある誤解</h3><p>配列と List は似ていますが、List はサイズ可変で便利なメソッドが多いです。新規コードでは List を優先することが多いです。</p><h2>確認方法</h2><p>小さな単語カウンタを Map で作り、入力単語の出現回数を数えてみてください。</p><h2>まとめ</h2><p>コレクションは Java 実務の中心です。List / Set / Map の特性を理解し、ジェネリクス付きで型安全に使いましょう。</p>",
+    "conclusion": "コレクションフレームワークでは List・Set・Map の違いが最重要です。ArrayList と HashMap を自由に使えるよう練習し、次回の Stream API へ進みましょう。",
+    "tags": [
+      "Java",
+      "コレクション",
+      "List"
+    ],
+    "category": "プログラミング",
+    "theme": "java - Java",
+    "status": "published",
+    "createdAt": "2026-05-29T14:36:45.024Z",
+    "updatedAt": "2026-05-29T14:36:45.025Z",
+    "publishedAt": "2026-05-29T14:36:45.024Z",
+    "metaTitle": "Javaのコレクションフレームワーク",
+    "metaDescription": "List、Set、Map の使い分けと ArrayList、HashMap の基本操作を学びます。ジェネリクス付きコレクションの書き方も押さえます。",
+    "ogTitle": "Javaのコレクションフレームワーク",
+    "ogDescription": "List、Set、Map の使い分けと ArrayList、HashMap の基本操作を学びます。ジェネリクス付きコレクションの書き方も押さえます。",
+    "knowledge": {
+      "topic": "java",
+      "courseId": "java",
+      "episode": 15
+    },
+    "faq": [
+      {
+        "question": "ArrayList と LinkedList の違いは？",
+        "answer": "ArrayList は末尾追加が速く、LinkedList は先頭付近の挿入削除に向く場合があります。"
+      },
+      {
+        "question": "null は入れられる？",
+        "answer": "多くの実装では null を許容しますが、設計上は避けることが多いです。"
+      }
+    ],
+    "nextEpisodeHint": "次回は Stream API で、コレクションを宣言的に処理する方法を学びます。",
+    "canonical": "https://ai-site-iota-nine.vercel.app/article/java-collection-framework",
+    "jsonLd": {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@context": "https://schema.org",
+          "@type": "BlogPosting",
+          "headline": "Javaのコレクションフレームワーク",
+          "description": "List、Set、Map の使い分けと ArrayList、HashMap の基本操作を学びます。ジェネリクス付きコレクションの書き方も押さえます。",
+          "datePublished": "2026-05-29T14:36:45.024Z",
+          "dateModified": "2026-05-29T14:36:45.025Z",
+          "author": {
+            "@type": "Organization",
+            "name": "StackShelf"
+          },
+          "publisher": {
+            "@type": "Organization",
+            "name": "StackShelf",
+            "url": "https://ai-site-iota-nine.vercel.app"
+          },
+          "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https://ai-site-iota-nine.vercel.app/article/java-collection-framework"
+          },
+          "keywords": "Java, コレクション, List",
+          "articleSection": "プログラミング",
+          "url": "https://ai-site-iota-nine.vercel.app/article/java-collection-framework"
+        },
+        {
+          "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "ホーム",
+              "item": "https://ai-site-iota-nine.vercel.app"
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "name": "java",
+              "item": "https://ai-site-iota-nine.vercel.app/knowledge/java"
+            },
+            {
+              "@type": "ListItem",
+              "position": 3,
+              "name": "Java",
+              "item": "https://ai-site-iota-nine.vercel.app/course/java/java"
+            },
+            {
+              "@type": "ListItem",
+              "position": 4,
+              "name": "Javaのコレクションフレームワーク",
+              "item": "https://ai-site-iota-nine.vercel.app/article/java-collection-framework"
+            }
+          ]
+        },
+        {
+          "@context": "https://schema.org",
+          "@type": "Course",
+          "name": "Java",
+          "description": "Javaプログラミング言語の基礎から応用までを学習する講座です。初心者向けにJavaの基本構文、オブジェクト指向、データ構造、アルゴリズムなどを解説します。",
+          "provider": {
+            "@type": "Organization",
+            "name": "StackShelf"
+          }
+        },
+        {
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "ArrayList と LinkedList の違いは？",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "ArrayList は末尾追加が速く、LinkedList は先頭付近の挿入削除に向く場合があります。"
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "null は入れられる？",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "多くの実装では null を許容しますが、設計上は避けることが多いです。"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    "breadcrumb": {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "ホーム",
+          "item": "https://ai-site-iota-nine.vercel.app"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "java",
+          "item": "https://ai-site-iota-nine.vercel.app/knowledge/java"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Java",
+          "item": "https://ai-site-iota-nine.vercel.app/course/java/java"
+        },
+        {
+          "@type": "ListItem",
+          "position": 4,
+          "name": "Javaのコレクションフレームワーク",
+          "item": "https://ai-site-iota-nine.vercel.app/article/java-collection-framework"
+        }
+      ]
+    },
+    "courseSchema": {
+      "@context": "https://schema.org",
+      "@type": "Course",
+      "name": "Java",
+      "description": "Javaプログラミング言語の基礎から応用までを学習する講座です。初心者向けにJavaの基本構文、オブジェクト指向、データ構造、アルゴリズムなどを解説します。",
+      "provider": {
+        "@type": "Organization",
+        "name": "StackShelf"
+      }
+    },
+    "faqSchema": {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "ArrayList と LinkedList の違いは？",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "ArrayList は末尾追加が速く、LinkedList は先頭付近の挿入削除に向く場合があります。"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "null は入れられる？",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "多くの実装では null を許容しますが、設計上は避けることが多いです。"
+          }
+        }
+      ]
+    }
+  },
+  "java-thread-programming": {
+    "slug": "java-thread-programming",
+    "title": "Javaのスレッドプログラミング",
+    "summary": "Thread と Runnable を使った並行処理の基礎を学びます。スレッドの起動、共有データの注意点、ExecutorService の概要を解説します。",
+    "body": "<h2>導入</h2><p>ダウンロードと UI 更新を同時に行うなど、<strong>並行処理</strong>は現代アプリの基本です。Java ではスレッドで複数処理を同時進行させられます。</p><h2>Runnable と Thread</h2><pre><code>Runnable task = () -> {\n    System.out.println(\"worker: \" + Thread.currentThread().getName());\n};\nThread t = new Thread(task);\nt.start();\nt.join();</code></pre><p><code>start()</code> で新しいスレッドが動き、<code>join()</code> で終了を待ちます。</p><h3>run と start の違い</h3><p><code>run()</code> を直接呼ぶと新スレッドは作られず、普通のメソッド呼び出しになります。必ず <code>start()</code> を使います。</p><h2>共有データへの注意</h2><p>複数スレッドが同じ変数を更新すると、結果が不定になることがあります。</p><pre><code>synchronized (lock) {\n    count++;\n}</code></pre><p>重要な更新は <code>synchronized</code> ブロックや <code>AtomicInteger</code> などで保護します。</p><h2>ExecutorService</h2><pre><code>ExecutorService pool = Executors.newFixedThreadPool(4);\npool.submit(() -> System.out.println(\"task\"));\npool.shutdown();</code></pre><p>スレッドを毎回作らず、プールで再利用するのが実務的です。</p><h3>確認方法</h3><p>2つのスレッドでカウンタを増やす実験をし、synchronized なし/ありで結果が変わることを確認してください。</p><h2>まとめ</h2><p>スレッドは強力ですが、共有状態の管理が難所です。Runnable→start→join の流れと同期の必要性をセットで覚えましょう。</p>",
+    "conclusion": "Java スレッドの基本は Runnable、start、join です。共有データは同期が必要で、実務では ExecutorService を使う場面が多いです。次回は List や Map の標準実装であるコレクションフレームワークを学びます。",
+    "tags": [
+      "Java",
+      "スレッド",
+      "並行処理"
+    ],
+    "category": "プログラミング",
+    "theme": "java - Java",
+    "status": "published",
+    "createdAt": "2026-05-29T14:36:44.937Z",
+    "updatedAt": "2026-05-29T14:36:44.937Z",
+    "publishedAt": "2026-05-29T14:36:44.937Z",
+    "metaTitle": "Javaのスレッドプログラミング",
+    "metaDescription": "Thread と Runnable を使った並行処理の基礎を学びます。スレッドの起動、共有データの注意点、ExecutorService の概要を解説します。",
+    "ogTitle": "Javaのスレッドプログラミング",
+    "ogDescription": "Thread と Runnable を使った並行処理の基礎を学びます。スレッドの起動、共有データの注意点、ExecutorService の概要を解説します。",
+    "knowledge": {
+      "topic": "java",
+      "courseId": "java",
+      "episode": 14
+    },
+    "faq": [
+      {
+        "question": "sleep 中の例外は？",
+        "answer": "InterruptedException がスローされるため try-catch が必要です。"
+      },
+      {
+        "question": "デーモンスレッドとは？",
+        "answer": "JVM 終了時に自動停止するスレッドです。setDaemon(true) で指定します。"
+      }
+    ],
+    "nextEpisodeHint": "次回はコレクションフレームワークで、データ構造の標準 API を学びます。",
+    "canonical": "https://ai-site-iota-nine.vercel.app/article/java-thread-programming",
+    "jsonLd": {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@context": "https://schema.org",
+          "@type": "BlogPosting",
+          "headline": "Javaのスレッドプログラミング",
+          "description": "Thread と Runnable を使った並行処理の基礎を学びます。スレッドの起動、共有データの注意点、ExecutorService の概要を解説します。",
+          "datePublished": "2026-05-29T14:36:44.937Z",
+          "dateModified": "2026-05-29T14:36:44.937Z",
+          "author": {
+            "@type": "Organization",
+            "name": "StackShelf"
+          },
+          "publisher": {
+            "@type": "Organization",
+            "name": "StackShelf",
+            "url": "https://ai-site-iota-nine.vercel.app"
+          },
+          "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https://ai-site-iota-nine.vercel.app/article/java-thread-programming"
+          },
+          "keywords": "Java, スレッド, 並行処理",
+          "articleSection": "プログラミング",
+          "url": "https://ai-site-iota-nine.vercel.app/article/java-thread-programming"
+        },
+        {
+          "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "ホーム",
+              "item": "https://ai-site-iota-nine.vercel.app"
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "name": "java",
+              "item": "https://ai-site-iota-nine.vercel.app/knowledge/java"
+            },
+            {
+              "@type": "ListItem",
+              "position": 3,
+              "name": "Java",
+              "item": "https://ai-site-iota-nine.vercel.app/course/java/java"
+            },
+            {
+              "@type": "ListItem",
+              "position": 4,
+              "name": "Javaのスレッドプログラミング",
+              "item": "https://ai-site-iota-nine.vercel.app/article/java-thread-programming"
+            }
+          ]
+        },
+        {
+          "@context": "https://schema.org",
+          "@type": "Course",
+          "name": "Java",
+          "description": "Javaプログラミング言語の基礎から応用までを学習する講座です。初心者向けにJavaの基本構文、オブジェクト指向、データ構造、アルゴリズムなどを解説します。",
+          "provider": {
+            "@type": "Organization",
+            "name": "StackShelf"
+          }
+        },
+        {
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "sleep 中の例外は？",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "InterruptedException がスローされるため try-catch が必要です。"
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "デーモンスレッドとは？",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "JVM 終了時に自動停止するスレッドです。setDaemon(true) で指定します。"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    "breadcrumb": {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "ホーム",
+          "item": "https://ai-site-iota-nine.vercel.app"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "java",
+          "item": "https://ai-site-iota-nine.vercel.app/knowledge/java"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Java",
+          "item": "https://ai-site-iota-nine.vercel.app/course/java/java"
+        },
+        {
+          "@type": "ListItem",
+          "position": 4,
+          "name": "Javaのスレッドプログラミング",
+          "item": "https://ai-site-iota-nine.vercel.app/article/java-thread-programming"
+        }
+      ]
+    },
+    "courseSchema": {
+      "@context": "https://schema.org",
+      "@type": "Course",
+      "name": "Java",
+      "description": "Javaプログラミング言語の基礎から応用までを学習する講座です。初心者向けにJavaの基本構文、オブジェクト指向、データ構造、アルゴリズムなどを解説します。",
+      "provider": {
+        "@type": "Organization",
+        "name": "StackShelf"
+      }
+    },
+    "faqSchema": {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "sleep 中の例外は？",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "InterruptedException がスローされるため try-catch が必要です。"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "デーモンスレッドとは？",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "JVM 終了時に自動停止するスレッドです。setDaemon(true) で指定します。"
+          }
+        }
+      ]
+    }
+  },
+  "java-network-programming": {
+    "slug": "java-network-programming",
+    "title": "Javaのネットワークプログラミング",
+    "summary": "TCP ソケットを使った基本的なクライアント・サーバー通信を学びます。Socket、ServerSocket、入出力ストリームの流れを理解します。",
+    "body": "<h2>導入</h2><p>Web API やチャットアプリの裏側には<strong>TCP/IP 通信</strong>があります。Java では <code>java.net</code> パッケージでソケット通信を扱えます。</p><h2>サーバー側の基本</h2><pre><code>try (ServerSocket server = new ServerSocket(8080)) {\n    System.out.println(\"待機中...\");\n    try (Socket client = server.accept();\n         var in = new BufferedReader(new InputStreamReader(client.getInputStream()));\n         var out = client.getOutputStream()) {\n        String msg = in.readLine();\n        out.write((\"echo: \" + msg + \"\\n\").getBytes(StandardCharsets.UTF_8));\n    }\n}</code></pre><p><code>ServerSocket</code> がポート 8080 で待ち受け、<code>accept()</code> で接続を受け付けます。</p><h3>クライアント側</h3><pre><code>try (Socket socket = new Socket(\"localhost\", 8080);\n     var out = socket.getOutputStream();\n     var in = new BufferedReader(new InputStreamReader(socket.getInputStream()))) {\n    out.write(\"hello\\n\".getBytes(StandardCharsets.UTF_8));\n    System.out.println(in.readLine());\n}</code></pre><h2>通信の流れ</h2><ol><li>サーバーが bind / listen</li><li>クライアントが connect</li><li>双方向ストリームでデータ送受信</li><li>ソケットを close</li></ol><h3>よくある誤解</h3><p>実務の HTTP 通信は <code>HttpClient</code>（Java 11+）を使うことが多いです。ソケットは「仕組みを理解するため」の土台として学びます。</p><h2>確認方法</h2><p>サーバーを先に起動し、別プロセスでクライアントを実行します。<code>Connection refused</code> が出たらポートや起動順序を確認してください。</p><h2>まとめ</h2><p>ネットワークプログラミングの核心は「待ち受け→接続→ストリーム」です。小さな echo サーバーで体験すると、後の Web 開発理解が深まります。</p>",
+    "conclusion": "Java のネットワーク入門では ServerSocket と Socket の役割分担を押さえることが重要です。実務では HttpClient も使いますが、TCP の流れを知っておくとトラブルシュートに役立ちます。次回はスレッドで並行処理を学びます。",
+    "tags": [
+      "Java",
+      "ネットワーク",
+      "Socket"
+    ],
+    "category": "プログラミング",
+    "theme": "java - Java",
+    "status": "published",
+    "createdAt": "2026-05-29T14:36:44.861Z",
+    "updatedAt": "2026-05-29T14:36:44.861Z",
+    "publishedAt": "2026-05-29T14:36:44.861Z",
+    "metaTitle": "Javaのネットワークプログラミング",
+    "metaDescription": "TCP ソケットを使った基本的なクライアント・サーバー通信を学びます。Socket、ServerSocket、入出力ストリームの流れを理解します。",
+    "ogTitle": "Javaのネットワークプログラミング",
+    "ogDescription": "TCP ソケットを使った基本的なクライアント・サーバー通信を学びます。Socket、ServerSocket、入出力ストリームの流れを理解します。",
+    "knowledge": {
+      "topic": "java",
+      "courseId": "java",
+      "episode": 13
+    },
+    "faq": [
+      {
+        "question": "localhost とは？",
+        "answer": "自分のマシン自身を指す特別なホスト名です。"
+      },
+      {
+        "question": "ポートが使用中のエラーは？",
+        "answer": "別プロセスが同じポートを使っている可能性があります。"
+      }
+    ],
+    "nextEpisodeHint": "次回はスレッドを使い、並行処理の基礎を学びます。",
+    "canonical": "https://ai-site-iota-nine.vercel.app/article/java-network-programming",
+    "jsonLd": {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@context": "https://schema.org",
+          "@type": "BlogPosting",
+          "headline": "Javaのネットワークプログラミング",
+          "description": "TCP ソケットを使った基本的なクライアント・サーバー通信を学びます。Socket、ServerSocket、入出力ストリームの流れを理解します。",
+          "datePublished": "2026-05-29T14:36:44.861Z",
+          "dateModified": "2026-05-29T14:36:44.861Z",
+          "author": {
+            "@type": "Organization",
+            "name": "StackShelf"
+          },
+          "publisher": {
+            "@type": "Organization",
+            "name": "StackShelf",
+            "url": "https://ai-site-iota-nine.vercel.app"
+          },
+          "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https://ai-site-iota-nine.vercel.app/article/java-network-programming"
+          },
+          "keywords": "Java, ネットワーク, Socket",
+          "articleSection": "プログラミング",
+          "url": "https://ai-site-iota-nine.vercel.app/article/java-network-programming"
+        },
+        {
+          "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "ホーム",
+              "item": "https://ai-site-iota-nine.vercel.app"
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "name": "java",
+              "item": "https://ai-site-iota-nine.vercel.app/knowledge/java"
+            },
+            {
+              "@type": "ListItem",
+              "position": 3,
+              "name": "Java",
+              "item": "https://ai-site-iota-nine.vercel.app/course/java/java"
+            },
+            {
+              "@type": "ListItem",
+              "position": 4,
+              "name": "Javaのネットワークプログラミング",
+              "item": "https://ai-site-iota-nine.vercel.app/article/java-network-programming"
+            }
+          ]
+        },
+        {
+          "@context": "https://schema.org",
+          "@type": "Course",
+          "name": "Java",
+          "description": "Javaプログラミング言語の基礎から応用までを学習する講座です。初心者向けにJavaの基本構文、オブジェクト指向、データ構造、アルゴリズムなどを解説します。",
+          "provider": {
+            "@type": "Organization",
+            "name": "StackShelf"
+          }
+        },
+        {
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "localhost とは？",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "自分のマシン自身を指す特別なホスト名です。"
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "ポートが使用中のエラーは？",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "別プロセスが同じポートを使っている可能性があります。"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    "breadcrumb": {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "ホーム",
+          "item": "https://ai-site-iota-nine.vercel.app"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "java",
+          "item": "https://ai-site-iota-nine.vercel.app/knowledge/java"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Java",
+          "item": "https://ai-site-iota-nine.vercel.app/course/java/java"
+        },
+        {
+          "@type": "ListItem",
+          "position": 4,
+          "name": "Javaのネットワークプログラミング",
+          "item": "https://ai-site-iota-nine.vercel.app/article/java-network-programming"
+        }
+      ]
+    },
+    "courseSchema": {
+      "@context": "https://schema.org",
+      "@type": "Course",
+      "name": "Java",
+      "description": "Javaプログラミング言語の基礎から応用までを学習する講座です。初心者向けにJavaの基本構文、オブジェクト指向、データ構造、アルゴリズムなどを解説します。",
+      "provider": {
+        "@type": "Organization",
+        "name": "StackShelf"
+      }
+    },
+    "faqSchema": {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "localhost とは？",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "自分のマシン自身を指す特別なホスト名です。"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "ポートが使用中のエラーは？",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "別プロセスが同じポートを使っている可能性があります。"
+          }
+        }
+      ]
+    }
+  },
+  "java-file-input-output": {
+    "slug": "java-file-input-output",
+    "title": "Javaのファイル入出力",
+    "summary": "Java でファイルを読み書きする方法を学びます。java.nio.file、Files、BufferedReader の基本と try-with-resources を解説します。",
+    "body": "<h2>導入</h2><p>アプリ開発では設定ファイルやログ、CSV など<strong>ファイルの読み書き</strong>が頻繁に登場します。Java 11 以降は <code>java.nio.file</code> を使うのが定番です。</p><h2>テキストファイルを読む</h2><pre><code>import java.nio.file.*;\n\nString text = Files.readString(Path.of(\"data.txt\"));\nSystem.out.println(text);</code></pre><p><code>Path.of</code> でパスを作り、<code>Files.readString</code> で一括読み込みします。小さなファイル向けです。</p><h3>文字コードを指定する</h3><pre><code>Files.readString(Path.of(\"data.txt\"), StandardCharsets.UTF_8);</code></pre><p>Windows 環境では UTF-8 を明示すると文字化けを防ぎやすいです。</p><h2>テキストファイルを書く</h2><pre><code>Files.writeString(\n    Path.of(\"out.txt\"),\n    \"Hello\\nWorld\",\n    StandardCharsets.UTF_8\n);</code></pre><p>既存ファイルは上書きされます。追記したい場合は <code>StandardOpenOption.APPEND</code> を使います。</p><h2>try-with-resources</h2><p>ストリームを使うときは必ず閉じる必要があります。<strong>try-with-resources</strong> を使うと自動でクローズされます。</p><pre><code>try (var reader = Files.newBufferedReader(Path.of(\"data.txt\"))) {\n    String line;\n    while ((line = reader.readLine()) != null) {\n        System.out.println(line);\n    }\n}</code></pre><h3>よくあるつまずき</h3><p>相対パスは「実行時のカレントディレクトリ」基準です。IDE から実行すると想定と違う場所を見に行くことがあります。パスをログ出力して確認しましょう。</p><h2>確認方法</h2><p>テスト用に <code>sample.txt</code> を作り、読み込み→加工→別名保存まで試してください。例外 <code>IOException</code> が出たら、ファイルの存在とパスを確認します。</p><h2>まとめ</h2><p>ファイル IO は <code>Path</code> と <code>Files</code> を中心に覚え、大きなデータは BufferedReader で行単位処理します。リソースは try-with-resources で確実に閉じましょう。</p>",
+    "conclusion": "Java のファイル入出力では Path・Files・try-with-resources が基本セットです。UTF-8 を意識し、例外処理とセットで練習すると実務に近づきます。次回はネットワーク通信の入り口であるソケットを学びます。",
+    "tags": [
+      "Java",
+      "ファイル",
+      "IO"
+    ],
+    "category": "プログラミング",
+    "theme": "java - Java",
+    "status": "published",
+    "createdAt": "2026-05-29T14:36:44.782Z",
+    "updatedAt": "2026-05-29T14:36:44.782Z",
+    "publishedAt": "2026-05-29T14:36:44.782Z",
+    "metaTitle": "Javaのファイル入出力",
+    "metaDescription": "Java でファイルを読み書きする方法を学びます。java.nio.file、Files、BufferedReader の基本と try-with-resources を解説します。",
+    "ogTitle": "Javaのファイル入出力",
+    "ogDescription": "Java でファイルを読み書きする方法を学びます。java.nio.file、Files、BufferedReader の基本と try-with-resources を解説します。",
+    "knowledge": {
+      "topic": "java",
+      "courseId": "java",
+      "episode": 12
+    },
+    "faq": [
+      {
+        "question": "IOException とは？",
+        "answer": "入出力処理で起きうる例外で、ファイル不存在などを表します。"
+      },
+      {
+        "question": "追記したい場合は？",
+        "answer": "Files.write に StandardOpenOption.APPEND を指定します。"
+      }
+    ],
+    "nextEpisodeHint": "次回はネットワークプログラミングに進み、ソケット通信の基礎を学びます。",
+    "canonical": "https://ai-site-iota-nine.vercel.app/article/java-file-input-output",
+    "jsonLd": {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@context": "https://schema.org",
+          "@type": "BlogPosting",
+          "headline": "Javaのファイル入出力",
+          "description": "Java でファイルを読み書きする方法を学びます。java.nio.file、Files、BufferedReader の基本と try-with-resources を解説します。",
+          "datePublished": "2026-05-29T14:36:44.782Z",
+          "dateModified": "2026-05-29T14:36:44.782Z",
+          "author": {
+            "@type": "Organization",
+            "name": "StackShelf"
+          },
+          "publisher": {
+            "@type": "Organization",
+            "name": "StackShelf",
+            "url": "https://ai-site-iota-nine.vercel.app"
+          },
+          "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https://ai-site-iota-nine.vercel.app/article/java-file-input-output"
+          },
+          "keywords": "Java, ファイル, IO",
+          "articleSection": "プログラミング",
+          "url": "https://ai-site-iota-nine.vercel.app/article/java-file-input-output"
+        },
+        {
+          "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "ホーム",
+              "item": "https://ai-site-iota-nine.vercel.app"
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "name": "java",
+              "item": "https://ai-site-iota-nine.vercel.app/knowledge/java"
+            },
+            {
+              "@type": "ListItem",
+              "position": 3,
+              "name": "Java",
+              "item": "https://ai-site-iota-nine.vercel.app/course/java/java"
+            },
+            {
+              "@type": "ListItem",
+              "position": 4,
+              "name": "Javaのファイル入出力",
+              "item": "https://ai-site-iota-nine.vercel.app/article/java-file-input-output"
+            }
+          ]
+        },
+        {
+          "@context": "https://schema.org",
+          "@type": "Course",
+          "name": "Java",
+          "description": "Javaプログラミング言語の基礎から応用までを学習する講座です。初心者向けにJavaの基本構文、オブジェクト指向、データ構造、アルゴリズムなどを解説します。",
+          "provider": {
+            "@type": "Organization",
+            "name": "StackShelf"
+          }
+        },
+        {
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "IOException とは？",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "入出力処理で起きうる例外で、ファイル不存在などを表します。"
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "追記したい場合は？",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Files.write に StandardOpenOption.APPEND を指定します。"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    "breadcrumb": {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "ホーム",
+          "item": "https://ai-site-iota-nine.vercel.app"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "java",
+          "item": "https://ai-site-iota-nine.vercel.app/knowledge/java"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Java",
+          "item": "https://ai-site-iota-nine.vercel.app/course/java/java"
+        },
+        {
+          "@type": "ListItem",
+          "position": 4,
+          "name": "Javaのファイル入出力",
+          "item": "https://ai-site-iota-nine.vercel.app/article/java-file-input-output"
+        }
+      ]
+    },
+    "courseSchema": {
+      "@context": "https://schema.org",
+      "@type": "Course",
+      "name": "Java",
+      "description": "Javaプログラミング言語の基礎から応用までを学習する講座です。初心者向けにJavaの基本構文、オブジェクト指向、データ構造、アルゴリズムなどを解説します。",
+      "provider": {
+        "@type": "Organization",
+        "name": "StackShelf"
+      }
+    },
+    "faqSchema": {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "IOException とは？",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "入出力処理で起きうる例外で、ファイル不存在などを表します。"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "追記したい場合は？",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Files.write に StandardOpenOption.APPEND を指定します。"
+          }
+        }
+      ]
+    }
+  },
+  "java-syntax": {
+    "slug": "java-syntax",
+    "title": "Javaの基礎構文",
+    "summary": "Javaプログラムの骨格となる基礎構文を学びます。クラス定義、mainメソッド、文と式、コメント、セミコロンの役割を押さえましょう。",
+    "body": "<h2>導入</h2><p>前回は Java の全体像を学びました。今回は実際にコードを書くための<strong>基礎構文</strong>を押さえます。構文は「文法」にあたり、ここを理解するとエラーメッセージの意味も読み取れるようになります。</p><h3>この回のゴール</h3><p>最小限の Java プログラムを読み書きでき、コンパイル・実行の流れを説明できる状態を目指します。</p><h2>最小の Java プログラム</h2><p>Java では処理を<strong>クラス</strong>の中に書きます。実行の入口は <code>main</code> メソッドです。</p><pre><code>public class Hello {\n    public static void main(String[] args) {\n        System.out.println(\"Hello, Java!\");\n    }\n}</code></pre><p><code>public class Hello</code> はクラス名を宣言しています。ファイル名は <code>Hello.java</code> と一致させる必要があります。</p><h3>main メソッドの意味</h3><p><code>public static void main(String[] args)</code> は JVM が最初に呼び出すメソッドです。アプリの起動点と覚えてください。</p><h2>文・式・セミコロン</h2><p>Java では<strong>1文の末尾にセミコロン</strong>が必要です。忘れるとコンパイルエラーになります。</p><pre><code>int a = 1;\nint b = 2;\nSystem.out.println(a + b);</code></pre><h3>よくある誤解</h3><p>Python のようにインデントだけでブロックを表すことはできません。処理のまとまりは必ず <code>{ }</code> で囲みます。</p><h2>コメントの書き方</h2><p>コード中にメモを残す方法が2種類あります。</p><ul><li>行コメント: <code>// 1行だけ</code></li><li>ブロックコメント: <code>/* 複数行 */</code></li></ul><p>コメントは実行されません。学習中は「なぜこう書いたか」を日本語で残すと復習に役立ちます。</p><h2>ブロックとインデント</h2><p><code>if</code> や <code>for</code> などの制御構文は <code>{ }</code> で範囲を決めます。インデントは必須ではありませんが、可読性のために4スペース程度で揃えるのが一般的です。</p><pre><code>if (true) {\n    System.out.println(\"条件が真\");\n}</code></pre><h3>確認方法</h3><p>上記の Hello プログラムを保存し、<code>javac Hello.java</code> でコンパイル、<code>java Hello</code> で実行してみてください。画面に <code>Hello, Java!</code> と表示されれば成功です。</p><h2>まとめ</h2><p>Java の基礎構文は「クラス → main → 文」という流れで理解できます。セミコロンとブロックのルールを守れば、次の回から変数や制御構文をスムーズに学べます。</p>",
+    "conclusion": "Java の基礎構文では、クラス定義・main メソッド・セミコロン・ブロックの4点が中心です。最小プログラムを自分で書き、コンパイルと実行まで体験しておきましょう。次回は変数とデータ型で、プログラムに値を保持する方法を学びます。",
+    "tags": [
+      "Java",
+      "構文",
+      "初心者"
+    ],
+    "category": "プログラミング",
+    "theme": "java - Java",
+    "status": "published",
+    "createdAt": "2026-05-29T14:36:44.692Z",
+    "updatedAt": "2026-05-29T14:36:44.694Z",
+    "publishedAt": "2026-05-29T14:36:44.692Z",
+    "metaTitle": "Javaの基礎構文",
+    "metaDescription": "Javaプログラムの骨格となる基礎構文を学びます。クラス定義、mainメソッド、文と式、コメント、セミコロンの役割を押さえましょう。",
+    "ogTitle": "Javaの基礎構文",
+    "ogDescription": "Javaプログラムの骨格となる基礎構文を学びます。クラス定義、mainメソッド、文と式、コメント、セミコロンの役割を押さえましょう。",
+    "knowledge": {
+      "topic": "java",
+      "courseId": "java",
+      "episode": 2
+    },
+    "faq": [
+      {
+        "question": "ファイル名とクラス名は一致が必要？",
+        "answer": "public クラスはファイル名と一致させる必要があります。"
+      },
+      {
+        "question": "セミコロンを忘れると？",
+        "answer": "コンパイルエラーになり、プログラムは動きません。"
+      }
+    ],
+    "nextEpisodeHint": "次回は変数とデータ型について学び、プログラムにデータを扱う仕組みを理解します。",
+    "canonical": "https://ai-site-iota-nine.vercel.app/article/java-syntax",
+    "jsonLd": {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@context": "https://schema.org",
+          "@type": "BlogPosting",
+          "headline": "Javaの基礎構文",
+          "description": "Javaプログラムの骨格となる基礎構文を学びます。クラス定義、mainメソッド、文と式、コメント、セミコロンの役割を押さえましょう。",
+          "datePublished": "2026-05-29T14:36:44.692Z",
+          "dateModified": "2026-05-29T14:36:44.694Z",
+          "author": {
+            "@type": "Organization",
+            "name": "StackShelf"
+          },
+          "publisher": {
+            "@type": "Organization",
+            "name": "StackShelf",
+            "url": "https://ai-site-iota-nine.vercel.app"
+          },
+          "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https://ai-site-iota-nine.vercel.app/article/java-syntax"
+          },
+          "keywords": "Java, 構文, 初心者",
+          "articleSection": "プログラミング",
+          "url": "https://ai-site-iota-nine.vercel.app/article/java-syntax"
+        },
+        {
+          "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "ホーム",
+              "item": "https://ai-site-iota-nine.vercel.app"
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "name": "java",
+              "item": "https://ai-site-iota-nine.vercel.app/knowledge/java"
+            },
+            {
+              "@type": "ListItem",
+              "position": 3,
+              "name": "Java",
+              "item": "https://ai-site-iota-nine.vercel.app/course/java/java"
+            },
+            {
+              "@type": "ListItem",
+              "position": 4,
+              "name": "Javaの基礎構文",
+              "item": "https://ai-site-iota-nine.vercel.app/article/java-syntax"
+            }
+          ]
+        },
+        {
+          "@context": "https://schema.org",
+          "@type": "Course",
+          "name": "Java",
+          "description": "Javaプログラミング言語の基礎から応用までを学習する講座です。初心者向けにJavaの基本構文、オブジェクト指向、データ構造、アルゴリズムなどを解説します。",
+          "provider": {
+            "@type": "Organization",
+            "name": "StackShelf"
+          }
+        },
+        {
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "ファイル名とクラス名は一致が必要？",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "public クラスはファイル名と一致させる必要があります。"
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "セミコロンを忘れると？",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "コンパイルエラーになり、プログラムは動きません。"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    "breadcrumb": {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "ホーム",
+          "item": "https://ai-site-iota-nine.vercel.app"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "java",
+          "item": "https://ai-site-iota-nine.vercel.app/knowledge/java"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Java",
+          "item": "https://ai-site-iota-nine.vercel.app/course/java/java"
+        },
+        {
+          "@type": "ListItem",
+          "position": 4,
+          "name": "Javaの基礎構文",
+          "item": "https://ai-site-iota-nine.vercel.app/article/java-syntax"
+        }
+      ]
+    },
+    "courseSchema": {
+      "@context": "https://schema.org",
+      "@type": "Course",
+      "name": "Java",
+      "description": "Javaプログラミング言語の基礎から応用までを学習する講座です。初心者向けにJavaの基本構文、オブジェクト指向、データ構造、アルゴリズムなどを解説します。",
+      "provider": {
+        "@type": "Organization",
+        "name": "StackShelf"
+      }
+    },
+    "faqSchema": {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "ファイル名とクラス名は一致が必要？",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "public クラスはファイル名と一致させる必要があります。"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "セミコロンを忘れると？",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "コンパイルエラーになり、プログラムは動きません。"
+          }
+        }
+      ]
+    }
+  },
+  "java-introduction": {
+    "id": "art_1780054613092",
+    "slug": "java-introduction",
+    "title": "Javaの基礎",
+    "summary": "Javaを学ぶための基礎を解説します。Javaの特徴や基本的な構造を理解しましょう。",
+    "body": "<h2>導入</h2><p><a href=\"/article/java-inheritance\">Java</a>は<a href=\"/article/java-best-practices\">オブジェクト指向</a>プログラミング言語の一つで、現在最も人気のあるプログラミング言語の一つです。<a href=\"/article/java-inheritance\">Java</a>を学ぶことで、Androidアプリの開発やWebアプリの開発など、幅広い分野で活用できます。このエピソードでは、<a href=\"/article/java-inheritance\">Java</a>の基礎を解説します。</p><h3>なぜ<a href=\"/article/java-inheritance\">Java</a>を学ぶのか</h3><p><a href=\"/article/java-inheritance\">Java</a>を学ぶ理由は、主に以下の二つがあります。まず、<a href=\"/article/java-inheritance\">Java</a>は<a href=\"/article/java-best-practices\">オブジェクト指向</a>プログラミング言語です。<a href=\"/article/java-best-practices\">オブジェクト指向</a>プログラミング言語とは、実世界の物や概念を「オブジェクト」として表現し、それらの関係や動作をプログラムで表現する手法です。<a href=\"/article/java-inheritance\">Java</a>を学ぶことで、<a href=\"/article/java-best-practices\">オブジェクト指向</a>プログラミングの基礎を理解することができます。</p><h2><a href=\"/article/java-inheritance\">Java</a>の特徴</h2><p><a href=\"/article/java-inheritance\">Java</a>には以下のような特徴があります。<ul><li><a href=\"/article/java-best-practices\">オブジェクト指向</a>: <a href=\"/article/java-inheritance\">Java</a>は<a href=\"/article/java-best-practices\">オブジェクト指向</a>プログラミング言語の一つです。</li><li>プラットフォーム独立性: <a href=\"/article/java-inheritance\">Java</a>は、<a href=\"/article/java-inheritance\">Java</a>仮想マシン（JVM）上で動作するため、<a href=\"/article/java-inheritance\">Java</a>で開発したプログラムは、<a href=\"/article/java-inheritance\">Java</a>がインストールされた環境であれば、オペレーティングシステムやハードウェアに依存せずに動作することができます。</li><li>セキュリティ: <a href=\"/article/java-inheritance\">Java</a>には、セキュリティ機能が充実しています。<a href=\"/article/java-inheritance\">Java</a>で開発したプログラムは、サンドボックス内で動作するため、外部のシステムに悪影響を与えることができません。</li></ul></p><h3><a href=\"/article/java-inheritance\">Java</a>の基本的な構造</h3><p><a href=\"/article/java-inheritance\">Java</a>の基本的な構造は、クラスとオブジェクトから成ります。クラスとは、オブジェクトの設計図のようなもので、オブジェクトの属性と動作を定義します。オブジェクトとは、クラスをインスタンス化したもので、実際のデータや動作を表現します。例えば、<code>public class Hoge { ... }</code> というクラスを定義し、<code>Hoge hoge = new Hoge();</code> という式でオブジェクトを生成します。</p><h2><a href=\"/article/java-inheritance\">Java</a>の基本的な文法</h2><p><a href=\"/article/java-inheritance\">Java</a>の基本的な文法は、以下の通りです。<ul><li>変数: <a href=\"/article/java-inheritance\">Java</a>では、変数を宣言するために、<code>int</code>、<code>double</code>、<code>boolean</code>などのキーワードを使用します。</li><li>制御構文: <a href=\"/article/java-inheritance\">Java</a>では、<code>if</code>、<code>else</code>、<code>for</code>、<code>while</code>などのキーワードを使用して、制御構文を記述します。</li><li>関数: <a href=\"/article/java-inheritance\">Java</a>では、<code>public</code>、<code>private</code>などのキーワードを使用して、関数を定義します。</li></ul></p><h3>具体的な例</h3><p>例えば、以下のコードは、<a href=\"/article/java-inheritance\">Java</a>で簡単な計算機を作成する例です。<pre><code>public class Calculator {<br>   public int add(int a, int b) {<br>      return a + b;<br>   }<br>}<br><br>public class Main {<br>   public static void main(String[] args) {<br>      Calculator calculator = new Calculator();<br>      int result = calculator.add(1, 2);<br>      System.out.println(result);<br>   }<br>}</code></pre></p><h2>手順</h2><p><a href=\"/article/java-inheritance\">Java</a>を学ぶには、以下の手順を踏むことができます。<ol><li><a href=\"/article/java-inheritance\">Java</a>の開発環境をセットアップします。EclipseやNetBeansなどのIDEをインストールします。</li><li><a href=\"/article/java-inheritance\">Java</a>の基本的な構文を学びます。変数、データ型、制御構文、関数などを理解します。</li><li><a href=\"/article/java-best-practices\">オブジェクト指向</a>プログラミングの基礎を学びます。クラス、オブジェクト、継承、ポリモーフィズムなどを理解します。</li><li>実践的な問題を解きます。<a href=\"/article/java-inheritance\">Java</a>のプログラムを書き、実行してみます。</li></ol></p><h3>よくあるつまずき</h3><p><a href=\"/article/java-inheritance\">Java</a>を学ぶ際に、よくあるつまずきとして、以下の点があります。<ul><li>クラスとオブジェクトの違いがわからない: クラスはオブジェクトの設計図のようなもので、オブジェクトはクラスをインスタンス化したものです。</li><li>継承とポリモーフィズムの違いがわからない: 継承は、クラスが別のクラスの属性と動作を引き継ぐことです。ポリモーフィズムは、クラスが別のクラスのメソッドをオーバーライドすることです。</li><li>Nullポインター例外が発生する: Nullポインター例外は、Nullのオブジェクトを参照しようとしたときに発生します。オブジェクトを生成する前に、Nullチェックを行う必要があります。</li></ul></p><h2>確認方法</h2><p><a href=\"/article/java-inheritance\">Java</a>の学習状況を確認するには、以下の方法があります。<ul><li>実践的な問題を解く: EclipseやNetBeansなどのIDEで、<a href=\"/article/java-inheritance\">Java</a>のプログラムを書き、実行してみます。</li><li>オンラインの学習リソースを活用する: UdemyやCourseraなどのオンライン学習プラットフォームで、<a href=\"/article/java-inheritance\">Java</a>のコースを受講します。</li><li><a href=\"/article/java-inheritance\">Java</a>のドキュメントを読む: <a href=\"/article/java-inheritance\">Java</a>の公式ドキュメントを読み、<a href=\"/article/java-inheritance\">Java</a>の機能や構文を理解します。</li></ul></p><h2>まとめ</h2><p><a href=\"/article/java-inheritance\">Java</a>の基礎を理解することで、<a href=\"/article/java-best-practices\">オブジェクト指向</a>プログラミング言語の基礎を理解することができます。<a href=\"/article/java-inheritance\">Java</a>の特徴や基本的な構造を理解し、実践的な問題を解くことで、<a href=\"/article/java-inheritance\">Java</a>の学習を進めることができます。</p><h3>次の一歩</h3><p>次の一歩として、<a href=\"/article/java-inheritance\">Java</a>の文法や基本的な構造についてさらに深く学びます。<a href=\"/article/java-inheritance\">Java</a>の標準ライブラリやフレームワークを使用して、実践的なアプリケーションを作成します。</p>",
+    "conclusion": "Javaの基礎を理解することで、オブジェクト指向プログラミング言語の基礎を理解することができます。Javaの特徴や基本的な構造を理解し、実践的な問題を解くことで、Javaの学習を進めることができます。次回は、Javaの文法や基本的な構造についてさらに深く解説します。",
+    "tags": [
+      "Java",
+      "オブジェクト指向",
+      "プログラミング言語"
+    ],
+    "category": "プログラミング",
+    "theme": "java - Java",
+    "status": "published",
+    "createdAt": "2026-05-29T11:36:53.071Z",
+    "updatedAt": "2026-05-29T14:35:19.278Z",
+    "publishedAt": "2026-05-29T11:36:53.071Z",
+    "metaTitle": "Javaの基礎",
+    "metaDescription": "Javaを学ぶための基礎を解説します。Javaの特徴や基本的な構造を理解しましょう。",
+    "ogTitle": "Javaの基礎",
+    "ogDescription": "Javaを学ぶための基礎を解説します。Javaの特徴や基本的な構造を理解しましょう。",
+    "knowledge": {
+      "topic": "java",
+      "courseId": "java",
+      "episode": 1
+    },
+    "faq": [
+      {
+        "question": "Javaが何であるか",
+        "answer": "Javaはオブジェクト指向プログラミング言語の一つです"
+      },
+      {
+        "question": "Javaの特徴は何か",
+        "answer": "Javaの特徴は、オブジェクト指向、プラットフォーム独立性、セキュリティです"
+      },
+      {
+        "question": "Javaを学ぶために必要なステップは何か",
+        "answer": "Javaを学ぶには、Javaの開発環境をセットアップし、Javaの基本的な構文を学び、オブジェクト指向プログラミングの基礎を学ぶ必要があります"
+      },
+      {
+        "question": "JavaのNullポインター例外とは何か",
+        "answer": "Nullポインター例外は、Nullのオブジェクトを参照しようとしたときに発生します"
+      }
+    ],
+    "nextEpisodeHint": "次回は、Javaの文法や基本的な構造についてさらに深く解説します。",
+    "canonical": "https://ai-site-iota-nine.vercel.app/article/java-introduction",
+    "jsonLd": {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@context": "https://schema.org",
+          "@type": "BlogPosting",
+          "headline": "Javaの基礎",
+          "description": "Javaを学ぶための基礎を解説します。Javaの特徴や基本的な構造を理解しましょう。",
+          "datePublished": "2026-05-29T11:36:53.071Z",
+          "dateModified": "2026-05-29T14:35:19.278Z",
+          "author": {
+            "@type": "Organization",
+            "name": "StackShelf"
+          },
+          "publisher": {
+            "@type": "Organization",
+            "name": "StackShelf",
+            "url": "https://ai-site-iota-nine.vercel.app"
+          },
+          "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https://ai-site-iota-nine.vercel.app/article/java-introduction"
+          },
+          "keywords": "Java, オブジェクト指向, プログラミング言語",
+          "articleSection": "プログラミング",
+          "url": "https://ai-site-iota-nine.vercel.app/article/java-introduction"
+        },
+        {
+          "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "ホーム",
+              "item": "https://ai-site-iota-nine.vercel.app"
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "name": "java",
+              "item": "https://ai-site-iota-nine.vercel.app/knowledge/java"
+            },
+            {
+              "@type": "ListItem",
+              "position": 3,
+              "name": "Java",
+              "item": "https://ai-site-iota-nine.vercel.app/course/java/java"
+            },
+            {
+              "@type": "ListItem",
+              "position": 4,
+              "name": "Javaの基礎",
+              "item": "https://ai-site-iota-nine.vercel.app/article/java-introduction"
+            }
+          ]
+        },
+        {
+          "@context": "https://schema.org",
+          "@type": "Course",
+          "name": "Java",
+          "description": "Javaプログラミング言語の基礎から応用までを学習する講座です。初心者向けにJavaの基本構文、オブジェクト指向、データ構造、アルゴリズムなどを解説します。",
+          "provider": {
+            "@type": "Organization",
+            "name": "StackShelf"
+          }
+        },
+        {
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "Javaが何であるか",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Javaはオブジェクト指向プログラミング言語の一つです"
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Javaの特徴は何か",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Javaの特徴は、オブジェクト指向、プラットフォーム独立性、セキュリティです"
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Javaを学ぶために必要なステップは何か",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Javaを学ぶには、Javaの開発環境をセットアップし、Javaの基本的な構文を学び、オブジェクト指向プログラミングの基礎を学ぶ必要があります"
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "JavaのNullポインター例外とは何か",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Nullポインター例外は、Nullのオブジェクトを参照しようとしたときに発生します"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    "breadcrumb": {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "ホーム",
+          "item": "https://ai-site-iota-nine.vercel.app"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "java",
+          "item": "https://ai-site-iota-nine.vercel.app/knowledge/java"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Java",
+          "item": "https://ai-site-iota-nine.vercel.app/course/java/java"
+        },
+        {
+          "@type": "ListItem",
+          "position": 4,
+          "name": "Javaの基礎",
+          "item": "https://ai-site-iota-nine.vercel.app/article/java-introduction"
+        }
+      ]
+    },
+    "courseSchema": {
+      "@context": "https://schema.org",
+      "@type": "Course",
+      "name": "Java",
+      "description": "Javaプログラミング言語の基礎から応用までを学習する講座です。初心者向けにJavaの基本構文、オブジェクト指向、データ構造、アルゴリズムなどを解説します。",
+      "provider": {
+        "@type": "Organization",
+        "name": "StackShelf"
+      }
+    },
+    "faqSchema": {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Javaが何であるか",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Javaはオブジェクト指向プログラミング言語の一つです"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Javaの特徴は何か",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Javaの特徴は、オブジェクト指向、プラットフォーム独立性、セキュリティです"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Javaを学ぶために必要なステップは何か",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Javaを学ぶには、Javaの開発環境をセットアップし、Javaの基本的な構文を学び、オブジェクト指向プログラミングの基礎を学ぶ必要があります"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "JavaのNullポインター例外とは何か",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Nullポインター例外は、Nullのオブジェクトを参照しようとしたときに発生します"
+          }
+        }
+      ]
+    }
+  },
+  "java-best-practices": {
+    "id": "art_1780054205498",
+    "slug": "java-best-practices",
+    "title": "Javaプログラミングのベストプラクティス",
+    "summary": "このエピソードでは、Javaプログラミングのベストプラクティスについて学びます。コードの可読性、メンテナンス性、効率性を向上させるためのテクニックを紹介します。具体例を通じて、実践的なアプローチでベストプラクティスを身につけましょう。",
+    "body": "<h2>Javaプログラミングのベストプラクティス</h2><p>Javaプログラミングでは、コードの可読性、メンテナンス性、効率性を向上させるために、ベストプラクティスを学ぶことが重要です。このエピソードでは、具体例を通じて、実践的なアプローチでベストプラクティスを身につけましょう。</p><h3>コードの可読性</h3><p>コードの可読性を向上させるために、変数名やメソッド名を明確にし、コードの構造を整理することが重要です。例えば、次のようなコードは可読性が低いです。</p><pre><code>int x = 5;\nint y = 10;\nSystem.out.println(x + y);\n</code></pre><p>これを次のように書き直すと、可読性が向上します。</p><pre><code>int num1 = 5;\nint num2 = 10;\nSystem.out.println(num1 + num2);\n</code></pre><h3>メンテナンス性</h3><p>メンテナンス性を向上させるために、コードをモジュール化し、再利用可能なコードを書くことが重要です。例えば、次のようなコードはメンテナンス性が低いです。</p><pre><code>public class Calculator {\n    public static void main(String[] args) {\n        int num1 = 5;\n        int num2 = 10;\n        System.out.println(num1 + num2);\n    }\n}\n</code></pre><p>これを次のように書き直すと、メンテナンス性が向上します。</p><pre><code>public class Calculator {\n    public static int add(int num1, int num2) {\n        return num1 + num2;\n    }\n\n    public static void main(String[] args) {\n        int num1 = 5;\n        int num2 = 10;\n        System.out.println(add(num1, num2));\n    }\n}\n</code></pre>",
+    "conclusion": "このエピソードでは、Javaプログラミングのベストプラクティスについて学びました。コードの可読性、メンテナンス性、効率性を向上させるためのテクニックを紹介しました。具体例を通じて、実践的なアプローチでベストプラクティスを身につけましょう。次回は、Javaのデバッグ技術について学びます。",
+    "tags": [
+      "Java",
+      "プログラミング",
+      "ベストプラクティス"
+    ],
+    "category": "プログラミング",
+    "theme": "java - Java",
+    "status": "published",
+    "createdAt": "2026-05-29T11:30:05.476Z",
+    "updatedAt": "2026-05-29T14:35:20.206Z",
+    "publishedAt": "2026-05-29T11:30:05.476Z",
+    "metaTitle": "Javaプログラミングのベストプラクティス",
+    "metaDescription": "Javaプログラミングのベストプラクティスについて学びます。コードの可読性、メンテナンス性、効率性を向上させるためのテクニックを紹介します。",
+    "ogTitle": "Javaプログラミングのベストプラクティス",
+    "ogDescription": "Javaプログラミングのベストプラクティスについて学びます。コードの可読性、メンテナンス性、効率性を向上させるためのテクニックを紹介します。",
+    "knowledge": {
+      "topic": "java",
+      "courseId": "java",
+      "episode": 19
+    },
+    "faq": [
+      {
+        "question": "Javaプログラミングのベストプラクティスとは何ですか？",
+        "answer": "Javaプログラミングのベストプラクティスとは、コードの可読性、メンテナンス性、効率性を向上させるためのテクニックです。"
+      },
+      {
+        "question": "コードの可読性を向上させるために何をする必要がありますか？",
+        "answer": "コードの可読性を向上させるために、変数名やメソッド名を明確にし、コードの構造を整理することが重要です。"
+      }
+    ],
+    "nextEpisodeHint": "次回は、Javaのデバッグ技術について学びます。",
+    "canonical": "https://ai-site-iota-nine.vercel.app/article/java-best-practices",
+    "jsonLd": {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@context": "https://schema.org",
+          "@type": "BlogPosting",
+          "headline": "Javaプログラミングのベストプラクティス",
+          "description": "Javaプログラミングのベストプラクティスについて学びます。コードの可読性、メンテナンス性、効率性を向上させるためのテクニックを紹介します。",
+          "datePublished": "2026-05-29T11:30:05.476Z",
+          "dateModified": "2026-05-29T14:35:20.206Z",
+          "author": {
+            "@type": "Organization",
+            "name": "StackShelf"
+          },
+          "publisher": {
+            "@type": "Organization",
+            "name": "StackShelf",
+            "url": "https://ai-site-iota-nine.vercel.app"
+          },
+          "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https://ai-site-iota-nine.vercel.app/article/java-best-practices"
+          },
+          "keywords": "Java, プログラミング, ベストプラクティス",
+          "articleSection": "プログラミング",
+          "url": "https://ai-site-iota-nine.vercel.app/article/java-best-practices"
+        },
+        {
+          "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "ホーム",
+              "item": "https://ai-site-iota-nine.vercel.app"
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "name": "java",
+              "item": "https://ai-site-iota-nine.vercel.app/knowledge/java"
+            },
+            {
+              "@type": "ListItem",
+              "position": 3,
+              "name": "Java",
+              "item": "https://ai-site-iota-nine.vercel.app/course/java/java"
+            },
+            {
+              "@type": "ListItem",
+              "position": 4,
+              "name": "Javaプログラミングのベストプラクティス",
+              "item": "https://ai-site-iota-nine.vercel.app/article/java-best-practices"
+            }
+          ]
+        },
+        {
+          "@context": "https://schema.org",
+          "@type": "Course",
+          "name": "Java",
+          "description": "Javaプログラミング言語の基礎から応用までを学習する講座です。初心者向けにJavaの基本構文、オブジェクト指向、データ構造、アルゴリズムなどを解説します。",
+          "provider": {
+            "@type": "Organization",
+            "name": "StackShelf"
+          }
+        },
+        {
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "Javaプログラミングのベストプラクティスとは何ですか？",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Javaプログラミングのベストプラクティスとは、コードの可読性、メンテナンス性、効率性を向上させるためのテクニックです。"
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "コードの可読性を向上させるために何をする必要がありますか？",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "コードの可読性を向上させるために、変数名やメソッド名を明確にし、コードの構造を整理することが重要です。"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    "breadcrumb": {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "ホーム",
+          "item": "https://ai-site-iota-nine.vercel.app"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "java",
+          "item": "https://ai-site-iota-nine.vercel.app/knowledge/java"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Java",
+          "item": "https://ai-site-iota-nine.vercel.app/course/java/java"
+        },
+        {
+          "@type": "ListItem",
+          "position": 4,
+          "name": "Javaプログラミングのベストプラクティス",
+          "item": "https://ai-site-iota-nine.vercel.app/article/java-best-practices"
+        }
+      ]
+    },
+    "courseSchema": {
+      "@context": "https://schema.org",
+      "@type": "Course",
+      "name": "Java",
+      "description": "Javaプログラミング言語の基礎から応用までを学習する講座です。初心者向けにJavaの基本構文、オブジェクト指向、データ構造、アルゴリズムなどを解説します。",
+      "provider": {
+        "@type": "Organization",
+        "name": "StackShelf"
+      }
+    },
+    "faqSchema": {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Javaプログラミングのベストプラクティスとは何ですか？",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Javaプログラミングのベストプラクティスとは、コードの可読性、メンテナンス性、効率性を向上させるためのテクニックです。"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "コードの可読性を向上させるために何をする必要がありますか？",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "コードの可読性を向上させるために、変数名やメソッド名を明確にし、コードの構造を整理することが重要です。"
+          }
+        }
+      ]
+    }
+  },
+  "java-exception-handling": {
+    "id": "art_1780054202680",
+    "slug": "java-exception-handling",
+    "title": "Javaの例外処理",
+    "summary": "Javaにおける例外処理の基礎を理解する。例外が発生したときにプログラムが異常終了しないようにする方法を学ぶ。try-catch-finally文やthrowsキーワードの使い方を実践する。",
+    "body": "<h2>例外処理の基礎</h2><p>Javaでは、プログラムの実行中に予期せぬエラーが発生することがあります。このようなエラーを例外と呼びます。例外が発生したときに、プログラムが異常終了することを防ぐために、例外処理を行います。</p><h3>try-catch-finally文</h3><p>try-catch-finally文は、例外が発生したときに、例外を捕捉して処理するために使用します。tryブロック内で例外が発生した場合、catchブロックで例外を捕捉し、finallyブロックで必要な後処理を行います。</p><pre><code>try {<br>    // 例外が発生する可能性のあるコード<br>} catch (Exception e) {<br>    // 例外を捕捉して処理するコード<br>} finally {<br>    // 必要な後処理を行うコード<br>}</code></pre><h3>throwsキーワード</h3><p>throwsキーワードは、メソッドが例外を投げる可能性があることを示します。throwsキーワードを使用して、メソッドが投げる例外を宣言することができます。</p><pre><code>public void exampleMethod() throws Exception {<br>    // 例外を投げる可能性のあるコード<br>}</code></pre>",
+    "conclusion": "このエピソードでは、Javaにおける例外処理の基礎を学びました。try-catch-finally文やthrowsキーワードの使い方を理解することで、プログラムが異常終了することを防ぐことができます。次回は、Javaのベストプラクティスについて学びます。",
+    "tags": [
+      "Java",
+      "例外処理",
+      "try-catch-finally",
+      "throws"
+    ],
+    "category": "Java",
+    "theme": "java - Java",
+    "status": "published",
+    "createdAt": "2026-05-29T11:30:02.657Z",
+    "updatedAt": "2026-05-29T14:35:20.071Z",
+    "publishedAt": "2026-05-29T11:30:02.657Z",
+    "metaTitle": "Javaの例外処理",
+    "metaDescription": "Javaにおける例外処理の基礎を理解する。try-catch-finally文やthrowsキーワードの使い方を学ぶ。",
+    "ogTitle": "Javaの例外処理",
+    "ogDescription": "Javaにおける例外処理の基礎を理解する。try-catch-finally文やthrowsキーワードの使い方を学ぶ。",
+    "knowledge": {
+      "topic": "java",
+      "courseId": "java",
+      "episode": 11
+    },
+    "faq": [
+      {
+        "question": "例外処理の目的は何ですか？",
+        "answer": "例外処理の目的は、プログラムが異常終了することを防ぐことです。"
+      }
+    ],
+    "nextEpisodeHint": "次回は、Javaのベストプラクティスについて学びます。",
+    "canonical": "https://ai-site-iota-nine.vercel.app/article/java-exception-handling",
+    "jsonLd": {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@context": "https://schema.org",
+          "@type": "BlogPosting",
+          "headline": "Javaの例外処理",
+          "description": "Javaにおける例外処理の基礎を理解する。try-catch-finally文やthrowsキーワードの使い方を学ぶ。",
+          "datePublished": "2026-05-29T11:30:02.657Z",
+          "dateModified": "2026-05-29T14:35:20.071Z",
+          "author": {
+            "@type": "Organization",
+            "name": "StackShelf"
+          },
+          "publisher": {
+            "@type": "Organization",
+            "name": "StackShelf",
+            "url": "https://ai-site-iota-nine.vercel.app"
+          },
+          "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https://ai-site-iota-nine.vercel.app/article/java-exception-handling"
+          },
+          "keywords": "Java, 例外処理, try-catch-finally, throws",
+          "articleSection": "Java",
+          "url": "https://ai-site-iota-nine.vercel.app/article/java-exception-handling"
+        },
+        {
+          "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "ホーム",
+              "item": "https://ai-site-iota-nine.vercel.app"
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "name": "java",
+              "item": "https://ai-site-iota-nine.vercel.app/knowledge/java"
+            },
+            {
+              "@type": "ListItem",
+              "position": 3,
+              "name": "Java",
+              "item": "https://ai-site-iota-nine.vercel.app/course/java/java"
+            },
+            {
+              "@type": "ListItem",
+              "position": 4,
+              "name": "Javaの例外処理",
+              "item": "https://ai-site-iota-nine.vercel.app/article/java-exception-handling"
+            }
+          ]
+        },
+        {
+          "@context": "https://schema.org",
+          "@type": "Course",
+          "name": "Java",
+          "description": "Javaプログラミング言語の基礎から応用までを学習する講座です。初心者向けにJavaの基本構文、オブジェクト指向、データ構造、アルゴリズムなどを解説します。",
+          "provider": {
+            "@type": "Organization",
+            "name": "StackShelf"
+          }
+        },
+        {
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "例外処理の目的は何ですか？",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "例外処理の目的は、プログラムが異常終了することを防ぐことです。"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    "breadcrumb": {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "ホーム",
+          "item": "https://ai-site-iota-nine.vercel.app"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "java",
+          "item": "https://ai-site-iota-nine.vercel.app/knowledge/java"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Java",
+          "item": "https://ai-site-iota-nine.vercel.app/course/java/java"
+        },
+        {
+          "@type": "ListItem",
+          "position": 4,
+          "name": "Javaの例外処理",
+          "item": "https://ai-site-iota-nine.vercel.app/article/java-exception-handling"
+        }
+      ]
+    },
+    "courseSchema": {
+      "@context": "https://schema.org",
+      "@type": "Course",
+      "name": "Java",
+      "description": "Javaプログラミング言語の基礎から応用までを学習する講座です。初心者向けにJavaの基本構文、オブジェクト指向、データ構造、アルゴリズムなどを解説します。",
+      "provider": {
+        "@type": "Organization",
+        "name": "StackShelf"
+      }
+    },
+    "faqSchema": {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "例外処理の目的は何ですか？",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "例外処理の目的は、プログラムが異常終了することを防ぐことです。"
+          }
+        }
+      ]
+    }
+  },
+  "java-polymorphism": {
+    "id": "art_1780054200699",
+    "slug": "java-polymorphism",
+    "title": "Javaの多態性",
+    "summary": "Javaの多態性は、オブジェクト指向プログラミングの重要な概念の一つです。多態性を使用すると、同じメソッド名で異なる動作を実行することができます。この記事では、多態性の基本とその使用方法について説明します。",
+    "body": "<h2>多態性とは</h2><p>多態性は、オブジェクト指向プログラミングの重要な概念の一つです。多態性を使用すると、同じメソッド名で異なる動作を実行することができます。</p><h3>多態性の種類</h3><p>Javaでは、多態性には2種類あります。1つは、オーバーロードと呼ばれるもので、同じメソッド名で異なる引数を取ることができます。もう1つは、オーバーライドと呼ばれるもので、親クラスと子クラスで同じメソッド名を使用します。</p><h3>多態性の使用方法</h3><p>多態性を使用するには、まず親クラスと子クラスを定義します。次に、親クラスにメソッドを定義し、子クラスでそのメソッドをオーバーライドします。最後に、子クラスのインスタンスを生成し、オーバーライドされたメソッドを呼び出します。</p><pre><code>public class Animal {<br>    public void sound() {<br>        System.out.println(\"動物が音を出す\");<br>    }<br>}<br><br>public class Dog extends Animal {<br>    @Override<br>    public void sound() {<br>        System.out.println(\"犬が吠える\");<br>    }<br>}<br><br>public class Main {<br>    public static void main(String[] args) {<br>        Animal animal = new Dog();<br>        animal.sound();<br>    }<br>}<br></code></pre>",
+    "conclusion": "この記事では、Javaの多態性について説明しました。多態性は、オブジェクト指向プログラミングの重要な概念の一つであり、同じメソッド名で異なる動作を実行することができます。多態性を使用するには、親クラスと子クラスを定義し、メソッドをオーバーライドする必要があります。次回は、例外処理について説明します。",
+    "tags": [
+      "Java",
+      "多態性",
+      "オブジェクト指向プログラミング"
+    ],
+    "category": "Java",
+    "theme": "java - Java",
+    "status": "published",
+    "createdAt": "2026-05-29T11:30:00.683Z",
+    "updatedAt": "2026-05-29T14:35:19.990Z",
+    "publishedAt": "2026-05-29T11:30:00.683Z",
+    "metaTitle": "Javaの多態性",
+    "metaDescription": "Javaの多態性は、オブジェクト指向プログラミングの重要な概念の一つです。この記事では、多態性の基本とその使用方法について説明します。",
+    "ogTitle": "Javaの多態性",
+    "ogDescription": "Javaの多態性は、オブジェクト指向プログラミングの重要な概念の一つです。この記事では、多態性の基本とその使用方法について説明します。",
+    "knowledge": {
+      "topic": "java",
+      "courseId": "java",
+      "episode": 10
+    },
+    "faq": [
+      {
+        "question": "多態性とは何ですか？",
+        "answer": "多態性は、同じメソッド名で異なる動作を実行することができるオブジェクト指向プログラミングの概念です。"
+      },
+      {
+        "question": "多態性には何種類ありますか？",
+        "answer": "多態性には、オーバーロードとオーバーライドの2種類があります。"
+      },
+      {
+        "question": "多態性を使用するには何をする必要がありますか？",
+        "answer": "多態性を使用するには、親クラスと子クラスを定義し、メソッドをオーバーライドする必要があります。"
+      }
+    ],
+    "nextEpisodeHint": "次回は、例外処理について説明します。",
+    "canonical": "https://ai-site-iota-nine.vercel.app/article/java-polymorphism",
+    "jsonLd": {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@context": "https://schema.org",
+          "@type": "BlogPosting",
+          "headline": "Javaの多態性",
+          "description": "Javaの多態性は、オブジェクト指向プログラミングの重要な概念の一つです。この記事では、多態性の基本とその使用方法について説明します。",
+          "datePublished": "2026-05-29T11:30:00.683Z",
+          "dateModified": "2026-05-29T14:35:19.990Z",
+          "author": {
+            "@type": "Organization",
+            "name": "StackShelf"
+          },
+          "publisher": {
+            "@type": "Organization",
+            "name": "StackShelf",
+            "url": "https://ai-site-iota-nine.vercel.app"
+          },
+          "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https://ai-site-iota-nine.vercel.app/article/java-polymorphism"
+          },
+          "keywords": "Java, 多態性, オブジェクト指向プログラミング",
+          "articleSection": "Java",
+          "url": "https://ai-site-iota-nine.vercel.app/article/java-polymorphism"
+        },
+        {
+          "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "ホーム",
+              "item": "https://ai-site-iota-nine.vercel.app"
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "name": "java",
+              "item": "https://ai-site-iota-nine.vercel.app/knowledge/java"
+            },
+            {
+              "@type": "ListItem",
+              "position": 3,
+              "name": "Java",
+              "item": "https://ai-site-iota-nine.vercel.app/course/java/java"
+            },
+            {
+              "@type": "ListItem",
+              "position": 4,
+              "name": "Javaの多態性",
+              "item": "https://ai-site-iota-nine.vercel.app/article/java-polymorphism"
+            }
+          ]
+        },
+        {
+          "@context": "https://schema.org",
+          "@type": "Course",
+          "name": "Java",
+          "description": "Javaプログラミング言語の基礎から応用までを学習する講座です。初心者向けにJavaの基本構文、オブジェクト指向、データ構造、アルゴリズムなどを解説します。",
+          "provider": {
+            "@type": "Organization",
+            "name": "StackShelf"
+          }
+        },
+        {
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "多態性とは何ですか？",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "多態性は、同じメソッド名で異なる動作を実行することができるオブジェクト指向プログラミングの概念です。"
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "多態性には何種類ありますか？",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "多態性には、オーバーロードとオーバーライドの2種類があります。"
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "多態性を使用するには何をする必要がありますか？",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "多態性を使用するには、親クラスと子クラスを定義し、メソッドをオーバーライドする必要があります。"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    "breadcrumb": {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "ホーム",
+          "item": "https://ai-site-iota-nine.vercel.app"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "java",
+          "item": "https://ai-site-iota-nine.vercel.app/knowledge/java"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Java",
+          "item": "https://ai-site-iota-nine.vercel.app/course/java/java"
+        },
+        {
+          "@type": "ListItem",
+          "position": 4,
+          "name": "Javaの多態性",
+          "item": "https://ai-site-iota-nine.vercel.app/article/java-polymorphism"
+        }
+      ]
+    },
+    "courseSchema": {
+      "@context": "https://schema.org",
+      "@type": "Course",
+      "name": "Java",
+      "description": "Javaプログラミング言語の基礎から応用までを学習する講座です。初心者向けにJavaの基本構文、オブジェクト指向、データ構造、アルゴリズムなどを解説します。",
+      "provider": {
+        "@type": "Organization",
+        "name": "StackShelf"
+      }
+    },
+    "faqSchema": {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "多態性とは何ですか？",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "多態性は、同じメソッド名で異なる動作を実行することができるオブジェクト指向プログラミングの概念です。"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "多態性には何種類ありますか？",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "多態性には、オーバーロードとオーバーライドの2種類があります。"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "多態性を使用するには何をする必要がありますか？",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "多態性を使用するには、親クラスと子クラスを定義し、メソッドをオーバーライドする必要があります。"
+          }
+        }
+      ]
+    }
+  },
+  "java-inheritance": {
+    "id": "art_1780054198949",
+    "slug": "java-inheritance",
+    "title": "Javaの継承",
+    "summary": "Javaの継承は、既存のクラスから新しいクラスを作成する方法です。継承を使用すると、コードの再利用性を高め、プログラミングの効率を向上させることができます。この記事では、Javaの継承の基本概念と使い方を解説します。",
+    "body": "<h2>Javaの継承とは</h2><p>Javaの継承は、既存のクラスから新しいクラスを作成する方法です。継承を使用すると、コードの再利用性を高め、プログラミングの効率を向上させることができます。</p><h3>継承の基本概念</h3><p>継承では、親クラス（スーパークラス）と子クラス（サブクラス）が存在します。子クラスは、親クラスのすべてのフィールドとメソッドを継承します。また、子クラスは、新しいフィールドとメソッドを追加したり、親クラスのメソッドをオーバーライドしたりすることができます。</p><h3>継承の使い方</h3><p>継承を使用するには、子クラスでextendsキーワードを使用して親クラスを指定します。例として、次のコードを見てみましょう。</p><pre><code>public class Animal {<br>    public void sound() {<br>        System.out.println(\"動物が音を出す\");<br>    }<br>}<br><br>public class Dog extends Animal {<br>    public void sound() {<br>        System.out.println(\"犬が吠える\");<br>    }<br>}<br></code></pre><p>この例では、DogクラスはAnimalクラスを継承しています。Dogクラスは、Animalクラスのsound()メソッドをオーバーライドしています。</p>",
+    "conclusion": "Javaの継承は、コードの再利用性を高め、プログラミングの効率を向上させる強力なツールです。継承を使用することで、コードの重複を減らし、プログラムのメンテナンスが容易になります。次回のエピソードでは、Javaの多態性について解説します。",
+    "tags": [
+      "Java",
+      "継承",
+      "オブジェクト指向"
+    ],
+    "category": "Java",
+    "theme": "java - Java",
+    "status": "published",
+    "createdAt": "2026-05-29T11:29:58.933Z",
+    "updatedAt": "2026-05-29T14:35:19.905Z",
+    "publishedAt": "2026-05-29T11:29:58.933Z",
+    "metaTitle": "Javaの継承",
+    "metaDescription": "Javaの継承の基本概念と使い方を解説します。継承を使用すると、コードの再利用性を高め、プログラミングの効率を向上させることができます。",
+    "ogTitle": "Javaの継承",
+    "ogDescription": "Javaの継承の基本概念と使い方を解説します。継承を使用すると、コードの再利用性を高め、プログラミングの効率を向上させることができます。",
+    "knowledge": {
+      "topic": "java",
+      "courseId": "java",
+      "episode": 9
+    },
+    "faq": [
+      {
+        "question": "Javaの継承の目的は何ですか？",
+        "answer": "Javaの継承の目的は、コードの再利用性を高め、プログラミングの効率を向上させることです。"
+      },
+      {
+        "question": "継承の基本概念は何ですか？",
+        "answer": "継承の基本概念は、親クラスと子クラスが存在し、子クラスが親クラスのすべてのフィールドとメソッドを継承することです。"
+      }
+    ],
+    "nextEpisodeHint": "次回のエピソードでは、Javaの多態性について解説します。",
+    "canonical": "https://ai-site-iota-nine.vercel.app/article/java-inheritance",
+    "jsonLd": {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@context": "https://schema.org",
+          "@type": "BlogPosting",
+          "headline": "Javaの継承",
+          "description": "Javaの継承の基本概念と使い方を解説します。継承を使用すると、コードの再利用性を高め、プログラミングの効率を向上させることができます。",
+          "datePublished": "2026-05-29T11:29:58.933Z",
+          "dateModified": "2026-05-29T14:35:19.905Z",
+          "author": {
+            "@type": "Organization",
+            "name": "StackShelf"
+          },
+          "publisher": {
+            "@type": "Organization",
+            "name": "StackShelf",
+            "url": "https://ai-site-iota-nine.vercel.app"
+          },
+          "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https://ai-site-iota-nine.vercel.app/article/java-inheritance"
+          },
+          "keywords": "Java, 継承, オブジェクト指向",
+          "articleSection": "Java",
+          "url": "https://ai-site-iota-nine.vercel.app/article/java-inheritance"
+        },
+        {
+          "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "ホーム",
+              "item": "https://ai-site-iota-nine.vercel.app"
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "name": "java",
+              "item": "https://ai-site-iota-nine.vercel.app/knowledge/java"
+            },
+            {
+              "@type": "ListItem",
+              "position": 3,
+              "name": "Java",
+              "item": "https://ai-site-iota-nine.vercel.app/course/java/java"
+            },
+            {
+              "@type": "ListItem",
+              "position": 4,
+              "name": "Javaの継承",
+              "item": "https://ai-site-iota-nine.vercel.app/article/java-inheritance"
+            }
+          ]
+        },
+        {
+          "@context": "https://schema.org",
+          "@type": "Course",
+          "name": "Java",
+          "description": "Javaプログラミング言語の基礎から応用までを学習する講座です。初心者向けにJavaの基本構文、オブジェクト指向、データ構造、アルゴリズムなどを解説します。",
+          "provider": {
+            "@type": "Organization",
+            "name": "StackShelf"
+          }
+        },
+        {
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "Javaの継承の目的は何ですか？",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Javaの継承の目的は、コードの再利用性を高め、プログラミングの効率を向上させることです。"
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "継承の基本概念は何ですか？",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "継承の基本概念は、親クラスと子クラスが存在し、子クラスが親クラスのすべてのフィールドとメソッドを継承することです。"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    "breadcrumb": {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "ホーム",
+          "item": "https://ai-site-iota-nine.vercel.app"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "java",
+          "item": "https://ai-site-iota-nine.vercel.app/knowledge/java"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Java",
+          "item": "https://ai-site-iota-nine.vercel.app/course/java/java"
+        },
+        {
+          "@type": "ListItem",
+          "position": 4,
+          "name": "Javaの継承",
+          "item": "https://ai-site-iota-nine.vercel.app/article/java-inheritance"
+        }
+      ]
+    },
+    "courseSchema": {
+      "@context": "https://schema.org",
+      "@type": "Course",
+      "name": "Java",
+      "description": "Javaプログラミング言語の基礎から応用までを学習する講座です。初心者向けにJavaの基本構文、オブジェクト指向、データ構造、アルゴリズムなどを解説します。",
+      "provider": {
+        "@type": "Organization",
+        "name": "StackShelf"
+      }
+    },
+    "faqSchema": {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Javaの継承の目的は何ですか？",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Javaの継承の目的は、コードの再利用性を高め、プログラミングの効率を向上させることです。"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "継承の基本概念は何ですか？",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "継承の基本概念は、親クラスと子クラスが存在し、子クラスが親クラスのすべてのフィールドとメソッドを継承することです。"
+          }
+        }
+      ]
+    }
+  },
+  "java-classes": {
+    "id": "art_1780054197023",
+    "slug": "java-classes",
+    "title": "Javaのクラスとオブジェクト",
+    "summary": "Javaのクラスとオブジェクトについて学びます。クラスはオブジェクトの設計図であり、オブジェクトはクラスから生成されるインスタンスです。このエピソードでは、クラスとオブジェクトの基本概念を理解し、Javaでクラスとオブジェクトを定義して使用する方法を学びます。",
+    "body": "<h2>クラスとオブジェクトの基礎</h2><p>Javaはオブジェクト指向プログラミング言語であり、クラスとオブジェクトはその基礎的な概念です。クラスはオブジェクトの設計図であり、オブジェクトはクラスから生成されるインスタンスです。</p><h3>クラスの定義</h3><p>クラスは、<code>class</code> キーワードを使用して定義します。クラスには、フィールド（データ）とメソッド（関数）が含まれます。</p><pre><code>public class Person {<br>  // フィールド<br>  private String name;<br>  private int age;<br><br>  // メソッド<br>  public void sayHello() {<br>    System.out.println(\"Hello, my name is \" + name + \".\");<br>  }<br>}</code></pre><h3>オブジェクトの生成</h3><p>クラスからオブジェクトを生成するには、<code)new</code> キーワードを使用します。</p><pre><code>Person person = new Person();</code></pre><h3>オブジェクトの使用</h3><p>オブジェクトのフィールドとメソッドにアクセスするには、ドット（<code>.</code>）を使用します。</p><pre><code>person.name = \"John\";<br>person.age = 30;<br>person.sayHello();</code></pre>",
+    "conclusion": "このエピソードでは、Javaのクラスとオブジェクトについて学びました。クラスはオブジェクトの設計図であり、オブジェクトはクラスから生成されるインスタンスです。クラスとオブジェクトを定義して使用する方法を理解することで、オブジェクト指向プログラミングの基礎を固めることができます。次回のエピソードでは、継承について学びます。",
+    "tags": [
+      "Java",
+      "クラス",
+      "オブジェクト",
+      "オブジェクト指向プログラミング"
+    ],
+    "category": "Java",
+    "theme": "java - Java",
+    "status": "published",
+    "createdAt": "2026-05-29T11:29:57.009Z",
+    "updatedAt": "2026-05-29T14:35:19.833Z",
+    "publishedAt": "2026-05-29T11:29:57.009Z",
+    "metaTitle": "Javaのクラスとオブジェクト",
+    "metaDescription": "Javaのクラスとオブジェクトについて学びます。クラスはオブジェクトの設計図であり、オブジェクトはクラスから生成されるインスタンスです。",
+    "ogTitle": "Javaのクラスとオブジェクト",
+    "ogDescription": "Javaのクラスとオブジェクトについて学びます。クラスはオブジェクトの設計図であり、オブジェクトはクラスから生成されるインスタンスです。",
+    "knowledge": {
+      "topic": "java",
+      "courseId": "java",
+      "episode": 8
+    },
+    "faq": [
+      {
+        "question": "クラスとオブジェクトの違いは何ですか。",
+        "answer": "クラスはオブジェクトの設計図であり、オブジェクトはクラスから生成されるインスタンスです。"
+      },
+      {
+        "question": "クラスを定義するにはどのようなキーワードを使用しますか。",
+        "answer": "クラスを定義するには、<code>class</code> キーワードを使用します。"
+      }
+    ],
+    "nextEpisodeHint": "次回のエピソードでは、継承について学びます。",
+    "canonical": "https://ai-site-iota-nine.vercel.app/article/java-classes",
+    "jsonLd": {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@context": "https://schema.org",
+          "@type": "BlogPosting",
+          "headline": "Javaのクラスとオブジェクト",
+          "description": "Javaのクラスとオブジェクトについて学びます。クラスはオブジェクトの設計図であり、オブジェクトはクラスから生成されるインスタンスです。",
+          "datePublished": "2026-05-29T11:29:57.009Z",
+          "dateModified": "2026-05-29T14:35:19.833Z",
+          "author": {
+            "@type": "Organization",
+            "name": "StackShelf"
+          },
+          "publisher": {
+            "@type": "Organization",
+            "name": "StackShelf",
+            "url": "https://ai-site-iota-nine.vercel.app"
+          },
+          "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https://ai-site-iota-nine.vercel.app/article/java-classes"
+          },
+          "keywords": "Java, クラス, オブジェクト, オブジェクト指向プログラミング",
+          "articleSection": "Java",
+          "url": "https://ai-site-iota-nine.vercel.app/article/java-classes"
+        },
+        {
+          "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "ホーム",
+              "item": "https://ai-site-iota-nine.vercel.app"
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "name": "java",
+              "item": "https://ai-site-iota-nine.vercel.app/knowledge/java"
+            },
+            {
+              "@type": "ListItem",
+              "position": 3,
+              "name": "Java",
+              "item": "https://ai-site-iota-nine.vercel.app/course/java/java"
+            },
+            {
+              "@type": "ListItem",
+              "position": 4,
+              "name": "Javaのクラスとオブジェクト",
+              "item": "https://ai-site-iota-nine.vercel.app/article/java-classes"
+            }
+          ]
+        },
+        {
+          "@context": "https://schema.org",
+          "@type": "Course",
+          "name": "Java",
+          "description": "Javaプログラミング言語の基礎から応用までを学習する講座です。初心者向けにJavaの基本構文、オブジェクト指向、データ構造、アルゴリズムなどを解説します。",
+          "provider": {
+            "@type": "Organization",
+            "name": "StackShelf"
+          }
+        },
+        {
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "クラスとオブジェクトの違いは何ですか。",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "クラスはオブジェクトの設計図であり、オブジェクトはクラスから生成されるインスタンスです。"
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "クラスを定義するにはどのようなキーワードを使用しますか。",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "クラスを定義するには、<code>class</code> キーワードを使用します。"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    "breadcrumb": {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "ホーム",
+          "item": "https://ai-site-iota-nine.vercel.app"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "java",
+          "item": "https://ai-site-iota-nine.vercel.app/knowledge/java"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Java",
+          "item": "https://ai-site-iota-nine.vercel.app/course/java/java"
+        },
+        {
+          "@type": "ListItem",
+          "position": 4,
+          "name": "Javaのクラスとオブジェクト",
+          "item": "https://ai-site-iota-nine.vercel.app/article/java-classes"
+        }
+      ]
+    },
+    "courseSchema": {
+      "@context": "https://schema.org",
+      "@type": "Course",
+      "name": "Java",
+      "description": "Javaプログラミング言語の基礎から応用までを学習する講座です。初心者向けにJavaの基本構文、オブジェクト指向、データ構造、アルゴリズムなどを解説します。",
+      "provider": {
+        "@type": "Organization",
+        "name": "StackShelf"
+      }
+    },
+    "faqSchema": {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "クラスとオブジェクトの違いは何ですか。",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "クラスはオブジェクトの設計図であり、オブジェクトはクラスから生成されるインスタンスです。"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "クラスを定義するにはどのようなキーワードを使用しますか。",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "クラスを定義するには、<code>class</code> キーワードを使用します。"
+          }
+        }
+      ]
+    }
+  },
+  "java-objects": {
+    "id": "art_1780054195475",
+    "slug": "java-objects",
+    "title": "Javaのオブジェクト指向プログラミング",
+    "summary": "Javaのオブジェクト指向プログラミングの基礎を学びます。クラス、オブジェクト、継承、多態性について理解します。具体例を通じて、オブジェクト指向プログラミングの概念を実践的に学びます。",
+    "body": "<h2>オブジェクト指向プログラミングの基礎</h2><p>オブジェクト指向プログラミングは、プログラミングのパラダイムの一つで、クラス、オブジェクト、継承、多態性などの概念を使用して、プログラムを構造化します。</p><h3>クラスとオブジェクト</h3><p>クラスは、オブジェクトの設計図と考えられます。クラスから作成されたオブジェクトは、クラスのプロパティとメソッドを持ちます。例えば、<code>Car</code>クラスから作成された<code>myCar</code>オブジェクトは、<code>color</code>プロパティと<code>drive()</code>メソッドを持つことができます。</p><pre><code>public class Car {<br>  private String color;<br>  public void drive() {<br>    System.out.println(\"車を運転します\");<br>  }<br>}</code></pre><h3>継承</h3><p>継承は、既存のクラスから新しいクラスを作成する仕組みです。新しいクラスは、既存のクラスのプロパティとメソッドを継承し、さらに新しいプロパティとメソッドを追加することができます。例えば、<code>ElectricCar</code>クラスは、<code>Car</code>クラスから継承し、<code>charge()</code>メソッドを追加することができます。</p><pre><code>public class ElectricCar extends Car {<br>  public void charge() {<br>    System.out.println(\"車を充電します\");<br>  }<br>}</code></pre>",
+    "conclusion": "このエピソードでは、Javaのオブジェクト指向プログラミングの基礎を学びました。クラス、オブジェクト、継承、多態性について理解し、具体例を通じて実践的に学びました。次のエピソードでは、クラスについてさらに深く学びます。",
+    "tags": [
+      "Java",
+      "オブジェクト指向プログラミング",
+      "クラス",
+      "オブジェクト",
+      "継承"
+    ],
+    "category": "Java",
+    "theme": "java - Java",
+    "status": "published",
+    "createdAt": "2026-05-29T11:29:55.372Z",
+    "updatedAt": "2026-05-29T14:35:19.753Z",
+    "publishedAt": "2026-05-29T11:29:55.372Z",
+    "metaTitle": "Javaのオブジェクト指向プログラミング",
+    "metaDescription": "Javaのオブジェクト指向プログラミングの基礎を学びます。クラス、オブジェクト、継承、多態性について理解します。具体例を通じて、オブジェクト指向プログラミングの概念を実践的に学びます。",
+    "ogTitle": "Javaのオブジェクト指向プログラミング",
+    "ogDescription": "Javaのオブジェクト指向プログラミングの基礎を学びます。クラス、オブジェクト、継承、多態性について理解します。具体例を通じて、オブジェクト指向プログラミングの概念を実践的に学びます。",
+    "knowledge": {
+      "topic": "java",
+      "courseId": "java",
+      "episode": 7
+    },
+    "faq": [
+      {
+        "question": "オブジェクト指向プログラミングとは何ですか？",
+        "answer": "オブジェクト指向プログラミングは、プログラミングのパラダイムの一つで、クラス、オブジェクト、継承、多態性などの概念を使用して、プログラムを構造化します。"
+      },
+      {
+        "question": "クラスとは何ですか？",
+        "answer": "クラスは、オブジェクトの設計図と考えられます。クラスから作成されたオブジェクトは、クラスのプロパティとメソッドを持ちます。"
+      }
+    ],
+    "nextEpisodeHint": "次のエピソードでは、クラスについてさらに深く学びます。",
+    "canonical": "https://ai-site-iota-nine.vercel.app/article/java-objects",
+    "jsonLd": {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@context": "https://schema.org",
+          "@type": "BlogPosting",
+          "headline": "Javaのオブジェクト指向プログラミング",
+          "description": "Javaのオブジェクト指向プログラミングの基礎を学びます。クラス、オブジェクト、継承、多態性について理解します。具体例を通じて、オブジェクト指向プログラミングの概念を実践的に学びます。",
+          "datePublished": "2026-05-29T11:29:55.372Z",
+          "dateModified": "2026-05-29T14:35:19.753Z",
+          "author": {
+            "@type": "Organization",
+            "name": "StackShelf"
+          },
+          "publisher": {
+            "@type": "Organization",
+            "name": "StackShelf",
+            "url": "https://ai-site-iota-nine.vercel.app"
+          },
+          "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https://ai-site-iota-nine.vercel.app/article/java-objects"
+          },
+          "keywords": "Java, オブジェクト指向プログラミング, クラス, オブジェクト, 継承",
+          "articleSection": "Java",
+          "url": "https://ai-site-iota-nine.vercel.app/article/java-objects"
+        },
+        {
+          "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "ホーム",
+              "item": "https://ai-site-iota-nine.vercel.app"
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "name": "java",
+              "item": "https://ai-site-iota-nine.vercel.app/knowledge/java"
+            },
+            {
+              "@type": "ListItem",
+              "position": 3,
+              "name": "Java",
+              "item": "https://ai-site-iota-nine.vercel.app/course/java/java"
+            },
+            {
+              "@type": "ListItem",
+              "position": 4,
+              "name": "Javaのオブジェクト指向プログラミング",
+              "item": "https://ai-site-iota-nine.vercel.app/article/java-objects"
+            }
+          ]
+        },
+        {
+          "@context": "https://schema.org",
+          "@type": "Course",
+          "name": "Java",
+          "description": "Javaプログラミング言語の基礎から応用までを学習する講座です。初心者向けにJavaの基本構文、オブジェクト指向、データ構造、アルゴリズムなどを解説します。",
+          "provider": {
+            "@type": "Organization",
+            "name": "StackShelf"
+          }
+        },
+        {
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "オブジェクト指向プログラミングとは何ですか？",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "オブジェクト指向プログラミングは、プログラミングのパラダイムの一つで、クラス、オブジェクト、継承、多態性などの概念を使用して、プログラムを構造化します。"
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "クラスとは何ですか？",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "クラスは、オブジェクトの設計図と考えられます。クラスから作成されたオブジェクトは、クラスのプロパティとメソッドを持ちます。"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    "breadcrumb": {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "ホーム",
+          "item": "https://ai-site-iota-nine.vercel.app"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "java",
+          "item": "https://ai-site-iota-nine.vercel.app/knowledge/java"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Java",
+          "item": "https://ai-site-iota-nine.vercel.app/course/java/java"
+        },
+        {
+          "@type": "ListItem",
+          "position": 4,
+          "name": "Javaのオブジェクト指向プログラミング",
+          "item": "https://ai-site-iota-nine.vercel.app/article/java-objects"
+        }
+      ]
+    },
+    "courseSchema": {
+      "@context": "https://schema.org",
+      "@type": "Course",
+      "name": "Java",
+      "description": "Javaプログラミング言語の基礎から応用までを学習する講座です。初心者向けにJavaの基本構文、オブジェクト指向、データ構造、アルゴリズムなどを解説します。",
+      "provider": {
+        "@type": "Organization",
+        "name": "StackShelf"
+      }
+    },
+    "faqSchema": {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "オブジェクト指向プログラミングとは何ですか？",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "オブジェクト指向プログラミングは、プログラミングのパラダイムの一つで、クラス、オブジェクト、継承、多態性などの概念を使用して、プログラムを構造化します。"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "クラスとは何ですか？",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "クラスは、オブジェクトの設計図と考えられます。クラスから作成されたオブジェクトは、クラスのプロパティとメソッドを持ちます。"
+          }
+        }
+      ]
+    }
+  },
+  "java-arrays": {
+    "id": "art_1780054191748",
+    "slug": "java-arrays",
+    "title": "Javaの配列",
+    "summary": "Javaの配列は、同じデータ型の複数の値を一つの変数に格納することができます。ここでは、配列の定義、初期化、要素へのアクセス、配列の操作について学びます。",
+    "body": "<h2>配列の定義</h2><p>Javaの配列は、同じデータ型の複数の値を一つの変数に格納することができます。配列を定義するには、型の後に[]を付ける必要があります。</p><h3>例</h3><pre><code>int[] scores = {10, 20, 30};</code></pre><h2>配列の初期化</h2><p>配列を初期化するには、{}を使用して値を指定することができます。配列の要素数は、初期化時に指定された値の数によって決定されます。</p><h3>例</h3><pre><code>int[] scores = new int[3];\nscores[0] = 10;\nscores[1] = 20;\nscores[2] = 30;</code></pre><h2>配列の要素へのアクセス</h2><p>配列の要素にアクセスするには、配列の名前とインデックスを使用します。インデックスは0から始まり、配列の要素数より1小さい値まで使用できます。</p><h3>例</h3><pre><code>int score = scores[0];\nSystem.out.println(score); // 10</code></pre>",
+    "conclusion": "このエピソードでは、Javaの配列について学びました。配列は、同じデータ型の複数の値を一つの変数に格納することができます。配列の定義、初期化、要素へのアクセス、配列の操作について学んだことで、Javaプログラミングの基礎をさらに固めることができました。",
+    "tags": [
+      "Java",
+      "配列"
+    ],
+    "category": "Java",
+    "theme": "java - Java",
+    "status": "published",
+    "createdAt": "2026-05-29T11:29:51.735Z",
+    "updatedAt": "2026-05-29T14:35:19.665Z",
+    "publishedAt": "2026-05-29T11:29:51.735Z",
+    "metaTitle": "Javaの配列",
+    "metaDescription": "Javaの配列について学ぶ。配列の定義、初期化、要素へのアクセス、配列の操作について解説します。",
+    "ogTitle": "Javaの配列",
+    "ogDescription": "Javaの配列について学ぶ。配列の定義、初期化、要素へのアクセス、配列の操作について解説します。",
+    "knowledge": {
+      "topic": "java",
+      "courseId": "java",
+      "episode": 6
+    },
+    "faq": [
+      {
+        "question": "配列のインデックスは何から始まりますか？",
+        "answer": "0から始まります。"
+      },
+      {
+        "question": "配列の要素数はどうやって決まりますか？",
+        "answer": "初期化時に指定された値の数によって決まります。"
+      }
+    ],
+    "nextEpisodeHint": "次回のエピソードでは、Javaのオブジェクトについて学びます。",
+    "canonical": "https://ai-site-iota-nine.vercel.app/article/java-arrays",
+    "jsonLd": {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@context": "https://schema.org",
+          "@type": "BlogPosting",
+          "headline": "Javaの配列",
+          "description": "Javaの配列について学ぶ。配列の定義、初期化、要素へのアクセス、配列の操作について解説します。",
+          "datePublished": "2026-05-29T11:29:51.735Z",
+          "dateModified": "2026-05-29T14:35:19.665Z",
+          "author": {
+            "@type": "Organization",
+            "name": "StackShelf"
+          },
+          "publisher": {
+            "@type": "Organization",
+            "name": "StackShelf",
+            "url": "https://ai-site-iota-nine.vercel.app"
+          },
+          "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https://ai-site-iota-nine.vercel.app/article/java-arrays"
+          },
+          "keywords": "Java, 配列",
+          "articleSection": "Java",
+          "url": "https://ai-site-iota-nine.vercel.app/article/java-arrays"
+        },
+        {
+          "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "ホーム",
+              "item": "https://ai-site-iota-nine.vercel.app"
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "name": "java",
+              "item": "https://ai-site-iota-nine.vercel.app/knowledge/java"
+            },
+            {
+              "@type": "ListItem",
+              "position": 3,
+              "name": "Java",
+              "item": "https://ai-site-iota-nine.vercel.app/course/java/java"
+            },
+            {
+              "@type": "ListItem",
+              "position": 4,
+              "name": "Javaの配列",
+              "item": "https://ai-site-iota-nine.vercel.app/article/java-arrays"
+            }
+          ]
+        },
+        {
+          "@context": "https://schema.org",
+          "@type": "Course",
+          "name": "Java",
+          "description": "Javaプログラミング言語の基礎から応用までを学習する講座です。初心者向けにJavaの基本構文、オブジェクト指向、データ構造、アルゴリズムなどを解説します。",
+          "provider": {
+            "@type": "Organization",
+            "name": "StackShelf"
+          }
+        },
+        {
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "配列のインデックスは何から始まりますか？",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "0から始まります。"
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "配列の要素数はどうやって決まりますか？",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "初期化時に指定された値の数によって決まります。"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    "breadcrumb": {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "ホーム",
+          "item": "https://ai-site-iota-nine.vercel.app"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "java",
+          "item": "https://ai-site-iota-nine.vercel.app/knowledge/java"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Java",
+          "item": "https://ai-site-iota-nine.vercel.app/course/java/java"
+        },
+        {
+          "@type": "ListItem",
+          "position": 4,
+          "name": "Javaの配列",
+          "item": "https://ai-site-iota-nine.vercel.app/article/java-arrays"
+        }
+      ]
+    },
+    "courseSchema": {
+      "@context": "https://schema.org",
+      "@type": "Course",
+      "name": "Java",
+      "description": "Javaプログラミング言語の基礎から応用までを学習する講座です。初心者向けにJavaの基本構文、オブジェクト指向、データ構造、アルゴリズムなどを解説します。",
+      "provider": {
+        "@type": "Organization",
+        "name": "StackShelf"
+      }
+    },
+    "faqSchema": {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "配列のインデックスは何から始まりますか？",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "0から始まります。"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "配列の要素数はどうやって決まりますか？",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "初期化時に指定された値の数によって決まります。"
+          }
+        }
+      ]
+    }
+  },
+  "java-functions": {
+    "id": "art_1780054189760",
+    "slug": "java-functions",
+    "title": "Javaの関数",
+    "summary": "Javaの関数は、プログラムの再利用性と可読性を向上させるために使用されます。関数を使用すると、同じコードを複数回書く必要がなくなり、プログラムのメンテナンスが容易になります。このエピソードでは、Javaの関数の基本について学びます。",
+    "body": "<h2>Javaの関数の基本</h2><p>Javaの関数は、メソッドと呼ばれます。メソッドは、クラス内に定義され、特定のタスクを実行します。メソッドを使用すると、同じコードを複数回書く必要がなくなり、プログラムのメンテナンスが容易になります。</p><h3>メソッドの定義</h3><p>メソッドを定義するには、メソッドの名前、戻り値の型、パラメーターのリストを指定する必要があります。次の例は、簡単なメソッドの定義です。</p><pre><code>public void greet(String name) {<br>    System.out.println(&quot;こんにちは、&quot; + name + &quot;さん&quot;);<br>}</code></pre><p>このメソッドは、名前をパラメーターとして受け取り、コンソールに挨拶のメッセージを表示します。</p><h3>メソッドの呼び出し</h3><p>メソッドを呼び出すには、メソッドの名前とパラメーターを指定する必要があります。次の例は、先ほど定義したメソッドの呼び出しです。</p><pre><code>greet(&quot;田中&quot;);</code></pre><p>このコードは、コンソールに「こんにちは、田中さん」と表示します。</p>",
+    "conclusion": "このエピソードでは、Javaの関数の基本について学びました。関数を使用すると、プログラムの再利用性と可読性を向上させることができます。次のエピソードでは、Javaの配列について学びます。",
+    "tags": [
+      "Java",
+      "関数",
+      "メソッド"
+    ],
+    "category": "Java",
+    "theme": "java - Java",
+    "status": "published",
+    "createdAt": "2026-05-29T11:29:49.751Z",
+    "updatedAt": "2026-05-29T14:35:19.564Z",
+    "publishedAt": "2026-05-29T11:29:49.751Z",
+    "metaTitle": "Javaの関数",
+    "metaDescription": "Javaの関数は、プログラムの再利用性と可読性を向上させるために使用されます。このエピソードでは、Javaの関数の基本について学びます。",
+    "ogTitle": "Javaの関数",
+    "ogDescription": "Javaの関数は、プログラムの再利用性と可読性を向上させるために使用されます。このエピソードでは、Javaの関数の基本について学びます。",
+    "knowledge": {
+      "topic": "java",
+      "courseId": "java",
+      "episode": 5
+    },
+    "faq": [
+      {
+        "question": "Javaの関数とは何ですか？",
+        "answer": "Javaの関数は、メソッドと呼ばれます。メソッドは、クラス内に定義され、特定のタスクを実行します。"
+      },
+      {
+        "question": "メソッドを定義するには何が必要ですか？",
+        "answer": "メソッドを定義するには、メソッドの名前、戻り値の型、パラメーターのリストを指定する必要があります。"
+      }
+    ],
+    "nextEpisodeHint": "次のエピソードでは、Javaの配列について学びます。",
+    "canonical": "https://ai-site-iota-nine.vercel.app/article/java-functions",
+    "jsonLd": {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@context": "https://schema.org",
+          "@type": "BlogPosting",
+          "headline": "Javaの関数",
+          "description": "Javaの関数は、プログラムの再利用性と可読性を向上させるために使用されます。このエピソードでは、Javaの関数の基本について学びます。",
+          "datePublished": "2026-05-29T11:29:49.751Z",
+          "dateModified": "2026-05-29T14:35:19.564Z",
+          "author": {
+            "@type": "Organization",
+            "name": "StackShelf"
+          },
+          "publisher": {
+            "@type": "Organization",
+            "name": "StackShelf",
+            "url": "https://ai-site-iota-nine.vercel.app"
+          },
+          "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https://ai-site-iota-nine.vercel.app/article/java-functions"
+          },
+          "keywords": "Java, 関数, メソッド",
+          "articleSection": "Java",
+          "url": "https://ai-site-iota-nine.vercel.app/article/java-functions"
+        },
+        {
+          "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "ホーム",
+              "item": "https://ai-site-iota-nine.vercel.app"
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "name": "java",
+              "item": "https://ai-site-iota-nine.vercel.app/knowledge/java"
+            },
+            {
+              "@type": "ListItem",
+              "position": 3,
+              "name": "Java",
+              "item": "https://ai-site-iota-nine.vercel.app/course/java/java"
+            },
+            {
+              "@type": "ListItem",
+              "position": 4,
+              "name": "Javaの関数",
+              "item": "https://ai-site-iota-nine.vercel.app/article/java-functions"
+            }
+          ]
+        },
+        {
+          "@context": "https://schema.org",
+          "@type": "Course",
+          "name": "Java",
+          "description": "Javaプログラミング言語の基礎から応用までを学習する講座です。初心者向けにJavaの基本構文、オブジェクト指向、データ構造、アルゴリズムなどを解説します。",
+          "provider": {
+            "@type": "Organization",
+            "name": "StackShelf"
+          }
+        },
+        {
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "Javaの関数とは何ですか？",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Javaの関数は、メソッドと呼ばれます。メソッドは、クラス内に定義され、特定のタスクを実行します。"
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "メソッドを定義するには何が必要ですか？",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "メソッドを定義するには、メソッドの名前、戻り値の型、パラメーターのリストを指定する必要があります。"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    "breadcrumb": {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "ホーム",
+          "item": "https://ai-site-iota-nine.vercel.app"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "java",
+          "item": "https://ai-site-iota-nine.vercel.app/knowledge/java"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Java",
+          "item": "https://ai-site-iota-nine.vercel.app/course/java/java"
+        },
+        {
+          "@type": "ListItem",
+          "position": 4,
+          "name": "Javaの関数",
+          "item": "https://ai-site-iota-nine.vercel.app/article/java-functions"
+        }
+      ]
+    },
+    "courseSchema": {
+      "@context": "https://schema.org",
+      "@type": "Course",
+      "name": "Java",
+      "description": "Javaプログラミング言語の基礎から応用までを学習する講座です。初心者向けにJavaの基本構文、オブジェクト指向、データ構造、アルゴリズムなどを解説します。",
+      "provider": {
+        "@type": "Organization",
+        "name": "StackShelf"
+      }
+    },
+    "faqSchema": {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Javaの関数とは何ですか？",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Javaの関数は、メソッドと呼ばれます。メソッドは、クラス内に定義され、特定のタスクを実行します。"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "メソッドを定義するには何が必要ですか？",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "メソッドを定義するには、メソッドの名前、戻り値の型、パラメーターのリストを指定する必要があります。"
+          }
+        }
+      ]
+    }
+  },
+  "java-control-structures": {
+    "id": "art_1780054187631",
+    "slug": "java-control-structures",
+    "title": "Java制御構文の基礎",
+    "summary": "Javaの制御構文は、プログラムの流れを制御するために使用されます。if文、switch文、for文、while文などの種類があります。このエピソードでは、Javaの制御構文の基礎を学びます。",
+    "body": "<h2>制御構文の概要</h2><p>Javaの制御構文は、プログラムの流れを制御するために使用されます。条件に応じて、プログラムの実行を分岐したり、繰り返し実行したりすることができます。</p><h3>if文</h3><p>if文は、条件に応じて、プログラムの実行を分岐するために使用されます。例えば、次のコードでは、xが5より大きい場合にのみ、コンソールに「xは5より大きい」と表示されます。</p><pre><code>int x = 10;\nif (x > 5) {\n    System.out.println(\"xは5より大きい\");\n}</code></pre><h3>switch文</h3><p>switch文は、複数の条件に応じて、プログラムの実行を分岐するために使用されます。例えば、次のコードでは、xの値に応じて、コンソールに「xは1」、「xは2」、「xは3」などと表示されます。</p><pre><code>int x = 2;\nswitch (x) {\n    case 1:\n        System.out.println(\"xは1\");\n        break;\n    case 2:\n        System.out.println(\"xは2\");\n        break;\n    case 3:\n        System.out.println(\"xは3\");\n        break;\n    default:\n        System.out.println(\"xは1、2、3以外\");\n        break;\n}</code></pre><h3>for文</h3><p>for文は、指定された回数、繰り返し実行するために使用されます。例えば、次のコードでは、コンソールに「1」、「2」、「3」、「4」、「5」と表示されます。</p><pre><code>for (int i = 1; i <= 5; i++) {\n    System.out.println(i);\n}</code></pre><h3>while文</h3><p>while文は、条件が真である限り、繰り返し実行するために使用されます。例えば、次のコードでは、コンソールに「1」、「2」、「3」、「4」、「5」と表示されます。</p><pre><code>int i = 1;\nwhile (i <= 5) {\n    System.out.println(i);\n    i++;\n}</code></pre>",
+    "conclusion": "Javaの制御構文は、プログラムの流れを制御するために使用されます。if文、switch文、for文、while文などの種類があります。このエピソードでは、Javaの制御構文の基礎を学びました。次のエピソードでは、Javaの関数について学びます。",
+    "tags": [
+      "Java",
+      "制御構文",
+      "if文",
+      "switch文",
+      "for文",
+      "while文"
+    ],
+    "category": "Java",
+    "theme": "java - Java",
+    "status": "published",
+    "createdAt": "2026-05-29T11:29:47.621Z",
+    "updatedAt": "2026-05-29T14:35:19.470Z",
+    "publishedAt": "2026-05-29T11:29:47.621Z",
+    "metaTitle": "Java制御構文の基礎",
+    "metaDescription": "Javaの制御構文は、プログラムの流れを制御するために使用されます。if文、switch文、for文、while文などの種類があります。",
+    "ogTitle": "Java制御構文の基礎",
+    "ogDescription": "Javaの制御構文は、プログラムの流れを制御するために使用されます。if文、switch文、for文、while文などの種類があります。",
+    "knowledge": {
+      "topic": "java",
+      "courseId": "java",
+      "episode": 4
+    },
+    "faq": [
+      {
+        "question": "Javaの制御構文は何ですか？",
+        "answer": "Javaの制御構文は、プログラムの流れを制御するために使用されます。if文、switch文、for文、while文などの種類があります。"
+      },
+      {
+        "question": "if文の使い方は何ですか？",
+        "answer": "if文は、条件に応じて、プログラムの実行を分岐するために使用されます。例えば、xが5より大きい場合にのみ、コンソールに「xは5より大きい」と表示されます。"
+      }
+    ],
+    "nextEpisodeHint": "次のエピソードでは、Javaの関数について学びます。",
+    "canonical": "https://ai-site-iota-nine.vercel.app/article/java-control-structures",
+    "jsonLd": {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@context": "https://schema.org",
+          "@type": "BlogPosting",
+          "headline": "Java制御構文の基礎",
+          "description": "Javaの制御構文は、プログラムの流れを制御するために使用されます。if文、switch文、for文、while文などの種類があります。",
+          "datePublished": "2026-05-29T11:29:47.621Z",
+          "dateModified": "2026-05-29T14:35:19.470Z",
+          "author": {
+            "@type": "Organization",
+            "name": "StackShelf"
+          },
+          "publisher": {
+            "@type": "Organization",
+            "name": "StackShelf",
+            "url": "https://ai-site-iota-nine.vercel.app"
+          },
+          "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https://ai-site-iota-nine.vercel.app/article/java-control-structures"
+          },
+          "keywords": "Java, 制御構文, if文, switch文, for文, while文",
+          "articleSection": "Java",
+          "url": "https://ai-site-iota-nine.vercel.app/article/java-control-structures"
+        },
+        {
+          "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "ホーム",
+              "item": "https://ai-site-iota-nine.vercel.app"
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "name": "java",
+              "item": "https://ai-site-iota-nine.vercel.app/knowledge/java"
+            },
+            {
+              "@type": "ListItem",
+              "position": 3,
+              "name": "Java",
+              "item": "https://ai-site-iota-nine.vercel.app/course/java/java"
+            },
+            {
+              "@type": "ListItem",
+              "position": 4,
+              "name": "Java制御構文の基礎",
+              "item": "https://ai-site-iota-nine.vercel.app/article/java-control-structures"
+            }
+          ]
+        },
+        {
+          "@context": "https://schema.org",
+          "@type": "Course",
+          "name": "Java",
+          "description": "Javaプログラミング言語の基礎から応用までを学習する講座です。初心者向けにJavaの基本構文、オブジェクト指向、データ構造、アルゴリズムなどを解説します。",
+          "provider": {
+            "@type": "Organization",
+            "name": "StackShelf"
+          }
+        },
+        {
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "Javaの制御構文は何ですか？",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Javaの制御構文は、プログラムの流れを制御するために使用されます。if文、switch文、for文、while文などの種類があります。"
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "if文の使い方は何ですか？",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "if文は、条件に応じて、プログラムの実行を分岐するために使用されます。例えば、xが5より大きい場合にのみ、コンソールに「xは5より大きい」と表示されます。"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    "breadcrumb": {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "ホーム",
+          "item": "https://ai-site-iota-nine.vercel.app"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "java",
+          "item": "https://ai-site-iota-nine.vercel.app/knowledge/java"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Java",
+          "item": "https://ai-site-iota-nine.vercel.app/course/java/java"
+        },
+        {
+          "@type": "ListItem",
+          "position": 4,
+          "name": "Java制御構文の基礎",
+          "item": "https://ai-site-iota-nine.vercel.app/article/java-control-structures"
+        }
+      ]
+    },
+    "courseSchema": {
+      "@context": "https://schema.org",
+      "@type": "Course",
+      "name": "Java",
+      "description": "Javaプログラミング言語の基礎から応用までを学習する講座です。初心者向けにJavaの基本構文、オブジェクト指向、データ構造、アルゴリズムなどを解説します。",
+      "provider": {
+        "@type": "Organization",
+        "name": "StackShelf"
+      }
+    },
+    "faqSchema": {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Javaの制御構文は何ですか？",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Javaの制御構文は、プログラムの流れを制御するために使用されます。if文、switch文、for文、while文などの種類があります。"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "if文の使い方は何ですか？",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "if文は、条件に応じて、プログラムの実行を分岐するために使用されます。例えば、xが5より大きい場合にのみ、コンソールに「xは5より大きい」と表示されます。"
+          }
+        }
+      ]
+    }
+  },
+  "java-variables": {
+    "id": "art_1780054184531",
+    "slug": "java-variables",
+    "title": "Javaの変数とデータ型",
+    "summary": "Javaでは、変数を使用してデータを格納し、データ型を指定してデータの種類を定義します。このエピソードでは、Javaの変数とデータ型について学びます。",
+    "body": "<h2>Javaの変数</h2><p>Javaでは、変数を使用してデータを格納します。変数は、データを格納するためのメモリ上の領域です。変数を宣言するには、データ型と変数名を指定します。</p><h3>変数の宣言</h3><p>変数の宣言は、次のように行います。</p><pre><code>int x = 10;</code></pre><p>この例では、整数型の変数xを宣言し、値10を代入しています。</p><h2>Javaのデータ型</h2><p>Javaには、次のデータ型があります。</p><ul><li>整数型(int)</li><li>浮動小数点型(float、double)</li><li>文字型(char)</li><li>論理型(boolean)</li></ul><h3>データ型の使用</h3><p>データ型を使用して、変数の種類を定義します。次の例では、整数型の変数xと浮動小数点型の変数yを宣言しています。</p><pre><code>int x = 10;<br>double y = 3.14;</code></pre>",
+    "conclusion": "このエピソードでは、Javaの変数とデータ型について学びました。変数を使用してデータを格納し、データ型を指定してデータの種類を定義することができます。次のエピソードでは、制御構文について学びます。",
+    "tags": [
+      "Java",
+      "変数",
+      "データ型"
+    ],
+    "category": "プログラミング",
+    "theme": "java - Java",
+    "status": "published",
+    "createdAt": "2026-05-29T11:29:44.525Z",
+    "updatedAt": "2026-05-29T14:35:19.380Z",
+    "publishedAt": "2026-05-29T11:29:44.525Z",
+    "metaTitle": "Javaの変数とデータ型",
+    "metaDescription": "Javaの変数とデータ型について学びます。変数を使用してデータを格納し、データ型を指定してデータの種類を定義します。",
+    "ogTitle": "Javaの変数とデータ型",
+    "ogDescription": "Javaの変数とデータ型について学びます。変数を使用してデータを格納し、データ型を指定してデータの種類を定義します。",
+    "knowledge": {
+      "topic": "java",
+      "courseId": "java",
+      "episode": 3
+    },
+    "faq": [
+      {
+        "question": "Javaの変数を宣言するにはどうすればよいですか？",
+        "answer": "Javaの変数を宣言するには、データ型と変数名を指定します。例：int x = 10;"
+      }
+    ],
+    "nextEpisodeHint": "次のエピソードでは、Javaの制御構文について学びます。",
+    "canonical": "https://ai-site-iota-nine.vercel.app/article/java-variables",
+    "jsonLd": {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@context": "https://schema.org",
+          "@type": "BlogPosting",
+          "headline": "Javaの変数とデータ型",
+          "description": "Javaの変数とデータ型について学びます。変数を使用してデータを格納し、データ型を指定してデータの種類を定義します。",
+          "datePublished": "2026-05-29T11:29:44.525Z",
+          "dateModified": "2026-05-29T14:35:19.380Z",
+          "author": {
+            "@type": "Organization",
+            "name": "StackShelf"
+          },
+          "publisher": {
+            "@type": "Organization",
+            "name": "StackShelf",
+            "url": "https://ai-site-iota-nine.vercel.app"
+          },
+          "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https://ai-site-iota-nine.vercel.app/article/java-variables"
+          },
+          "keywords": "Java, 変数, データ型",
+          "articleSection": "プログラミング",
+          "url": "https://ai-site-iota-nine.vercel.app/article/java-variables"
+        },
+        {
+          "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "ホーム",
+              "item": "https://ai-site-iota-nine.vercel.app"
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "name": "java",
+              "item": "https://ai-site-iota-nine.vercel.app/knowledge/java"
+            },
+            {
+              "@type": "ListItem",
+              "position": 3,
+              "name": "Java",
+              "item": "https://ai-site-iota-nine.vercel.app/course/java/java"
+            },
+            {
+              "@type": "ListItem",
+              "position": 4,
+              "name": "Javaの変数とデータ型",
+              "item": "https://ai-site-iota-nine.vercel.app/article/java-variables"
+            }
+          ]
+        },
+        {
+          "@context": "https://schema.org",
+          "@type": "Course",
+          "name": "Java",
+          "description": "Javaプログラミング言語の基礎から応用までを学習する講座です。初心者向けにJavaの基本構文、オブジェクト指向、データ構造、アルゴリズムなどを解説します。",
+          "provider": {
+            "@type": "Organization",
+            "name": "StackShelf"
+          }
+        },
+        {
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "Javaの変数を宣言するにはどうすればよいですか？",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Javaの変数を宣言するには、データ型と変数名を指定します。例：int x = 10;"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    "breadcrumb": {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "ホーム",
+          "item": "https://ai-site-iota-nine.vercel.app"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "java",
+          "item": "https://ai-site-iota-nine.vercel.app/knowledge/java"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Java",
+          "item": "https://ai-site-iota-nine.vercel.app/course/java/java"
+        },
+        {
+          "@type": "ListItem",
+          "position": 4,
+          "name": "Javaの変数とデータ型",
+          "item": "https://ai-site-iota-nine.vercel.app/article/java-variables"
+        }
+      ]
+    },
+    "courseSchema": {
+      "@context": "https://schema.org",
+      "@type": "Course",
+      "name": "Java",
+      "description": "Javaプログラミング言語の基礎から応用までを学習する講座です。初心者向けにJavaの基本構文、オブジェクト指向、データ構造、アルゴリズムなどを解説します。",
+      "provider": {
+        "@type": "Organization",
+        "name": "StackShelf"
+      }
+    },
+    "faqSchema": {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Javaの変数を宣言するにはどうすればよいですか？",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Javaの変数を宣言するには、データ型と変数名を指定します。例：int x = 10;"
+          }
+        }
+      ]
+    }
+  }
+}

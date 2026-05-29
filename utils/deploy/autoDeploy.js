@@ -58,6 +58,9 @@ async function runAutoDeploy(meta = {}) {
   try {
     regenerateAll();
 
+    const { buildArticleIndex } = require("../scripts/build-article-index");
+    buildArticleIndex();
+
     const articleStore = require("../articleStore");
     articleStore.ensurePublicArticlesDir();
     for (const a of articleStore.getPublishedArticles()) {

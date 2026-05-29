@@ -11,6 +11,16 @@
     "java-objects",
     "java-classes",
     "java-inheritance",
-    "java-polymorphism"
+    "java-polymorphism",
+    "java-exception-handling",
+    "java-file-input-output",
+    "java-network-programming",
+    "java-thread-programming",
+    "java-collection-framework",
+    "java-stream-api",
+    "java-lambda-expression",
+    "java-functional-programming",
+    "java-best-practices",
+    "java-project-development"
   ]
 }

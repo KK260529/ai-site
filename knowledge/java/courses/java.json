@@ -1,23 +1,23 @@
 {
   "courseId": "java",
-  "title": "java",
-  "description": "javaを学ぶための基礎から始める講座です。初心者向けにjavaの基本を解説します。",
+  "title": "Java",
+  "description": "Javaプログラミング言語の基礎から応用までを学習する講座です。初心者向けにJavaの基本構文、オブジェクト指向、データ構造、アルゴリズムなどを解説します。",
   "target": "初心者",
   "topic": "java",
   "episodes": [
     {
       "episode": 1,
-      "title": "javaの基礎",
+      "title": "Javaの紹介",
       "slug": "java-introduction"
     },
     {
       "episode": 2,
-      "title": "javaの文法",
+      "title": "Javaの基礎構文",
       "slug": "java-syntax"
     },
     {
       "episode": 3,
-      "title": "変数の使い方",
+      "title": "変数とデータ型",
       "slug": "java-variables"
     },
     {
@@ -27,33 +27,83 @@
     },
     {
       "episode": 5,
-      "title": "関数の使い方",
+      "title": "関数",
       "slug": "java-functions"
     },
     {
       "episode": 6,
-      "title": "配列の使い方",
+      "title": "配列",
       "slug": "java-arrays"
     },
     {
       "episode": 7,
-      "title": "オブジェクトの使い方",
+      "title": "オブジェクト",
       "slug": "java-objects"
     },
     {
       "episode": 8,
-      "title": "クラスの使い方",
+      "title": "クラス",
       "slug": "java-classes"
     },
     {
       "episode": 9,
-      "title": "継承の使い方",
+      "title": "継承",
       "slug": "java-inheritance"
     },
     {
       "episode": 10,
-      "title": "ポリモーフィズムの使い方",
+      "title": "多態性",
       "slug": "java-polymorphism"
+    },
+    {
+      "episode": 11,
+      "title": "例外処理",
+      "slug": "java-exception-handling"
+    },
+    {
+      "episode": 12,
+      "title": "ファイル入出力",
+      "slug": "java-file-input-output"
+    },
+    {
+      "episode": 13,
+      "title": "ネットワークプログラミング",
+      "slug": "java-network-programming"
+    },
+    {
+      "episode": 14,
+      "title": "スレッドプログラミング",
+      "slug": "java-thread-programming"
+    },
+    {
+      "episode": 15,
+      "title": "コレクションフレームワーク",
+      "slug": "java-collection-framework"
+    },
+    {
+      "episode": 16,
+      "title": "ストリームAPI",
+      "slug": "java-stream-api"
+    },
+    {
+      "episode": 17,
+      "title": "ラムダ式",
+      "slug": "java-lambda-expression"
+    },
+    {
+      "episode": 18,
+      "title": "関数型プログラミング",
+      "slug": "java-functional-programming"
+    },
+    {
+      "episode": 19,
+      "title": "ベストプラクティス",
+      "slug": "java-best-practices"
+    },
+    {
+      "episode": 20,
+      "title": "プロジェクト開発",
+      "slug": "java-project-development"
     }
   ]
 }

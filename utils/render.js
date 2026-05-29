@@ -1,7 +1,7 @@
 const fs = require("fs");
 const path = require("path");
 const { config } = require("./config");
-const { injectAds, getAdSlot, getAdHeadScript } = require("./ads");
+const { injectAds, getAdSlot, getAdHeadScript, injectAdsInCardList } = require("./ads");
 const articleStore = require("./articleStore");
 
 const TEMPLATES_DIR = path.join(process.cwd(), "templates");
@@ -117,10 +117,11 @@ function renderHome(articles, courses = []) {
   const pageContent = replaceAll(content, {
     siteName: config.siteName,
     siteTagline: config.siteTagline,
-    articleCards: cards || '<p class="empty">まだ記事がありません。</p>',
+    articleCards: injectAdsInCardList(cards || '<p class="empty">まだ記事がありません。</p>'),
     courseCards: courseCards || "",
     categoryOptions,
     articleCount: String(articles.length),
+    adAfterHero: getAdSlot("home"),
   });
 
   return renderPage({
@@ -164,6 +165,7 @@ function renderKnowledge(topic, roadmap, courses) {
     topic: escapeHtml(topic),
     title: escapeHtml(roadmap.title || topic),
     courseList: courseList || "<p>講座がありません</p>",
+    adBottom: getAdSlot("bottom"),
   });
 
   return renderPage({
@@ -205,6 +207,7 @@ function renderCourse(topic, course, articles) {
     description: escapeHtml(course.description),
     target: escapeHtml(course.target),
     episodeList,
+    adBottom: getAdSlot("bottom"),
   });
 
   return renderPage({

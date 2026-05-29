@@ -14,3 +14,4 @@ generation-history/
 
 # articles/ と knowledge/ は Git に含めて Railway/Vercel にデプロイ可能
 # public/sitemap.xml rss.xml robots.txt も publish 後に commit 推奨
+.vercel

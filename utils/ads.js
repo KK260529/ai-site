@@ -3,11 +3,25 @@ const { config } = require("./config");
 const PLACEHOLDER =
   '<aside class="ad-slot ad-slot--placeholder" aria-label="広告枠"><span>広告</span></aside>';
 
-function wrapAdHtml(html) {
+/** 1ページあたりの本文内広告上限（top + bottom 除く） */
+const MAX_INLINE_PER_PAGE = 2;
+
+/** h2 がこの数以上で本文内広告を入れる */
+const MIN_H2_FOR_INLINE = 2;
+
+const SLOT_FALLBACK = {
+  top: ["top", "inline", "bottom", "common"],
+  inline: ["inline", "top", "bottom", "common"],
+  bottom: ["bottom", "inline", "top", "common"],
+  home: ["inline", "top", "bottom", "common"],
+};
+
+function wrapAdHtml(html, variant = "live") {
   if (!html) return "";
   const trimmed = html.trim();
   if (trimmed.includes('class="ad-slot')) return trimmed;
-  return `<aside class="ad-slot ad-slot--live" aria-label="広告">${trimmed}</aside>`;
+  const mod = variant === "banner" ? " ad-slot--banner" : variant === "rectangle" ? " ad-slot--rectangle" : "";
+  return `<aside class="ad-slot ad-slot--live${mod}" aria-label="広告">${trimmed}</aside>`;
 }
 
 function buildAdSenseUnit(slotId, format = "auto") {
@@ -29,56 +43,130 @@ function getAdHeadScript() {
   return `<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${config.adClient}" crossorigin="anonymous"></script>`;
 }
 
-function resolveAdHtml(position) {
-  const byPosition = {
+function rawHtmlForKey(key) {
+  const map = {
     top: config.adHtmlTop,
-    bottom: config.adHtmlBottom,
     inline: config.adHtmlInline,
-  }[position];
+    bottom: config.adHtmlBottom,
+    common: config.adHtml,
+  };
+  return (map[key] || "").trim();
+}
 
-  if (byPosition) return byPosition;
-
-  // 共通タグは top / bottom のみ（inline へ流用すると同一ページに大量配置になる）
-  if (config.adHtml && (position === "top" || position === "bottom")) {
-    return config.adHtml;
+function resolveAdHtml(position) {
+  const chain = SLOT_FALLBACK[position] || SLOT_FALLBACK.inline;
+  for (const key of chain) {
+    const html = rawHtmlForKey(key);
+    if (html) return html;
   }
 
   const slotId = {
     top: config.adSlotTop,
-    bottom: config.adSlotBottom,
     inline: config.adSlotInline,
+    bottom: config.adSlotBottom,
   }[position];
+  return buildAdSenseUnit(slotId) || "";
+}
 
-  const unit = buildAdSenseUnit(slotId);
-  if (unit) return unit;
-
-  return "";
+function slotVariant(position) {
+  if (position === "top") return "banner";
+  if (position === "inline" || position === "bottom" || position === "home") return "rectangle";
+  return "live";
 }
 
 function getAdSlot(position) {
   const html = resolveAdHtml(position);
-  return html ? wrapAdHtml(html) : PLACEHOLDER;
+  if (!html) {
+    return config.isProduction ? "" : PLACEHOLDER;
+  }
+  return wrapAdHtml(html, slotVariant(position));
 }
 
+function countH2(html) {
+  return (String(html || "").match(/<\/h2>/gi) || []).length;
+}
+
+/** 本文内に挿入する h2 インデックス（0 始まり、該当 h2 の直後） */
+function pickInlineH2Indices(h2Count, maxAds) {
+  if (h2Count < MIN_H2_FOR_INLINE || maxAds < 1) return [];
+  if (maxAds === 1) {
+    return [Math.floor((h2Count - 1) / 2)];
+  }
+  const first = Math.floor((h2Count - 1) / 3);
+  const second = Math.floor((2 * (h2Count - 1)) / 3);
+  return [...new Set([first, second])].slice(0, maxAds).sort((a, b) => a - b);
+}
+
+function injectAfterNthParagraph(html, adHtml, n) {
+  let count = 0;
+  let inserted = false;
+  return html.replace(/<\/p>/gi, (match) => {
+    count += 1;
+    if (!inserted && count === n) {
+      inserted = true;
+      return `${match}${adHtml}`;
+    }
+    return match;
+  });
+}
+
+/**
+ * 記事本文へ効果的な位置にだけ広告を挿入
+ * - 冒頭は adTop に任せる（重複しない）
+ * - 末尾は adBottom に任せる
+ * - h2 間は最大 MAX_INLINE_PER_PAGE 箇所
+ */
 function injectAds(html) {
-  const inline = getAdSlot("inline");
-  if (inline === PLACEHOLDER) {
+  const inlineAd = getAdSlot("inline");
+  if (!inlineAd || inlineAd === PLACEHOLDER) {
     return html;
   }
 
-  let body = inline + html;
-  const parts = body.split(/<\/h2>/i);
-  if (parts.length > 2) {
-    body = parts
-      .map((part, i) => {
-        if (i === 0) return part + "</h2>";
-        if (i === parts.length - 1) return part;
-        return part + "</h2>" + inline;
-      })
-      .join("");
+  const h2Count = countH2(html);
+  const maxAds = Math.min(MAX_INLINE_PER_PAGE, h2Count >= 4 ? 2 : h2Count >= MIN_H2_FOR_INLINE ? 1 : 0);
+
+  if (maxAds === 0) {
+    const pCount = (html.match(/<\/p>/gi) || []).length;
+    if (pCount >= 4) {
+      return injectAfterNthParagraph(html, inlineAd, Math.ceil(pCount / 2));
+    }
+    return html;
   }
-  body += inline;
-  return body;
+
+  const insertAfter = new Set(pickInlineH2Indices(h2Count, maxAds));
+  const parts = html.split(/(<\/h2>)/i);
+  let h2Index = -1;
+  let out = "";
+
+  for (let i = 0; i < parts.length; i += 1) {
+    out += parts[i];
+    if (/^<\/h2>$/i.test(parts[i])) {
+      h2Index += 1;
+      if (insertAfter.has(h2Index)) {
+        out += inlineAd;
+      }
+    }
+  }
+
+  return out;
+}
+
+/** リストページ用：記事カードの間に1枚 */
+function injectAdsInCardList(cardsHtml, interval = 6) {
+  const ad = getAdSlot("home");
+  if (!ad || ad === PLACEHOLDER) return cardsHtml;
+
+  const chunks = cardsHtml.split(/(?=<article class="card")/);
+  if (chunks.length <= 1) return cardsHtml;
+
+  let out = "";
+  chunks.forEach((chunk, i) => {
+    out += chunk;
+    if (i > 0 && i % interval === 0 && i < chunks.length - 1) {
+      out += ad;
+    }
+  });
+  return out;
 }
 
 function isAdsConfigured() {
@@ -97,5 +185,6 @@ module.exports = {
   getAdHeadScript,
   getAdSlot,
   injectAds,
+  injectAdsInCardList,
   isAdsConfigured,
 };

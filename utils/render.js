@@ -6,7 +6,27 @@ const articleStore = require("./articleStore");
 
 const TEMPLATES_DIR = path.join(config.rootDir, "templates");
 
+const TEMPLATE_FILES = [
+  "layout.html",
+  "home.html",
+  "knowledge.html",
+  "course.html",
+  "article.html",
+  "admin.html",
+  "privacy.html",
+];
+
+const templateCache = {};
+for (const file of TEMPLATE_FILES) {
+  try {
+    templateCache[file] = fs.readFileSync(path.join(TEMPLATES_DIR, file), "utf-8");
+  } catch {
+    /* Vercel bundle warm-up; fallback read at runtime */
+  }
+}
+
 function loadTemplate(name) {
+  if (templateCache[name]) return templateCache[name];
   return fs.readFileSync(path.join(TEMPLATES_DIR, name), "utf-8");
 }
 

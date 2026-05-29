@@ -3,11 +3,16 @@ const { config } = require("./config");
 const PLACEHOLDER =
   '<aside class="ad-slot ad-slot--placeholder" aria-label="広告枠"><span>広告</span></aside>';
 
-/** 1ページあたりの本文内広告上限（top + bottom 除く） */
-const MAX_INLINE_PER_PAGE = 2;
+/** 1ページあたりの本文内広告上限（top / bottom / 固定枠除く） */
+const MAX_INLINE_PER_PAGE = Number(process.env.AD_MAX_INLINE) || 4;
 
 /** h2 がこの数以上で本文内広告を入れる */
-const MIN_H2_FOR_INLINE = 2;
+const MIN_H2_FOR_INLINE = 1;
+
+/** リストページ：N 件ごとに1枚 */
+const HOME_CARD_INTERVAL = Number(process.env.AD_HOME_INTERVAL) || 3;
+const EPISODE_LIST_INTERVAL = Number(process.env.AD_EPISODE_INTERVAL) || 5;
+const COURSE_LIST_INTERVAL = Number(process.env.AD_COURSE_INTERVAL) || 2;
 
 const SLOT_FALLBACK = {
   top: ["top", "inline", "bottom", "common"],
@@ -90,12 +95,13 @@ function countH2(html) {
 /** 本文内に挿入する h2 インデックス（0 始まり、該当 h2 の直後） */
 function pickInlineH2Indices(h2Count, maxAds) {
   if (h2Count < MIN_H2_FOR_INLINE || maxAds < 1) return [];
-  if (maxAds === 1) {
-    return [Math.floor((h2Count - 1) / 2)];
+  const n = Math.min(maxAds, h2Count);
+  const indices = [];
+  for (let i = 0; i < n; i += 1) {
+    const idx = Math.floor(((i + 1) * h2Count) / (n + 1)) - 1;
+    indices.push(Math.max(0, Math.min(h2Count - 1, idx)));
   }
-  const first = Math.floor((h2Count - 1) / 3);
-  const second = Math.floor((2 * (h2Count - 1)) / 3);
-  return [...new Set([first, second])].slice(0, maxAds).sort((a, b) => a - b);
+  return [...new Set(indices)].slice(0, maxAds).sort((a, b) => a - b);
 }
 
 function injectAfterNthParagraph(html, adHtml, n) {
@@ -124,12 +130,24 @@ function injectAds(html) {
   }
 
   const h2Count = countH2(html);
-  const maxAds = Math.min(MAX_INLINE_PER_PAGE, h2Count >= 4 ? 2 : h2Count >= MIN_H2_FOR_INLINE ? 1 : 0);
+  const maxAds = Math.min(
+    MAX_INLINE_PER_PAGE,
+    h2Count >= MIN_H2_FOR_INLINE ? Math.max(1, h2Count - 1) : 0
+  );
 
   if (maxAds === 0) {
     const pCount = (html.match(/<\/p>/gi) || []).length;
-    if (pCount >= 4) {
-      return injectAfterNthParagraph(html, inlineAd, Math.ceil(pCount / 2));
+    if (pCount >= 3) {
+      let out = html;
+      const positions = [
+        Math.ceil(pCount / 4),
+        Math.ceil(pCount / 2),
+        Math.ceil((3 * pCount) / 4),
+      ].slice(0, Math.min(2, MAX_INLINE_PER_PAGE));
+      for (const pos of positions) {
+        out = injectAfterNthParagraph(out, inlineAd, pos);
+      }
+      return out;
     }
     return html;
   }
@@ -152,8 +170,8 @@ function injectAds(html) {
   return out;
 }
 
-/** リストページ用：記事カードの間に1枚 */
-function injectAdsInCardList(cardsHtml, interval = 6) {
+/** リストページ用：記事カードの間に挿入 */
+function injectAdsInCardList(cardsHtml, interval = HOME_CARD_INTERVAL) {
   const ad = getAdSlot("home");
   if (!ad || ad === PLACEHOLDER) return cardsHtml;
 
@@ -168,6 +186,30 @@ function injectAdsInCardList(cardsHtml, interval = 6) {
     }
   });
   return out;
+}
+
+/** 講座カード・エピソードリスト等：一定間隔で広告を挿入 */
+function injectEveryNthBlock(html, splitPattern, interval, slot = "inline") {
+  const ad = getAdSlot(slot);
+  if (!ad || ad === PLACEHOLDER || !html) return html;
+  const parts = html.split(splitPattern);
+  if (parts.length <= 2) return html;
+  let out = parts[0];
+  for (let i = 1; i < parts.length; i += 1) {
+    out += parts[i];
+    if (i % interval === 0 && i < parts.length - 1) {
+      out += ad;
+    }
+  }
+  return out;
+}
+
+function injectAdsInEpisodeList(episodeHtml, interval = EPISODE_LIST_INTERVAL) {
+  return injectEveryNthBlock(episodeHtml, /(?=<li class="episode-item)/, interval, "inline");
+}
+
+function injectAdsInCourseCards(cardsHtml, interval = COURSE_LIST_INTERVAL) {
+  return injectEveryNthBlock(cardsHtml, /(?=<article class="card")/, interval, "inline");
 }
 
 function isAdsConfigured() {
@@ -187,5 +229,7 @@ module.exports = {
   getAdSlot,
   injectAds,
   injectAdsInCardList,
+  injectAdsInEpisodeList,
+  injectAdsInCourseCards,
   isAdsConfigured,
 };

@@ -1,7 +1,7 @@
 const fs = require("fs");
 const path = require("path");
 const { config } = require("./config");
-const { injectAds, getAdSlot, getAdHeadScript, injectAdsInCardList } = require("./ads");
+const { injectAds, getAdSlot, getAdHeadScript, injectAdsInCardList, injectAdsInEpisodeList, injectAdsInCourseCards } = require("./ads");
 const articleStore = require("./articleStore");
 
 const TEMPLATES_DIR = path.join(__dirname, "..", "templates");
@@ -134,14 +134,21 @@ function renderHome(articles, courses = []) {
   const categories = [...new Set(articles.map((a) => a.category))];
   const categoryOptions = categories.map((c) => `<option value="${escapeHtml(c)}">${escapeHtml(c)}</option>`).join("");
 
+  const courseCardsWithAds = injectAdsInCourseCards(
+    courseCards || "",
+    2
+  );
+
   const pageContent = replaceAll(content, {
     siteName: config.siteName,
     siteTagline: config.siteTagline,
     articleCards: injectAdsInCardList(cards || '<p class="empty">まだ記事がありません。</p>'),
-    courseCards: courseCards || "",
+    courseCards: courseCardsWithAds,
     categoryOptions,
     articleCount: String(articles.length),
     adAfterHero: getAdSlot("home"),
+    adBetweenSections: getAdSlot("top"),
+    adBeforeArticles: getAdSlot("inline"),
   });
 
   return renderPage({
@@ -184,7 +191,9 @@ function renderKnowledge(topic, roadmap, courses) {
   const pageContent = replaceAll(content, {
     topic: escapeHtml(topic),
     title: escapeHtml(roadmap.title || topic),
-    courseList: courseList || "<p>講座がありません</p>",
+    courseList: injectAdsInCourseCards(courseList || "<p>講座がありません</p>"),
+    adTop: getAdSlot("top"),
+    adMid: getAdSlot("inline"),
     adBottom: getAdSlot("bottom"),
   });
 
@@ -226,7 +235,9 @@ function renderCourse(topic, course, articles) {
     title: escapeHtml(course.title),
     description: escapeHtml(course.description),
     target: escapeHtml(course.target),
-    episodeList,
+    episodeList: injectAdsInEpisodeList(episodeList),
+    adTop: getAdSlot("top"),
+    adMid: getAdSlot("inline"),
     adBottom: getAdSlot("bottom"),
   });
 
@@ -298,6 +309,10 @@ function renderArticle(article, seriesNav = null) {
     relatedArticles: buildRelatedHtml(article),
     faq: faqHtml,
     adTop: getAdSlot("top"),
+    adAfterSummary: getAdSlot("inline"),
+    adMid: getAdSlot("inline"),
+    adBeforeNav: getAdSlot("top"),
+    adBeforeRelated: getAdSlot("inline"),
     adBottom: getAdSlot("bottom"),
   });
 

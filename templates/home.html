@@ -11,6 +11,8 @@
   <div class="cards cards--courses">{{courseCards}}</div>
 </section>
 
+{{adBetweenSections}}
+
 <section class="filters glass">
   <div class="filters__search">
     <input type="search" id="searchInput" class="input" placeholder="記事を検索…" aria-label="検索">
@@ -26,5 +28,6 @@
 
 <section class="section-block">
   <h2 class="section-block__title">記事</h2>
+  {{adBeforeArticles}}
   <section class="cards" id="articleGrid">{{articleCards}}</section>
 </section>

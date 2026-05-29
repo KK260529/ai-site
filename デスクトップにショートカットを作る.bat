@@ -21,14 +21,20 @@ powershell -NoProfile -ExecutionPolicy Bypass -Command ^
   "$s2.IconLocation = 'imageres.dll,109';" ^
   "$s2.Save();" ^
   "$s3 = $w.CreateShortcut((Join-Path $d 'AI知識サイト Git push.lnk'));" ^
-  "$s3.TargetPath = Join-Path '%ROOT%' 'git-push.bat';" ^
-  "$s3.WorkingDirectory = '%ROOT%';" ^
-  "$s3.Description = 'commit & push で本番デプロイ';" ^
+  "$s3.TargetPath = Join-Path '%ROOT%' 'git-setup.bat';" ^
+  "$s3.Description = 'Git 初回設定（git-setup.bat）';" ^
   "$s3.IconLocation = 'imageres.dll,109';" ^
   "$s3.Save();" ^
+  "$s4 = $w.CreateShortcut((Join-Path $d 'AI知識サイト Git push.lnk'));" ^
+  "$s4.TargetPath = Join-Path '%ROOT%' 'git-push.bat';" ^
+  "$s3.WorkingDirectory = '%ROOT%';" ^
+  "$s4.Description = 'commit & push で本番デプロイ';" ^
+  "$s4.IconLocation = 'imageres.dll,109';" ^
+  "$s4.Save();" ^
   "Write-Host 'デスクトップにショートカットを作成しました:';" ^
   "Write-Host '  - AI知識サイトを開く.lnk';" ^
   "Write-Host '  - AI知識サイト 管理画面.lnk';" ^
+  "Write-Host '  - AI知識サイト Git 初回設定.lnk (git-setup.bat)';" ^
   "Write-Host '  - AI知識サイト Git push.lnk';"
 
 echo.

@@ -2,11 +2,11 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>StackShelf</title>
-    <link>http://localhost:3000</link>
+    <link>https://ai-site-iota-nine.vercel.app</link>
     <description>StackShelf — Linux・Git・Docker・Python など、初心者にもわかる技術まとめ。AI編集と構造化メモリで組み立てた学習サイト。</description>
     <language>ja</language>
-    <lastBuildDate>Fri, 29 May 2026 12:32:29 GMT</lastBuildDate>
-    <atom:link href="http://localhost:3000/rss.xml" rel="self" type="application/rss+xml"/>
+    <lastBuildDate>Fri, 29 May 2026 12:48:16 GMT</lastBuildDate>
+    <atom:link href="https://ai-site-iota-nine.vercel.app/rss.xml" rel="self" type="application/rss+xml"/>
 
   </channel>
 </rss>

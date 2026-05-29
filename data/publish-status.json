@@ -1,16 +1,16 @@
 {
-  "siteUrl": "http://localhost:3000",
+  "siteUrl": "https://ai-site-iota-nine.vercel.app",
   "nodeEnv": "development",
-  "sitemapUpdatedAt": "2026-05-29T12:32:29.561Z",
-  "rssUpdatedAt": "2026-05-29T12:32:29.563Z",
-  "robotsUpdatedAt": "2026-05-29T12:32:29.564Z",
+  "sitemapUpdatedAt": "2026-05-29T12:48:16.990Z",
+  "rssUpdatedAt": "2026-05-29T12:48:16.993Z",
+  "robotsUpdatedAt": "2026-05-29T12:48:16.995Z",
   "lastPublish": {
     "slug": "java-introduction-1",
     "title": "Javaの基礎",
     "url": "http://localhost:3000/article/java-introduction-1",
     "at": "2026-05-29T11:36:53.071Z"
   },
-  "sitemapUrl": "http://localhost:3000/sitemap.xml",
-  "rssUrl": "http://localhost:3000/rss.xml",
-  "robotsUrl": "http://localhost:3000/robots.txt"
+  "sitemapUrl": "https://ai-site-iota-nine.vercel.app/sitemap.xml",
+  "rssUrl": "https://ai-site-iota-nine.vercel.app/rss.xml",
+  "robotsUrl": "https://ai-site-iota-nine.vercel.app/robots.txt"
 }

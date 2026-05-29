@@ -1,0 +1,195 @@
+{
+  "id": "art_1780054195475",
+  "slug": "java-objects",
+  "title": "Javaのオブジェクト指向プログラミング",
+  "summary": "Javaのオブジェクト指向プログラミングの基礎を学びます。クラス、オブジェクト、継承、多態性について理解します。具体例を通じて、オブジェクト指向プログラミングの概念を実践的に学びます。",
+  "body": "<h2>オブジェクト指向プログラミングの基礎</h2><p>オブジェクト指向プログラミングは、プログラミングのパラダイムの一つで、クラス、オブジェクト、継承、多態性などの概念を使用して、プログラムを構造化します。</p><h3>クラスとオブジェクト</h3><p>クラスは、オブジェクトの設計図と考えられます。クラスから作成されたオブジェクトは、クラスのプロパティとメソッドを持ちます。例えば、<code>Car</code>クラスから作成された<code>myCar</code>オブジェクトは、<code>color</code>プロパティと<code>drive()</code>メソッドを持つことができます。</p><pre><code>public class Car {<br>  private String color;<br>  public void drive() {<br>    System.out.println(\"車を運転します\");<br>  }<br>}</code></pre><h3>継承</h3><p>継承は、既存のクラスから新しいクラスを作成する仕組みです。新しいクラスは、既存のクラスのプロパティとメソッドを継承し、さらに新しいプロパティとメソッドを追加することができます。例えば、<code>ElectricCar</code>クラスは、<code>Car</code>クラスから継承し、<code>charge()</code>メソッドを追加することができます。</p><pre><code>public class ElectricCar extends Car {<br>  public void charge() {<br>    System.out.println(\"車を充電します\");<br>  }<br>}</code></pre>",
+  "conclusion": "このエピソードでは、Javaのオブジェクト指向プログラミングの基礎を学びました。クラス、オブジェクト、継承、多態性について理解し、具体例を通じて実践的に学びました。次のエピソードでは、クラスについてさらに深く学びます。",
+  "tags": [
+    "Java",
+    "オブジェクト指向プログラミング",
+    "クラス",
+    "オブジェクト",
+    "継承"
+  ],
+  "category": "Java",
+  "theme": "java - Java",
+  "status": "published",
+  "createdAt": "2026-05-29T11:29:55.372Z",
+  "updatedAt": "2026-05-29T14:35:19.753Z",
+  "publishedAt": "2026-05-29T11:29:55.372Z",
+  "metaTitle": "Javaのオブジェクト指向プログラミング",
+  "metaDescription": "Javaのオブジェクト指向プログラミングの基礎を学びます。クラス、オブジェクト、継承、多態性について理解します。具体例を通じて、オブジェクト指向プログラミングの概念を実践的に学びます。",
+  "ogTitle": "Javaのオブジェクト指向プログラミング",
+  "ogDescription": "Javaのオブジェクト指向プログラミングの基礎を学びます。クラス、オブジェクト、継承、多態性について理解します。具体例を通じて、オブジェクト指向プログラミングの概念を実践的に学びます。",
+  "knowledge": {
+    "topic": "java",
+    "courseId": "java",
+    "episode": 7
+  },
+  "faq": [
+    {
+      "question": "オブジェクト指向プログラミングとは何ですか？",
+      "answer": "オブジェクト指向プログラミングは、プログラミングのパラダイムの一つで、クラス、オブジェクト、継承、多態性などの概念を使用して、プログラムを構造化します。"
+    },
+    {
+      "question": "クラスとは何ですか？",
+      "answer": "クラスは、オブジェクトの設計図と考えられます。クラスから作成されたオブジェクトは、クラスのプロパティとメソッドを持ちます。"
+    }
+  ],
+  "nextEpisodeHint": "次のエピソードでは、クラスについてさらに深く学びます。",
+  "canonical": "https://ai-site-iota-nine.vercel.app/article/java-objects",
+  "jsonLd": {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        "headline": "Javaのオブジェクト指向プログラミング",
+        "description": "Javaのオブジェクト指向プログラミングの基礎を学びます。クラス、オブジェクト、継承、多態性について理解します。具体例を通じて、オブジェクト指向プログラミングの概念を実践的に学びます。",
+        "datePublished": "2026-05-29T11:29:55.372Z",
+        "dateModified": "2026-05-29T14:35:19.753Z",
+        "author": {
+          "@type": "Organization",
+          "name": "StackShelf"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app"
+        },
+        "mainEntityOfPage": {
+          "@type": "WebPage",
+          "@id": "https://ai-site-iota-nine.vercel.app/article/java-objects"
+        },
+        "keywords": "Java, オブジェクト指向プログラミング, クラス, オブジェクト, 継承",
+        "articleSection": "Java",
+        "url": "https://ai-site-iota-nine.vercel.app/article/java-objects"
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "ホーム",
+            "item": "https://ai-site-iota-nine.vercel.app"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "java",
+            "item": "https://ai-site-iota-nine.vercel.app/knowledge/java"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "Java",
+            "item": "https://ai-site-iota-nine.vercel.app/course/java/java"
+          },
+          {
+            "@type": "ListItem",
+            "position": 4,
+            "name": "Javaのオブジェクト指向プログラミング",
+            "item": "https://ai-site-iota-nine.vercel.app/article/java-objects"
+          }
+        ]
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "Course",
+        "name": "Java",
+        "description": "Javaプログラミング言語の基礎から応用までを学習する講座です。初心者向けにJavaの基本構文、オブジェクト指向、データ構造、アルゴリズムなどを解説します。",
+        "provider": {
+          "@type": "Organization",
+          "name": "StackShelf"
+        }
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "オブジェクト指向プログラミングとは何ですか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "オブジェクト指向プログラミングは、プログラミングのパラダイムの一つで、クラス、オブジェクト、継承、多態性などの概念を使用して、プログラムを構造化します。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "クラスとは何ですか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "クラスは、オブジェクトの設計図と考えられます。クラスから作成されたオブジェクトは、クラスのプロパティとメソッドを持ちます。"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "breadcrumb": {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "ホーム",
+        "item": "https://ai-site-iota-nine.vercel.app"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "java",
+        "item": "https://ai-site-iota-nine.vercel.app/knowledge/java"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "Java",
+        "item": "https://ai-site-iota-nine.vercel.app/course/java/java"
+      },
+      {
+        "@type": "ListItem",
+        "position": 4,
+        "name": "Javaのオブジェクト指向プログラミング",
+        "item": "https://ai-site-iota-nine.vercel.app/article/java-objects"
+      }
+    ]
+  },
+  "courseSchema": {
+    "@context": "https://schema.org",
+    "@type": "Course",
+    "name": "Java",
+    "description": "Javaプログラミング言語の基礎から応用までを学習する講座です。初心者向けにJavaの基本構文、オブジェクト指向、データ構造、アルゴリズムなどを解説します。",
+    "provider": {
+      "@type": "Organization",
+      "name": "StackShelf"
+    }
+  },
+  "faqSchema": {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "オブジェクト指向プログラミングとは何ですか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "オブジェクト指向プログラミングは、プログラミングのパラダイムの一つで、クラス、オブジェクト、継承、多態性などの概念を使用して、プログラムを構造化します。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "クラスとは何ですか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "クラスは、オブジェクトの設計図と考えられます。クラスから作成されたオブジェクトは、クラスのプロパティとメソッドを持ちます。"
+        }
+      }
+    ]
+  }
+}

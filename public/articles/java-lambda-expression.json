@@ -1,0 +1,192 @@
+{
+  "slug": "java-lambda-expression",
+  "title": "Javaのラムダ式",
+  "summary": "ラムダ式の構文と関数型インターフェースの関係を学びます。匿名クラスの短縮、メソッド参照、よく使う型を押さえます。",
+  "body": "<h2>導入</h2><p>ラムダ式は<strong>短い関数</strong>を書くための構文です。Stream やイベント処理で頻繁に登場します。</p><h2>基本構文</h2><pre><code>Runnable r = () -> System.out.println(\"run\");\nComparator&lt;String&gt; cmp = (a, b) -> a.compareTo(b);</code></pre><p>引数リスト → 矢印 → 本体です。本体が1式なら <code>{ }</code> を省略できます。</p><h3>型を明示する場合</h3><pre><code>BinaryOperator&lt;Integer&gt; add = (int a, int b) -> a + b;</code></pre><h2>関数型インターフェース</h2><p>抽象メソッドが1つだけのインターフェースにラムダを代入できます。<code>@FunctionalInterface</code> が付いている型が代表例です。</p><ul><li><code>Predicate&lt;T&gt;</code> — 真偽を返す</li><li><code>Function&lt;T,R&gt;</code> — 変換</li><li><code>Consumer&lt;T&gt;</code> — 値を受け取り返さない</li></ul><h2>メソッド参照</h2><pre><code>names.forEach(System.out::println);\nnums.stream().map(String::valueOf);</code></pre><p>既存メソッドをそのまま渡す短い書き方です。</p><h3>よくあるつまずき</h3><p>ラムダ内で使うローカル変数は実質 final である必要があります（effectively final）。ループ変数をそのまま捕まえるとコンパイルエラーになります。</p><h2>確認方法</h2><p><code>List.sort</code> にラムダで Comparator を渡し、文字列長順に並べ替えてみてください。</p><h2>まとめ</h2><p>ラムダは「関数を値として渡す」ための糖衣構文です。Stream とセットで練習すると定着が早いです。</p>",
+  "conclusion": "ラムダ式は (引数) -> 本体 の形と、関数型インターフェースとの組み合わせが核心です。メソッド参照も覚え、Stream 処理と一緒に使ってみましょう。次回は関数型プログラミングの考え方を整理します。",
+  "tags": [
+    "Java",
+    "ラムダ",
+    "関数型"
+  ],
+  "category": "プログラミング",
+  "theme": "java - Java",
+  "status": "published",
+  "createdAt": "2026-05-29T14:36:45.175Z",
+  "updatedAt": "2026-05-29T14:36:45.175Z",
+  "publishedAt": "2026-05-29T14:36:45.175Z",
+  "metaTitle": "Javaのラムダ式",
+  "metaDescription": "ラムダ式の構文と関数型インターフェースの関係を学びます。匿名クラスの短縮、メソッド参照、よく使う型を押さえます。",
+  "ogTitle": "Javaのラムダ式",
+  "ogDescription": "ラムダ式の構文と関数型インターフェースの関係を学びます。匿名クラスの短縮、メソッド参照、よく使う型を押さえます。",
+  "knowledge": {
+    "topic": "java",
+    "courseId": "java",
+    "episode": 17
+  },
+  "faq": [
+    {
+      "question": "匿名クラスとの違いは？",
+      "answer": "ラムダは関数型インターフェース向けの短い記法で、コード量を大幅に減らせます。"
+    },
+    {
+      "question": "return は書ける？",
+      "answer": "ブロック本体 { return x; } なら可能、単一式なら return 不要です。"
+    }
+  ],
+  "nextEpisodeHint": "次回は関数型プログラミングの考え方を、Java の文脈で整理します。",
+  "canonical": "https://ai-site-iota-nine.vercel.app/article/java-lambda-expression",
+  "jsonLd": {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        "headline": "Javaのラムダ式",
+        "description": "ラムダ式の構文と関数型インターフェースの関係を学びます。匿名クラスの短縮、メソッド参照、よく使う型を押さえます。",
+        "datePublished": "2026-05-29T14:36:45.175Z",
+        "dateModified": "2026-05-29T14:36:45.175Z",
+        "author": {
+          "@type": "Organization",
+          "name": "StackShelf"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app"
+        },
+        "mainEntityOfPage": {
+          "@type": "WebPage",
+          "@id": "https://ai-site-iota-nine.vercel.app/article/java-lambda-expression"
+        },
+        "keywords": "Java, ラムダ, 関数型",
+        "articleSection": "プログラミング",
+        "url": "https://ai-site-iota-nine.vercel.app/article/java-lambda-expression"
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "ホーム",
+            "item": "https://ai-site-iota-nine.vercel.app"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "java",
+            "item": "https://ai-site-iota-nine.vercel.app/knowledge/java"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "Java",
+            "item": "https://ai-site-iota-nine.vercel.app/course/java/java"
+          },
+          {
+            "@type": "ListItem",
+            "position": 4,
+            "name": "Javaのラムダ式",
+            "item": "https://ai-site-iota-nine.vercel.app/article/java-lambda-expression"
+          }
+        ]
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "Course",
+        "name": "Java",
+        "description": "Javaプログラミング言語の基礎から応用までを学習する講座です。初心者向けにJavaの基本構文、オブジェクト指向、データ構造、アルゴリズムなどを解説します。",
+        "provider": {
+          "@type": "Organization",
+          "name": "StackShelf"
+        }
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "匿名クラスとの違いは？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "ラムダは関数型インターフェース向けの短い記法で、コード量を大幅に減らせます。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "return は書ける？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "ブロック本体 { return x; } なら可能、単一式なら return 不要です。"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "breadcrumb": {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "ホーム",
+        "item": "https://ai-site-iota-nine.vercel.app"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "java",
+        "item": "https://ai-site-iota-nine.vercel.app/knowledge/java"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "Java",
+        "item": "https://ai-site-iota-nine.vercel.app/course/java/java"
+      },
+      {
+        "@type": "ListItem",
+        "position": 4,
+        "name": "Javaのラムダ式",
+        "item": "https://ai-site-iota-nine.vercel.app/article/java-lambda-expression"
+      }
+    ]
+  },
+  "courseSchema": {
+    "@context": "https://schema.org",
+    "@type": "Course",
+    "name": "Java",
+    "description": "Javaプログラミング言語の基礎から応用までを学習する講座です。初心者向けにJavaの基本構文、オブジェクト指向、データ構造、アルゴリズムなどを解説します。",
+    "provider": {
+      "@type": "Organization",
+      "name": "StackShelf"
+    }
+  },
+  "faqSchema": {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "匿名クラスとの違いは？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "ラムダは関数型インターフェース向けの短い記法で、コード量を大幅に減らせます。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "return は書ける？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "ブロック本体 { return x; } なら可能、単一式なら return 不要です。"
+        }
+      }
+    ]
+  }
+}

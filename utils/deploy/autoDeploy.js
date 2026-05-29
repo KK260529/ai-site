@@ -58,6 +58,12 @@ async function runAutoDeploy(meta = {}) {
   try {
     regenerateAll();
 
+    const articleStore = require("../articleStore");
+    articleStore.ensurePublicArticlesDir();
+    for (const a of articleStore.getPublishedArticles()) {
+      articleStore.mirrorPublishedArticle(a);
+    }
+
     const slug = meta.slug || meta.article?.slug;
     const title = meta.title || meta.article?.title;
     const message =

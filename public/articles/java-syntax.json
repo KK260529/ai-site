@@ -1,0 +1,192 @@
+{
+  "slug": "java-syntax",
+  "title": "Javaの基礎構文",
+  "summary": "Javaプログラムの骨格となる基礎構文を学びます。クラス定義、mainメソッド、文と式、コメント、セミコロンの役割を押さえましょう。",
+  "body": "<h2>導入</h2><p>前回は Java の全体像を学びました。今回は実際にコードを書くための<strong>基礎構文</strong>を押さえます。構文は「文法」にあたり、ここを理解するとエラーメッセージの意味も読み取れるようになります。</p><h3>この回のゴール</h3><p>最小限の Java プログラムを読み書きでき、コンパイル・実行の流れを説明できる状態を目指します。</p><h2>最小の Java プログラム</h2><p>Java では処理を<strong>クラス</strong>の中に書きます。実行の入口は <code>main</code> メソッドです。</p><pre><code>public class Hello {\n    public static void main(String[] args) {\n        System.out.println(\"Hello, Java!\");\n    }\n}</code></pre><p><code>public class Hello</code> はクラス名を宣言しています。ファイル名は <code>Hello.java</code> と一致させる必要があります。</p><h3>main メソッドの意味</h3><p><code>public static void main(String[] args)</code> は JVM が最初に呼び出すメソッドです。アプリの起動点と覚えてください。</p><h2>文・式・セミコロン</h2><p>Java では<strong>1文の末尾にセミコロン</strong>が必要です。忘れるとコンパイルエラーになります。</p><pre><code>int a = 1;\nint b = 2;\nSystem.out.println(a + b);</code></pre><h3>よくある誤解</h3><p>Python のようにインデントだけでブロックを表すことはできません。処理のまとまりは必ず <code>{ }</code> で囲みます。</p><h2>コメントの書き方</h2><p>コード中にメモを残す方法が2種類あります。</p><ul><li>行コメント: <code>// 1行だけ</code></li><li>ブロックコメント: <code>/* 複数行 */</code></li></ul><p>コメントは実行されません。学習中は「なぜこう書いたか」を日本語で残すと復習に役立ちます。</p><h2>ブロックとインデント</h2><p><code>if</code> や <code>for</code> などの制御構文は <code>{ }</code> で範囲を決めます。インデントは必須ではありませんが、可読性のために4スペース程度で揃えるのが一般的です。</p><pre><code>if (true) {\n    System.out.println(\"条件が真\");\n}</code></pre><h3>確認方法</h3><p>上記の Hello プログラムを保存し、<code>javac Hello.java</code> でコンパイル、<code>java Hello</code> で実行してみてください。画面に <code>Hello, Java!</code> と表示されれば成功です。</p><h2>まとめ</h2><p>Java の基礎構文は「クラス → main → 文」という流れで理解できます。セミコロンとブロックのルールを守れば、次の回から変数や制御構文をスムーズに学べます。</p>",
+  "conclusion": "Java の基礎構文では、クラス定義・main メソッド・セミコロン・ブロックの4点が中心です。最小プログラムを自分で書き、コンパイルと実行まで体験しておきましょう。次回は変数とデータ型で、プログラムに値を保持する方法を学びます。",
+  "tags": [
+    "Java",
+    "構文",
+    "初心者"
+  ],
+  "category": "プログラミング",
+  "theme": "java - Java",
+  "status": "published",
+  "createdAt": "2026-05-29T14:36:44.692Z",
+  "updatedAt": "2026-05-29T14:36:44.694Z",
+  "publishedAt": "2026-05-29T14:36:44.692Z",
+  "metaTitle": "Javaの基礎構文",
+  "metaDescription": "Javaプログラムの骨格となる基礎構文を学びます。クラス定義、mainメソッド、文と式、コメント、セミコロンの役割を押さえましょう。",
+  "ogTitle": "Javaの基礎構文",
+  "ogDescription": "Javaプログラムの骨格となる基礎構文を学びます。クラス定義、mainメソッド、文と式、コメント、セミコロンの役割を押さえましょう。",
+  "knowledge": {
+    "topic": "java",
+    "courseId": "java",
+    "episode": 2
+  },
+  "faq": [
+    {
+      "question": "ファイル名とクラス名は一致が必要？",
+      "answer": "public クラスはファイル名と一致させる必要があります。"
+    },
+    {
+      "question": "セミコロンを忘れると？",
+      "answer": "コンパイルエラーになり、プログラムは動きません。"
+    }
+  ],
+  "nextEpisodeHint": "次回は変数とデータ型について学び、プログラムにデータを扱う仕組みを理解します。",
+  "canonical": "https://ai-site-iota-nine.vercel.app/article/java-syntax",
+  "jsonLd": {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        "headline": "Javaの基礎構文",
+        "description": "Javaプログラムの骨格となる基礎構文を学びます。クラス定義、mainメソッド、文と式、コメント、セミコロンの役割を押さえましょう。",
+        "datePublished": "2026-05-29T14:36:44.692Z",
+        "dateModified": "2026-05-29T14:36:44.694Z",
+        "author": {
+          "@type": "Organization",
+          "name": "StackShelf"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app"
+        },
+        "mainEntityOfPage": {
+          "@type": "WebPage",
+          "@id": "https://ai-site-iota-nine.vercel.app/article/java-syntax"
+        },
+        "keywords": "Java, 構文, 初心者",
+        "articleSection": "プログラミング",
+        "url": "https://ai-site-iota-nine.vercel.app/article/java-syntax"
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "ホーム",
+            "item": "https://ai-site-iota-nine.vercel.app"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "java",
+            "item": "https://ai-site-iota-nine.vercel.app/knowledge/java"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "Java",
+            "item": "https://ai-site-iota-nine.vercel.app/course/java/java"
+          },
+          {
+            "@type": "ListItem",
+            "position": 4,
+            "name": "Javaの基礎構文",
+            "item": "https://ai-site-iota-nine.vercel.app/article/java-syntax"
+          }
+        ]
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "Course",
+        "name": "Java",
+        "description": "Javaプログラミング言語の基礎から応用までを学習する講座です。初心者向けにJavaの基本構文、オブジェクト指向、データ構造、アルゴリズムなどを解説します。",
+        "provider": {
+          "@type": "Organization",
+          "name": "StackShelf"
+        }
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "ファイル名とクラス名は一致が必要？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "public クラスはファイル名と一致させる必要があります。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "セミコロンを忘れると？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "コンパイルエラーになり、プログラムは動きません。"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "breadcrumb": {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "ホーム",
+        "item": "https://ai-site-iota-nine.vercel.app"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "java",
+        "item": "https://ai-site-iota-nine.vercel.app/knowledge/java"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "Java",
+        "item": "https://ai-site-iota-nine.vercel.app/course/java/java"
+      },
+      {
+        "@type": "ListItem",
+        "position": 4,
+        "name": "Javaの基礎構文",
+        "item": "https://ai-site-iota-nine.vercel.app/article/java-syntax"
+      }
+    ]
+  },
+  "courseSchema": {
+    "@context": "https://schema.org",
+    "@type": "Course",
+    "name": "Java",
+    "description": "Javaプログラミング言語の基礎から応用までを学習する講座です。初心者向けにJavaの基本構文、オブジェクト指向、データ構造、アルゴリズムなどを解説します。",
+    "provider": {
+      "@type": "Organization",
+      "name": "StackShelf"
+    }
+  },
+  "faqSchema": {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "ファイル名とクラス名は一致が必要？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "public クラスはファイル名と一致させる必要があります。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "セミコロンを忘れると？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "コンパイルエラーになり、プログラムは動きません。"
+        }
+      }
+    ]
+  }
+}

@@ -1,0 +1,196 @@
+{
+  "id": "art_1780054187631",
+  "slug": "java-control-structures",
+  "title": "Java制御構文の基礎",
+  "summary": "Javaの制御構文は、プログラムの流れを制御するために使用されます。if文、switch文、for文、while文などの種類があります。このエピソードでは、Javaの制御構文の基礎を学びます。",
+  "body": "<h2>制御構文の概要</h2><p>Javaの制御構文は、プログラムの流れを制御するために使用されます。条件に応じて、プログラムの実行を分岐したり、繰り返し実行したりすることができます。</p><h3>if文</h3><p>if文は、条件に応じて、プログラムの実行を分岐するために使用されます。例えば、次のコードでは、xが5より大きい場合にのみ、コンソールに「xは5より大きい」と表示されます。</p><pre><code>int x = 10;\nif (x > 5) {\n    System.out.println(\"xは5より大きい\");\n}</code></pre><h3>switch文</h3><p>switch文は、複数の条件に応じて、プログラムの実行を分岐するために使用されます。例えば、次のコードでは、xの値に応じて、コンソールに「xは1」、「xは2」、「xは3」などと表示されます。</p><pre><code>int x = 2;\nswitch (x) {\n    case 1:\n        System.out.println(\"xは1\");\n        break;\n    case 2:\n        System.out.println(\"xは2\");\n        break;\n    case 3:\n        System.out.println(\"xは3\");\n        break;\n    default:\n        System.out.println(\"xは1、2、3以外\");\n        break;\n}</code></pre><h3>for文</h3><p>for文は、指定された回数、繰り返し実行するために使用されます。例えば、次のコードでは、コンソールに「1」、「2」、「3」、「4」、「5」と表示されます。</p><pre><code>for (int i = 1; i <= 5; i++) {\n    System.out.println(i);\n}</code></pre><h3>while文</h3><p>while文は、条件が真である限り、繰り返し実行するために使用されます。例えば、次のコードでは、コンソールに「1」、「2」、「3」、「4」、「5」と表示されます。</p><pre><code>int i = 1;\nwhile (i <= 5) {\n    System.out.println(i);\n    i++;\n}</code></pre>",
+  "conclusion": "Javaの制御構文は、プログラムの流れを制御するために使用されます。if文、switch文、for文、while文などの種類があります。このエピソードでは、Javaの制御構文の基礎を学びました。次のエピソードでは、Javaの関数について学びます。",
+  "tags": [
+    "Java",
+    "制御構文",
+    "if文",
+    "switch文",
+    "for文",
+    "while文"
+  ],
+  "category": "Java",
+  "theme": "java - Java",
+  "status": "published",
+  "createdAt": "2026-05-29T11:29:47.621Z",
+  "updatedAt": "2026-05-29T14:35:19.470Z",
+  "publishedAt": "2026-05-29T11:29:47.621Z",
+  "metaTitle": "Java制御構文の基礎",
+  "metaDescription": "Javaの制御構文は、プログラムの流れを制御するために使用されます。if文、switch文、for文、while文などの種類があります。",
+  "ogTitle": "Java制御構文の基礎",
+  "ogDescription": "Javaの制御構文は、プログラムの流れを制御するために使用されます。if文、switch文、for文、while文などの種類があります。",
+  "knowledge": {
+    "topic": "java",
+    "courseId": "java",
+    "episode": 4
+  },
+  "faq": [
+    {
+      "question": "Javaの制御構文は何ですか？",
+      "answer": "Javaの制御構文は、プログラムの流れを制御するために使用されます。if文、switch文、for文、while文などの種類があります。"
+    },
+    {
+      "question": "if文の使い方は何ですか？",
+      "answer": "if文は、条件に応じて、プログラムの実行を分岐するために使用されます。例えば、xが5より大きい場合にのみ、コンソールに「xは5より大きい」と表示されます。"
+    }
+  ],
+  "nextEpisodeHint": "次のエピソードでは、Javaの関数について学びます。",
+  "canonical": "https://ai-site-iota-nine.vercel.app/article/java-control-structures",
+  "jsonLd": {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        "headline": "Java制御構文の基礎",
+        "description": "Javaの制御構文は、プログラムの流れを制御するために使用されます。if文、switch文、for文、while文などの種類があります。",
+        "datePublished": "2026-05-29T11:29:47.621Z",
+        "dateModified": "2026-05-29T14:35:19.470Z",
+        "author": {
+          "@type": "Organization",
+          "name": "StackShelf"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app"
+        },
+        "mainEntityOfPage": {
+          "@type": "WebPage",
+          "@id": "https://ai-site-iota-nine.vercel.app/article/java-control-structures"
+        },
+        "keywords": "Java, 制御構文, if文, switch文, for文, while文",
+        "articleSection": "Java",
+        "url": "https://ai-site-iota-nine.vercel.app/article/java-control-structures"
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "ホーム",
+            "item": "https://ai-site-iota-nine.vercel.app"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "java",
+            "item": "https://ai-site-iota-nine.vercel.app/knowledge/java"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "Java",
+            "item": "https://ai-site-iota-nine.vercel.app/course/java/java"
+          },
+          {
+            "@type": "ListItem",
+            "position": 4,
+            "name": "Java制御構文の基礎",
+            "item": "https://ai-site-iota-nine.vercel.app/article/java-control-structures"
+          }
+        ]
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "Course",
+        "name": "Java",
+        "description": "Javaプログラミング言語の基礎から応用までを学習する講座です。初心者向けにJavaの基本構文、オブジェクト指向、データ構造、アルゴリズムなどを解説します。",
+        "provider": {
+          "@type": "Organization",
+          "name": "StackShelf"
+        }
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "Javaの制御構文は何ですか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Javaの制御構文は、プログラムの流れを制御するために使用されます。if文、switch文、for文、while文などの種類があります。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "if文の使い方は何ですか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "if文は、条件に応じて、プログラムの実行を分岐するために使用されます。例えば、xが5より大きい場合にのみ、コンソールに「xは5より大きい」と表示されます。"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "breadcrumb": {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "ホーム",
+        "item": "https://ai-site-iota-nine.vercel.app"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "java",
+        "item": "https://ai-site-iota-nine.vercel.app/knowledge/java"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "Java",
+        "item": "https://ai-site-iota-nine.vercel.app/course/java/java"
+      },
+      {
+        "@type": "ListItem",
+        "position": 4,
+        "name": "Java制御構文の基礎",
+        "item": "https://ai-site-iota-nine.vercel.app/article/java-control-structures"
+      }
+    ]
+  },
+  "courseSchema": {
+    "@context": "https://schema.org",
+    "@type": "Course",
+    "name": "Java",
+    "description": "Javaプログラミング言語の基礎から応用までを学習する講座です。初心者向けにJavaの基本構文、オブジェクト指向、データ構造、アルゴリズムなどを解説します。",
+    "provider": {
+      "@type": "Organization",
+      "name": "StackShelf"
+    }
+  },
+  "faqSchema": {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "Javaの制御構文は何ですか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Javaの制御構文は、プログラムの流れを制御するために使用されます。if文、switch文、for文、while文などの種類があります。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "if文の使い方は何ですか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "if文は、条件に応じて、プログラムの実行を分岐するために使用されます。例えば、xが5より大きい場合にのみ、コンソールに「xは5より大きい」と表示されます。"
+        }
+      }
+    ]
+  }
+}

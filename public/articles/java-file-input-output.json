@@ -1,0 +1,192 @@
+{
+  "slug": "java-file-input-output",
+  "title": "Javaのファイル入出力",
+  "summary": "Java でファイルを読み書きする方法を学びます。java.nio.file、Files、BufferedReader の基本と try-with-resources を解説します。",
+  "body": "<h2>導入</h2><p>アプリ開発では設定ファイルやログ、CSV など<strong>ファイルの読み書き</strong>が頻繁に登場します。Java 11 以降は <code>java.nio.file</code> を使うのが定番です。</p><h2>テキストファイルを読む</h2><pre><code>import java.nio.file.*;\n\nString text = Files.readString(Path.of(\"data.txt\"));\nSystem.out.println(text);</code></pre><p><code>Path.of</code> でパスを作り、<code>Files.readString</code> で一括読み込みします。小さなファイル向けです。</p><h3>文字コードを指定する</h3><pre><code>Files.readString(Path.of(\"data.txt\"), StandardCharsets.UTF_8);</code></pre><p>Windows 環境では UTF-8 を明示すると文字化けを防ぎやすいです。</p><h2>テキストファイルを書く</h2><pre><code>Files.writeString(\n    Path.of(\"out.txt\"),\n    \"Hello\\nWorld\",\n    StandardCharsets.UTF_8\n);</code></pre><p>既存ファイルは上書きされます。追記したい場合は <code>StandardOpenOption.APPEND</code> を使います。</p><h2>try-with-resources</h2><p>ストリームを使うときは必ず閉じる必要があります。<strong>try-with-resources</strong> を使うと自動でクローズされます。</p><pre><code>try (var reader = Files.newBufferedReader(Path.of(\"data.txt\"))) {\n    String line;\n    while ((line = reader.readLine()) != null) {\n        System.out.println(line);\n    }\n}</code></pre><h3>よくあるつまずき</h3><p>相対パスは「実行時のカレントディレクトリ」基準です。IDE から実行すると想定と違う場所を見に行くことがあります。パスをログ出力して確認しましょう。</p><h2>確認方法</h2><p>テスト用に <code>sample.txt</code> を作り、読み込み→加工→別名保存まで試してください。例外 <code>IOException</code> が出たら、ファイルの存在とパスを確認します。</p><h2>まとめ</h2><p>ファイル IO は <code>Path</code> と <code>Files</code> を中心に覚え、大きなデータは BufferedReader で行単位処理します。リソースは try-with-resources で確実に閉じましょう。</p>",
+  "conclusion": "Java のファイル入出力では Path・Files・try-with-resources が基本セットです。UTF-8 を意識し、例外処理とセットで練習すると実務に近づきます。次回はネットワーク通信の入り口であるソケットを学びます。",
+  "tags": [
+    "Java",
+    "ファイル",
+    "IO"
+  ],
+  "category": "プログラミング",
+  "theme": "java - Java",
+  "status": "published",
+  "createdAt": "2026-05-29T14:36:44.782Z",
+  "updatedAt": "2026-05-29T14:36:44.782Z",
+  "publishedAt": "2026-05-29T14:36:44.782Z",
+  "metaTitle": "Javaのファイル入出力",
+  "metaDescription": "Java でファイルを読み書きする方法を学びます。java.nio.file、Files、BufferedReader の基本と try-with-resources を解説します。",
+  "ogTitle": "Javaのファイル入出力",
+  "ogDescription": "Java でファイルを読み書きする方法を学びます。java.nio.file、Files、BufferedReader の基本と try-with-resources を解説します。",
+  "knowledge": {
+    "topic": "java",
+    "courseId": "java",
+    "episode": 12
+  },
+  "faq": [
+    {
+      "question": "IOException とは？",
+      "answer": "入出力処理で起きうる例外で、ファイル不存在などを表します。"
+    },
+    {
+      "question": "追記したい場合は？",
+      "answer": "Files.write に StandardOpenOption.APPEND を指定します。"
+    }
+  ],
+  "nextEpisodeHint": "次回はネットワークプログラミングに進み、ソケット通信の基礎を学びます。",
+  "canonical": "https://ai-site-iota-nine.vercel.app/article/java-file-input-output",
+  "jsonLd": {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        "headline": "Javaのファイル入出力",
+        "description": "Java でファイルを読み書きする方法を学びます。java.nio.file、Files、BufferedReader の基本と try-with-resources を解説します。",
+        "datePublished": "2026-05-29T14:36:44.782Z",
+        "dateModified": "2026-05-29T14:36:44.782Z",
+        "author": {
+          "@type": "Organization",
+          "name": "StackShelf"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app"
+        },
+        "mainEntityOfPage": {
+          "@type": "WebPage",
+          "@id": "https://ai-site-iota-nine.vercel.app/article/java-file-input-output"
+        },
+        "keywords": "Java, ファイル, IO",
+        "articleSection": "プログラミング",
+        "url": "https://ai-site-iota-nine.vercel.app/article/java-file-input-output"
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "ホーム",
+            "item": "https://ai-site-iota-nine.vercel.app"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "java",
+            "item": "https://ai-site-iota-nine.vercel.app/knowledge/java"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "Java",
+            "item": "https://ai-site-iota-nine.vercel.app/course/java/java"
+          },
+          {
+            "@type": "ListItem",
+            "position": 4,
+            "name": "Javaのファイル入出力",
+            "item": "https://ai-site-iota-nine.vercel.app/article/java-file-input-output"
+          }
+        ]
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "Course",
+        "name": "Java",
+        "description": "Javaプログラミング言語の基礎から応用までを学習する講座です。初心者向けにJavaの基本構文、オブジェクト指向、データ構造、アルゴリズムなどを解説します。",
+        "provider": {
+          "@type": "Organization",
+          "name": "StackShelf"
+        }
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "IOException とは？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "入出力処理で起きうる例外で、ファイル不存在などを表します。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "追記したい場合は？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Files.write に StandardOpenOption.APPEND を指定します。"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "breadcrumb": {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "ホーム",
+        "item": "https://ai-site-iota-nine.vercel.app"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "java",
+        "item": "https://ai-site-iota-nine.vercel.app/knowledge/java"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "Java",
+        "item": "https://ai-site-iota-nine.vercel.app/course/java/java"
+      },
+      {
+        "@type": "ListItem",
+        "position": 4,
+        "name": "Javaのファイル入出力",
+        "item": "https://ai-site-iota-nine.vercel.app/article/java-file-input-output"
+      }
+    ]
+  },
+  "courseSchema": {
+    "@context": "https://schema.org",
+    "@type": "Course",
+    "name": "Java",
+    "description": "Javaプログラミング言語の基礎から応用までを学習する講座です。初心者向けにJavaの基本構文、オブジェクト指向、データ構造、アルゴリズムなどを解説します。",
+    "provider": {
+      "@type": "Organization",
+      "name": "StackShelf"
+    }
+  },
+  "faqSchema": {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "IOException とは？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "入出力処理で起きうる例外で、ファイル不存在などを表します。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "追記したい場合は？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Files.write に StandardOpenOption.APPEND を指定します。"
+        }
+      }
+    ]
+  }
+}

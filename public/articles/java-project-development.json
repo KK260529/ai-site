@@ -1,0 +1,192 @@
+{
+  "slug": "java-project-development",
+  "title": "Javaのプロジェクト開発",
+  "summary": "小さな Java プロジェクトを設計・実装・ビルドする流れを学びます。パッケージ構成、Maven/Gradle の概要、テストと README の重要性を解説します。",
+  "body": "<h2>導入</h2><p>これまで学んだ文法・OOP・コレクション・IO を<strong>1つのプロジェクト</strong>にまとめる段階です。実務に近い流れを体験しましょう。</p><h2>プロジェクト構成</h2><pre><code>my-app/\n  src/main/java/com/example/App.java\n  src/test/java/com/example/AppTest.java\n  pom.xml  （Maven の場合）</code></pre><p>パッケージ名は逆ドメイン形式（<code>com.example</code>）が慣例です。</p><h3>ビルドツール</h3><p><strong>Maven</strong> と <strong>Gradle</strong> が主流です。依存ライブラリの取得、コンパイル、テスト、JAR 作成を自動化します。</p><h2>開発の流れ</h2><ol><li>要件を1段落で書く（誰が何をしたいか）</li><li>クラスと責務を紙に分割</li><li>main から動く最小版を作る</li><li>JUnit でテストを追加</li><li>README に実行手順を書く</li></ol><h2>ミニプロジェクト例</h2><p>「TODO をファイル保存する CLI アプリ」なら、<code>Todo</code> モデル、<code>TodoRepository</code>（ファイル IO）、<code>App</code>（CLI）に分けると拡張しやすいです。</p><h3>よくあるつまずき</h3><p>最初から大きな設計を目指すより、<strong>動く最小版</strong>を早く作る方が学習効率が高いです。リファクタリングは後からで構いません。</p><h2>確認方法</h2><p><code>mvn test</code> または <code>gradle test</code> が通る状態を目標にしてください。CI（GitHub Actions 等）は余裕があれば追加します。</p><h2>まとめ</h2><p>プロジェクト開発は「構成・ビルド・テスト・ドキュメント」の4点セットです。小さな完成品を1つ作る経験が、これまでの学習を定着させます。</p>",
+  "conclusion": "Java プロジェクトは標準ディレクトリ構成とビルドツールを使い、最小動作から育てるのが成功の近道です。README とテストを忘れず、オリジナルアプリ制作に挑戦して講座を締めくくりましょう。",
+  "tags": [
+    "Java",
+    "プロジェクト",
+    "Maven"
+  ],
+  "category": "プログラミング",
+  "theme": "java - Java",
+  "status": "published",
+  "createdAt": "2026-05-29T14:36:45.328Z",
+  "updatedAt": "2026-05-29T14:36:45.329Z",
+  "publishedAt": "2026-05-29T14:36:45.328Z",
+  "metaTitle": "Javaのプロジェクト開発",
+  "metaDescription": "小さな Java プロジェクトを設計・実装・ビルドする流れを学びます。パッケージ構成、Maven/Gradle の概要、テストと README の重要性を解説します。",
+  "ogTitle": "Javaのプロジェクト開発",
+  "ogDescription": "小さな Java プロジェクトを設計・実装・ビルドする流れを学びます。パッケージ構成、Maven/Gradle の概要、テストと README の重要性を解説します。",
+  "knowledge": {
+    "topic": "java",
+    "courseId": "java",
+    "episode": 20
+  },
+  "faq": [
+    {
+      "question": "Maven と Gradle はどちら？",
+      "answer": "どちらも主流です。教材や職場に合わせて選べば問題ありません。"
+    },
+    {
+      "question": "IDE は必要？",
+      "answer": "IntelliJ IDEA や Eclipse があると効率的ですが、エディタ+CLI でも可能です。"
+    }
+  ],
+  "nextEpisodeHint": "講座の総仕上げとして、学んだ内容を組み合わせたオリジナルアプリに挑戦してみましょう。",
+  "canonical": "https://ai-site-iota-nine.vercel.app/article/java-project-development",
+  "jsonLd": {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        "headline": "Javaのプロジェクト開発",
+        "description": "小さな Java プロジェクトを設計・実装・ビルドする流れを学びます。パッケージ構成、Maven/Gradle の概要、テストと README の重要性を解説します。",
+        "datePublished": "2026-05-29T14:36:45.328Z",
+        "dateModified": "2026-05-29T14:36:45.329Z",
+        "author": {
+          "@type": "Organization",
+          "name": "StackShelf"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app"
+        },
+        "mainEntityOfPage": {
+          "@type": "WebPage",
+          "@id": "https://ai-site-iota-nine.vercel.app/article/java-project-development"
+        },
+        "keywords": "Java, プロジェクト, Maven",
+        "articleSection": "プログラミング",
+        "url": "https://ai-site-iota-nine.vercel.app/article/java-project-development"
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "ホーム",
+            "item": "https://ai-site-iota-nine.vercel.app"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "java",
+            "item": "https://ai-site-iota-nine.vercel.app/knowledge/java"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "Java",
+            "item": "https://ai-site-iota-nine.vercel.app/course/java/java"
+          },
+          {
+            "@type": "ListItem",
+            "position": 4,
+            "name": "Javaのプロジェクト開発",
+            "item": "https://ai-site-iota-nine.vercel.app/article/java-project-development"
+          }
+        ]
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "Course",
+        "name": "Java",
+        "description": "Javaプログラミング言語の基礎から応用までを学習する講座です。初心者向けにJavaの基本構文、オブジェクト指向、データ構造、アルゴリズムなどを解説します。",
+        "provider": {
+          "@type": "Organization",
+          "name": "StackShelf"
+        }
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "Maven と Gradle はどちら？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "どちらも主流です。教材や職場に合わせて選べば問題ありません。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "IDE は必要？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "IntelliJ IDEA や Eclipse があると効率的ですが、エディタ+CLI でも可能です。"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "breadcrumb": {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "ホーム",
+        "item": "https://ai-site-iota-nine.vercel.app"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "java",
+        "item": "https://ai-site-iota-nine.vercel.app/knowledge/java"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "Java",
+        "item": "https://ai-site-iota-nine.vercel.app/course/java/java"
+      },
+      {
+        "@type": "ListItem",
+        "position": 4,
+        "name": "Javaのプロジェクト開発",
+        "item": "https://ai-site-iota-nine.vercel.app/article/java-project-development"
+      }
+    ]
+  },
+  "courseSchema": {
+    "@context": "https://schema.org",
+    "@type": "Course",
+    "name": "Java",
+    "description": "Javaプログラミング言語の基礎から応用までを学習する講座です。初心者向けにJavaの基本構文、オブジェクト指向、データ構造、アルゴリズムなどを解説します。",
+    "provider": {
+      "@type": "Organization",
+      "name": "StackShelf"
+    }
+  },
+  "faqSchema": {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "Maven と Gradle はどちら？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "どちらも主流です。教材や職場に合わせて選べば問題ありません。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "IDE は必要？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "IntelliJ IDEA や Eclipse があると効率的ですが、エディタ+CLI でも可能です。"
+        }
+      }
+    ]
+  }
+}

@@ -8,6 +8,43 @@ const { sanitizeHtml } = require("./sanitize");
 const { canWriteToDisk } = require("./runtime");
 
 const ARTICLES_DIR = path.join(config.rootDir, config.articlesDir);
+const PUBLIC_ARTICLES_DIR = path.join(config.publicDir, "articles");
+
+function ensurePublicArticlesDir() {
+  if (!canWriteToDisk()) return;
+  try {
+    if (!fs.existsSync(PUBLIC_ARTICLES_DIR)) {
+      fs.mkdirSync(PUBLIC_ARTICLES_DIR, { recursive: true });
+    }
+  } catch {
+    /* read-only FS */
+  }
+}
+
+function mirrorPublishedArticle(article) {
+  if (article.status !== "published") return;
+  ensurePublicArticlesDir();
+  try {
+    const dest = path.join(PUBLIC_ARTICLES_DIR, `${article.slug}.json`);
+    fs.writeFileSync(dest, JSON.stringify(article, null, 2), "utf-8");
+  } catch {
+    /* ignore on read-only */
+  }
+}
+
+function removePublicArticle(slug) {
+  const dest = path.join(PUBLIC_ARTICLES_DIR, `${slug}.json`);
+  if (fs.existsSync(dest)) {
+    fs.unlinkSync(dest);
+    return true;
+  }
+  return false;
+}
+
+function articleDirsForRead() {
+  const dirs = [PUBLIC_ARTICLES_DIR, ARTICLES_DIR];
+  return [...new Set(dirs)];
+}
 
 function ensureDir() {
   if (!canWriteToDisk()) return;
@@ -24,9 +61,17 @@ function getFilePath(slug) {
   return path.join(ARTICLES_DIR, `${slug}.json`);
 }
 
+function findArticlePath(slug) {
+  for (const dir of articleDirsForRead()) {
+    const filePath = path.join(dir, `${slug}.json`);
+    if (fs.existsSync(filePath)) return filePath;
+  }
+  return null;
+}
+
 function readArticleFile(slug) {
-  const filePath = getFilePath(slug);
-  if (!fs.existsSync(filePath)) return null;
+  const filePath = findArticlePath(slug);
+  if (!filePath) return null;
   const raw = fs.readFileSync(filePath, "utf-8");
   return JSON.parse(raw);
 }
@@ -38,34 +83,37 @@ function writeArticleFile(article) {
   ensureDir();
   const filePath = getFilePath(article.slug);
   fs.writeFileSync(filePath, JSON.stringify(article, null, 2), "utf-8");
+  mirrorPublishedArticle(article);
   return article;
 }
 
 function deleteArticleFile(slug) {
+  let ok = false;
   const filePath = getFilePath(slug);
   if (fs.existsSync(filePath)) {
     fs.unlinkSync(filePath);
-    return true;
+    ok = true;
   }
-  return false;
+  if (removePublicArticle(slug)) ok = true;
+  return ok;
 }
 
 function listAllArticles() {
-  if (!fs.existsSync(ARTICLES_DIR)) {
-    return [];
-  }
-  const files = fs.readdirSync(ARTICLES_DIR).filter((f) => f.endsWith(".json"));
-  const articles = files
-    .map((f) => {
+  const bySlug = new Map();
+  for (const dir of articleDirsForRead()) {
+    if (!fs.existsSync(dir)) continue;
+    for (const f of fs.readdirSync(dir).filter((name) => name.endsWith(".json"))) {
       try {
-        return JSON.parse(fs.readFileSync(path.join(ARTICLES_DIR, f), "utf-8"));
+        const article = JSON.parse(fs.readFileSync(path.join(dir, f), "utf-8"));
+        if (article?.slug && !bySlug.has(article.slug)) {
+          bySlug.set(article.slug, article);
+        }
       } catch {
-        return null;
+        /* skip bad file */
       }
-    })
-    .filter(Boolean);
-
-  return articles.sort(
+    }
+  }
+  return [...bySlug.values()].sort(
     (a, b) => new Date(b.publishedAt || b.createdAt) - new Date(a.publishedAt || a.createdAt)
   );
 }
@@ -163,6 +211,8 @@ function searchArticles(query, { category, tag, publishedOnly = false } = {}) {
 
 module.exports = {
   ensureDir,
+  ensurePublicArticlesDir,
+  mirrorPublishedArticle,
   listAllArticles,
   getPublishedArticles,
   readArticleFile,

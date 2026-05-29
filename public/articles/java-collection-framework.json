@@ -1,0 +1,192 @@
+{
+  "slug": "java-collection-framework",
+  "title": "Javaのコレクションフレームワーク",
+  "summary": "List、Set、Map の使い分けと ArrayList、HashMap の基本操作を学びます。ジェネリクス付きコレクションの書き方も押さえます。",
+  "body": "<h2>導入</h2><p>複数のデータをまとめて扱う仕組みが<strong>コレクションフレームワーク</strong>です。配列より柔軟で、標準 API が豊富です。</p><h2>List（リスト）</h2><pre><code>List&lt;String&gt; names = new ArrayList&lt;&gt;();\nnames.add(\"Java\");\nnames.add(\"Kotlin\");\nSystem.out.println(names.get(0));</code></pre><p>順序があり、同じ要素を許容します。インデックスでアクセスできます。</p><h3>Set（セット）</h3><pre><code>Set&lt;Integer&gt; ids = new HashSet&lt;&gt;();\nids.add(1);\nids.add(1);\nSystem.out.println(ids.size()); // 1</code></pre><p>重複を許しません。存在確認に向いています。</p><h2>Map（マップ）</h2><pre><code>Map&lt;String, Integer&gt; scores = new HashMap&lt;&gt;();\nscores.put(\"Alice\", 90);\nscores.put(\"Bob\", 85);\nSystem.out.println(scores.get(\"Alice\"));</code></pre><p>キーと値のペアでデータを管理します。辞書のようなイメージです。</p><h2>使い分けの目安</h2><ul><li>順序付きリスト → ArrayList</li><li>重複排除 → HashSet</li><li>ID からオブジェクト検索 → HashMap</li></ul><h3>よくある誤解</h3><p>配列と List は似ていますが、List はサイズ可変で便利なメソッドが多いです。新規コードでは List を優先することが多いです。</p><h2>確認方法</h2><p>小さな単語カウンタを Map で作り、入力単語の出現回数を数えてみてください。</p><h2>まとめ</h2><p>コレクションは Java 実務の中心です。List / Set / Map の特性を理解し、ジェネリクス付きで型安全に使いましょう。</p>",
+  "conclusion": "コレクションフレームワークでは List・Set・Map の違いが最重要です。ArrayList と HashMap を自由に使えるよう練習し、次回の Stream API へ進みましょう。",
+  "tags": [
+    "Java",
+    "コレクション",
+    "List"
+  ],
+  "category": "プログラミング",
+  "theme": "java - Java",
+  "status": "published",
+  "createdAt": "2026-05-29T14:36:45.024Z",
+  "updatedAt": "2026-05-29T14:36:45.025Z",
+  "publishedAt": "2026-05-29T14:36:45.024Z",
+  "metaTitle": "Javaのコレクションフレームワーク",
+  "metaDescription": "List、Set、Map の使い分けと ArrayList、HashMap の基本操作を学びます。ジェネリクス付きコレクションの書き方も押さえます。",
+  "ogTitle": "Javaのコレクションフレームワーク",
+  "ogDescription": "List、Set、Map の使い分けと ArrayList、HashMap の基本操作を学びます。ジェネリクス付きコレクションの書き方も押さえます。",
+  "knowledge": {
+    "topic": "java",
+    "courseId": "java",
+    "episode": 15
+  },
+  "faq": [
+    {
+      "question": "ArrayList と LinkedList の違いは？",
+      "answer": "ArrayList は末尾追加が速く、LinkedList は先頭付近の挿入削除に向く場合があります。"
+    },
+    {
+      "question": "null は入れられる？",
+      "answer": "多くの実装では null を許容しますが、設計上は避けることが多いです。"
+    }
+  ],
+  "nextEpisodeHint": "次回は Stream API で、コレクションを宣言的に処理する方法を学びます。",
+  "canonical": "https://ai-site-iota-nine.vercel.app/article/java-collection-framework",
+  "jsonLd": {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        "headline": "Javaのコレクションフレームワーク",
+        "description": "List、Set、Map の使い分けと ArrayList、HashMap の基本操作を学びます。ジェネリクス付きコレクションの書き方も押さえます。",
+        "datePublished": "2026-05-29T14:36:45.024Z",
+        "dateModified": "2026-05-29T14:36:45.025Z",
+        "author": {
+          "@type": "Organization",
+          "name": "StackShelf"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app"
+        },
+        "mainEntityOfPage": {
+          "@type": "WebPage",
+          "@id": "https://ai-site-iota-nine.vercel.app/article/java-collection-framework"
+        },
+        "keywords": "Java, コレクション, List",
+        "articleSection": "プログラミング",
+        "url": "https://ai-site-iota-nine.vercel.app/article/java-collection-framework"
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "ホーム",
+            "item": "https://ai-site-iota-nine.vercel.app"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "java",
+            "item": "https://ai-site-iota-nine.vercel.app/knowledge/java"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "Java",
+            "item": "https://ai-site-iota-nine.vercel.app/course/java/java"
+          },
+          {
+            "@type": "ListItem",
+            "position": 4,
+            "name": "Javaのコレクションフレームワーク",
+            "item": "https://ai-site-iota-nine.vercel.app/article/java-collection-framework"
+          }
+        ]
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "Course",
+        "name": "Java",
+        "description": "Javaプログラミング言語の基礎から応用までを学習する講座です。初心者向けにJavaの基本構文、オブジェクト指向、データ構造、アルゴリズムなどを解説します。",
+        "provider": {
+          "@type": "Organization",
+          "name": "StackShelf"
+        }
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "ArrayList と LinkedList の違いは？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "ArrayList は末尾追加が速く、LinkedList は先頭付近の挿入削除に向く場合があります。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "null は入れられる？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "多くの実装では null を許容しますが、設計上は避けることが多いです。"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "breadcrumb": {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "ホーム",
+        "item": "https://ai-site-iota-nine.vercel.app"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "java",
+        "item": "https://ai-site-iota-nine.vercel.app/knowledge/java"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "Java",
+        "item": "https://ai-site-iota-nine.vercel.app/course/java/java"
+      },
+      {
+        "@type": "ListItem",
+        "position": 4,
+        "name": "Javaのコレクションフレームワーク",
+        "item": "https://ai-site-iota-nine.vercel.app/article/java-collection-framework"
+      }
+    ]
+  },
+  "courseSchema": {
+    "@context": "https://schema.org",
+    "@type": "Course",
+    "name": "Java",
+    "description": "Javaプログラミング言語の基礎から応用までを学習する講座です。初心者向けにJavaの基本構文、オブジェクト指向、データ構造、アルゴリズムなどを解説します。",
+    "provider": {
+      "@type": "Organization",
+      "name": "StackShelf"
+    }
+  },
+  "faqSchema": {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "ArrayList と LinkedList の違いは？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "ArrayList は末尾追加が速く、LinkedList は先頭付近の挿入削除に向く場合があります。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "null は入れられる？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "多くの実装では null を許容しますが、設計上は避けることが多いです。"
+        }
+      }
+    ]
+  }
+}

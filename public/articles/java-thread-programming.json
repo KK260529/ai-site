@@ -1,0 +1,192 @@
+{
+  "slug": "java-thread-programming",
+  "title": "Javaのスレッドプログラミング",
+  "summary": "Thread と Runnable を使った並行処理の基礎を学びます。スレッドの起動、共有データの注意点、ExecutorService の概要を解説します。",
+  "body": "<h2>導入</h2><p>ダウンロードと UI 更新を同時に行うなど、<strong>並行処理</strong>は現代アプリの基本です。Java ではスレッドで複数処理を同時進行させられます。</p><h2>Runnable と Thread</h2><pre><code>Runnable task = () -> {\n    System.out.println(\"worker: \" + Thread.currentThread().getName());\n};\nThread t = new Thread(task);\nt.start();\nt.join();</code></pre><p><code>start()</code> で新しいスレッドが動き、<code>join()</code> で終了を待ちます。</p><h3>run と start の違い</h3><p><code>run()</code> を直接呼ぶと新スレッドは作られず、普通のメソッド呼び出しになります。必ず <code>start()</code> を使います。</p><h2>共有データへの注意</h2><p>複数スレッドが同じ変数を更新すると、結果が不定になることがあります。</p><pre><code>synchronized (lock) {\n    count++;\n}</code></pre><p>重要な更新は <code>synchronized</code> ブロックや <code>AtomicInteger</code> などで保護します。</p><h2>ExecutorService</h2><pre><code>ExecutorService pool = Executors.newFixedThreadPool(4);\npool.submit(() -> System.out.println(\"task\"));\npool.shutdown();</code></pre><p>スレッドを毎回作らず、プールで再利用するのが実務的です。</p><h3>確認方法</h3><p>2つのスレッドでカウンタを増やす実験をし、synchronized なし/ありで結果が変わることを確認してください。</p><h2>まとめ</h2><p>スレッドは強力ですが、共有状態の管理が難所です。Runnable→start→join の流れと同期の必要性をセットで覚えましょう。</p>",
+  "conclusion": "Java スレッドの基本は Runnable、start、join です。共有データは同期が必要で、実務では ExecutorService を使う場面が多いです。次回は List や Map の標準実装であるコレクションフレームワークを学びます。",
+  "tags": [
+    "Java",
+    "スレッド",
+    "並行処理"
+  ],
+  "category": "プログラミング",
+  "theme": "java - Java",
+  "status": "published",
+  "createdAt": "2026-05-29T14:36:44.937Z",
+  "updatedAt": "2026-05-29T14:36:44.937Z",
+  "publishedAt": "2026-05-29T14:36:44.937Z",
+  "metaTitle": "Javaのスレッドプログラミング",
+  "metaDescription": "Thread と Runnable を使った並行処理の基礎を学びます。スレッドの起動、共有データの注意点、ExecutorService の概要を解説します。",
+  "ogTitle": "Javaのスレッドプログラミング",
+  "ogDescription": "Thread と Runnable を使った並行処理の基礎を学びます。スレッドの起動、共有データの注意点、ExecutorService の概要を解説します。",
+  "knowledge": {
+    "topic": "java",
+    "courseId": "java",
+    "episode": 14
+  },
+  "faq": [
+    {
+      "question": "sleep 中の例外は？",
+      "answer": "InterruptedException がスローされるため try-catch が必要です。"
+    },
+    {
+      "question": "デーモンスレッドとは？",
+      "answer": "JVM 終了時に自動停止するスレッドです。setDaemon(true) で指定します。"
+    }
+  ],
+  "nextEpisodeHint": "次回はコレクションフレームワークで、データ構造の標準 API を学びます。",
+  "canonical": "https://ai-site-iota-nine.vercel.app/article/java-thread-programming",
+  "jsonLd": {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        "headline": "Javaのスレッドプログラミング",
+        "description": "Thread と Runnable を使った並行処理の基礎を学びます。スレッドの起動、共有データの注意点、ExecutorService の概要を解説します。",
+        "datePublished": "2026-05-29T14:36:44.937Z",
+        "dateModified": "2026-05-29T14:36:44.937Z",
+        "author": {
+          "@type": "Organization",
+          "name": "StackShelf"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app"
+        },
+        "mainEntityOfPage": {
+          "@type": "WebPage",
+          "@id": "https://ai-site-iota-nine.vercel.app/article/java-thread-programming"
+        },
+        "keywords": "Java, スレッド, 並行処理",
+        "articleSection": "プログラミング",
+        "url": "https://ai-site-iota-nine.vercel.app/article/java-thread-programming"
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "ホーム",
+            "item": "https://ai-site-iota-nine.vercel.app"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "java",
+            "item": "https://ai-site-iota-nine.vercel.app/knowledge/java"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "Java",
+            "item": "https://ai-site-iota-nine.vercel.app/course/java/java"
+          },
+          {
+            "@type": "ListItem",
+            "position": 4,
+            "name": "Javaのスレッドプログラミング",
+            "item": "https://ai-site-iota-nine.vercel.app/article/java-thread-programming"
+          }
+        ]
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "Course",
+        "name": "Java",
+        "description": "Javaプログラミング言語の基礎から応用までを学習する講座です。初心者向けにJavaの基本構文、オブジェクト指向、データ構造、アルゴリズムなどを解説します。",
+        "provider": {
+          "@type": "Organization",
+          "name": "StackShelf"
+        }
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "sleep 中の例外は？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "InterruptedException がスローされるため try-catch が必要です。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "デーモンスレッドとは？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "JVM 終了時に自動停止するスレッドです。setDaemon(true) で指定します。"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "breadcrumb": {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "ホーム",
+        "item": "https://ai-site-iota-nine.vercel.app"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "java",
+        "item": "https://ai-site-iota-nine.vercel.app/knowledge/java"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "Java",
+        "item": "https://ai-site-iota-nine.vercel.app/course/java/java"
+      },
+      {
+        "@type": "ListItem",
+        "position": 4,
+        "name": "Javaのスレッドプログラミング",
+        "item": "https://ai-site-iota-nine.vercel.app/article/java-thread-programming"
+      }
+    ]
+  },
+  "courseSchema": {
+    "@context": "https://schema.org",
+    "@type": "Course",
+    "name": "Java",
+    "description": "Javaプログラミング言語の基礎から応用までを学習する講座です。初心者向けにJavaの基本構文、オブジェクト指向、データ構造、アルゴリズムなどを解説します。",
+    "provider": {
+      "@type": "Organization",
+      "name": "StackShelf"
+    }
+  },
+  "faqSchema": {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "sleep 中の例外は？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "InterruptedException がスローされるため try-catch が必要です。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "デーモンスレッドとは？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "JVM 終了時に自動停止するスレッドです。setDaemon(true) で指定します。"
+        }
+      }
+    ]
+  }
+}

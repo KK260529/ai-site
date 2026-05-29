@@ -1,0 +1,12 @@
+{
+  "slug": "java-control-structures",
+  "courseId": "java-beginner-course",
+  "episode": 4,
+  "summaryMemory": [
+    "Javaの制御構文は、プログラムの流れを制御するために使用されます。",
+    "if文、switch文、for文、while文などの種類があります。",
+    "制御構文は、条件に応じて、プログラムの実行を分岐したり、繰り返し実行したりすることができます。"
+  ],
+  "nextEpisodeHint": "次のエピソードでは、Javaの関数について学びます。",
+  "updatedAt": "2026-05-29T11:26:54.988Z"
+}

@@ -1,0 +1,192 @@
+{
+  "id": "art_1780054191748",
+  "slug": "java-arrays",
+  "title": "Javaの配列",
+  "summary": "Javaの配列は、同じデータ型の複数の値を一つの変数に格納することができます。ここでは、配列の定義、初期化、要素へのアクセス、配列の操作について学びます。",
+  "body": "<h2>配列の定義</h2><p>Javaの配列は、同じデータ型の複数の値を一つの変数に格納することができます。配列を定義するには、型の後に[]を付ける必要があります。</p><h3>例</h3><pre><code>int[] scores = {10, 20, 30};</code></pre><h2>配列の初期化</h2><p>配列を初期化するには、{}を使用して値を指定することができます。配列の要素数は、初期化時に指定された値の数によって決定されます。</p><h3>例</h3><pre><code>int[] scores = new int[3];\nscores[0] = 10;\nscores[1] = 20;\nscores[2] = 30;</code></pre><h2>配列の要素へのアクセス</h2><p>配列の要素にアクセスするには、配列の名前とインデックスを使用します。インデックスは0から始まり、配列の要素数より1小さい値まで使用できます。</p><h3>例</h3><pre><code>int score = scores[0];\nSystem.out.println(score); // 10</code></pre>",
+  "conclusion": "このエピソードでは、Javaの配列について学びました。配列は、同じデータ型の複数の値を一つの変数に格納することができます。配列の定義、初期化、要素へのアクセス、配列の操作について学んだことで、Javaプログラミングの基礎をさらに固めることができました。",
+  "tags": [
+    "Java",
+    "配列"
+  ],
+  "category": "Java",
+  "theme": "java - Java初心者講座",
+  "status": "published",
+  "createdAt": "2026-05-29T11:29:51.735Z",
+  "updatedAt": "2026-05-29T11:29:51.932Z",
+  "publishedAt": "2026-05-29T11:29:51.735Z",
+  "metaTitle": "Javaの配列",
+  "metaDescription": "Javaの配列について学ぶ。配列の定義、初期化、要素へのアクセス、配列の操作について解説します。",
+  "ogTitle": "Javaの配列",
+  "ogDescription": "Javaの配列について学ぶ。配列の定義、初期化、要素へのアクセス、配列の操作について解説します。",
+  "knowledge": {
+    "topic": "java",
+    "courseId": "java-beginner-course",
+    "episode": 6
+  },
+  "faq": [
+    {
+      "question": "配列のインデックスは何から始まりますか？",
+      "answer": "0から始まります。"
+    },
+    {
+      "question": "配列の要素数はどうやって決まりますか？",
+      "answer": "初期化時に指定された値の数によって決まります。"
+    }
+  ],
+  "nextEpisodeHint": "次回のエピソードでは、Javaのオブジェクトについて学びます。",
+  "canonical": "http://localhost:3000/article/java-arrays",
+  "jsonLd": {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        "headline": "Javaの配列",
+        "description": "Javaの配列について学ぶ。配列の定義、初期化、要素へのアクセス、配列の操作について解説します。",
+        "datePublished": "2026-05-29T11:29:51.735Z",
+        "dateModified": "2026-05-29T11:29:51.932Z",
+        "author": {
+          "@type": "Organization",
+          "name": "TechMatome AI"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "TechMatome AI",
+          "url": "http://localhost:3000"
+        },
+        "mainEntityOfPage": {
+          "@type": "WebPage",
+          "@id": "http://localhost:3000/article/java-arrays"
+        },
+        "keywords": "Java, 配列",
+        "articleSection": "Java",
+        "url": "http://localhost:3000/article/java-arrays"
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "ホーム",
+            "item": "http://localhost:3000"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "java",
+            "item": "http://localhost:3000/knowledge/java"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "Java初心者講座",
+            "item": "http://localhost:3000/course/java/java-beginner-course"
+          },
+          {
+            "@type": "ListItem",
+            "position": 4,
+            "name": "Javaの配列",
+            "item": "http://localhost:3000/article/java-arrays"
+          }
+        ]
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "Course",
+        "name": "Java初心者講座",
+        "description": "Javaプログラミング言語の基礎から学ぶ講座です。変数、データ型、制御構文、関数、オブジェクト指向プログラミングなどを学び、Javaの基礎を固めることができます。",
+        "provider": {
+          "@type": "Organization",
+          "name": "TechMatome AI"
+        }
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "配列のインデックスは何から始まりますか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "0から始まります。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "配列の要素数はどうやって決まりますか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "初期化時に指定された値の数によって決まります。"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "breadcrumb": {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "ホーム",
+        "item": "http://localhost:3000"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "java",
+        "item": "http://localhost:3000/knowledge/java"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "Java初心者講座",
+        "item": "http://localhost:3000/course/java/java-beginner-course"
+      },
+      {
+        "@type": "ListItem",
+        "position": 4,
+        "name": "Javaの配列",
+        "item": "http://localhost:3000/article/java-arrays"
+      }
+    ]
+  },
+  "courseSchema": {
+    "@context": "https://schema.org",
+    "@type": "Course",
+    "name": "Java初心者講座",
+    "description": "Javaプログラミング言語の基礎から学ぶ講座です。変数、データ型、制御構文、関数、オブジェクト指向プログラミングなどを学び、Javaの基礎を固めることができます。",
+    "provider": {
+      "@type": "Organization",
+      "name": "TechMatome AI"
+    }
+  },
+  "faqSchema": {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "配列のインデックスは何から始まりますか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "0から始まります。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "配列の要素数はどうやって決まりますか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "初期化時に指定された値の数によって決まります。"
+        }
+      }
+    ]
+  }
+}

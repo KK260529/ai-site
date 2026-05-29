@@ -1,0 +1,174 @@
+{
+  "id": "art_1780054202680",
+  "slug": "java-exceptions",
+  "title": "Javaの例外処理",
+  "summary": "Javaにおける例外処理の基礎を理解する。例外が発生したときにプログラムが異常終了しないようにする方法を学ぶ。try-catch-finally文やthrowsキーワードの使い方を実践する。",
+  "body": "<h2>例外処理の基礎</h2><p>Javaでは、プログラムの実行中に予期せぬエラーが発生することがあります。このようなエラーを例外と呼びます。例外が発生したときに、プログラムが異常終了することを防ぐために、例外処理を行います。</p><h3>try-catch-finally文</h3><p>try-catch-finally文は、例外が発生したときに、例外を捕捉して処理するために使用します。tryブロック内で例外が発生した場合、catchブロックで例外を捕捉し、finallyブロックで必要な後処理を行います。</p><pre><code>try {<br>    // 例外が発生する可能性のあるコード<br>} catch (Exception e) {<br>    // 例外を捕捉して処理するコード<br>} finally {<br>    // 必要な後処理を行うコード<br>}</code></pre><h3>throwsキーワード</h3><p>throwsキーワードは、メソッドが例外を投げる可能性があることを示します。throwsキーワードを使用して、メソッドが投げる例外を宣言することができます。</p><pre><code>public void exampleMethod() throws Exception {<br>    // 例外を投げる可能性のあるコード<br>}</code></pre>",
+  "conclusion": "このエピソードでは、Javaにおける例外処理の基礎を学びました。try-catch-finally文やthrowsキーワードの使い方を理解することで、プログラムが異常終了することを防ぐことができます。次回は、Javaのベストプラクティスについて学びます。",
+  "tags": [
+    "Java",
+    "例外処理",
+    "try-catch-finally",
+    "throws"
+  ],
+  "category": "Java",
+  "theme": "java - Java初心者講座",
+  "status": "published",
+  "createdAt": "2026-05-29T11:30:02.657Z",
+  "updatedAt": "2026-05-29T11:30:02.727Z",
+  "publishedAt": "2026-05-29T11:30:02.657Z",
+  "metaTitle": "Javaの例外処理",
+  "metaDescription": "Javaにおける例外処理の基礎を理解する。try-catch-finally文やthrowsキーワードの使い方を学ぶ。",
+  "ogTitle": "Javaの例外処理",
+  "ogDescription": "Javaにおける例外処理の基礎を理解する。try-catch-finally文やthrowsキーワードの使い方を学ぶ。",
+  "knowledge": {
+    "topic": "java",
+    "courseId": "java-beginner-course",
+    "episode": 11
+  },
+  "faq": [
+    {
+      "question": "例外処理の目的は何ですか？",
+      "answer": "例外処理の目的は、プログラムが異常終了することを防ぐことです。"
+    }
+  ],
+  "nextEpisodeHint": "次回は、Javaのベストプラクティスについて学びます。",
+  "canonical": "http://localhost:3000/article/java-exceptions",
+  "jsonLd": {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        "headline": "Javaの例外処理",
+        "description": "Javaにおける例外処理の基礎を理解する。try-catch-finally文やthrowsキーワードの使い方を学ぶ。",
+        "datePublished": "2026-05-29T11:30:02.657Z",
+        "dateModified": "2026-05-29T11:30:02.727Z",
+        "author": {
+          "@type": "Organization",
+          "name": "TechMatome AI"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "TechMatome AI",
+          "url": "http://localhost:3000"
+        },
+        "mainEntityOfPage": {
+          "@type": "WebPage",
+          "@id": "http://localhost:3000/article/java-exceptions"
+        },
+        "keywords": "Java, 例外処理, try-catch-finally, throws",
+        "articleSection": "Java",
+        "url": "http://localhost:3000/article/java-exceptions"
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "ホーム",
+            "item": "http://localhost:3000"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "java",
+            "item": "http://localhost:3000/knowledge/java"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "Java初心者講座",
+            "item": "http://localhost:3000/course/java/java-beginner-course"
+          },
+          {
+            "@type": "ListItem",
+            "position": 4,
+            "name": "Javaの例外処理",
+            "item": "http://localhost:3000/article/java-exceptions"
+          }
+        ]
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "Course",
+        "name": "Java初心者講座",
+        "description": "Javaプログラミング言語の基礎から学ぶ講座です。変数、データ型、制御構文、関数、オブジェクト指向プログラミングなどを学び、Javaの基礎を固めることができます。",
+        "provider": {
+          "@type": "Organization",
+          "name": "TechMatome AI"
+        }
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "例外処理の目的は何ですか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "例外処理の目的は、プログラムが異常終了することを防ぐことです。"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "breadcrumb": {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "ホーム",
+        "item": "http://localhost:3000"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "java",
+        "item": "http://localhost:3000/knowledge/java"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "Java初心者講座",
+        "item": "http://localhost:3000/course/java/java-beginner-course"
+      },
+      {
+        "@type": "ListItem",
+        "position": 4,
+        "name": "Javaの例外処理",
+        "item": "http://localhost:3000/article/java-exceptions"
+      }
+    ]
+  },
+  "courseSchema": {
+    "@context": "https://schema.org",
+    "@type": "Course",
+    "name": "Java初心者講座",
+    "description": "Javaプログラミング言語の基礎から学ぶ講座です。変数、データ型、制御構文、関数、オブジェクト指向プログラミングなどを学び、Javaの基礎を固めることができます。",
+    "provider": {
+      "@type": "Organization",
+      "name": "TechMatome AI"
+    }
+  },
+  "faqSchema": {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "例外処理の目的は何ですか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "例外処理の目的は、プログラムが異常終了することを防ぐことです。"
+        }
+      }
+    ]
+  }
+}

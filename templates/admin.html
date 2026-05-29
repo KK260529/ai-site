@@ -1,0 +1,234 @@
+<div class="admin">
+  <header class="admin__head">
+    <h1>Knowledge CMS</h1>
+    <p>トピック・講座・エピソード・下書き・公開をGUIで完結</p>
+    <div class="admin__status" id="apiStatus"></div>
+  </header>
+
+  <nav class="admin__nav" id="mainNav">
+    <button type="button" class="nav-btn nav-btn--active" data-section="topics">トピック</button>
+    <button type="button" class="nav-btn" data-section="courses">講座</button>
+    <button type="button" class="nav-btn" data-section="generate">記事生成</button>
+    <button type="button" class="nav-btn" data-section="drafts">下書き</button>
+    <button type="button" class="nav-btn" data-section="articles">公開記事</button>
+    <button type="button" class="nav-btn" data-section="deploy">公開・デプロイ</button>
+  </nav>
+
+  <!-- トピック -->
+  <section class="admin__section" id="section-topics" data-section="topics">
+    <div class="admin__grid">
+      <div class="admin__panel glass">
+        <h2>トピック一覧</h2>
+        <div class="admin__list" id="topicList"></div>
+        <hr class="admin__hr">
+        <h3>新規トピック</h3>
+        <label class="label" for="newTopicId">topic ID</label>
+        <input type="text" id="newTopicId" class="input" placeholder="例: linux" pattern="[a-z0-9][a-z0-9-]*">
+        <label class="label" for="newTopicTitle">表示名</label>
+        <input type="text" id="newTopicTitle" class="input" placeholder="例: Linux 学習">
+        <div class="admin__actions">
+          <button type="button" class="btn btn--primary" id="createTopicBtn">トピック作成</button>
+        </div>
+      </div>
+      <div class="admin__panel glass">
+        <h2>JSON編集 <span id="jsonEditTopicLabel" class="badge">未選択</span></h2>
+        <div class="admin__tabs">
+          <button type="button" class="tab tab--active" data-json="roadmap">roadmap</button>
+          <button type="button" class="tab" data-json="glossary">glossary</button>
+          <button type="button" class="tab" data-json="concepts">concepts</button>
+        </div>
+        <textarea id="jsonEditor" class="json-editor" rows="14" spellcheck="false"></textarea>
+        <div class="admin__actions">
+          <button type="button" class="btn btn--primary" id="saveJsonBtn">JSON保存</button>
+          <button type="button" class="btn btn--danger" id="deleteTopicBtn">トピック削除</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 講座 -->
+  <section class="admin__section admin__section--hidden" id="section-courses" data-section="courses">
+    <div class="admin__toolbar">
+      <label class="label label--inline">トピック</label>
+      <select id="courseTopicSelect" class="input input--inline"></select>
+    </div>
+    <div class="admin__grid admin__grid--3">
+      <div class="admin__panel glass">
+        <h2>講座一覧</h2>
+        <div class="admin__list" id="courseList"></div>
+      </div>
+      <div class="admin__panel glass admin__panel--span2">
+        <h2>講座編集 <span id="courseEditLabel" class="badge">未選択</span></h2>
+        <div class="form-row">
+          <div class="form-col">
+            <label class="label" for="editCourseId">courseId</label>
+            <input type="text" id="editCourseId" class="input">
+          </div>
+          <div class="form-col">
+            <label class="label" for="editCourseTitle">title</label>
+            <input type="text" id="editCourseTitle" class="input">
+          </div>
+        </div>
+        <label class="label" for="editCourseDesc">description</label>
+        <textarea id="editCourseDesc" class="input" rows="2"></textarea>
+        <label class="label" for="editCourseTarget">target</label>
+        <input type="text" id="editCourseTarget" class="input" placeholder="初心者">
+
+        <h3 class="subhead">エピソード</h3>
+        <div id="episodeEditor"></div>
+        <div class="admin__actions">
+          <button type="button" class="btn btn--ghost" id="addEpisodeBtn">+ エピソード追加</button>
+          <button type="button" class="btn btn--primary" id="saveCourseBtn">講座を保存</button>
+          <button type="button" class="btn btn--danger" id="deleteCourseBtn">講座削除</button>
+        </div>
+
+        <hr class="admin__hr">
+        <h3>手動で講座作成</h3>
+        <div class="form-row">
+          <div class="form-col"><input type="text" id="manualCourseId" class="input" placeholder="courseId"></div>
+          <div class="form-col"><input type="text" id="manualCourseTitle" class="input" placeholder="title"></div>
+        </div>
+        <button type="button" class="btn btn--ghost" id="manualCreateCourseBtn">空の講座を作成</button>
+
+        <hr class="admin__hr">
+        <h3>AIで講座構成生成</h3>
+        <label class="label" for="aiCourseTitle">講座タイトル</label>
+        <input type="text" id="aiCourseTitle" class="input" placeholder="例: Docker初心者講座">
+        <div class="form-row">
+          <div class="form-col">
+            <label class="label" for="aiCourseTarget">target</label>
+            <input type="text" id="aiCourseTarget" class="input" value="初心者">
+          </div>
+          <div class="form-col">
+            <label class="label" for="aiEpisodeCount">episode count</label>
+            <input type="number" id="aiEpisodeCount" class="input" min="3" max="20" value="5">
+          </div>
+        </div>
+        <label class="label" for="aiCourseId">courseId（任意）</label>
+        <input type="text" id="aiCourseId" class="input" placeholder="空ならAIが生成">
+        <label class="label" for="aiCourseDesc">説明ヒント（任意）</label>
+        <input type="text" id="aiCourseDesc" class="input">
+        <div class="admin__actions">
+          <button type="button" class="btn btn--accent" id="aiGenerateCourseBtn">AIで講座構成生成</button>
+        </div>
+        <div class="loading loading--inline" id="courseLoading" hidden>AIが講座構成を生成中…</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 記事生成 -->
+  <section class="admin__section admin__section--hidden" id="section-generate" data-section="generate">
+    <div class="admin__grid">
+      <div class="admin__panel glass">
+        <h2>エピソード記事を生成</h2>
+        <label class="label" for="genTopicSelect">topic</label>
+        <select id="genTopicSelect" class="input"></select>
+        <label class="label" for="genCourseSelect">course</label>
+        <select id="genCourseSelect" class="input"></select>
+        <label class="label">episode（複数選択可）</label>
+        <div class="ep-checklist-toolbar">
+          <button type="button" class="btn btn--ghost btn--xs" id="selectAllEpisodesBtn">すべて選択</button>
+          <button type="button" class="btn btn--ghost btn--xs" id="deselectAllEpisodesBtn">選択解除</button>
+        </div>
+        <div id="genEpisodeList" class="ep-checklist"></div>
+        <label class="label" for="angleInput">切り口（任意）</label>
+        <input type="text" id="angleInput" class="input" placeholder="例: 実務のつまずきポイント">
+        <div class="admin__actions">
+          <button type="button" class="btn btn--primary" id="generateBtn">選択したエピソードを生成</button>
+        </div>
+        <div class="loading" id="loading" hidden>
+          <div class="loading__dots"><span></span><span></span><span></span></div>
+          <p id="loadingText">構造化メモリを読み込み、記事を生成中…</p>
+        </div>
+        <ul id="genBatchLog" class="batch-log" hidden></ul>
+      </div>
+      <div class="admin__panel glass">
+        <h2>プレビュー</h2>
+        <div id="genPreviewEmpty" class="empty-hint">生成するとここに表示されます</div>
+        <div class="preview" id="preview" hidden>
+          <div class="preview__meta" id="previewMeta"></div>
+          <div class="preview__body prose" id="previewBody"></div>
+          <p class="preview__conclusion" id="previewConclusion"></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 下書き -->
+  <section class="admin__section admin__section--hidden" id="section-drafts" data-section="drafts">
+    <div class="admin__panel glass">
+      <h2>下書き管理 <span class="badge" id="draftCount">0</span></h2>
+      <div class="admin__tabs">
+        <button type="button" class="tab tab--active" data-bucket="all">すべて</button>
+        <button type="button" class="tab" data-bucket="review">review-needed</button>
+        <button type="button" class="tab" data-bucket="ready">ready-to-publish</button>
+      </div>
+      <div class="admin__list" id="draftList"></div>
+    </div>
+  </section>
+
+  <!-- 公開・デプロイ -->
+  <section class="admin__section admin__section--hidden" id="section-deploy" data-section="deploy">
+    <div class="admin__grid">
+      <div class="admin__panel glass">
+        <h2>本番公開ステータス</h2>
+        <dl class="deploy-dl" id="deployStatus">
+          <dt>環境</dt><dd id="deployEnv">—</dd>
+          <dt>SITE_URL</dt><dd id="deploySiteUrl">—</dd>
+          <dt>sitemap.xml</dt><dd id="deploySitemap">—</dd>
+          <dt>rss.xml</dt><dd id="deployRss">—</dd>
+          <dt>robots.txt</dt><dd id="deployRobots">—</dd>
+          <dt>最終公開</dt><dd id="deployLastPublish">—</dd>
+        </dl>
+        <div class="admin__actions">
+          <button type="button" class="btn btn--primary" id="regenerateSeoBtn">sitemap / RSS / robots を再生成</button>
+        </div>
+      </div>
+      <div class="admin__panel glass">
+        <h2>ワンクリックで Git push（本番反映）</h2>
+        <dl class="deploy-dl" id="gitStatus">
+          <dt>Git</dt><dd id="gitRepoStatus">—</dd>
+          <dt>ブランチ</dt><dd id="gitBranch">—</dd>
+          <dt>リモート</dt><dd id="gitRemote">—</dd>
+          <dt>未コミット</dt><dd id="gitChanges">—</dd>
+        </dl>
+        <label class="label" for="gitCommitMsg">コミットメッセージ（任意）</label>
+        <input type="text" id="gitCommitMsg" class="input" placeholder="空欄なら自動メッセージ">
+        <div class="admin__actions">
+          <button type="button" class="btn btn--accent" id="gitPushBtn">変更を commit &amp; push（デプロイ）</button>
+        </div>
+        <pre class="deploy-log" id="gitPushLog" hidden></pre>
+        <p class="empty-hint">記事を公開したあと、このボタン1つで GitHub へ送れます。Vercel / Railway が自動デプロイします。</p>
+        <hr class="admin__hr">
+        <p class="empty-hint">初回のみ: <code>git init</code> → <code>git remote add origin &lt;URL&gt;</code> が必要です。</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 公開記事 -->
+  <section class="admin__section admin__section--hidden" id="section-articles" data-section="articles">
+    <div class="admin__panel glass">
+      <h2>公開済み記事 <span class="badge" id="listCount">0</span></h2>
+      <div class="admin__list" id="articleList"></div>
+    </div>
+  </section>
+</div>
+
+<div class="modal" id="draftModal" hidden>
+  <div class="modal__backdrop" data-close-modal></div>
+  <div class="modal__box glass">
+    <header class="modal__head">
+      <h2 id="modalTitle">下書き</h2>
+      <button type="button" class="modal__close" data-close-modal>&times;</button>
+    </header>
+    <div class="admin__tabs">
+      <button type="button" class="tab tab--active" data-modal-tab="preview">プレビュー</button>
+      <button type="button" class="tab" data-modal-tab="diff">差分</button>
+    </div>
+    <div id="modalPreview" class="modal__body prose"></div>
+    <div id="modalDiff" class="modal__body" hidden></div>
+    <div class="admin__actions" id="modalActions"></div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>

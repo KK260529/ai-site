@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{pageTitle}}</title>
+  <meta name="description" content="{{metaDescription}}">
+  <link rel="canonical" href="{{canonical}}">
+  <meta property="og:type" content="{{ogType}}">
+  <meta property="og:title" content="{{ogTitle}}">
+  <meta property="og:description" content="{{ogDescription}}">
+  <meta property="og:url" content="{{canonical}}">
+  <meta property="og:site_name" content="{{siteName}}">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="{{ogTitle}}">
+  <meta name="twitter:description" content="{{ogDescription}}">
+  <script type="application/ld+json">{{jsonLd}}</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="alternate" type="application/rss+xml" title="{{siteName}} RSS" href="/rss.xml">
+  {{extraCss}}
+</head>
+<body class="{{bodyClass}}">
+  <div class="bg-grid" aria-hidden="true"></div>
+  <div class="bg-glow" aria-hidden="true"></div>
+
+  <header class="header glass">
+    <a href="/" class="header__brand">
+      <span class="header__logo">◇</span>
+      <span class="header__name">{{siteName}}</span>
+    </a>
+    <nav class="header__nav">
+      <a href="/">ホーム</a>
+      <a href="/knowledge/docker">Docker</a>
+      <a href="/admin">管理</a>
+    </nav>
+  </header>
+
+  <main class="main">
+    {{content}}
+  </main>
+
+  <footer class="footer glass">
+    <p>&copy; {{siteName}} — 個人用AI知識出版社（LLM + Local Structured Memory）</p>
+  </footer>
+
+  {{extraJs}}
+</body>
+</html>

@@ -1,0 +1,12 @@
+{
+  "slug": "java-functions",
+  "courseId": "java-beginner-course",
+  "episode": 5,
+  "summaryMemory": [
+    "Javaの関数はメソッドと呼ばれる",
+    "メソッドはクラス内に定義され、特定のタスクを実行する",
+    "メソッドを使用すると、同じコードを複数回書く必要がなくなり、プログラムのメンテナンスが容易になる"
+  ],
+  "nextEpisodeHint": "次のエピソードでは、Javaの配列について学びます。",
+  "updatedAt": "2026-05-29T11:27:05.559Z"
+}

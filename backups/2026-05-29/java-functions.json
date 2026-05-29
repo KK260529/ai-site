@@ -1,0 +1,193 @@
+{
+  "id": "art_1780054189760",
+  "slug": "java-functions",
+  "title": "Javaの関数",
+  "summary": "Javaの関数は、プログラムの再利用性と可読性を向上させるために使用されます。関数を使用すると、同じコードを複数回書く必要がなくなり、プログラムのメンテナンスが容易になります。このエピソードでは、Javaの関数の基本について学びます。",
+  "body": "<h2>Javaの関数の基本</h2><p>Javaの関数は、メソッドと呼ばれます。メソッドは、クラス内に定義され、特定のタスクを実行します。メソッドを使用すると、同じコードを複数回書く必要がなくなり、プログラムのメンテナンスが容易になります。</p><h3>メソッドの定義</h3><p>メソッドを定義するには、メソッドの名前、戻り値の型、パラメーターのリストを指定する必要があります。次の例は、簡単なメソッドの定義です。</p><pre><code>public void greet(String name) {<br>    System.out.println(&quot;こんにちは、&quot; + name + &quot;さん&quot;);<br>}</code></pre><p>このメソッドは、名前をパラメーターとして受け取り、コンソールに挨拶のメッセージを表示します。</p><h3>メソッドの呼び出し</h3><p>メソッドを呼び出すには、メソッドの名前とパラメーターを指定する必要があります。次の例は、先ほど定義したメソッドの呼び出しです。</p><pre><code>greet(&quot;田中&quot;);</code></pre><p>このコードは、コンソールに「こんにちは、田中さん」と表示します。</p>",
+  "conclusion": "このエピソードでは、Javaの関数の基本について学びました。関数を使用すると、プログラムの再利用性と可読性を向上させることができます。次のエピソードでは、Javaの配列について学びます。",
+  "tags": [
+    "Java",
+    "関数",
+    "メソッド"
+  ],
+  "category": "Java",
+  "theme": "java - Java初心者講座",
+  "status": "published",
+  "createdAt": "2026-05-29T11:29:49.751Z",
+  "updatedAt": "2026-05-29T11:29:49.776Z",
+  "publishedAt": "2026-05-29T11:29:49.751Z",
+  "metaTitle": "Javaの関数",
+  "metaDescription": "Javaの関数は、プログラムの再利用性と可読性を向上させるために使用されます。このエピソードでは、Javaの関数の基本について学びます。",
+  "ogTitle": "Javaの関数",
+  "ogDescription": "Javaの関数は、プログラムの再利用性と可読性を向上させるために使用されます。このエピソードでは、Javaの関数の基本について学びます。",
+  "knowledge": {
+    "topic": "java",
+    "courseId": "java-beginner-course",
+    "episode": 5
+  },
+  "faq": [
+    {
+      "question": "Javaの関数とは何ですか？",
+      "answer": "Javaの関数は、メソッドと呼ばれます。メソッドは、クラス内に定義され、特定のタスクを実行します。"
+    },
+    {
+      "question": "メソッドを定義するには何が必要ですか？",
+      "answer": "メソッドを定義するには、メソッドの名前、戻り値の型、パラメーターのリストを指定する必要があります。"
+    }
+  ],
+  "nextEpisodeHint": "次のエピソードでは、Javaの配列について学びます。",
+  "canonical": "http://localhost:3000/article/java-functions",
+  "jsonLd": {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        "headline": "Javaの関数",
+        "description": "Javaの関数は、プログラムの再利用性と可読性を向上させるために使用されます。このエピソードでは、Javaの関数の基本について学びます。",
+        "datePublished": "2026-05-29T11:29:49.751Z",
+        "dateModified": "2026-05-29T11:29:49.776Z",
+        "author": {
+          "@type": "Organization",
+          "name": "TechMatome AI"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "TechMatome AI",
+          "url": "http://localhost:3000"
+        },
+        "mainEntityOfPage": {
+          "@type": "WebPage",
+          "@id": "http://localhost:3000/article/java-functions"
+        },
+        "keywords": "Java, 関数, メソッド",
+        "articleSection": "Java",
+        "url": "http://localhost:3000/article/java-functions"
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "ホーム",
+            "item": "http://localhost:3000"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "java",
+            "item": "http://localhost:3000/knowledge/java"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "Java初心者講座",
+            "item": "http://localhost:3000/course/java/java-beginner-course"
+          },
+          {
+            "@type": "ListItem",
+            "position": 4,
+            "name": "Javaの関数",
+            "item": "http://localhost:3000/article/java-functions"
+          }
+        ]
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "Course",
+        "name": "Java初心者講座",
+        "description": "Javaプログラミング言語の基礎から学ぶ講座です。変数、データ型、制御構文、関数、オブジェクト指向プログラミングなどを学び、Javaの基礎を固めることができます。",
+        "provider": {
+          "@type": "Organization",
+          "name": "TechMatome AI"
+        }
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "Javaの関数とは何ですか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Javaの関数は、メソッドと呼ばれます。メソッドは、クラス内に定義され、特定のタスクを実行します。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "メソッドを定義するには何が必要ですか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "メソッドを定義するには、メソッドの名前、戻り値の型、パラメーターのリストを指定する必要があります。"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "breadcrumb": {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "ホーム",
+        "item": "http://localhost:3000"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "java",
+        "item": "http://localhost:3000/knowledge/java"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "Java初心者講座",
+        "item": "http://localhost:3000/course/java/java-beginner-course"
+      },
+      {
+        "@type": "ListItem",
+        "position": 4,
+        "name": "Javaの関数",
+        "item": "http://localhost:3000/article/java-functions"
+      }
+    ]
+  },
+  "courseSchema": {
+    "@context": "https://schema.org",
+    "@type": "Course",
+    "name": "Java初心者講座",
+    "description": "Javaプログラミング言語の基礎から学ぶ講座です。変数、データ型、制御構文、関数、オブジェクト指向プログラミングなどを学び、Javaの基礎を固めることができます。",
+    "provider": {
+      "@type": "Organization",
+      "name": "TechMatome AI"
+    }
+  },
+  "faqSchema": {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "Javaの関数とは何ですか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Javaの関数は、メソッドと呼ばれます。メソッドは、クラス内に定義され、特定のタスクを実行します。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "メソッドを定義するには何が必要ですか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "メソッドを定義するには、メソッドの名前、戻り値の型、パラメーターのリストを指定する必要があります。"
+        }
+      }
+    ]
+  }
+}

@@ -1,0 +1,213 @@
+{
+  "id": "art_1780054200699",
+  "slug": "java-polymorphism",
+  "title": "Javaの多態性",
+  "summary": "Javaの多態性は、オブジェクト指向プログラミングの重要な概念の一つです。多態性を使用すると、同じメソッド名で異なる動作を実行することができます。この記事では、多態性の基本とその使用方法について説明します。",
+  "body": "<h2>多態性とは</h2><p>多態性は、オブジェクト指向プログラミングの重要な概念の一つです。多態性を使用すると、同じメソッド名で異なる動作を実行することができます。</p><h3>多態性の種類</h3><p>Javaでは、多態性には2種類あります。1つは、オーバーロードと呼ばれるもので、同じメソッド名で異なる引数を取ることができます。もう1つは、オーバーライドと呼ばれるもので、親クラスと子クラスで同じメソッド名を使用します。</p><h3>多態性の使用方法</h3><p>多態性を使用するには、まず親クラスと子クラスを定義します。次に、親クラスにメソッドを定義し、子クラスでそのメソッドをオーバーライドします。最後に、子クラスのインスタンスを生成し、オーバーライドされたメソッドを呼び出します。</p><pre><code>public class Animal {<br>    public void sound() {<br>        System.out.println(\"動物が音を出す\");<br>    }<br>}<br><br>public class Dog extends Animal {<br>    @Override<br>    public void sound() {<br>        System.out.println(\"犬が吠える\");<br>    }<br>}<br><br>public class Main {<br>    public static void main(String[] args) {<br>        Animal animal = new Dog();<br>        animal.sound();<br>    }<br>}<br></code></pre>",
+  "conclusion": "この記事では、Javaの多態性について説明しました。多態性は、オブジェクト指向プログラミングの重要な概念の一つであり、同じメソッド名で異なる動作を実行することができます。多態性を使用するには、親クラスと子クラスを定義し、メソッドをオーバーライドする必要があります。次回は、例外処理について説明します。",
+  "tags": [
+    "Java",
+    "多態性",
+    "オブジェクト指向プログラミング"
+  ],
+  "category": "Java",
+  "theme": "java - Java初心者講座",
+  "status": "published",
+  "createdAt": "2026-05-29T11:30:00.683Z",
+  "updatedAt": "2026-05-29T11:30:00.712Z",
+  "publishedAt": "2026-05-29T11:30:00.683Z",
+  "metaTitle": "Javaの多態性",
+  "metaDescription": "Javaの多態性は、オブジェクト指向プログラミングの重要な概念の一つです。この記事では、多態性の基本とその使用方法について説明します。",
+  "ogTitle": "Javaの多態性",
+  "ogDescription": "Javaの多態性は、オブジェクト指向プログラミングの重要な概念の一つです。この記事では、多態性の基本とその使用方法について説明します。",
+  "knowledge": {
+    "topic": "java",
+    "courseId": "java-beginner-course",
+    "episode": 10
+  },
+  "faq": [
+    {
+      "question": "多態性とは何ですか？",
+      "answer": "多態性は、同じメソッド名で異なる動作を実行することができるオブジェクト指向プログラミングの概念です。"
+    },
+    {
+      "question": "多態性には何種類ありますか？",
+      "answer": "多態性には、オーバーロードとオーバーライドの2種類があります。"
+    },
+    {
+      "question": "多態性を使用するには何をする必要がありますか？",
+      "answer": "多態性を使用するには、親クラスと子クラスを定義し、メソッドをオーバーライドする必要があります。"
+    }
+  ],
+  "nextEpisodeHint": "次回は、例外処理について説明します。",
+  "canonical": "http://localhost:3000/article/java-polymorphism",
+  "jsonLd": {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        "headline": "Javaの多態性",
+        "description": "Javaの多態性は、オブジェクト指向プログラミングの重要な概念の一つです。この記事では、多態性の基本とその使用方法について説明します。",
+        "datePublished": "2026-05-29T11:30:00.683Z",
+        "dateModified": "2026-05-29T11:30:00.712Z",
+        "author": {
+          "@type": "Organization",
+          "name": "TechMatome AI"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "TechMatome AI",
+          "url": "http://localhost:3000"
+        },
+        "mainEntityOfPage": {
+          "@type": "WebPage",
+          "@id": "http://localhost:3000/article/java-polymorphism"
+        },
+        "keywords": "Java, 多態性, オブジェクト指向プログラミング",
+        "articleSection": "Java",
+        "url": "http://localhost:3000/article/java-polymorphism"
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "ホーム",
+            "item": "http://localhost:3000"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "java",
+            "item": "http://localhost:3000/knowledge/java"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "Java初心者講座",
+            "item": "http://localhost:3000/course/java/java-beginner-course"
+          },
+          {
+            "@type": "ListItem",
+            "position": 4,
+            "name": "Javaの多態性",
+            "item": "http://localhost:3000/article/java-polymorphism"
+          }
+        ]
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "Course",
+        "name": "Java初心者講座",
+        "description": "Javaプログラミング言語の基礎から学ぶ講座です。変数、データ型、制御構文、関数、オブジェクト指向プログラミングなどを学び、Javaの基礎を固めることができます。",
+        "provider": {
+          "@type": "Organization",
+          "name": "TechMatome AI"
+        }
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "多態性とは何ですか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "多態性は、同じメソッド名で異なる動作を実行することができるオブジェクト指向プログラミングの概念です。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "多態性には何種類ありますか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "多態性には、オーバーロードとオーバーライドの2種類があります。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "多態性を使用するには何をする必要がありますか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "多態性を使用するには、親クラスと子クラスを定義し、メソッドをオーバーライドする必要があります。"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "breadcrumb": {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "ホーム",
+        "item": "http://localhost:3000"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "java",
+        "item": "http://localhost:3000/knowledge/java"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "Java初心者講座",
+        "item": "http://localhost:3000/course/java/java-beginner-course"
+      },
+      {
+        "@type": "ListItem",
+        "position": 4,
+        "name": "Javaの多態性",
+        "item": "http://localhost:3000/article/java-polymorphism"
+      }
+    ]
+  },
+  "courseSchema": {
+    "@context": "https://schema.org",
+    "@type": "Course",
+    "name": "Java初心者講座",
+    "description": "Javaプログラミング言語の基礎から学ぶ講座です。変数、データ型、制御構文、関数、オブジェクト指向プログラミングなどを学び、Javaの基礎を固めることができます。",
+    "provider": {
+      "@type": "Organization",
+      "name": "TechMatome AI"
+    }
+  },
+  "faqSchema": {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "多態性とは何ですか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "多態性は、同じメソッド名で異なる動作を実行することができるオブジェクト指向プログラミングの概念です。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "多態性には何種類ありますか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "多態性には、オーバーロードとオーバーライドの2種類があります。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "多態性を使用するには何をする必要がありますか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "多態性を使用するには、親クラスと子クラスを定義し、メソッドをオーバーライドする必要があります。"
+        }
+      }
+    ]
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "topic": "java",
+  "title": "java学習ロードマップ",
+  "beginnerPath": [
+    "java-introduction",
+    "java-syntax",
+    "java-variables",
+    "java-control-structures",
+    "java-functions",
+    "java-arrays",
+    "java-objects",
+    "java-classes",
+    "java-inheritance",
+    "java-polymorphism"
+  ]
+}

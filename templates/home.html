@@ -1,0 +1,28 @@
+<section class="hero">
+  <h1 class="hero__title">個人用AI知識メディア</h1>
+  <p class="hero__sub">Knowledge → Course → Episode → Article</p>
+  <p class="hero__count"><span id="articleCount">{{articleCount}}</span> 件の公開記事</p>
+</section>
+
+<section class="section-block">
+  <h2 class="section-block__title">講座</h2>
+  <div class="cards cards--courses">{{courseCards}}</div>
+</section>
+
+<section class="filters glass">
+  <div class="filters__search">
+    <input type="search" id="searchInput" class="input" placeholder="記事を検索…" aria-label="検索">
+  </div>
+  <div class="filters__row">
+    <select id="categoryFilter" class="select" aria-label="カテゴリ">
+      <option value="">すべてのカテゴリ</option>
+      {{categoryOptions}}
+    </select>
+    <button type="button" class="btn btn--ghost" id="clearFilters">クリア</button>
+  </div>
+</section>
+
+<section class="section-block">
+  <h2 class="section-block__title">記事</h2>
+  <section class="cards" id="articleGrid">{{articleCards}}</section>
+</section>

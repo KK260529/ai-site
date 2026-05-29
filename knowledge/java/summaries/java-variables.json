@@ -1,0 +1,12 @@
+{
+  "slug": "java-variables",
+  "courseId": "java-beginner-course",
+  "episode": 3,
+  "summaryMemory": [
+    "Javaの変数を使用してデータを格納する",
+    "Javaのデータ型を指定してデータの種類を定義する",
+    "Javaの基本的なデータ型(int、float、double、char、boolean)"
+  ],
+  "nextEpisodeHint": "次のエピソードでは、Javaの制御構文について学びます。",
+  "updatedAt": "2026-05-29T11:26:51.822Z"
+}

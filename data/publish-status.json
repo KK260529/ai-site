@@ -1,0 +1,16 @@
+{
+  "siteUrl": "http://localhost:3000",
+  "nodeEnv": "development",
+  "sitemapUpdatedAt": "2026-05-29T11:36:53.160Z",
+  "rssUpdatedAt": "2026-05-29T11:36:53.209Z",
+  "robotsUpdatedAt": "2026-05-29T11:36:53.212Z",
+  "lastPublish": {
+    "slug": "java-introduction-1",
+    "title": "Javaの基礎",
+    "url": "http://localhost:3000/article/java-introduction-1",
+    "at": "2026-05-29T11:36:53.071Z"
+  },
+  "sitemapUrl": "http://localhost:3000/sitemap.xml",
+  "rssUrl": "http://localhost:3000/rss.xml",
+  "robotsUrl": "http://localhost:3000/robots.txt"
+}

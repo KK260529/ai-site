@@ -1,0 +1,173 @@
+{
+  "id": "art_1780054184531",
+  "slug": "java-variables",
+  "title": "Javaの変数とデータ型",
+  "summary": "Javaでは、変数を使用してデータを格納し、データ型を指定してデータの種類を定義します。このエピソードでは、Javaの変数とデータ型について学びます。",
+  "body": "<h2>Javaの変数</h2><p>Javaでは、変数を使用してデータを格納します。変数は、データを格納するためのメモリ上の領域です。変数を宣言するには、データ型と変数名を指定します。</p><h3>変数の宣言</h3><p>変数の宣言は、次のように行います。</p><pre><code>int x = 10;</code></pre><p>この例では、整数型の変数xを宣言し、値10を代入しています。</p><h2>Javaのデータ型</h2><p>Javaには、次のデータ型があります。</p><ul><li>整数型(int)</li><li>浮動小数点型(float、double)</li><li>文字型(char)</li><li>論理型(boolean)</li></ul><h3>データ型の使用</h3><p>データ型を使用して、変数の種類を定義します。次の例では、整数型の変数xと浮動小数点型の変数yを宣言しています。</p><pre><code>int x = 10;<br>double y = 3.14;</code></pre>",
+  "conclusion": "このエピソードでは、Javaの変数とデータ型について学びました。変数を使用してデータを格納し、データ型を指定してデータの種類を定義することができます。次のエピソードでは、制御構文について学びます。",
+  "tags": [
+    "Java",
+    "変数",
+    "データ型"
+  ],
+  "category": "プログラミング",
+  "theme": "java - Java初心者講座",
+  "status": "published",
+  "createdAt": "2026-05-29T11:29:44.525Z",
+  "updatedAt": "2026-05-29T11:29:44.549Z",
+  "publishedAt": "2026-05-29T11:29:44.525Z",
+  "metaTitle": "Javaの変数とデータ型",
+  "metaDescription": "Javaの変数とデータ型について学びます。変数を使用してデータを格納し、データ型を指定してデータの種類を定義します。",
+  "ogTitle": "Javaの変数とデータ型",
+  "ogDescription": "Javaの変数とデータ型について学びます。変数を使用してデータを格納し、データ型を指定してデータの種類を定義します。",
+  "knowledge": {
+    "topic": "java",
+    "courseId": "java-beginner-course",
+    "episode": 3
+  },
+  "faq": [
+    {
+      "question": "Javaの変数を宣言するにはどうすればよいですか？",
+      "answer": "Javaの変数を宣言するには、データ型と変数名を指定します。例：int x = 10;"
+    }
+  ],
+  "nextEpisodeHint": "次のエピソードでは、Javaの制御構文について学びます。",
+  "canonical": "http://localhost:3000/article/java-variables",
+  "jsonLd": {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        "headline": "Javaの変数とデータ型",
+        "description": "Javaの変数とデータ型について学びます。変数を使用してデータを格納し、データ型を指定してデータの種類を定義します。",
+        "datePublished": "2026-05-29T11:29:44.525Z",
+        "dateModified": "2026-05-29T11:29:44.549Z",
+        "author": {
+          "@type": "Organization",
+          "name": "TechMatome AI"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "TechMatome AI",
+          "url": "http://localhost:3000"
+        },
+        "mainEntityOfPage": {
+          "@type": "WebPage",
+          "@id": "http://localhost:3000/article/java-variables"
+        },
+        "keywords": "Java, 変数, データ型",
+        "articleSection": "プログラミング",
+        "url": "http://localhost:3000/article/java-variables"
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "ホーム",
+            "item": "http://localhost:3000"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "java",
+            "item": "http://localhost:3000/knowledge/java"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "Java初心者講座",
+            "item": "http://localhost:3000/course/java/java-beginner-course"
+          },
+          {
+            "@type": "ListItem",
+            "position": 4,
+            "name": "Javaの変数とデータ型",
+            "item": "http://localhost:3000/article/java-variables"
+          }
+        ]
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "Course",
+        "name": "Java初心者講座",
+        "description": "Javaプログラミング言語の基礎から学ぶ講座です。変数、データ型、制御構文、関数、オブジェクト指向プログラミングなどを学び、Javaの基礎を固めることができます。",
+        "provider": {
+          "@type": "Organization",
+          "name": "TechMatome AI"
+        }
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "Javaの変数を宣言するにはどうすればよいですか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Javaの変数を宣言するには、データ型と変数名を指定します。例：int x = 10;"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "breadcrumb": {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "ホーム",
+        "item": "http://localhost:3000"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "java",
+        "item": "http://localhost:3000/knowledge/java"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "Java初心者講座",
+        "item": "http://localhost:3000/course/java/java-beginner-course"
+      },
+      {
+        "@type": "ListItem",
+        "position": 4,
+        "name": "Javaの変数とデータ型",
+        "item": "http://localhost:3000/article/java-variables"
+      }
+    ]
+  },
+  "courseSchema": {
+    "@context": "https://schema.org",
+    "@type": "Course",
+    "name": "Java初心者講座",
+    "description": "Javaプログラミング言語の基礎から学ぶ講座です。変数、データ型、制御構文、関数、オブジェクト指向プログラミングなどを学び、Javaの基礎を固めることができます。",
+    "provider": {
+      "@type": "Organization",
+      "name": "TechMatome AI"
+    }
+  },
+  "faqSchema": {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "Javaの変数を宣言するにはどうすればよいですか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Javaの変数を宣言するには、データ型と変数名を指定します。例：int x = 10;"
+        }
+      }
+    ]
+  }
+}

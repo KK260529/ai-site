@@ -1,0 +1,18 @@
+{
+  "name": "ai-matome-site",
+  "version": "1.0.0",
+  "description": "Groq API を使った AI まとめサイト自動生成システム",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "openai": "^4.77.0"
+  }
+}

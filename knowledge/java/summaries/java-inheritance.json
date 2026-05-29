@@ -1,0 +1,12 @@
+{
+  "slug": "java-inheritance",
+  "courseId": "java-beginner-course",
+  "episode": 9,
+  "summaryMemory": [
+    "Javaの継承は、既存のクラスから新しいクラスを作成する方法です。",
+    "継承を使用すると、コードの再利用性を高め、プログラミングの効率を向上させることができます。",
+    "継承では、親クラスと子クラスが存在します。"
+  ],
+  "nextEpisodeHint": "次回のエピソードでは、Javaの多態性について解説します。",
+  "updatedAt": "2026-05-29T11:28:41.057Z"
+}

@@ -1,0 +1,12 @@
+{
+  "slug": "java-arrays",
+  "courseId": "java-beginner-course",
+  "episode": 6,
+  "summaryMemory": [
+    "配列の定義",
+    "配列の初期化",
+    "配列の要素へのアクセス"
+  ],
+  "nextEpisodeHint": "次回のエピソードでは、Javaのオブジェクトについて学びます。",
+  "updatedAt": "2026-05-29T11:27:15.957Z"
+}

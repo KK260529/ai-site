@@ -1,0 +1,16 @@
+node_modules/
+.env
+.DS_Store
+
+# ログ（publish.log は追記される）
+logs/*.log
+
+# ローカル専用（本番デプロイに含めない）
+drafts/
+generation-history/
+
+# 開発用メモ
+*.local
+
+# articles/ と knowledge/ は Git に含めて Railway/Vercel にデプロイ可能
+# public/sitemap.xml rss.xml robots.txt も publish 後に commit 推奨

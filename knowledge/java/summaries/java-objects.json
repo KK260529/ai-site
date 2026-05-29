@@ -1,0 +1,12 @@
+{
+  "slug": "java-objects",
+  "courseId": "java-beginner-course",
+  "episode": 7,
+  "summaryMemory": [
+    "オブジェクト指向プログラミングの基礎",
+    "クラスとオブジェクト",
+    "継承"
+  ],
+  "nextEpisodeHint": "次のエピソードでは、クラスについてさらに深く学びます。",
+  "updatedAt": "2026-05-29T11:27:40.707Z"
+}

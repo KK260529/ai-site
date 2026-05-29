@@ -1,0 +1,12 @@
+{
+  "slug": "java-best-practices",
+  "courseId": "java-beginner-course",
+  "episode": 12,
+  "summaryMemory": [
+    "コードの可読性を向上させる",
+    "メンテナンス性を向上させる",
+    "効率性を向上させる"
+  ],
+  "nextEpisodeHint": "次回は、Javaのデバッグ技術について学びます。",
+  "updatedAt": "2026-05-29T11:29:07.696Z"
+}

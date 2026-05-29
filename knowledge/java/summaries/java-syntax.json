@@ -1,0 +1,12 @@
+{
+  "slug": "java-syntax",
+  "courseId": "java-beginner-course",
+  "episode": 2,
+  "summaryMemory": [
+    "Javaのプログラムはクラスから始まる",
+    "クラス内にメソッドや変数を定義する",
+    "Javaには整数型、浮動小数点型、文字型、論理型などのデータ型がある"
+  ],
+  "nextEpisodeHint": "次のエピソードでは、Javaの制御構文について学びます。",
+  "updatedAt": "2026-05-29T11:14:18.434Z"
+}

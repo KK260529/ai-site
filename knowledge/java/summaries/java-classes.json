@@ -1,0 +1,12 @@
+{
+  "slug": "java-classes",
+  "courseId": "java-beginner-course",
+  "episode": 8,
+  "summaryMemory": [
+    "クラスはオブジェクトの設計図です",
+    "オブジェクトはクラスから生成されるインスタンスです",
+    "クラスとオブジェクトを定義して使用する方法を理解することが重要です"
+  ],
+  "nextEpisodeHint": "次回のエピソードでは、継承について学びます。",
+  "updatedAt": "2026-05-29T11:28:10.458Z"
+}

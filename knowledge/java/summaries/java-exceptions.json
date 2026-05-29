@@ -1,0 +1,12 @@
+{
+  "slug": "java-exceptions",
+  "courseId": "java-beginner-course",
+  "episode": 11,
+  "summaryMemory": [
+    "try-catch-finally文の使い方",
+    "throwsキーワードの使い方",
+    "例外処理の重要性"
+  ],
+  "nextEpisodeHint": "次回は、Javaのベストプラクティスについて学びます。",
+  "updatedAt": "2026-05-29T11:29:04.827Z"
+}

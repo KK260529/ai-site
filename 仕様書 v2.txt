@@ -1,0 +1,287 @@
+================================================================================
+  個人用AI知識出版社（Knowledge CMS）— 仕様書 v2
+  バージョン: 2.0
+  最終更新: 2026年5月
+================================================================================
+
+【目次】
+  1. システム概要
+  2. コアコンセプト（Knowledge → Course → Episode → Article）
+  3. LLM + Local Structured Memory
+  4. フォルダ構成
+  5. 生成パイプライン
+  6. 公開ワークフロー（人間確認必須）
+  7. 画面・URL一覧
+  8. API一覧
+  9. データ形式
+  10. SEO・内部リンク・広告枠
+  11. 管理画面の使い方
+  12. 環境設定・起動
+  13. トラブルシューティング
+  14. 技術スタック・制約
+
+
+================================================================================
+1. システム概要
+================================================================================
+
+本システムは「個人用AI知識出版社」です。
+テーマを1回入力するのではなく、**ナレッジ体系（Knowledge）** の中で
+**講座（Course）** の **エピソード（Episode）** ごとに記事を生成します。
+
+【中心構造】
+  knowledge → course → episode → article
+
+【特徴】
+  - AIに長期記憶を持たせない（毎回 JSON から文脈を再構築）
+  - 完全自動公開しない（review → ready → 人間確認 → publish）
+  - Node.js + Express + HTML/CSS/Vanilla JS + JSON 保存
+  - Groq API（llama-3.3-70b-versatile）
+  - React / Vue / DB は使用しない
+
+
+================================================================================
+2. コアコンセプト
+================================================================================
+
+■ Knowledge（トピック）
+  例: docker, linux, python
+  - roadmap.json   … 学習ロードマップ
+  - glossary.json  … 用語辞書（内部リンク用）
+  - concepts.json  … 概念マップ
+  - courses/       … 講座定義
+  - summaries/     … 各エピソードの要約メモリ（AIが毎回参照）
+  - articles/      … （予約・拡張用）
+
+■ Course（講座）
+  例: docker-beginner.json
+  - タイトル、説明、対象者
+  - episodes[] … エピソード一覧（番号・slug・タイトル）
+
+■ Episode（回）
+  講座内の1話。slug で記事と紐づく。
+
+■ Article（公開記事）
+  /articles/{slug}.json に保存。
+  knowledge メタ（topic, courseId, episode）を持つ。
+
+
+================================================================================
+3. LLM + Local Structured Memory
+================================================================================
+
+【原則】
+  チャット履歴や AI の「記憶」に依存しない。
+  生成のたびにローカル JSON を読み込み、プロンプトに注入する。
+
+【毎回ロードするもの】
+  - roadmap（学習順序・全体像）
+  - glossary（用語 → 内部リンク候補）
+  - concepts（概念関係）
+  - previous summaries（同一講座の過去エピソード要約）
+  - site rules / writing rules（memory/site, memory/writing）
+  - 今回のエピソード定義（title, theme など）
+
+【生成後に保存するもの】
+  - summaryMemory → knowledge/{topic}/summaries/{slug}.json
+  - 生成履歴 → generation-history/{slug}/
+  - 下書き → drafts/review-needed/{slug}.json
+
+
+================================================================================
+4. フォルダ構成
+================================================================================
+
+ai-site/
+├── knowledge/{topic}/
+│   ├── roadmap.json
+│   ├── glossary.json
+│   ├── concepts.json
+│   ├── courses/*.json
+│   └── summaries/*.json
+├── memory/
+│   ├── site/          … サイト方針
+│   ├── writing/       … 文体ルール
+│   └── prompts/       … プロンプト断片
+├── drafts/
+│   ├── review-needed/     … 要レビュー（AI生成直後）
+│   ├── ready-to-publish/  … 人間確認済み
+│   └── auto-generated/    … 将来の自動生成用
+├── generation-history/{slug}/
+│   ├── prompt.txt
+│   ├── raw-response.json
+│   └── final.json
+├── articles/              … 公開・下書き記事
+├── utils/stores/          … knowledgeStore, memoryStore, draftStore, historyStore
+├── utils/generation/      … promptBuilder, episodeGenerator
+├── routes/
+│   ├── pages.js           … 公開ページ
+│   ├── api.js             … 旧テーマ生成 API（互換）
+│   └── knowledgeApi.js    … CMS API
+├── templates/             … layout, home, article, knowledge, course, admin
+└── public/                … CSS, JS
+
+
+================================================================================
+5. 生成パイプライン
+================================================================================
+
+1. 管理画面で topic / courseId / episode slug を選択
+2. buildEpisodeContext() が構造化メモリを収集
+3. buildEpisodeUserPrompt() でユーザープロンプト構築
+4. Groq API（JSON mode）で記事生成
+5. sanitizeHtml + 内部リンク（glossary）適用
+6. buildSeoExtended() で SEO メタ付与
+7. historyStore に prompt / raw / final を保存
+8. knowledgeStore.saveSummary() で要約メモリ更新
+9. draftStore.saveDraft("review", slug, article) でレビュー待ち保存
+
+【必須 AI 出力フィールド】
+  title, summary, body, conclusion, tags, category, slug,
+  summaryMemory（配列）, nextEpisodeHint（任意）
+
+
+================================================================================
+6. 公開ワークフロー
+================================================================================
+
+  AI生成
+    ↓
+  drafts/review-needed/     … 「要レビュー」
+    ↓ 管理画面「確認OK」
+  drafts/ready-to-publish/  … 「公開準備OK」
+    ↓ 管理画面「公開」（人間確認済み）
+  articles/{slug}.json      … status: published
+
+※ ワンクリック完全自動公開は意図的に無効。
+
+
+================================================================================
+7. 画面・URL一覧
+================================================================================
+
+公開サイト:
+  /                         … ホーム（講座 + 記事一覧）
+  /knowledge/:topic         … ナレッジトップ（講座一覧）
+  /course/:topic/:courseId  … 講座ページ（エピソード一覧）
+  /article/:slug            … 記事（パンくず・シリーズナビ・関連記事）
+  /sitemap.xml
+  /robots.txt
+
+管理:
+  /admin                    … 知識CMS（admin-cms.js）
+
+
+================================================================================
+8. API一覧
+================================================================================
+
+【既存 /api】
+  GET  /api/health?verify=true
+  GET  /api/articles
+  POST /api/articles/generate   … 旧テーマ単発生成（互換）
+
+【知識CMS /api/knowledge】
+  GET  /topics
+  GET  /drafts/all
+  GET  /:topic
+  GET  /:topic/courses/:courseId
+  POST /:topic/episodes/generate   … エピソード記事生成
+  POST /drafts/:slug/ready         … review → ready
+  POST /drafts/:slug/publish       … 公開
+  DELETE /drafts/:slug
+
+
+================================================================================
+9. データ形式
+================================================================================
+
+記事 JSON（抜粋）:
+{
+  "slug": "docker-episode-01",
+  "title": "...",
+  "body": "<h2>...</h2>...",
+  "knowledge": { "topic": "docker", "courseId": "docker-beginner", "episode": 1 },
+  "status": "published",
+  "metaTitle": "...",
+  "canonical": "http://localhost:3000/article/...",
+  "jsonLd": { ... }
+}
+
+要約メモリ summaries/{slug}.json:
+{
+  "slug": "...",
+  "summaryMemory": ["要点1", "要点2"],
+  "nextEpisodeHint": "次回は..."
+}
+
+
+================================================================================
+10. SEO・内部リンク・広告枠
+================================================================================
+
+- パンくず: ホーム → Knowledge → 講座 → 記事
+- シリーズナビ: 前話 / 講座一覧 / 次話
+- glossary から用語リンクを body に自動挿入
+- JSON-LD: BlogPosting, Course, FAQ（記事に faq がある場合）
+- sitemap.xml: 記事 + 講座 URL
+- 広告: {{AD_TOP}} 相当の ad-slot プレースホルダ（実装はスタブ）
+
+
+================================================================================
+11. 管理画面の使い方
+================================================================================
+
+1. restart.bat でサーバー起動
+2. http://localhost:3000/admin を開く
+3. トピック → 講座 → エピソード を選択
+4. 「AIでエピソード記事を生成」
+5. レビュー一覧で内容確認 → 「確認OK」
+6. ready 一覧で「公開」
+7. http://localhost:3000/article/{slug} で確認
+
+サンプル:
+  http://localhost:3000/knowledge/docker
+  http://localhost:3000/course/docker/docker-beginner
+
+
+================================================================================
+12. 環境設定・起動
+================================================================================
+
+.env:
+  GROQ_API_KEY=gsk_...   （50文字以上の完全なキー）
+  PORT=3000
+  SITE_URL=http://localhost:3000
+
+起動:
+  restart.bat  （推奨）
+  または: npm start / node server.js
+
+起動ログで「Groq API → OK」を確認。
+キー変更後は必ず再起動。
+
+
+================================================================================
+13. トラブルシューティング
+================================================================================
+
+| 症状 | 対処 |
+|------|------|
+| admin が開けない | restart.bat でサーバー起動 |
+| 401 Invalid API Key | .env に完全な gsk_ キーを貼付 → 再起動 |
+| エピソードが見つからない | knowledge/.../courses/*.json の slug を確認 |
+| 公開できない | 先に「確認OK」で ready に移動してから公開 |
+
+
+================================================================================
+14. 技術スタック・制約
+================================================================================
+
+- Node.js 18+, Express 4
+- Groq SDK, llama-3.3-70b-versatile
+- ファイル保存のみ（DB なし）
+- React/Vue/Next.js 禁止
+- 画像生成・SNS自動投稿は将来拡張（utils/automation フック）
+
+================================================================================

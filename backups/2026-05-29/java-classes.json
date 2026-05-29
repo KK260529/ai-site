@@ -1,0 +1,194 @@
+{
+  "id": "art_1780054197023",
+  "slug": "java-classes",
+  "title": "Javaのクラスとオブジェクト",
+  "summary": "Javaのクラスとオブジェクトについて学びます。クラスはオブジェクトの設計図であり、オブジェクトはクラスから生成されるインスタンスです。このエピソードでは、クラスとオブジェクトの基本概念を理解し、Javaでクラスとオブジェクトを定義して使用する方法を学びます。",
+  "body": "<h2>クラスとオブジェクトの基礎</h2><p>Javaはオブジェクト指向プログラミング言語であり、クラスとオブジェクトはその基礎的な概念です。クラスはオブジェクトの設計図であり、オブジェクトはクラスから生成されるインスタンスです。</p><h3>クラスの定義</h3><p>クラスは、<code>class</code> キーワードを使用して定義します。クラスには、フィールド（データ）とメソッド（関数）が含まれます。</p><pre><code>public class Person {<br>  // フィールド<br>  private String name;<br>  private int age;<br><br>  // メソッド<br>  public void sayHello() {<br>    System.out.println(\"Hello, my name is \" + name + \".\");<br>  }<br>}</code></pre><h3>オブジェクトの生成</h3><p>クラスからオブジェクトを生成するには、<code)new</code> キーワードを使用します。</p><pre><code>Person person = new Person();</code></pre><h3>オブジェクトの使用</h3><p>オブジェクトのフィールドとメソッドにアクセスするには、ドット（<code>.</code>）を使用します。</p><pre><code>person.name = \"John\";<br>person.age = 30;<br>person.sayHello();</code></pre>",
+  "conclusion": "このエピソードでは、Javaのクラスとオブジェクトについて学びました。クラスはオブジェクトの設計図であり、オブジェクトはクラスから生成されるインスタンスです。クラスとオブジェクトを定義して使用する方法を理解することで、オブジェクト指向プログラミングの基礎を固めることができます。次回のエピソードでは、継承について学びます。",
+  "tags": [
+    "Java",
+    "クラス",
+    "オブジェクト",
+    "オブジェクト指向プログラミング"
+  ],
+  "category": "Java",
+  "theme": "java - Java初心者講座",
+  "status": "published",
+  "createdAt": "2026-05-29T11:29:57.009Z",
+  "updatedAt": "2026-05-29T11:29:57.040Z",
+  "publishedAt": "2026-05-29T11:29:57.009Z",
+  "metaTitle": "Javaのクラスとオブジェクト",
+  "metaDescription": "Javaのクラスとオブジェクトについて学びます。クラスはオブジェクトの設計図であり、オブジェクトはクラスから生成されるインスタンスです。",
+  "ogTitle": "Javaのクラスとオブジェクト",
+  "ogDescription": "Javaのクラスとオブジェクトについて学びます。クラスはオブジェクトの設計図であり、オブジェクトはクラスから生成されるインスタンスです。",
+  "knowledge": {
+    "topic": "java",
+    "courseId": "java-beginner-course",
+    "episode": 8
+  },
+  "faq": [
+    {
+      "question": "クラスとオブジェクトの違いは何ですか。",
+      "answer": "クラスはオブジェクトの設計図であり、オブジェクトはクラスから生成されるインスタンスです。"
+    },
+    {
+      "question": "クラスを定義するにはどのようなキーワードを使用しますか。",
+      "answer": "クラスを定義するには、<code>class</code> キーワードを使用します。"
+    }
+  ],
+  "nextEpisodeHint": "次回のエピソードでは、継承について学びます。",
+  "canonical": "http://localhost:3000/article/java-classes",
+  "jsonLd": {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        "headline": "Javaのクラスとオブジェクト",
+        "description": "Javaのクラスとオブジェクトについて学びます。クラスはオブジェクトの設計図であり、オブジェクトはクラスから生成されるインスタンスです。",
+        "datePublished": "2026-05-29T11:29:57.009Z",
+        "dateModified": "2026-05-29T11:29:57.040Z",
+        "author": {
+          "@type": "Organization",
+          "name": "TechMatome AI"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "TechMatome AI",
+          "url": "http://localhost:3000"
+        },
+        "mainEntityOfPage": {
+          "@type": "WebPage",
+          "@id": "http://localhost:3000/article/java-classes"
+        },
+        "keywords": "Java, クラス, オブジェクト, オブジェクト指向プログラミング",
+        "articleSection": "Java",
+        "url": "http://localhost:3000/article/java-classes"
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "ホーム",
+            "item": "http://localhost:3000"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "java",
+            "item": "http://localhost:3000/knowledge/java"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "Java初心者講座",
+            "item": "http://localhost:3000/course/java/java-beginner-course"
+          },
+          {
+            "@type": "ListItem",
+            "position": 4,
+            "name": "Javaのクラスとオブジェクト",
+            "item": "http://localhost:3000/article/java-classes"
+          }
+        ]
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "Course",
+        "name": "Java初心者講座",
+        "description": "Javaプログラミング言語の基礎から学ぶ講座です。変数、データ型、制御構文、関数、オブジェクト指向プログラミングなどを学び、Javaの基礎を固めることができます。",
+        "provider": {
+          "@type": "Organization",
+          "name": "TechMatome AI"
+        }
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "クラスとオブジェクトの違いは何ですか。",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "クラスはオブジェクトの設計図であり、オブジェクトはクラスから生成されるインスタンスです。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "クラスを定義するにはどのようなキーワードを使用しますか。",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "クラスを定義するには、<code>class</code> キーワードを使用します。"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "breadcrumb": {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "ホーム",
+        "item": "http://localhost:3000"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "java",
+        "item": "http://localhost:3000/knowledge/java"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "Java初心者講座",
+        "item": "http://localhost:3000/course/java/java-beginner-course"
+      },
+      {
+        "@type": "ListItem",
+        "position": 4,
+        "name": "Javaのクラスとオブジェクト",
+        "item": "http://localhost:3000/article/java-classes"
+      }
+    ]
+  },
+  "courseSchema": {
+    "@context": "https://schema.org",
+    "@type": "Course",
+    "name": "Java初心者講座",
+    "description": "Javaプログラミング言語の基礎から学ぶ講座です。変数、データ型、制御構文、関数、オブジェクト指向プログラミングなどを学び、Javaの基礎を固めることができます。",
+    "provider": {
+      "@type": "Organization",
+      "name": "TechMatome AI"
+    }
+  },
+  "faqSchema": {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "クラスとオブジェクトの違いは何ですか。",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "クラスはオブジェクトの設計図であり、オブジェクトはクラスから生成されるインスタンスです。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "クラスを定義するにはどのようなキーワードを使用しますか。",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "クラスを定義するには、<code>class</code> キーワードを使用します。"
+        }
+      }
+    ]
+  }
+}

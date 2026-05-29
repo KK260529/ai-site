@@ -1,0 +1,59 @@
+{
+  "courseId": "java",
+  "title": "java",
+  "description": "javaを学ぶための基礎から始める講座です。初心者向けにjavaの基本を解説します。",
+  "target": "初心者",
+  "topic": "java",
+  "episodes": [
+    {
+      "episode": 1,
+      "title": "javaの基礎",
+      "slug": "java-introduction"
+    },
+    {
+      "episode": 2,
+      "title": "javaの文法",
+      "slug": "java-syntax"
+    },
+    {
+      "episode": 3,
+      "title": "変数の使い方",
+      "slug": "java-variables"
+    },
+    {
+      "episode": 4,
+      "title": "制御構文",
+      "slug": "java-control-structures"
+    },
+    {
+      "episode": 5,
+      "title": "関数の使い方",
+      "slug": "java-functions"
+    },
+    {
+      "episode": 6,
+      "title": "配列の使い方",
+      "slug": "java-arrays"
+    },
+    {
+      "episode": 7,
+      "title": "オブジェクトの使い方",
+      "slug": "java-objects"
+    },
+    {
+      "episode": 8,
+      "title": "クラスの使い方",
+      "slug": "java-classes"
+    },
+    {
+      "episode": 9,
+      "title": "継承の使い方",
+      "slug": "java-inheritance"
+    },
+    {
+      "episode": 10,
+      "title": "ポリモーフィズムの使い方",
+      "slug": "java-polymorphism"
+    }
+  ]
+}

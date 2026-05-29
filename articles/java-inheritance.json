@@ -1,0 +1,193 @@
+{
+  "id": "art_1780054198949",
+  "slug": "java-inheritance",
+  "title": "Javaの継承",
+  "summary": "Javaの継承は、既存のクラスから新しいクラスを作成する方法です。継承を使用すると、コードの再利用性を高め、プログラミングの効率を向上させることができます。この記事では、Javaの継承の基本概念と使い方を解説します。",
+  "body": "<h2>Javaの継承とは</h2><p>Javaの継承は、既存のクラスから新しいクラスを作成する方法です。継承を使用すると、コードの再利用性を高め、プログラミングの効率を向上させることができます。</p><h3>継承の基本概念</h3><p>継承では、親クラス（スーパークラス）と子クラス（サブクラス）が存在します。子クラスは、親クラスのすべてのフィールドとメソッドを継承します。また、子クラスは、新しいフィールドとメソッドを追加したり、親クラスのメソッドをオーバーライドしたりすることができます。</p><h3>継承の使い方</h3><p>継承を使用するには、子クラスでextendsキーワードを使用して親クラスを指定します。例として、次のコードを見てみましょう。</p><pre><code>public class Animal {<br>    public void sound() {<br>        System.out.println(\"動物が音を出す\");<br>    }<br>}<br><br>public class Dog extends Animal {<br>    public void sound() {<br>        System.out.println(\"犬が吠える\");<br>    }<br>}<br></code></pre><p>この例では、DogクラスはAnimalクラスを継承しています。Dogクラスは、Animalクラスのsound()メソッドをオーバーライドしています。</p>",
+  "conclusion": "Javaの継承は、コードの再利用性を高め、プログラミングの効率を向上させる強力なツールです。継承を使用することで、コードの重複を減らし、プログラムのメンテナンスが容易になります。次回のエピソードでは、Javaの多態性について解説します。",
+  "tags": [
+    "Java",
+    "継承",
+    "オブジェクト指向"
+  ],
+  "category": "Java",
+  "theme": "java - Java",
+  "status": "published",
+  "createdAt": "2026-05-29T11:29:58.933Z",
+  "updatedAt": "2026-05-29T14:35:19.905Z",
+  "publishedAt": "2026-05-29T11:29:58.933Z",
+  "metaTitle": "Javaの継承",
+  "metaDescription": "Javaの継承の基本概念と使い方を解説します。継承を使用すると、コードの再利用性を高め、プログラミングの効率を向上させることができます。",
+  "ogTitle": "Javaの継承",
+  "ogDescription": "Javaの継承の基本概念と使い方を解説します。継承を使用すると、コードの再利用性を高め、プログラミングの効率を向上させることができます。",
+  "knowledge": {
+    "topic": "java",
+    "courseId": "java",
+    "episode": 9
+  },
+  "faq": [
+    {
+      "question": "Javaの継承の目的は何ですか？",
+      "answer": "Javaの継承の目的は、コードの再利用性を高め、プログラミングの効率を向上させることです。"
+    },
+    {
+      "question": "継承の基本概念は何ですか？",
+      "answer": "継承の基本概念は、親クラスと子クラスが存在し、子クラスが親クラスのすべてのフィールドとメソッドを継承することです。"
+    }
+  ],
+  "nextEpisodeHint": "次回のエピソードでは、Javaの多態性について解説します。",
+  "canonical": "https://ai-site-iota-nine.vercel.app/article/java-inheritance",
+  "jsonLd": {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        "headline": "Javaの継承",
+        "description": "Javaの継承の基本概念と使い方を解説します。継承を使用すると、コードの再利用性を高め、プログラミングの効率を向上させることができます。",
+        "datePublished": "2026-05-29T11:29:58.933Z",
+        "dateModified": "2026-05-29T14:35:19.905Z",
+        "author": {
+          "@type": "Organization",
+          "name": "StackShelf"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app"
+        },
+        "mainEntityOfPage": {
+          "@type": "WebPage",
+          "@id": "https://ai-site-iota-nine.vercel.app/article/java-inheritance"
+        },
+        "keywords": "Java, 継承, オブジェクト指向",
+        "articleSection": "Java",
+        "url": "https://ai-site-iota-nine.vercel.app/article/java-inheritance"
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "ホーム",
+            "item": "https://ai-site-iota-nine.vercel.app"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "java",
+            "item": "https://ai-site-iota-nine.vercel.app/knowledge/java"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "Java",
+            "item": "https://ai-site-iota-nine.vercel.app/course/java/java"
+          },
+          {
+            "@type": "ListItem",
+            "position": 4,
+            "name": "Javaの継承",
+            "item": "https://ai-site-iota-nine.vercel.app/article/java-inheritance"
+          }
+        ]
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "Course",
+        "name": "Java",
+        "description": "Javaプログラミング言語の基礎から応用までを学習する講座です。初心者向けにJavaの基本構文、オブジェクト指向、データ構造、アルゴリズムなどを解説します。",
+        "provider": {
+          "@type": "Organization",
+          "name": "StackShelf"
+        }
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "Javaの継承の目的は何ですか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Javaの継承の目的は、コードの再利用性を高め、プログラミングの効率を向上させることです。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "継承の基本概念は何ですか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "継承の基本概念は、親クラスと子クラスが存在し、子クラスが親クラスのすべてのフィールドとメソッドを継承することです。"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "breadcrumb": {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "ホーム",
+        "item": "https://ai-site-iota-nine.vercel.app"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "java",
+        "item": "https://ai-site-iota-nine.vercel.app/knowledge/java"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "Java",
+        "item": "https://ai-site-iota-nine.vercel.app/course/java/java"
+      },
+      {
+        "@type": "ListItem",
+        "position": 4,
+        "name": "Javaの継承",
+        "item": "https://ai-site-iota-nine.vercel.app/article/java-inheritance"
+      }
+    ]
+  },
+  "courseSchema": {
+    "@context": "https://schema.org",
+    "@type": "Course",
+    "name": "Java",
+    "description": "Javaプログラミング言語の基礎から応用までを学習する講座です。初心者向けにJavaの基本構文、オブジェクト指向、データ構造、アルゴリズムなどを解説します。",
+    "provider": {
+      "@type": "Organization",
+      "name": "StackShelf"
+    }
+  },
+  "faqSchema": {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "Javaの継承の目的は何ですか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Javaの継承の目的は、コードの再利用性を高め、プログラミングの効率を向上させることです。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "継承の基本概念は何ですか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "継承の基本概念は、親クラスと子クラスが存在し、子クラスが親クラスのすべてのフィールドとメソッドを継承することです。"
+        }
+      }
+    ]
+  }
+}

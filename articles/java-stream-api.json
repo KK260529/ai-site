@@ -1,0 +1,192 @@
+{
+  "slug": "java-stream-api",
+  "title": "JavaのStream API",
+  "summary": "Stream API でコレクションを filter、map、collect する方法を学びます。ループより宣言的にデータ処理を書く考え方を身につけます。",
+  "body": "<h2>導入</h2><p>Stream API は Java 8 で導入された<strong>宣言的なデータ処理</strong>の仕組みです。「for で1件ずつ」より「条件→変換→集約」と読みやすく書けます。</p><h2>基本の流れ</h2><pre><code>List&lt;Integer&gt; nums = List.of(1, 2, 3, 4, 5);\nList&lt;Integer&gt; evens = nums.stream()\n    .filter(n -> n % 2 == 0)\n    .map(n -> n * 10)\n    .collect(Collectors.toList());</code></pre><p>偶数だけ取り出し、10倍して新しい List にします。</p><h3>中間操作と終端操作</h3><p><code>filter</code> や <code>map</code> は中間操作、<code>collect</code> や <code>count</code> は終端操作です。終端操作がないと Stream は実行されません。</p><h2>よく使うメソッド</h2><ul><li><code>filter</code> — 条件に合う要素だけ残す</li><li><code>map</code> — 要素を別の形に変換</li><li><code>sorted</code> — 並べ替え</li><li><code>distinct</code> — 重複除去</li><li><code>collect</code> — List などにまとめる</li></ul><h2>集計例</h2><pre><code>int sum = nums.stream().mapToInt(Integer::intValue).sum();\nOptional&lt;Integer&gt; max = nums.stream().max(Integer::compareTo);</code></pre><h3>よくある誤解</h3><p>Stream は「すべてを置き換える」ものではありません。単純なループの方が読みやすい場合もあります。複数段の変換があるときに特に威力を発揮します。</p><h2>確認方法</h2><p>文字列リストから長さ3以上の単語だけを大文字に変換する処理を Stream で書いてみてください。</p><h2>まとめ</h2><p>Stream は filter → map → collect のパイプラインを覚えると実務で十分戦えます。次回はその核となるラムダ式を詳しく学びます。</p>",
+  "conclusion": "Stream API ではパイプライン思考が重要です。filter・map・collect を組み合わせ、ループとの使い分けも意識しましょう。次回はラムダ式の構文を深掘りします。",
+  "tags": [
+    "Java",
+    "Stream",
+    "関数型"
+  ],
+  "category": "プログラミング",
+  "theme": "java - Java",
+  "status": "published",
+  "createdAt": "2026-05-29T14:36:45.100Z",
+  "updatedAt": "2026-05-29T14:36:45.100Z",
+  "publishedAt": "2026-05-29T14:36:45.100Z",
+  "metaTitle": "JavaのStream API",
+  "metaDescription": "Stream API でコレクションを filter、map、collect する方法を学びます。ループより宣言的にデータ処理を書く考え方を身につけます。",
+  "ogTitle": "JavaのStream API",
+  "ogDescription": "Stream API でコレクションを filter、map、collect する方法を学びます。ループより宣言的にデータ処理を書く考え方を身につけます。",
+  "knowledge": {
+    "topic": "java",
+    "courseId": "java",
+    "episode": 16
+  },
+  "faq": [
+    {
+      "question": "Stream は元リストを変更する？",
+      "answer": "基本的に新しい結果を作り、元コレクションは変更しません。"
+    },
+    {
+      "question": "parallelStream とは？",
+      "answer": "並列処理版の Stream です。小さなデータでは逆に遅くなることもあります。"
+    }
+  ],
+  "nextEpisodeHint": "次回はラムダ式の構文と書き方を詳しく学びます。",
+  "canonical": "https://ai-site-iota-nine.vercel.app/article/java-stream-api",
+  "jsonLd": {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        "headline": "JavaのStream API",
+        "description": "Stream API でコレクションを filter、map、collect する方法を学びます。ループより宣言的にデータ処理を書く考え方を身につけます。",
+        "datePublished": "2026-05-29T14:36:45.100Z",
+        "dateModified": "2026-05-29T14:36:45.100Z",
+        "author": {
+          "@type": "Organization",
+          "name": "StackShelf"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app"
+        },
+        "mainEntityOfPage": {
+          "@type": "WebPage",
+          "@id": "https://ai-site-iota-nine.vercel.app/article/java-stream-api"
+        },
+        "keywords": "Java, Stream, 関数型",
+        "articleSection": "プログラミング",
+        "url": "https://ai-site-iota-nine.vercel.app/article/java-stream-api"
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "ホーム",
+            "item": "https://ai-site-iota-nine.vercel.app"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "java",
+            "item": "https://ai-site-iota-nine.vercel.app/knowledge/java"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "Java",
+            "item": "https://ai-site-iota-nine.vercel.app/course/java/java"
+          },
+          {
+            "@type": "ListItem",
+            "position": 4,
+            "name": "JavaのStream API",
+            "item": "https://ai-site-iota-nine.vercel.app/article/java-stream-api"
+          }
+        ]
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "Course",
+        "name": "Java",
+        "description": "Javaプログラミング言語の基礎から応用までを学習する講座です。初心者向けにJavaの基本構文、オブジェクト指向、データ構造、アルゴリズムなどを解説します。",
+        "provider": {
+          "@type": "Organization",
+          "name": "StackShelf"
+        }
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "Stream は元リストを変更する？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "基本的に新しい結果を作り、元コレクションは変更しません。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "parallelStream とは？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "並列処理版の Stream です。小さなデータでは逆に遅くなることもあります。"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "breadcrumb": {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "ホーム",
+        "item": "https://ai-site-iota-nine.vercel.app"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "java",
+        "item": "https://ai-site-iota-nine.vercel.app/knowledge/java"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "Java",
+        "item": "https://ai-site-iota-nine.vercel.app/course/java/java"
+      },
+      {
+        "@type": "ListItem",
+        "position": 4,
+        "name": "JavaのStream API",
+        "item": "https://ai-site-iota-nine.vercel.app/article/java-stream-api"
+      }
+    ]
+  },
+  "courseSchema": {
+    "@context": "https://schema.org",
+    "@type": "Course",
+    "name": "Java",
+    "description": "Javaプログラミング言語の基礎から応用までを学習する講座です。初心者向けにJavaの基本構文、オブジェクト指向、データ構造、アルゴリズムなどを解説します。",
+    "provider": {
+      "@type": "Organization",
+      "name": "StackShelf"
+    }
+  },
+  "faqSchema": {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "Stream は元リストを変更する？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "基本的に新しい結果を作り、元コレクションは変更しません。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "parallelStream とは？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "並列処理版の Stream です。小さなデータでは逆に遅くなることもあります。"
+        }
+      }
+    ]
+  }
+}

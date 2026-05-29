@@ -1,0 +1,192 @@
+{
+  "slug": "java-network-programming",
+  "title": "Javaのネットワークプログラミング",
+  "summary": "TCP ソケットを使った基本的なクライアント・サーバー通信を学びます。Socket、ServerSocket、入出力ストリームの流れを理解します。",
+  "body": "<h2>導入</h2><p>Web API やチャットアプリの裏側には<strong>TCP/IP 通信</strong>があります。Java では <code>java.net</code> パッケージでソケット通信を扱えます。</p><h2>サーバー側の基本</h2><pre><code>try (ServerSocket server = new ServerSocket(8080)) {\n    System.out.println(\"待機中...\");\n    try (Socket client = server.accept();\n         var in = new BufferedReader(new InputStreamReader(client.getInputStream()));\n         var out = client.getOutputStream()) {\n        String msg = in.readLine();\n        out.write((\"echo: \" + msg + \"\\n\").getBytes(StandardCharsets.UTF_8));\n    }\n}</code></pre><p><code>ServerSocket</code> がポート 8080 で待ち受け、<code>accept()</code> で接続を受け付けます。</p><h3>クライアント側</h3><pre><code>try (Socket socket = new Socket(\"localhost\", 8080);\n     var out = socket.getOutputStream();\n     var in = new BufferedReader(new InputStreamReader(socket.getInputStream()))) {\n    out.write(\"hello\\n\".getBytes(StandardCharsets.UTF_8));\n    System.out.println(in.readLine());\n}</code></pre><h2>通信の流れ</h2><ol><li>サーバーが bind / listen</li><li>クライアントが connect</li><li>双方向ストリームでデータ送受信</li><li>ソケットを close</li></ol><h3>よくある誤解</h3><p>実務の HTTP 通信は <code>HttpClient</code>（Java 11+）を使うことが多いです。ソケットは「仕組みを理解するため」の土台として学びます。</p><h2>確認方法</h2><p>サーバーを先に起動し、別プロセスでクライアントを実行します。<code>Connection refused</code> が出たらポートや起動順序を確認してください。</p><h2>まとめ</h2><p>ネットワークプログラミングの核心は「待ち受け→接続→ストリーム」です。小さな echo サーバーで体験すると、後の Web 開発理解が深まります。</p>",
+  "conclusion": "Java のネットワーク入門では ServerSocket と Socket の役割分担を押さえることが重要です。実務では HttpClient も使いますが、TCP の流れを知っておくとトラブルシュートに役立ちます。次回はスレッドで並行処理を学びます。",
+  "tags": [
+    "Java",
+    "ネットワーク",
+    "Socket"
+  ],
+  "category": "プログラミング",
+  "theme": "java - Java",
+  "status": "published",
+  "createdAt": "2026-05-29T14:36:44.861Z",
+  "updatedAt": "2026-05-29T14:36:44.861Z",
+  "publishedAt": "2026-05-29T14:36:44.861Z",
+  "metaTitle": "Javaのネットワークプログラミング",
+  "metaDescription": "TCP ソケットを使った基本的なクライアント・サーバー通信を学びます。Socket、ServerSocket、入出力ストリームの流れを理解します。",
+  "ogTitle": "Javaのネットワークプログラミング",
+  "ogDescription": "TCP ソケットを使った基本的なクライアント・サーバー通信を学びます。Socket、ServerSocket、入出力ストリームの流れを理解します。",
+  "knowledge": {
+    "topic": "java",
+    "courseId": "java",
+    "episode": 13
+  },
+  "faq": [
+    {
+      "question": "localhost とは？",
+      "answer": "自分のマシン自身を指す特別なホスト名です。"
+    },
+    {
+      "question": "ポートが使用中のエラーは？",
+      "answer": "別プロセスが同じポートを使っている可能性があります。"
+    }
+  ],
+  "nextEpisodeHint": "次回はスレッドを使い、並行処理の基礎を学びます。",
+  "canonical": "https://ai-site-iota-nine.vercel.app/article/java-network-programming",
+  "jsonLd": {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        "headline": "Javaのネットワークプログラミング",
+        "description": "TCP ソケットを使った基本的なクライアント・サーバー通信を学びます。Socket、ServerSocket、入出力ストリームの流れを理解します。",
+        "datePublished": "2026-05-29T14:36:44.861Z",
+        "dateModified": "2026-05-29T14:36:44.861Z",
+        "author": {
+          "@type": "Organization",
+          "name": "StackShelf"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app"
+        },
+        "mainEntityOfPage": {
+          "@type": "WebPage",
+          "@id": "https://ai-site-iota-nine.vercel.app/article/java-network-programming"
+        },
+        "keywords": "Java, ネットワーク, Socket",
+        "articleSection": "プログラミング",
+        "url": "https://ai-site-iota-nine.vercel.app/article/java-network-programming"
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "ホーム",
+            "item": "https://ai-site-iota-nine.vercel.app"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "java",
+            "item": "https://ai-site-iota-nine.vercel.app/knowledge/java"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "Java",
+            "item": "https://ai-site-iota-nine.vercel.app/course/java/java"
+          },
+          {
+            "@type": "ListItem",
+            "position": 4,
+            "name": "Javaのネットワークプログラミング",
+            "item": "https://ai-site-iota-nine.vercel.app/article/java-network-programming"
+          }
+        ]
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "Course",
+        "name": "Java",
+        "description": "Javaプログラミング言語の基礎から応用までを学習する講座です。初心者向けにJavaの基本構文、オブジェクト指向、データ構造、アルゴリズムなどを解説します。",
+        "provider": {
+          "@type": "Organization",
+          "name": "StackShelf"
+        }
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "localhost とは？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "自分のマシン自身を指す特別なホスト名です。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "ポートが使用中のエラーは？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "別プロセスが同じポートを使っている可能性があります。"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "breadcrumb": {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "ホーム",
+        "item": "https://ai-site-iota-nine.vercel.app"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "java",
+        "item": "https://ai-site-iota-nine.vercel.app/knowledge/java"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "Java",
+        "item": "https://ai-site-iota-nine.vercel.app/course/java/java"
+      },
+      {
+        "@type": "ListItem",
+        "position": 4,
+        "name": "Javaのネットワークプログラミング",
+        "item": "https://ai-site-iota-nine.vercel.app/article/java-network-programming"
+      }
+    ]
+  },
+  "courseSchema": {
+    "@context": "https://schema.org",
+    "@type": "Course",
+    "name": "Java",
+    "description": "Javaプログラミング言語の基礎から応用までを学習する講座です。初心者向けにJavaの基本構文、オブジェクト指向、データ構造、アルゴリズムなどを解説します。",
+    "provider": {
+      "@type": "Organization",
+      "name": "StackShelf"
+    }
+  },
+  "faqSchema": {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "localhost とは？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "自分のマシン自身を指す特別なホスト名です。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "ポートが使用中のエラーは？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "別プロセスが同じポートを使っている可能性があります。"
+        }
+      }
+    ]
+  }
+}

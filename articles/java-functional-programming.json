@@ -1,0 +1,192 @@
+{
+  "slug": "java-functional-programming",
+  "title": "Javaの関数型プログラミング",
+  "summary": "Java における関数型プログラミングの考え方を学びます。不変性、副作用の削減、Optional、純粋関数のメリットを解説します。",
+  "body": "<h2>導入</h2><p>関数型プログラミング（FP）は「関数を中心にプログラムを組み立てる」スタイルです。Java はオブジェクト指向言語ですが、Java 8 以降 FP の要素を取り入れています。</p><h2>純粋関数と副作用</h2><p><strong>純粋関数</strong>は同じ引数なら常に同じ結果を返し、外部状態を変更しません。テストしやすく、並行処理でも扱いやすいです。</p><pre><code>static int add(int a, int b) { return a + b; }</code></pre><p>一方、ファイル書き込みやフィールド更新は副作用を伴います。FP では副作用を境界に押し出し、核心ロジックを純粋に保つことが多いです。</p><h2>Optional</h2><pre><code>Optional&lt;String&gt; name = Optional.ofNullable(user.getName());\nString display = name.orElse(\"guest\");</code></pre><p><code>null</code> チェックの代わりに「値があるかもしれない」ことを型で表現します。</p><h3>不変性</h3><p><code>List.of</code> や <code>record</code>（Java 16+）は不変データを作りやすくします。共有しても意図しない変更が起きにくいです。</p><h2>Java における FP の現実</h2><p>Java では完全な FP より、<strong>OO と FP のハイブリッド</strong>が一般的です。Stream・ラムダ・Optional をうまく使い、可読性と保守性を上げるのが実務的な目標です。</p><h2>確認方法</h2><p>null を返すメソッドを Optional 返却に書き換え、呼び出し側で <code>map</code> / <code>orElse</code> を使ってみてください。</p><h2>まとめ</h2><p>関数型の考え方は「副作用を減らし、データ変換を宣言的に書く」ことです。Java では Stream と Optional から始めるのがおすすめです。</p>",
+  "conclusion": "Java の関数型プログラミングは純粋関数・不変性・Optional の3点が鍵です。すべてを FP にする必要はなく、読みやすい部分から取り入れましょう。次回はベストプラクティスで実務向けの設計を学びます。",
+  "tags": [
+    "Java",
+    "関数型",
+    "Optional"
+  ],
+  "category": "プログラミング",
+  "theme": "java - Java",
+  "status": "published",
+  "createdAt": "2026-05-29T14:36:45.248Z",
+  "updatedAt": "2026-05-29T14:36:45.249Z",
+  "publishedAt": "2026-05-29T14:36:45.248Z",
+  "metaTitle": "Javaの関数型プログラミング",
+  "metaDescription": "Java における関数型プログラミングの考え方を学びます。不変性、副作用の削減、Optional、純粋関数のメリットを解説します。",
+  "ogTitle": "Javaの関数型プログラミング",
+  "ogDescription": "Java における関数型プログラミングの考え方を学びます。不変性、副作用の削減、Optional、純粋関数のメリットを解説します。",
+  "knowledge": {
+    "topic": "java",
+    "courseId": "java",
+    "episode": 18
+  },
+  "faq": [
+    {
+      "question": "Optional をフィールドに使う？",
+      "answer": "一般には推奨されません。戻り値型として使うのが定石です。"
+    },
+    {
+      "question": "record とは？",
+      "answer": "不変データを簡潔に定義するクラスで、Java 16 以降で利用できます。"
+    }
+  ],
+  "nextEpisodeHint": "次回はベストプラクティスとして、実務で役立つ設計のコツを学びます。",
+  "canonical": "https://ai-site-iota-nine.vercel.app/article/java-functional-programming",
+  "jsonLd": {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        "headline": "Javaの関数型プログラミング",
+        "description": "Java における関数型プログラミングの考え方を学びます。不変性、副作用の削減、Optional、純粋関数のメリットを解説します。",
+        "datePublished": "2026-05-29T14:36:45.248Z",
+        "dateModified": "2026-05-29T14:36:45.249Z",
+        "author": {
+          "@type": "Organization",
+          "name": "StackShelf"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app"
+        },
+        "mainEntityOfPage": {
+          "@type": "WebPage",
+          "@id": "https://ai-site-iota-nine.vercel.app/article/java-functional-programming"
+        },
+        "keywords": "Java, 関数型, Optional",
+        "articleSection": "プログラミング",
+        "url": "https://ai-site-iota-nine.vercel.app/article/java-functional-programming"
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "ホーム",
+            "item": "https://ai-site-iota-nine.vercel.app"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "java",
+            "item": "https://ai-site-iota-nine.vercel.app/knowledge/java"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "Java",
+            "item": "https://ai-site-iota-nine.vercel.app/course/java/java"
+          },
+          {
+            "@type": "ListItem",
+            "position": 4,
+            "name": "Javaの関数型プログラミング",
+            "item": "https://ai-site-iota-nine.vercel.app/article/java-functional-programming"
+          }
+        ]
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "Course",
+        "name": "Java",
+        "description": "Javaプログラミング言語の基礎から応用までを学習する講座です。初心者向けにJavaの基本構文、オブジェクト指向、データ構造、アルゴリズムなどを解説します。",
+        "provider": {
+          "@type": "Organization",
+          "name": "StackShelf"
+        }
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "Optional をフィールドに使う？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "一般には推奨されません。戻り値型として使うのが定石です。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "record とは？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "不変データを簡潔に定義するクラスで、Java 16 以降で利用できます。"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "breadcrumb": {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "ホーム",
+        "item": "https://ai-site-iota-nine.vercel.app"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "java",
+        "item": "https://ai-site-iota-nine.vercel.app/knowledge/java"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "Java",
+        "item": "https://ai-site-iota-nine.vercel.app/course/java/java"
+      },
+      {
+        "@type": "ListItem",
+        "position": 4,
+        "name": "Javaの関数型プログラミング",
+        "item": "https://ai-site-iota-nine.vercel.app/article/java-functional-programming"
+      }
+    ]
+  },
+  "courseSchema": {
+    "@context": "https://schema.org",
+    "@type": "Course",
+    "name": "Java",
+    "description": "Javaプログラミング言語の基礎から応用までを学習する講座です。初心者向けにJavaの基本構文、オブジェクト指向、データ構造、アルゴリズムなどを解説します。",
+    "provider": {
+      "@type": "Organization",
+      "name": "StackShelf"
+    }
+  },
+  "faqSchema": {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "Optional をフィールドに使う？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "一般には推奨されません。戻り値型として使うのが定石です。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "record とは？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "不変データを簡潔に定義するクラスで、Java 16 以降で利用できます。"
+        }
+      }
+    ]
+  }
+}

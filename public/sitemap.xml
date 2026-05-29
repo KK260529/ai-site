@@ -6,6 +6,11 @@
     <priority>1.0</priority>
   </url>
   <url>
+    <loc>https://ai-site-iota-nine.vercel.app/privacy</loc>
+    
+    <priority>0.4</priority>
+  </url>
+  <url>
     <loc>https://ai-site-iota-nine.vercel.app/admin</loc>
     
     <priority>0.3</priority>
@@ -14,6 +19,106 @@
     <loc>https://ai-site-iota-nine.vercel.app/course/java/java</loc>
     
     <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://ai-site-iota-nine.vercel.app/article/java-project-development</loc>
+    <lastmod>2026-05-29</lastmod>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://ai-site-iota-nine.vercel.app/article/java-functional-programming</loc>
+    <lastmod>2026-05-29</lastmod>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://ai-site-iota-nine.vercel.app/article/java-lambda-expression</loc>
+    <lastmod>2026-05-29</lastmod>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://ai-site-iota-nine.vercel.app/article/java-stream-api</loc>
+    <lastmod>2026-05-29</lastmod>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://ai-site-iota-nine.vercel.app/article/java-collection-framework</loc>
+    <lastmod>2026-05-29</lastmod>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://ai-site-iota-nine.vercel.app/article/java-thread-programming</loc>
+    <lastmod>2026-05-29</lastmod>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://ai-site-iota-nine.vercel.app/article/java-network-programming</loc>
+    <lastmod>2026-05-29</lastmod>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://ai-site-iota-nine.vercel.app/article/java-file-input-output</loc>
+    <lastmod>2026-05-29</lastmod>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://ai-site-iota-nine.vercel.app/article/java-syntax</loc>
+    <lastmod>2026-05-29</lastmod>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://ai-site-iota-nine.vercel.app/article/java-introduction</loc>
+    <lastmod>2026-05-29</lastmod>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://ai-site-iota-nine.vercel.app/article/java-best-practices</loc>
+    <lastmod>2026-05-29</lastmod>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://ai-site-iota-nine.vercel.app/article/java-exception-handling</loc>
+    <lastmod>2026-05-29</lastmod>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://ai-site-iota-nine.vercel.app/article/java-polymorphism</loc>
+    <lastmod>2026-05-29</lastmod>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://ai-site-iota-nine.vercel.app/article/java-inheritance</loc>
+    <lastmod>2026-05-29</lastmod>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://ai-site-iota-nine.vercel.app/article/java-classes</loc>
+    <lastmod>2026-05-29</lastmod>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://ai-site-iota-nine.vercel.app/article/java-objects</loc>
+    <lastmod>2026-05-29</lastmod>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://ai-site-iota-nine.vercel.app/article/java-arrays</loc>
+    <lastmod>2026-05-29</lastmod>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://ai-site-iota-nine.vercel.app/article/java-functions</loc>
+    <lastmod>2026-05-29</lastmod>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://ai-site-iota-nine.vercel.app/article/java-control-structures</loc>
+    <lastmod>2026-05-29</lastmod>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://ai-site-iota-nine.vercel.app/article/java-variables</loc>
+    <lastmod>2026-05-29</lastmod>
+    <priority>0.7</priority>
   </url>
   <url>
     <loc>https://ai-site-iota-nine.vercel.app/knowledge/java</loc>

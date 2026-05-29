@@ -5,12 +5,18 @@ const { slugify, ensureUniqueSlug } = require("./slug");
 const { mergeSeoIntoArticle } = require("./seo");
 const { buildSeoExtended } = require("./seoExtended");
 const { sanitizeHtml } = require("./sanitize");
+const { canWriteToDisk } = require("./runtime");
 
 const ARTICLES_DIR = path.join(process.cwd(), config.articlesDir);
 
 function ensureDir() {
-  if (!fs.existsSync(ARTICLES_DIR)) {
-    fs.mkdirSync(ARTICLES_DIR, { recursive: true });
+  if (!canWriteToDisk()) return;
+  try {
+    if (!fs.existsSync(ARTICLES_DIR)) {
+      fs.mkdirSync(ARTICLES_DIR, { recursive: true });
+    }
+  } catch {
+    /* read-only FS */
   }
 }
 
@@ -26,6 +32,9 @@ function readArticleFile(slug) {
 }
 
 function writeArticleFile(article) {
+  if (!canWriteToDisk()) {
+    throw new Error("この環境（Vercel 等）では記事を保存できません。Railway / VPS をご利用ください。");
+  }
   ensureDir();
   const filePath = getFilePath(article.slug);
   fs.writeFileSync(filePath, JSON.stringify(article, null, 2), "utf-8");
@@ -42,7 +51,9 @@ function deleteArticleFile(slug) {
 }
 
 function listAllArticles() {
-  ensureDir();
+  if (!fs.existsSync(ARTICLES_DIR)) {
+    return [];
+  }
   const files = fs.readdirSync(ARTICLES_DIR).filter((f) => f.endsWith(".json"));
   const articles = files
     .map((f) => {

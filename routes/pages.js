@@ -12,6 +12,7 @@ const {
 } = require("../utils/render");
 const { buildSitemapXml } = require("../utils/seoExtended");
 const { config } = require("../utils/config");
+const { requireAdminAuth } = require("../utils/auth/adminAuth");
 
 function sendPublicFile(res, filename, contentType) {
   const filePath = path.join(config.publicDir, filename);
@@ -68,7 +69,7 @@ router.get("/article/:slug", (req, res) => {
   res.send(renderArticle(article, seriesNav));
 });
 
-router.get("/admin", (_req, res) => {
+router.get("/admin", requireAdminAuth, (_req, res) => {
   res.send(renderAdmin());
 });
 

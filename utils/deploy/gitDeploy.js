@@ -2,8 +2,15 @@ const { spawnSync } = require("child_process");
 const fs = require("fs");
 const path = require("path");
 
+const {
+  ALLOWED_OWNER,
+  ALLOWED_REMOTE,
+  enforceAllowedAccount,
+  assertPushAllowed,
+} = require("./ensureGitAccount");
+
 const ROOT = process.cwd();
-const DEFAULT_REMOTE = "https://KK260529@github.com/KK260529/ai-site.git";
+const DEFAULT_REMOTE = ALLOWED_REMOTE;
 
 /** Git に含める公開関連パス */
 const DEPLOY_PATHS = [
@@ -42,26 +49,33 @@ function getGitInfo() {
   const status = runGit(["status", "--porcelain", "--", ...DEPLOY_PATHS]);
   const lines = status.ok && status.output ? status.output.split("\n").filter(Boolean) : [];
 
+  const allowed =
+    remote.ok && remote.output.includes(`${ALLOWED_OWNER}/`);
+
   return {
     isRepo: true,
     branch: branch.ok ? branch.output : null,
     remote: remote.ok ? remote.output : null,
     hasRemote: remote.ok,
+    allowedAccount: ALLOWED_OWNER,
+    remoteAllowed: allowed,
     changedFiles: lines.length,
     changes: lines.slice(0, 30),
-    canPush: remote.ok,
+    canPush: remote.ok && allowed,
   };
 }
 
-function gitPushDeploy({ message } = {}) {
+function gitPushDeploy({ message, clearCredentialCache = false } = {}) {
   if (!isGitRepo()) {
     throw new Error("Git リポジトリがありません。プロジェクトフォルダで git init を実行してください。");
   }
 
+  enforceAllowedAccount({ clearCache: clearCredentialCache });
+
   const info = getGitInfo();
-  if (!info.hasRemote) {
+  if (!info.hasRemote || !info.remoteAllowed) {
     throw new Error(
-      `リモート origin がありません。git-初期設定.bat を実行するか: git remote add origin ${DEFAULT_REMOTE}`
+      `このリポジトリは ${ALLOWED_OWNER} 専用です。git-fix-account.bat を実行してください。\n許可URL: ${DEFAULT_REMOTE}`
     );
   }
 
@@ -88,7 +102,10 @@ function gitPushDeploy({ message } = {}) {
 
   const pushResult = runGit(["push", "origin", info.branch || "HEAD"]);
   steps.push({ step: "push", branch: info.branch, ...pushResult });
-  if (!pushResult.ok) throw new Error(`git push 失敗: ${pushResult.error}`);
+  if (!pushResult.ok) {
+    assertPushAllowed(pushResult.error || pushResult.output);
+    throw new Error(`git push 失敗: ${pushResult.error}`);
+  }
 
   return {
     success: true,

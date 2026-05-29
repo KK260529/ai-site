@@ -19,12 +19,17 @@ router.get("/status", (_req, res) => {
 });
 
 router.get("/git-status", (_req, res) => {
-  res.json(getGitInfo());
+  const info = getGitInfo();
+  const { ALLOWED_OWNER, ALLOWED_REMOTE } = require("../utils/deploy/ensureGitAccount");
+  res.json({ ...info, allowedOwner: ALLOWED_OWNER, allowedRemote: ALLOWED_REMOTE });
 });
 
 router.post("/git-push", (req, res) => {
   try {
-    const result = gitPushDeploy({ message: req.body?.message });
+    const result = gitPushDeploy({
+      message: req.body?.message,
+      clearCredentialCache: Boolean(req.body?.clearCredentialCache),
+    });
     res.json(result);
   } catch (err) {
     res.status(400).json({ success: false, error: err.message });

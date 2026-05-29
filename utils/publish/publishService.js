@@ -9,17 +9,24 @@ const sitemapGenerator = require("../seo/sitemapGenerator");
 const robotsGenerator = require("../seo/robotsGenerator");
 const rssGenerator = require("../rss/rssGenerator");
 const { runHooks } = require("../automation");
+const { canWriteToDisk } = require("../runtime");
 
 const PUBLISH_LOG = path.join(config.logsDir, "publish.log");
 const STATUS_FILE = path.join(config.dataDir, "publish-status.json");
 
 function ensureDirs() {
+  if (!canWriteToDisk()) return;
   [config.logsDir, config.backupsDir, config.dataDir, config.publicDir].forEach((d) => {
-    if (!fs.existsSync(d)) fs.mkdirSync(d, { recursive: true });
+    try {
+      if (!fs.existsSync(d)) fs.mkdirSync(d, { recursive: true });
+    } catch {
+      /* read-only FS */
+    }
   });
 }
 
 function backupArticle(article) {
+  if (!canWriteToDisk()) return null;
   ensureDirs();
   const date = new Date().toISOString().split("T")[0];
   const dir = path.join(config.backupsDir, date);
@@ -30,6 +37,7 @@ function backupArticle(article) {
 }
 
 function appendPublishLog(entry) {
+  if (!canWriteToDisk()) return;
   ensureDirs();
   const line = JSON.stringify({ ...entry, loggedAt: new Date().toISOString() }) + "\n";
   fs.appendFileSync(PUBLISH_LOG, line, "utf-8");
@@ -57,7 +65,9 @@ function readPublishStatus() {
 function savePublishStatus(partial) {
   const current = readPublishStatus();
   const next = { ...current, ...partial, siteUrl: config.siteUrl, nodeEnv: config.nodeEnv };
-  fs.writeFileSync(STATUS_FILE, JSON.stringify(next, null, 2), "utf-8");
+  if (canWriteToDisk()) {
+    fs.writeFileSync(STATUS_FILE, JSON.stringify(next, null, 2), "utf-8");
+  }
   return next;
 }
 

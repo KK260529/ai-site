@@ -20,11 +20,14 @@ const config = {
   groqModel: process.env.GROQ_MODEL || "llama-3.3-70b-versatile",
   groqMaxTokens: Number(process.env.GROQ_MAX_TOKENS) || 8192,
   groqBaseURL: "https://api.groq.com/openai/v1",
-  siteName: process.env.SITE_NAME || "TechMatome AI",
+  siteName: process.env.SITE_NAME || "StackShelf",
+  siteTagline: process.env.SITE_TAGLINE || "技術を、ひとつずつ積み上げる。",
+  adminUser: (process.env.ADMIN_USER || "admin").trim() || "admin",
+  adminPassword: process.env.ADMIN_PASSWORD || "",
   siteUrl,
   siteDescription:
     process.env.SITE_DESCRIPTION ||
-    "AIが生成する技術まとめブログ。Linux・Git・Docker・Pythonなど初心者向けに解説。",
+    "StackShelf — Linux・Git・Docker・Python など、初心者にもわかる技術まとめ。AI編集と構造化メモリで組み立てた学習サイト。",
   articlesDir: "articles",
   publicDir: path.join(process.cwd(), "public"),
   backupsDir: path.join(process.cwd(), "backups"),

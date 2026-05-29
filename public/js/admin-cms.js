@@ -55,6 +55,7 @@ function formatDate(iso) {
 
 async function api(url, options = {}) {
   const res = await fetch(url, {
+    credentials: "same-origin",
     headers: { "Content-Type": "application/json", ...options.headers },
     ...options,
   });
@@ -851,21 +852,24 @@ async function loadGitStatus() {
       $("gitPushBtn").disabled = true;
       return;
     }
-    $("gitRepoStatus").textContent = "OK";
+    $("gitRepoStatus").textContent = g.remoteAllowed !== false ? "OK (KK260529)" : "要修正";
     $("gitBranch").textContent = g.branch || "—";
     $("gitRemote").textContent = g.remote || "（未設定）";
     $("gitChanges").textContent = `${g.changedFiles} 件`;
     $("gitPushBtn").disabled = !g.canPush;
+    if (!g.canPush && g.isRepo) {
+      $("gitPushBtn").title = "git-fix-account.bat を実行してください";
+    }
   } catch {
     $("gitRepoStatus").textContent = "取得失敗";
     $("gitPushBtn").disabled = true;
   }
 }
 
-async function gitPushDeploy() {
+async function gitPushDeploy(clearCache = false) {
   if (
     !confirm(
-      "articles / sitemap / RSS 等を git add → commit → push します。\n本番サイト（Vercel / Railway）が更新されます。よろしいですか？"
+      "KK260529/ai-site のみに push します。\n（sgupge2624 等の別アカウントでは push しません）\nよろしいですか？"
     )
   ) {
     return;
@@ -877,7 +881,10 @@ async function gitPushDeploy() {
   try {
     const data = await api("/api/publish/git-push", {
       method: "POST",
-      body: JSON.stringify({ message: $("gitCommitMsg")?.value?.trim() || undefined }),
+      body: JSON.stringify({
+        message: $("gitCommitMsg")?.value?.trim() || undefined,
+        clearCredentialCache: clearCache,
+      }),
     });
     log.textContent = [
       data.message,
@@ -934,7 +941,10 @@ async function regenerateSeo() {
 // --- Init ---
 $("createTopicBtn")?.addEventListener("click", createTopic);
 $("regenerateSeoBtn")?.addEventListener("click", regenerateSeo);
-$("gitPushBtn")?.addEventListener("click", gitPushDeploy);
+$("gitPushBtn")?.addEventListener("click", () => gitPushDeploy(false));
+$("gitFixAccountBtn")?.addEventListener("click", () => {
+  toast("git-fix-account.bat を実行してください（認証クリア + KK260529 固定）");
+});
 $("saveJsonBtn")?.addEventListener("click", saveJson);
 $("deleteTopicBtn")?.addEventListener("click", deleteTopic);
 $("courseTopicSelect")?.addEventListener("change", () => {

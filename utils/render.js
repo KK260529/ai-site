@@ -26,9 +26,18 @@ function replaceAll(template, vars) {
   return result;
 }
 
+function layoutDefaults() {
+  return {
+    siteName: config.siteName,
+    siteTagline: config.siteTagline,
+    siteUrl: config.siteUrl,
+    adminNavLink: config.isProduction ? "" : '<a href="/admin">管理</a>',
+  };
+}
+
 function renderPage(layoutVars) {
   const layout = loadTemplate("layout.html");
-  return replaceAll(layout, layoutVars);
+  return replaceAll(layout, { ...layoutDefaults(), ...layoutVars });
 }
 
 function buildBreadcrumbHtml(items) {
@@ -105,6 +114,8 @@ function renderHome(articles, courses = []) {
   const categoryOptions = categories.map((c) => `<option value="${escapeHtml(c)}">${escapeHtml(c)}</option>`).join("");
 
   const pageContent = replaceAll(content, {
+    siteName: config.siteName,
+    siteTagline: config.siteTagline,
     articleCards: cards || '<p class="empty">まだ記事がありません。</p>',
     courseCards: courseCards || "",
     categoryOptions,

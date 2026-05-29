@@ -2,9 +2,15 @@
 const { spawnSync } = require("child_process");
 const fs = require("fs");
 const path = require("path");
+const {
+  ALLOWED_OWNER,
+  ALLOWED_REMOTE,
+  enforceAllowedAccount,
+  assertPushAllowed,
+} = require("../utils/deploy/ensureGitAccount");
 
 const ROOT = path.join(__dirname, "..");
-const REMOTE = "https://KK260529@github.com/KK260529/ai-site.git";
+const REMOTE = ALLOWED_REMOTE;
 
 function git(args) {
   const r = spawnSync("git", args, { cwd: ROOT, encoding: "utf8", windowsHide: true });
@@ -54,13 +60,16 @@ function main() {
   }
 
   step("git push -u origin main");
-  console.log("(GitHub login may appear - use account KK260529)\n");
+  console.log(`(Login as ${ALLOWED_OWNER} only - PAT as password)\n`);
   const push = git(["push", "-u", "origin", "main"]);
   console.log(push.out || "");
   if (!push.ok) {
-    console.error("\n[PUSH FAILED]");
-    console.error("Wrong GitHub account? Use KK260529 credentials.");
-    console.error("Try: GitHub Desktop -> File -> Add local repository -> Push");
+    try {
+      assertPushAllowed(push.out);
+    } catch (e) {
+      console.error("\n", e.message);
+    }
+    console.error("\n[PUSH FAILED] Run git-fix-account.bat");
     process.exit(1);
   }
 

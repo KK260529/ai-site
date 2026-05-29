@@ -15,10 +15,13 @@ function generateText() {
 }
 
 function writeToPublic() {
-  const dir = config.publicDir;
-  if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
-  const filePath = path.join(dir, "robots.txt");
-  fs.writeFileSync(filePath, generateText(), "utf-8");
+  const filePath = path.join(config.publicDir, "robots.txt");
+  const { canWriteToDisk } = require("../runtime");
+  if (canWriteToDisk()) {
+    const dir = config.publicDir;
+    if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
+    fs.writeFileSync(filePath, generateText(), "utf-8");
+  }
   return { filePath, updatedAt: new Date().toISOString() };
 }
 

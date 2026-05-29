@@ -48,11 +48,14 @@ ${items}
 }
 
 function writeToPublic() {
-  const dir = config.publicDir;
-  if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
   const xml = generateXml();
-  const filePath = path.join(dir, "rss.xml");
-  fs.writeFileSync(filePath, xml, "utf-8");
+  const filePath = path.join(config.publicDir, "rss.xml");
+  const { canWriteToDisk } = require("../runtime");
+  if (canWriteToDisk()) {
+    const dir = config.publicDir;
+    if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
+    fs.writeFileSync(filePath, xml, "utf-8");
+  }
   const count = articleStore.getPublishedArticles().length;
   return { filePath, updatedAt: new Date().toISOString(), itemCount: Math.min(count, 50) };
 }

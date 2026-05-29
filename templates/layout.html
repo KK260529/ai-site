@@ -34,7 +34,7 @@
     <nav class="header__nav">
       <a href="/">ホーム</a>
       <a href="/knowledge/docker">Docker</a>
-      <a href="/admin">管理</a>
+      {{adminNavLink}}
     </nav>
   </header>
 
@@ -43,7 +43,7 @@
   </main>
 
   <footer class="footer glass">
-    <p>&copy; {{siteName}} — 個人用AI知識出版社（LLM + Local Structured Memory）</p>
+    <p>&copy; {{siteName}} — {{siteTagline}}</p>
   </footer>
 
   {{extraJs}}

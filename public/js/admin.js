@@ -31,7 +31,7 @@ function showApiError(msg) {
 async function checkHealth() {
   const el = $("apiStatus");
   try {
-    const res = await fetch("/api/health?verify=true");
+    const res = await fetch("/api/health?verify=true", { credentials: "same-origin" });
     const data = await res.json();
     if (!data.groqConfigured) {
       el.textContent = "⚠ GROQ_API_KEY 未設定";

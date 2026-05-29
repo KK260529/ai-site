@@ -1,5 +1,6 @@
 const path = require("path");
 const { ensureDir, readJson, writeJson } = require("../fsJson");
+const { canWriteToDisk } = require("../runtime");
 
 const ROOT = path.join(process.cwd(), "memory");
 
@@ -25,6 +26,7 @@ function getWritingRules() {
 }
 
 function initDefaults() {
+  if (!canWriteToDisk()) return;
   ensureDir(path.join(ROOT, "site"));
   ensureDir(path.join(ROOT, "writing"));
   ensureDir(path.join(ROOT, "prompts"));

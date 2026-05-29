@@ -1,9 +1,15 @@
 const fs = require("fs");
 const path = require("path");
+const { canWriteToDisk } = require("./runtime");
 
 function ensureDir(dirPath) {
-  if (!fs.existsSync(dirPath)) {
-    fs.mkdirSync(dirPath, { recursive: true });
+  if (!canWriteToDisk()) return;
+  try {
+    if (!fs.existsSync(dirPath)) {
+      fs.mkdirSync(dirPath, { recursive: true });
+    }
+  } catch {
+    /* read-only FS (Vercel 等) */
   }
 }
 
@@ -17,6 +23,9 @@ function readJson(filePath, fallback = null) {
 }
 
 function writeJson(filePath, data) {
+  if (!canWriteToDisk()) {
+    throw new Error("この環境（Vercel 等）ではファイルを保存できません。Railway / VPS をご利用ください。");
+  }
   ensureDir(path.dirname(filePath));
   fs.writeFileSync(filePath, JSON.stringify(data, null, 2), "utf-8");
   return data;

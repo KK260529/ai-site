@@ -195,8 +195,10 @@
         <label class="label" for="gitCommitMsg">コミットメッセージ（任意）</label>
         <input type="text" id="gitCommitMsg" class="input" placeholder="空欄なら自動メッセージ">
         <div class="admin__actions">
-          <button type="button" class="btn btn--accent" id="gitPushBtn">変更を commit &amp; push（デプロイ）</button>
+          <button type="button" class="btn btn--accent" id="gitPushBtn">KK260529 に commit &amp; push</button>
+          <button type="button" class="btn btn--ghost" id="gitFixAccountBtn">認証を KK260529 に直す</button>
         </div>
+        <p class="empty-hint">別アカウント（sgupge2624 等）では push できません。</p>
         <pre class="deploy-log" id="gitPushLog" hidden></pre>
         <p class="empty-hint">記事を公開したあと、このボタン1つで GitHub へ送れます。Vercel / Railway が自動デプロイします。</p>
         <hr class="admin__hr">

@@ -28,8 +28,10 @@ async function main() {
     process.exit(1);
   }
 
+  console.log(`Push target: ${info.allowedAccount || "KK260529"} / ai-site only\n`);
+
   try {
-    const result = gitPushDeploy({});
+    const result = gitPushDeploy({ clearCredentialCache: false });
     console.log(result.message);
     for (const s of result.steps || []) {
       console.log(`  [${s.step}] ${s.skipped ? "skip" : "ok"} ${s.output || ""}`);

@@ -45,11 +45,14 @@ function generateXml() {
 }
 
 function writeToPublic() {
-  const dir = config.publicDir;
-  if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
   const xml = generateXml();
-  const filePath = path.join(dir, "sitemap.xml");
-  fs.writeFileSync(filePath, xml, "utf-8");
+  const filePath = path.join(config.publicDir, "sitemap.xml");
+  const { canWriteToDisk } = require("../runtime");
+  if (canWriteToDisk()) {
+    const dir = config.publicDir;
+    if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
+    fs.writeFileSync(filePath, xml, "utf-8");
+  }
   return { filePath, updatedAt: new Date().toISOString(), urlCount: (xml.match(/<url>/g) || []).length };
 }
 

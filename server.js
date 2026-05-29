@@ -1,5 +1,5 @@
 const path = require("path");
-const express = require("express");
+const fs = require("fs");
 const { config, validateGroqApiKey } = require("./utils/config");
 const articleStore = require("./utils/articleStore");
 const pagesRouter = require("./routes/pages");
@@ -16,6 +16,18 @@ const {
   validateProductionAuthConfig,
 } = require("./utils/auth/adminAuth");
 const { canWriteToDisk, isServerless } = require("./utils/runtime");
+
+/** Vercel バンドルに JSON コンテンツを含める（Node File Trace 用） */
+for (const dir of ["articles", "knowledge", "templates", "data", "memory"]) {
+  try {
+    const p = path.join(__dirname, dir);
+    if (fs.existsSync(p)) fs.readdirSync(p);
+  } catch {
+    /* read-only / missing */
+  }
+}
+
+const express = require("express");
 
 registerHook("onArticlePublished", async (article) => {
   console.log(`[publish] ${article.slug} → ${config.siteUrl}/article/${article.slug}`);

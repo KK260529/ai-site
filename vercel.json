@@ -3,19 +3,20 @@
   "builds": [
     {
       "src": "server.js",
-      "use": "@vercel/node",
-      "config": {
-        "includeFiles": [
-          "articles/**",
-          "knowledge/**",
-          "templates/**",
-          "data/**",
-          "memory/**",
-          "public/**"
-        ]
-      }
+      "use": "@vercel/node"
     }
   ],
+  "functions": {
+    "server.js": {
+      "includeFiles": [
+        "articles/**",
+        "knowledge/**",
+        "templates/**",
+        "data/**",
+        "memory/**"
+      ]
+    }
+  },
   "routes": [
     {
       "src": "/(.*)",

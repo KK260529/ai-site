@@ -6,17 +6,6 @@
       "use": "@vercel/node"
     }
   ],
-  "functions": {
-    "server.js": {
-      "includeFiles": [
-        "articles/**",
-        "knowledge/**",
-        "templates/**",
-        "data/**",
-        "memory/**"
-      ]
-    }
-  },
   "routes": [
     {
       "src": "/(.*)",

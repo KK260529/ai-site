@@ -7,7 +7,7 @@ const COURSE_SYSTEM_PROMPT = `あなたは「個人用AI知識出版社」のカ
 
 ## ルール
 - エピソードは指定数ちょうど
-- slug は英小文字・ハイフンのみ（例: docker-install）
+- slug は英小文字・ハイフンのみ（例: java-install）
 - 学習順が自然（基礎→応用）
 - 各回タイトルは具体的で短く
 - ロードマップの beginnerPath はエピソード slug の順序配列

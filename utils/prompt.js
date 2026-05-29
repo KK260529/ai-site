@@ -20,7 +20,7 @@ const SYSTEM_PROMPT = `あなたは技術ブログのプロライターです。
   "body": "<h2>...</h2><p>...</p>... 形式のHTML本文",
   "conclusion": "まとめ（2〜4文）",
   "tags": ["タグ1", "タグ2", "タグ3"],
-  "category": "カテゴリ名（Linux / Git / Docker / Java / Python / AI / Web開発 など）",
+  "category": "カテゴリ名（Linux / Git / Java / Python / AI / Web開発 など）",
   "slug": "english-kebab-case-slug",
   "metaTitle": "SEO用タイトル（60字以内）",
   "metaDescription": "SEO用説明（120〜155字）"

@@ -1,7 +1,7 @@
 const fs = require("fs");
 const path = require("path");
 const { config } = require("./config");
-const { injectAds, AD_PLACEHOLDER } = require("./ads");
+const { injectAds, getAdSlot, getAdHeadScript } = require("./ads");
 const articleStore = require("./articleStore");
 
 const TEMPLATES_DIR = path.join(process.cwd(), "templates");
@@ -32,6 +32,7 @@ function layoutDefaults() {
     siteTagline: config.siteTagline,
     siteUrl: config.siteUrl,
     adminNavLink: config.isProduction ? "" : '<a href="/admin">管理</a>',
+    adHeadScript: getAdHeadScript(),
   };
 }
 
@@ -56,7 +57,7 @@ function buildSeriesNavHtml(seriesNav) {
   const { course, prev, next } = seriesNav;
   return `<nav class="series-nav">
     ${prev ? `<a href="/article/${escapeHtml(prev.slug)}" class="series-nav__link">← 前回: ${escapeHtml(prev.title)}</a>` : "<span></span>"}
-    <a href="/course/${escapeHtml(course.topic || "docker")}/${escapeHtml(course.courseId)}" class="series-nav__center">講座一覧</a>
+    <a href="/course/${escapeHtml(course.topic || "java")}/${escapeHtml(course.courseId)}" class="series-nav__center">講座一覧</a>
     ${next ? `<a href="/article/${escapeHtml(next.slug)}" class="series-nav__link">次回: ${escapeHtml(next.title)} →</a>` : "<span></span>"}
   </nav>`;
 }
@@ -273,8 +274,8 @@ function renderArticle(article, seriesNav = null) {
     seriesNav: buildSeriesNavHtml(seriesNav),
     relatedArticles: buildRelatedHtml(article),
     faq: faqHtml,
-    adTop: AD_PLACEHOLDER,
-    adBottom: AD_PLACEHOLDER,
+    adTop: getAdSlot("top"),
+    adBottom: getAdSlot("bottom"),
   });
 
   return renderPage({
@@ -313,11 +314,56 @@ function renderAdmin() {
   });
 }
 
+function buildContactBlock() {
+  if (!config.contactEmail) {
+    return "<p>現在、お問い合わせ用の連絡先は準備中です。</p>";
+  }
+  const email = escapeHtml(config.contactEmail);
+  return `<p>メール: <a href="mailto:${email}">${email}</a></p>`;
+}
+
+function renderPrivacy() {
+  const content = loadTemplate("privacy.html");
+  const updatedAt = new Date().toLocaleDateString("ja-JP", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
+  const pageContent = replaceAll(content, {
+    siteName: escapeHtml(config.siteName),
+    siteUrl: escapeHtml(config.siteUrl),
+    updatedAt,
+    contactBlock: buildContactBlock(),
+  });
+
+  return renderPage({
+    pageTitle: `プライバシーポリシー | ${config.siteName}`,
+    metaDescription: `${config.siteName} のプライバシーポリシー。Cookie・広告配信・個人情報の取り扱いについて。`,
+    canonical: `${config.siteUrl}/privacy`,
+    ogTitle: `プライバシーポリシー | ${config.siteName}`,
+    ogDescription: `${config.siteName} のプライバシーポリシー`,
+    ogType: "website",
+    jsonLd: JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "WebPage",
+      name: "プライバシーポリシー",
+      url: `${config.siteUrl}/privacy`,
+    }),
+    bodyClass: "page-legal",
+    extraCss: "",
+    extraJs: "",
+    content: pageContent,
+    siteName: config.siteName,
+    siteUrl: config.siteUrl,
+  });
+}
+
 module.exports = {
   renderHome,
   renderKnowledge,
   renderCourse,
   renderArticle,
   renderAdmin,
+  renderPrivacy,
   escapeHtml,
 };

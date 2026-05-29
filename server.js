@@ -6,7 +6,6 @@ const pagesRouter = require("./routes/pages");
 const apiRouter = require("./routes/api");
 const knowledgeApiRouter = require("./routes/knowledgeApi");
 const publishApiRouter = require("./routes/publishApi");
-const knowledgeStore = require("./utils/stores/knowledgeStore");
 const memoryStore = require("./utils/stores/memoryStore");
 const { registerHook } = require("./utils/automation");
 const { regenerateAll } = require("./utils/publish/publishService");
@@ -28,9 +27,6 @@ app.use(express.static(path.join(__dirname, "public")));
 
 if (canWriteToDisk()) {
   articleStore.ensureDir();
-  if (fsExists("knowledge/docker")) {
-    knowledgeStore.ensureTopic("docker");
-  }
 }
 memoryStore.getSiteRules();
 
@@ -42,14 +38,6 @@ app.use(pagesRouter);
 app.use((_req, res) => {
   res.status(404).send("ページが見つかりません");
 });
-
-function fsExists(p) {
-  try {
-    return require("fs").existsSync(path.join(process.cwd(), p));
-  } catch {
-    return false;
-  }
-}
 
 function startServer() {
   if (config.isProduction && !isServerless()) {

@@ -23,13 +23,13 @@ function slugify(text) {
 
 function validateTopicId(topic) {
   if (!topic || !TOPIC_ID_RE.test(topic)) {
-    throw new Error("topic は英小文字・数字・ハイフンのみ（例: docker）");
+    throw new Error("topic は英小文字・数字・ハイフンのみ（例: java）");
   }
 }
 
 function validateCourseId(courseId) {
   if (!courseId || !COURSE_ID_RE.test(courseId)) {
-    throw new Error("courseId は英小文字・数字・ハイフンのみ（例: docker-beginner）");
+    throw new Error("courseId は英小文字・数字・ハイフンのみ（例: java-beginner）");
   }
 }
 

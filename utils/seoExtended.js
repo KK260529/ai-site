@@ -72,6 +72,7 @@ function buildSitemapXml(articles, courses = []) {
   const { siteUrl } = config;
   const urls = [
     { loc: siteUrl, priority: "1.0" },
+    { loc: `${siteUrl}/privacy`, priority: "0.4" },
     { loc: `${siteUrl}/admin`, priority: "0.3" },
   ];
 

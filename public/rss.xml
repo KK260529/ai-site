@@ -3,7 +3,7 @@
   <channel>
     <title>StackShelf</title>
     <link>https://ai-site-iota-nine.vercel.app</link>
-    <description>StackShelf — Linux・Git・Docker・Python など、初心者にもわかる技術まとめ。AI編集と構造化メモリで組み立てた学習サイト。</description>
+    <description>StackShelf — Linux・Git・Java・Python など、初心者にもわかる技術まとめ。AI編集と構造化メモリで組み立てた学習サイト。</description>
     <language>ja</language>
     <lastBuildDate>Fri, 29 May 2026 12:48:16 GMT</lastBuildDate>
     <atom:link href="https://ai-site-iota-nine.vercel.app/rss.xml" rel="self" type="application/rss+xml"/>

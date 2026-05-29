@@ -27,12 +27,22 @@ const config = {
   siteUrl,
   siteDescription:
     process.env.SITE_DESCRIPTION ||
-    "StackShelf — Linux・Git・Docker・Python など、初心者にもわかる技術まとめ。AI編集と構造化メモリで組み立てた学習サイト。",
+    "StackShelf — Linux・Git・Java・Python など、初心者にもわかる技術まとめ。AI編集と構造化メモリで組み立てた学習サイト。",
   articlesDir: "articles",
   publicDir: path.join(process.cwd(), "public"),
   backupsDir: path.join(process.cwd(), "backups"),
   logsDir: path.join(process.cwd(), "logs"),
   dataDir: path.join(process.cwd(), "data"),
+  adClient: (process.env.AD_CLIENT || "").trim(),
+  adSlotTop: (process.env.AD_SLOT_TOP || "").trim(),
+  adSlotBottom: (process.env.AD_SLOT_BOTTOM || "").trim(),
+  adSlotInline: (process.env.AD_SLOT_INLINE || "").trim(),
+  adHeadHtml: (process.env.AD_HEAD_HTML || "").trim(),
+  adHtml: (process.env.AD_HTML || "").trim(),
+  adHtmlTop: (process.env.AD_HTML_TOP || "").trim(),
+  adHtmlBottom: (process.env.AD_HTML_BOTTOM || "").trim(),
+  adHtmlInline: (process.env.AD_HTML_INLINE || "").trim(),
+  contactEmail: (process.env.CONTACT_EMAIL || "").trim(),
 };
 
 function normalizeApiKey(key) {

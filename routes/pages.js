@@ -9,6 +9,7 @@ const {
   renderAdmin,
   renderCourse,
   renderKnowledge,
+  renderPrivacy,
 } = require("../utils/render");
 const { buildSitemapXml } = require("../utils/seoExtended");
 const { config } = require("../utils/config");
@@ -71,6 +72,10 @@ router.get("/article/:slug", (req, res) => {
 
 router.get("/admin", requireAdminAuth, (_req, res) => {
   res.send(renderAdmin());
+});
+
+router.get("/privacy", (_req, res) => {
+  res.send(renderPrivacy());
 });
 
 router.get("/sitemap.xml", (_req, res) => {

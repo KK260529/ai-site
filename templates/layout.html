@@ -20,6 +20,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/css/main.css">
   <link rel="alternate" type="application/rss+xml" title="{{siteName}} RSS" href="/rss.xml">
+  {{adHeadScript}}
   {{extraCss}}
 </head>
 <body class="{{bodyClass}}">
@@ -33,7 +34,7 @@
     </a>
     <nav class="header__nav">
       <a href="/">ホーム</a>
-      <a href="/knowledge/docker">Docker</a>
+      <a href="/knowledge/java">Java</a>
       {{adminNavLink}}
     </nav>
   </header>
@@ -43,6 +44,9 @@
   </main>
 
   <footer class="footer glass">
+    <nav class="footer__nav">
+      <a href="/privacy">プライバシーポリシー</a>
+    </nav>
     <p>&copy; {{siteName}} — {{siteTagline}}</p>
   </footer>
 

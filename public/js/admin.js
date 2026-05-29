@@ -1,5 +1,5 @@
 const THEMES = [
-  "Linux", "Git", "Docker", "Java", "Python", "AI", "Web開発",
+  "Linux", "Git", "Java", "Python", "AI", "Web開発",
   "TypeScript", "REST API", "セキュリティ", "クラウド",
 ];
 

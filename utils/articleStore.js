@@ -7,7 +7,7 @@ const { buildSeoExtended } = require("./seoExtended");
 const { sanitizeHtml } = require("./sanitize");
 const { canWriteToDisk } = require("./runtime");
 
-const ARTICLES_DIR = path.join(process.cwd(), config.articlesDir);
+const ARTICLES_DIR = path.join(config.rootDir, config.articlesDir);
 
 function ensureDir() {
   if (!canWriteToDisk()) return;

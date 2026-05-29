@@ -4,7 +4,7 @@ const { config } = require("./config");
 const { injectAds, getAdSlot, getAdHeadScript, injectAdsInCardList } = require("./ads");
 const articleStore = require("./articleStore");
 
-const TEMPLATES_DIR = path.join(process.cwd(), "templates");
+const TEMPLATES_DIR = path.join(config.rootDir, "templates");
 
 function loadTemplate(name) {
   return fs.readFileSync(path.join(TEMPLATES_DIR, name), "utf-8");

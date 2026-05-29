@@ -1,7 +1,8 @@
 const path = require("path");
 const { ensureDir, readJson, writeJson, listJsonFiles, deleteFile } = require("../fsJson");
 
-const ROOT = path.join(process.cwd(), "drafts");
+const { config } = require("../config");
+const ROOT = path.join(config.rootDir, "drafts");
 const BUCKETS = {
   review: "review-needed",
   ready: "ready-to-publish",

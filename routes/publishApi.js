@@ -5,6 +5,11 @@ const {
   regenerateAll,
 } = require("../utils/publish/publishService");
 const { getGitInfo, gitPushDeploy } = require("../utils/deploy/gitDeploy");
+const {
+  isAutoDeployEnabled,
+  runAutoDeploy,
+  getLastAutoDeployResult,
+} = require("../utils/deploy/autoDeploy");
 
 const router = express.Router();
 
@@ -21,7 +26,22 @@ router.get("/status", (_req, res) => {
 router.get("/git-status", (_req, res) => {
   const info = getGitInfo();
   const { ALLOWED_OWNER, ALLOWED_REMOTE } = require("../utils/deploy/ensureGitAccount");
-  res.json({ ...info, allowedOwner: ALLOWED_OWNER, allowedRemote: ALLOWED_REMOTE });
+  res.json({
+    ...info,
+    allowedOwner: ALLOWED_OWNER,
+    allowedRemote: ALLOWED_REMOTE,
+    autoDeployEnabled: isAutoDeployEnabled(),
+    lastAutoDeploy: getLastAutoDeployResult(),
+  });
+});
+
+router.post("/auto-deploy", async (_req, res) => {
+  try {
+    const result = await runAutoDeploy({ manual: true });
+    res.json({ success: true, ...result });
+  } catch (err) {
+    res.status(400).json({ success: false, error: err.message, lastAutoDeploy: getLastAutoDeployResult() });
+  }
 });
 
 router.post("/git-push", (req, res) => {

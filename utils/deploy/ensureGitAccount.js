@@ -1,6 +1,8 @@
 const { spawnSync } = require("child_process");
 const path = require("path");
 
+const { config } = require("../config");
+
 /** このプロジェクトで許可する GitHub アカウントのみ */
 const ALLOWED_OWNER = "KK260529";
 const ALLOWED_REPO = "ai-site";
@@ -9,7 +11,7 @@ const ALLOWED_REMOTE = `https://${ALLOWED_OWNER}@github.com/${ALLOWED_OWNER}/${A
 /** push 禁止（誤って使われていたアカウント） */
 const BLOCKED_ACCOUNTS = ["sgupge2624"];
 
-const ROOT = process.cwd();
+const ROOT = config.rootDir;
 
 function run(cmd, args, opts = {}) {
   return spawnSync(cmd, args, {

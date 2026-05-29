@@ -2,7 +2,8 @@ const path = require("path");
 const { ensureDir, readJson, writeJson } = require("../fsJson");
 const { canWriteToDisk } = require("../runtime");
 
-const ROOT = path.join(process.cwd(), "memory");
+const { config } = require("../config");
+const ROOT = path.join(config.rootDir, "memory");
 
 const DEFAULTS = {
   site: {

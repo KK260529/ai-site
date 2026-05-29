@@ -1,7 +1,8 @@
 const path = require("path");
 const { ensureDir, readJson, writeJson } = require("../fsJson");
 
-const ROOT = path.join(process.cwd(), "generation-history");
+const { config } = require("../config");
+const ROOT = path.join(config.rootDir, "generation-history");
 
 function historyDir(slug) {
   return path.join(ROOT, slug);

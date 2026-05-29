@@ -2,7 +2,8 @@ const fs = require("fs");
 const path = require("path");
 const { ensureDir, readJson, writeJson, listJsonFiles } = require("../fsJson");
 
-const ROOT = path.join(process.cwd(), "knowledge");
+const { config } = require("../config");
+const ROOT = path.join(config.rootDir, "knowledge");
 const TOPIC_ID_RE = /^[a-z0-9][a-z0-9-]*$/;
 const COURSE_ID_RE = /^[a-z0-9][a-z0-9-]*$/;
 

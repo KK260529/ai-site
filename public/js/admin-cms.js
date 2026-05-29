@@ -10,6 +10,7 @@ const state = {
   draftFilter: "all",
   modalSlug: null,
   genEpisodes: [],
+  publishedSlugs: new Set(),
 };
 
 const $ = (id) => document.getElementById(id);
@@ -79,7 +80,10 @@ function showSection(name) {
 }
 
 document.querySelectorAll(".nav-btn").forEach((btn) => {
-  btn.addEventListener("click", () => showSection(btn.dataset.section));
+  btn.addEventListener("click", () => {
+    showSection(btn.dataset.section);
+    if (btn.dataset.section === "articles") loadArticles();
+  });
 });
 
 async function checkHealth() {
@@ -274,6 +278,7 @@ async function selectCourse(courseId) {
     `/api/knowledge/${encodeURIComponent(topic)}/courses/${encodeURIComponent(courseId)}`
   );
   state.editingCourse = JSON.parse(JSON.stringify(course));
+  await refreshPublishedSlugs();
   renderCourseEditor();
   document.querySelectorAll("#courseList [data-course]").forEach((el) => {
     el.classList.toggle("list-item--active", el.dataset.course === courseId);
@@ -302,6 +307,17 @@ function renderCourseEditor() {
   renderEpisodeEditor();
 }
 
+async function refreshPublishedSlugs() {
+  try {
+    const { articles } = await api("/api/articles?all=true");
+    state.publishedSlugs = new Set(
+      (articles || []).filter((a) => a.status === "published").map((a) => a.slug)
+    );
+  } catch {
+    state.publishedSlugs = new Set();
+  }
+}
+
 function renderEpisodeEditor() {
   const wrap = $("episodeEditor");
   const eps = state.editingCourse?.episodes || [];
@@ -314,6 +330,7 @@ function renderEpisodeEditor() {
       (ep, i) => `
     <div class="ep-row" data-idx="${i}">
       <span class="ep-row__num">${ep.episode}</span>
+      <span class="ep-row__pub ${state.publishedSlugs.has(ep.slug) ? "ep-row__pub--ok" : ""}">${state.publishedSlugs.has(ep.slug) ? "公開" : "未公開"}</span>
       <input type="text" class="input ep-row__title" data-field="title" value="${escapeAttr(ep.title)}">
       <input type="text" class="input ep-row__slug" data-field="slug" value="${escapeAttr(ep.slug)}">
       <div class="ep-row__actions">
@@ -501,11 +518,27 @@ async function loadGenEpisodes() {
     renderGenEpisodeList();
     return;
   }
+  await refreshPublishedSlugs();
   const { course } = await api(
     `/api/knowledge/${encodeURIComponent(topic)}/courses/${encodeURIComponent(courseId)}`
   );
   state.genEpisodes = course.episodes || [];
   renderGenEpisodeList();
+  updateGenPublishedHint();
+}
+
+function updateGenPublishedHint() {
+  const el = $("genPublishedHint");
+  if (!el || !state.genEpisodes.length) return;
+  const pub = state.genEpisodes.filter((ep) => state.publishedSlugs.has(ep.slug)).length;
+  const total = state.genEpisodes.length;
+  if (pub > 0) {
+    el.innerHTML = `この講座は <strong>${pub} / ${total}</strong> 話が公開済みです。一覧は「<button type="button" class="link-btn" data-goto="articles">公開記事</button>」タブで確認できます。未公開のみ Groq 生成できます。`;
+    el.querySelector("[data-goto]")?.addEventListener("click", () => {
+      showSection("articles");
+      loadArticles();
+    });
+  }
 }
 
 function renderGenEpisodeList() {
@@ -517,15 +550,17 @@ function renderGenEpisodeList() {
     return;
   }
   wrap.innerHTML = state.genEpisodes
-    .map(
-      (ep) => `
-    <label class="ep-check">
-      <input type="checkbox" name="genEp" value="${escapeAttr(ep.slug)}">
+    .map((ep) => {
+      const published = state.publishedSlugs.has(ep.slug);
+      return `
+    <label class="ep-check ${published ? "ep-check--published" : ""}">
+      <input type="checkbox" name="genEp" value="${escapeAttr(ep.slug)}" ${published ? "disabled" : ""}>
       <span class="ep-check__num">#${ep.episode}</span>
       <span class="ep-check__title">${escapeHtml(ep.title)}</span>
       <span class="ep-check__slug">${escapeHtml(ep.slug)}</span>
-    </label>`
-    )
+      ${published ? '<span class="ep-check__badge">公開済</span>' : ""}
+    </label>`;
+    })
     .join("");
   wrap.querySelectorAll('input[type="checkbox"]').forEach((cb) => {
     cb.addEventListener("change", updateGenerateBtnLabel);
@@ -630,6 +665,9 @@ async function generateEpisode() {
           title: ep?.title || slug,
           error: e.message,
         });
+        if (/429|利用制限|1日トークン|Rate limit|TPD/i.test(e.message || "")) {
+          break;
+        }
       }
     }
 
@@ -787,6 +825,9 @@ document.querySelectorAll("[data-bucket]").forEach((tab) => {
 // --- Articles ---
 async function loadArticles() {
   const { articles } = await api("/api/articles?all=true");
+  state.publishedSlugs = new Set(
+    (articles || []).filter((a) => a.status === "published").map((a) => a.slug)
+  );
   $("listCount").textContent = String(articles.length);
   const list = $("articleList");
   if (!articles.length) {
@@ -856,6 +897,9 @@ async function loadGitStatus() {
     $("gitBranch").textContent = g.branch || "—";
     $("gitRemote").textContent = g.remote || "（未設定）";
     $("gitChanges").textContent = `${g.changedFiles} 件`;
+    $("gitAutoDeploy").textContent = g.autoDeployEnabled
+      ? "有効（公開後に自動 push）"
+      : "無効";
     $("gitPushBtn").disabled = !g.canPush;
     if (!g.canPush && g.isRepo) {
       $("gitPushBtn").title = "git-fix-account.bat を実行してください";

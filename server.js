@@ -9,6 +9,7 @@ const publishApiRouter = require("./routes/publishApi");
 const memoryStore = require("./utils/stores/memoryStore");
 const { registerHook } = require("./utils/automation");
 const { regenerateAll } = require("./utils/publish/publishService");
+const { scheduleAutoDeploy } = require("./utils/deploy/autoDeploy");
 const {
   requireAdminAuth,
   protectAdminApi,
@@ -18,6 +19,13 @@ const { canWriteToDisk, isServerless } = require("./utils/runtime");
 
 registerHook("onArticlePublished", async (article) => {
   console.log(`[publish] ${article.slug} → ${config.siteUrl}/article/${article.slug}`);
+});
+
+registerHook("onAfterPublish", async ({ article }) => {
+  const result = scheduleAutoDeploy({ slug: article?.slug, title: article?.title, article });
+  if (result.scheduled) {
+    console.log("[auto-deploy] 数秒後に Git push → Vercel デプロイを予約しました");
+  }
 });
 
 const app = express();

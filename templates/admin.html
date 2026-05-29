@@ -121,6 +121,7 @@
     <div class="admin__grid">
       <div class="admin__panel glass">
         <h2>エピソード記事を生成</h2>
+        <p class="panel-hint" id="genPublishedHint">公開済みの記事は「公開記事」タブで確認できます。この画面は Groq で新規生成するときに使います。</p>
         <label class="label" for="genTopicSelect">topic</label>
         <select id="genTopicSelect" class="input"></select>
         <label class="label" for="genCourseSelect">course</label>
@@ -191,6 +192,7 @@
           <dt>ブランチ</dt><dd id="gitBranch">—</dd>
           <dt>リモート</dt><dd id="gitRemote">—</dd>
           <dt>未コミット</dt><dd id="gitChanges">—</dd>
+          <dt>自動デプロイ</dt><dd id="gitAutoDeploy">—</dd>
         </dl>
         <label class="label" for="gitCommitMsg">コミットメッセージ（任意）</label>
         <input type="text" id="gitCommitMsg" class="input" placeholder="空欄なら自動メッセージ">
@@ -200,7 +202,7 @@
         </div>
         <p class="empty-hint">別アカウント（sgupge2624 等）では push できません。</p>
         <pre class="deploy-log" id="gitPushLog" hidden></pre>
-        <p class="empty-hint">記事を公開したあと、このボタン1つで GitHub へ送れます。Vercel / Railway が自動デプロイします。</p>
+        <p class="empty-hint">記事を公開すると <strong>自動で Git push → Vercel デプロイ</strong> されます（AUTO_GIT_DEPLOY=true）。手動 push も下のボタンで可能です。</p>
         <hr class="admin__hr">
         <p class="empty-hint">初回のみ: <code>git init</code> → <code>git remote add origin &lt;URL&gt;</code> が必要です。</p>
       </div>

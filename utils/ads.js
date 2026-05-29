@@ -70,7 +70,8 @@ function resolveAdHtml(position) {
 
 function slotVariant(position) {
   if (position === "top") return "banner";
-  if (position === "inline" || position === "bottom" || position === "home") return "rectangle";
+  if (position === "bottom") return "skyscraper";
+  if (position === "inline" || position === "home") return "rectangle";
   return "live";
 }
 

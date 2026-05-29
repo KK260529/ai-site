@@ -2,6 +2,7 @@ const { spawnSync } = require("child_process");
 const fs = require("fs");
 const path = require("path");
 
+const { config } = require("../config");
 const {
   ALLOWED_OWNER,
   ALLOWED_REMOTE,
@@ -9,17 +10,22 @@ const {
   assertPushAllowed,
 } = require("./ensureGitAccount");
 
-const ROOT = process.cwd();
+const ROOT = config.rootDir;
 const DEFAULT_REMOTE = ALLOWED_REMOTE;
 
-/** Git に含める公開関連パス */
+/** Git に含める公開・デプロイ関連パス */
 const DEPLOY_PATHS = [
   "articles",
-  "public/sitemap.xml",
-  "public/rss.xml",
-  "public/robots.txt",
   "knowledge",
   "data/publish-status.json",
+  "public",
+  "templates",
+  "utils",
+  "routes",
+  "server.js",
+  "vercel.json",
+  "package.json",
+  "package-lock.json",
 ];
 
 function runGit(args) {

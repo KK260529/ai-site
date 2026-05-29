@@ -30,7 +30,15 @@ function toUserError(err) {
     );
   }
   if (status === 429) {
-    return new Error("Groq APIの利用制限に達しました。しばらく待ってから再試行してください。");
+    const raw = err.message || err.error?.message || "";
+    const waitMatch = raw.match(/try again in ([\dms.]+)/i);
+    const waitHint = waitMatch ? ` 約 ${waitMatch[1]} 後に再試行できます。` : " しばらく待ってから再試行してください。";
+    if (/tokens per day|TPD/i.test(raw)) {
+      return new Error(
+        `Groq の1日トークン上限に達しました（無料枠 100,000 TPD）。${waitHint} 1件ずつ生成するか、明日まで待つか、https://console.groq.com/settings/billing で Dev Tier を検討してください。`
+      );
+    }
+    return new Error(`Groq APIの利用制限に達しました。${waitHint}`);
   }
   if (status === 404 || (err.message && err.message.includes("model"))) {
     return new Error(

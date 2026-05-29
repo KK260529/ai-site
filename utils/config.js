@@ -1,5 +1,9 @@
 const path = require("path");
-require("dotenv").config({ path: path.join(__dirname, "..", ".env"), override: true });
+
+const ROOT_DIR = path.resolve(__dirname, "..");
+const presetPort = process.env.PORT;
+
+require("dotenv").config({ path: path.join(ROOT_DIR, ".env"), override: true });
 
 const nodeEnv = process.env.NODE_ENV || "development";
 const isProduction = nodeEnv === "production";
@@ -13,12 +17,13 @@ if (isProduction && /localhost|127\.0\.0\.1/i.test(siteUrl)) {
 }
 
 const config = {
+  rootDir: ROOT_DIR,
   nodeEnv,
   isProduction,
-  port: Number(process.env.PORT) || 3000,
+  port: Number(presetPort || process.env.PORT) || 3000,
   groqApiKey: process.env.GROQ_API_KEY || "",
   groqModel: process.env.GROQ_MODEL || "llama-3.3-70b-versatile",
-  groqMaxTokens: Number(process.env.GROQ_MAX_TOKENS) || 8192,
+  groqMaxTokens: Number(process.env.GROQ_MAX_TOKENS) || 4096,
   groqBaseURL: "https://api.groq.com/openai/v1",
   siteName: process.env.SITE_NAME || "StackShelf",
   siteTagline: process.env.SITE_TAGLINE || "技術を、ひとつずつ積み上げる。",
@@ -29,10 +34,10 @@ const config = {
     process.env.SITE_DESCRIPTION ||
     "StackShelf — Linux・Git・Java・Python など、初心者にもわかる技術まとめ。AI編集と構造化メモリで組み立てた学習サイト。",
   articlesDir: "articles",
-  publicDir: path.join(process.cwd(), "public"),
-  backupsDir: path.join(process.cwd(), "backups"),
-  logsDir: path.join(process.cwd(), "logs"),
-  dataDir: path.join(process.cwd(), "data"),
+  publicDir: path.join(ROOT_DIR, "public"),
+  backupsDir: path.join(ROOT_DIR, "backups"),
+  logsDir: path.join(ROOT_DIR, "logs"),
+  dataDir: path.join(ROOT_DIR, "data"),
   adClient: (process.env.AD_CLIENT || "").trim(),
   adSlotTop: (process.env.AD_SLOT_TOP || "").trim(),
   adSlotBottom: (process.env.AD_SLOT_BOTTOM || "").trim(),
@@ -43,6 +48,9 @@ const config = {
   adHtmlBottom: (process.env.AD_HTML_BOTTOM || "").trim(),
   adHtmlInline: (process.env.AD_HTML_INLINE || "").trim(),
   contactEmail: (process.env.CONTACT_EMAIL || "").trim(),
+  autoGitDeploy: !["0", "false", "off", "no"].includes(
+    String(process.env.AUTO_GIT_DEPLOY ?? "true").trim().toLowerCase()
+  ),
 };
 
 function normalizeApiKey(key) {

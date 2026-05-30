@@ -1,14 +1,14 @@
 {
   "siteUrl": "https://ai-site-iota-nine.vercel.app",
   "nodeEnv": "development",
-  "sitemapUpdatedAt": "2026-05-30T03:36:17.111Z",
-  "rssUpdatedAt": "2026-05-30T03:36:17.130Z",
-  "robotsUpdatedAt": "2026-05-30T03:36:17.131Z",
+  "sitemapUpdatedAt": "2026-05-30T03:50:08.243Z",
+  "rssUpdatedAt": "2026-05-30T03:50:08.274Z",
+  "robotsUpdatedAt": "2026-05-30T03:50:08.275Z",
   "lastPublish": {
-    "slug": "ai-intro",
-    "title": "人工知能とは",
-    "url": "https://ai-site-iota-nine.vercel.app/article/ai-intro",
-    "at": "2026-05-30T02:46:20.478Z"
+    "slug": "git-workflow-practice",
+    "title": "実務で使うGitワークフロー",
+    "url": "https://ai-site-iota-nine.vercel.app/article/git-workflow-practice",
+    "at": "2026-05-30T03:50:00.389Z"
   },
   "sitemapUrl": "https://ai-site-iota-nine.vercel.app/sitemap.xml",
   "rssUrl": "https://ai-site-iota-nine.vercel.app/rss.xml",

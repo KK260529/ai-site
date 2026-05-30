@@ -1,0 +1,268 @@
+{
+  "id": "art_git_git-intro",
+  "slug": "git-intro",
+  "title": "Gitとは？バージョン管理を初めて学ぶ人のための完全入門",
+  "summary": "Gitとは何か、なぜバージョン管理が必要なのかをわかりやすく解説。ファイルの変更履歴を管理する仕組みをゼロから学びましょう。",
+  "body": "<h2>Gitとは何か？</h2>\n<p>Git（ギット）とは、ファイルの変更履歴を管理するための<strong>バージョン管理システム</strong>です。2005年にLinuxカーネルの開発者であるLinus Torvalds（リーナス・トーバルズ）によって作られ、現在では世界中のエンジニアに使われているツールです。</p>\n<p>「バージョン管理」と聞くと難しそうに感じるかもしれませんが、実はとてもシンプルな概念です。あなたが <code>report.txt</code> というファイルを編集するとき、「昨日の状態に戻したい」「どこを変えたか確認したい」と思ったことはありませんか？Gitはまさにそのニーズを解決するツールです。</p>\n\n<h2>バージョン管理が必要な理由</h2>\n<p>プログラミングの現場では、複数人が同じファイルを編集したり、新機能の追加中にバグが発生して「元に戻したい」という場面が日常的に起こります。Gitがない状態でこれを管理しようとすると、次のような問題が発生します。</p>\n<ul>\n  <li><code>app_最終版.js</code>、<code>app_最終版2.js</code>、<code>app_本当に最終版.js</code> のようなファイルが増え続ける</li>\n  <li>誰がいつ何を変更したかわからなくなる</li>\n  <li>複数人で作業すると、互いの変更を上書きしてしまう</li>\n  <li>バグが起きたとき、どのタイミングで混入したかを特定できない</li>\n</ul>\n<p>これらの問題を根本的に解決するのがGitです。Gitを使えば、すべての変更に「いつ・誰が・何を・なぜ」変えたかという情報を記録し、いつでも過去の状態に戻すことができます。</p>\n\n<h2>Gitの仕組みをざっくり理解する</h2>\n<p>Gitの動作を理解するためのアナロジーとして、「ゲームのセーブデータ」を想像してください。ゲームでは、ボスの前でセーブしておけば、やられても同じ場所からやり直せます。Gitの「コミット（commit）」はこのセーブに相当します。</p>\n<p>Gitでは、ファイルの状態を<strong>スナップショット</strong>として記録します。変更のたびにファイル全体をコピーするのではなく、何が変わったかという差分を効率よく保存します。これにより、ディスクの容量を節約しながら完全な変更履歴を維持できます。</p>\n\n<h3>リポジトリとは</h3>\n<p>Gitが管理するフォルダのことを<strong>リポジトリ（repository）</strong>と呼びます。リポジトリの中には、すべてのファイルとその変更履歴が保存されています。リポジトリは自分のパソコン上（ローカルリポジトリ）に作ることも、GitHubなどのサービス上（リモートリポジトリ）に置くこともできます。</p>\n\n<h3>コミットとは</h3>\n<p>変更内容をGitに記録する操作を<strong>コミット（commit）</strong>と呼びます。コミットには「メッセージ」を添付する習慣があり、「ログイン機能を追加」「バグ修正：パスワードのバリデーション」のように、何をしたかを記録します。このメッセージが後から履歴を読み返すときに非常に役立ちます。</p>\n\n<h3>ブランチとは</h3>\n<p><strong>ブランチ（branch）</strong>とは、開発の「分岐」です。本番環境で動いているコードに影響を与えずに新機能を開発したいとき、ブランチを作って作業します。完成したらメインの流れ（mainブランチ）に合流（マージ）させます。木の枝が幹から分かれるイメージです。</p>\n\n<h2>GitとGitHubの違い</h2>\n<p>初心者が最も混乱しやすいのが「GitとGitHubの違い」です。一言で言うと：</p>\n<ul>\n  <li><strong>Git</strong>：あなたのパソコンで動くバージョン管理ツール（ソフトウェア）</li>\n  <li><strong>GitHub</strong>：Gitリポジトリをインターネット上に保存・共有できるサービス（Webサービス）</li>\n</ul>\n<p>GitはGitHubがなくても使えます。しかし、チームで開発するときやバックアップ目的には、GitHubのようなリモートリポジトリサービスと組み合わせて使うのが一般的です。GitHubの他にも、GitLab、Bitbucketといったサービスがあります。</p>\n\n<h2>Gitを使うと何ができるのか？</h2>\n<p>具体的なユースケースを見ていきましょう。</p>\n\n<h3>過去の状態に戻す</h3>\n<p>コードを大幅に変更した後で「やっぱり元に戻したい」というとき、Gitなら特定のコミットの時点に戻せます。<code>report.txt</code> を3日前の状態に戻すことも、1週間前のバージョンと現在のバージョンを比較することも自由にできます。</p>\n\n<h3>複数人での並行開発</h3>\n<p>チームで開発するとき、AさんはAの機能、BさんはBの機能を同時に開発できます。それぞれがブランチを作り、完成後にメインに統合する流れです。Gitはこの統合（マージ）を自動的に処理し、衝突が起きた場合は開発者に知らせてくれます。</p>\n\n<h3>変更の追跡とレビュー</h3>\n<p>誰がいつどのファイルのどの行を変更したかを、<code>git log</code> や <code>git diff</code> コマンドで確認できます。チームでの開発では、変更内容をレビューしてからマージする「プルリクエスト」という文化が一般的で、コードの品質を保つために欠かせない仕組みです。</p>\n\n<h2>Gitはエンジニアにとってなぜ必須スキルなのか</h2>\n<p>現代のソフトウェア開発において、Gitの使用は事実上のスタンダードです。求人サービスのエンジニア向け求人を見ると、「Git必須」という記載が非常に多いことがわかります。個人開発であっても、自分のコードの歴史を管理し、いつでも安全に変更を試みるためにGitは欠かせません。</p>\n<p>また、オープンソースプロジェクトへの貢献や、ポートフォリオとしてGitHubにコードを公開することも、エンジニアとしてのキャリア形成に大きく役立ちます。</p>\n<pre><code># Gitのバージョンを確認するコマンド（インストール確認にも使える）\ngit --version\n# 出力例: git version 2.44.0</code></pre>\n\n<h2>Gitを学ぶ際の心構え</h2>\n<p>Gitは最初「コマンドの意味がわからない」「エラーが怖い」と感じることがあります。しかし、実際に手を動かしてコマンドを打つことで驚くほど早く慣れます。エラーが出ても、ほとんどの場合は <code>git status</code> を実行することで次に何をすべきかGit自身がヒントを出してくれます。失敗を恐れず、どんどん試してみることが上達の近道です。</p>\n<p>また、Gitはコマンドラインだけでなく、VS CodeやGitHub Desktopといったグラフィカルなツールからも操作できます。しかし、コマンドラインの基本を理解してからGUIツールを使う方が、問題が起きたときに原因を特定しやすくなります。このコースではまずコマンドラインから学んでいきます。</p>\n\n<h2>まとめ：Gitは「タイムマシン＋チームワーク」ツール</h2>\n<p>Gitを一言で表すなら「コードのためのタイムマシンとチームワークを実現するツール」です。最初は難しく感じるかもしれませんが、基本的なコマンドは10個もあれば日常的な開発作業をこなせるようになります。このコースでは、ゼロから順番に実際のコマンドを動かしながら学んでいきます。</p>",
+  "conclusion": "Gitはファイルの変更履歴を管理するバージョン管理システムで、現代のソフトウェア開発には欠かせないツールです。「いつ・誰が・何を変えたか」を記録し、過去の状態にいつでも戻れる安心感がGitの最大の魅力です。GitとGitHubは別物で、GitはローカルのツールでGitHubはそれを共有するためのWebサービスです。最初はコマンドに戸惑うかもしれませんが、基本操作は少なく、使いながら自然と身についていきます。次のステップでは、実際にGitをインストールして使える状態にしていきましょう。",
+  "tags": [
+    "Git",
+    "バージョン管理",
+    "初心者",
+    "GitHub",
+    "プログラミング入門"
+  ],
+  "category": "Git",
+  "theme": "git - Git & GitHub 入門",
+  "status": "published",
+  "createdAt": "2026-05-30T03:49:57.443Z",
+  "updatedAt": "2026-05-30T03:49:57.457Z",
+  "publishedAt": "2026-05-30T03:49:57.443Z",
+  "metaTitle": "Gitとは？バージョン管理の基本をわかりやすく解説【初心者向け】｜Git入門 | StackShelf",
+  "metaDescription": "【Git初心者向け】Gitとは何かを初心者向けにわかりやすく解説。バージョン管理の必要性、Gitの仕組み、GitとGitHubの違いまで丁寧に説明します。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
+  "ogTitle": "Gitとは？バージョン管理の完全入門",
+  "ogDescription": "【Git初心者向け】【Git初心者向け】なぜGitが必要なのか、どんな仕組みなのかをゼロからわかりやすく解説します。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
+  "knowledge": {
+    "topic": "git",
+    "courseId": "git",
+    "episode": 1
+  },
+  "faq": [
+    {
+      "question": "GitとGitHubは同じものですか？",
+      "answer": "いいえ、別物です。GitはあなたのPC上で動くバージョン管理ツールで、GitHubはGitリポジトリをインターネット上に公開・共有するためのWebサービスです。Gitだけでも使えますが、チーム開発やバックアップにはGitHubと組み合わせるのが一般的です。"
+    },
+    {
+      "question": "バージョン管理はプログラマーしか使わないのですか？",
+      "answer": "いいえ。ドキュメントやデザインファイルなど、テキストベースのファイルであればGitで管理できます。ただし、実際にはプログラマーが使うケースが圧倒的に多く、コードの品質管理やチーム開発には特に相性が良いツールです。"
+    },
+    {
+      "question": "Gitは無料で使えますか？",
+      "answer": "はい、Gitは完全無料のオープンソースソフトウェアです。GitHubも個人利用ではほとんどの機能を無料で使えます。プライベートリポジトリも無制限に作成できます。"
+    },
+    {
+      "question": "Gitを使いこなすのにどのくらいかかりますか？",
+      "answer": "基本的な操作（add、commit、push、pull、branch）は1〜2週間で習得できます。実際のプロジェクトで使いながら学ぶのが最も効率的で、3ヶ月も使えばチーム開発で困らないレベルになれます。"
+    }
+  ],
+  "nextEpisodeHint": "次回は、実際にGitをあなたのパソコンにインストールし、名前やメールアドレスなどの初期設定を行います。Windowsでも Mac でも同じ手順で進められるので安心してください。",
+  "ogImage": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+  "canonical": "https://ai-site-iota-nine.vercel.app/article/git-intro",
+  "jsonLd": {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@context": "https://schema.org",
+        "@type": "TechArticle",
+        "headline": "Gitとは？バージョン管理を初めて学ぶ人のための完全入門",
+        "description": "【Git初心者向け】Gitとは何かを初心者向けにわかりやすく解説。バージョン管理の必要性、Gitの仕組み、GitとGitHubの違いまで丁寧に説明します。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
+        "datePublished": "2026-05-30T03:49:57.443Z",
+        "dateModified": "2026-05-30T03:49:57.457Z",
+        "author": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
+        },
+        "image": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+        "inLanguage": "ja",
+        "wordCount": 2700,
+        "mainEntityOfPage": {
+          "@type": "WebPage",
+          "@id": "https://ai-site-iota-nine.vercel.app/article/git-intro"
+        },
+        "keywords": "Git, バージョン管理, 初心者, GitHub, プログラミング入門",
+        "articleSection": "Git",
+        "url": "https://ai-site-iota-nine.vercel.app/article/git-intro",
+        "learningResourceType": "tutorial",
+        "educationalLevel": "beginner"
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "ホーム",
+            "item": "https://ai-site-iota-nine.vercel.app/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "git",
+            "item": "https://ai-site-iota-nine.vercel.app/knowledge/git"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "Git & GitHub 入門",
+            "item": "https://ai-site-iota-nine.vercel.app/course/git/git"
+          },
+          {
+            "@type": "ListItem",
+            "position": 4,
+            "name": "Gitとは？バージョン管理を初めて学ぶ人のための完全入門",
+            "item": "https://ai-site-iota-nine.vercel.app/article/git-intro"
+          }
+        ]
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "Course",
+        "name": "Git & GitHub 入門",
+        "description": "Gitの基本操作からGitHubでの共同開発まで、現場で使える10ステップで学ぶ初心者向け講座。プログラミング学習・転職・チーム開発に必須のスキルを、具体例とコマンド付きで丁寧に解説します。",
+        "provider": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app"
+        },
+        "url": "https://ai-site-iota-nine.vercel.app/course/git/git",
+        "inLanguage": "ja",
+        "educationalLevel": "beginner",
+        "hasCourseInstance": {
+          "@type": "CourseInstance",
+          "courseMode": "online",
+          "courseWorkload": "PT1H"
+        }
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "GitとGitHubは同じものですか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "いいえ、別物です。GitはあなたのPC上で動くバージョン管理ツールで、GitHubはGitリポジトリをインターネット上に公開・共有するためのWebサービスです。Gitだけでも使えますが、チーム開発やバックアップにはGitHubと組み合わせるのが一般的です。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "バージョン管理はプログラマーしか使わないのですか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "いいえ。ドキュメントやデザインファイルなど、テキストベースのファイルであればGitで管理できます。ただし、実際にはプログラマーが使うケースが圧倒的に多く、コードの品質管理やチーム開発には特に相性が良いツールです。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Gitは無料で使えますか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "はい、Gitは完全無料のオープンソースソフトウェアです。GitHubも個人利用ではほとんどの機能を無料で使えます。プライベートリポジトリも無制限に作成できます。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Gitを使いこなすのにどのくらいかかりますか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "基本的な操作（add、commit、push、pull、branch）は1〜2週間で習得できます。実際のプロジェクトで使いながら学ぶのが最も効率的で、3ヶ月も使えばチーム開発で困らないレベルになれます。"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "breadcrumb": {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "ホーム",
+        "item": "https://ai-site-iota-nine.vercel.app/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "git",
+        "item": "https://ai-site-iota-nine.vercel.app/knowledge/git"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "Git & GitHub 入門",
+        "item": "https://ai-site-iota-nine.vercel.app/course/git/git"
+      },
+      {
+        "@type": "ListItem",
+        "position": 4,
+        "name": "Gitとは？バージョン管理を初めて学ぶ人のための完全入門",
+        "item": "https://ai-site-iota-nine.vercel.app/article/git-intro"
+      }
+    ]
+  },
+  "courseSchema": {
+    "@context": "https://schema.org",
+    "@type": "Course",
+    "name": "Git & GitHub 入門",
+    "description": "Gitの基本操作からGitHubでの共同開発まで、現場で使える10ステップで学ぶ初心者向け講座。プログラミング学習・転職・チーム開発に必須のスキルを、具体例とコマンド付きで丁寧に解説します。",
+    "provider": {
+      "@type": "Organization",
+      "name": "StackShelf",
+      "url": "https://ai-site-iota-nine.vercel.app"
+    },
+    "url": "https://ai-site-iota-nine.vercel.app/course/git/git",
+    "inLanguage": "ja",
+    "educationalLevel": "beginner",
+    "hasCourseInstance": {
+      "@type": "CourseInstance",
+      "courseMode": "online",
+      "courseWorkload": "PT1H"
+    }
+  },
+  "faqSchema": {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "GitとGitHubは同じものですか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "いいえ、別物です。GitはあなたのPC上で動くバージョン管理ツールで、GitHubはGitリポジトリをインターネット上に公開・共有するためのWebサービスです。Gitだけでも使えますが、チーム開発やバックアップにはGitHubと組み合わせるのが一般的です。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "バージョン管理はプログラマーしか使わないのですか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "いいえ。ドキュメントやデザインファイルなど、テキストベースのファイルであればGitで管理できます。ただし、実際にはプログラマーが使うケースが圧倒的に多く、コードの品質管理やチーム開発には特に相性が良いツールです。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Gitは無料で使えますか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "はい、Gitは完全無料のオープンソースソフトウェアです。GitHubも個人利用ではほとんどの機能を無料で使えます。プライベートリポジトリも無制限に作成できます。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Gitを使いこなすのにどのくらいかかりますか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "基本的な操作（add、commit、push、pull、branch）は1〜2週間で習得できます。実際のプロジェクトで使いながら学ぶのが最も効率的で、3ヶ月も使えばチーム開発で困らないレベルになれます。"
+        }
+      }
+    ]
+  }
+}

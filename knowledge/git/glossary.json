@@ -1,0 +1,67 @@
+{
+  "Git": {
+    "definition": "ファイルの変更履歴を記録・管理する分散型バージョン管理システム",
+    "aliases": ["ギット"],
+    "related": ["GitHub", "リポジトリ", "コミット", "ブランチ"]
+  },
+  "GitHub": {
+    "definition": "Gitリポジトリをホスティングし、共同開発を支援するWebサービス",
+    "aliases": ["ギットハブ"],
+    "related": ["Git", "Pull Request", "リモートリポジトリ"]
+  },
+  "リポジトリ": {
+    "definition": "プロジェクトのファイルと変更履歴を保存する場所（倉庫）",
+    "aliases": ["repo", "レポ"],
+    "related": ["Git", "コミット", "clone"]
+  },
+  "コミット": {
+    "definition": "変更内容を記録する操作。履歴の1ページに相当する",
+    "aliases": ["commit"],
+    "related": ["ステージング", "git add", "git log"]
+  },
+  "ブランチ": {
+    "definition": "履歴を分岐させ、並行して開発するための枝",
+    "aliases": ["branch"],
+    "related": ["マージ", "main", "feature"]
+  },
+  "マージ": {
+    "definition": "分岐したブランチの変更を統合する操作",
+    "aliases": ["merge"],
+    "related": ["ブランチ", "コンフリクト", "Pull Request"]
+  },
+  "コンフリクト": {
+    "definition": "同じ箇所を別々に編集した結果、自動統合できない状態",
+    "aliases": ["競合", "conflict"],
+    "related": ["マージ", "Pull Request"]
+  },
+  "ステージング": {
+    "definition": "次のコミットに含める変更を選んで載せる領域",
+    "aliases": ["インデックス", "staging area"],
+    "related": ["git add", "コミット"]
+  },
+  "リモート": {
+    "definition": "ネットワーク上の別のリポジトリ（GitHubなど）への参照",
+    "aliases": ["remote"],
+    "related": ["git push", "git pull", "origin"]
+  },
+  "Pull Request": {
+    "definition": "変更をレビューしてもらい、本流に取り込んでもらうための依頼",
+    "aliases": ["PR", "プルリク"],
+    "related": ["GitHub", "マージ", "コードレビュー"]
+  },
+  "clone": {
+    "definition": "リモートリポジトリの完全なコピーをローカルに取得する操作",
+    "aliases": ["クローン"],
+    "related": ["リポジトリ", "git clone"]
+  },
+  "push": {
+    "definition": "ローカルのコミットをリモートリポジトリに送信する操作",
+    "aliases": ["プッシュ"],
+    "related": ["pull", "リモート", "origin"]
+  },
+  "pull": {
+    "definition": "リモートの最新変更をローカルに取り込む操作",
+    "aliases": ["プル"],
+    "related": ["push", "fetch", "リモート"]
+  }
+}

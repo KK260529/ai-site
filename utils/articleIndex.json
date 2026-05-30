@@ -1,4 +1,2650 @@
 {
+  "git-workflow-practice": {
+    "id": "art_git_git-workflow-practice",
+    "slug": "git-workflow-practice",
+    "title": "実務で使うGitワークフロー",
+    "summary": "Git Flow・GitHub Flow などのブランチ戦略を解説し、git stash・git cherry-pick・git tag などの実務で頻出するコマンドを紹介。チームで安全・効率的に開発するための総まとめ。",
+    "body": "<h2>ブランチ戦略の重要性</h2>\n<p>\n  チームで Git を使って開発するとき、「どのブランチで何をするか」のルールを決めておかないと\n  コードが混乱してしまいます。\n  この取り決めを<strong>ブランチ戦略（ブランチモデル）</strong>と呼びます。\n  代表的なブランチ戦略として <strong>Git Flow</strong> と <strong>GitHub Flow</strong> があります。\n  プロジェクトの規模やリリース頻度によって使い分けるのが一般的です。\n</p>\n\n<h2>GitHub Flow：シンプルな戦略</h2>\n<p>\n  <strong>GitHub Flow</strong> は、<code>main</code> ブランチを常にデプロイ可能な状態に保ち、\n  機能追加や修正はすべてフィーチャーブランチで行う、シンプルなワークフローです。\n  Web サービスのように継続的にリリースするプロジェクトに向いています。\n</p>\n<pre><code># 1. main から作業ブランチを切る\ngit checkout main\ngit pull\ngit checkout -b feature/user-profile\n\n# 2. 開発してコミット\ngit add .\ngit commit -m \"feat: ユーザープロフィール画面を追加\"\n\n# 3. プッシュして Pull Request を作成\ngit push -u origin feature/user-profile\n\n# 4. レビューを受けてマージ → 即デプロイ</code></pre>\n<p>\n  GitHub Flow のルールはたった6つです。\n</p>\n<ol>\n  <li><code>main</code> ブランチは常にデプロイ可能な状態を保つ</li>\n  <li>新しい作業は説明的な名前のブランチで行う</li>\n  <li>定期的にリモートへプッシュする</li>\n  <li>フィードバックや助けが必要なときは Pull Request を使う</li>\n  <li>レビューで承認されたらマージする</li>\n  <li>マージしたら即デプロイする</li>\n</ol>\n\n<h3>ブランチ命名規則の例</h3>\n<p>\n  チームで統一したブランチ命名規則を決めておくと管理しやすくなります。\n</p>\n<ul>\n  <li><code>feature/機能名</code>：新機能の追加（例：<code>feature/user-auth</code>）</li>\n  <li><code>fix/バグ内容</code>：バグ修正（例：<code>fix/login-error</code>）</li>\n  <li><code>hotfix/緊急修正</code>：本番の緊急バグ修正</li>\n  <li><code>chore/作業内容</code>：設定変更・依存更新など（例：<code>chore/update-deps</code>）</li>\n  <li><code>docs/内容</code>：ドキュメント更新（例：<code>docs/readme-update</code>）</li>\n</ul>\n\n<h2>Git Flow：複数バージョン管理向けの戦略</h2>\n<p>\n  <strong>Git Flow</strong> は、リリースサイクルが明確なプロジェクト（スマホアプリ、パッケージソフトなど）向けの\n  ブランチ戦略です。次の5種類のブランチを使い分けます。\n</p>\n<ul>\n  <li><strong>main</strong>：本番リリース済みのコードのみ置く</li>\n  <li><strong>develop</strong>：次のリリースに向けた統合ブランチ</li>\n  <li><strong>feature/*</strong>：機能開発用（develop から分岐・develop へマージ）</li>\n  <li><strong>release/*</strong>：リリース準備用（develop から分岐・main と develop へマージ）</li>\n  <li><strong>hotfix/*</strong>：本番の緊急修正用（main から分岐・main と develop へマージ）</li>\n</ul>\n<pre><code># Git Flow の初期化（git-flow ツールを使う場合）\ngit flow init\n\n# フィーチャーブランチの開始\ngit flow feature start user-profile\n\n# フィーチャーブランチを develop にマージして終了\ngit flow feature finish user-profile</code></pre>\n\n<h2>git stash：作業を一時退避する</h2>\n<p>\n  開発中に別のブランチへ切り替えなければならない場面があります。\n  コミットするほどでもない途中状態を一時的に退避するのが <code>git stash</code> です。\n</p>\n<pre><code># 作業を退避する\ngit stash\n\n# 退避した一覧を確認\ngit stash list\n# stash@{0}: WIP on feature/login: abc1234 feat: ログイン画面を追加\n\n# 退避した作業を元に戻す（最新の stash を適用）\ngit stash pop\n\n# 特定の stash を適用\ngit stash apply stash@{1}\n\n# 不要な stash を削除\ngit stash drop stash@{0}</code></pre>\n<p>\n  <code>git stash pop</code> は適用後に stash を削除します。\n  <code>git stash apply</code> は stash を残したまま適用します。\n  メモを付けて退避したいときは <code>git stash push -m \"コメント\"</code> が便利です。\n</p>\n\n<h3>git stash の活用シーン</h3>\n<ul>\n  <li>急なバグ修正依頼が来て、今の作業を中断しなければならないとき</li>\n  <li>間違ったブランチで作業してしまい、正しいブランチへ移動したいとき</li>\n  <li><code>git pull</code> の前にコミットせずに変更が溜まっているとき</li>\n</ul>\n\n<h2>git cherry-pick：特定のコミットだけ取り込む</h2>\n<p>\n  別のブランチの特定のコミットだけを現在のブランチに取り込みたいときに使うコマンドが\n  <code>git cherry-pick</code> です。\n  ブランチ全体をマージするのではなく、1つのコミットだけを「つまみ食い」できます。\n</p>\n<pre><code># コミットハッシュを確認\ngit log --oneline feature/payment\n# a3b4c5d feat: 決済ロジックを修正\n# ...\n\n# そのコミットだけを現在のブランチへ取り込む\ngit cherry-pick a3b4c5d\n\n# 複数のコミットを取り込む\ngit cherry-pick a3b4c5d e6f7g8h</code></pre>\n<p>\n  cherry-pick はコンフリクトが発生することもあります。\n  その場合は通常のコンフリクト解決（編集 → <code>git add</code> → <code>git cherry-pick --continue</code>）を行います。\n</p>\n\n<h2>git tag：バージョンに印をつける</h2>\n<p>\n  リリースしたバージョンに印をつけるのが <code>git tag</code> です。\n  タグを使うことで「v1.0.0 の時点のコード」に素早くアクセスできます。\n</p>\n<pre><code># 軽量タグを作成\ngit tag v1.0.0\n\n# 注釈付きタグを作成（メッセージあり・推奨）\ngit tag -a v1.0.0 -m \"バージョン 1.0.0 正式リリース\"\n\n# タグをリモートへ送信\ngit push origin v1.0.0\n\n# すべてのタグをリモートへ送信\ngit push origin --tags\n\n# タグ一覧を確認\ngit tag</code></pre>\n\n<h2>コミットメッセージのベストプラクティス</h2>\n<p>\n  良いコミットメッセージは、後からコードの変更履歴を追う際に非常に役立ちます。\n  <strong>Conventional Commits</strong> という規約を使うと、メッセージが統一されてわかりやすくなります。\n</p>\n<pre><code># Conventional Commits の形式\n# &lt;type&gt;: &lt;短い説明&gt;\n#\n# type の例:\n# feat     - 新機能\n# fix      - バグ修正\n# docs     - ドキュメント変更\n# style    - コードフォーマット（動作変化なし）\n# refactor - リファクタリング\n# test     - テスト追加・修正\n# chore    - ビルド・設定の変更\n\ngit commit -m \"feat: ユーザー登録メールを送信する機能を追加\"\ngit commit -m \"fix: ログイン時のセッション切れエラーを修正\"\ngit commit -m \"docs: README にインストール手順を追記\"</code></pre>\n\n<h2>git bisect：バグが混入したコミットを特定する</h2>\n<p>\n  「いつからバグが起きているかわからない」という場面で役立つのが <code>git bisect</code> です。\n  二分探索を使って、バグを混入させたコミットを効率的に特定できます。\n</p>\n<pre><code># bisect を開始\ngit bisect start\n\n# 現在のコミットはバグあり（bad）\ngit bisect bad\n\n# バグがなかったことが確認済みのコミットを指定（good）\ngit bisect good v1.0.0\n\n# Git が中間のコミットへ自動的に移動する\n# → バグの有無を確認して bad / good を入力し続ける\ngit bisect bad   # バグあり\ngit bisect good  # バグなし\n\n# 特定完了後、通常の状態に戻す\ngit bisect reset</code></pre>\n\n<h2>実務での Git 習慣まとめ</h2>\n<ul>\n  <li><strong>こまめにコミット</strong>：1コミット1変更を心がけ、後で変更を追いやすくする</li>\n  <li><strong>プッシュ前に pull</strong>：コンフリクトを最小限に抑える</li>\n  <li><strong>main への直接プッシュは禁止</strong>：必ず PR 経由でマージする</li>\n  <li><strong>.gitignore を最初に設定</strong>：機密情報の漏洩を防ぐ</li>\n  <li><strong>わかりやすいコミットメッセージ</strong>：Conventional Commits に従う</li>\n  <li><strong>ブランチは短命に</strong>：長期間放置したブランチはコンフリクトの温床になる</li>\n</ul>",
+    "conclusion": "このエピソードでは GitHub Flow・Git Flow のブランチ戦略、git stash・git cherry-pick・git tag・git bisect など実務で頻出するコマンドを学びました。Git のコマンドは多岐にわたりますが、まず GitHub Flow と基本コマンドをマスターするだけで、日々の開発が格段にスムーズになります。Git/GitHub 入門コースはこれで完了です。お疲れさまでした！",
+    "tags": [
+      "git stash",
+      "git flow",
+      "github flow",
+      "git cherry-pick",
+      "git tag",
+      "ブランチ戦略"
+    ],
+    "category": "Git",
+    "theme": "git - Git & GitHub 入門",
+    "status": "published",
+    "createdAt": "2026-05-30T03:50:00.389Z",
+    "updatedAt": "2026-05-30T03:50:00.394Z",
+    "publishedAt": "2026-05-30T03:50:00.389Z",
+    "metaTitle": "実務で使う Git ワークフロー｜Git Flow・GitHub Flow・git stash 解説",
+    "metaDescription": "Git Flow と GitHub Flow の違い、git stash・git cherry-pick・git tag・git bisect の使い方を解説。実務のチーム開発で役立つ Git ワークフローを初心者向けにわかりやすく紹介します。",
+    "ogTitle": "実務で使う Git ワークフロー完全ガイド",
+    "ogDescription": "Git Flow・GitHub Flow のブランチ戦略から、git stash・cherry-pick・tag など実務コマンドまで。チーム開発で即使えるベストプラクティスを解説します。 図解・具体例つきで丁寧に解説します。",
+    "knowledge": {
+      "topic": "git",
+      "courseId": "git",
+      "episode": 10
+    },
+    "faq": [
+      {
+        "question": "Git Flow と GitHub Flow はどちらを使えばよいですか？",
+        "answer": "継続的にデプロイする Web サービスやアジャイル開発には GitHub Flow がシンプルでおすすめです。明確なリリースサイクルがある（バージョン管理が必要な）製品には Git Flow が向いています。初めは GitHub Flow から始めましょう。"
+      },
+      {
+        "question": "git stash と git commit の使い分けはどうすればよいですか？",
+        "answer": "git stash は作業途中でまだコミットしたくないときの一時退避です。ある程度まとまった変更ができたらコミットし、それまでの仮置き場として stash を使うとよいでしょう。stash は長期間放置するとわかりにくくなるので、早めに pop するか commit に変換しましょう。"
+      },
+      {
+        "question": "git cherry-pick はどのような場面で使いますか？",
+        "answer": "ブランチ全体をマージするほどではないが、特定のバグ修正コミットだけを別ブランチに取り込みたいときに使います。hotfix ブランチの修正を develop ブランチへ取り込む場合などが典型的なユースケースです。"
+      },
+      {
+        "question": "バージョンタグの命名規則はありますか？",
+        "answer": "セマンティックバージョニング（Semantic Versioning）が広く使われています。v<メジャー>.<マイナー>.<パッチ> の形式（例：v1.2.3）です。破壊的変更はメジャー、後方互換の機能追加はマイナー、バグ修正はパッチを上げます。"
+      }
+    ],
+    "nextEpisodeHint": "Git/GitHub 入門コースの全エピソードが完了しました。次は GitHub Actions を使った CI/CD 自動化や、より高度な Git 操作に挑戦してみましょう。",
+    "ogImage": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+    "canonical": "https://ai-site-iota-nine.vercel.app/article/git-workflow-practice",
+    "jsonLd": {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@context": "https://schema.org",
+          "@type": "TechArticle",
+          "headline": "実務で使うGitワークフロー",
+          "description": "Git Flow と GitHub Flow の違い、git stash・git cherry-pick・git tag・git bisect の使い方を解説。実務のチーム開発で役立つ Git ワークフローを初心者向けにわかりやすく紹介します。",
+          "datePublished": "2026-05-30T03:50:00.389Z",
+          "dateModified": "2026-05-30T03:50:00.394Z",
+          "author": {
+            "@type": "Organization",
+            "name": "StackShelf",
+            "url": "https://ai-site-iota-nine.vercel.app",
+            "logo": {
+              "@type": "ImageObject",
+              "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+            }
+          },
+          "publisher": {
+            "@type": "Organization",
+            "name": "StackShelf",
+            "url": "https://ai-site-iota-nine.vercel.app",
+            "logo": {
+              "@type": "ImageObject",
+              "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+            }
+          },
+          "image": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+          "inLanguage": "ja",
+          "wordCount": 3251,
+          "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https://ai-site-iota-nine.vercel.app/article/git-workflow-practice"
+          },
+          "keywords": "git stash, git flow, github flow, git cherry-pick, git tag, ブランチ戦略",
+          "articleSection": "Git",
+          "url": "https://ai-site-iota-nine.vercel.app/article/git-workflow-practice",
+          "learningResourceType": "tutorial",
+          "educationalLevel": "beginner"
+        },
+        {
+          "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "ホーム",
+              "item": "https://ai-site-iota-nine.vercel.app/"
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "name": "git",
+              "item": "https://ai-site-iota-nine.vercel.app/knowledge/git"
+            },
+            {
+              "@type": "ListItem",
+              "position": 3,
+              "name": "Git & GitHub 入門",
+              "item": "https://ai-site-iota-nine.vercel.app/course/git/git"
+            },
+            {
+              "@type": "ListItem",
+              "position": 4,
+              "name": "実務で使うGitワークフロー",
+              "item": "https://ai-site-iota-nine.vercel.app/article/git-workflow-practice"
+            }
+          ]
+        },
+        {
+          "@context": "https://schema.org",
+          "@type": "Course",
+          "name": "Git & GitHub 入門",
+          "description": "Gitの基本操作からGitHubでの共同開発まで、現場で使える10ステップで学ぶ初心者向け講座。プログラミング学習・転職・チーム開発に必須のスキルを、具体例とコマンド付きで丁寧に解説します。",
+          "provider": {
+            "@type": "Organization",
+            "name": "StackShelf",
+            "url": "https://ai-site-iota-nine.vercel.app"
+          },
+          "url": "https://ai-site-iota-nine.vercel.app/course/git/git",
+          "inLanguage": "ja",
+          "educationalLevel": "beginner",
+          "hasCourseInstance": {
+            "@type": "CourseInstance",
+            "courseMode": "online",
+            "courseWorkload": "PT1H"
+          }
+        },
+        {
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "Git Flow と GitHub Flow はどちらを使えばよいですか？",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "継続的にデプロイする Web サービスやアジャイル開発には GitHub Flow がシンプルでおすすめです。明確なリリースサイクルがある（バージョン管理が必要な）製品には Git Flow が向いています。初めは GitHub Flow から始めましょう。"
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "git stash と git commit の使い分けはどうすればよいですか？",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "git stash は作業途中でまだコミットしたくないときの一時退避です。ある程度まとまった変更ができたらコミットし、それまでの仮置き場として stash を使うとよいでしょう。stash は長期間放置するとわかりにくくなるので、早めに pop するか commit に変換しましょう。"
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "git cherry-pick はどのような場面で使いますか？",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "ブランチ全体をマージするほどではないが、特定のバグ修正コミットだけを別ブランチに取り込みたいときに使います。hotfix ブランチの修正を develop ブランチへ取り込む場合などが典型的なユースケースです。"
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "バージョンタグの命名規則はありますか？",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "セマンティックバージョニング（Semantic Versioning）が広く使われています。v<メジャー>.<マイナー>.<パッチ> の形式（例：v1.2.3）です。破壊的変更はメジャー、後方互換の機能追加はマイナー、バグ修正はパッチを上げます。"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    "breadcrumb": {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "ホーム",
+          "item": "https://ai-site-iota-nine.vercel.app/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "git",
+          "item": "https://ai-site-iota-nine.vercel.app/knowledge/git"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Git & GitHub 入門",
+          "item": "https://ai-site-iota-nine.vercel.app/course/git/git"
+        },
+        {
+          "@type": "ListItem",
+          "position": 4,
+          "name": "実務で使うGitワークフロー",
+          "item": "https://ai-site-iota-nine.vercel.app/article/git-workflow-practice"
+        }
+      ]
+    },
+    "courseSchema": {
+      "@context": "https://schema.org",
+      "@type": "Course",
+      "name": "Git & GitHub 入門",
+      "description": "Gitの基本操作からGitHubでの共同開発まで、現場で使える10ステップで学ぶ初心者向け講座。プログラミング学習・転職・チーム開発に必須のスキルを、具体例とコマンド付きで丁寧に解説します。",
+      "provider": {
+        "@type": "Organization",
+        "name": "StackShelf",
+        "url": "https://ai-site-iota-nine.vercel.app"
+      },
+      "url": "https://ai-site-iota-nine.vercel.app/course/git/git",
+      "inLanguage": "ja",
+      "educationalLevel": "beginner",
+      "hasCourseInstance": {
+        "@type": "CourseInstance",
+        "courseMode": "online",
+        "courseWorkload": "PT1H"
+      }
+    },
+    "faqSchema": {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Git Flow と GitHub Flow はどちらを使えばよいですか？",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "継続的にデプロイする Web サービスやアジャイル開発には GitHub Flow がシンプルでおすすめです。明確なリリースサイクルがある（バージョン管理が必要な）製品には Git Flow が向いています。初めは GitHub Flow から始めましょう。"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "git stash と git commit の使い分けはどうすればよいですか？",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "git stash は作業途中でまだコミットしたくないときの一時退避です。ある程度まとまった変更ができたらコミットし、それまでの仮置き場として stash を使うとよいでしょう。stash は長期間放置するとわかりにくくなるので、早めに pop するか commit に変換しましょう。"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "git cherry-pick はどのような場面で使いますか？",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "ブランチ全体をマージするほどではないが、特定のバグ修正コミットだけを別ブランチに取り込みたいときに使います。hotfix ブランチの修正を develop ブランチへ取り込む場合などが典型的なユースケースです。"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "バージョンタグの命名規則はありますか？",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "セマンティックバージョニング（Semantic Versioning）が広く使われています。v<メジャー>.<マイナー>.<パッチ> の形式（例：v1.2.3）です。破壊的変更はメジャー、後方互換の機能追加はマイナー、バグ修正はパッチを上げます。"
+          }
+        }
+      ]
+    }
+  },
+  "github-pull-request": {
+    "id": "art_git_github-pull-request",
+    "slug": "github-pull-request",
+    "title": "Pull Requestと協業の流れ",
+    "summary": "Pull Request（PR）の作成・レビュー・マージの一連の流れを解説。フォーク、ブランチ戦略、コードレビューの進め方など、チーム開発で必要な GitHub の協業機能を実践的に学ぶ。",
+    "body": "<h2>Pull Request とは何か</h2>\n<p>\n  <strong>Pull Request（PR）</strong>とは、自分のブランチへの変更をメインブランチへ取り込んでほしいと\n  チームメンバーに依頼する機能です。\n  単なるコードの統合依頼だけでなく、変更内容のレビュー・議論・承認のプロセスを\n  GitHub 上で一元管理できます。\n</p>\n<p>\n  Pull Request を使うことで、バグを含んだコードが直接 main ブランチに入るリスクを減らし、\n  チームのコード品質を維持できます。\n  個人開発でも「過去の自分へのレビュー」として PR を活用する開発者も多くいます。\n</p>\n\n<h2>Pull Request を作るまでの基本フロー</h2>\n<p>\n  Pull Request を作成するまでの一般的な手順は次の通りです。\n</p>\n<ol>\n  <li>作業用ブランチを作成する</li>\n  <li>変更をコミットする</li>\n  <li>リモートブランチへプッシュする</li>\n  <li>GitHub 上で Pull Request を作成する</li>\n  <li>レビューを受けて修正する</li>\n  <li>承認後にマージする</li>\n</ol>\n<pre><code># 1. 作業用ブランチを作成\ngit checkout -b feature/add-contact-form\n\n# 2. ファイルを編集してコミット\ngit add contact.html\ngit commit -m \"feat: お問い合わせフォームを追加\"\n\n# 3. リモートへプッシュ\ngit push -u origin feature/add-contact-form</code></pre>\n<p>\n  プッシュ後に GitHub のリポジトリページを開くと、\n  「Compare &amp; pull request」ボタンが表示されます。\n  クリックして PR の説明を記入し「Create pull request」を押せば完了です。\n</p>\n\n<h3>PR の説明文を丁寧に書く</h3>\n<p>\n  Pull Request の説明文（本文）は、レビュワーが変更内容を理解するための重要な情報源です。\n  以下の要素を含めると伝わりやすくなります。\n</p>\n<ul>\n  <li><strong>変更の目的・背景</strong>：なぜこの変更が必要なのか</li>\n  <li><strong>変更の概要</strong>：何を変更したのか</li>\n  <li><strong>テスト方法</strong>：レビュワーが動作確認する手順</li>\n  <li><strong>スクリーンショット</strong>：UI 変更の場合は前後の比較画像</li>\n  <li><strong>関連 Issue</strong>：<code>Closes #12</code> のように記載するとマージ時に自動クローズされる</li>\n</ul>\n\n<h2>コードレビューの進め方</h2>\n<p>\n  Pull Request を受け取ったレビュワーは「Files changed」タブで変更内容を確認します。\n  気になる行の横にある「＋」ボタンをクリックするとコメントを追加でき、\n  修正を提案したり質問したりできます。\n</p>\n<p>\n  レビューの最終判断には3種類あります。\n</p>\n<ul>\n  <li><strong>Comment</strong>：コメントのみ（承認も拒否もしない）</li>\n  <li><strong>Approve</strong>：変更を承認する</li>\n  <li><strong>Request changes</strong>：修正を要求する（承認しない）</li>\n</ul>\n\n<h3>レビューコメントへの対応</h3>\n<p>\n  「Request changes」を受けたら、指摘に対応してコミットしリプッシュします。\n  PR は自動的に更新されます。\n</p>\n<pre><code># レビュー指摘を修正してコミット\ngit add contact.html\ngit commit -m \"fix: バリデーションメッセージを修正\"\ngit push</code></pre>\n<p>\n  対応が完了したら GitHub 上でコメントに返信し、\n  「Resolve conversation」ボタンで解決済みにしましょう。\n</p>\n\n<h2>Pull Request をマージする</h2>\n<p>\n  承認を得たら PR をマージします。GitHub にはマージ方法が3種類あります。\n</p>\n<ul>\n  <li>\n    <strong>Merge commit</strong>：マージコミットを作成して統合。履歴がすべて残る。デフォルト。\n  </li>\n  <li>\n    <strong>Squash and merge</strong>：PR 内のコミットを1つにまとめてマージ。\n    細かいコミットを整理したいときに便利。\n  </li>\n  <li>\n    <strong>Rebase and merge</strong>：コミットを一直線に並べてマージ。\n    マージコミットを作りたくないときに使う。\n  </li>\n</ul>\n<p>\n  初めのうちは「Merge commit」を使えば安全です。\n  マージ後はブランチを削除するボタンが表示されるので、不要になったブランチはクリーンアップしましょう。\n</p>\n\n<h2>フォーク（Fork）を使った OSS への貢献</h2>\n<p>\n  自分が管理していないリポジトリへ変更を提案したいときは\n  <strong>フォーク（Fork）</strong>を使います。\n  フォークとはリポジトリを自分のアカウントにコピーする操作です。\n</p>\n<pre><code># フォーク後、自分のリポジトリをクローン\ngit clone https://github.com/yourname/forked-project.git\ncd forked-project\n\n# 元のリポジトリ（upstream）を登録\ngit remote add upstream https://github.com/original-owner/forked-project.git\n\n# upstream の最新状態を取り込む\ngit fetch upstream\ngit merge upstream/main</code></pre>\n<p>\n  変更をコミットしてフォーク先にプッシュした後、\n  GitHub 上で「Contribute → Open pull request」から PR を作成します。\n  元のリポジトリのオーナーがレビューして取り込んでくれます。\n</p>\n\n<h3>upstream を常に最新に保つ</h3>\n<p>\n  フォーク元のリポジトリが更新されたら定期的に同期しましょう。\n  GitHub には「Sync fork」ボタンが用意されており、クリックするだけで同期できます。\n  コマンドラインの場合は次の通りです。\n</p>\n<pre><code>git fetch upstream\ngit checkout main\ngit merge upstream/main\ngit push origin main</code></pre>\n\n<h2>ブランチ保護ルールを設定する</h2>\n<p>\n  チームリポジトリでは <code>main</code> ブランチへの直接プッシュを禁止する\n  <strong>ブランチ保護ルール（Branch protection rules）</strong>を設定するのがベストプラクティスです。\n  GitHub の「Settings → Branches → Add rule」から設定できます。\n</p>\n<ul>\n  <li><strong>Require a pull request before merging</strong>：PR 経由でないとマージできない</li>\n  <li><strong>Require approvals</strong>：承認者数を設定（例：1名以上の承認が必要）</li>\n  <li><strong>Require status checks to pass</strong>：CI が通らないとマージできない</li>\n</ul>\n<p>\n  これらのルールにより、コードレビューなしのマージや、テストが失敗したままのマージを防げます。\n</p>\n\n<h2>Draft PR を活用する</h2>\n<p>\n  まだ完成していない変更をレビュワーに早めに共有して意見をもらいたいときは\n  <strong>Draft PR（下書きPR）</strong>が便利です。\n  Draft PR はマージできない状態で作成でき、作業中であることをチームに伝えられます。\n  完成したら「Ready for review」ボタンを押して通常の PR に変換します。\n</p>",
+    "conclusion": "このエピソードでは Pull Request の作成・レビュー・マージの一連の流れと、フォークを使った OSS 貢献の方法を学びました。PR はチームでのコード品質を守るための重要な仕組みです。丁寧な説明文とレビュー対応を心がけることが、チームへの良い貢献につながります。次のエピソードでは実務で使われる Git ワークフローを学びます。",
+    "tags": [
+      "pull request",
+      "GitHub 協業",
+      "コードレビュー",
+      "フォーク",
+      "ブランチ戦略"
+    ],
+    "category": "Git",
+    "theme": "git - Git & GitHub 入門",
+    "status": "published",
+    "createdAt": "2026-05-30T03:49:59.936Z",
+    "updatedAt": "2026-05-30T03:49:59.945Z",
+    "publishedAt": "2026-05-30T03:49:59.936Z",
+    "metaTitle": "GitHub Pull Request の使い方【チーム開発の協業フロー完全解説】｜Git入門 | StackShelf",
+    "metaDescription": "【Git初心者向け】GitHub の Pull Request（PR）の作り方・レビュー・マージ方法を初心者向けに解説。フォーク、ブランチ戦略、コードレビューのコメント方法まで実践的に説明します。 図解・具体例つきで丁寧に解説します。",
+    "ogTitle": "GitHub Pull Request 完全ガイド｜協業の流れを解説",
+    "ogDescription": "【Git初心者向け】Pull Request の作成からコードレビュー・マージまで。チームで安全にコードを共有するための GitHub 協業フローを初心者向けに丁寧に解説します。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
+    "knowledge": {
+      "topic": "git",
+      "courseId": "git",
+      "episode": 9
+    },
+    "faq": [
+      {
+        "question": "Pull Request と Merge Request の違いは何ですか？",
+        "answer": "同じ機能の呼び方の違いです。GitHub では Pull Request、GitLab では Merge Request と呼びます。操作の目的（ブランチの変更をメインブランチへ統合する）は同じです。"
+      },
+      {
+        "question": "PR のマージ方法（Merge commit / Squash / Rebase）はどれを選べばよいですか？",
+        "answer": "初めは Merge commit が安全です。Squash and merge は細かいコミットを整理して履歴をきれいにしたい場合に使います。チームのルールに合わせて選択しましょう。"
+      },
+      {
+        "question": "フォークとブランチの違いは何ですか？",
+        "answer": "ブランチは同じリポジトリ内での分岐です。フォークはリポジトリ全体を別のアカウントにコピーします。管理権限のない外部リポジトリへ変更を提案したいときにフォークを使います。"
+      },
+      {
+        "question": "レビュワーを指定しないと PR はマージできないのですか？",
+        "answer": "ブランチ保護ルールで承認を必須にしていなければ、レビュワー指定なしでもマージできます。ただしチーム開発では必ずレビューを通すことを強くおすすめします。"
+      }
+    ],
+    "nextEpisodeHint": "次のエピソードでは、実務で広く使われる Git Flow・GitHub Flow などのブランチ戦略と、git stash・git cherry-pick など実践的なコマンドを学びます。",
+    "ogImage": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+    "canonical": "https://ai-site-iota-nine.vercel.app/article/github-pull-request",
+    "jsonLd": {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@context": "https://schema.org",
+          "@type": "TechArticle",
+          "headline": "Pull Requestと協業の流れ",
+          "description": "【Git初心者向け】GitHub の Pull Request（PR）の作り方・レビュー・マージ方法を初心者向けに解説。フォーク、ブランチ戦略、コードレビューのコメント方法まで実践的に説明します。 図解・具体例つきで丁寧に解説します。",
+          "datePublished": "2026-05-30T03:49:59.936Z",
+          "dateModified": "2026-05-30T03:49:59.945Z",
+          "author": {
+            "@type": "Organization",
+            "name": "StackShelf",
+            "url": "https://ai-site-iota-nine.vercel.app",
+            "logo": {
+              "@type": "ImageObject",
+              "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+            }
+          },
+          "publisher": {
+            "@type": "Organization",
+            "name": "StackShelf",
+            "url": "https://ai-site-iota-nine.vercel.app",
+            "logo": {
+              "@type": "ImageObject",
+              "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+            }
+          },
+          "image": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+          "inLanguage": "ja",
+          "wordCount": 2607,
+          "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https://ai-site-iota-nine.vercel.app/article/github-pull-request"
+          },
+          "keywords": "pull request, GitHub 協業, コードレビュー, フォーク, ブランチ戦略",
+          "articleSection": "Git",
+          "url": "https://ai-site-iota-nine.vercel.app/article/github-pull-request",
+          "learningResourceType": "tutorial",
+          "educationalLevel": "beginner"
+        },
+        {
+          "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "ホーム",
+              "item": "https://ai-site-iota-nine.vercel.app/"
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "name": "git",
+              "item": "https://ai-site-iota-nine.vercel.app/knowledge/git"
+            },
+            {
+              "@type": "ListItem",
+              "position": 3,
+              "name": "Git & GitHub 入門",
+              "item": "https://ai-site-iota-nine.vercel.app/course/git/git"
+            },
+            {
+              "@type": "ListItem",
+              "position": 4,
+              "name": "Pull Requestと協業の流れ",
+              "item": "https://ai-site-iota-nine.vercel.app/article/github-pull-request"
+            }
+          ]
+        },
+        {
+          "@context": "https://schema.org",
+          "@type": "Course",
+          "name": "Git & GitHub 入門",
+          "description": "Gitの基本操作からGitHubでの共同開発まで、現場で使える10ステップで学ぶ初心者向け講座。プログラミング学習・転職・チーム開発に必須のスキルを、具体例とコマンド付きで丁寧に解説します。",
+          "provider": {
+            "@type": "Organization",
+            "name": "StackShelf",
+            "url": "https://ai-site-iota-nine.vercel.app"
+          },
+          "url": "https://ai-site-iota-nine.vercel.app/course/git/git",
+          "inLanguage": "ja",
+          "educationalLevel": "beginner",
+          "hasCourseInstance": {
+            "@type": "CourseInstance",
+            "courseMode": "online",
+            "courseWorkload": "PT1H"
+          }
+        },
+        {
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "Pull Request と Merge Request の違いは何ですか？",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "同じ機能の呼び方の違いです。GitHub では Pull Request、GitLab では Merge Request と呼びます。操作の目的（ブランチの変更をメインブランチへ統合する）は同じです。"
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "PR のマージ方法（Merge commit / Squash / Rebase）はどれを選べばよいですか？",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "初めは Merge commit が安全です。Squash and merge は細かいコミットを整理して履歴をきれいにしたい場合に使います。チームのルールに合わせて選択しましょう。"
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "フォークとブランチの違いは何ですか？",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "ブランチは同じリポジトリ内での分岐です。フォークはリポジトリ全体を別のアカウントにコピーします。管理権限のない外部リポジトリへ変更を提案したいときにフォークを使います。"
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "レビュワーを指定しないと PR はマージできないのですか？",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "ブランチ保護ルールで承認を必須にしていなければ、レビュワー指定なしでもマージできます。ただしチーム開発では必ずレビューを通すことを強くおすすめします。"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    "breadcrumb": {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "ホーム",
+          "item": "https://ai-site-iota-nine.vercel.app/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "git",
+          "item": "https://ai-site-iota-nine.vercel.app/knowledge/git"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Git & GitHub 入門",
+          "item": "https://ai-site-iota-nine.vercel.app/course/git/git"
+        },
+        {
+          "@type": "ListItem",
+          "position": 4,
+          "name": "Pull Requestと協業の流れ",
+          "item": "https://ai-site-iota-nine.vercel.app/article/github-pull-request"
+        }
+      ]
+    },
+    "courseSchema": {
+      "@context": "https://schema.org",
+      "@type": "Course",
+      "name": "Git & GitHub 入門",
+      "description": "Gitの基本操作からGitHubでの共同開発まで、現場で使える10ステップで学ぶ初心者向け講座。プログラミング学習・転職・チーム開発に必須のスキルを、具体例とコマンド付きで丁寧に解説します。",
+      "provider": {
+        "@type": "Organization",
+        "name": "StackShelf",
+        "url": "https://ai-site-iota-nine.vercel.app"
+      },
+      "url": "https://ai-site-iota-nine.vercel.app/course/git/git",
+      "inLanguage": "ja",
+      "educationalLevel": "beginner",
+      "hasCourseInstance": {
+        "@type": "CourseInstance",
+        "courseMode": "online",
+        "courseWorkload": "PT1H"
+      }
+    },
+    "faqSchema": {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Pull Request と Merge Request の違いは何ですか？",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "同じ機能の呼び方の違いです。GitHub では Pull Request、GitLab では Merge Request と呼びます。操作の目的（ブランチの変更をメインブランチへ統合する）は同じです。"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "PR のマージ方法（Merge commit / Squash / Rebase）はどれを選べばよいですか？",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "初めは Merge commit が安全です。Squash and merge は細かいコミットを整理して履歴をきれいにしたい場合に使います。チームのルールに合わせて選択しましょう。"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "フォークとブランチの違いは何ですか？",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "ブランチは同じリポジトリ内での分岐です。フォークはリポジトリ全体を別のアカウントにコピーします。管理権限のない外部リポジトリへ変更を提案したいときにフォークを使います。"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "レビュワーを指定しないと PR はマージできないのですか？",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "ブランチ保護ルールで承認を必須にしていなければ、レビュワー指定なしでもマージできます。ただしチーム開発では必ずレビューを通すことを強くおすすめします。"
+          }
+        }
+      ]
+    }
+  },
+  "github-basics": {
+    "id": "art_git_github-basics",
+    "slug": "github-basics",
+    "title": "GitHub入門：アカウントとリポジトリ",
+    "summary": "GitHub のアカウント作成からリポジトリの作成・設定、README の書き方、.gitignore の使い方まで、GitHub を使い始めるための基礎知識を実践的に解説する。",
+    "body": "<h2>GitHub とは何か</h2>\n<p>\n  <strong>GitHub</strong> は Git リポジトリをインターネット上でホスティングするサービスです。\n  単なるコード保存場所ではなく、Pull Request によるコードレビュー、\n  Issues によるタスク管理、GitHub Actions による自動デプロイなど、\n  開発に必要な機能が一つにまとまったプラットフォームです。\n  世界中の開発者が利用しており、オープンソースプロジェクトの中心地でもあります。\n</p>\n<p>\n  個人開発から大規模なチーム開発まで、現代のソフトウェア開発において\n  GitHub は事実上の標準ツールとなっています。\n  エンジニアとして活動するうえで GitHub の基本操作は必須のスキルです。\n</p>\n\n<h2>アカウントを作成する</h2>\n<p>\n  GitHub のアカウントは <code>https://github.com</code> から無料で作成できます。\n  メールアドレス、ユーザー名、パスワードを登録するだけで始められます。\n  ユーザー名はプロフィールの URL になるため、\n  本名や仕事で使いやすいわかりやすい名前を選びましょう。\n</p>\n<p>\n  アカウント作成後は二要素認証（2FA）を設定することを強くおすすめします。\n  セキュリティを高め、アカウントの乗っ取りを防ぐことができます。\n</p>\n\n<h3>SSH キーの設定</h3>\n<p>\n  コマンドラインから GitHub を操作するには、SSH キーを登録しておくと便利です。\n  毎回パスワード（PAT）を入力しなくてよくなり、作業効率が上がります。\n</p>\n<pre><code># SSH キーを生成する（メールアドレスは自分のものを使用）\nssh-keygen -t ed25519 -C \"your_email@example.com\"\n\n# 公開鍵を表示してコピーする\ncat ~/.ssh/id_ed25519.pub</code></pre>\n<p>\n  表示された公開鍵をコピーし、GitHub の\n  「Settings → SSH and GPG keys → New SSH key」から登録します。\n  登録後、次のコマンドで接続を確認できます。\n</p>\n<pre><code>ssh -T git@github.com\n# Hi yourname! You've successfully authenticated...</code></pre>\n\n<h2>リポジトリを作成する</h2>\n<p>\n  GitHub 上でリポジトリを新規作成するには、\n  画面右上の「＋」ボタンから「New repository」を選択します。\n  設定項目のポイントを以下で説明します。\n</p>\n<ul>\n  <li><strong>Repository name</strong>：プロジェクトの内容がわかる名前（例：<code>my-portfolio</code>）</li>\n  <li><strong>Public / Private</strong>：Public は誰でも閲覧可能、Private は自分（とチーム）のみ</li>\n  <li><strong>Initialize this repository with a README</strong>：チェックを入れると README.md が自動作成される</li>\n  <li><strong>Add .gitignore</strong>：使用言語・フレームワークを選ぶと適切な .gitignore が自動生成される</li>\n</ul>\n<p>\n  作成後、ローカルリポジトリと連携させます。\n</p>\n<pre><code># ローカルリポジトリがある場合\ngit remote add origin git@github.com:yourname/my-portfolio.git\ngit branch -M main\ngit push -u origin main</code></pre>\n\n<h2>README.md を書く</h2>\n<p>\n  <strong>README.md</strong> はリポジトリのトップページに表示される説明文です。\n  プロジェクトの目的・使い方・インストール手順などを Markdown 形式で記述します。\n  丁寧な README を書くと、チームメンバーや OSS ユーザーがスムーズに理解できます。\n</p>\n<pre><code># プロジェクト名\n\n## 概要\nこのプロジェクトは〇〇を行うための Web アプリです。\n\n## インストール方法\n```bash\ngit clone https://github.com/yourname/my-portfolio.git\ncd my-portfolio\nnpm install\nnpm start\n```\n\n## 使い方\n1. ブラウザで http://localhost:3000 を開く\n2. ...\n\n## ライセンス\nMIT</code></pre>\n<p>\n  最低でも「概要」「インストール手順」「使い方」の3項目を書くだけで\n  ぐっとプロらしいリポジトリになります。\n</p>\n\n<h3>Markdown の基本記法</h3>\n<p>\n  README を書く際によく使う Markdown 記法を覚えておきましょう。\n</p>\n<ul>\n  <li><code># 見出し1</code>、<code>## 見出し2</code>：見出しを作る</li>\n  <li><code>**太字**</code>：テキストを太字にする</li>\n  <li><code>- 項目</code>：箇条書きを作る</li>\n  <li><code>`コード`</code>：インラインコードを表示する</li>\n  <li><code>```bash ... ```</code>：コードブロックを作る</li>\n</ul>\n\n<h2>.gitignore の使い方</h2>\n<p>\n  <strong>.gitignore</strong> は Git の管理から除外したいファイルやディレクトリを指定するファイルです。\n  パスワードや API キーが入った設定ファイル、ビルド生成物、\n  依存パッケージ（<code>node_modules</code>）などは Git で管理する必要がなく、\n  むしろ誤って公開してしまうと重大なセキュリティ事故につながります。\n</p>\n<pre><code># .gitignore の例\nnode_modules/\ndist/\n.env\n.env.local\n*.log\n.DS_Store\nThumbs.db</code></pre>\n<p>\n  <code>.gitignore</code> はリポジトリのルートディレクトリに配置します。\n  <code>#</code> で始まる行はコメントです。\n  ワイルドカード（<code>*</code>）でパターンマッチが使えます。\n</p>\n\n<h3>すでに追跡されているファイルを除外する</h3>\n<p>\n  .gitignore に追加する前にすでに Git が追跡してしまっているファイルは、\n  <code>.gitignore</code> を追記しただけでは除外されません。\n  次のコマンドでキャッシュを削除してから再コミットします。\n</p>\n<pre><code># キャッシュから削除（ファイル自体は残る）\ngit rm --cached .env\n\n# .gitignore に .env を追記してコミット\ngit add .gitignore\ngit commit -m \"chore: .env を追跡対象から除外\"</code></pre>\n\n<h2>Issues でタスクを管理する</h2>\n<p>\n  GitHub の <strong>Issues</strong> は、バグ報告・機能要望・タスク管理に使える掲示板機能です。\n  個人開発でも自分の TODO リストとして活用できます。\n  Issues にラベル（<code>bug</code>、<code>enhancement</code>、<code>documentation</code>など）を付けると\n  整理しやすくなります。\n</p>\n<p>\n  コミットメッセージに <code>Fixes #3</code> のように Issue 番号を記載すると、\n  そのコミットがマージされた際に対応する Issue が自動的にクローズされます。\n</p>\n<pre><code>git commit -m \"feat: ログイン機能を追加 Fixes #3\"</code></pre>\n\n<h2>GitHub の便利機能を活用する</h2>\n<ul>\n  <li>\n    <strong>Pinned repositories</strong>：プロフィールページに最大6つのリポジトリを固定表示できます。\n    ポートフォリオとして活用しましょう。\n  </li>\n  <li>\n    <strong>GitHub Pages</strong>：静的サイトを無料でホスティングできます。\n    HTML/CSS/JavaScript で作ったサイトをすぐに公開できます。\n  </li>\n  <li>\n    <strong>Insights → Contributors</strong>：リポジトリへの貢献履歴が可視化されます。\n    チームの活動量を把握するのに便利です。\n  </li>\n</ul>",
+    "conclusion": "このエピソードでは GitHub のアカウント作成から、リポジトリ作成、README.md の書き方、.gitignore の設定方法まで学びました。特に .gitignore で機密情報を管理対象外にすることは、セキュリティ上非常に重要です。次のエピソードでは Pull Request を使った協業の流れを学びます。",
+    "tags": [
+      "github 使い方",
+      "gitignore",
+      "README",
+      "リポジトリ作成",
+      "GitHub入門"
+    ],
+    "category": "Git",
+    "theme": "git - Git & GitHub 入門",
+    "status": "published",
+    "createdAt": "2026-05-30T03:49:59.391Z",
+    "updatedAt": "2026-05-30T03:49:59.396Z",
+    "publishedAt": "2026-05-30T03:49:59.391Z",
+    "metaTitle": "GitHub 入門｜アカウント作成からリポジトリ操作まで【初心者向け】",
+    "metaDescription": "【Git初心者向け】GitHub の使い方を初心者向けに解説。アカウント作成、リポジトリ作成、README.md の書き方、.gitignore の設定方法をステップバイステップで説明します。 図解・具体例つきで丁寧に解説します。",
+    "ogTitle": "GitHub 入門｜アカウントとリポジトリの基本操作",
+    "ogDescription": "【Git初心者向け】GitHub アカウントの作成からリポジトリの作成・管理まで。README や .gitignore など実務で欠かせない基礎を初心者向けに丁寧に解説します。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
+    "knowledge": {
+      "topic": "git",
+      "courseId": "git",
+      "episode": 8
+    },
+    "faq": [
+      {
+        "question": "GitHub のリポジトリは Public と Private どちらにすればよいですか？",
+        "answer": "個人学習や公開したいプロジェクトは Public、業務や非公開のプロジェクトは Private にします。無料プランでも Private リポジトリを無制限に作れます。機密情報が入るプロジェクトは必ず Private にしましょう。"
+      },
+      {
+        "question": ".gitignore に書いてもファイルが除外されないのはなぜですか？",
+        "answer": ".gitignore を追加する前にすでに Git が追跡しているファイルは除外されません。git rm --cached <ファイル名> でキャッシュから削除し、.gitignore に追記してコミットし直してください。"
+      },
+      {
+        "question": "SSH キーの代わりに使える認証方法はありますか？",
+        "answer": "GitHub では Personal Access Token（PAT）を使った HTTPS 認証が利用できます。GitHub の「Settings → Developer settings → Personal access tokens」から発行し、パスワードの代わりに使います。"
+      },
+      {
+        "question": "README.md は必ず書かなければなりませんか？",
+        "answer": "必須ではありませんが、書くことを強くおすすめします。README があるとリポジトリの目的がすぐわかり、チームメンバーや将来の自分が助かります。最低限「概要」と「使い方」だけでも書いておきましょう。"
+      }
+    ],
+    "nextEpisodeHint": "次のエピソードでは、チームで協力して開発するために欠かせない Pull Request の作成・レビュー・マージの流れを学びます。",
+    "ogImage": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+    "canonical": "https://ai-site-iota-nine.vercel.app/article/github-basics",
+    "jsonLd": {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@context": "https://schema.org",
+          "@type": "TechArticle",
+          "headline": "GitHub入門：アカウントとリポジトリ",
+          "description": "【Git初心者向け】GitHub の使い方を初心者向けに解説。アカウント作成、リポジトリ作成、README.md の書き方、.gitignore の設定方法をステップバイステップで説明します。 図解・具体例つきで丁寧に解説します。",
+          "datePublished": "2026-05-30T03:49:59.391Z",
+          "dateModified": "2026-05-30T03:49:59.396Z",
+          "author": {
+            "@type": "Organization",
+            "name": "StackShelf",
+            "url": "https://ai-site-iota-nine.vercel.app",
+            "logo": {
+              "@type": "ImageObject",
+              "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+            }
+          },
+          "publisher": {
+            "@type": "Organization",
+            "name": "StackShelf",
+            "url": "https://ai-site-iota-nine.vercel.app",
+            "logo": {
+              "@type": "ImageObject",
+              "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+            }
+          },
+          "image": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+          "inLanguage": "ja",
+          "wordCount": 2759,
+          "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https://ai-site-iota-nine.vercel.app/article/github-basics"
+          },
+          "keywords": "github 使い方, gitignore, README, リポジトリ作成, GitHub入門",
+          "articleSection": "Git",
+          "url": "https://ai-site-iota-nine.vercel.app/article/github-basics",
+          "learningResourceType": "tutorial",
+          "educationalLevel": "beginner"
+        },
+        {
+          "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "ホーム",
+              "item": "https://ai-site-iota-nine.vercel.app/"
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "name": "git",
+              "item": "https://ai-site-iota-nine.vercel.app/knowledge/git"
+            },
+            {
+              "@type": "ListItem",
+              "position": 3,
+              "name": "Git & GitHub 入門",
+              "item": "https://ai-site-iota-nine.vercel.app/course/git/git"
+            },
+            {
+              "@type": "ListItem",
+              "position": 4,
+              "name": "GitHub入門：アカウントとリポジトリ",
+              "item": "https://ai-site-iota-nine.vercel.app/article/github-basics"
+            }
+          ]
+        },
+        {
+          "@context": "https://schema.org",
+          "@type": "Course",
+          "name": "Git & GitHub 入門",
+          "description": "Gitの基本操作からGitHubでの共同開発まで、現場で使える10ステップで学ぶ初心者向け講座。プログラミング学習・転職・チーム開発に必須のスキルを、具体例とコマンド付きで丁寧に解説します。",
+          "provider": {
+            "@type": "Organization",
+            "name": "StackShelf",
+            "url": "https://ai-site-iota-nine.vercel.app"
+          },
+          "url": "https://ai-site-iota-nine.vercel.app/course/git/git",
+          "inLanguage": "ja",
+          "educationalLevel": "beginner",
+          "hasCourseInstance": {
+            "@type": "CourseInstance",
+            "courseMode": "online",
+            "courseWorkload": "PT1H"
+          }
+        },
+        {
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "GitHub のリポジトリは Public と Private どちらにすればよいですか？",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "個人学習や公開したいプロジェクトは Public、業務や非公開のプロジェクトは Private にします。無料プランでも Private リポジトリを無制限に作れます。機密情報が入るプロジェクトは必ず Private にしましょう。"
+              }
+            },
+            {
+              "@type": "Question",
+              "name": ".gitignore に書いてもファイルが除外されないのはなぜですか？",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": ".gitignore を追加する前にすでに Git が追跡しているファイルは除外されません。git rm --cached <ファイル名> でキャッシュから削除し、.gitignore に追記してコミットし直してください。"
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "SSH キーの代わりに使える認証方法はありますか？",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "GitHub では Personal Access Token（PAT）を使った HTTPS 認証が利用できます。GitHub の「Settings → Developer settings → Personal access tokens」から発行し、パスワードの代わりに使います。"
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "README.md は必ず書かなければなりませんか？",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "必須ではありませんが、書くことを強くおすすめします。README があるとリポジトリの目的がすぐわかり、チームメンバーや将来の自分が助かります。最低限「概要」と「使い方」だけでも書いておきましょう。"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    "breadcrumb": {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "ホーム",
+          "item": "https://ai-site-iota-nine.vercel.app/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "git",
+          "item": "https://ai-site-iota-nine.vercel.app/knowledge/git"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Git & GitHub 入門",
+          "item": "https://ai-site-iota-nine.vercel.app/course/git/git"
+        },
+        {
+          "@type": "ListItem",
+          "position": 4,
+          "name": "GitHub入門：アカウントとリポジトリ",
+          "item": "https://ai-site-iota-nine.vercel.app/article/github-basics"
+        }
+      ]
+    },
+    "courseSchema": {
+      "@context": "https://schema.org",
+      "@type": "Course",
+      "name": "Git & GitHub 入門",
+      "description": "Gitの基本操作からGitHubでの共同開発まで、現場で使える10ステップで学ぶ初心者向け講座。プログラミング学習・転職・チーム開発に必須のスキルを、具体例とコマンド付きで丁寧に解説します。",
+      "provider": {
+        "@type": "Organization",
+        "name": "StackShelf",
+        "url": "https://ai-site-iota-nine.vercel.app"
+      },
+      "url": "https://ai-site-iota-nine.vercel.app/course/git/git",
+      "inLanguage": "ja",
+      "educationalLevel": "beginner",
+      "hasCourseInstance": {
+        "@type": "CourseInstance",
+        "courseMode": "online",
+        "courseWorkload": "PT1H"
+      }
+    },
+    "faqSchema": {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "GitHub のリポジトリは Public と Private どちらにすればよいですか？",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "個人学習や公開したいプロジェクトは Public、業務や非公開のプロジェクトは Private にします。無料プランでも Private リポジトリを無制限に作れます。機密情報が入るプロジェクトは必ず Private にしましょう。"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": ".gitignore に書いてもファイルが除外されないのはなぜですか？",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": ".gitignore を追加する前にすでに Git が追跡しているファイルは除外されません。git rm --cached <ファイル名> でキャッシュから削除し、.gitignore に追記してコミットし直してください。"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "SSH キーの代わりに使える認証方法はありますか？",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "GitHub では Personal Access Token（PAT）を使った HTTPS 認証が利用できます。GitHub の「Settings → Developer settings → Personal access tokens」から発行し、パスワードの代わりに使います。"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "README.md は必ず書かなければなりませんか？",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "必須ではありませんが、書くことを強くおすすめします。README があるとリポジトリの目的がすぐわかり、チームメンバーや将来の自分が助かります。最低限「概要」と「使い方」だけでも書いておきましょう。"
+          }
+        }
+      ]
+    }
+  },
+  "git-remote-push-pull": {
+    "id": "art_git_git-remote-push-pull",
+    "slug": "git-remote-push-pull",
+    "title": "push・pull・remote でリモート連携",
+    "summary": "git remote・git push・git pull の仕組みを基礎から解説。ローカルリポジトリとリモートリポジトリを連携させ、チームで安全にコードを共有するための具体的な手順を学ぶ。",
+    "body": "<h2>リモートリポジトリとは</h2>\n<p>\n  これまで学んできた Git の操作はすべてローカル（自分のパソコン）上の話でした。\n  チームで開発するには、コードをインターネット上のサーバーで共有する必要があります。\n  その共有場所が<strong>リモートリポジトリ</strong>です。\n  GitHub、GitLab、Bitbucket などのサービスがリモートリポジトリのホスティング先として広く使われています。\n</p>\n<p>\n  ローカルリポジトリとリモートリポジトリは独立して存在し、\n  <code>git push</code> や <code>git pull</code> といったコマンドで変更をやり取りします。\n  この仕組みを理解することで、チーム開発の基本的な流れが見えてきます。\n</p>\n\n<h2>git remote でリモートを登録する</h2>\n<p>\n  リモートリポジトリをローカルに認識させるコマンドが <code>git remote</code> です。\n  GitHub でリポジトリを作成した後、次のコマンドでリモートを登録します。\n</p>\n<pre><code># リモートリポジトリを \"origin\" という名前で登録\ngit remote add origin https://github.com/yourname/my-project.git\n\n# 登録済みのリモート一覧を確認\ngit remote -v</code></pre>\n<p>\n  <code>origin</code> はリモートリポジトリのデフォルトの別名です。\n  1つのリポジトリに複数のリモートを登録することもできますが、\n  最初のうちは <code>origin</code> 1つだけを使うのが一般的です。\n</p>\n\n<h3>既存リポジトリをクローンした場合</h3>\n<p>\n  <code>git clone</code> でリポジトリを取得した場合、\n  自動的に <code>origin</code> が登録されます。\n  手動で <code>git remote add</code> する必要はありません。\n</p>\n<pre><code>git clone https://github.com/yourname/my-project.git\ncd my-project\ngit remote -v\n# origin  https://github.com/yourname/my-project.git (fetch)\n# origin  https://github.com/yourname/my-project.git (push)</code></pre>\n\n<h2>git push でリモートへ送信する</h2>\n<p>\n  ローカルのコミットをリモートリポジトリへ送信するコマンドが <code>git push</code> です。\n  最初にプッシュするときは <code>-u</code>（<code>--set-upstream</code>）オプションを付けて、\n  ローカルブランチとリモートブランチを紐付けます。\n</p>\n<pre><code># 初回プッシュ（ブランチのトラッキングを設定）\ngit push -u origin main\n\n# 2回目以降は短縮形で OK\ngit push</code></pre>\n<p>\n  <code>-u</code> を一度使うと、以降は <code>git push</code> だけで\n  <code>origin main</code> への送信が実行されるようになります。\n</p>\n\n<h3>新しいブランチをリモートへ送信する</h3>\n<p>\n  ローカルで作成したブランチをリモートへ初めてプッシュするときも <code>-u</code> を使います。\n</p>\n<pre><code># feature/signup ブランチを作成してプッシュ\ngit checkout -b feature/signup\ngit push -u origin feature/signup</code></pre>\n\n<h2>git pull でリモートの変更を取り込む</h2>\n<p>\n  チームメンバーがリモートへプッシュした変更をローカルに取り込むコマンドが <code>git pull</code> です。\n  <code>git pull</code> は内部的に <code>git fetch</code>（取得）と <code>git merge</code>（統合）を\n  連続して実行します。\n</p>\n<pre><code># リモートの最新変更をローカルへ取り込む\ngit pull origin main\n\n# トラッキングブランチが設定済みなら短縮形で OK\ngit pull</code></pre>\n<p>\n  プルする前にコミットし忘れたローカルの変更があるとコンフリクトが起きやすくなります。\n  作業前後に <code>git pull</code> を習慣にすることで差分を小さく保てます。\n</p>\n\n<h3>git fetch と git pull の違い</h3>\n<p>\n  <code>git fetch</code> はリモートの変更を取得するだけで、\n  ローカルの作業ブランチには反映されません。\n  取得後に <code>git diff origin/main</code> で差分を確認してから手動でマージできるため、\n  安全に内容を確認したい場面で便利です。\n</p>\n<pre><code># リモートの変更を取得（ローカルブランチは変わらない）\ngit fetch origin\n\n# リモートとの差分を確認\ngit diff main origin/main\n\n# 問題なければマージ\ngit merge origin/main</code></pre>\n\n<h2>プッシュが拒否されたときの対処法</h2>\n<p>\n  リモートに自分よりも新しいコミットがある場合、プッシュが拒否されることがあります。\n  このときはまず <code>git pull</code> でリモートの変更を取り込み、\n  コンフリクトがあれば解決してから再度プッシュします。\n</p>\n<pre><code># エラー例\n# ! [rejected] main -> main (fetch first)\n\n# 解決手順\ngit pull origin main      # リモートの変更を取り込む\n# コンフリクトがあれば解決 → git add → git commit\ngit push origin main      # 再プッシュ</code></pre>\n<p>\n  <code>git push --force</code> は他の人のコミットを消してしまう危険があるため、\n  共有ブランチでは絶対に使わないようにしましょう。\n</p>\n\n<h2>リモートブランチの削除</h2>\n<p>\n  機能開発が完了してブランチが不要になったら、\n  リモートブランチも削除してリポジトリをすっきりさせましょう。\n</p>\n<pre><code># リモートの feature/signup ブランチを削除\ngit push origin --delete feature/signup\n\n# ローカルブランチの削除\ngit branch -d feature/signup</code></pre>\n\n<h2>よくあるトラブルと解決策</h2>\n<ul>\n  <li>\n    <strong>認証エラーが出る</strong>：GitHub では2021年以降、パスワード認証が廃止されました。\n    Personal Access Token（PAT）または SSH キーを使って認証します。\n  </li>\n  <li>\n    <strong>Updates were rejected（更新が拒否される）</strong>：リモートに自分より新しいコミットがあります。\n    <code>git pull</code> で取り込んでからプッシュします。\n  </li>\n  <li>\n    <strong>リモートの URL を変更したい</strong>：\n    <code>git remote set-url origin &lt;新しいURL&gt;</code> で変更できます。\n  </li>\n</ul>\n<pre><code># リモート URL の変更\ngit remote set-url origin git@github.com:yourname/my-project.git\n\n# 確認\ngit remote -v</code></pre>",
+    "conclusion": "このエピソードでは git remote・git push・git pull・git fetch の使い方を学びました。ローカルとリモートのやり取りはチーム開発の中心となる操作です。プッシュ前に pull を忘れずに行う習慣をつけることで、不要なコンフリクトを減らせます。次のエピソードでは GitHub のアカウント作成とリポジトリの基本操作を学びます。",
+    "tags": [
+      "git push",
+      "git pull",
+      "git remote",
+      "git fetch",
+      "リモートリポジトリ"
+    ],
+    "category": "Git",
+    "theme": "git - Git & GitHub 入門",
+    "status": "published",
+    "createdAt": "2026-05-30T03:49:58.928Z",
+    "updatedAt": "2026-05-30T03:49:58.934Z",
+    "publishedAt": "2026-05-30T03:49:58.928Z",
+    "metaTitle": "git push・git pull・git remote の使い方【初心者向け完全ガイド】 | StackShelf",
+    "metaDescription": "git push でリモートへ送信、git pull でローカルへ取り込む方法を解説。git remote の設定から origin の意味、fetch との違いまで初心者向けに丁寧に説明します。 図解・具体例つきで丁寧に解説します。",
+    "ogTitle": "git push・pull・remote の使い方 完全ガイド",
+    "ogDescription": "【Git初心者向け】ローカルとリモートのリポジトリ連携を git remote・git push・git pull で行う方法を、コマンド例とともにわかりやすく解説します。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
+    "knowledge": {
+      "topic": "git",
+      "courseId": "git",
+      "episode": 7
+    },
+    "faq": [
+      {
+        "question": "git pull と git fetch の違いは何ですか？",
+        "answer": "git fetch はリモートの変更を取得するだけでローカルブランチは変わりません。git pull は fetch + merge を自動で行い、ローカルブランチにリモートの変更を反映します。差分を確認してから取り込みたいときは fetch を使いましょう。"
+      },
+      {
+        "question": "git push が拒否されたらどうすればよいですか？",
+        "answer": "リモートに新しいコミットがあるためです。git pull でリモートの変更をローカルに取り込み、コンフリクトがあれば解決してから git push を再実行してください。--force は共有ブランチでは使用禁止です。"
+      },
+      {
+        "question": "origin とは何ですか？",
+        "answer": "origin はリモートリポジトリに付けるデフォルトの別名です。git clone すると自動的に設定されます。git remote add で任意の名前を付けることもできますが、慣習的に最初のリモートは origin と呼びます。"
+      },
+      {
+        "question": "git push -u の -u オプションは何をしていますか？",
+        "answer": "ローカルブランチとリモートブランチを紐付け（トラッキング設定）します。一度 -u を付けてプッシュすれば、次回から git push だけで同じリモートブランチへ送信できるようになります。"
+      }
+    ],
+    "nextEpisodeHint": "次のエピソードでは GitHub のアカウント作成、リポジトリの作成・設定、README の書き方など GitHub 入門の基本を学びます。",
+    "ogImage": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+    "canonical": "https://ai-site-iota-nine.vercel.app/article/git-remote-push-pull",
+    "jsonLd": {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@context": "https://schema.org",
+          "@type": "TechArticle",
+          "headline": "push・pull・remote でリモート連携",
+          "description": "git push でリモートへ送信、git pull でローカルへ取り込む方法を解説。git remote の設定から origin の意味、fetch との違いまで初心者向けに丁寧に説明します。 図解・具体例つきで丁寧に解説します。",
+          "datePublished": "2026-05-30T03:49:58.928Z",
+          "dateModified": "2026-05-30T03:49:58.934Z",
+          "author": {
+            "@type": "Organization",
+            "name": "StackShelf",
+            "url": "https://ai-site-iota-nine.vercel.app",
+            "logo": {
+              "@type": "ImageObject",
+              "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+            }
+          },
+          "publisher": {
+            "@type": "Organization",
+            "name": "StackShelf",
+            "url": "https://ai-site-iota-nine.vercel.app",
+            "logo": {
+              "@type": "ImageObject",
+              "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+            }
+          },
+          "image": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+          "inLanguage": "ja",
+          "wordCount": 2461,
+          "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https://ai-site-iota-nine.vercel.app/article/git-remote-push-pull"
+          },
+          "keywords": "git push, git pull, git remote, git fetch, リモートリポジトリ",
+          "articleSection": "Git",
+          "url": "https://ai-site-iota-nine.vercel.app/article/git-remote-push-pull",
+          "learningResourceType": "tutorial",
+          "educationalLevel": "beginner"
+        },
+        {
+          "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "ホーム",
+              "item": "https://ai-site-iota-nine.vercel.app/"
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "name": "git",
+              "item": "https://ai-site-iota-nine.vercel.app/knowledge/git"
+            },
+            {
+              "@type": "ListItem",
+              "position": 3,
+              "name": "Git & GitHub 入門",
+              "item": "https://ai-site-iota-nine.vercel.app/course/git/git"
+            },
+            {
+              "@type": "ListItem",
+              "position": 4,
+              "name": "push・pull・remote でリモート連携",
+              "item": "https://ai-site-iota-nine.vercel.app/article/git-remote-push-pull"
+            }
+          ]
+        },
+        {
+          "@context": "https://schema.org",
+          "@type": "Course",
+          "name": "Git & GitHub 入門",
+          "description": "Gitの基本操作からGitHubでの共同開発まで、現場で使える10ステップで学ぶ初心者向け講座。プログラミング学習・転職・チーム開発に必須のスキルを、具体例とコマンド付きで丁寧に解説します。",
+          "provider": {
+            "@type": "Organization",
+            "name": "StackShelf",
+            "url": "https://ai-site-iota-nine.vercel.app"
+          },
+          "url": "https://ai-site-iota-nine.vercel.app/course/git/git",
+          "inLanguage": "ja",
+          "educationalLevel": "beginner",
+          "hasCourseInstance": {
+            "@type": "CourseInstance",
+            "courseMode": "online",
+            "courseWorkload": "PT1H"
+          }
+        },
+        {
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "git pull と git fetch の違いは何ですか？",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "git fetch はリモートの変更を取得するだけでローカルブランチは変わりません。git pull は fetch + merge を自動で行い、ローカルブランチにリモートの変更を反映します。差分を確認してから取り込みたいときは fetch を使いましょう。"
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "git push が拒否されたらどうすればよいですか？",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "リモートに新しいコミットがあるためです。git pull でリモートの変更をローカルに取り込み、コンフリクトがあれば解決してから git push を再実行してください。--force は共有ブランチでは使用禁止です。"
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "origin とは何ですか？",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "origin はリモートリポジトリに付けるデフォルトの別名です。git clone すると自動的に設定されます。git remote add で任意の名前を付けることもできますが、慣習的に最初のリモートは origin と呼びます。"
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "git push -u の -u オプションは何をしていますか？",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "ローカルブランチとリモートブランチを紐付け（トラッキング設定）します。一度 -u を付けてプッシュすれば、次回から git push だけで同じリモートブランチへ送信できるようになります。"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    "breadcrumb": {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "ホーム",
+          "item": "https://ai-site-iota-nine.vercel.app/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "git",
+          "item": "https://ai-site-iota-nine.vercel.app/knowledge/git"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Git & GitHub 入門",
+          "item": "https://ai-site-iota-nine.vercel.app/course/git/git"
+        },
+        {
+          "@type": "ListItem",
+          "position": 4,
+          "name": "push・pull・remote でリモート連携",
+          "item": "https://ai-site-iota-nine.vercel.app/article/git-remote-push-pull"
+        }
+      ]
+    },
+    "courseSchema": {
+      "@context": "https://schema.org",
+      "@type": "Course",
+      "name": "Git & GitHub 入門",
+      "description": "Gitの基本操作からGitHubでの共同開発まで、現場で使える10ステップで学ぶ初心者向け講座。プログラミング学習・転職・チーム開発に必須のスキルを、具体例とコマンド付きで丁寧に解説します。",
+      "provider": {
+        "@type": "Organization",
+        "name": "StackShelf",
+        "url": "https://ai-site-iota-nine.vercel.app"
+      },
+      "url": "https://ai-site-iota-nine.vercel.app/course/git/git",
+      "inLanguage": "ja",
+      "educationalLevel": "beginner",
+      "hasCourseInstance": {
+        "@type": "CourseInstance",
+        "courseMode": "online",
+        "courseWorkload": "PT1H"
+      }
+    },
+    "faqSchema": {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "git pull と git fetch の違いは何ですか？",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "git fetch はリモートの変更を取得するだけでローカルブランチは変わりません。git pull は fetch + merge を自動で行い、ローカルブランチにリモートの変更を反映します。差分を確認してから取り込みたいときは fetch を使いましょう。"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "git push が拒否されたらどうすればよいですか？",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "リモートに新しいコミットがあるためです。git pull でリモートの変更をローカルに取り込み、コンフリクトがあれば解決してから git push を再実行してください。--force は共有ブランチでは使用禁止です。"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "origin とは何ですか？",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "origin はリモートリポジトリに付けるデフォルトの別名です。git clone すると自動的に設定されます。git remote add で任意の名前を付けることもできますが、慣習的に最初のリモートは origin と呼びます。"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "git push -u の -u オプションは何をしていますか？",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "ローカルブランチとリモートブランチを紐付け（トラッキング設定）します。一度 -u を付けてプッシュすれば、次回から git push だけで同じリモートブランチへ送信できるようになります。"
+          }
+        }
+      ]
+    }
+  },
+  "git-merge-conflict": {
+    "id": "art_git_git-merge-conflict",
+    "slug": "git-merge-conflict",
+    "title": "マージとコンフリクトの解決",
+    "summary": "git merge の仕組みを基礎から解説し、コンフリクト（競合）が発生する原因と、ファイルを編集して手動で解決する手順をステップバイステップで学ぶ。",
+    "body": "<h2>マージとは何か</h2>\n<p>\n  Gitにおける<strong>マージ（merge）</strong>とは、2つのブランチの変更履歴を統合する操作です。\n  たとえば機能開発用に作成した <code>feature/login</code> ブランチの変更を、\n  メインの <code>main</code> ブランチへ取り込む場面が典型例です。\n  マージを正しく使いこなすと、複数人での並行開発がスムーズになります。\n</p>\n<p>\n  マージには大きく分けて2種類あります。\n  <strong>Fast-forward マージ</strong>と<strong>3-way マージ</strong>です。\n  Fast-forward は派生ブランチがそのまま前進できる場合に使われ、履歴が一直線になります。\n  3-way マージは双方のブランチで変更が行われた場合に使われ、マージコミットが作られます。\n</p>\n\n<h2>基本的な git merge の手順</h2>\n<p>\n  マージを実行する前に、まず現在のブランチを確認します。\n  <code>main</code> ブランチへ取り込む場合は <code>main</code> に移動してからマージコマンドを実行します。\n</p>\n<pre><code># 現在のブランチ一覧を確認\ngit branch\n\n# main ブランチへ切り替え\ngit checkout main\n\n# feature/login ブランチの変更を main へマージ\ngit merge feature/login</code></pre>\n<p>\n  コンフリクトが発生しなければ、自動的にマージコミットが作成されます。\n  <code>--no-ff</code> オプションを付けると、Fast-forward が可能な場合でも\n  必ずマージコミットを残すことができ、履歴が見やすくなります。\n</p>\n<pre><code>git merge --no-ff feature/login</code></pre>\n\n<h3>マージ前に差分を確認する</h3>\n<p>\n  いきなりマージする前に、どのような変更があるか確認しておくと安心です。\n  <code>git diff</code> を使うと2つのブランチ間の差分を事前に把握できます。\n</p>\n<pre><code># main と feature/login の差分を確認\ngit diff main..feature/login</code></pre>\n\n<h2>コンフリクトとは何か</h2>\n<p>\n  <strong>コンフリクト（conflict / 競合）</strong>とは、\n  同じファイルの同じ行を2つのブランチで別々に変更した際に発生する状態です。\n  Gitはどちらの変更を採用すべきか判断できないため、開発者に解決を求めます。\n  コンフリクトが起きてもパニックにならず、落ち着いて対処することが大切です。\n</p>\n<p>\n  コンフリクトが発生すると、ターミナルに次のようなメッセージが表示されます。\n</p>\n<pre><code>Auto-merging index.html\nCONFLICT (content): Merge conflict in index.html\nAutomatic merge failed; fix conflicts and then commit the result.</code></pre>\n\n<h3>コンフリクトマーカーの読み方</h3>\n<p>\n  コンフリクトが発生したファイルを開くと、次のようなマーカーが挿入されています。\n</p>\n<pre><code>&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD\n&lt;p&gt;ログインページです。&lt;/p&gt;\n=======\n&lt;p&gt;サインインページです。&lt;/p&gt;\n&gt;&gt;&gt;&gt;&gt;&gt;&gt; feature/login</code></pre>\n<p>\n  <code>&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD</code> から <code>=======</code> までが現在のブランチ（HEAD）の内容、\n  <code>=======</code> から <code>&gt;&gt;&gt;&gt;&gt;&gt;&gt; feature/login</code> までがマージしようとしているブランチの内容です。\n  どちらを残すか、あるいは両方を組み合わせるかを手動で決めます。\n</p>\n\n<h2>コンフリクトを手動で解決する手順</h2>\n<p>\n  コンフリクトの解決は次の3ステップで行います。\n</p>\n<ol>\n  <li>コンフリクトが発生したファイルをテキストエディタで開く</li>\n  <li>マーカー（<code>&lt;&lt;&lt;&lt;&lt;&lt;&lt;</code>、<code>=======</code>、<code>&gt;&gt;&gt;&gt;&gt;&gt;&gt;</code>）を含む行を削除し、正しい内容に書き換える</li>\n  <li>ファイルを保存し、<code>git add</code> でステージングしてからコミットする</li>\n</ol>\n<p>\n  たとえば上の例で「両方の文言を使いたい」場合はこのように編集します。\n</p>\n<pre><code>&lt;p&gt;ログイン（サインイン）ページです。&lt;/p&gt;</code></pre>\n<p>マーカーがすべて取り除かれたら保存します。</p>\n<pre><code># 解決済みファイルをステージング\ngit add index.html\n\n# マージコミットを作成\ngit commit -m \"Merge feature/login into main (コンフリクト解決)\"</code></pre>\n\n<h3>git status でコンフリクト状況を確認する</h3>\n<p>\n  解決途中でどのファイルがまだコンフリクト中かを確認したいときは\n  <code>git status</code> を使います。\n  <code>both modified:</code> と表示されているファイルがコンフリクト対象です。\n</p>\n<pre><code>git status\n# both modified:   index.html</code></pre>\n\n<h2>コンフリクトを避けるための工夫</h2>\n<p>\n  コンフリクトは完全に避けることはできませんが、発生頻度を下げる工夫はできます。\n</p>\n<ul>\n  <li><strong>こまめにプル・プッシュする</strong>：リモートの最新状態を常に取り込むことで差分を小さく保てます</li>\n  <li><strong>ブランチを小さく短命に保つ</strong>：長期間分岐したままにすると差分が大きくなります</li>\n  <li><strong>責任範囲を分ける</strong>：チームで同じファイルを同時に編集しないよう調整します</li>\n  <li><strong>定期的にマージベースを更新する</strong>：<code>git merge main</code> や <code>git rebase main</code> で派生元の変更を取り込みます</li>\n</ul>\n\n<h2>git rebase との違い</h2>\n<p>\n  マージと似た操作に <code>git rebase</code> があります。\n  <code>rebase</code> はコミット履歴を一直線に整理したいときに使います。\n  ただし <strong>すでにリモートへプッシュしたブランチへの rebase は危険</strong>です。\n  チーム開発では基本的に <code>merge</code> を使い、\n  個人の作業ブランチを整理するときだけ <code>rebase</code> を使うのが安全です。\n</p>\n<pre><code># feature/login ブランチ上で main の変更を取り込む（rebase）\ngit checkout feature/login\ngit rebase main</code></pre>\n\n<h2>マージを取り消したいとき</h2>\n<p>\n  マージ後に問題が発覚した場合、まだコミットしていなければ <code>git merge --abort</code> でマージを中断できます。\n  すでにコミット済みの場合は <code>git revert</code> で逆操作のコミットを作成するか、\n  <code>git reset</code> でコミット自体をなかったことにできます（履歴を書き換えるため注意が必要です）。\n</p>\n<pre><code># マージを中断して元の状態に戻す（コミット前）\ngit merge --abort\n\n# マージコミットを取り消す（コミット後・安全な方法）\ngit revert -m 1 HEAD</code></pre>",
+    "conclusion": "このエピソードでは git merge の基本と、コンフリクトが発生したときの解決手順を学びました。コンフリクトは慣れれば怖くありません。マーカーを読んで正しい内容に書き換え、git add → git commit の流れを守れば確実に解決できます。次のエピソードではリモートリポジトリとの連携（push・pull・remote）を学びます。",
+    "tags": [
+      "git merge",
+      "コンフリクト解決",
+      "ブランチ",
+      "git rebase",
+      "バージョン管理"
+    ],
+    "category": "Git",
+    "theme": "git - Git & GitHub 入門",
+    "status": "published",
+    "createdAt": "2026-05-30T03:49:58.542Z",
+    "updatedAt": "2026-05-30T03:49:58.548Z",
+    "publishedAt": "2026-05-30T03:49:58.542Z",
+    "metaTitle": "git merge とコンフリクト解決の完全ガイド【初心者向け】｜Git入門 | StackShelf",
+    "metaDescription": "git merge の使い方とコンフリクト（競合）が起きる原因を解説。マーカーの読み方・手動解決・git add / git commit の流れを初心者向けにわかりやすく説明します。 図解・具体例つきで丁寧に解説します。",
+    "ogTitle": "git merge とコンフリクト解決の完全ガイド",
+    "ogDescription": "【Git初心者向け】【Git初心者向け】ブランチのマージ方法から、コンフリクトが起きたときの解決手順まで。実際のコマンド例とともに丁寧に解説します。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
+    "knowledge": {
+      "topic": "git",
+      "courseId": "git",
+      "episode": 6
+    },
+    "faq": [
+      {
+        "question": "コンフリクトが解決できずに元に戻したいときはどうすればいいですか？",
+        "answer": "git merge --abort を実行するとマージを中断し、マージ前の状態に戻せます。すでにコミットしてしまった場合は git revert -m 1 HEAD で安全に取り消せます。"
+      },
+      {
+        "question": "git merge と git rebase はどちらを使えばよいですか？",
+        "answer": "チームで共有しているブランチには git merge を使うのが安全です。git rebase は個人の作業ブランチを整理するときに限定して使うと、履歴の書き換えによるトラブルを防げます。"
+      },
+      {
+        "question": "Fast-forward マージとはどういう意味ですか？",
+        "answer": "派生ブランチに main ブランチ側の変更がない場合、ブランチポインタをそのまま前進させる（fast-forward）マージです。マージコミットが作られず、履歴が一直線になります。"
+      },
+      {
+        "question": "複数ファイルでコンフリクトが発生した場合はどうすればよいですか？",
+        "answer": "git status でコンフリクト中のファイル一覧を確認し、1ファイルずつ解決して git add します。すべてのファイルを解決し終えたら git commit でマージを完了させます。"
+      }
+    ],
+    "nextEpisodeHint": "次のエピソードでは、リモートリポジトリとのやり取りに使う git push・git pull・git remote の使い方を学びます。",
+    "ogImage": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+    "canonical": "https://ai-site-iota-nine.vercel.app/article/git-merge-conflict",
+    "jsonLd": {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@context": "https://schema.org",
+          "@type": "TechArticle",
+          "headline": "マージとコンフリクトの解決",
+          "description": "git merge の使い方とコンフリクト（競合）が起きる原因を解説。マーカーの読み方・手動解決・git add / git commit の流れを初心者向けにわかりやすく説明します。 図解・具体例つきで丁寧に解説します。",
+          "datePublished": "2026-05-30T03:49:58.542Z",
+          "dateModified": "2026-05-30T03:49:58.548Z",
+          "author": {
+            "@type": "Organization",
+            "name": "StackShelf",
+            "url": "https://ai-site-iota-nine.vercel.app",
+            "logo": {
+              "@type": "ImageObject",
+              "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+            }
+          },
+          "publisher": {
+            "@type": "Organization",
+            "name": "StackShelf",
+            "url": "https://ai-site-iota-nine.vercel.app",
+            "logo": {
+              "@type": "ImageObject",
+              "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+            }
+          },
+          "image": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+          "inLanguage": "ja",
+          "wordCount": 2592,
+          "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https://ai-site-iota-nine.vercel.app/article/git-merge-conflict"
+          },
+          "keywords": "git merge, コンフリクト解決, ブランチ, git rebase, バージョン管理",
+          "articleSection": "Git",
+          "url": "https://ai-site-iota-nine.vercel.app/article/git-merge-conflict",
+          "learningResourceType": "tutorial",
+          "educationalLevel": "beginner"
+        },
+        {
+          "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "ホーム",
+              "item": "https://ai-site-iota-nine.vercel.app/"
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "name": "git",
+              "item": "https://ai-site-iota-nine.vercel.app/knowledge/git"
+            },
+            {
+              "@type": "ListItem",
+              "position": 3,
+              "name": "Git & GitHub 入門",
+              "item": "https://ai-site-iota-nine.vercel.app/course/git/git"
+            },
+            {
+              "@type": "ListItem",
+              "position": 4,
+              "name": "マージとコンフリクトの解決",
+              "item": "https://ai-site-iota-nine.vercel.app/article/git-merge-conflict"
+            }
+          ]
+        },
+        {
+          "@context": "https://schema.org",
+          "@type": "Course",
+          "name": "Git & GitHub 入門",
+          "description": "Gitの基本操作からGitHubでの共同開発まで、現場で使える10ステップで学ぶ初心者向け講座。プログラミング学習・転職・チーム開発に必須のスキルを、具体例とコマンド付きで丁寧に解説します。",
+          "provider": {
+            "@type": "Organization",
+            "name": "StackShelf",
+            "url": "https://ai-site-iota-nine.vercel.app"
+          },
+          "url": "https://ai-site-iota-nine.vercel.app/course/git/git",
+          "inLanguage": "ja",
+          "educationalLevel": "beginner",
+          "hasCourseInstance": {
+            "@type": "CourseInstance",
+            "courseMode": "online",
+            "courseWorkload": "PT1H"
+          }
+        },
+        {
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "コンフリクトが解決できずに元に戻したいときはどうすればいいですか？",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "git merge --abort を実行するとマージを中断し、マージ前の状態に戻せます。すでにコミットしてしまった場合は git revert -m 1 HEAD で安全に取り消せます。"
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "git merge と git rebase はどちらを使えばよいですか？",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "チームで共有しているブランチには git merge を使うのが安全です。git rebase は個人の作業ブランチを整理するときに限定して使うと、履歴の書き換えによるトラブルを防げます。"
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Fast-forward マージとはどういう意味ですか？",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "派生ブランチに main ブランチ側の変更がない場合、ブランチポインタをそのまま前進させる（fast-forward）マージです。マージコミットが作られず、履歴が一直線になります。"
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "複数ファイルでコンフリクトが発生した場合はどうすればよいですか？",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "git status でコンフリクト中のファイル一覧を確認し、1ファイルずつ解決して git add します。すべてのファイルを解決し終えたら git commit でマージを完了させます。"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    "breadcrumb": {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "ホーム",
+          "item": "https://ai-site-iota-nine.vercel.app/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "git",
+          "item": "https://ai-site-iota-nine.vercel.app/knowledge/git"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Git & GitHub 入門",
+          "item": "https://ai-site-iota-nine.vercel.app/course/git/git"
+        },
+        {
+          "@type": "ListItem",
+          "position": 4,
+          "name": "マージとコンフリクトの解決",
+          "item": "https://ai-site-iota-nine.vercel.app/article/git-merge-conflict"
+        }
+      ]
+    },
+    "courseSchema": {
+      "@context": "https://schema.org",
+      "@type": "Course",
+      "name": "Git & GitHub 入門",
+      "description": "Gitの基本操作からGitHubでの共同開発まで、現場で使える10ステップで学ぶ初心者向け講座。プログラミング学習・転職・チーム開発に必須のスキルを、具体例とコマンド付きで丁寧に解説します。",
+      "provider": {
+        "@type": "Organization",
+        "name": "StackShelf",
+        "url": "https://ai-site-iota-nine.vercel.app"
+      },
+      "url": "https://ai-site-iota-nine.vercel.app/course/git/git",
+      "inLanguage": "ja",
+      "educationalLevel": "beginner",
+      "hasCourseInstance": {
+        "@type": "CourseInstance",
+        "courseMode": "online",
+        "courseWorkload": "PT1H"
+      }
+    },
+    "faqSchema": {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "コンフリクトが解決できずに元に戻したいときはどうすればいいですか？",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "git merge --abort を実行するとマージを中断し、マージ前の状態に戻せます。すでにコミットしてしまった場合は git revert -m 1 HEAD で安全に取り消せます。"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "git merge と git rebase はどちらを使えばよいですか？",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "チームで共有しているブランチには git merge を使うのが安全です。git rebase は個人の作業ブランチを整理するときに限定して使うと、履歴の書き換えによるトラブルを防げます。"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Fast-forward マージとはどういう意味ですか？",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "派生ブランチに main ブランチ側の変更がない場合、ブランチポインタをそのまま前進させる（fast-forward）マージです。マージコミットが作られず、履歴が一直線になります。"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "複数ファイルでコンフリクトが発生した場合はどうすればよいですか？",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "git status でコンフリクト中のファイル一覧を確認し、1ファイルずつ解決して git add します。すべてのファイルを解決し終えたら git commit でマージを完了させます。"
+          }
+        }
+      ]
+    }
+  },
+  "git-branch-basics": {
+    "id": "art_git_git-branch-basics",
+    "slug": "git-branch-basics",
+    "title": "Gitブランチの作り方と切り替え：git branch・checkout・switchの基本",
+    "summary": "Gitブランチの概念から、git branch・git switch・git checkoutを使ったブランチの作成・切り替え・削除・マージまでを初心者向けに解説します。",
+    "body": "<h2>ブランチとは何か？木の枝で理解する</h2>\n<p>Gitの<strong>ブランチ（branch）</strong>とは、コミット履歴の「分岐」です。木の幹（本線）から枝が伸びるイメージで考えるとわかりやすいでしょう。</p>\n<p>たとえば、現在運用中の <code>app.js</code> に新機能を追加したいとします。直接 <code>main</code> ブランチで作業すると、開発途中のバグが本番環境に影響してしまう可能性があります。そこで「新機能開発用のブランチ」を作り、完成してから本線に統合するという安全な開発フローが実現できます。</p>\n<p>ブランチの特徴：</p>\n<ul>\n  <li>作成・削除が非常に軽量で速い</li>\n  <li>いくつでも作成でき、切り替えも瞬時に行える</li>\n  <li>異なるブランチ間でコードが独立しているため、互いに影響しない</li>\n  <li>作業完了後は <code>main</code> ブランチに統合（マージ）できる</li>\n</ul>\n\n<h2>デフォルトブランチ：main（またはmaster）</h2>\n<p><code>git init</code> でリポジトリを作ると、最初から1つのブランチが作成されます。これが<strong>mainブランチ</strong>です（古いGitやプロジェクトでは <code>master</code> という名前の場合があります）。</p>\n<p>現在いるブランチは <code>git status</code> の1行目や、<code>git branch</code> コマンドで確認できます。</p>\n<pre><code># 現在のブランチを確認（* が現在のブランチ）\ngit branch\n\n# 出力例\n* main</code></pre>\n\n<h2>git branch：ブランチの作成・確認・削除</h2>\n<p><code>git branch</code> コマンドは、ブランチの一覧表示・作成・削除に使います。</p>\n\n<h3>ブランチの一覧表示</h3>\n<pre><code># ローカルブランチの一覧\ngit branch\n\n# リモートブランチも含む一覧\ngit branch -a\n\n# 出力例\n* main\n  feature/login\n  bugfix/null-check</code></pre>\n\n<h3>新しいブランチを作成する</h3>\n<pre><code># feature/new-toppage という名前のブランチを作成\ngit branch feature/new-toppage</code></pre>\n<p>ブランチ名の命名規則は自由ですが、チームでよく使われる慣習があります。</p>\n<ul>\n  <li><code>feature/機能名</code>：新機能の開発</li>\n  <li><code>bugfix/バグ内容</code>：バグ修正</li>\n  <li><code>hotfix/内容</code>：緊急の本番修正</li>\n  <li><code>release/バージョン番号</code>：リリース準備</li>\n</ul>\n\n<h3>ブランチの削除</h3>\n<pre><code># マージ済みのブランチを削除\ngit branch -d feature/new-toppage\n\n# 強制削除（マージしていなくても削除）\ngit branch -D feature/new-toppage</code></pre>\n<p><strong>注意</strong>：現在いるブランチ（HEAD）は削除できません。別のブランチに切り替えてから削除してください。</p>\n\n<h2>git switch：ブランチを切り替える（推奨）</h2>\n<p>ブランチを切り替えるコマンドには <code>git switch</code> と <code>git checkout</code> の2つがあります。<code>git switch</code> はGit 2.23（2019年リリース）で追加された新しいコマンドで、ブランチの切り替えに特化しており、こちらを使うことが推奨されています。</p>\n\n<h3>基本的な切り替え</h3>\n<pre><code># feature/new-toppage ブランチに切り替え\ngit switch feature/new-toppage\n\n# 出力例\nSwitched to branch 'feature/new-toppage'</code></pre>\n\n<h3>作成と切り替えを同時に行う</h3>\n<pre><code># ブランチを作成して即座に切り替え（-cオプション）\ngit switch -c feature/user-registration</code></pre>\n<p>これは以下の2コマンドをまとめたものです。</p>\n<pre><code>git branch feature/user-registration\ngit switch feature/user-registration</code></pre>\n\n<h3>直前のブランチに戻る</h3>\n<pre><code># 直前にいたブランチに戻る\ngit switch -</code></pre>\n<p><code>-</code>（ハイフン）は「直前のブランチ」を意味します。mainとfeatureブランチを頻繁に行き来するときに便利です。</p>\n\n<h2>git checkout：従来の切り替えコマンド（参考）</h2>\n<p><code>git checkout</code> は古くからあるコマンドで、ブランチ切り替え以外にもファイルの復元などの機能を持つ多機能コマンドです。古いドキュメントや解説記事では <code>git checkout</code> が使われていることが多いので、覚えておきましょう。</p>\n<pre><code># ブランチの切り替え（git switchと同じ）\ngit checkout feature/new-toppage\n\n# ブランチの作成と切り替え（-bオプション）\ngit checkout -b feature/user-registration</code></pre>\n<p>新しいプロジェクトでは <code>git switch</code> を使い、古い資料を読む際に <code>git checkout</code> も理解できていれば問題ありません。</p>\n\n<h2>ブランチで作業する実践フロー</h2>\n<p>実際の開発の流れを見てみましょう。ここでは「ログイン機能を開発してmainブランチにマージする」流れを例にします。</p>\n<pre><code># 1. mainブランチから新しいブランチを作成して切り替え\ngit switch main\ngit switch -c feature/login\n\n# 2. ファイルを作成・編集\necho \"function login() {}\" &gt;&gt; app.js\n\n# 3. 変更をコミット\ngit add app.js\ngit commit -m \"ログイン関数のスケルトンを追加\"\n\n# 4. さらに作業を続ける\necho \"// login validation\" &gt;&gt; app.js\ngit commit -am \"ログインのバリデーション処理を追加\"\n\n# 5. mainブランチに戻る\ngit switch main\n\n# 6. feature/loginブランチをmainにマージ\ngit merge feature/login\n\n# 7. マージ済みブランチを削除\ngit branch -d feature/login</code></pre>\n\n<h2>マージとは：ブランチを統合する</h2>\n<p><code>git merge</code> は、あるブランチの変更を現在のブランチに統合するコマンドです。</p>\n<pre><code># feature/loginをmainにマージする場合\n# まずmainブランチにいることを確認\ngit switch main\n\n# マージを実行\ngit merge feature/login</code></pre>\n\n<h3>Fast-forwardマージとは</h3>\n<p>featureブランチで作業している間にmainブランチに変更がなかった場合、Gitは単純にHEADポインタを前進させる「Fast-forwardマージ」を行います。この場合、マージコミットは作られません。</p>\n\n<h3>マージコンフリクト（衝突）が起きたら</h3>\n<p>複数のブランチで同じファイルの同じ行を変更した場合、マージ時に<strong>コンフリクト（衝突）</strong>が発生します。Gitは自動解決できないため、開発者が手動で解決する必要があります。</p>\n<pre><code># コンフリクト発生時の出力例\nAuto-merging app.js\nCONFLICT (content): Merge conflict in app.js\nAutomatic merge failed; fix conflicts and then commit the result.</code></pre>\n<p>コンフリクトが発生したファイルを開くと、次のようなマーカーが挿入されています。</p>\n<pre><code>&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD\nfunction login() { return true; }\n=======\nfunction login() { return false; }\n&gt;&gt;&gt;&gt;&gt;&gt;&gt; feature/login</code></pre>\n<p><code>&lt;&lt;&lt;&lt;&lt;&lt;&lt;</code> から <code>=======</code> が現在のブランチの内容、<code>=======</code> から <code>&gt;&gt;&gt;&gt;&gt;&gt;&gt;</code> がマージしようとしているブランチの内容です。どちらを採用するか、または組み合わせるかを決めて、マーカーを手動で削除してからコミットします。</p>\n<pre><code># コンフリクト解消後\ngit add app.js\ngit commit -m \"Merge feature/login into main\"</code></pre>\n\n<h2>ブランチの状態を視覚的に確認する</h2>\n<p>ブランチの分岐・マージをグラフで確認すると全体像が把握しやすくなります。</p>\n<pre><code># グラフ付きでログを表示\ngit log --oneline --graph --all</code></pre>\n<p>出力例：</p>\n<pre><code>*   d4e7a8b (HEAD -> main) Merge feature/login into main\n|  \n| * c3f1d25 (feature/login) ログインバリデーションを追加\n| * a2b9e14 ログイン関数のスケルトンを追加\n|/  \n* 7f3c0d1 initial commit</code></pre>\n<p>このグラフでブランチの分岐とマージの流れが視覚的にわかります。</p>",
+    "conclusion": "ブランチはGitの最も強力な機能の一つで、本線に影響を与えずに独立した作業空間を持てる仕組みです。git branch -c（または switch -c）でブランチを作成し、git switchで切り替え、完成したらgit mergeでmainに統合するのが基本フローです。ブランチは軽量なので、こまめに作ることを恐れず、機能ごとや修正ごとにブランチを切る習慣をつけましょう。コンフリクトは複数人開発では避けられませんが、マーカーの読み方を覚えれば落ち着いて対応できます。このブランチ機能こそが、Gitでの安全で効率的なチーム開発を支える基盤です。",
+    "tags": [
+      "Git",
+      "ブランチ",
+      "git branch",
+      "git switch",
+      "git checkout",
+      "git merge"
+    ],
+    "category": "Git",
+    "theme": "git - Git & GitHub 入門",
+    "status": "published",
+    "createdAt": "2026-05-30T03:49:58.266Z",
+    "updatedAt": "2026-05-30T03:49:58.273Z",
+    "publishedAt": "2026-05-30T03:49:58.266Z",
+    "metaTitle": "Gitブランチの作り方と切り替え方【git branch・switch入門】初心者解説 | StackShelf",
+    "metaDescription": "Gitブランチの仕組みからgit branch・git switch・git checkoutコマンドの使い方まで実例付きで解説。ブランチの作成・切り替え・マージを初心者向けに丁寧に説明します。 図解・具体例つきで丁寧に解説します。",
+    "ogTitle": "Gitブランチ入門：作成・切り替え・マージ",
+    "ogDescription": "【Git初心者向け】【Git初心者向け】git branchとgit switchでブランチを自在に扱う方法を実例コマンドで解説。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
+    "knowledge": {
+      "topic": "git",
+      "courseId": "git",
+      "episode": 5
+    },
+    "faq": [
+      {
+        "question": "git switchとgit checkoutどちらを使えばいいですか？",
+        "answer": "新しいプロジェクトやGit 2.23以降の環境ではgit switchの使用が推奨されます。git switchはブランチ操作に特化しており、意図が明確です。ただし、古いバージョンのGitや既存の解説記事ではgit checkoutが使われることが多いため、両方の書き方を理解しておくと良いでしょう。"
+      },
+      {
+        "question": "ブランチはいくつ作っても大丈夫ですか？",
+        "answer": "はい、ブランチの作成は非常に軽量でディスクへの負荷もほぼありません。ただし、マージ・削除されずに放置されたブランチが増えると管理が煩雑になります。マージが完了したブランチはgit branch -dで削除する習慣をつけましょう。"
+      },
+      {
+        "question": "コンフリクトが怖いのですが、回避する方法はありますか？",
+        "answer": "コンフリクトは複数人が同じ箇所を変更したときに発生します。回避するには、作業範囲を明確に分担する、こまめにmainからgit pull（最新のmainを取り込む）して作業ブランチを最新に保つ、一つのブランチの作業期間を短くする、などが効果的です。ただし完全に避けることは難しいので、解決手順を覚えておく方が重要です。"
+      },
+      {
+        "question": "マージとリベースの違いは何ですか？",
+        "answer": "どちらもブランチを統合する方法ですが、履歴の見せ方が異なります。マージは分岐と統合の履歴をそのまま残します。リベースはfeatureブランチのコミットをmainの先頭に移植し、直線的な履歴を作ります。初心者のうちはマージを使い、慣れてからリベースを学ぶことをおすすめします。"
+      }
+    ],
+    "nextEpisodeHint": "次回は、GitHubとの連携（git push・git pull）を学びます。ローカルの変更をリモートリポジトリに送り、チームと共有する方法をマスターしましょう。",
+    "ogImage": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+    "canonical": "https://ai-site-iota-nine.vercel.app/article/git-branch-basics",
+    "jsonLd": {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@context": "https://schema.org",
+          "@type": "TechArticle",
+          "headline": "Gitブランチの作り方と切り替え：git branch・checkout・switchの基本",
+          "description": "Gitブランチの仕組みからgit branch・git switch・git checkoutコマンドの使い方まで実例付きで解説。ブランチの作成・切り替え・マージを初心者向けに丁寧に説明します。 図解・具体例つきで丁寧に解説します。",
+          "datePublished": "2026-05-30T03:49:58.266Z",
+          "dateModified": "2026-05-30T03:49:58.273Z",
+          "author": {
+            "@type": "Organization",
+            "name": "StackShelf",
+            "url": "https://ai-site-iota-nine.vercel.app",
+            "logo": {
+              "@type": "ImageObject",
+              "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+            }
+          },
+          "publisher": {
+            "@type": "Organization",
+            "name": "StackShelf",
+            "url": "https://ai-site-iota-nine.vercel.app",
+            "logo": {
+              "@type": "ImageObject",
+              "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+            }
+          },
+          "image": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+          "inLanguage": "ja",
+          "wordCount": 3384,
+          "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https://ai-site-iota-nine.vercel.app/article/git-branch-basics"
+          },
+          "keywords": "Git, ブランチ, git branch, git switch, git checkout, git merge",
+          "articleSection": "Git",
+          "url": "https://ai-site-iota-nine.vercel.app/article/git-branch-basics",
+          "learningResourceType": "tutorial",
+          "educationalLevel": "beginner"
+        },
+        {
+          "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "ホーム",
+              "item": "https://ai-site-iota-nine.vercel.app/"
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "name": "git",
+              "item": "https://ai-site-iota-nine.vercel.app/knowledge/git"
+            },
+            {
+              "@type": "ListItem",
+              "position": 3,
+              "name": "Git & GitHub 入門",
+              "item": "https://ai-site-iota-nine.vercel.app/course/git/git"
+            },
+            {
+              "@type": "ListItem",
+              "position": 4,
+              "name": "Gitブランチの作り方と切り替え：git branch・checkout・switchの基本",
+              "item": "https://ai-site-iota-nine.vercel.app/article/git-branch-basics"
+            }
+          ]
+        },
+        {
+          "@context": "https://schema.org",
+          "@type": "Course",
+          "name": "Git & GitHub 入門",
+          "description": "Gitの基本操作からGitHubでの共同開発まで、現場で使える10ステップで学ぶ初心者向け講座。プログラミング学習・転職・チーム開発に必須のスキルを、具体例とコマンド付きで丁寧に解説します。",
+          "provider": {
+            "@type": "Organization",
+            "name": "StackShelf",
+            "url": "https://ai-site-iota-nine.vercel.app"
+          },
+          "url": "https://ai-site-iota-nine.vercel.app/course/git/git",
+          "inLanguage": "ja",
+          "educationalLevel": "beginner",
+          "hasCourseInstance": {
+            "@type": "CourseInstance",
+            "courseMode": "online",
+            "courseWorkload": "PT1H"
+          }
+        },
+        {
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "git switchとgit checkoutどちらを使えばいいですか？",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "新しいプロジェクトやGit 2.23以降の環境ではgit switchの使用が推奨されます。git switchはブランチ操作に特化しており、意図が明確です。ただし、古いバージョンのGitや既存の解説記事ではgit checkoutが使われることが多いため、両方の書き方を理解しておくと良いでしょう。"
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "ブランチはいくつ作っても大丈夫ですか？",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "はい、ブランチの作成は非常に軽量でディスクへの負荷もほぼありません。ただし、マージ・削除されずに放置されたブランチが増えると管理が煩雑になります。マージが完了したブランチはgit branch -dで削除する習慣をつけましょう。"
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "コンフリクトが怖いのですが、回避する方法はありますか？",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "コンフリクトは複数人が同じ箇所を変更したときに発生します。回避するには、作業範囲を明確に分担する、こまめにmainからgit pull（最新のmainを取り込む）して作業ブランチを最新に保つ、一つのブランチの作業期間を短くする、などが効果的です。ただし完全に避けることは難しいので、解決手順を覚えておく方が重要です。"
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "マージとリベースの違いは何ですか？",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "どちらもブランチを統合する方法ですが、履歴の見せ方が異なります。マージは分岐と統合の履歴をそのまま残します。リベースはfeatureブランチのコミットをmainの先頭に移植し、直線的な履歴を作ります。初心者のうちはマージを使い、慣れてからリベースを学ぶことをおすすめします。"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    "breadcrumb": {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "ホーム",
+          "item": "https://ai-site-iota-nine.vercel.app/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "git",
+          "item": "https://ai-site-iota-nine.vercel.app/knowledge/git"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Git & GitHub 入門",
+          "item": "https://ai-site-iota-nine.vercel.app/course/git/git"
+        },
+        {
+          "@type": "ListItem",
+          "position": 4,
+          "name": "Gitブランチの作り方と切り替え：git branch・checkout・switchの基本",
+          "item": "https://ai-site-iota-nine.vercel.app/article/git-branch-basics"
+        }
+      ]
+    },
+    "courseSchema": {
+      "@context": "https://schema.org",
+      "@type": "Course",
+      "name": "Git & GitHub 入門",
+      "description": "Gitの基本操作からGitHubでの共同開発まで、現場で使える10ステップで学ぶ初心者向け講座。プログラミング学習・転職・チーム開発に必須のスキルを、具体例とコマンド付きで丁寧に解説します。",
+      "provider": {
+        "@type": "Organization",
+        "name": "StackShelf",
+        "url": "https://ai-site-iota-nine.vercel.app"
+      },
+      "url": "https://ai-site-iota-nine.vercel.app/course/git/git",
+      "inLanguage": "ja",
+      "educationalLevel": "beginner",
+      "hasCourseInstance": {
+        "@type": "CourseInstance",
+        "courseMode": "online",
+        "courseWorkload": "PT1H"
+      }
+    },
+    "faqSchema": {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "git switchとgit checkoutどちらを使えばいいですか？",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "新しいプロジェクトやGit 2.23以降の環境ではgit switchの使用が推奨されます。git switchはブランチ操作に特化しており、意図が明確です。ただし、古いバージョンのGitや既存の解説記事ではgit checkoutが使われることが多いため、両方の書き方を理解しておくと良いでしょう。"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "ブランチはいくつ作っても大丈夫ですか？",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "はい、ブランチの作成は非常に軽量でディスクへの負荷もほぼありません。ただし、マージ・削除されずに放置されたブランチが増えると管理が煩雑になります。マージが完了したブランチはgit branch -dで削除する習慣をつけましょう。"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "コンフリクトが怖いのですが、回避する方法はありますか？",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "コンフリクトは複数人が同じ箇所を変更したときに発生します。回避するには、作業範囲を明確に分担する、こまめにmainからgit pull（最新のmainを取り込む）して作業ブランチを最新に保つ、一つのブランチの作業期間を短くする、などが効果的です。ただし完全に避けることは難しいので、解決手順を覚えておく方が重要です。"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "マージとリベースの違いは何ですか？",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "どちらもブランチを統合する方法ですが、履歴の見せ方が異なります。マージは分岐と統合の履歴をそのまま残します。リベースはfeatureブランチのコミットをmainの先頭に移植し、直線的な履歴を作ります。初心者のうちはマージを使い、慣れてからリベースを学ぶことをおすすめします。"
+          }
+        }
+      ]
+    }
+  },
+  "git-basic-commands": {
+    "id": "art_git_git-basic-commands",
+    "slug": "git-basic-commands",
+    "title": "git add・commit・status・logの使い方：Gitの基本操作を完全マスター",
+    "summary": "git add、git commit、git status、git logの4つのコマンドを実例付きで解説。Gitの日常的な変更記録フローをゼロから丁寧に説明します。",
+    "body": "<h2>Gitの基本ワークフローを理解する</h2>\n<p>Gitで変更を記録するまでの流れには、明確なステップがあります。この流れを理解することが、Git操作をスムーズに行うための第一歩です。</p>\n<p>基本的な流れはこうなります：</p>\n<ol>\n  <li>ファイルを編集する（<code>app.js</code> や <code>report.txt</code> を変更）</li>\n  <li><code>git add</code> でステージングエリアに追加する</li>\n  <li><code>git commit</code> でリポジトリに記録する</li>\n  <li><code>git status</code> や <code>git log</code> で状態・履歴を確認する</li>\n</ol>\n<p>この「編集 → add → commit」の繰り返しが、日々のGit作業の基本です。</p>\n\n<h2>ステージングエリアとは何か</h2>\n<p>Gitを初めて使う人が最初に戸惑うのが「なぜ直接commitできないのか？なぜaddが必要なのか？」という点です。</p>\n<p>その答えが<strong>ステージングエリア（インデックス）</strong>の存在です。Gitには3つの領域があります。</p>\n<ul>\n  <li><strong>ワーキングツリー</strong>：実際にファイルを編集している場所（普通のフォルダ）</li>\n  <li><strong>ステージングエリア</strong>：次のコミットに含める変更を選択・準備する場所</li>\n  <li><strong>リポジトリ</strong>：コミットされた変更履歴が永続的に保存される場所</li>\n</ul>\n<p>なぜステージングエリアがあるかというと、「複数のファイルを変更したが、今回のコミットには一部だけ含めたい」という柔軟な操作ができるからです。たとえば <code>app.js</code> と <code>report.txt</code> を変更したが、今は <code>app.js</code> だけをコミットしたい場合、<code>app.js</code> だけをステージングエリアに追加できます。</p>\n\n<h2>git status：現在の状態を確認する</h2>\n<p><code>git status</code> は、ワーキングツリーとステージングエリアの状態を確認するコマンドです。Gitを使う上で最も頻繁に実行するコマンドの一つです。</p>\n<pre><code>git status</code></pre>\n<p>出力の読み方を覚えましょう。</p>\n<pre><code>On branch main\nChanges to be committed:\n  (use \"git restore --staged &lt;file&gt;...\" to unstage)\n        modified:   app.js\n\nChanges not staged for commit:\n  (use \"git add &lt;file&gt;...\" to update what will be committed)\n        modified:   report.txt\n\nUntracked files:\n  (use \"git add &lt;file&gt;...\" to include in what will be committed)\n        new-file.js</code></pre>\n<ul>\n  <li><strong>Changes to be committed</strong>：ステージング済み（次のコミットに含まれる）</li>\n  <li><strong>Changes not staged for commit</strong>：変更はあるがステージングされていない</li>\n  <li><strong>Untracked files</strong>：Gitが追跡していない新規ファイル</li>\n</ul>\n\n<h2>git add：ステージングエリアに追加する</h2>\n<p><code>git add</code> は、変更したファイルをステージングエリアに追加するコマンドです。</p>\n\n<h3>基本的な使い方</h3>\n<pre><code># 特定のファイルを追加\ngit add app.js\n\n# 複数ファイルを一度に追加\ngit add app.js report.txt\n\n# 現在ディレクトリのすべての変更を追加\ngit add .\n\n# すべての変更（削除されたファイルも含む）を追加\ngit add -A</code></pre>\n\n<h3>addの取り消し方</h3>\n<p>ステージングしたが、やっぱり取り消したい場合は <code>git restore --staged</code> を使います。</p>\n<pre><code># 特定ファイルをステージングから除外\ngit restore --staged app.js\n\n# すべてのステージングを取り消し\ngit restore --staged .</code></pre>\n\n<h3>ファイルの一部だけをステージングする（上級）</h3>\n<p><code>-p</code> オプションを使うと、ファイル内の変更を部分的に選択してステージングできます。</p>\n<pre><code>git add -p app.js</code></pre>\n\n<h2>git commit：変更をリポジトリに記録する</h2>\n<p><code>git commit</code> は、ステージングエリアの内容を確定してリポジトリに記録するコマンドです。各コミットには一意のハッシュID（例：<code>a3f9d21</code>）が付与されます。</p>\n\n<h3>基本的なコミット</h3>\n<pre><code># メッセージ付きでコミット（最もよく使う方法）\ngit commit -m \"ログイン機能を追加\"\n\n# メッセージなしで実行するとエディタが開く\ngit commit</code></pre>\n\n<h3>良いコミットメッセージの書き方</h3>\n<p>コミットメッセージは将来の自分やチームへの説明書きです。良いメッセージの原則は「何を（What）したかではなく、なぜ（Why）したかを書く」ことです。</p>\n<ul>\n  <li>悪い例：<code>git commit -m \"修正\"</code></li>\n  <li>悪い例：<code>git commit -m \"app.jsを変更した\"</code></li>\n  <li>良い例：<code>git commit -m \"ログイン失敗時のエラーメッセージを改善\"</code></li>\n  <li>良い例：<code>git commit -m \"パフォーマンス改善：DBクエリを最適化\"</code></li>\n</ul>\n\n<h3>addとcommitを一度に行う</h3>\n<p>すでに追跡済みのファイル（一度addしたことがあるファイル）であれば、<code>-am</code> オプションでaddとcommitを同時に行えます。</p>\n<pre><code># 追跡済みファイルを一括でaddしてcommit\ngit commit -am \"バグ修正：nullチェックを追加\"</code></pre>\n<p><strong>注意</strong>：新規ファイル（Untracked files）はこのオプションでは追加されません。</p>\n\n<h3>直前のコミットを修正する</h3>\n<p>コミット直後にメッセージのタイポに気づいた場合や、ファイルを追加し忘れた場合は <code>--amend</code> オプションで修正できます。</p>\n<pre><code># メッセージを修正\ngit commit --amend -m \"正しいコミットメッセージ\"\n\n# ファイルを追加してコミットに含める\ngit add 追加し忘れたファイル.js\ngit commit --amend --no-edit</code></pre>\n<p><strong>重要</strong>：<code>--amend</code> はリモートにpushする前のコミットにだけ使ってください。pushした後のコミットをamendすると、チームの他のメンバーとの間で履歴の食い違いが生じます。</p>\n\n<h2>git log：コミット履歴を確認する</h2>\n<p><code>git log</code> は、リポジトリのコミット履歴を表示するコマンドです。</p>\n\n<h3>基本的な使い方</h3>\n<pre><code># 詳細なログを表示\ngit log\n\n# 1行で簡潔に表示（よく使う）\ngit log --oneline\n\n# グラフ付きで表示\ngit log --oneline --graph --all</code></pre>\n<p><code>git log --oneline</code> の出力例：</p>\n<pre><code>a3f9d21 (HEAD -> main) パスワードバリデーションを改善\nc7b1e34 ユーザー登録機能を追加\n4d2a1f8 initial commit</code></pre>\n<p>左側の英数字がコミットのハッシュID（短縮版）、右側がコミットメッセージです。<code>HEAD</code> は現在いる位置を示します。</p>\n\n<h3>特定のファイルの変更履歴</h3>\n<pre><code># app.jsの変更履歴だけ表示\ngit log --oneline -- app.js</code></pre>\n\n<h3>変更の差分を確認する</h3>\n<p>コミット間の差分や、未コミットの変更を確認するには <code>git diff</code> を使います。</p>\n<pre><code># ステージング前の変更を確認\ngit diff\n\n# ステージング後の変更を確認（次のコミットに含まれる内容）\ngit diff --staged\n\n# 特定の2コミット間の差分\ngit diff a3f9d21 c7b1e34</code></pre>\n\n<h2>実践：一連の流れを体験する</h2>\n<p>ここまでの知識を使って、実際の操作を一通りやってみましょう。</p>\n<pre><code># 1. リポジトリを作成\nmkdir practice-git\ncd practice-git\ngit init\n\n# 2. ファイルを作成\necho \"# My Project\" &gt; README.md\necho \"console.log('hello');\" &gt; app.js\n\n# 3. 状態確認（Untracked filesが表示される）\ngit status\n\n# 4. ステージングに追加\ngit add README.md app.js\n\n# 5. 再度状態確認（Changes to be committedに変わる）\ngit status\n\n# 6. コミット\ngit commit -m \"initial commit: README と app.js を追加\"\n\n# 7. 履歴確認\ngit log --oneline</code></pre>\n\n<h2>コマンドまとめ表</h2>\n<p>よく使うコマンドを整理します。</p>\n<ul>\n  <li><code>git status</code>：現在の状態を確認</li>\n  <li><code>git add ファイル名</code>：特定ファイルをステージング</li>\n  <li><code>git add .</code>：全変更をステージング</li>\n  <li><code>git commit -m \"メッセージ\"</code>：コミット</li>\n  <li><code>git log --oneline</code>：コミット履歴を一覧表示</li>\n  <li><code>git diff</code>：未ステージングの差分確認</li>\n  <li><code>git diff --staged</code>：ステージング済みの差分確認</li>\n</ul>",
+    "conclusion": "git add・commit・status・logの4つのコマンドがGit日常業務の核心です。変更はステージングエリアを経由してコミットに記録されるという3層構造が理解できれば、Gitの動作が直感的に把握できます。コミットメッセージは将来の自分やチームへの説明書きであり、「何をしたか」ではなく「なぜしたか」を書く習慣が大切です。git statusを小まめに確認し、git log --onelineで現在の位置を把握するルーティンが作業効率を高めます。次は、並行開発を実現するブランチ機能を学びましょう。",
+    "tags": [
+      "Git",
+      "git add",
+      "git commit",
+      "git status",
+      "git log",
+      "基本操作",
+      "コミット"
+    ],
+    "category": "Git",
+    "theme": "git - Git & GitHub 入門",
+    "status": "published",
+    "createdAt": "2026-05-30T03:49:58.056Z",
+    "updatedAt": "2026-05-30T03:49:58.061Z",
+    "publishedAt": "2026-05-30T03:49:58.056Z",
+    "metaTitle": "git add・commit・status・logの使い方【Git基本操作】初心者向け完全解説 | StackShelf",
+    "metaDescription": "git add、git commit、git status、git logの基本4コマンドを実例付きで解説。Gitのステージング概念からコミット履歴の確認方法まで初心者向けに丁寧に説明します。 図解・具体例つきで丁寧に解説します。",
+    "ogTitle": "git add・commit・status・log 完全ガイド",
+    "ogDescription": "【Git初心者向け】【Git初心者向け】Gitの基本4コマンドをステージングの仕組みから実例まで丁寧に解説します。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
+    "knowledge": {
+      "topic": "git",
+      "courseId": "git",
+      "episode": 4
+    },
+    "faq": [
+      {
+        "question": "git add . と git add -A の違いは何ですか？",
+        "answer": "git add . はカレントディレクトリ以下の変更（新規・修正）をステージングします。git add -A はリポジトリ全体の変更（新規・修正・削除）をステージングします。現在のGitバージョンではほぼ同じ動作ですが、明示的に削除されたファイルも含めたい場合は-Aが安全です。"
+      },
+      {
+        "question": "コミットを間違えてしまいました。取り消す方法はありますか？",
+        "answer": "直前のコミットを取り消すには git reset HEAD~1 を使います。--softオプションでコミットだけ取り消してステージングは保持、--mixedオプション（デフォルト）でコミットとステージングを取り消してファイルは保持されます。ただし、すでにpushしたコミットは原則として取り消さないようにしましょう。"
+      },
+      {
+        "question": "コミットの粒度はどのくらいが良いですか？",
+        "answer": "「1コミット = 1つの意味のある変更」が理想です。機能追加とバグ修正を同じコミットにまとめるのは避け、それぞれ別のコミットにします。小さすぎるコミット（1文字の修正など）もレビューが大変なので、まとめてよい場合もあります。チームのルールに従うのが最優先です。"
+      },
+      {
+        "question": "git logで大量のログが表示されてしまいます。終了するには？",
+        "answer": "git logはページャー（less）で表示されます。Qキーを押すと終了できます。スペースキーで次のページ、Bキーで前のページに移動できます。最初から件数を絞りたい場合は git log --oneline -10 のように件数を指定してください。"
+      }
+    ],
+    "nextEpisodeHint": "次回は、Gitの強力な機能であるブランチの作成と切り替えを学びます。ブランチを使えば、本番コードに影響を与えずに新機能の開発やバグ修正を安全に行えます。",
+    "ogImage": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+    "canonical": "https://ai-site-iota-nine.vercel.app/article/git-basic-commands",
+    "jsonLd": {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@context": "https://schema.org",
+          "@type": "TechArticle",
+          "headline": "git add・commit・status・logの使い方：Gitの基本操作を完全マスター",
+          "description": "git add、git commit、git status、git logの基本4コマンドを実例付きで解説。Gitのステージング概念からコミット履歴の確認方法まで初心者向けに丁寧に説明します。 図解・具体例つきで丁寧に解説します。",
+          "datePublished": "2026-05-30T03:49:58.056Z",
+          "dateModified": "2026-05-30T03:49:58.061Z",
+          "author": {
+            "@type": "Organization",
+            "name": "StackShelf",
+            "url": "https://ai-site-iota-nine.vercel.app",
+            "logo": {
+              "@type": "ImageObject",
+              "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+            }
+          },
+          "publisher": {
+            "@type": "Organization",
+            "name": "StackShelf",
+            "url": "https://ai-site-iota-nine.vercel.app",
+            "logo": {
+              "@type": "ImageObject",
+              "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+            }
+          },
+          "image": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+          "inLanguage": "ja",
+          "wordCount": 3348,
+          "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https://ai-site-iota-nine.vercel.app/article/git-basic-commands"
+          },
+          "keywords": "Git, git add, git commit, git status, git log, 基本操作, コミット",
+          "articleSection": "Git",
+          "url": "https://ai-site-iota-nine.vercel.app/article/git-basic-commands",
+          "learningResourceType": "tutorial",
+          "educationalLevel": "beginner"
+        },
+        {
+          "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "ホーム",
+              "item": "https://ai-site-iota-nine.vercel.app/"
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "name": "git",
+              "item": "https://ai-site-iota-nine.vercel.app/knowledge/git"
+            },
+            {
+              "@type": "ListItem",
+              "position": 3,
+              "name": "Git & GitHub 入門",
+              "item": "https://ai-site-iota-nine.vercel.app/course/git/git"
+            },
+            {
+              "@type": "ListItem",
+              "position": 4,
+              "name": "git add・commit・status・logの使い方：Gitの基本操作を完全マスター",
+              "item": "https://ai-site-iota-nine.vercel.app/article/git-basic-commands"
+            }
+          ]
+        },
+        {
+          "@context": "https://schema.org",
+          "@type": "Course",
+          "name": "Git & GitHub 入門",
+          "description": "Gitの基本操作からGitHubでの共同開発まで、現場で使える10ステップで学ぶ初心者向け講座。プログラミング学習・転職・チーム開発に必須のスキルを、具体例とコマンド付きで丁寧に解説します。",
+          "provider": {
+            "@type": "Organization",
+            "name": "StackShelf",
+            "url": "https://ai-site-iota-nine.vercel.app"
+          },
+          "url": "https://ai-site-iota-nine.vercel.app/course/git/git",
+          "inLanguage": "ja",
+          "educationalLevel": "beginner",
+          "hasCourseInstance": {
+            "@type": "CourseInstance",
+            "courseMode": "online",
+            "courseWorkload": "PT1H"
+          }
+        },
+        {
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "git add . と git add -A の違いは何ですか？",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "git add . はカレントディレクトリ以下の変更（新規・修正）をステージングします。git add -A はリポジトリ全体の変更（新規・修正・削除）をステージングします。現在のGitバージョンではほぼ同じ動作ですが、明示的に削除されたファイルも含めたい場合は-Aが安全です。"
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "コミットを間違えてしまいました。取り消す方法はありますか？",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "直前のコミットを取り消すには git reset HEAD~1 を使います。--softオプションでコミットだけ取り消してステージングは保持、--mixedオプション（デフォルト）でコミットとステージングを取り消してファイルは保持されます。ただし、すでにpushしたコミットは原則として取り消さないようにしましょう。"
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "コミットの粒度はどのくらいが良いですか？",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "「1コミット = 1つの意味のある変更」が理想です。機能追加とバグ修正を同じコミットにまとめるのは避け、それぞれ別のコミットにします。小さすぎるコミット（1文字の修正など）もレビューが大変なので、まとめてよい場合もあります。チームのルールに従うのが最優先です。"
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "git logで大量のログが表示されてしまいます。終了するには？",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "git logはページャー（less）で表示されます。Qキーを押すと終了できます。スペースキーで次のページ、Bキーで前のページに移動できます。最初から件数を絞りたい場合は git log --oneline -10 のように件数を指定してください。"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    "breadcrumb": {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "ホーム",
+          "item": "https://ai-site-iota-nine.vercel.app/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "git",
+          "item": "https://ai-site-iota-nine.vercel.app/knowledge/git"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Git & GitHub 入門",
+          "item": "https://ai-site-iota-nine.vercel.app/course/git/git"
+        },
+        {
+          "@type": "ListItem",
+          "position": 4,
+          "name": "git add・commit・status・logの使い方：Gitの基本操作を完全マスター",
+          "item": "https://ai-site-iota-nine.vercel.app/article/git-basic-commands"
+        }
+      ]
+    },
+    "courseSchema": {
+      "@context": "https://schema.org",
+      "@type": "Course",
+      "name": "Git & GitHub 入門",
+      "description": "Gitの基本操作からGitHubでの共同開発まで、現場で使える10ステップで学ぶ初心者向け講座。プログラミング学習・転職・チーム開発に必須のスキルを、具体例とコマンド付きで丁寧に解説します。",
+      "provider": {
+        "@type": "Organization",
+        "name": "StackShelf",
+        "url": "https://ai-site-iota-nine.vercel.app"
+      },
+      "url": "https://ai-site-iota-nine.vercel.app/course/git/git",
+      "inLanguage": "ja",
+      "educationalLevel": "beginner",
+      "hasCourseInstance": {
+        "@type": "CourseInstance",
+        "courseMode": "online",
+        "courseWorkload": "PT1H"
+      }
+    },
+    "faqSchema": {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "git add . と git add -A の違いは何ですか？",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "git add . はカレントディレクトリ以下の変更（新規・修正）をステージングします。git add -A はリポジトリ全体の変更（新規・修正・削除）をステージングします。現在のGitバージョンではほぼ同じ動作ですが、明示的に削除されたファイルも含めたい場合は-Aが安全です。"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "コミットを間違えてしまいました。取り消す方法はありますか？",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "直前のコミットを取り消すには git reset HEAD~1 を使います。--softオプションでコミットだけ取り消してステージングは保持、--mixedオプション（デフォルト）でコミットとステージングを取り消してファイルは保持されます。ただし、すでにpushしたコミットは原則として取り消さないようにしましょう。"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "コミットの粒度はどのくらいが良いですか？",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "「1コミット = 1つの意味のある変更」が理想です。機能追加とバグ修正を同じコミットにまとめるのは避け、それぞれ別のコミットにします。小さすぎるコミット（1文字の修正など）もレビューが大変なので、まとめてよい場合もあります。チームのルールに従うのが最優先です。"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "git logで大量のログが表示されてしまいます。終了するには？",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "git logはページャー（less）で表示されます。Qキーを押すと終了できます。スペースキーで次のページ、Bキーで前のページに移動できます。最初から件数を絞りたい場合は git log --oneline -10 のように件数を指定してください。"
+          }
+        }
+      ]
+    }
+  },
+  "git-repository-basics": {
+    "id": "art_git_git-repository-basics",
+    "slug": "git-repository-basics",
+    "title": "Gitリポジトリの作成とclone：git initとgit cloneの使い方",
+    "summary": "git initで新規リポジトリを作る方法とgit cloneで既存リポジトリをコピーする方法を、実例コマンド付きで初心者にもわかりやすく解説します。",
+    "body": "<h2>リポジトリとは何か、おさらい</h2>\n<p>Gitにおける<strong>リポジトリ（repository）</strong>とは、Gitがファイルの変更履歴を管理するための「入れ物」です。プロジェクトのルートフォルダをGitの管理下に置くことで、そのフォルダ内のすべてのファイルの変更を追跡できるようになります。</p>\n<p>リポジトリには2種類あります。</p>\n<ul>\n  <li><strong>ローカルリポジトリ</strong>：自分のパソコン上にあるリポジトリ</li>\n  <li><strong>リモートリポジトリ</strong>：GitHubなどのサービス上にあるリポジトリ</li>\n</ul>\n<p>この2つを連携させることで、チームでの開発やバックアップが実現できます。今回はまず、ローカルリポジトリを作成する方法から学びます。</p>\n\n<h2>git init：新しいリポジトリを作る</h2>\n<p><code>git init</code> は、現在のフォルダをGitリポジトリとして初期化するコマンドです。このコマンドを実行することで、そのフォルダがGitの管理下に置かれます。</p>\n\n<h3>基本的な使い方</h3>\n<p>まず、プロジェクト用のフォルダを作成し、その中に移動してから <code>git init</code> を実行します。</p>\n<pre><code># プロジェクトフォルダを作成\nmkdir my-project\n\n# フォルダに移動\ncd my-project\n\n# Gitリポジトリとして初期化\ngit init</code></pre>\n<p>実行すると、次のようなメッセージが表示されます。</p>\n<pre><code>Initialized empty Git repository in /Users/taro/my-project/.git/</code></pre>\n<p>これで <code>my-project</code> フォルダがGitリポジトリになりました。</p>\n\n<h3>.gitフォルダの正体</h3>\n<p><code>git init</code> を実行すると、プロジェクトフォルダの中に<strong>.git</strong>という隠しフォルダが作成されます。このフォルダの中にGitの管理情報（コミット履歴、設定、インデックスなど）がすべて保存されています。</p>\n<pre><code># 隠しフォルダを含めて表示（Mac/Linux）\nls -la\n\n# Windowsの場合\ndir /a</code></pre>\n<p><strong>重要</strong>：<code>.git</code> フォルダを手動で削除すると、Gitの管理情報がすべて消えてしまいます。誤って削除しないよう注意してください。逆に言えば、<code>.git</code> フォルダを削除すれば、そのフォルダはGit管理から外れます。</p>\n\n<h3>既存フォルダをGit管理に追加する</h3>\n<p>すでにファイルが入っているフォルダをGit管理下に置くことも可能です。</p>\n<pre><code># 既存のプロジェクトフォルダに移動\ncd /path/to/existing-project\n\n# Gitリポジトリとして初期化\ngit init\n\n# 既存ファイルをGitに追加してコミット\ngit add .\ngit commit -m \"initial commit\"</code></pre>\n\n<h2>git clone：既存リポジトリをコピーする</h2>\n<p><code>git clone</code> は、GitHubなどに公開されているリポジトリを自分のパソコンにコピーするコマンドです。オープンソースのコードを手元で試したいときや、チームのリポジトリを初めて取得するときに使います。</p>\n\n<h3>基本的なcloneの方法</h3>\n<pre><code># 基本構文\ngit clone &lt;リポジトリのURL&gt;\n\n# 例：GitHubのリポジトリをclone\ngit clone https://github.com/username/repository-name.git</code></pre>\n<p>このコマンドを実行すると、カレントディレクトリに <code>repository-name</code> という名前のフォルダが作成され、リポジトリの内容がすべてダウンロードされます。</p>\n\n<h3>フォルダ名を指定してcloneする</h3>\n<p>デフォルトではリポジトリ名がフォルダ名になりますが、別の名前を指定することもできます。</p>\n<pre><code># myapp という名前のフォルダにclone\ngit clone https://github.com/username/repository-name.git myapp</code></pre>\n\n<h3>cloneできる場所の確認</h3>\n<p>GitHubのリポジトリページを開くと、緑色の「Code」ボタンからURLを取得できます。URLには主に2種類あります。</p>\n<ul>\n  <li><strong>HTTPS URL</strong>：<code>https://github.com/username/repo.git</code> — アカウント設定が不要で初心者に向いています</li>\n  <li><strong>SSH URL</strong>：<code>git@github.com:username/repo.git</code> — SSHキーの設定が必要ですが、毎回パスワードを入力しなくて済みます</li>\n</ul>\n<p>最初はHTTPS URLを使うのが簡単です。</p>\n\n<h2>git initとgit cloneの使い分け</h2>\n<p>どちらを使うかは状況によって変わります。</p>\n<ul>\n  <li><strong>git init</strong>：まったく新しいプロジェクトをゼロから始めるとき、または既存フォルダをGit管理下に置くとき</li>\n  <li><strong>git clone</strong>：GitHubなど既存のリモートリポジトリを取得するとき</li>\n</ul>\n<p>チームに新しく参加したエンジニアが最初にやることの多くは <code>git clone</code> です。一方、新規プロジェクトを立ち上げるリーダーが最初にやることは <code>git init</code> であることが多いです。</p>\n\n<h2>リポジトリの状態を確認する</h2>\n<p>リポジトリを作成または取得したら、まず状態を確認する習慣をつけましょう。</p>\n<pre><code># リポジトリの状態確認\ngit status\n\n# コミット履歴の確認（cloneしたリポジトリの場合）\ngit log --oneline</code></pre>\n<p><code>git status</code> の出力例：</p>\n<pre><code>On branch main\n\nNo commits yet\n\nnothing to commit (create/copy files and use \"git add\" to track)</code></pre>\n<p>これは「mainブランチにいて、まだコミットが一つもない空のリポジトリ」を意味します。</p>\n\n<h3>リモートリポジトリとの接続確認</h3>\n<p><code>git clone</code> でコピーしたリポジトリは、自動的にリモートリポジトリとの接続（リモート追跡）が設定されます。次のコマンドで確認できます。</p>\n<pre><code># リモートリポジトリの接続先を表示\ngit remote -v</code></pre>\n<p>出力例：</p>\n<pre><code>origin  https://github.com/username/repository-name.git (fetch)\norigin  https://github.com/username/repository-name.git (push)</code></pre>\n<p><code>origin</code> はリモートリポジトリの通称で、cloneすると自動的にこの名前が付きます。</p>\n\n<h2>よくある失敗と対処法</h2>\n\n<h3>「Permission denied」エラーが出た</h3>\n<p>プライベートリポジトリをcloneしようとしてこのエラーが出た場合、GitHubへの認証が失敗しています。HTTPS URLの場合はGitHubのユーザー名とパスワード（またはPersonal Access Token）を正しく入力してください。</p>\n\n<h3>「destination path already exists」エラーが出た</h3>\n<p>同じ名前のフォルダがすでに存在する場合に出るエラーです。既存フォルダを削除するか、別の場所でcloneするか、フォルダ名を指定してcloneしてください。</p>\n<pre><code># 別フォルダ名を指定してclone\ngit clone https://github.com/username/repo.git repo-new</code></pre>\n\n<h2>まとめ：リポジトリ作成の2つのパターン</h2>\n<p>Gitリポジトリのスタート地点は常に「<code>git init</code> か <code>git clone</code> か」のどちらかです。新規プロジェクトなら <code>git init</code>、既存プロジェクトの取得なら <code>git clone</code> を使いましょう。どちらのコマンドも一度覚えてしまえば迷うことはありません。<code>.git</code> フォルダの存在がGit管理の証であることも覚えておきましょう。</p>",
+    "conclusion": "git initは新規プロジェクトをGit管理下に置くコマンドで、.gitフォルダが作成されることでリポジトリとなります。git cloneはGitHubなど既存のリモートリポジトリをローカルにコピーするコマンドで、チームへの参加時やオープンソースコードの取得時に使います。どちらも実行後はgit statusで状態を確認する習慣をつけることが大切です。リモートリポジトリはoriginという名前で自動登録され、git remote -vで確認できます。次のステップでは、リポジトリ内のファイルを実際に追跡・記録する基本操作を学びます。",
+    "tags": [
+      "Git",
+      "git init",
+      "git clone",
+      "リポジトリ",
+      "GitHub",
+      "バージョン管理"
+    ],
+    "category": "Git",
+    "theme": "git - Git & GitHub 入門",
+    "status": "published",
+    "createdAt": "2026-05-30T03:49:57.835Z",
+    "updatedAt": "2026-05-30T03:49:57.841Z",
+    "publishedAt": "2026-05-30T03:49:57.835Z",
+    "metaTitle": "git initとgit clone の使い方【リポジトリ作成入門】初心者向け解説｜Git入門 | StackShelf",
+    "metaDescription": "【Git初心者向け】git initで新しいリポジトリを作成する方法とgit cloneでGitHubからコードを取得する方法を、実例コマンドとともに初心者向けに丁寧に解説します。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
+    "ogTitle": "git initとgit cloneの使い方入門",
+    "ogDescription": "【Git初心者向け】【Git初心者向け】リポジトリの作成（git init）とクローン（git clone）を実例コマンドで解説。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
+    "knowledge": {
+      "topic": "git",
+      "courseId": "git",
+      "episode": 3
+    },
+    "faq": [
+      {
+        "question": ".gitフォルダを誤って削除してしまいました。どうすればいいですか？",
+        "answer": ".gitフォルダを削除すると、そのリポジトリのGit管理情報（コミット履歴など）はすべて失われます。元のリモートリポジトリ（GitHubなど）が残っていればgit cloneで再取得できます。リモートリポジトリがない場合、残念ながら履歴は復元できません。今後はgit pushでこまめにリモートへ送っておきましょう。"
+      },
+      {
+        "question": "git initを実行したフォルダ内のサブフォルダもGit管理されますか？",
+        "answer": "はい、git initを実行したフォルダ（リポジトリのルート）以下のすべてのファイルとフォルダが管理対象になります。ただし、.gitignoreファイルに記載したパターンに一致するファイルは除外されます。"
+      },
+      {
+        "question": "git cloneは遅いのですが、最初のダウンロードだけ高速化できますか？",
+        "answer": "大きなリポジトリをcloneするとき、`--depth 1` オプションを付けると最新のコミットのみをダウンロードするシャロークローンになり高速化できます。`git clone --depth 1 https://github.com/username/repo.git` のように使います。ただし過去の履歴は取得されません。"
+      }
+    ],
+    "nextEpisodeHint": "次回は、Gitの日常的な作業の核心となるadd・commit・status・logの基本操作を学びます。ファイルの変更を記録するまでの一連の流れをマスターしましょう。",
+    "ogImage": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+    "canonical": "https://ai-site-iota-nine.vercel.app/article/git-repository-basics",
+    "jsonLd": {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@context": "https://schema.org",
+          "@type": "TechArticle",
+          "headline": "Gitリポジトリの作成とclone：git initとgit cloneの使い方",
+          "description": "【Git初心者向け】git initで新しいリポジトリを作成する方法とgit cloneでGitHubからコードを取得する方法を、実例コマンドとともに初心者向けに丁寧に解説します。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
+          "datePublished": "2026-05-30T03:49:57.835Z",
+          "dateModified": "2026-05-30T03:49:57.841Z",
+          "author": {
+            "@type": "Organization",
+            "name": "StackShelf",
+            "url": "https://ai-site-iota-nine.vercel.app",
+            "logo": {
+              "@type": "ImageObject",
+              "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+            }
+          },
+          "publisher": {
+            "@type": "Organization",
+            "name": "StackShelf",
+            "url": "https://ai-site-iota-nine.vercel.app",
+            "logo": {
+              "@type": "ImageObject",
+              "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+            }
+          },
+          "image": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+          "inLanguage": "ja",
+          "wordCount": 2974,
+          "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https://ai-site-iota-nine.vercel.app/article/git-repository-basics"
+          },
+          "keywords": "Git, git init, git clone, リポジトリ, GitHub, バージョン管理",
+          "articleSection": "Git",
+          "url": "https://ai-site-iota-nine.vercel.app/article/git-repository-basics",
+          "learningResourceType": "tutorial",
+          "educationalLevel": "beginner"
+        },
+        {
+          "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "ホーム",
+              "item": "https://ai-site-iota-nine.vercel.app/"
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "name": "git",
+              "item": "https://ai-site-iota-nine.vercel.app/knowledge/git"
+            },
+            {
+              "@type": "ListItem",
+              "position": 3,
+              "name": "Git & GitHub 入門",
+              "item": "https://ai-site-iota-nine.vercel.app/course/git/git"
+            },
+            {
+              "@type": "ListItem",
+              "position": 4,
+              "name": "Gitリポジトリの作成とclone：git initとgit cloneの使い方",
+              "item": "https://ai-site-iota-nine.vercel.app/article/git-repository-basics"
+            }
+          ]
+        },
+        {
+          "@context": "https://schema.org",
+          "@type": "Course",
+          "name": "Git & GitHub 入門",
+          "description": "Gitの基本操作からGitHubでの共同開発まで、現場で使える10ステップで学ぶ初心者向け講座。プログラミング学習・転職・チーム開発に必須のスキルを、具体例とコマンド付きで丁寧に解説します。",
+          "provider": {
+            "@type": "Organization",
+            "name": "StackShelf",
+            "url": "https://ai-site-iota-nine.vercel.app"
+          },
+          "url": "https://ai-site-iota-nine.vercel.app/course/git/git",
+          "inLanguage": "ja",
+          "educationalLevel": "beginner",
+          "hasCourseInstance": {
+            "@type": "CourseInstance",
+            "courseMode": "online",
+            "courseWorkload": "PT1H"
+          }
+        },
+        {
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": ".gitフォルダを誤って削除してしまいました。どうすればいいですか？",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": ".gitフォルダを削除すると、そのリポジトリのGit管理情報（コミット履歴など）はすべて失われます。元のリモートリポジトリ（GitHubなど）が残っていればgit cloneで再取得できます。リモートリポジトリがない場合、残念ながら履歴は復元できません。今後はgit pushでこまめにリモートへ送っておきましょう。"
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "git initを実行したフォルダ内のサブフォルダもGit管理されますか？",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "はい、git initを実行したフォルダ（リポジトリのルート）以下のすべてのファイルとフォルダが管理対象になります。ただし、.gitignoreファイルに記載したパターンに一致するファイルは除外されます。"
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "git cloneは遅いのですが、最初のダウンロードだけ高速化できますか？",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "大きなリポジトリをcloneするとき、`--depth 1` オプションを付けると最新のコミットのみをダウンロードするシャロークローンになり高速化できます。`git clone --depth 1 https://github.com/username/repo.git` のように使います。ただし過去の履歴は取得されません。"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    "breadcrumb": {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "ホーム",
+          "item": "https://ai-site-iota-nine.vercel.app/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "git",
+          "item": "https://ai-site-iota-nine.vercel.app/knowledge/git"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Git & GitHub 入門",
+          "item": "https://ai-site-iota-nine.vercel.app/course/git/git"
+        },
+        {
+          "@type": "ListItem",
+          "position": 4,
+          "name": "Gitリポジトリの作成とclone：git initとgit cloneの使い方",
+          "item": "https://ai-site-iota-nine.vercel.app/article/git-repository-basics"
+        }
+      ]
+    },
+    "courseSchema": {
+      "@context": "https://schema.org",
+      "@type": "Course",
+      "name": "Git & GitHub 入門",
+      "description": "Gitの基本操作からGitHubでの共同開発まで、現場で使える10ステップで学ぶ初心者向け講座。プログラミング学習・転職・チーム開発に必須のスキルを、具体例とコマンド付きで丁寧に解説します。",
+      "provider": {
+        "@type": "Organization",
+        "name": "StackShelf",
+        "url": "https://ai-site-iota-nine.vercel.app"
+      },
+      "url": "https://ai-site-iota-nine.vercel.app/course/git/git",
+      "inLanguage": "ja",
+      "educationalLevel": "beginner",
+      "hasCourseInstance": {
+        "@type": "CourseInstance",
+        "courseMode": "online",
+        "courseWorkload": "PT1H"
+      }
+    },
+    "faqSchema": {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": ".gitフォルダを誤って削除してしまいました。どうすればいいですか？",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": ".gitフォルダを削除すると、そのリポジトリのGit管理情報（コミット履歴など）はすべて失われます。元のリモートリポジトリ（GitHubなど）が残っていればgit cloneで再取得できます。リモートリポジトリがない場合、残念ながら履歴は復元できません。今後はgit pushでこまめにリモートへ送っておきましょう。"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "git initを実行したフォルダ内のサブフォルダもGit管理されますか？",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "はい、git initを実行したフォルダ（リポジトリのルート）以下のすべてのファイルとフォルダが管理対象になります。ただし、.gitignoreファイルに記載したパターンに一致するファイルは除外されます。"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "git cloneは遅いのですが、最初のダウンロードだけ高速化できますか？",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "大きなリポジトリをcloneするとき、`--depth 1` オプションを付けると最新のコミットのみをダウンロードするシャロークローンになり高速化できます。`git clone --depth 1 https://github.com/username/repo.git` のように使います。ただし過去の履歴は取得されません。"
+          }
+        }
+      ]
+    }
+  },
+  "git-install-setup": {
+    "id": "art_git_git-install-setup",
+    "slug": "git-install-setup",
+    "title": "Gitのインストールと初期設定：Windows・Mac対応の完全ガイド",
+    "summary": "WindowsとMacへのGitインストール方法と、git config による名前・メール・エディタの初期設定を手順ごとに丁寧に解説します。",
+    "body": "<h2>Gitをインストールする前に確認すること</h2>\n<p>インストール作業を始める前に、すでにGitが入っていないか確認しましょう。ターミナル（WindowsではコマンドプロンプトまたはPowerShell、MacではTerminal）を開いて次のコマンドを実行してください。</p>\n<pre><code>git --version</code></pre>\n<p><code>git version 2.xx.x</code> のように表示されれば、すでにインストール済みです。<code>command not found</code> や <code>'git' は認識されていません</code> のようなエラーが出た場合は、次の手順でインストールしてください。</p>\n\n<h2>WindowsへのGitインストール</h2>\n<p>Windowsには「Git for Windows」（通称：Git Bash）をインストールします。これをインストールすることで、LinuxやMacと同じコマンドがWindows上でも使えるようになります。</p>\n\n<h3>インストーラーのダウンロード</h3>\n<p>公式サイト（<strong>git-scm.com</strong>）にアクセスし、「Download for Windows」ボタンをクリックします。最新の64bit版インストーラーが自動的にダウンロードされます。</p>\n\n<h3>インストール時の設定ポイント</h3>\n<p>インストーラーを実行すると、いくつかの選択画面が表示されます。初心者の場合は基本的にデフォルト設定のまま進めて問題ありませんが、以下の2点だけ確認してください。</p>\n<ul>\n  <li><strong>デフォルトエディタの選択</strong>：初期値は「Vim」ですが、慣れていない場合は「Visual Studio Code」や「Notepad++」を選ぶと操作しやすくなります</li>\n  <li><strong>改行コードの設定</strong>：「Checkout Windows-style, commit Unix-style line endings」を選択するのが一般的です</li>\n</ul>\n<p>インストール完了後、「Git Bash」というアプリが使えるようになります。スタートメニューから「Git Bash」を検索して開いてみましょう。</p>\n<pre><code># Git Bashを開いてバージョン確認\ngit --version\n# 出力例: git version 2.44.0.windows.1</code></pre>\n\n<h2>MacへのGitインストール</h2>\n<p>Macには複数のインストール方法がありますが、パッケージマネージャー「Homebrew」を使う方法が最も管理しやすくおすすめです。</p>\n\n<h3>Homebrewを使ったインストール</h3>\n<p>まずHomebrewがインストールされているか確認します。</p>\n<pre><code>brew --version</code></pre>\n<p>Homebrewが入っていない場合は、公式サイト（<strong>brew.sh</strong>）のインストールコマンドを実行してください。Homebrewが使える状態になったら、次のコマンドでGitをインストールします。</p>\n<pre><code>brew install git</code></pre>\n<p>インストール後、ターミナルを再起動してバージョンを確認します。</p>\n<pre><code>git --version\n# 出力例: git version 2.44.0</code></pre>\n\n<h3>XcodeコマンドラインツールでのインストールGit</h3>\n<p>Homebrewを使いたくない場合は、次のコマンドを実行するとXcodeコマンドラインツールの一部としてGitがインストールされます。</p>\n<pre><code>xcode-select --install</code></pre>\n\n<h2>Gitの初期設定：git config</h2>\n<p>Gitをインストールしたら、最初に必ず行うべき初期設定があります。それが<strong>git config</strong>コマンドによる名前とメールアドレスの設定です。これらはコミットに自動的に記録され、「誰がこの変更を行ったか」を示す情報になります。</p>\n\n<h3>名前とメールアドレスの設定</h3>\n<p>以下のコマンドで設定します。<code>--global</code> オプションを付けることで、そのパソコン上のすべてのリポジトリに適用されます。</p>\n<pre><code># ユーザー名の設定（自分の名前を入力）\ngit config --global user.name \"Taro Yamada\"\n\n# メールアドレスの設定（GitHubで使うメールを推奨）\ngit config --global user.email \"taro@example.com\"</code></pre>\n<p>GitHubを使う場合は、GitHubに登録したメールアドレスと同じものを設定することをおすすめします。コミット情報がGitHubアカウントと正しく紐付けられます。</p>\n\n<h3>デフォルトブランチ名の設定</h3>\n<p>近年、Gitのデフォルトブランチ名が <code>master</code> から <code>main</code> に移行しつつあります。GitHubもデフォルトを <code>main</code> にしています。以下の設定で統一しておくと混乱が少なくなります。</p>\n<pre><code>git config --global init.defaultBranch main</code></pre>\n\n<h3>デフォルトエディタの設定</h3>\n<p>コミットメッセージを書くときに使うエディタを設定できます。VS Codeを使っている場合は次のように設定します。</p>\n<pre><code># VS Codeをデフォルトエディタに設定\ngit config --global core.editor \"code --wait\"</code></pre>\n<p><code>--wait</code> オプションにより、エディタを閉じるまでGitが待機するようになります。これがないとコミットメッセージが空のまま処理されてしまう場合があります。</p>\n\n<h2>設定内容の確認方法</h2>\n<p>設定した内容を確認するには、次のコマンドを使います。</p>\n<pre><code># すべての設定を一覧表示\ngit config --list\n\n# 特定の設定値だけ確認\ngit config user.name\ngit config user.email</code></pre>\n<p>設定ファイルはホームディレクトリの <code>.gitconfig</code> ファイルに保存されています。テキストエディタで直接開いて確認・編集することもできます。</p>\n<pre><code># .gitconfigファイルをVS Codeで開く\ncode ~/.gitconfig</code></pre>\n<p>中身はこのような形式になっています。</p>\n<pre><code>[user]\n\tname = Taro Yamada\n\temail = taro@example.com\n[core]\n\teditor = code --wait\n[init]\n\tdefaultBranch = main</code></pre>\n\n<h2>プロジェクトごとに設定を変える方法</h2>\n<p><code>--global</code> は全リポジトリ共通の設定ですが、特定のプロジェクトだけ別の設定にしたい場合は <code>--local</code> オプション（または省略）を使います。たとえば会社のプロジェクトでは会社のメールアドレスを使いたい場合などに便利です。</p>\n<pre><code># リポジトリのルートディレクトリで実行\ncd /path/to/your-project\ngit config --local user.email \"work@company.com\"</code></pre>\n<p>ローカル設定はグローバル設定より優先されます。設定は <code>.git/config</code> ファイルに保存されます。</p>\n\n<h2>設定完了の確認チェックリスト</h2>\n<p>以下のコマンドを実行して、すべて正しく設定されているか確認しましょう。</p>\n<pre><code>git --version       # Gitのバージョンが表示される\ngit config user.name     # 設定した名前が表示される\ngit config user.email    # 設定したメールが表示される\ngit config init.defaultBranch  # mainと表示される</code></pre>",
+    "conclusion": "GitのインストールとInitial設定はこれで完了です。Windowsでは「Git Bash」、Macでは「Terminal」を使って同じコマンドが動かせる環境が整いました。git configで設定した名前とメールアドレスは、これからのすべてのコミットに記録される大切な情報です。デフォルトブランチ名をmainに設定しておくことで、GitHubとの連携がスムーズになります。次のステップでは、実際にリポジトリを作成して、Gitの管理下にプロジェクトを置いていきます。",
+    "tags": [
+      "Git",
+      "インストール",
+      "git config",
+      "初期設定",
+      "Windows",
+      "Mac"
+    ],
+    "category": "Git",
+    "theme": "git - Git & GitHub 入門",
+    "status": "published",
+    "createdAt": "2026-05-30T03:49:57.646Z",
+    "updatedAt": "2026-05-30T03:49:57.650Z",
+    "publishedAt": "2026-05-30T03:49:57.646Z",
+    "metaTitle": "Gitインストールと初期設定【Windows・Mac対応】git config完全ガイド | StackShelf",
+    "metaDescription": "【Git初心者向け】GitをWindowsとMacにインストールする手順と、git configで行う名前・メール・エディタの初期設定をスクリーンショット付きで詳しく解説します。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
+    "ogTitle": "Gitインストールと初期設定【完全ガイド】",
+    "ogDescription": "【Git初心者向け】【Git初心者向け】WindowsとMac両対応。Gitのインストールからgit configの初期設定まで丁寧に解説。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
+    "knowledge": {
+      "topic": "git",
+      "courseId": "git",
+      "episode": 2
+    },
+    "faq": [
+      {
+        "question": "git configの--globalと--localの違いは何ですか？",
+        "answer": "--globalはそのパソコン上のすべてのGitリポジトリに適用される設定です。--localは現在のリポジトリ内だけに適用される設定で、--globalより優先されます。仕事用と個人用で別のメールアドレスを使いたい場合などにローカル設定が役立ちます。"
+      },
+      {
+        "question": "メールアドレスを間違えて設定してしまいました。修正できますか？",
+        "answer": "はい、同じコマンドを正しい値で再実行するだけで上書きできます。`git config --global user.email \"correct@example.com\"` を実行してください。ただし、すでにコミット済みの履歴のメールアドレスは変わりません。"
+      },
+      {
+        "question": "WindowsでGit BashとコマンドプロンプトのどちらでGitを使うべきですか？",
+        "answer": "Git Bashの使用を強くおすすめします。Git BashはLinux/Macと同じコマンド体系で動くため、インターネットの解説記事や書籍の通りにコマンドを実行できます。コマンドプロンプトでも動きますが、パス区切り文字など細かい差異が混乱の原因になることがあります。"
+      }
+    ],
+    "nextEpisodeHint": "次回は、Gitリポジトリの作成方法（git init）とGitHubからのcloneを学びます。自分のプロジェクトフォルダをGitの管理下に置く最初のステップです。",
+    "ogImage": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+    "canonical": "https://ai-site-iota-nine.vercel.app/article/git-install-setup",
+    "jsonLd": {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@context": "https://schema.org",
+          "@type": "TechArticle",
+          "headline": "Gitのインストールと初期設定：Windows・Mac対応の完全ガイド",
+          "description": "【Git初心者向け】GitをWindowsとMacにインストールする手順と、git configで行う名前・メール・エディタの初期設定をスクリーンショット付きで詳しく解説します。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
+          "datePublished": "2026-05-30T03:49:57.646Z",
+          "dateModified": "2026-05-30T03:49:57.650Z",
+          "author": {
+            "@type": "Organization",
+            "name": "StackShelf",
+            "url": "https://ai-site-iota-nine.vercel.app",
+            "logo": {
+              "@type": "ImageObject",
+              "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+            }
+          },
+          "publisher": {
+            "@type": "Organization",
+            "name": "StackShelf",
+            "url": "https://ai-site-iota-nine.vercel.app",
+            "logo": {
+              "@type": "ImageObject",
+              "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+            }
+          },
+          "image": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+          "inLanguage": "ja",
+          "wordCount": 2798,
+          "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https://ai-site-iota-nine.vercel.app/article/git-install-setup"
+          },
+          "keywords": "Git, インストール, git config, 初期設定, Windows, Mac",
+          "articleSection": "Git",
+          "url": "https://ai-site-iota-nine.vercel.app/article/git-install-setup",
+          "learningResourceType": "tutorial",
+          "educationalLevel": "beginner"
+        },
+        {
+          "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "ホーム",
+              "item": "https://ai-site-iota-nine.vercel.app/"
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "name": "git",
+              "item": "https://ai-site-iota-nine.vercel.app/knowledge/git"
+            },
+            {
+              "@type": "ListItem",
+              "position": 3,
+              "name": "Git & GitHub 入門",
+              "item": "https://ai-site-iota-nine.vercel.app/course/git/git"
+            },
+            {
+              "@type": "ListItem",
+              "position": 4,
+              "name": "Gitのインストールと初期設定：Windows・Mac対応の完全ガイド",
+              "item": "https://ai-site-iota-nine.vercel.app/article/git-install-setup"
+            }
+          ]
+        },
+        {
+          "@context": "https://schema.org",
+          "@type": "Course",
+          "name": "Git & GitHub 入門",
+          "description": "Gitの基本操作からGitHubでの共同開発まで、現場で使える10ステップで学ぶ初心者向け講座。プログラミング学習・転職・チーム開発に必須のスキルを、具体例とコマンド付きで丁寧に解説します。",
+          "provider": {
+            "@type": "Organization",
+            "name": "StackShelf",
+            "url": "https://ai-site-iota-nine.vercel.app"
+          },
+          "url": "https://ai-site-iota-nine.vercel.app/course/git/git",
+          "inLanguage": "ja",
+          "educationalLevel": "beginner",
+          "hasCourseInstance": {
+            "@type": "CourseInstance",
+            "courseMode": "online",
+            "courseWorkload": "PT1H"
+          }
+        },
+        {
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "git configの--globalと--localの違いは何ですか？",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "--globalはそのパソコン上のすべてのGitリポジトリに適用される設定です。--localは現在のリポジトリ内だけに適用される設定で、--globalより優先されます。仕事用と個人用で別のメールアドレスを使いたい場合などにローカル設定が役立ちます。"
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "メールアドレスを間違えて設定してしまいました。修正できますか？",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "はい、同じコマンドを正しい値で再実行するだけで上書きできます。`git config --global user.email \"correct@example.com\"` を実行してください。ただし、すでにコミット済みの履歴のメールアドレスは変わりません。"
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "WindowsでGit BashとコマンドプロンプトのどちらでGitを使うべきですか？",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Git Bashの使用を強くおすすめします。Git BashはLinux/Macと同じコマンド体系で動くため、インターネットの解説記事や書籍の通りにコマンドを実行できます。コマンドプロンプトでも動きますが、パス区切り文字など細かい差異が混乱の原因になることがあります。"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    "breadcrumb": {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "ホーム",
+          "item": "https://ai-site-iota-nine.vercel.app/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "git",
+          "item": "https://ai-site-iota-nine.vercel.app/knowledge/git"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Git & GitHub 入門",
+          "item": "https://ai-site-iota-nine.vercel.app/course/git/git"
+        },
+        {
+          "@type": "ListItem",
+          "position": 4,
+          "name": "Gitのインストールと初期設定：Windows・Mac対応の完全ガイド",
+          "item": "https://ai-site-iota-nine.vercel.app/article/git-install-setup"
+        }
+      ]
+    },
+    "courseSchema": {
+      "@context": "https://schema.org",
+      "@type": "Course",
+      "name": "Git & GitHub 入門",
+      "description": "Gitの基本操作からGitHubでの共同開発まで、現場で使える10ステップで学ぶ初心者向け講座。プログラミング学習・転職・チーム開発に必須のスキルを、具体例とコマンド付きで丁寧に解説します。",
+      "provider": {
+        "@type": "Organization",
+        "name": "StackShelf",
+        "url": "https://ai-site-iota-nine.vercel.app"
+      },
+      "url": "https://ai-site-iota-nine.vercel.app/course/git/git",
+      "inLanguage": "ja",
+      "educationalLevel": "beginner",
+      "hasCourseInstance": {
+        "@type": "CourseInstance",
+        "courseMode": "online",
+        "courseWorkload": "PT1H"
+      }
+    },
+    "faqSchema": {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "git configの--globalと--localの違いは何ですか？",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "--globalはそのパソコン上のすべてのGitリポジトリに適用される設定です。--localは現在のリポジトリ内だけに適用される設定で、--globalより優先されます。仕事用と個人用で別のメールアドレスを使いたい場合などにローカル設定が役立ちます。"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "メールアドレスを間違えて設定してしまいました。修正できますか？",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "はい、同じコマンドを正しい値で再実行するだけで上書きできます。`git config --global user.email \"correct@example.com\"` を実行してください。ただし、すでにコミット済みの履歴のメールアドレスは変わりません。"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "WindowsでGit BashとコマンドプロンプトのどちらでGitを使うべきですか？",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Git Bashの使用を強くおすすめします。Git BashはLinux/Macと同じコマンド体系で動くため、インターネットの解説記事や書籍の通りにコマンドを実行できます。コマンドプロンプトでも動きますが、パス区切り文字など細かい差異が混乱の原因になることがあります。"
+          }
+        }
+      ]
+    }
+  },
+  "git-intro": {
+    "id": "art_git_git-intro",
+    "slug": "git-intro",
+    "title": "Gitとは？バージョン管理を初めて学ぶ人のための完全入門",
+    "summary": "Gitとは何か、なぜバージョン管理が必要なのかをわかりやすく解説。ファイルの変更履歴を管理する仕組みをゼロから学びましょう。",
+    "body": "<h2>Gitとは何か？</h2>\n<p>Git（ギット）とは、ファイルの変更履歴を管理するための<strong>バージョン管理システム</strong>です。2005年にLinuxカーネルの開発者であるLinus Torvalds（リーナス・トーバルズ）によって作られ、現在では世界中のエンジニアに使われているツールです。</p>\n<p>「バージョン管理」と聞くと難しそうに感じるかもしれませんが、実はとてもシンプルな概念です。あなたが <code>report.txt</code> というファイルを編集するとき、「昨日の状態に戻したい」「どこを変えたか確認したい」と思ったことはありませんか？Gitはまさにそのニーズを解決するツールです。</p>\n\n<h2>バージョン管理が必要な理由</h2>\n<p>プログラミングの現場では、複数人が同じファイルを編集したり、新機能の追加中にバグが発生して「元に戻したい」という場面が日常的に起こります。Gitがない状態でこれを管理しようとすると、次のような問題が発生します。</p>\n<ul>\n  <li><code>app_最終版.js</code>、<code>app_最終版2.js</code>、<code>app_本当に最終版.js</code> のようなファイルが増え続ける</li>\n  <li>誰がいつ何を変更したかわからなくなる</li>\n  <li>複数人で作業すると、互いの変更を上書きしてしまう</li>\n  <li>バグが起きたとき、どのタイミングで混入したかを特定できない</li>\n</ul>\n<p>これらの問題を根本的に解決するのがGitです。Gitを使えば、すべての変更に「いつ・誰が・何を・なぜ」変えたかという情報を記録し、いつでも過去の状態に戻すことができます。</p>\n\n<h2>Gitの仕組みをざっくり理解する</h2>\n<p>Gitの動作を理解するためのアナロジーとして、「ゲームのセーブデータ」を想像してください。ゲームでは、ボスの前でセーブしておけば、やられても同じ場所からやり直せます。Gitの「コミット（commit）」はこのセーブに相当します。</p>\n<p>Gitでは、ファイルの状態を<strong>スナップショット</strong>として記録します。変更のたびにファイル全体をコピーするのではなく、何が変わったかという差分を効率よく保存します。これにより、ディスクの容量を節約しながら完全な変更履歴を維持できます。</p>\n\n<h3>リポジトリとは</h3>\n<p>Gitが管理するフォルダのことを<strong>リポジトリ（repository）</strong>と呼びます。リポジトリの中には、すべてのファイルとその変更履歴が保存されています。リポジトリは自分のパソコン上（ローカルリポジトリ）に作ることも、GitHubなどのサービス上（リモートリポジトリ）に置くこともできます。</p>\n\n<h3>コミットとは</h3>\n<p>変更内容をGitに記録する操作を<strong>コミット（commit）</strong>と呼びます。コミットには「メッセージ」を添付する習慣があり、「ログイン機能を追加」「バグ修正：パスワードのバリデーション」のように、何をしたかを記録します。このメッセージが後から履歴を読み返すときに非常に役立ちます。</p>\n\n<h3>ブランチとは</h3>\n<p><strong>ブランチ（branch）</strong>とは、開発の「分岐」です。本番環境で動いているコードに影響を与えずに新機能を開発したいとき、ブランチを作って作業します。完成したらメインの流れ（mainブランチ）に合流（マージ）させます。木の枝が幹から分かれるイメージです。</p>\n\n<h2>GitとGitHubの違い</h2>\n<p>初心者が最も混乱しやすいのが「GitとGitHubの違い」です。一言で言うと：</p>\n<ul>\n  <li><strong>Git</strong>：あなたのパソコンで動くバージョン管理ツール（ソフトウェア）</li>\n  <li><strong>GitHub</strong>：Gitリポジトリをインターネット上に保存・共有できるサービス（Webサービス）</li>\n</ul>\n<p>GitはGitHubがなくても使えます。しかし、チームで開発するときやバックアップ目的には、GitHubのようなリモートリポジトリサービスと組み合わせて使うのが一般的です。GitHubの他にも、GitLab、Bitbucketといったサービスがあります。</p>\n\n<h2>Gitを使うと何ができるのか？</h2>\n<p>具体的なユースケースを見ていきましょう。</p>\n\n<h3>過去の状態に戻す</h3>\n<p>コードを大幅に変更した後で「やっぱり元に戻したい」というとき、Gitなら特定のコミットの時点に戻せます。<code>report.txt</code> を3日前の状態に戻すことも、1週間前のバージョンと現在のバージョンを比較することも自由にできます。</p>\n\n<h3>複数人での並行開発</h3>\n<p>チームで開発するとき、AさんはAの機能、BさんはBの機能を同時に開発できます。それぞれがブランチを作り、完成後にメインに統合する流れです。Gitはこの統合（マージ）を自動的に処理し、衝突が起きた場合は開発者に知らせてくれます。</p>\n\n<h3>変更の追跡とレビュー</h3>\n<p>誰がいつどのファイルのどの行を変更したかを、<code>git log</code> や <code>git diff</code> コマンドで確認できます。チームでの開発では、変更内容をレビューしてからマージする「プルリクエスト」という文化が一般的で、コードの品質を保つために欠かせない仕組みです。</p>\n\n<h2>Gitはエンジニアにとってなぜ必須スキルなのか</h2>\n<p>現代のソフトウェア開発において、Gitの使用は事実上のスタンダードです。求人サービスのエンジニア向け求人を見ると、「Git必須」という記載が非常に多いことがわかります。個人開発であっても、自分のコードの歴史を管理し、いつでも安全に変更を試みるためにGitは欠かせません。</p>\n<p>また、オープンソースプロジェクトへの貢献や、ポートフォリオとしてGitHubにコードを公開することも、エンジニアとしてのキャリア形成に大きく役立ちます。</p>\n<pre><code># Gitのバージョンを確認するコマンド（インストール確認にも使える）\ngit --version\n# 出力例: git version 2.44.0</code></pre>\n\n<h2>Gitを学ぶ際の心構え</h2>\n<p>Gitは最初「コマンドの意味がわからない」「エラーが怖い」と感じることがあります。しかし、実際に手を動かしてコマンドを打つことで驚くほど早く慣れます。エラーが出ても、ほとんどの場合は <code>git status</code> を実行することで次に何をすべきかGit自身がヒントを出してくれます。失敗を恐れず、どんどん試してみることが上達の近道です。</p>\n<p>また、Gitはコマンドラインだけでなく、VS CodeやGitHub Desktopといったグラフィカルなツールからも操作できます。しかし、コマンドラインの基本を理解してからGUIツールを使う方が、問題が起きたときに原因を特定しやすくなります。このコースではまずコマンドラインから学んでいきます。</p>\n\n<h2>まとめ：Gitは「タイムマシン＋チームワーク」ツール</h2>\n<p>Gitを一言で表すなら「コードのためのタイムマシンとチームワークを実現するツール」です。最初は難しく感じるかもしれませんが、基本的なコマンドは10個もあれば日常的な開発作業をこなせるようになります。このコースでは、ゼロから順番に実際のコマンドを動かしながら学んでいきます。</p>",
+    "conclusion": "Gitはファイルの変更履歴を管理するバージョン管理システムで、現代のソフトウェア開発には欠かせないツールです。「いつ・誰が・何を変えたか」を記録し、過去の状態にいつでも戻れる安心感がGitの最大の魅力です。GitとGitHubは別物で、GitはローカルのツールでGitHubはそれを共有するためのWebサービスです。最初はコマンドに戸惑うかもしれませんが、基本操作は少なく、使いながら自然と身についていきます。次のステップでは、実際にGitをインストールして使える状態にしていきましょう。",
+    "tags": [
+      "Git",
+      "バージョン管理",
+      "初心者",
+      "GitHub",
+      "プログラミング入門"
+    ],
+    "category": "Git",
+    "theme": "git - Git & GitHub 入門",
+    "status": "published",
+    "createdAt": "2026-05-30T03:49:57.443Z",
+    "updatedAt": "2026-05-30T03:49:57.457Z",
+    "publishedAt": "2026-05-30T03:49:57.443Z",
+    "metaTitle": "Gitとは？バージョン管理の基本をわかりやすく解説【初心者向け】｜Git入門 | StackShelf",
+    "metaDescription": "【Git初心者向け】Gitとは何かを初心者向けにわかりやすく解説。バージョン管理の必要性、Gitの仕組み、GitとGitHubの違いまで丁寧に説明します。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
+    "ogTitle": "Gitとは？バージョン管理の完全入門",
+    "ogDescription": "【Git初心者向け】【Git初心者向け】なぜGitが必要なのか、どんな仕組みなのかをゼロからわかりやすく解説します。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
+    "knowledge": {
+      "topic": "git",
+      "courseId": "git",
+      "episode": 1
+    },
+    "faq": [
+      {
+        "question": "GitとGitHubは同じものですか？",
+        "answer": "いいえ、別物です。GitはあなたのPC上で動くバージョン管理ツールで、GitHubはGitリポジトリをインターネット上に公開・共有するためのWebサービスです。Gitだけでも使えますが、チーム開発やバックアップにはGitHubと組み合わせるのが一般的です。"
+      },
+      {
+        "question": "バージョン管理はプログラマーしか使わないのですか？",
+        "answer": "いいえ。ドキュメントやデザインファイルなど、テキストベースのファイルであればGitで管理できます。ただし、実際にはプログラマーが使うケースが圧倒的に多く、コードの品質管理やチーム開発には特に相性が良いツールです。"
+      },
+      {
+        "question": "Gitは無料で使えますか？",
+        "answer": "はい、Gitは完全無料のオープンソースソフトウェアです。GitHubも個人利用ではほとんどの機能を無料で使えます。プライベートリポジトリも無制限に作成できます。"
+      },
+      {
+        "question": "Gitを使いこなすのにどのくらいかかりますか？",
+        "answer": "基本的な操作（add、commit、push、pull、branch）は1〜2週間で習得できます。実際のプロジェクトで使いながら学ぶのが最も効率的で、3ヶ月も使えばチーム開発で困らないレベルになれます。"
+      }
+    ],
+    "nextEpisodeHint": "次回は、実際にGitをあなたのパソコンにインストールし、名前やメールアドレスなどの初期設定を行います。Windowsでも Mac でも同じ手順で進められるので安心してください。",
+    "ogImage": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+    "canonical": "https://ai-site-iota-nine.vercel.app/article/git-intro",
+    "jsonLd": {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@context": "https://schema.org",
+          "@type": "TechArticle",
+          "headline": "Gitとは？バージョン管理を初めて学ぶ人のための完全入門",
+          "description": "【Git初心者向け】Gitとは何かを初心者向けにわかりやすく解説。バージョン管理の必要性、Gitの仕組み、GitとGitHubの違いまで丁寧に説明します。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
+          "datePublished": "2026-05-30T03:49:57.443Z",
+          "dateModified": "2026-05-30T03:49:57.457Z",
+          "author": {
+            "@type": "Organization",
+            "name": "StackShelf",
+            "url": "https://ai-site-iota-nine.vercel.app",
+            "logo": {
+              "@type": "ImageObject",
+              "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+            }
+          },
+          "publisher": {
+            "@type": "Organization",
+            "name": "StackShelf",
+            "url": "https://ai-site-iota-nine.vercel.app",
+            "logo": {
+              "@type": "ImageObject",
+              "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+            }
+          },
+          "image": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+          "inLanguage": "ja",
+          "wordCount": 2700,
+          "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https://ai-site-iota-nine.vercel.app/article/git-intro"
+          },
+          "keywords": "Git, バージョン管理, 初心者, GitHub, プログラミング入門",
+          "articleSection": "Git",
+          "url": "https://ai-site-iota-nine.vercel.app/article/git-intro",
+          "learningResourceType": "tutorial",
+          "educationalLevel": "beginner"
+        },
+        {
+          "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "ホーム",
+              "item": "https://ai-site-iota-nine.vercel.app/"
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "name": "git",
+              "item": "https://ai-site-iota-nine.vercel.app/knowledge/git"
+            },
+            {
+              "@type": "ListItem",
+              "position": 3,
+              "name": "Git & GitHub 入門",
+              "item": "https://ai-site-iota-nine.vercel.app/course/git/git"
+            },
+            {
+              "@type": "ListItem",
+              "position": 4,
+              "name": "Gitとは？バージョン管理を初めて学ぶ人のための完全入門",
+              "item": "https://ai-site-iota-nine.vercel.app/article/git-intro"
+            }
+          ]
+        },
+        {
+          "@context": "https://schema.org",
+          "@type": "Course",
+          "name": "Git & GitHub 入門",
+          "description": "Gitの基本操作からGitHubでの共同開発まで、現場で使える10ステップで学ぶ初心者向け講座。プログラミング学習・転職・チーム開発に必須のスキルを、具体例とコマンド付きで丁寧に解説します。",
+          "provider": {
+            "@type": "Organization",
+            "name": "StackShelf",
+            "url": "https://ai-site-iota-nine.vercel.app"
+          },
+          "url": "https://ai-site-iota-nine.vercel.app/course/git/git",
+          "inLanguage": "ja",
+          "educationalLevel": "beginner",
+          "hasCourseInstance": {
+            "@type": "CourseInstance",
+            "courseMode": "online",
+            "courseWorkload": "PT1H"
+          }
+        },
+        {
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "GitとGitHubは同じものですか？",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "いいえ、別物です。GitはあなたのPC上で動くバージョン管理ツールで、GitHubはGitリポジトリをインターネット上に公開・共有するためのWebサービスです。Gitだけでも使えますが、チーム開発やバックアップにはGitHubと組み合わせるのが一般的です。"
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "バージョン管理はプログラマーしか使わないのですか？",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "いいえ。ドキュメントやデザインファイルなど、テキストベースのファイルであればGitで管理できます。ただし、実際にはプログラマーが使うケースが圧倒的に多く、コードの品質管理やチーム開発には特に相性が良いツールです。"
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Gitは無料で使えますか？",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "はい、Gitは完全無料のオープンソースソフトウェアです。GitHubも個人利用ではほとんどの機能を無料で使えます。プライベートリポジトリも無制限に作成できます。"
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Gitを使いこなすのにどのくらいかかりますか？",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "基本的な操作（add、commit、push、pull、branch）は1〜2週間で習得できます。実際のプロジェクトで使いながら学ぶのが最も効率的で、3ヶ月も使えばチーム開発で困らないレベルになれます。"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    "breadcrumb": {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "ホーム",
+          "item": "https://ai-site-iota-nine.vercel.app/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "git",
+          "item": "https://ai-site-iota-nine.vercel.app/knowledge/git"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Git & GitHub 入門",
+          "item": "https://ai-site-iota-nine.vercel.app/course/git/git"
+        },
+        {
+          "@type": "ListItem",
+          "position": 4,
+          "name": "Gitとは？バージョン管理を初めて学ぶ人のための完全入門",
+          "item": "https://ai-site-iota-nine.vercel.app/article/git-intro"
+        }
+      ]
+    },
+    "courseSchema": {
+      "@context": "https://schema.org",
+      "@type": "Course",
+      "name": "Git & GitHub 入門",
+      "description": "Gitの基本操作からGitHubでの共同開発まで、現場で使える10ステップで学ぶ初心者向け講座。プログラミング学習・転職・チーム開発に必須のスキルを、具体例とコマンド付きで丁寧に解説します。",
+      "provider": {
+        "@type": "Organization",
+        "name": "StackShelf",
+        "url": "https://ai-site-iota-nine.vercel.app"
+      },
+      "url": "https://ai-site-iota-nine.vercel.app/course/git/git",
+      "inLanguage": "ja",
+      "educationalLevel": "beginner",
+      "hasCourseInstance": {
+        "@type": "CourseInstance",
+        "courseMode": "online",
+        "courseWorkload": "PT1H"
+      }
+    },
+    "faqSchema": {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "GitとGitHubは同じものですか？",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "いいえ、別物です。GitはあなたのPC上で動くバージョン管理ツールで、GitHubはGitリポジトリをインターネット上に公開・共有するためのWebサービスです。Gitだけでも使えますが、チーム開発やバックアップにはGitHubと組み合わせるのが一般的です。"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "バージョン管理はプログラマーしか使わないのですか？",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "いいえ。ドキュメントやデザインファイルなど、テキストベースのファイルであればGitで管理できます。ただし、実際にはプログラマーが使うケースが圧倒的に多く、コードの品質管理やチーム開発には特に相性が良いツールです。"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Gitは無料で使えますか？",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "はい、Gitは完全無料のオープンソースソフトウェアです。GitHubも個人利用ではほとんどの機能を無料で使えます。プライベートリポジトリも無制限に作成できます。"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Gitを使いこなすのにどのくらいかかりますか？",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "基本的な操作（add、commit、push、pull、branch）は1〜2週間で習得できます。実際のプロジェクトで使いながら学ぶのが最も効率的で、3ヶ月も使えばチーム開発で困らないレベルになれます。"
+          }
+        }
+      ]
+    }
+  },
   "ai-intro": {
     "id": "art_1780109180489",
     "slug": "ai-intro",

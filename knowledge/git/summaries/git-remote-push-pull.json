@@ -1,0 +1,13 @@
+{
+  "slug": "git-remote-push-pull",
+  "courseId": "git",
+  "episode": 7,
+  "summaryMemory": [
+    "git remote add origin <URL> でリモートリポジトリを登録し、git remote -v で確認できる",
+    "git push -u origin <ブランチ名> で初回プッシュ・トラッキング設定を同時に行う",
+    "git pull はリモートの変更をローカルへ取り込む（fetch + merge）、git fetch は取得のみ",
+    "プッシュ前には git pull を行い、--force は共有ブランチで絶対に使わない"
+  ],
+  "nextEpisodeHint": "次のエピソードでは GitHub のアカウント作成、リポジトリの作成・設定、README の書き方など GitHub 入門の基本を学びます。",
+  "updatedAt": "2026-05-30T03:49:58.929Z"
+}

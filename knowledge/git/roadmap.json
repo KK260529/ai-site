@@ -1,0 +1,17 @@
+{
+  "topic": "git",
+  "title": "Git & GitHub 入門",
+  "description": "プログラミング学習・チーム開発に必須の Git / GitHub を、初心者向けに10回で完全マスターするロードマップです。",
+  "beginnerPath": [
+    "git-intro",
+    "git-install-setup",
+    "git-repository-basics",
+    "git-basic-commands",
+    "git-branch-basics",
+    "git-merge-conflict",
+    "git-remote-push-pull",
+    "github-basics",
+    "github-pull-request",
+    "git-workflow-practice"
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "slug": "git-branch-basics",
+  "courseId": "git",
+  "episode": 5,
+  "summaryMemory": [
+    "ブランチは本線に影響せず独立した作業ができるGitの核心機能",
+    "git switch -c ブランチ名 でブランチ作成と切り替えを同時に行える",
+    "git merge で別ブランチの変更を現在のブランチに統合する",
+    "コンフリクトは<<<から>>>のマーカーを手動解決してgit addでコミットする"
+  ],
+  "nextEpisodeHint": "次回は、GitHubとの連携（git push・git pull）を学びます。ローカルの変更をリモートリポジトリに送り、チームと共有する方法をマスターしましょう。",
+  "updatedAt": "2026-05-30T03:49:58.266Z"
+}

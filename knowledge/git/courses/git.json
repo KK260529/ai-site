@@ -1,0 +1,19 @@
+{
+  "courseId": "git",
+  "title": "Git & GitHub 入門",
+  "description": "Gitの基本操作からGitHubでの共同開発まで、現場で使える10ステップで学ぶ初心者向け講座。プログラミング学習・転職・チーム開発に必須のスキルを、具体例とコマンド付きで丁寧に解説します。",
+  "target": "プログラミング初心者・Git未経験者",
+  "topic": "git",
+  "episodes": [
+    { "episode": 1, "title": "Gitとは？バージョン管理を初めて学ぶ", "slug": "git-intro" },
+    { "episode": 2, "title": "Gitのインストールと初期設定", "slug": "git-install-setup" },
+    { "episode": 3, "title": "リポジトリの作成とclone", "slug": "git-repository-basics" },
+    { "episode": 4, "title": "add・commit・status・log の基本操作", "slug": "git-basic-commands" },
+    { "episode": 5, "title": "ブランチの作り方と切り替え", "slug": "git-branch-basics" },
+    { "episode": 6, "title": "マージとコンフリクトの解決", "slug": "git-merge-conflict" },
+    { "episode": 7, "title": "push・pull・remote でリモート連携", "slug": "git-remote-push-pull" },
+    { "episode": 8, "title": "GitHub入門：アカウントとリポジトリ", "slug": "github-basics" },
+    { "episode": 9, "title": "Pull Requestと協業の流れ", "slug": "github-pull-request" },
+    { "episode": 10, "title": "実務で使うGitワークフロー", "slug": "git-workflow-practice" }
+  ]
+}

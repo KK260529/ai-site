@@ -1,0 +1,13 @@
+{
+  "slug": "git-basic-commands",
+  "courseId": "git",
+  "episode": 4,
+  "summaryMemory": [
+    "Gitの3層構造：ワーキングツリー→ステージングエリア→リポジトリ",
+    "git add でステージング、git commit -m でコミット記録という流れ",
+    "git status で現在の状態確認、git log --oneline で履歴確認が基本",
+    "コミットメッセージは「なぜその変更をしたか」を書くことが重要"
+  ],
+  "nextEpisodeHint": "次回は、Gitの強力な機能であるブランチの作成と切り替えを学びます。ブランチを使えば、本番コードに影響を与えずに新機能の開発やバグ修正を安全に行えます。",
+  "updatedAt": "2026-05-30T03:49:58.056Z"
+}

@@ -1,0 +1,249 @@
+{
+  "id": "art_git_git-install-setup",
+  "slug": "git-install-setup",
+  "title": "Gitのインストールと初期設定：Windows・Mac対応の完全ガイド",
+  "summary": "WindowsとMacへのGitインストール方法と、git config による名前・メール・エディタの初期設定を手順ごとに丁寧に解説します。",
+  "body": "<h2>Gitをインストールする前に確認すること</h2>\n<p>インストール作業を始める前に、すでにGitが入っていないか確認しましょう。ターミナル（WindowsではコマンドプロンプトまたはPowerShell、MacではTerminal）を開いて次のコマンドを実行してください。</p>\n<pre><code>git --version</code></pre>\n<p><code>git version 2.xx.x</code> のように表示されれば、すでにインストール済みです。<code>command not found</code> や <code>'git' は認識されていません</code> のようなエラーが出た場合は、次の手順でインストールしてください。</p>\n\n<h2>WindowsへのGitインストール</h2>\n<p>Windowsには「Git for Windows」（通称：Git Bash）をインストールします。これをインストールすることで、LinuxやMacと同じコマンドがWindows上でも使えるようになります。</p>\n\n<h3>インストーラーのダウンロード</h3>\n<p>公式サイト（<strong>git-scm.com</strong>）にアクセスし、「Download for Windows」ボタンをクリックします。最新の64bit版インストーラーが自動的にダウンロードされます。</p>\n\n<h3>インストール時の設定ポイント</h3>\n<p>インストーラーを実行すると、いくつかの選択画面が表示されます。初心者の場合は基本的にデフォルト設定のまま進めて問題ありませんが、以下の2点だけ確認してください。</p>\n<ul>\n  <li><strong>デフォルトエディタの選択</strong>：初期値は「Vim」ですが、慣れていない場合は「Visual Studio Code」や「Notepad++」を選ぶと操作しやすくなります</li>\n  <li><strong>改行コードの設定</strong>：「Checkout Windows-style, commit Unix-style line endings」を選択するのが一般的です</li>\n</ul>\n<p>インストール完了後、「Git Bash」というアプリが使えるようになります。スタートメニューから「Git Bash」を検索して開いてみましょう。</p>\n<pre><code># Git Bashを開いてバージョン確認\ngit --version\n# 出力例: git version 2.44.0.windows.1</code></pre>\n\n<h2>MacへのGitインストール</h2>\n<p>Macには複数のインストール方法がありますが、パッケージマネージャー「Homebrew」を使う方法が最も管理しやすくおすすめです。</p>\n\n<h3>Homebrewを使ったインストール</h3>\n<p>まずHomebrewがインストールされているか確認します。</p>\n<pre><code>brew --version</code></pre>\n<p>Homebrewが入っていない場合は、公式サイト（<strong>brew.sh</strong>）のインストールコマンドを実行してください。Homebrewが使える状態になったら、次のコマンドでGitをインストールします。</p>\n<pre><code>brew install git</code></pre>\n<p>インストール後、ターミナルを再起動してバージョンを確認します。</p>\n<pre><code>git --version\n# 出力例: git version 2.44.0</code></pre>\n\n<h3>XcodeコマンドラインツールでのインストールGit</h3>\n<p>Homebrewを使いたくない場合は、次のコマンドを実行するとXcodeコマンドラインツールの一部としてGitがインストールされます。</p>\n<pre><code>xcode-select --install</code></pre>\n\n<h2>Gitの初期設定：git config</h2>\n<p>Gitをインストールしたら、最初に必ず行うべき初期設定があります。それが<strong>git config</strong>コマンドによる名前とメールアドレスの設定です。これらはコミットに自動的に記録され、「誰がこの変更を行ったか」を示す情報になります。</p>\n\n<h3>名前とメールアドレスの設定</h3>\n<p>以下のコマンドで設定します。<code>--global</code> オプションを付けることで、そのパソコン上のすべてのリポジトリに適用されます。</p>\n<pre><code># ユーザー名の設定（自分の名前を入力）\ngit config --global user.name \"Taro Yamada\"\n\n# メールアドレスの設定（GitHubで使うメールを推奨）\ngit config --global user.email \"taro@example.com\"</code></pre>\n<p>GitHubを使う場合は、GitHubに登録したメールアドレスと同じものを設定することをおすすめします。コミット情報がGitHubアカウントと正しく紐付けられます。</p>\n\n<h3>デフォルトブランチ名の設定</h3>\n<p>近年、Gitのデフォルトブランチ名が <code>master</code> から <code>main</code> に移行しつつあります。GitHubもデフォルトを <code>main</code> にしています。以下の設定で統一しておくと混乱が少なくなります。</p>\n<pre><code>git config --global init.defaultBranch main</code></pre>\n\n<h3>デフォルトエディタの設定</h3>\n<p>コミットメッセージを書くときに使うエディタを設定できます。VS Codeを使っている場合は次のように設定します。</p>\n<pre><code># VS Codeをデフォルトエディタに設定\ngit config --global core.editor \"code --wait\"</code></pre>\n<p><code>--wait</code> オプションにより、エディタを閉じるまでGitが待機するようになります。これがないとコミットメッセージが空のまま処理されてしまう場合があります。</p>\n\n<h2>設定内容の確認方法</h2>\n<p>設定した内容を確認するには、次のコマンドを使います。</p>\n<pre><code># すべての設定を一覧表示\ngit config --list\n\n# 特定の設定値だけ確認\ngit config user.name\ngit config user.email</code></pre>\n<p>設定ファイルはホームディレクトリの <code>.gitconfig</code> ファイルに保存されています。テキストエディタで直接開いて確認・編集することもできます。</p>\n<pre><code># .gitconfigファイルをVS Codeで開く\ncode ~/.gitconfig</code></pre>\n<p>中身はこのような形式になっています。</p>\n<pre><code>[user]\n\tname = Taro Yamada\n\temail = taro@example.com\n[core]\n\teditor = code --wait\n[init]\n\tdefaultBranch = main</code></pre>\n\n<h2>プロジェクトごとに設定を変える方法</h2>\n<p><code>--global</code> は全リポジトリ共通の設定ですが、特定のプロジェクトだけ別の設定にしたい場合は <code>--local</code> オプション（または省略）を使います。たとえば会社のプロジェクトでは会社のメールアドレスを使いたい場合などに便利です。</p>\n<pre><code># リポジトリのルートディレクトリで実行\ncd /path/to/your-project\ngit config --local user.email \"work@company.com\"</code></pre>\n<p>ローカル設定はグローバル設定より優先されます。設定は <code>.git/config</code> ファイルに保存されます。</p>\n\n<h2>設定完了の確認チェックリスト</h2>\n<p>以下のコマンドを実行して、すべて正しく設定されているか確認しましょう。</p>\n<pre><code>git --version       # Gitのバージョンが表示される\ngit config user.name     # 設定した名前が表示される\ngit config user.email    # 設定したメールが表示される\ngit config init.defaultBranch  # mainと表示される</code></pre>",
+  "conclusion": "GitのインストールとInitial設定はこれで完了です。Windowsでは「Git Bash」、Macでは「Terminal」を使って同じコマンドが動かせる環境が整いました。git configで設定した名前とメールアドレスは、これからのすべてのコミットに記録される大切な情報です。デフォルトブランチ名をmainに設定しておくことで、GitHubとの連携がスムーズになります。次のステップでは、実際にリポジトリを作成して、Gitの管理下にプロジェクトを置いていきます。",
+  "tags": [
+    "Git",
+    "インストール",
+    "git config",
+    "初期設定",
+    "Windows",
+    "Mac"
+  ],
+  "category": "Git",
+  "theme": "git - Git & GitHub 入門",
+  "status": "published",
+  "createdAt": "2026-05-30T03:49:57.646Z",
+  "updatedAt": "2026-05-30T03:49:57.650Z",
+  "publishedAt": "2026-05-30T03:49:57.646Z",
+  "metaTitle": "Gitインストールと初期設定【Windows・Mac対応】git config完全ガイド | StackShelf",
+  "metaDescription": "【Git初心者向け】GitをWindowsとMacにインストールする手順と、git configで行う名前・メール・エディタの初期設定をスクリーンショット付きで詳しく解説します。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
+  "ogTitle": "Gitインストールと初期設定【完全ガイド】",
+  "ogDescription": "【Git初心者向け】【Git初心者向け】WindowsとMac両対応。Gitのインストールからgit configの初期設定まで丁寧に解説。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
+  "knowledge": {
+    "topic": "git",
+    "courseId": "git",
+    "episode": 2
+  },
+  "faq": [
+    {
+      "question": "git configの--globalと--localの違いは何ですか？",
+      "answer": "--globalはそのパソコン上のすべてのGitリポジトリに適用される設定です。--localは現在のリポジトリ内だけに適用される設定で、--globalより優先されます。仕事用と個人用で別のメールアドレスを使いたい場合などにローカル設定が役立ちます。"
+    },
+    {
+      "question": "メールアドレスを間違えて設定してしまいました。修正できますか？",
+      "answer": "はい、同じコマンドを正しい値で再実行するだけで上書きできます。`git config --global user.email \"correct@example.com\"` を実行してください。ただし、すでにコミット済みの履歴のメールアドレスは変わりません。"
+    },
+    {
+      "question": "WindowsでGit BashとコマンドプロンプトのどちらでGitを使うべきですか？",
+      "answer": "Git Bashの使用を強くおすすめします。Git BashはLinux/Macと同じコマンド体系で動くため、インターネットの解説記事や書籍の通りにコマンドを実行できます。コマンドプロンプトでも動きますが、パス区切り文字など細かい差異が混乱の原因になることがあります。"
+    }
+  ],
+  "nextEpisodeHint": "次回は、Gitリポジトリの作成方法（git init）とGitHubからのcloneを学びます。自分のプロジェクトフォルダをGitの管理下に置く最初のステップです。",
+  "ogImage": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+  "canonical": "https://ai-site-iota-nine.vercel.app/article/git-install-setup",
+  "jsonLd": {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@context": "https://schema.org",
+        "@type": "TechArticle",
+        "headline": "Gitのインストールと初期設定：Windows・Mac対応の完全ガイド",
+        "description": "【Git初心者向け】GitをWindowsとMacにインストールする手順と、git configで行う名前・メール・エディタの初期設定をスクリーンショット付きで詳しく解説します。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
+        "datePublished": "2026-05-30T03:49:57.646Z",
+        "dateModified": "2026-05-30T03:49:57.650Z",
+        "author": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
+        },
+        "image": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+        "inLanguage": "ja",
+        "wordCount": 2798,
+        "mainEntityOfPage": {
+          "@type": "WebPage",
+          "@id": "https://ai-site-iota-nine.vercel.app/article/git-install-setup"
+        },
+        "keywords": "Git, インストール, git config, 初期設定, Windows, Mac",
+        "articleSection": "Git",
+        "url": "https://ai-site-iota-nine.vercel.app/article/git-install-setup",
+        "learningResourceType": "tutorial",
+        "educationalLevel": "beginner"
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "ホーム",
+            "item": "https://ai-site-iota-nine.vercel.app/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "git",
+            "item": "https://ai-site-iota-nine.vercel.app/knowledge/git"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "Git & GitHub 入門",
+            "item": "https://ai-site-iota-nine.vercel.app/course/git/git"
+          },
+          {
+            "@type": "ListItem",
+            "position": 4,
+            "name": "Gitのインストールと初期設定：Windows・Mac対応の完全ガイド",
+            "item": "https://ai-site-iota-nine.vercel.app/article/git-install-setup"
+          }
+        ]
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "Course",
+        "name": "Git & GitHub 入門",
+        "description": "Gitの基本操作からGitHubでの共同開発まで、現場で使える10ステップで学ぶ初心者向け講座。プログラミング学習・転職・チーム開発に必須のスキルを、具体例とコマンド付きで丁寧に解説します。",
+        "provider": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app"
+        },
+        "url": "https://ai-site-iota-nine.vercel.app/course/git/git",
+        "inLanguage": "ja",
+        "educationalLevel": "beginner",
+        "hasCourseInstance": {
+          "@type": "CourseInstance",
+          "courseMode": "online",
+          "courseWorkload": "PT1H"
+        }
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "git configの--globalと--localの違いは何ですか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "--globalはそのパソコン上のすべてのGitリポジトリに適用される設定です。--localは現在のリポジトリ内だけに適用される設定で、--globalより優先されます。仕事用と個人用で別のメールアドレスを使いたい場合などにローカル設定が役立ちます。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "メールアドレスを間違えて設定してしまいました。修正できますか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "はい、同じコマンドを正しい値で再実行するだけで上書きできます。`git config --global user.email \"correct@example.com\"` を実行してください。ただし、すでにコミット済みの履歴のメールアドレスは変わりません。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "WindowsでGit BashとコマンドプロンプトのどちらでGitを使うべきですか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Git Bashの使用を強くおすすめします。Git BashはLinux/Macと同じコマンド体系で動くため、インターネットの解説記事や書籍の通りにコマンドを実行できます。コマンドプロンプトでも動きますが、パス区切り文字など細かい差異が混乱の原因になることがあります。"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "breadcrumb": {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "ホーム",
+        "item": "https://ai-site-iota-nine.vercel.app/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "git",
+        "item": "https://ai-site-iota-nine.vercel.app/knowledge/git"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "Git & GitHub 入門",
+        "item": "https://ai-site-iota-nine.vercel.app/course/git/git"
+      },
+      {
+        "@type": "ListItem",
+        "position": 4,
+        "name": "Gitのインストールと初期設定：Windows・Mac対応の完全ガイド",
+        "item": "https://ai-site-iota-nine.vercel.app/article/git-install-setup"
+      }
+    ]
+  },
+  "courseSchema": {
+    "@context": "https://schema.org",
+    "@type": "Course",
+    "name": "Git & GitHub 入門",
+    "description": "Gitの基本操作からGitHubでの共同開発まで、現場で使える10ステップで学ぶ初心者向け講座。プログラミング学習・転職・チーム開発に必須のスキルを、具体例とコマンド付きで丁寧に解説します。",
+    "provider": {
+      "@type": "Organization",
+      "name": "StackShelf",
+      "url": "https://ai-site-iota-nine.vercel.app"
+    },
+    "url": "https://ai-site-iota-nine.vercel.app/course/git/git",
+    "inLanguage": "ja",
+    "educationalLevel": "beginner",
+    "hasCourseInstance": {
+      "@type": "CourseInstance",
+      "courseMode": "online",
+      "courseWorkload": "PT1H"
+    }
+  },
+  "faqSchema": {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "git configの--globalと--localの違いは何ですか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "--globalはそのパソコン上のすべてのGitリポジトリに適用される設定です。--localは現在のリポジトリ内だけに適用される設定で、--globalより優先されます。仕事用と個人用で別のメールアドレスを使いたい場合などにローカル設定が役立ちます。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "メールアドレスを間違えて設定してしまいました。修正できますか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "はい、同じコマンドを正しい値で再実行するだけで上書きできます。`git config --global user.email \"correct@example.com\"` を実行してください。ただし、すでにコミット済みの履歴のメールアドレスは変わりません。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "WindowsでGit BashとコマンドプロンプトのどちらでGitを使うべきですか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Git Bashの使用を強くおすすめします。Git BashはLinux/Macと同じコマンド体系で動くため、インターネットの解説記事や書籍の通りにコマンドを実行できます。コマンドプロンプトでも動きますが、パス区切り文字など細かい差異が混乱の原因になることがあります。"
+        }
+      }
+    ]
+  }
+}

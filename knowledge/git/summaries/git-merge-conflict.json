@@ -1,0 +1,13 @@
+{
+  "slug": "git-merge-conflict",
+  "courseId": "git",
+  "episode": 6,
+  "summaryMemory": [
+    "git merge <ブランチ名> で別ブランチの変更を現在のブランチへ統合できる",
+    "コンフリクトは同じ行を2ブランチが異なる内容で変更したときに発生する",
+    "コンフリクトマーカー（<<<, ===, >>>）を削除して正しい内容に書き換え、git add → git commit で解決する",
+    "git merge --abort でマージを中断でき、リモートへプッシュ済みのブランチには rebase を使わないのが原則"
+  ],
+  "nextEpisodeHint": "次のエピソードでは、リモートリポジトリとのやり取りに使う git push・git pull・git remote の使い方を学びます。",
+  "updatedAt": "2026-05-30T03:49:58.542Z"
+}

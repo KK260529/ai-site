@@ -1,0 +1,13 @@
+{
+  "slug": "git-install-setup",
+  "courseId": "git",
+  "episode": 2,
+  "summaryMemory": [
+    "git --versionでインストール済みか確認できる",
+    "git config --global user.nameとuser.emailは最初に必ず設定する",
+    "init.defaultBranchをmainに設定してGitHubとの整合性を保つ",
+    "--localオプションでプロジェクトごとに設定を上書きできる"
+  ],
+  "nextEpisodeHint": "次回は、Gitリポジトリの作成方法（git init）とGitHubからのcloneを学びます。自分のプロジェクトフォルダをGitの管理下に置く最初のステップです。",
+  "updatedAt": "2026-05-30T03:49:57.646Z"
+}

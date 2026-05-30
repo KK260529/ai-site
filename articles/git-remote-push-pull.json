@@ -1,0 +1,268 @@
+{
+  "id": "art_git_git-remote-push-pull",
+  "slug": "git-remote-push-pull",
+  "title": "push・pull・remote でリモート連携",
+  "summary": "git remote・git push・git pull の仕組みを基礎から解説。ローカルリポジトリとリモートリポジトリを連携させ、チームで安全にコードを共有するための具体的な手順を学ぶ。",
+  "body": "<h2>リモートリポジトリとは</h2>\n<p>\n  これまで学んできた Git の操作はすべてローカル（自分のパソコン）上の話でした。\n  チームで開発するには、コードをインターネット上のサーバーで共有する必要があります。\n  その共有場所が<strong>リモートリポジトリ</strong>です。\n  GitHub、GitLab、Bitbucket などのサービスがリモートリポジトリのホスティング先として広く使われています。\n</p>\n<p>\n  ローカルリポジトリとリモートリポジトリは独立して存在し、\n  <code>git push</code> や <code>git pull</code> といったコマンドで変更をやり取りします。\n  この仕組みを理解することで、チーム開発の基本的な流れが見えてきます。\n</p>\n\n<h2>git remote でリモートを登録する</h2>\n<p>\n  リモートリポジトリをローカルに認識させるコマンドが <code>git remote</code> です。\n  GitHub でリポジトリを作成した後、次のコマンドでリモートを登録します。\n</p>\n<pre><code># リモートリポジトリを \"origin\" という名前で登録\ngit remote add origin https://github.com/yourname/my-project.git\n\n# 登録済みのリモート一覧を確認\ngit remote -v</code></pre>\n<p>\n  <code>origin</code> はリモートリポジトリのデフォルトの別名です。\n  1つのリポジトリに複数のリモートを登録することもできますが、\n  最初のうちは <code>origin</code> 1つだけを使うのが一般的です。\n</p>\n\n<h3>既存リポジトリをクローンした場合</h3>\n<p>\n  <code>git clone</code> でリポジトリを取得した場合、\n  自動的に <code>origin</code> が登録されます。\n  手動で <code>git remote add</code> する必要はありません。\n</p>\n<pre><code>git clone https://github.com/yourname/my-project.git\ncd my-project\ngit remote -v\n# origin  https://github.com/yourname/my-project.git (fetch)\n# origin  https://github.com/yourname/my-project.git (push)</code></pre>\n\n<h2>git push でリモートへ送信する</h2>\n<p>\n  ローカルのコミットをリモートリポジトリへ送信するコマンドが <code>git push</code> です。\n  最初にプッシュするときは <code>-u</code>（<code>--set-upstream</code>）オプションを付けて、\n  ローカルブランチとリモートブランチを紐付けます。\n</p>\n<pre><code># 初回プッシュ（ブランチのトラッキングを設定）\ngit push -u origin main\n\n# 2回目以降は短縮形で OK\ngit push</code></pre>\n<p>\n  <code>-u</code> を一度使うと、以降は <code>git push</code> だけで\n  <code>origin main</code> への送信が実行されるようになります。\n</p>\n\n<h3>新しいブランチをリモートへ送信する</h3>\n<p>\n  ローカルで作成したブランチをリモートへ初めてプッシュするときも <code>-u</code> を使います。\n</p>\n<pre><code># feature/signup ブランチを作成してプッシュ\ngit checkout -b feature/signup\ngit push -u origin feature/signup</code></pre>\n\n<h2>git pull でリモートの変更を取り込む</h2>\n<p>\n  チームメンバーがリモートへプッシュした変更をローカルに取り込むコマンドが <code>git pull</code> です。\n  <code>git pull</code> は内部的に <code>git fetch</code>（取得）と <code>git merge</code>（統合）を\n  連続して実行します。\n</p>\n<pre><code># リモートの最新変更をローカルへ取り込む\ngit pull origin main\n\n# トラッキングブランチが設定済みなら短縮形で OK\ngit pull</code></pre>\n<p>\n  プルする前にコミットし忘れたローカルの変更があるとコンフリクトが起きやすくなります。\n  作業前後に <code>git pull</code> を習慣にすることで差分を小さく保てます。\n</p>\n\n<h3>git fetch と git pull の違い</h3>\n<p>\n  <code>git fetch</code> はリモートの変更を取得するだけで、\n  ローカルの作業ブランチには反映されません。\n  取得後に <code>git diff origin/main</code> で差分を確認してから手動でマージできるため、\n  安全に内容を確認したい場面で便利です。\n</p>\n<pre><code># リモートの変更を取得（ローカルブランチは変わらない）\ngit fetch origin\n\n# リモートとの差分を確認\ngit diff main origin/main\n\n# 問題なければマージ\ngit merge origin/main</code></pre>\n\n<h2>プッシュが拒否されたときの対処法</h2>\n<p>\n  リモートに自分よりも新しいコミットがある場合、プッシュが拒否されることがあります。\n  このときはまず <code>git pull</code> でリモートの変更を取り込み、\n  コンフリクトがあれば解決してから再度プッシュします。\n</p>\n<pre><code># エラー例\n# ! [rejected] main -> main (fetch first)\n\n# 解決手順\ngit pull origin main      # リモートの変更を取り込む\n# コンフリクトがあれば解決 → git add → git commit\ngit push origin main      # 再プッシュ</code></pre>\n<p>\n  <code>git push --force</code> は他の人のコミットを消してしまう危険があるため、\n  共有ブランチでは絶対に使わないようにしましょう。\n</p>\n\n<h2>リモートブランチの削除</h2>\n<p>\n  機能開発が完了してブランチが不要になったら、\n  リモートブランチも削除してリポジトリをすっきりさせましょう。\n</p>\n<pre><code># リモートの feature/signup ブランチを削除\ngit push origin --delete feature/signup\n\n# ローカルブランチの削除\ngit branch -d feature/signup</code></pre>\n\n<h2>よくあるトラブルと解決策</h2>\n<ul>\n  <li>\n    <strong>認証エラーが出る</strong>：GitHub では2021年以降、パスワード認証が廃止されました。\n    Personal Access Token（PAT）または SSH キーを使って認証します。\n  </li>\n  <li>\n    <strong>Updates were rejected（更新が拒否される）</strong>：リモートに自分より新しいコミットがあります。\n    <code>git pull</code> で取り込んでからプッシュします。\n  </li>\n  <li>\n    <strong>リモートの URL を変更したい</strong>：\n    <code>git remote set-url origin &lt;新しいURL&gt;</code> で変更できます。\n  </li>\n</ul>\n<pre><code># リモート URL の変更\ngit remote set-url origin git@github.com:yourname/my-project.git\n\n# 確認\ngit remote -v</code></pre>",
+  "conclusion": "このエピソードでは git remote・git push・git pull・git fetch の使い方を学びました。ローカルとリモートのやり取りはチーム開発の中心となる操作です。プッシュ前に pull を忘れずに行う習慣をつけることで、不要なコンフリクトを減らせます。次のエピソードでは GitHub のアカウント作成とリポジトリの基本操作を学びます。",
+  "tags": [
+    "git push",
+    "git pull",
+    "git remote",
+    "git fetch",
+    "リモートリポジトリ"
+  ],
+  "category": "Git",
+  "theme": "git - Git & GitHub 入門",
+  "status": "published",
+  "createdAt": "2026-05-30T03:49:58.928Z",
+  "updatedAt": "2026-05-30T03:49:58.934Z",
+  "publishedAt": "2026-05-30T03:49:58.928Z",
+  "metaTitle": "git push・git pull・git remote の使い方【初心者向け完全ガイド】 | StackShelf",
+  "metaDescription": "git push でリモートへ送信、git pull でローカルへ取り込む方法を解説。git remote の設定から origin の意味、fetch との違いまで初心者向けに丁寧に説明します。 図解・具体例つきで丁寧に解説します。",
+  "ogTitle": "git push・pull・remote の使い方 完全ガイド",
+  "ogDescription": "【Git初心者向け】ローカルとリモートのリポジトリ連携を git remote・git push・git pull で行う方法を、コマンド例とともにわかりやすく解説します。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
+  "knowledge": {
+    "topic": "git",
+    "courseId": "git",
+    "episode": 7
+  },
+  "faq": [
+    {
+      "question": "git pull と git fetch の違いは何ですか？",
+      "answer": "git fetch はリモートの変更を取得するだけでローカルブランチは変わりません。git pull は fetch + merge を自動で行い、ローカルブランチにリモートの変更を反映します。差分を確認してから取り込みたいときは fetch を使いましょう。"
+    },
+    {
+      "question": "git push が拒否されたらどうすればよいですか？",
+      "answer": "リモートに新しいコミットがあるためです。git pull でリモートの変更をローカルに取り込み、コンフリクトがあれば解決してから git push を再実行してください。--force は共有ブランチでは使用禁止です。"
+    },
+    {
+      "question": "origin とは何ですか？",
+      "answer": "origin はリモートリポジトリに付けるデフォルトの別名です。git clone すると自動的に設定されます。git remote add で任意の名前を付けることもできますが、慣習的に最初のリモートは origin と呼びます。"
+    },
+    {
+      "question": "git push -u の -u オプションは何をしていますか？",
+      "answer": "ローカルブランチとリモートブランチを紐付け（トラッキング設定）します。一度 -u を付けてプッシュすれば、次回から git push だけで同じリモートブランチへ送信できるようになります。"
+    }
+  ],
+  "nextEpisodeHint": "次のエピソードでは GitHub のアカウント作成、リポジトリの作成・設定、README の書き方など GitHub 入門の基本を学びます。",
+  "ogImage": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+  "canonical": "https://ai-site-iota-nine.vercel.app/article/git-remote-push-pull",
+  "jsonLd": {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@context": "https://schema.org",
+        "@type": "TechArticle",
+        "headline": "push・pull・remote でリモート連携",
+        "description": "git push でリモートへ送信、git pull でローカルへ取り込む方法を解説。git remote の設定から origin の意味、fetch との違いまで初心者向けに丁寧に説明します。 図解・具体例つきで丁寧に解説します。",
+        "datePublished": "2026-05-30T03:49:58.928Z",
+        "dateModified": "2026-05-30T03:49:58.934Z",
+        "author": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
+        },
+        "image": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+        "inLanguage": "ja",
+        "wordCount": 2461,
+        "mainEntityOfPage": {
+          "@type": "WebPage",
+          "@id": "https://ai-site-iota-nine.vercel.app/article/git-remote-push-pull"
+        },
+        "keywords": "git push, git pull, git remote, git fetch, リモートリポジトリ",
+        "articleSection": "Git",
+        "url": "https://ai-site-iota-nine.vercel.app/article/git-remote-push-pull",
+        "learningResourceType": "tutorial",
+        "educationalLevel": "beginner"
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "ホーム",
+            "item": "https://ai-site-iota-nine.vercel.app/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "git",
+            "item": "https://ai-site-iota-nine.vercel.app/knowledge/git"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "Git & GitHub 入門",
+            "item": "https://ai-site-iota-nine.vercel.app/course/git/git"
+          },
+          {
+            "@type": "ListItem",
+            "position": 4,
+            "name": "push・pull・remote でリモート連携",
+            "item": "https://ai-site-iota-nine.vercel.app/article/git-remote-push-pull"
+          }
+        ]
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "Course",
+        "name": "Git & GitHub 入門",
+        "description": "Gitの基本操作からGitHubでの共同開発まで、現場で使える10ステップで学ぶ初心者向け講座。プログラミング学習・転職・チーム開発に必須のスキルを、具体例とコマンド付きで丁寧に解説します。",
+        "provider": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app"
+        },
+        "url": "https://ai-site-iota-nine.vercel.app/course/git/git",
+        "inLanguage": "ja",
+        "educationalLevel": "beginner",
+        "hasCourseInstance": {
+          "@type": "CourseInstance",
+          "courseMode": "online",
+          "courseWorkload": "PT1H"
+        }
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "git pull と git fetch の違いは何ですか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "git fetch はリモートの変更を取得するだけでローカルブランチは変わりません。git pull は fetch + merge を自動で行い、ローカルブランチにリモートの変更を反映します。差分を確認してから取り込みたいときは fetch を使いましょう。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "git push が拒否されたらどうすればよいですか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "リモートに新しいコミットがあるためです。git pull でリモートの変更をローカルに取り込み、コンフリクトがあれば解決してから git push を再実行してください。--force は共有ブランチでは使用禁止です。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "origin とは何ですか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "origin はリモートリポジトリに付けるデフォルトの別名です。git clone すると自動的に設定されます。git remote add で任意の名前を付けることもできますが、慣習的に最初のリモートは origin と呼びます。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "git push -u の -u オプションは何をしていますか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "ローカルブランチとリモートブランチを紐付け（トラッキング設定）します。一度 -u を付けてプッシュすれば、次回から git push だけで同じリモートブランチへ送信できるようになります。"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "breadcrumb": {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "ホーム",
+        "item": "https://ai-site-iota-nine.vercel.app/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "git",
+        "item": "https://ai-site-iota-nine.vercel.app/knowledge/git"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "Git & GitHub 入門",
+        "item": "https://ai-site-iota-nine.vercel.app/course/git/git"
+      },
+      {
+        "@type": "ListItem",
+        "position": 4,
+        "name": "push・pull・remote でリモート連携",
+        "item": "https://ai-site-iota-nine.vercel.app/article/git-remote-push-pull"
+      }
+    ]
+  },
+  "courseSchema": {
+    "@context": "https://schema.org",
+    "@type": "Course",
+    "name": "Git & GitHub 入門",
+    "description": "Gitの基本操作からGitHubでの共同開発まで、現場で使える10ステップで学ぶ初心者向け講座。プログラミング学習・転職・チーム開発に必須のスキルを、具体例とコマンド付きで丁寧に解説します。",
+    "provider": {
+      "@type": "Organization",
+      "name": "StackShelf",
+      "url": "https://ai-site-iota-nine.vercel.app"
+    },
+    "url": "https://ai-site-iota-nine.vercel.app/course/git/git",
+    "inLanguage": "ja",
+    "educationalLevel": "beginner",
+    "hasCourseInstance": {
+      "@type": "CourseInstance",
+      "courseMode": "online",
+      "courseWorkload": "PT1H"
+    }
+  },
+  "faqSchema": {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "git pull と git fetch の違いは何ですか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "git fetch はリモートの変更を取得するだけでローカルブランチは変わりません。git pull は fetch + merge を自動で行い、ローカルブランチにリモートの変更を反映します。差分を確認してから取り込みたいときは fetch を使いましょう。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "git push が拒否されたらどうすればよいですか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "リモートに新しいコミットがあるためです。git pull でリモートの変更をローカルに取り込み、コンフリクトがあれば解決してから git push を再実行してください。--force は共有ブランチでは使用禁止です。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "origin とは何ですか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "origin はリモートリポジトリに付けるデフォルトの別名です。git clone すると自動的に設定されます。git remote add で任意の名前を付けることもできますが、慣習的に最初のリモートは origin と呼びます。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "git push -u の -u オプションは何をしていますか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "ローカルブランチとリモートブランチを紐付け（トラッキング設定）します。一度 -u を付けてプッシュすれば、次回から git push だけで同じリモートブランチへ送信できるようになります。"
+        }
+      }
+    ]
+  }
+}

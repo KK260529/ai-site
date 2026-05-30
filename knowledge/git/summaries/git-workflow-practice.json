@@ -1,0 +1,13 @@
+{
+  "slug": "git-workflow-practice",
+  "courseId": "git",
+  "episode": 10,
+  "summaryMemory": [
+    "GitHub Flow は main を常にデプロイ可能に保つシンプルなブランチ戦略で、Web サービス開発に向いている",
+    "git stash で未コミットの作業を一時退避し、git stash pop で元に戻せる",
+    "git cherry-pick <ハッシュ> で別ブランチの特定コミットだけを現在のブランチへ取り込める",
+    "コミットメッセージは Conventional Commits（feat:/fix:/docs: など）に従うと履歴が読みやすくなる"
+  ],
+  "nextEpisodeHint": "Git/GitHub 入門コースの全エピソードが完了しました。次は GitHub Actions を使った CI/CD 自動化や、より高度な Git 操作に挑戦してみましょう。",
+  "updatedAt": "2026-05-30T03:50:00.389Z"
+}

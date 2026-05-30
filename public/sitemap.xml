@@ -25,6 +25,12 @@
     <priority>0.85</priority>
   </url>
   <url>
+    <loc>https://ai-site-iota-nine.vercel.app/knowledge/git</loc>
+    
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
     <loc>https://ai-site-iota-nine.vercel.app/knowledge/java</loc>
     
     <changefreq>weekly</changefreq>
@@ -43,10 +49,76 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://ai-site-iota-nine.vercel.app/course/git/git</loc>
+    
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://ai-site-iota-nine.vercel.app/course/java/java</loc>
     
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://ai-site-iota-nine.vercel.app/article/git-workflow-practice</loc>
+    <lastmod>2026-05-30</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://ai-site-iota-nine.vercel.app/article/github-pull-request</loc>
+    <lastmod>2026-05-30</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://ai-site-iota-nine.vercel.app/article/github-basics</loc>
+    <lastmod>2026-05-30</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://ai-site-iota-nine.vercel.app/article/git-remote-push-pull</loc>
+    <lastmod>2026-05-30</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://ai-site-iota-nine.vercel.app/article/git-merge-conflict</loc>
+    <lastmod>2026-05-30</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://ai-site-iota-nine.vercel.app/article/git-branch-basics</loc>
+    <lastmod>2026-05-30</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://ai-site-iota-nine.vercel.app/article/git-basic-commands</loc>
+    <lastmod>2026-05-30</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://ai-site-iota-nine.vercel.app/article/git-repository-basics</loc>
+    <lastmod>2026-05-30</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://ai-site-iota-nine.vercel.app/article/git-install-setup</loc>
+    <lastmod>2026-05-30</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://ai-site-iota-nine.vercel.app/article/git-intro</loc>
+    <lastmod>2026-05-30</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
     <loc>https://ai-site-iota-nine.vercel.app/article/ai-intro</loc>

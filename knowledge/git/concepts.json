@@ -1,0 +1,29 @@
+{
+  "concepts": [
+    {
+      "id": "version-control",
+      "title": "バージョン管理",
+      "description": "ファイルの変更履歴を残し、過去の状態に戻したり差分を確認したりする仕組み"
+    },
+    {
+      "id": "distributed-vcs",
+      "title": "分散型バージョン管理",
+      "description": "各開発者がリポジトリの完全なコピーを持ち、オフラインでも履歴操作ができる方式"
+    },
+    {
+      "id": "three-trees",
+      "title": "Gitの3つの領域",
+      "description": "ワークツリー（作業場）・ステージング（選別場）・リポジトリ（記録庫）の3段階で変更を管理"
+    },
+    {
+      "id": "branching-model",
+      "title": "ブランチ戦略",
+      "description": "mainで安定版を保ちつつ、featureブランチで機能開発する一般的な流れ"
+    },
+    {
+      "id": "collaboration",
+      "title": "共同開発",
+      "description": "GitHub上でpush/pull/PRを使い、チームで安全にコードを統合する方法"
+    }
+  ]
+}

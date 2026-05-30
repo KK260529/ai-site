@@ -1,0 +1,269 @@
+{
+  "id": "art_git_git-branch-basics",
+  "slug": "git-branch-basics",
+  "title": "Gitブランチの作り方と切り替え：git branch・checkout・switchの基本",
+  "summary": "Gitブランチの概念から、git branch・git switch・git checkoutを使ったブランチの作成・切り替え・削除・マージまでを初心者向けに解説します。",
+  "body": "<h2>ブランチとは何か？木の枝で理解する</h2>\n<p>Gitの<strong>ブランチ（branch）</strong>とは、コミット履歴の「分岐」です。木の幹（本線）から枝が伸びるイメージで考えるとわかりやすいでしょう。</p>\n<p>たとえば、現在運用中の <code>app.js</code> に新機能を追加したいとします。直接 <code>main</code> ブランチで作業すると、開発途中のバグが本番環境に影響してしまう可能性があります。そこで「新機能開発用のブランチ」を作り、完成してから本線に統合するという安全な開発フローが実現できます。</p>\n<p>ブランチの特徴：</p>\n<ul>\n  <li>作成・削除が非常に軽量で速い</li>\n  <li>いくつでも作成でき、切り替えも瞬時に行える</li>\n  <li>異なるブランチ間でコードが独立しているため、互いに影響しない</li>\n  <li>作業完了後は <code>main</code> ブランチに統合（マージ）できる</li>\n</ul>\n\n<h2>デフォルトブランチ：main（またはmaster）</h2>\n<p><code>git init</code> でリポジトリを作ると、最初から1つのブランチが作成されます。これが<strong>mainブランチ</strong>です（古いGitやプロジェクトでは <code>master</code> という名前の場合があります）。</p>\n<p>現在いるブランチは <code>git status</code> の1行目や、<code>git branch</code> コマンドで確認できます。</p>\n<pre><code># 現在のブランチを確認（* が現在のブランチ）\ngit branch\n\n# 出力例\n* main</code></pre>\n\n<h2>git branch：ブランチの作成・確認・削除</h2>\n<p><code>git branch</code> コマンドは、ブランチの一覧表示・作成・削除に使います。</p>\n\n<h3>ブランチの一覧表示</h3>\n<pre><code># ローカルブランチの一覧\ngit branch\n\n# リモートブランチも含む一覧\ngit branch -a\n\n# 出力例\n* main\n  feature/login\n  bugfix/null-check</code></pre>\n\n<h3>新しいブランチを作成する</h3>\n<pre><code># feature/new-toppage という名前のブランチを作成\ngit branch feature/new-toppage</code></pre>\n<p>ブランチ名の命名規則は自由ですが、チームでよく使われる慣習があります。</p>\n<ul>\n  <li><code>feature/機能名</code>：新機能の開発</li>\n  <li><code>bugfix/バグ内容</code>：バグ修正</li>\n  <li><code>hotfix/内容</code>：緊急の本番修正</li>\n  <li><code>release/バージョン番号</code>：リリース準備</li>\n</ul>\n\n<h3>ブランチの削除</h3>\n<pre><code># マージ済みのブランチを削除\ngit branch -d feature/new-toppage\n\n# 強制削除（マージしていなくても削除）\ngit branch -D feature/new-toppage</code></pre>\n<p><strong>注意</strong>：現在いるブランチ（HEAD）は削除できません。別のブランチに切り替えてから削除してください。</p>\n\n<h2>git switch：ブランチを切り替える（推奨）</h2>\n<p>ブランチを切り替えるコマンドには <code>git switch</code> と <code>git checkout</code> の2つがあります。<code>git switch</code> はGit 2.23（2019年リリース）で追加された新しいコマンドで、ブランチの切り替えに特化しており、こちらを使うことが推奨されています。</p>\n\n<h3>基本的な切り替え</h3>\n<pre><code># feature/new-toppage ブランチに切り替え\ngit switch feature/new-toppage\n\n# 出力例\nSwitched to branch 'feature/new-toppage'</code></pre>\n\n<h3>作成と切り替えを同時に行う</h3>\n<pre><code># ブランチを作成して即座に切り替え（-cオプション）\ngit switch -c feature/user-registration</code></pre>\n<p>これは以下の2コマンドをまとめたものです。</p>\n<pre><code>git branch feature/user-registration\ngit switch feature/user-registration</code></pre>\n\n<h3>直前のブランチに戻る</h3>\n<pre><code># 直前にいたブランチに戻る\ngit switch -</code></pre>\n<p><code>-</code>（ハイフン）は「直前のブランチ」を意味します。mainとfeatureブランチを頻繁に行き来するときに便利です。</p>\n\n<h2>git checkout：従来の切り替えコマンド（参考）</h2>\n<p><code>git checkout</code> は古くからあるコマンドで、ブランチ切り替え以外にもファイルの復元などの機能を持つ多機能コマンドです。古いドキュメントや解説記事では <code>git checkout</code> が使われていることが多いので、覚えておきましょう。</p>\n<pre><code># ブランチの切り替え（git switchと同じ）\ngit checkout feature/new-toppage\n\n# ブランチの作成と切り替え（-bオプション）\ngit checkout -b feature/user-registration</code></pre>\n<p>新しいプロジェクトでは <code>git switch</code> を使い、古い資料を読む際に <code>git checkout</code> も理解できていれば問題ありません。</p>\n\n<h2>ブランチで作業する実践フロー</h2>\n<p>実際の開発の流れを見てみましょう。ここでは「ログイン機能を開発してmainブランチにマージする」流れを例にします。</p>\n<pre><code># 1. mainブランチから新しいブランチを作成して切り替え\ngit switch main\ngit switch -c feature/login\n\n# 2. ファイルを作成・編集\necho \"function login() {}\" &gt;&gt; app.js\n\n# 3. 変更をコミット\ngit add app.js\ngit commit -m \"ログイン関数のスケルトンを追加\"\n\n# 4. さらに作業を続ける\necho \"// login validation\" &gt;&gt; app.js\ngit commit -am \"ログインのバリデーション処理を追加\"\n\n# 5. mainブランチに戻る\ngit switch main\n\n# 6. feature/loginブランチをmainにマージ\ngit merge feature/login\n\n# 7. マージ済みブランチを削除\ngit branch -d feature/login</code></pre>\n\n<h2>マージとは：ブランチを統合する</h2>\n<p><code>git merge</code> は、あるブランチの変更を現在のブランチに統合するコマンドです。</p>\n<pre><code># feature/loginをmainにマージする場合\n# まずmainブランチにいることを確認\ngit switch main\n\n# マージを実行\ngit merge feature/login</code></pre>\n\n<h3>Fast-forwardマージとは</h3>\n<p>featureブランチで作業している間にmainブランチに変更がなかった場合、Gitは単純にHEADポインタを前進させる「Fast-forwardマージ」を行います。この場合、マージコミットは作られません。</p>\n\n<h3>マージコンフリクト（衝突）が起きたら</h3>\n<p>複数のブランチで同じファイルの同じ行を変更した場合、マージ時に<strong>コンフリクト（衝突）</strong>が発生します。Gitは自動解決できないため、開発者が手動で解決する必要があります。</p>\n<pre><code># コンフリクト発生時の出力例\nAuto-merging app.js\nCONFLICT (content): Merge conflict in app.js\nAutomatic merge failed; fix conflicts and then commit the result.</code></pre>\n<p>コンフリクトが発生したファイルを開くと、次のようなマーカーが挿入されています。</p>\n<pre><code>&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD\nfunction login() { return true; }\n=======\nfunction login() { return false; }\n&gt;&gt;&gt;&gt;&gt;&gt;&gt; feature/login</code></pre>\n<p><code>&lt;&lt;&lt;&lt;&lt;&lt;&lt;</code> から <code>=======</code> が現在のブランチの内容、<code>=======</code> から <code>&gt;&gt;&gt;&gt;&gt;&gt;&gt;</code> がマージしようとしているブランチの内容です。どちらを採用するか、または組み合わせるかを決めて、マーカーを手動で削除してからコミットします。</p>\n<pre><code># コンフリクト解消後\ngit add app.js\ngit commit -m \"Merge feature/login into main\"</code></pre>\n\n<h2>ブランチの状態を視覚的に確認する</h2>\n<p>ブランチの分岐・マージをグラフで確認すると全体像が把握しやすくなります。</p>\n<pre><code># グラフ付きでログを表示\ngit log --oneline --graph --all</code></pre>\n<p>出力例：</p>\n<pre><code>*   d4e7a8b (HEAD -> main) Merge feature/login into main\n|  \n| * c3f1d25 (feature/login) ログインバリデーションを追加\n| * a2b9e14 ログイン関数のスケルトンを追加\n|/  \n* 7f3c0d1 initial commit</code></pre>\n<p>このグラフでブランチの分岐とマージの流れが視覚的にわかります。</p>",
+  "conclusion": "ブランチはGitの最も強力な機能の一つで、本線に影響を与えずに独立した作業空間を持てる仕組みです。git branch -c（または switch -c）でブランチを作成し、git switchで切り替え、完成したらgit mergeでmainに統合するのが基本フローです。ブランチは軽量なので、こまめに作ることを恐れず、機能ごとや修正ごとにブランチを切る習慣をつけましょう。コンフリクトは複数人開発では避けられませんが、マーカーの読み方を覚えれば落ち着いて対応できます。このブランチ機能こそが、Gitでの安全で効率的なチーム開発を支える基盤です。",
+  "tags": [
+    "Git",
+    "ブランチ",
+    "git branch",
+    "git switch",
+    "git checkout",
+    "git merge"
+  ],
+  "category": "Git",
+  "theme": "git - Git & GitHub 入門",
+  "status": "published",
+  "createdAt": "2026-05-30T03:49:58.266Z",
+  "updatedAt": "2026-05-30T03:49:58.273Z",
+  "publishedAt": "2026-05-30T03:49:58.266Z",
+  "metaTitle": "Gitブランチの作り方と切り替え方【git branch・switch入門】初心者解説 | StackShelf",
+  "metaDescription": "Gitブランチの仕組みからgit branch・git switch・git checkoutコマンドの使い方まで実例付きで解説。ブランチの作成・切り替え・マージを初心者向けに丁寧に説明します。 図解・具体例つきで丁寧に解説します。",
+  "ogTitle": "Gitブランチ入門：作成・切り替え・マージ",
+  "ogDescription": "【Git初心者向け】【Git初心者向け】git branchとgit switchでブランチを自在に扱う方法を実例コマンドで解説。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
+  "knowledge": {
+    "topic": "git",
+    "courseId": "git",
+    "episode": 5
+  },
+  "faq": [
+    {
+      "question": "git switchとgit checkoutどちらを使えばいいですか？",
+      "answer": "新しいプロジェクトやGit 2.23以降の環境ではgit switchの使用が推奨されます。git switchはブランチ操作に特化しており、意図が明確です。ただし、古いバージョンのGitや既存の解説記事ではgit checkoutが使われることが多いため、両方の書き方を理解しておくと良いでしょう。"
+    },
+    {
+      "question": "ブランチはいくつ作っても大丈夫ですか？",
+      "answer": "はい、ブランチの作成は非常に軽量でディスクへの負荷もほぼありません。ただし、マージ・削除されずに放置されたブランチが増えると管理が煩雑になります。マージが完了したブランチはgit branch -dで削除する習慣をつけましょう。"
+    },
+    {
+      "question": "コンフリクトが怖いのですが、回避する方法はありますか？",
+      "answer": "コンフリクトは複数人が同じ箇所を変更したときに発生します。回避するには、作業範囲を明確に分担する、こまめにmainからgit pull（最新のmainを取り込む）して作業ブランチを最新に保つ、一つのブランチの作業期間を短くする、などが効果的です。ただし完全に避けることは難しいので、解決手順を覚えておく方が重要です。"
+    },
+    {
+      "question": "マージとリベースの違いは何ですか？",
+      "answer": "どちらもブランチを統合する方法ですが、履歴の見せ方が異なります。マージは分岐と統合の履歴をそのまま残します。リベースはfeatureブランチのコミットをmainの先頭に移植し、直線的な履歴を作ります。初心者のうちはマージを使い、慣れてからリベースを学ぶことをおすすめします。"
+    }
+  ],
+  "nextEpisodeHint": "次回は、GitHubとの連携（git push・git pull）を学びます。ローカルの変更をリモートリポジトリに送り、チームと共有する方法をマスターしましょう。",
+  "ogImage": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+  "canonical": "https://ai-site-iota-nine.vercel.app/article/git-branch-basics",
+  "jsonLd": {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@context": "https://schema.org",
+        "@type": "TechArticle",
+        "headline": "Gitブランチの作り方と切り替え：git branch・checkout・switchの基本",
+        "description": "Gitブランチの仕組みからgit branch・git switch・git checkoutコマンドの使い方まで実例付きで解説。ブランチの作成・切り替え・マージを初心者向けに丁寧に説明します。 図解・具体例つきで丁寧に解説します。",
+        "datePublished": "2026-05-30T03:49:58.266Z",
+        "dateModified": "2026-05-30T03:49:58.273Z",
+        "author": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
+        },
+        "image": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+        "inLanguage": "ja",
+        "wordCount": 3384,
+        "mainEntityOfPage": {
+          "@type": "WebPage",
+          "@id": "https://ai-site-iota-nine.vercel.app/article/git-branch-basics"
+        },
+        "keywords": "Git, ブランチ, git branch, git switch, git checkout, git merge",
+        "articleSection": "Git",
+        "url": "https://ai-site-iota-nine.vercel.app/article/git-branch-basics",
+        "learningResourceType": "tutorial",
+        "educationalLevel": "beginner"
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "ホーム",
+            "item": "https://ai-site-iota-nine.vercel.app/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "git",
+            "item": "https://ai-site-iota-nine.vercel.app/knowledge/git"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "Git & GitHub 入門",
+            "item": "https://ai-site-iota-nine.vercel.app/course/git/git"
+          },
+          {
+            "@type": "ListItem",
+            "position": 4,
+            "name": "Gitブランチの作り方と切り替え：git branch・checkout・switchの基本",
+            "item": "https://ai-site-iota-nine.vercel.app/article/git-branch-basics"
+          }
+        ]
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "Course",
+        "name": "Git & GitHub 入門",
+        "description": "Gitの基本操作からGitHubでの共同開発まで、現場で使える10ステップで学ぶ初心者向け講座。プログラミング学習・転職・チーム開発に必須のスキルを、具体例とコマンド付きで丁寧に解説します。",
+        "provider": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app"
+        },
+        "url": "https://ai-site-iota-nine.vercel.app/course/git/git",
+        "inLanguage": "ja",
+        "educationalLevel": "beginner",
+        "hasCourseInstance": {
+          "@type": "CourseInstance",
+          "courseMode": "online",
+          "courseWorkload": "PT1H"
+        }
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "git switchとgit checkoutどちらを使えばいいですか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "新しいプロジェクトやGit 2.23以降の環境ではgit switchの使用が推奨されます。git switchはブランチ操作に特化しており、意図が明確です。ただし、古いバージョンのGitや既存の解説記事ではgit checkoutが使われることが多いため、両方の書き方を理解しておくと良いでしょう。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "ブランチはいくつ作っても大丈夫ですか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "はい、ブランチの作成は非常に軽量でディスクへの負荷もほぼありません。ただし、マージ・削除されずに放置されたブランチが増えると管理が煩雑になります。マージが完了したブランチはgit branch -dで削除する習慣をつけましょう。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "コンフリクトが怖いのですが、回避する方法はありますか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "コンフリクトは複数人が同じ箇所を変更したときに発生します。回避するには、作業範囲を明確に分担する、こまめにmainからgit pull（最新のmainを取り込む）して作業ブランチを最新に保つ、一つのブランチの作業期間を短くする、などが効果的です。ただし完全に避けることは難しいので、解決手順を覚えておく方が重要です。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "マージとリベースの違いは何ですか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "どちらもブランチを統合する方法ですが、履歴の見せ方が異なります。マージは分岐と統合の履歴をそのまま残します。リベースはfeatureブランチのコミットをmainの先頭に移植し、直線的な履歴を作ります。初心者のうちはマージを使い、慣れてからリベースを学ぶことをおすすめします。"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "breadcrumb": {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "ホーム",
+        "item": "https://ai-site-iota-nine.vercel.app/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "git",
+        "item": "https://ai-site-iota-nine.vercel.app/knowledge/git"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "Git & GitHub 入門",
+        "item": "https://ai-site-iota-nine.vercel.app/course/git/git"
+      },
+      {
+        "@type": "ListItem",
+        "position": 4,
+        "name": "Gitブランチの作り方と切り替え：git branch・checkout・switchの基本",
+        "item": "https://ai-site-iota-nine.vercel.app/article/git-branch-basics"
+      }
+    ]
+  },
+  "courseSchema": {
+    "@context": "https://schema.org",
+    "@type": "Course",
+    "name": "Git & GitHub 入門",
+    "description": "Gitの基本操作からGitHubでの共同開発まで、現場で使える10ステップで学ぶ初心者向け講座。プログラミング学習・転職・チーム開発に必須のスキルを、具体例とコマンド付きで丁寧に解説します。",
+    "provider": {
+      "@type": "Organization",
+      "name": "StackShelf",
+      "url": "https://ai-site-iota-nine.vercel.app"
+    },
+    "url": "https://ai-site-iota-nine.vercel.app/course/git/git",
+    "inLanguage": "ja",
+    "educationalLevel": "beginner",
+    "hasCourseInstance": {
+      "@type": "CourseInstance",
+      "courseMode": "online",
+      "courseWorkload": "PT1H"
+    }
+  },
+  "faqSchema": {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "git switchとgit checkoutどちらを使えばいいですか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "新しいプロジェクトやGit 2.23以降の環境ではgit switchの使用が推奨されます。git switchはブランチ操作に特化しており、意図が明確です。ただし、古いバージョンのGitや既存の解説記事ではgit checkoutが使われることが多いため、両方の書き方を理解しておくと良いでしょう。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "ブランチはいくつ作っても大丈夫ですか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "はい、ブランチの作成は非常に軽量でディスクへの負荷もほぼありません。ただし、マージ・削除されずに放置されたブランチが増えると管理が煩雑になります。マージが完了したブランチはgit branch -dで削除する習慣をつけましょう。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "コンフリクトが怖いのですが、回避する方法はありますか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "コンフリクトは複数人が同じ箇所を変更したときに発生します。回避するには、作業範囲を明確に分担する、こまめにmainからgit pull（最新のmainを取り込む）して作業ブランチを最新に保つ、一つのブランチの作業期間を短くする、などが効果的です。ただし完全に避けることは難しいので、解決手順を覚えておく方が重要です。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "マージとリベースの違いは何ですか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "どちらもブランチを統合する方法ですが、履歴の見せ方が異なります。マージは分岐と統合の履歴をそのまま残します。リベースはfeatureブランチのコミットをmainの先頭に移植し、直線的な履歴を作ります。初心者のうちはマージを使い、慣れてからリベースを学ぶことをおすすめします。"
+        }
+      }
+    ]
+  }
+}

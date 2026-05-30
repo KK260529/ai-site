@@ -1,0 +1,13 @@
+{
+  "slug": "github-basics",
+  "courseId": "git",
+  "episode": 8,
+  "summaryMemory": [
+    "GitHub はリポジトリのホスティング・PR・Issues・Actions が一体化した開発プラットフォーム",
+    "SSH キーを登録すると毎回認証なしでリポジトリへアクセスできる",
+    ".gitignore で node_modules・.env など不要なファイルを Git 管理対象外にする",
+    "README.md にプロジェクトの概要・インストール手順・使い方を書くとプロらしいリポジトリになる"
+  ],
+  "nextEpisodeHint": "次のエピソードでは、チームで協力して開発するために欠かせない Pull Request の作成・レビュー・マージの流れを学びます。",
+  "updatedAt": "2026-05-30T03:49:59.391Z"
+}

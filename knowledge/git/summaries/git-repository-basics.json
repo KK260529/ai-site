@@ -1,0 +1,13 @@
+{
+  "slug": "git-repository-basics",
+  "courseId": "git",
+  "episode": 3,
+  "summaryMemory": [
+    "git initで現在フォルダをGitリポジトリに初期化し.gitフォルダが作成される",
+    "git cloneで既存のリモートリポジトリをローカルにコピーできる",
+    "cloneしたリポジトリは自動的にoriginという名前でリモートが登録される",
+    "git statusとgit remote -vで現在の状態を確認する習慣が大切"
+  ],
+  "nextEpisodeHint": "次回は、Gitの日常的な作業の核心となるadd・commit・status・logの基本操作を学びます。ファイルの変更を記録するまでの一連の流れをマスターしましょう。",
+  "updatedAt": "2026-05-30T03:49:57.835Z"
+}

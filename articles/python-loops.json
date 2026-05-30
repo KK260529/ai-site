@@ -17,7 +17,7 @@
   "theme": "python - Python 入門",
   "status": "published",
   "createdAt": "2026-05-30T04:12:55.931Z",
-  "updatedAt": "2026-05-30T04:12:55.941Z",
+  "updatedAt": "2026-05-30T05:00:56.021Z",
   "publishedAt": "2026-05-30T04:12:55.931Z",
   "metaTitle": "Python for while ループ入門 | Python入門",
   "metaDescription": "Python入門：for文・while文のループ処理を初心者向けにわかりやすく解説。range()・break・continue・enumerate()・zip()まで豊富なコード例付きで説明します。 図解・具体例つきで丁寧に解説します。",
@@ -40,6 +40,14 @@
     {
       "question": "リスト内包表記は常に使った方がいいですか？",
       "answer": "短くシンプルな場合は読みやすくなりますが、複雑な処理を詰め込むと逆に読みにくくなります。「1行で読んですぐ理解できる」ものだけリスト内包表記を使い、複雑な場合は通常のfor文を使うのがベストプラクティスです。"
+    },
+    {
+      "question": "プログラミング未経験でもPythonは学べますか？",
+      "answer": "はい。Pythonは文法が比較的シンプルで、エラーメッセージも読みやすい言語です。小さなプログラムから手を動かしながら進めましょう。"
+    },
+    {
+      "question": "エラーが出たときの対処法は？",
+      "answer": "エラーメッセージの最終行（例外名と説明）を読み、該当行のコードを確認してください。print() で変数の中身を表示するのも有効です。"
     }
   ],
   "nextEpisodeHint": "次回は関数（def）を学びます。処理をまとめて名前をつけ、何度でも呼び出せる関数の定義方法と、引数・戻り値・デフォルト引数・キーワード引数の使い方を解説します。",
@@ -54,7 +62,7 @@
         "headline": "for/while ループ",
         "description": "Python入門：for文・while文のループ処理を初心者向けにわかりやすく解説。range()・break・continue・enumerate()・zip()まで豊富なコード例付きで説明します。 図解・具体例つきで丁寧に解説します。",
         "datePublished": "2026-05-30T04:12:55.931Z",
-        "dateModified": "2026-05-30T04:12:55.941Z",
+        "dateModified": "2026-05-30T05:00:56.021Z",
         "author": {
           "@type": "Organization",
           "name": "StackShelf",
@@ -162,6 +170,22 @@
               "@type": "Answer",
               "text": "短くシンプルな場合は読みやすくなりますが、複雑な処理を詰め込むと逆に読みにくくなります。「1行で読んですぐ理解できる」ものだけリスト内包表記を使い、複雑な場合は通常のfor文を使うのがベストプラクティスです。"
             }
+          },
+          {
+            "@type": "Question",
+            "name": "プログラミング未経験でもPythonは学べますか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "はい。Pythonは文法が比較的シンプルで、エラーメッセージも読みやすい言語です。小さなプログラムから手を動かしながら進めましょう。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "エラーが出たときの対処法は？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "エラーメッセージの最終行（例外名と説明）を読み、該当行のコードを確認してください。print() で変数の中身を表示するのも有効です。"
+            }
           }
         ]
       }
@@ -243,7 +267,51 @@
           "@type": "Answer",
           "text": "短くシンプルな場合は読みやすくなりますが、複雑な処理を詰め込むと逆に読みにくくなります。「1行で読んですぐ理解できる」ものだけリスト内包表記を使い、複雑な場合は通常のfor文を使うのがベストプラクティスです。"
         }
+      },
+      {
+        "@type": "Question",
+        "name": "プログラミング未経験でもPythonは学べますか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "はい。Pythonは文法が比較的シンプルで、エラーメッセージも読みやすい言語です。小さなプログラムから手を動かしながら進めましょう。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "エラーが出たときの対処法は？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "エラーメッセージの最終行（例外名と説明）を読み、該当行のコードを確認してください。print() で変数の中身を表示するのも有効です。"
+        }
       }
     ]
-  }
+  },
+  "internalLinkCandidates": [
+    {
+      "slug": "python-classes",
+      "title": "クラスの基礎（class, __init__, メソッド）",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "python-exceptions",
+      "title": "例外処理（try/except）",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "python-modules",
+      "title": "モジュールとパッケージ（import, pip install）",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "python-file-io",
+      "title": "ファイルの読み書き（open, read, write）",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "python-list-dict",
+      "title": "リストと辞書",
+      "reason": "同じ講座の関連回です"
+    }
+  ],
+  "nextAction": "次は関数（def）を学びます。処理をまとめて名前をつけ、何度でも呼び出せる関数の定義方法と、引数・戻り値・デフォルト引数・キーワード引数の使い方を解説します。"
 }

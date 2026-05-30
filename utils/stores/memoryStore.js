@@ -26,6 +26,14 @@ function getWritingRules() {
   return readJson(path.join(ROOT, "writing", "rules.json"), DEFAULTS.writing);
 }
 
+function getWritingPrinciples() {
+  return readJson(path.join(ROOT, "writing", "principles.json"), {
+    disclaimer:
+      "以下は記事制作の原則です。ただしあくまで原則であり、記事の内容の正確さ・自然さ・読みやすさを最優先してください。",
+    items: [],
+  });
+}
+
 function initDefaults() {
   if (!canWriteToDisk()) return;
   ensureDir(path.join(ROOT, "site"));
@@ -41,4 +49,4 @@ function initDefaults() {
 
 initDefaults();
 
-module.exports = { getSiteRules, getWritingRules, DEFAULTS };
+module.exports = { getSiteRules, getWritingRules, getWritingPrinciples, DEFAULTS };

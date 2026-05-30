@@ -13,7 +13,7 @@
   "theme": "java - Java",
   "status": "published",
   "createdAt": "2026-05-29T14:36:45.100Z",
-  "updatedAt": "2026-05-29T14:36:45.100Z",
+  "updatedAt": "2026-05-30T05:00:58.028Z",
   "publishedAt": "2026-05-29T14:36:45.100Z",
   "metaTitle": "JavaのStream API｜プログラミング入門 | StackShelf",
   "metaDescription": "【プログラミング初心者向け】Stream API でコレクションを filter、map、collect する方法を学びます。ループより宣言的にデータ処理を書く考え方を身につけます。 図解・具体例つきで丁寧に解説します。",
@@ -32,6 +32,18 @@
     {
       "question": "parallelStream とは？",
       "answer": "並列処理版の Stream です。小さなデータでは逆に遅くなることもあります。"
+    },
+    {
+      "question": "つまずいたときはどうすればいいですか？",
+      "answer": "エラーメッセージをそのまま検索し、公式ドキュメントを当たってください。小さなステップに分けて再現・確認すると原因を特定しやすくなります。"
+    },
+    {
+      "question": "どのくらいのペースで学べばいいですか？",
+      "answer": "1日30分〜1時間、週に3〜4回のペースが続けやすい目安です。読むだけでなく、必ず手を動かして確認しましょう。"
+    },
+    {
+      "question": "この記事の内容を忘れないコツは？",
+      "answer": "学んだ直後にメモを残し、翌日にもう一度短時間復習してください。実際のプロジェクトや練習問題に当てはめると記憶に定着しやすくなります。"
     }
   ],
   "nextEpisodeHint": "次回はラムダ式の構文と書き方を詳しく学びます。",
@@ -45,7 +57,7 @@
         "headline": "JavaのStream API",
         "description": "【プログラミング初心者向け】Stream API でコレクションを filter、map、collect する方法を学びます。ループより宣言的にデータ処理を書く考え方を身につけます。 図解・具体例つきで丁寧に解説します。",
         "datePublished": "2026-05-29T14:36:45.100Z",
-        "dateModified": "2026-05-29T14:36:45.100Z",
+        "dateModified": "2026-05-30T05:00:58.028Z",
         "author": {
           "@type": "Organization",
           "name": "StackShelf",
@@ -145,6 +157,30 @@
               "@type": "Answer",
               "text": "並列処理版の Stream です。小さなデータでは逆に遅くなることもあります。"
             }
+          },
+          {
+            "@type": "Question",
+            "name": "つまずいたときはどうすればいいですか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "エラーメッセージをそのまま検索し、公式ドキュメントを当たってください。小さなステップに分けて再現・確認すると原因を特定しやすくなります。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "どのくらいのペースで学べばいいですか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "1日30分〜1時間、週に3〜4回のペースが続けやすい目安です。読むだけでなく、必ず手を動かして確認しましょう。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "この記事の内容を忘れないコツは？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "学んだ直後にメモを残し、翌日にもう一度短時間復習してください。実際のプロジェクトや練習問題に当てはめると記憶に定着しやすくなります。"
+            }
           }
         ]
       }
@@ -218,8 +254,60 @@
           "@type": "Answer",
           "text": "並列処理版の Stream です。小さなデータでは逆に遅くなることもあります。"
         }
+      },
+      {
+        "@type": "Question",
+        "name": "つまずいたときはどうすればいいですか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "エラーメッセージをそのまま検索し、公式ドキュメントを当たってください。小さなステップに分けて再現・確認すると原因を特定しやすくなります。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "どのくらいのペースで学べばいいですか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "1日30分〜1時間、週に3〜4回のペースが続けやすい目安です。読むだけでなく、必ず手を動かして確認しましょう。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "この記事の内容を忘れないコツは？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "学んだ直後にメモを残し、翌日にもう一度短時間復習してください。実際のプロジェクトや練習問題に当てはめると記憶に定着しやすくなります。"
+        }
       }
     ]
   },
+  "internalLinkCandidates": [
+    {
+      "slug": "java-functional-programming",
+      "title": "Javaの関数型プログラミング",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "java-lambda-expression",
+      "title": "Javaのラムダ式",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "java-project-development",
+      "title": "Javaのプロジェクト開発",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "java-collection-framework",
+      "title": "Javaのコレクションフレームワーク",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "java-thread-programming",
+      "title": "Javaのスレッドプログラミング",
+      "reason": "同じ講座の関連回です"
+    }
+  ],
+  "nextAction": "次はラムダ式の構文と書き方を詳しく学びます。",
   "ogImage": "https://ai-site-iota-nine.vercel.app/og-default.svg"
 }

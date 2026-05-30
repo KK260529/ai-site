@@ -4,6 +4,7 @@ const {
   buildLengthSection,
   buildEpisodeLengthReminder,
 } = require("./articleLength");
+const { buildPrinciplesSection } = require("./writingPrinciples");
 
 function buildEpisodeSystemPrompt(length) {
   return `あなたは「個人用AI知識出版社」の編集者兼ライターです。
@@ -14,13 +15,16 @@ ${buildLengthSection(length)}
 - 短い記事・箇条書きだけの記事は不可
 
 ## 構成（この順で書く）
-1. 導入（この回で何ができるようになるか、前回との関係）
-2. なぜ学ぶのか（背景・メリット）
-3. 核心概念の説明（比喩・図解的な言い換えを入れる）
-4. 手順・具体例（コマンドや操作があれば <pre><code> で）
-5. よくあるつまずき・誤解
-6. 確認方法・次にやること
-7. 次回エピソードへの橋渡し
+1. **結論ファースト**：冒頭のh2で「この記事を読むと何が分かるか／何ができるか」を先に述べる
+2. 導入（この回で何ができるようになるか、前回との関係）
+3. なぜ学ぶのか（背景・メリット・利用シーン）
+4. 核心概念の説明（比喩・なぜそうなるのか）
+5. 手順・具体例（コマンドや操作があれば <pre><code> で必ず入れる）
+6. よくあるつまずき・失敗例・誤解（一般論だけにしない）
+7. 確認方法
+8. 次回エピソードへの橋渡し
+
+${buildPrinciplesSection()}
 
 ## わかりやすさ
 - 専門用語の直後に平易な説明を添える
@@ -52,7 +56,9 @@ ${buildLengthSection(length)}
   "ogDescription": "SNS向け説明（100字前後、要点を端的に）",
   "summaryMemory": ["要点1", "要点2", "要点3", "要点4"],
   "nextEpisodeHint": "次回予告（1〜2文）",
-  "faq": [{"question":"...", "answer":"..."}, {"question":"...", "answer":"..."}]
+  "nextAction": "読者が今すぐ取るべき具体的な次の一歩（1〜3文）",
+  "faq": [{"question":"...", "answer":"..."}, ... 5件以上],
+  "internalLinkCandidates": [{"slug":"english-slug", "title":"記事タイトル", "reason":"なぜ関連するか（1文）"}, ... 5件以上]
 }`;
 }
 
@@ -126,7 +132,9 @@ ${ctx.angle ? `【切り口】\n${ctx.angle}` : ""}
 ${buildEpisodeLengthReminder(length)} 初心者が読んで迷わないよう、理由と手順を丁寧に書いてください。
 
 上記を踏まえ、エピソード「${ctx.episode?.title || ctx.episode?.slug}」の記事をJSONで生成してください。
-slugは "${ctx.episode?.slug}" を使用してください。faq は2件以上含めてください。`;
+slugは "${ctx.episode?.slug}" を使用してください。
+faq は5件以上、internalLinkCandidates は同一サイト内の関連記事を5件以上含めてください（slugは英語kebab-case）。
+nextAction には読者が次に取るべき具体的な行動を書いてください。`;
 }
 
 module.exports = {

@@ -187,6 +187,30 @@ function buildRelatedHtml(article) {
   </section>`;
 }
 
+function buildNextActionHtml(nextAction) {
+  if (!nextAction) return "";
+  return `<section class="article-page__next">
+    <h2>次にやること</h2>
+    <p>${escapeHtml(nextAction)}</p>
+  </section>`;
+}
+
+function buildInternalLinkSuggestionsHtml(candidates) {
+  const items = (candidates || []).filter((c) => c?.slug && c?.title).slice(0, 8);
+  if (!items.length) return "";
+  return `<section class="internal-suggestions">
+    <h2>あわせて読みたい</h2>
+    <ul class="internal-suggestions__list">${items
+      .map(
+        (c) =>
+          `<li><a href="/article/${escapeHtml(c.slug)}">${escapeHtml(c.title)}</a>${
+            c.reason ? `<span class="internal-suggestions__reason">${escapeHtml(c.reason)}</span>` : ""
+          }</li>`
+      )
+      .join("")}</ul>
+  </section>`;
+}
+
 function renderHome(articles, courses = [], { tag } = {}) {
   const content = loadTemplate("home.html");
   const cards = articles.map((a) => buildArticleCardHtml(a)).join("");
@@ -568,6 +592,8 @@ function renderArticle(article, seriesNav = null) {
     seriesNav: buildSeriesNavHtml(seriesNav),
     relatedArticles: buildRelatedHtml(article),
     shareBar: buildShareHtml(article, liveSeo.canonical),
+    nextAction: buildNextActionHtml(article.nextAction),
+    internalLinkSuggestions: buildInternalLinkSuggestionsHtml(article.internalLinkCandidates),
     faq: faqHtml,
     adTop: getAdSlot("top"),
     adAfterSummary: getAdSlot("inline"),

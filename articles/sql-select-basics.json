@@ -16,12 +16,12 @@
   "theme": "sql - SQL・データベース入門",
   "status": "published",
   "createdAt": "2026-05-30T04:13:09.145Z",
-  "updatedAt": "2026-05-30T04:13:09.149Z",
+  "updatedAt": "2026-05-30T05:00:54.372Z",
   "publishedAt": "2026-05-30T04:13:09.145Z",
   "metaTitle": "SELECT基本｜SQLでデータを取得するsql 使い方【sql 初心者向け】",
   "metaDescription": "SELECT文の基本構文をsql 初心者向けに徹底解説。全件取得・カラム指定・DISTINCT・LIMIT・AS別名など実践的なsql 使い方を豊富なSQLiteサンプルで学べます。 図解・具体例つきで丁寧に解説します。",
   "ogTitle": "SELECT基本｜SQLデータ取得の完全入門",
-  "ogDescription": "【SQL初心者向け】【SQL初心者向け】SELECT文の基本構文をゼロから解説。SQLiteサンプルで実際に動かしながら学べます。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
+  "ogDescription": "【SQL初心者向け】SELECT文の基本構文をゼロから解説。SQLiteサンプルで実際に動かしながら学べます。 図解・具体例つきで丁寧に解説します。",
   "knowledge": {
     "topic": "sql",
     "courseId": "sql",
@@ -43,6 +43,10 @@
     {
       "question": "SQLのコメントはどう書きますか？",
       "answer": "SQLのコメントは2通りあります。1行コメントは -- （ハイフン2つ）の後に続けて書き、その行の末尾までコメントになります。複数行コメントは /* と */ で囲みます。コメントはSQLの実行に影響せず、コードの説明に使います。学習中は自分のメモとして積極的に使いましょう。"
+    },
+    {
+      "question": "SQLはどんな場面で使いますか？",
+      "answer": "Webアプリのユーザー情報保存、売上分析、ログ集計など、データを保存・検索・集計したい場面で使います。Excelの大量データ版と考えるとイメージしやすいです。"
     }
   ],
   "nextEpisodeHint": "次回はWHERE句を使って、条件に合うレコードだけを絞り込む方法を学びます。AND/OR/NOT・LIKE・BETWEEN・INなど、データ絞り込みの重要テクニックを習得しましょう。",
@@ -57,7 +61,7 @@
         "headline": "SELECT基本｜SQLでデータを取得するsql 使い方入門",
         "description": "SELECT文の基本構文をsql 初心者向けに徹底解説。全件取得・カラム指定・DISTINCT・LIMIT・AS別名など実践的なsql 使い方を豊富なSQLiteサンプルで学べます。 図解・具体例つきで丁寧に解説します。",
         "datePublished": "2026-05-30T04:13:09.145Z",
-        "dateModified": "2026-05-30T04:13:09.149Z",
+        "dateModified": "2026-05-30T05:00:54.372Z",
         "author": {
           "@type": "Organization",
           "name": "StackShelf",
@@ -173,6 +177,14 @@
               "@type": "Answer",
               "text": "SQLのコメントは2通りあります。1行コメントは -- （ハイフン2つ）の後に続けて書き、その行の末尾までコメントになります。複数行コメントは /* と */ で囲みます。コメントはSQLの実行に影響せず、コードの説明に使います。学習中は自分のメモとして積極的に使いましょう。"
             }
+          },
+          {
+            "@type": "Question",
+            "name": "SQLはどんな場面で使いますか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Webアプリのユーザー情報保存、売上分析、ログ集計など、データを保存・検索・集計したい場面で使います。Excelの大量データ版と考えるとイメージしやすいです。"
+            }
           }
         ]
       }
@@ -262,7 +274,43 @@
           "@type": "Answer",
           "text": "SQLのコメントは2通りあります。1行コメントは -- （ハイフン2つ）の後に続けて書き、その行の末尾までコメントになります。複数行コメントは /* と */ で囲みます。コメントはSQLの実行に影響せず、コードの説明に使います。学習中は自分のメモとして積極的に使いましょう。"
         }
+      },
+      {
+        "@type": "Question",
+        "name": "SQLはどんな場面で使いますか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Webアプリのユーザー情報保存、売上分析、ログ集計など、データを保存・検索・集計したい場面で使います。Excelの大量データ版と考えるとイメージしやすいです。"
+        }
       }
     ]
-  }
+  },
+  "internalLinkCandidates": [
+    {
+      "slug": "sql-practice-design",
+      "title": "TODOアプリDB設計実践｜SQLite設計・実装の総まとめ",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "sql-index-basics",
+      "title": "CREATE INDEX, EXPLAIN｜SQLインデックス基礎とパフォーマンス改善",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "sql-group-by",
+      "title": "GROUP BY, HAVING, ORDER BY｜SQLグループ集計完全ガイド",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "sql-aggregate",
+      "title": "COUNT/SUM/AVG/MIN/MAX｜SQL集計関数の完全ガイド",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "sql-join",
+      "title": "INNER/LEFT JOIN｜複数テーブルを結合するSQL完全ガイド",
+      "reason": "同じ講座の関連回です"
+    }
+  ],
+  "nextAction": "次はWHERE句を使って、条件に合うレコードだけを絞り込む方法を学びます。AND/OR/NOT・LIKE・BETWEEN・INなど、データ絞り込みの重要テクニックを習得しましょう。"
 }

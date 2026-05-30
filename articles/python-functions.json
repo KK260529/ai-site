@@ -17,12 +17,12 @@
   "theme": "python - Python 入門",
   "status": "published",
   "createdAt": "2026-05-30T04:12:56.602Z",
-  "updatedAt": "2026-05-30T04:12:56.611Z",
+  "updatedAt": "2026-05-30T05:00:55.930Z",
   "publishedAt": "2026-05-30T04:12:56.602Z",
   "metaTitle": "Python 関数 def 引数 return 入門 | Python入門",
   "metaDescription": "【Python初心者向け】Python入門：def文による関数の定義・引数・return文をわかりやすく解説。デフォルト引数・キーワード引数・可変長引数・スコープまで豊富なコード例で学べます。 図解・具体例つきで丁寧に解説します。",
   "ogTitle": "Python 関数 def/引数/return | Python入門",
-  "ogDescription": "【Python初心者向け】Pythonのdef文で関数を定義する方法を初心者向けに解説。引数・戻り値・デフォルト引数・スコープまで丁寧に説明します。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
+  "ogDescription": "【Python初心者向け】Pythonのdef文で関数を定義する方法を初心者向けに解説。引数・戻り値・デフォルト引数・スコープまで丁寧に説明します。 図解・具体例つきで丁寧に解説します。",
   "knowledge": {
     "topic": "python",
     "courseId": "python",
@@ -40,6 +40,14 @@
     {
       "question": "*argsと**kwargsの名前は変えられますか？",
       "answer": "はい、*や**のあとの名前は慣習的にargs・kwargsが使われますが、任意の名前にできます（*numbers、**optionsなど）。ただし慣習に従う方がコードを読んだ人が理解しやすいです。"
+    },
+    {
+      "question": "プログラミング未経験でもPythonは学べますか？",
+      "answer": "はい。Pythonは文法が比較的シンプルで、エラーメッセージも読みやすい言語です。小さなプログラムから手を動かしながら進めましょう。"
+    },
+    {
+      "question": "エラーが出たときの対処法は？",
+      "answer": "エラーメッセージの最終行（例外名と説明）を読み、該当行のコードを確認してください。print() で変数の中身を表示するのも有効です。"
     }
   ],
   "nextEpisodeHint": "次回はリストと辞書を学びます。複数のデータをまとめて管理するリスト（[]）と、キーと値のペアで管理する辞書（{}）の作成・操作・メソッドを詳しく解説します。",
@@ -54,7 +62,7 @@
         "headline": "関数の定義と使い方（def, 引数, return）",
         "description": "【Python初心者向け】Python入門：def文による関数の定義・引数・return文をわかりやすく解説。デフォルト引数・キーワード引数・可変長引数・スコープまで豊富なコード例で学べます。 図解・具体例つきで丁寧に解説します。",
         "datePublished": "2026-05-30T04:12:56.602Z",
-        "dateModified": "2026-05-30T04:12:56.611Z",
+        "dateModified": "2026-05-30T05:00:55.930Z",
         "author": {
           "@type": "Organization",
           "name": "StackShelf",
@@ -162,6 +170,22 @@
               "@type": "Answer",
               "text": "はい、*や**のあとの名前は慣習的にargs・kwargsが使われますが、任意の名前にできます（*numbers、**optionsなど）。ただし慣習に従う方がコードを読んだ人が理解しやすいです。"
             }
+          },
+          {
+            "@type": "Question",
+            "name": "プログラミング未経験でもPythonは学べますか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "はい。Pythonは文法が比較的シンプルで、エラーメッセージも読みやすい言語です。小さなプログラムから手を動かしながら進めましょう。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "エラーが出たときの対処法は？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "エラーメッセージの最終行（例外名と説明）を読み、該当行のコードを確認してください。print() で変数の中身を表示するのも有効です。"
+            }
           }
         ]
       }
@@ -243,7 +267,51 @@
           "@type": "Answer",
           "text": "はい、*や**のあとの名前は慣習的にargs・kwargsが使われますが、任意の名前にできます（*numbers、**optionsなど）。ただし慣習に従う方がコードを読んだ人が理解しやすいです。"
         }
+      },
+      {
+        "@type": "Question",
+        "name": "プログラミング未経験でもPythonは学べますか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "はい。Pythonは文法が比較的シンプルで、エラーメッセージも読みやすい言語です。小さなプログラムから手を動かしながら進めましょう。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "エラーが出たときの対処法は？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "エラーメッセージの最終行（例外名と説明）を読み、該当行のコードを確認してください。print() で変数の中身を表示するのも有効です。"
+        }
       }
     ]
-  }
+  },
+  "internalLinkCandidates": [
+    {
+      "slug": "python-classes",
+      "title": "クラスの基礎（class, __init__, メソッド）",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "python-exceptions",
+      "title": "例外処理（try/except）",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "python-modules",
+      "title": "モジュールとパッケージ（import, pip install）",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "python-file-io",
+      "title": "ファイルの読み書き（open, read, write）",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "python-list-dict",
+      "title": "リストと辞書",
+      "reason": "同じ講座の関連回です"
+    }
+  ],
+  "nextAction": "次はリストと辞書を学びます。複数のデータをまとめて管理するリスト（[]）と、キーと値のペアで管理する辞書（{}）の作成・操作・メソッドを詳しく解説します。"
 }

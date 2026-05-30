@@ -19,12 +19,12 @@
   "theme": "docker - Docker 入門",
   "status": "published",
   "createdAt": "2026-05-30T04:13:32.354Z",
-  "updatedAt": "2026-05-30T04:13:32.359Z",
+  "updatedAt": "2026-05-30T05:00:52.709Z",
   "publishedAt": "2026-05-30T04:13:32.354Z",
   "metaTitle": "Dockerfileの書き方入門：FROM RUN COPY CMD解説【docker build・docker 使い…",
   "metaDescription": "DockerfileのFROM・RUN・COPY・CMD・EXPOSEなど主要命令の使い方を初心者向けに解説。docker buildでカスタムイメージを作る手順を丁寧に説明します。docker 初心者向け。 図解・具体例つきで丁寧に解説します。",
   "ogTitle": "Dockerfileの書き方：FROM・RUN・COPY・CMDを完全解説",
-  "ogDescription": "【Docker初心者向け】DockerfileでカスタムDockerイメージをビルドする方法をゼロから解説。主要命令の意味と使い方を丁寧に説明します。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
+  "ogDescription": "【Docker初心者向け】DockerfileでカスタムDockerイメージをビルドする方法をゼロから解説。主要命令の意味と使い方を丁寧に説明します。 図解・具体例つきで丁寧に解説します。",
   "knowledge": {
     "topic": "docker",
     "courseId": "docker",
@@ -46,6 +46,10 @@
     {
       "question": "COPYとADDの違いは何ですか？",
       "answer": "COPYはシンプルなファイルコピーです。ADDはCOPYの機能に加え、URLからのダウンロードやtar.gzの自動展開ができます。ただし、ADDの余計な機能はバグの原因になりやすいため、特別な理由がない限りCOPYを使うことが推奨されています。"
+    },
+    {
+      "question": "DockerはWindows/Macでも使えますか？",
+      "answer": "Docker Desktop をインストールすれば Windows 10/11 や macOS でも利用できます。Linux ネイティブ環境が最も軽量ですが、学習目的なら Desktop で十分です。"
     }
   ],
   "nextEpisodeHint": "次回は Docker Compose を使って、複数のコンテナ（アプリ＋DB等）を一括管理する方法を学びます。docker-compose.yml の書き方とservices設定を詳しく解説します。",
@@ -60,7 +64,7 @@
         "headline": "Dockerfileの書き方完全ガイド：FROM・RUN・COPY・CMDをマスターする",
         "description": "DockerfileのFROM・RUN・COPY・CMD・EXPOSEなど主要命令の使い方を初心者向けに解説。docker buildでカスタムイメージを作る手順を丁寧に説明します。docker 初心者向け。 図解・具体例つきで丁寧に解説します。",
         "datePublished": "2026-05-30T04:13:32.354Z",
-        "dateModified": "2026-05-30T04:13:32.359Z",
+        "dateModified": "2026-05-30T05:00:52.709Z",
         "author": {
           "@type": "Organization",
           "name": "StackShelf",
@@ -176,6 +180,14 @@
               "@type": "Answer",
               "text": "COPYはシンプルなファイルコピーです。ADDはCOPYの機能に加え、URLからのダウンロードやtar.gzの自動展開ができます。ただし、ADDの余計な機能はバグの原因になりやすいため、特別な理由がない限りCOPYを使うことが推奨されています。"
             }
+          },
+          {
+            "@type": "Question",
+            "name": "DockerはWindows/Macでも使えますか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Docker Desktop をインストールすれば Windows 10/11 や macOS でも利用できます。Linux ネイティブ環境が最も軽量ですが、学習目的なら Desktop で十分です。"
+            }
           }
         ]
       }
@@ -265,7 +277,43 @@
           "@type": "Answer",
           "text": "COPYはシンプルなファイルコピーです。ADDはCOPYの機能に加え、URLからのダウンロードやtar.gzの自動展開ができます。ただし、ADDの余計な機能はバグの原因になりやすいため、特別な理由がない限りCOPYを使うことが推奨されています。"
         }
+      },
+      {
+        "@type": "Question",
+        "name": "DockerはWindows/Macでも使えますか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Docker Desktop をインストールすれば Windows 10/11 や macOS でも利用できます。Linux ネイティブ環境が最も軽量ですが、学習目的なら Desktop で十分です。"
+        }
       }
     ]
-  }
+  },
+  "internalLinkCandidates": [
+    {
+      "slug": "docker-webapp-practice",
+      "title": "Node.js・Python WebアプリをDockerコンテナ化する実践ガイド",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "docker-volumes",
+      "title": "Dockerボリューム完全ガイド：データ永続化・バインドマウント・名前付きボリューム",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "docker-compose",
+      "title": "Docker Compose入門：docker-compose.ymlでマルチコンテナを管理する",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "docker-image-container",
+      "title": "Dockerイメージとコンテナを理解する：images・ps・exec完全解説",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "docker-first-container",
+      "title": "Dockerで初めてのコンテナを動かす：hello-world・nginx実践入門",
+      "reason": "同じ講座の関連回です"
+    }
+  ],
+  "nextAction": "次は Docker Compose を使って、複数のコンテナ（アプリ＋DB等）を一括管理する方法を学びます。docker-compose.yml の書き方とservices設定を詳しく解説します。"
 }

@@ -14,7 +14,7 @@
   "theme": "java - Java",
   "status": "published",
   "createdAt": "2026-05-29T11:36:53.071Z",
-  "updatedAt": "2026-05-29T14:35:19.278Z",
+  "updatedAt": "2026-05-30T05:00:58.428Z",
   "publishedAt": "2026-05-29T11:36:53.071Z",
   "metaTitle": "Javaの基礎｜プログラミング入門 | StackShelf",
   "metaDescription": "【プログラミング初心者向け】Javaを学ぶための基礎を解説します。Javaの特徴や基本的な構造を理解しましょう。 図解・具体例つきで丁寧に解説します。",
@@ -41,6 +41,10 @@
     {
       "question": "JavaのNullポインター例外とは何か",
       "answer": "Nullポインター例外は、Nullのオブジェクトを参照しようとしたときに発生します"
+    },
+    {
+      "question": "つまずいたときはどうすればいいですか？",
+      "answer": "エラーメッセージをそのまま検索し、公式ドキュメントを当たってください。小さなステップに分けて再現・確認すると原因を特定しやすくなります。"
     }
   ],
   "nextEpisodeHint": "次回は、Javaの文法や基本的な構造についてさらに深く解説します。",
@@ -54,7 +58,7 @@
         "headline": "Javaの基礎",
         "description": "【プログラミング初心者向け】Javaを学ぶための基礎を解説します。Javaの特徴や基本的な構造を理解しましょう。 図解・具体例つきで丁寧に解説します。",
         "datePublished": "2026-05-29T11:36:53.071Z",
-        "dateModified": "2026-05-29T14:35:19.278Z",
+        "dateModified": "2026-05-30T05:00:58.428Z",
         "author": {
           "@type": "Organization",
           "name": "StackShelf",
@@ -170,6 +174,14 @@
               "@type": "Answer",
               "text": "Nullポインター例外は、Nullのオブジェクトを参照しようとしたときに発生します"
             }
+          },
+          {
+            "@type": "Question",
+            "name": "つまずいたときはどうすればいいですか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "エラーメッセージをそのまま検索し、公式ドキュメントを当たってください。小さなステップに分けて再現・確認すると原因を特定しやすくなります。"
+            }
           }
         ]
       }
@@ -259,8 +271,44 @@
           "@type": "Answer",
           "text": "Nullポインター例外は、Nullのオブジェクトを参照しようとしたときに発生します"
         }
+      },
+      {
+        "@type": "Question",
+        "name": "つまずいたときはどうすればいいですか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "エラーメッセージをそのまま検索し、公式ドキュメントを当たってください。小さなステップに分けて再現・確認すると原因を特定しやすくなります。"
+        }
       }
     ]
   },
+  "internalLinkCandidates": [
+    {
+      "slug": "java-project-development",
+      "title": "Javaのプロジェクト開発",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "java-functional-programming",
+      "title": "Javaの関数型プログラミング",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "java-lambda-expression",
+      "title": "Javaのラムダ式",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "java-stream-api",
+      "title": "JavaのStream API",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "java-collection-framework",
+      "title": "Javaのコレクションフレームワーク",
+      "reason": "同じ講座の関連回です"
+    }
+  ],
+  "nextAction": "次はJavaの文法や基本的な構造についてさらに深く解説します。",
   "ogImage": "https://ai-site-iota-nine.vercel.app/og-default.svg"
 }

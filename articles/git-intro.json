@@ -16,12 +16,12 @@
   "theme": "git - Git & GitHub 入門",
   "status": "published",
   "createdAt": "2026-05-30T03:49:57.443Z",
-  "updatedAt": "2026-05-30T03:49:57.457Z",
+  "updatedAt": "2026-05-30T05:00:57.463Z",
   "publishedAt": "2026-05-30T03:49:57.443Z",
   "metaTitle": "Gitとは？バージョン管理の基本をわかりやすく解説【初心者向け】｜Git入門 | StackShelf",
-  "metaDescription": "【Git初心者向け】Gitとは何かを初心者向けにわかりやすく解説。バージョン管理の必要性、Gitの仕組み、GitとGitHubの違いまで丁寧に説明します。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
+  "metaDescription": "【Git初心者向け】Gitとは何かを初心者向けにわかりやすく解説。バージョン管理の必要性、Gitの仕組み、GitとGitHubの違いまで丁寧に説明します。 図解・具体例つきで丁寧に解説します。",
   "ogTitle": "Gitとは？バージョン管理の完全入門",
-  "ogDescription": "【Git初心者向け】【Git初心者向け】なぜGitが必要なのか、どんな仕組みなのかをゼロからわかりやすく解説します。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
+  "ogDescription": "【Git初心者向け】なぜGitが必要なのか、どんな仕組みなのかをゼロからわかりやすく解説します。 図解・具体例つきで丁寧に解説します。",
   "knowledge": {
     "topic": "git",
     "courseId": "git",
@@ -43,6 +43,10 @@
     {
       "question": "Gitを使いこなすのにどのくらいかかりますか？",
       "answer": "基本的な操作（add、commit、push、pull、branch）は1〜2週間で習得できます。実際のプロジェクトで使いながら学ぶのが最も効率的で、3ヶ月も使えばチーム開発で困らないレベルになれます。"
+    },
+    {
+      "question": "エラーが出たときはどうすればいいですか？",
+      "answer": "まずは表示されたメッセージをそのまま読み、git status で現在の状態を確認してください。多くの場合、Git が次に打つべきコマンドのヒントを出してくれます。"
     }
   ],
   "nextEpisodeHint": "次回は、実際にGitをあなたのパソコンにインストールし、名前やメールアドレスなどの初期設定を行います。Windowsでも Mac でも同じ手順で進められるので安心してください。",
@@ -55,9 +59,9 @@
         "@context": "https://schema.org",
         "@type": "TechArticle",
         "headline": "Gitとは？バージョン管理を初めて学ぶ人のための完全入門",
-        "description": "【Git初心者向け】Gitとは何かを初心者向けにわかりやすく解説。バージョン管理の必要性、Gitの仕組み、GitとGitHubの違いまで丁寧に説明します。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
+        "description": "【Git初心者向け】Gitとは何かを初心者向けにわかりやすく解説。バージョン管理の必要性、Gitの仕組み、GitとGitHubの違いまで丁寧に説明します。 図解・具体例つきで丁寧に解説します。",
         "datePublished": "2026-05-30T03:49:57.443Z",
-        "dateModified": "2026-05-30T03:49:57.457Z",
+        "dateModified": "2026-05-30T05:00:57.463Z",
         "author": {
           "@type": "Organization",
           "name": "StackShelf",
@@ -173,6 +177,14 @@
               "@type": "Answer",
               "text": "基本的な操作（add、commit、push、pull、branch）は1〜2週間で習得できます。実際のプロジェクトで使いながら学ぶのが最も効率的で、3ヶ月も使えばチーム開発で困らないレベルになれます。"
             }
+          },
+          {
+            "@type": "Question",
+            "name": "エラーが出たときはどうすればいいですか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "まずは表示されたメッセージをそのまま読み、git status で現在の状態を確認してください。多くの場合、Git が次に打つべきコマンドのヒントを出してくれます。"
+            }
           }
         ]
       }
@@ -262,7 +274,43 @@
           "@type": "Answer",
           "text": "基本的な操作（add、commit、push、pull、branch）は1〜2週間で習得できます。実際のプロジェクトで使いながら学ぶのが最も効率的で、3ヶ月も使えばチーム開発で困らないレベルになれます。"
         }
+      },
+      {
+        "@type": "Question",
+        "name": "エラーが出たときはどうすればいいですか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "まずは表示されたメッセージをそのまま読み、git status で現在の状態を確認してください。多くの場合、Git が次に打つべきコマンドのヒントを出してくれます。"
+        }
       }
     ]
-  }
+  },
+  "internalLinkCandidates": [
+    {
+      "slug": "git-repository-basics",
+      "title": "Gitリポジトリの作成とclone：git initとgit cloneの使い方",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "git-merge-conflict",
+      "title": "マージとコンフリクトの解決",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "git-branch-basics",
+      "title": "Gitブランチの作り方と切り替え：git branch・checkout・switchの基本",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "git-basic-commands",
+      "title": "git add・commit・status・logの使い方：Gitの基本操作を完全マスター",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "git-install-setup",
+      "title": "Gitのインストールと初期設定：Windows・Mac対応の完全ガイド",
+      "reason": "同じ講座の関連回です"
+    }
+  ],
+  "nextAction": "次は実際にGitをあなたのパソコンにインストールし、名前やメールアドレスなどの初期設定を行います。Windowsでも Mac でも同じ手順で進められるので安心してください。"
 }

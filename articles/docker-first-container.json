@@ -17,12 +17,12 @@
   "theme": "docker - Docker 入門",
   "status": "published",
   "createdAt": "2026-05-30T04:13:30.603Z",
-  "updatedAt": "2026-05-30T04:13:30.615Z",
+  "updatedAt": "2026-05-30T05:00:52.833Z",
   "publishedAt": "2026-05-30T04:13:30.603Z",
   "metaTitle": "Dockerで初めてのコンテナを動かす方法【docker run入門・docker 使い方】 | StackShelf",
   "metaDescription": "【Docker初心者向け】docker run hello-worldの仕組みを解説し、nginxコンテナの起動・ポートマッピングまでを初心者向けに丁寧に説明します。docker 初心者向け実践ガイド。 図解・具体例つきで丁寧に解説します。",
   "ogTitle": "Dockerで初めてのコンテナを動かす：hello-world・nginx入門",
-  "ogDescription": "【Docker初心者向け】【Docker初心者向け】docker run hello-worldからnginxの起動まで、初めてのコンテナ操作を実践形式で解説します。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
+  "ogDescription": "【Docker初心者向け】docker run hello-worldからnginxの起動まで、初めてのコンテナ操作を実践形式で解説します。 図解・具体例つきで丁寧に解説します。",
   "knowledge": {
     "topic": "docker",
     "courseId": "docker",
@@ -44,6 +44,10 @@
     {
       "question": "docker execとdocker runの違いは何ですか？",
       "answer": "docker runは新しいコンテナを作って起動します。docker execはすでに実行中のコンテナの中で追加のコマンドを実行します。実行中のコンテナの中に入って操作したいときはdocker execを使います。"
+    },
+    {
+      "question": "DockerはWindows/Macでも使えますか？",
+      "answer": "Docker Desktop をインストールすれば Windows 10/11 や macOS でも利用できます。Linux ネイティブ環境が最も軽量ですが、学習目的なら Desktop で十分です。"
     }
   ],
   "nextEpisodeHint": "次回は、Dockerのイメージとコンテナの関係をより深く理解し、docker images・docker ps・docker inspectなどのコマンドでイメージとコンテナを管理する方法を学びます。",
@@ -58,7 +62,7 @@
         "headline": "Dockerで初めてのコンテナを動かす：hello-world・nginx実践入門",
         "description": "【Docker初心者向け】docker run hello-worldの仕組みを解説し、nginxコンテナの起動・ポートマッピングまでを初心者向けに丁寧に説明します。docker 初心者向け実践ガイド。 図解・具体例つきで丁寧に解説します。",
         "datePublished": "2026-05-30T04:13:30.603Z",
-        "dateModified": "2026-05-30T04:13:30.615Z",
+        "dateModified": "2026-05-30T05:00:52.833Z",
         "author": {
           "@type": "Organization",
           "name": "StackShelf",
@@ -174,6 +178,14 @@
               "@type": "Answer",
               "text": "docker runは新しいコンテナを作って起動します。docker execはすでに実行中のコンテナの中で追加のコマンドを実行します。実行中のコンテナの中に入って操作したいときはdocker execを使います。"
             }
+          },
+          {
+            "@type": "Question",
+            "name": "DockerはWindows/Macでも使えますか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Docker Desktop をインストールすれば Windows 10/11 や macOS でも利用できます。Linux ネイティブ環境が最も軽量ですが、学習目的なら Desktop で十分です。"
+            }
           }
         ]
       }
@@ -263,7 +275,43 @@
           "@type": "Answer",
           "text": "docker runは新しいコンテナを作って起動します。docker execはすでに実行中のコンテナの中で追加のコマンドを実行します。実行中のコンテナの中に入って操作したいときはdocker execを使います。"
         }
+      },
+      {
+        "@type": "Question",
+        "name": "DockerはWindows/Macでも使えますか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Docker Desktop をインストールすれば Windows 10/11 や macOS でも利用できます。Linux ネイティブ環境が最も軽量ですが、学習目的なら Desktop で十分です。"
+        }
       }
     ]
-  }
+  },
+  "internalLinkCandidates": [
+    {
+      "slug": "docker-intro",
+      "title": "Dockerとは？仮想マシンとの違いをわかりやすく解説【初心者向け】",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "docker-webapp-practice",
+      "title": "Node.js・Python WebアプリをDockerコンテナ化する実践ガイド",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "docker-volumes",
+      "title": "Dockerボリューム完全ガイド：データ永続化・バインドマウント・名前付きボリューム",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "docker-compose",
+      "title": "Docker Compose入門：docker-compose.ymlでマルチコンテナを管理する",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "docker-dockerfile",
+      "title": "Dockerfileの書き方完全ガイド：FROM・RUN・COPY・CMDをマスターする",
+      "reason": "同じ講座の関連回です"
+    }
+  ],
+  "nextAction": "次はDockerのイメージとコンテナの関係をより深く理解し、docker images・docker ps・docker inspectなどのコマンドでイメージとコンテナを管理する方法を学びます。"
 }

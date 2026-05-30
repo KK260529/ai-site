@@ -14,7 +14,7 @@
   "theme": "java - Java",
   "status": "published",
   "createdAt": "2026-05-29T11:30:00.683Z",
-  "updatedAt": "2026-05-29T14:35:19.990Z",
+  "updatedAt": "2026-05-30T05:00:58.626Z",
   "publishedAt": "2026-05-29T11:30:00.683Z",
   "metaTitle": "Javaの多態性｜Java入門 | StackShelf",
   "metaDescription": "【Java初心者向け】Javaの多態性は、オブジェクト指向プログラミングの重要な概念の一つです。この記事では、多態性の基本とその使用方法について説明します。 図解・具体例つきで丁寧に解説します。",
@@ -37,6 +37,14 @@
     {
       "question": "多態性を使用するには何をする必要がありますか？",
       "answer": "多態性を使用するには、親クラスと子クラスを定義し、メソッドをオーバーライドする必要があります。"
+    },
+    {
+      "question": "Javaを学ぶのに数学は必要ですか？",
+      "answer": "基礎レベルでは四則演算程度で十分です。オブジェクト指向の考え方に慣れることが最初のハードルで、高度な数学は後から必要になる場面もあります。"
+    },
+    {
+      "question": "コンパイルエラーと実行時エラーの違いは？",
+      "answer": "コンパイルエラーはプログラムを実行する前に文法や型の問題で検出されます。実行時エラーは動かしてから初めて表面化する問題（NullPointerException など）です。"
     }
   ],
   "nextEpisodeHint": "次回は、例外処理について説明します。",
@@ -50,7 +58,7 @@
         "headline": "Javaの多態性",
         "description": "【Java初心者向け】Javaの多態性は、オブジェクト指向プログラミングの重要な概念の一つです。この記事では、多態性の基本とその使用方法について説明します。 図解・具体例つきで丁寧に解説します。",
         "datePublished": "2026-05-29T11:30:00.683Z",
-        "dateModified": "2026-05-29T14:35:19.990Z",
+        "dateModified": "2026-05-30T05:00:58.626Z",
         "author": {
           "@type": "Organization",
           "name": "StackShelf",
@@ -158,6 +166,22 @@
               "@type": "Answer",
               "text": "多態性を使用するには、親クラスと子クラスを定義し、メソッドをオーバーライドする必要があります。"
             }
+          },
+          {
+            "@type": "Question",
+            "name": "Javaを学ぶのに数学は必要ですか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "基礎レベルでは四則演算程度で十分です。オブジェクト指向の考え方に慣れることが最初のハードルで、高度な数学は後から必要になる場面もあります。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "コンパイルエラーと実行時エラーの違いは？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "コンパイルエラーはプログラムを実行する前に文法や型の問題で検出されます。実行時エラーは動かしてから初めて表面化する問題（NullPointerException など）です。"
+            }
           }
         ]
       }
@@ -239,8 +263,52 @@
           "@type": "Answer",
           "text": "多態性を使用するには、親クラスと子クラスを定義し、メソッドをオーバーライドする必要があります。"
         }
+      },
+      {
+        "@type": "Question",
+        "name": "Javaを学ぶのに数学は必要ですか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "基礎レベルでは四則演算程度で十分です。オブジェクト指向の考え方に慣れることが最初のハードルで、高度な数学は後から必要になる場面もあります。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "コンパイルエラーと実行時エラーの違いは？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "コンパイルエラーはプログラムを実行する前に文法や型の問題で検出されます。実行時エラーは動かしてから初めて表面化する問題（NullPointerException など）です。"
+        }
       }
     ]
   },
+  "internalLinkCandidates": [
+    {
+      "slug": "java-classes",
+      "title": "Javaのクラスとオブジェクト",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "java-objects",
+      "title": "Javaのオブジェクト指向プログラミング",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "java-exception-handling",
+      "title": "Javaの例外処理",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "java-inheritance",
+      "title": "Javaの継承",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "java-arrays",
+      "title": "Javaの配列",
+      "reason": "同じ講座の関連回です"
+    }
+  ],
+  "nextAction": "次は例外処理について説明します。",
   "ogImage": "https://ai-site-iota-nine.vercel.app/og-default.svg"
 }

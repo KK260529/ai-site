@@ -16,12 +16,12 @@
   "theme": "sql - SQL・データベース入門",
   "status": "published",
   "createdAt": "2026-05-30T04:13:08.260Z",
-  "updatedAt": "2026-05-30T04:13:08.266Z",
+  "updatedAt": "2026-05-30T05:00:54.479Z",
   "publishedAt": "2026-05-30T04:13:08.260Z",
   "metaTitle": "SQLite準備とCREATE TABLE｜sql 初心者向けセットアップ完全ガイド",
-  "metaDescription": "【SQL初心者向け】SQLiteのインストールからCREATE TABLE文まで、sql 初心者向けに丁寧に解説。sql 使い方の第一歩として実際に動く環境を整えましょう。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
+  "metaDescription": "【SQL初心者向け】SQLiteのインストールからCREATE TABLE文まで、sql 初心者向けに丁寧に解説。sql 使い方の第一歩として実際に動く環境を整えましょう。 図解・具体例つきで丁寧に解説します。",
   "ogTitle": "SQLite準備とCREATE TABLE完全ガイド",
-  "ogDescription": "【SQL初心者向け】【SQL初心者向け】SQLiteのセットアップからテーブル作成まで、ゼロから手順を追って解説します。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
+  "ogDescription": "【SQL初心者向け】SQLiteのセットアップからテーブル作成まで、ゼロから手順を追って解説します。 図解・具体例つきで丁寧に解説します。",
   "knowledge": {
     "topic": "sql",
     "courseId": "sql",
@@ -43,6 +43,10 @@
     {
       "question": "SQLiteファイルはどこに保存されますか？",
       "answer": "sqlite3コマンドを実行したディレクトリに .db ファイルが作成されます。例えば sqlite3 mydb.db を実行すると、カレントディレクトリに mydb.db が作成されます。このファイルをコピーするだけでデータベースのバックアップができるのもSQLiteの便利な点です。"
+    },
+    {
+      "question": "SQLはどんな場面で使いますか？",
+      "answer": "Webアプリのユーザー情報保存、売上分析、ログ集計など、データを保存・検索・集計したい場面で使います。Excelの大量データ版と考えるとイメージしやすいです。"
     }
   ],
   "nextEpisodeHint": "次回は、作成したテーブルにデータを入れて、SELECT文でデータを取得する方法を学びます。SELECT * FROM テーブル名 から始まる検索の基本をマスターしましょう。",
@@ -55,9 +59,9 @@
         "@context": "https://schema.org",
         "@type": "TechArticle",
         "headline": "SQLite準備とCREATE TABLE｜sql 初心者のための環境構築",
-        "description": "【SQL初心者向け】SQLiteのインストールからCREATE TABLE文まで、sql 初心者向けに丁寧に解説。sql 使い方の第一歩として実際に動く環境を整えましょう。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
+        "description": "【SQL初心者向け】SQLiteのインストールからCREATE TABLE文まで、sql 初心者向けに丁寧に解説。sql 使い方の第一歩として実際に動く環境を整えましょう。 図解・具体例つきで丁寧に解説します。",
         "datePublished": "2026-05-30T04:13:08.260Z",
-        "dateModified": "2026-05-30T04:13:08.266Z",
+        "dateModified": "2026-05-30T05:00:54.479Z",
         "author": {
           "@type": "Organization",
           "name": "StackShelf",
@@ -173,6 +177,14 @@
               "@type": "Answer",
               "text": "sqlite3コマンドを実行したディレクトリに .db ファイルが作成されます。例えば sqlite3 mydb.db を実行すると、カレントディレクトリに mydb.db が作成されます。このファイルをコピーするだけでデータベースのバックアップができるのもSQLiteの便利な点です。"
             }
+          },
+          {
+            "@type": "Question",
+            "name": "SQLはどんな場面で使いますか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Webアプリのユーザー情報保存、売上分析、ログ集計など、データを保存・検索・集計したい場面で使います。Excelの大量データ版と考えるとイメージしやすいです。"
+            }
           }
         ]
       }
@@ -262,7 +274,43 @@
           "@type": "Answer",
           "text": "sqlite3コマンドを実行したディレクトリに .db ファイルが作成されます。例えば sqlite3 mydb.db を実行すると、カレントディレクトリに mydb.db が作成されます。このファイルをコピーするだけでデータベースのバックアップができるのもSQLiteの便利な点です。"
         }
+      },
+      {
+        "@type": "Question",
+        "name": "SQLはどんな場面で使いますか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Webアプリのユーザー情報保存、売上分析、ログ集計など、データを保存・検索・集計したい場面で使います。Excelの大量データ版と考えるとイメージしやすいです。"
+        }
       }
     ]
-  }
+  },
+  "internalLinkCandidates": [
+    {
+      "slug": "sql-practice-design",
+      "title": "TODOアプリDB設計実践｜SQLite設計・実装の総まとめ",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "sql-select-basics",
+      "title": "SELECT基本｜SQLでデータを取得するsql 使い方入門",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "sql-index-basics",
+      "title": "CREATE INDEX, EXPLAIN｜SQLインデックス基礎とパフォーマンス改善",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "sql-group-by",
+      "title": "GROUP BY, HAVING, ORDER BY｜SQLグループ集計完全ガイド",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "sql-aggregate",
+      "title": "COUNT/SUM/AVG/MIN/MAX｜SQL集計関数の完全ガイド",
+      "reason": "同じ講座の関連回です"
+    }
+  ],
+  "nextAction": "次は作成したテーブルにデータを入れて、SELECT文でデータを取得する方法を学びます。SELECT * FROM テーブル名 から始まる検索の基本をマスターしましょう。"
 }

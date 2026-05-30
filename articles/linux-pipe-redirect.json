@@ -17,12 +17,12 @@
   "theme": "linux - Linux コマンドライン入門",
   "status": "published",
   "createdAt": "2026-05-30T04:13:05.762Z",
-  "updatedAt": "2026-05-30T04:13:05.768Z",
+  "updatedAt": "2026-05-30T05:00:54.763Z",
   "publishedAt": "2026-05-30T04:13:05.762Z",
   "metaTitle": "パイプ リダイレクト の使い方｜Linux | > >> 2>&1 コマンド解説",
   "metaDescription": "【Linux初心者向け】linux コマンドのパイプ（|）とリダイレクト（> >> 2>&1）の使い方をわかりやすく解説。コマンドを組み合わせて強力なデータ処理をマスターしましょう。 図解・具体例つきで丁寧に解説します。",
   "ogTitle": "パイプ（|）とリダイレクトでLinuxコマンドを強化する",
-  "ogDescription": "【Linux初心者向け】【Linux初心者向け】Linuxのパイプとリダイレクトを使ったコマンドの連結・出力管理を初心者向けに解説。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
+  "ogDescription": "【Linux初心者向け】Linuxのパイプとリダイレクトを使ったコマンドの連結・出力管理を初心者向けに解説。 図解・具体例つきで丁寧に解説します。",
   "knowledge": {
     "topic": "linux",
     "courseId": "linux",
@@ -44,6 +44,10 @@
     {
       "question": "パイプで繋いだコマンドが途中でエラーになったらどうなりますか？",
       "answer": "デフォルトではパイプの途中でエラーが起きても後続のコマンドは実行されます。スクリプトで途中エラーを検知したい場合は「set -o pipefail」を設定すると、パイプ中のいずれかのコマンドが失敗した際にパイプ全体が失敗として扱われます。"
+    },
+    {
+      "question": "Linuxコマンドは覚えきれません",
+      "answer": "すべて覚える必要はありません。よく使う10〜20個を繰り返し使い、分からないときは man コマンドや --help で調べる習慣をつけましょう。"
     }
   ],
   "nextEpisodeHint": "次回は、Linuxの環境変数（env、export）、.bashrcの設定方法、PATHの仕組みを学びます。シェルの設定をカスタマイズして作業環境を整えましょう。",
@@ -58,7 +62,7 @@
         "headline": "パイプ（|）とリダイレクト（> >> 2>&1）の使い方【Linux中級】",
         "description": "【Linux初心者向け】linux コマンドのパイプ（|）とリダイレクト（> >> 2>&1）の使い方をわかりやすく解説。コマンドを組み合わせて強力なデータ処理をマスターしましょう。 図解・具体例つきで丁寧に解説します。",
         "datePublished": "2026-05-30T04:13:05.762Z",
-        "dateModified": "2026-05-30T04:13:05.768Z",
+        "dateModified": "2026-05-30T05:00:54.763Z",
         "author": {
           "@type": "Organization",
           "name": "StackShelf",
@@ -174,6 +178,14 @@
               "@type": "Answer",
               "text": "デフォルトではパイプの途中でエラーが起きても後続のコマンドは実行されます。スクリプトで途中エラーを検知したい場合は「set -o pipefail」を設定すると、パイプ中のいずれかのコマンドが失敗した際にパイプ全体が失敗として扱われます。"
             }
+          },
+          {
+            "@type": "Question",
+            "name": "Linuxコマンドは覚えきれません",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "すべて覚える必要はありません。よく使う10〜20個を繰り返し使い、分からないときは man コマンドや --help で調べる習慣をつけましょう。"
+            }
           }
         ]
       }
@@ -263,7 +275,43 @@
           "@type": "Answer",
           "text": "デフォルトではパイプの途中でエラーが起きても後続のコマンドは実行されます。スクリプトで途中エラーを検知したい場合は「set -o pipefail」を設定すると、パイプ中のいずれかのコマンドが失敗した際にパイプ全体が失敗として扱われます。"
         }
+      },
+      {
+        "@type": "Question",
+        "name": "Linuxコマンドは覚えきれません",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "すべて覚える必要はありません。よく使う10〜20個を繰り返し使い、分からないときは man コマンドや --help で調べる習慣をつけましょう。"
+        }
       }
     ]
-  }
+  },
+  "internalLinkCandidates": [
+    {
+      "slug": "linux-commands-practice",
+      "title": "Linux実践コマンド集｜現場で使えるテクニック総まとめ【完全版】",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "linux-processes",
+      "title": "ps/top/kill/jobs でLinuxのプロセスを管理する【完全解説】",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "linux-view-search",
+      "title": "cat/less/head/tail/grep でファイルを表示・検索する【Linux入門】",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "linux-files-directories",
+      "title": "ls/cd/pwd/mkdir でファイルとディレクトリを操作する【Linux基礎】",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "linux-environment",
+      "title": "環境変数・.bashrc・PATHの仕組みを理解する【Linux設定入門】",
+      "reason": "同じ講座の関連回です"
+    }
+  ],
+  "nextAction": "次はLinuxの環境変数（env、export）、.bashrcの設定方法、PATHの仕組みを学びます。シェルの設定をカスタマイズして作業環境を整えましょう。"
 }

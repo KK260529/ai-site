@@ -17,12 +17,12 @@
   "theme": "sql - SQL・データベース入門",
   "status": "published",
   "createdAt": "2026-05-30T04:13:10.982Z",
-  "updatedAt": "2026-05-30T04:13:10.995Z",
+  "updatedAt": "2026-05-30T05:00:54.138Z",
   "publishedAt": "2026-05-30T04:13:10.982Z",
   "metaTitle": "INNER LEFT JOIN｜sql 初心者向けテーブル結合完全ガイド",
   "metaDescription": "【SQL初心者向け】SQLのINNER JOINとLEFT JOINをsql 初心者向けに徹底解説。外部キーで繋がったテーブルを結合するsql 使い方を豊富なSQLiteサンプルで学べます。 図解・具体例つきで丁寧に解説します。",
   "ogTitle": "INNER/LEFT JOIN｜SQLテーブル結合完全ガイド",
-  "ogDescription": "【SQL初心者向け】【SQL初心者向け】INNER JOINとLEFT JOINの違いを図解・サンプルで丁寧に解説します。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
+  "ogDescription": "【SQL初心者向け】INNER JOINとLEFT JOINの違いを図解・サンプルで丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
   "knowledge": {
     "topic": "sql",
     "courseId": "sql",
@@ -44,6 +44,10 @@
     {
       "question": "CROSS JOINとは何ですか？",
       "answer": "CROSS JOINは2つのテーブルのすべての組み合わせを返す結合で、デカルト積とも呼ばれます。10件×10件なら100件の結果が返ります。通常の開発では意図せずこれが起きると大量のデータが返って問題になるため、ON句は必ず指定しましょう。CROSS JOINが有用なのは「全組み合わせのマスターデータを作る」といった特殊なケースのみです。"
+    },
+    {
+      "question": "SQLはどんな場面で使いますか？",
+      "answer": "Webアプリのユーザー情報保存、売上分析、ログ集計など、データを保存・検索・集計したい場面で使います。Excelの大量データ版と考えるとイメージしやすいです。"
     }
   ],
   "nextEpisodeHint": "次回はCOUNT・SUM・AVG・MIN・MAXなどの集計関数を学びます。データの件数を数えたり、合計・平均を計算したりする操作はデータ分析に欠かせないスキルです。",
@@ -58,7 +62,7 @@
         "headline": "INNER/LEFT JOIN｜複数テーブルを結合するSQL完全ガイド",
         "description": "【SQL初心者向け】SQLのINNER JOINとLEFT JOINをsql 初心者向けに徹底解説。外部キーで繋がったテーブルを結合するsql 使い方を豊富なSQLiteサンプルで学べます。 図解・具体例つきで丁寧に解説します。",
         "datePublished": "2026-05-30T04:13:10.982Z",
-        "dateModified": "2026-05-30T04:13:10.995Z",
+        "dateModified": "2026-05-30T05:00:54.138Z",
         "author": {
           "@type": "Organization",
           "name": "StackShelf",
@@ -174,6 +178,14 @@
               "@type": "Answer",
               "text": "CROSS JOINは2つのテーブルのすべての組み合わせを返す結合で、デカルト積とも呼ばれます。10件×10件なら100件の結果が返ります。通常の開発では意図せずこれが起きると大量のデータが返って問題になるため、ON句は必ず指定しましょう。CROSS JOINが有用なのは「全組み合わせのマスターデータを作る」といった特殊なケースのみです。"
             }
+          },
+          {
+            "@type": "Question",
+            "name": "SQLはどんな場面で使いますか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Webアプリのユーザー情報保存、売上分析、ログ集計など、データを保存・検索・集計したい場面で使います。Excelの大量データ版と考えるとイメージしやすいです。"
+            }
           }
         ]
       }
@@ -263,7 +275,43 @@
           "@type": "Answer",
           "text": "CROSS JOINは2つのテーブルのすべての組み合わせを返す結合で、デカルト積とも呼ばれます。10件×10件なら100件の結果が返ります。通常の開発では意図せずこれが起きると大量のデータが返って問題になるため、ON句は必ず指定しましょう。CROSS JOINが有用なのは「全組み合わせのマスターデータを作る」といった特殊なケースのみです。"
         }
+      },
+      {
+        "@type": "Question",
+        "name": "SQLはどんな場面で使いますか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Webアプリのユーザー情報保存、売上分析、ログ集計など、データを保存・検索・集計したい場面で使います。Excelの大量データ版と考えるとイメージしやすいです。"
+        }
       }
     ]
-  }
+  },
+  "internalLinkCandidates": [
+    {
+      "slug": "sql-practice-design",
+      "title": "TODOアプリDB設計実践｜SQLite設計・実装の総まとめ",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "sql-index-basics",
+      "title": "CREATE INDEX, EXPLAIN｜SQLインデックス基礎とパフォーマンス改善",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "sql-group-by",
+      "title": "GROUP BY, HAVING, ORDER BY｜SQLグループ集計完全ガイド",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "sql-aggregate",
+      "title": "COUNT/SUM/AVG/MIN/MAX｜SQL集計関数の完全ガイド",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "sql-insert-update-delete",
+      "title": "INSERT/UPDATE/DELETE｜SQLデータ追加・更新・削除の完全ガイド",
+      "reason": "同じ講座の関連回です"
+    }
+  ],
+  "nextAction": "次はCOUNT・SUM・AVG・MIN・MAXなどの集計関数を学びます。データの件数を数えたり、合計・平均を計算したりする操作はデータ分析に欠かせないスキルです。"
 }

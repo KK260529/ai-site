@@ -18,12 +18,12 @@
   "theme": "git - Git & GitHub 入門",
   "status": "published",
   "createdAt": "2026-05-30T03:49:58.056Z",
-  "updatedAt": "2026-05-30T03:49:58.061Z",
+  "updatedAt": "2026-05-30T05:00:56.946Z",
   "publishedAt": "2026-05-30T03:49:58.056Z",
   "metaTitle": "git add・commit・status・logの使い方【Git基本操作】初心者向け完全解説 | StackShelf",
   "metaDescription": "git add、git commit、git status、git logの基本4コマンドを実例付きで解説。Gitのステージング概念からコミット履歴の確認方法まで初心者向けに丁寧に説明します。 図解・具体例つきで丁寧に解説します。",
   "ogTitle": "git add・commit・status・log 完全ガイド",
-  "ogDescription": "【Git初心者向け】【Git初心者向け】Gitの基本4コマンドをステージングの仕組みから実例まで丁寧に解説します。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
+  "ogDescription": "【Git初心者向け】Gitの基本4コマンドをステージングの仕組みから実例まで丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
   "knowledge": {
     "topic": "git",
     "courseId": "git",
@@ -45,6 +45,10 @@
     {
       "question": "git logで大量のログが表示されてしまいます。終了するには？",
       "answer": "git logはページャー（less）で表示されます。Qキーを押すと終了できます。スペースキーで次のページ、Bキーで前のページに移動できます。最初から件数を絞りたい場合は git log --oneline -10 のように件数を指定してください。"
+    },
+    {
+      "question": "エラーが出たときはどうすればいいですか？",
+      "answer": "まずは表示されたメッセージをそのまま読み、git status で現在の状態を確認してください。多くの場合、Git が次に打つべきコマンドのヒントを出してくれます。"
     }
   ],
   "nextEpisodeHint": "次回は、Gitの強力な機能であるブランチの作成と切り替えを学びます。ブランチを使えば、本番コードに影響を与えずに新機能の開発やバグ修正を安全に行えます。",
@@ -59,7 +63,7 @@
         "headline": "git add・commit・status・logの使い方：Gitの基本操作を完全マスター",
         "description": "git add、git commit、git status、git logの基本4コマンドを実例付きで解説。Gitのステージング概念からコミット履歴の確認方法まで初心者向けに丁寧に説明します。 図解・具体例つきで丁寧に解説します。",
         "datePublished": "2026-05-30T03:49:58.056Z",
-        "dateModified": "2026-05-30T03:49:58.061Z",
+        "dateModified": "2026-05-30T05:00:56.946Z",
         "author": {
           "@type": "Organization",
           "name": "StackShelf",
@@ -175,6 +179,14 @@
               "@type": "Answer",
               "text": "git logはページャー（less）で表示されます。Qキーを押すと終了できます。スペースキーで次のページ、Bキーで前のページに移動できます。最初から件数を絞りたい場合は git log --oneline -10 のように件数を指定してください。"
             }
+          },
+          {
+            "@type": "Question",
+            "name": "エラーが出たときはどうすればいいですか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "まずは表示されたメッセージをそのまま読み、git status で現在の状態を確認してください。多くの場合、Git が次に打つべきコマンドのヒントを出してくれます。"
+            }
           }
         ]
       }
@@ -264,7 +276,43 @@
           "@type": "Answer",
           "text": "git logはページャー（less）で表示されます。Qキーを押すと終了できます。スペースキーで次のページ、Bキーで前のページに移動できます。最初から件数を絞りたい場合は git log --oneline -10 のように件数を指定してください。"
         }
+      },
+      {
+        "@type": "Question",
+        "name": "エラーが出たときはどうすればいいですか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "まずは表示されたメッセージをそのまま読み、git status で現在の状態を確認してください。多くの場合、Git が次に打つべきコマンドのヒントを出してくれます。"
+        }
       }
     ]
-  }
+  },
+  "internalLinkCandidates": [
+    {
+      "slug": "git-branch-basics",
+      "title": "Gitブランチの作り方と切り替え：git branch・checkout・switchの基本",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "git-repository-basics",
+      "title": "Gitリポジトリの作成とclone：git initとgit cloneの使い方",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "git-install-setup",
+      "title": "Gitのインストールと初期設定：Windows・Mac対応の完全ガイド",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "git-intro",
+      "title": "Gitとは？バージョン管理を初めて学ぶ人のための完全入門",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "git-workflow-practice",
+      "title": "実務で使うGitワークフロー",
+      "reason": "同じ講座の関連回です"
+    }
+  ],
+  "nextAction": "次はGitの強力な機能であるブランチの作成と切り替えを学びます。ブランチを使えば、本番コードに影響を与えずに新機能の開発やバグ修正を安全に行えます。"
 }

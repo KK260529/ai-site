@@ -18,12 +18,12 @@
   "theme": "docker - Docker 入門",
   "status": "published",
   "createdAt": "2026-05-30T04:13:29.605Z",
-  "updatedAt": "2026-05-30T04:13:29.615Z",
+  "updatedAt": "2026-05-30T05:00:52.887Z",
   "publishedAt": "2026-05-30T04:13:29.605Z",
   "metaTitle": "Dockerインストール方法：Windows・Mac・Linux対応【docker 使い方 初心者】 | StackS…",
   "metaDescription": "DockerをWindows・Mac・Linuxにインストールする方法を初心者向けに詳しく解説。Docker Desktop、WSL2設定、初期動作確認まで丁寧にガイドします。docker 初心者向け。 図解・具体例つきで丁寧に解説します。",
   "ogTitle": "DockerをWindows・Mac・Linuxにインストールする方法",
-  "ogDescription": "【Docker初心者向け】Docker Desktopのインストール手順をOS別に詳しく解説。初期設定から動作確認まで初心者向けにまとめました。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
+  "ogDescription": "【Docker初心者向け】Docker Desktopのインストール手順をOS別に詳しく解説。初期設定から動作確認まで初心者向けにまとめました。 図解・具体例つきで丁寧に解説します。",
   "knowledge": {
     "topic": "docker",
     "courseId": "docker",
@@ -45,6 +45,10 @@
     {
       "question": "インストール後にPCが重くなりました。対処法はありますか？",
       "answer": "Docker Desktopが使用するリソースを制限してください。Settings→Resourcesでメモリ・CPU使用量を調整できます。また、使わないときはDocker Desktopを終了させることでリソースを解放できます。"
+    },
+    {
+      "question": "DockerはWindows/Macでも使えますか？",
+      "answer": "Docker Desktop をインストールすれば Windows 10/11 や macOS でも利用できます。Linux ネイティブ環境が最も軽量ですが、学習目的なら Desktop で十分です。"
     }
   ],
   "nextEpisodeHint": "次回は、実際に `docker run hello-world` や `docker run nginx` などのコマンドを使って、初めてのコンテナを動かす体験をしていきます。",
@@ -59,7 +63,7 @@
         "headline": "DockerをWindows・Mac・Linuxにインストールする方法【初心者向け完全ガイド】",
         "description": "DockerをWindows・Mac・Linuxにインストールする方法を初心者向けに詳しく解説。Docker Desktop、WSL2設定、初期動作確認まで丁寧にガイドします。docker 初心者向け。 図解・具体例つきで丁寧に解説します。",
         "datePublished": "2026-05-30T04:13:29.605Z",
-        "dateModified": "2026-05-30T04:13:29.615Z",
+        "dateModified": "2026-05-30T05:00:52.887Z",
         "author": {
           "@type": "Organization",
           "name": "StackShelf",
@@ -175,6 +179,14 @@
               "@type": "Answer",
               "text": "Docker Desktopが使用するリソースを制限してください。Settings→Resourcesでメモリ・CPU使用量を調整できます。また、使わないときはDocker Desktopを終了させることでリソースを解放できます。"
             }
+          },
+          {
+            "@type": "Question",
+            "name": "DockerはWindows/Macでも使えますか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Docker Desktop をインストールすれば Windows 10/11 や macOS でも利用できます。Linux ネイティブ環境が最も軽量ですが、学習目的なら Desktop で十分です。"
+            }
           }
         ]
       }
@@ -264,7 +276,43 @@
           "@type": "Answer",
           "text": "Docker Desktopが使用するリソースを制限してください。Settings→Resourcesでメモリ・CPU使用量を調整できます。また、使わないときはDocker Desktopを終了させることでリソースを解放できます。"
         }
+      },
+      {
+        "@type": "Question",
+        "name": "DockerはWindows/Macでも使えますか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Docker Desktop をインストールすれば Windows 10/11 や macOS でも利用できます。Linux ネイティブ環境が最も軽量ですが、学習目的なら Desktop で十分です。"
+        }
       }
     ]
-  }
+  },
+  "internalLinkCandidates": [
+    {
+      "slug": "docker-first-container",
+      "title": "Dockerで初めてのコンテナを動かす：hello-world・nginx実践入門",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "docker-intro",
+      "title": "Dockerとは？仮想マシンとの違いをわかりやすく解説【初心者向け】",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "docker-webapp-practice",
+      "title": "Node.js・Python WebアプリをDockerコンテナ化する実践ガイド",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "docker-volumes",
+      "title": "Dockerボリューム完全ガイド：データ永続化・バインドマウント・名前付きボリューム",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "docker-compose",
+      "title": "Docker Compose入門：docker-compose.ymlでマルチコンテナを管理する",
+      "reason": "同じ講座の関連回です"
+    }
+  ],
+  "nextAction": "次は実際に `docker run hello-world` や `docker run nginx` などのコマンドを使って、初めてのコンテナを動かす体験をしていきます。"
 }

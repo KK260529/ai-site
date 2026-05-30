@@ -16,12 +16,12 @@
   "theme": "git - Git & GitHub 入門",
   "status": "published",
   "createdAt": "2026-05-30T03:49:58.542Z",
-  "updatedAt": "2026-05-30T03:49:58.548Z",
+  "updatedAt": "2026-05-30T05:00:56.778Z",
   "publishedAt": "2026-05-30T03:49:58.542Z",
   "metaTitle": "git merge とコンフリクト解決の完全ガイド【初心者向け】｜Git入門 | StackShelf",
   "metaDescription": "git merge の使い方とコンフリクト（競合）が起きる原因を解説。マーカーの読み方・手動解決・git add / git commit の流れを初心者向けにわかりやすく説明します。 図解・具体例つきで丁寧に解説します。",
   "ogTitle": "git merge とコンフリクト解決の完全ガイド",
-  "ogDescription": "【Git初心者向け】【Git初心者向け】ブランチのマージ方法から、コンフリクトが起きたときの解決手順まで。実際のコマンド例とともに丁寧に解説します。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
+  "ogDescription": "【Git初心者向け】ブランチのマージ方法から、コンフリクトが起きたときの解決手順まで。実際のコマンド例とともに丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
   "knowledge": {
     "topic": "git",
     "courseId": "git",
@@ -43,6 +43,10 @@
     {
       "question": "複数ファイルでコンフリクトが発生した場合はどうすればよいですか？",
       "answer": "git status でコンフリクト中のファイル一覧を確認し、1ファイルずつ解決して git add します。すべてのファイルを解決し終えたら git commit でマージを完了させます。"
+    },
+    {
+      "question": "エラーが出たときはどうすればいいですか？",
+      "answer": "まずは表示されたメッセージをそのまま読み、git status で現在の状態を確認してください。多くの場合、Git が次に打つべきコマンドのヒントを出してくれます。"
     }
   ],
   "nextEpisodeHint": "次のエピソードでは、リモートリポジトリとのやり取りに使う git push・git pull・git remote の使い方を学びます。",
@@ -57,7 +61,7 @@
         "headline": "マージとコンフリクトの解決",
         "description": "git merge の使い方とコンフリクト（競合）が起きる原因を解説。マーカーの読み方・手動解決・git add / git commit の流れを初心者向けにわかりやすく説明します。 図解・具体例つきで丁寧に解説します。",
         "datePublished": "2026-05-30T03:49:58.542Z",
-        "dateModified": "2026-05-30T03:49:58.548Z",
+        "dateModified": "2026-05-30T05:00:56.778Z",
         "author": {
           "@type": "Organization",
           "name": "StackShelf",
@@ -173,6 +177,14 @@
               "@type": "Answer",
               "text": "git status でコンフリクト中のファイル一覧を確認し、1ファイルずつ解決して git add します。すべてのファイルを解決し終えたら git commit でマージを完了させます。"
             }
+          },
+          {
+            "@type": "Question",
+            "name": "エラーが出たときはどうすればいいですか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "まずは表示されたメッセージをそのまま読み、git status で現在の状態を確認してください。多くの場合、Git が次に打つべきコマンドのヒントを出してくれます。"
+            }
           }
         ]
       }
@@ -262,7 +274,43 @@
           "@type": "Answer",
           "text": "git status でコンフリクト中のファイル一覧を確認し、1ファイルずつ解決して git add します。すべてのファイルを解決し終えたら git commit でマージを完了させます。"
         }
+      },
+      {
+        "@type": "Question",
+        "name": "エラーが出たときはどうすればいいですか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "まずは表示されたメッセージをそのまま読み、git status で現在の状態を確認してください。多くの場合、Git が次に打つべきコマンドのヒントを出してくれます。"
+        }
       }
     ]
-  }
+  },
+  "internalLinkCandidates": [
+    {
+      "slug": "git-branch-basics",
+      "title": "Gitブランチの作り方と切り替え：git branch・checkout・switchの基本",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "git-repository-basics",
+      "title": "Gitリポジトリの作成とclone：git initとgit cloneの使い方",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "git-intro",
+      "title": "Gitとは？バージョン管理を初めて学ぶ人のための完全入門",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "git-workflow-practice",
+      "title": "実務で使うGitワークフロー",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "github-pull-request",
+      "title": "Pull Requestと協業の流れ",
+      "reason": "同じ講座の関連回です"
+    }
+  ],
+  "nextAction": "次のエピソードでは、リモートリポジトリとのやり取りに使う git push・git pull・git remote の使い方を学びます。"
 }

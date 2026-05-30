@@ -19,12 +19,12 @@
   "theme": "web - HTML/CSS Web制作入門",
   "status": "published",
   "createdAt": "2026-05-30T04:13:16.724Z",
-  "updatedAt": "2026-05-30T04:13:16.735Z",
+  "updatedAt": "2026-05-30T05:00:53.542Z",
   "publishedAt": "2026-05-30T04:13:16.724Z",
   "metaTitle": "HTMLの見出し・段落・強調タグの使い方【html css 初心者向け解説】｜Web開発入門 | StackShelf",
   "metaDescription": "【Web開発初心者向け】h1〜h6・p・strong・emなどHTMLのテキスト系タグの使い方と使い分けをhtml css 初心者向けに解説。SEOに重要な見出し構造の作り方もわかります。 図解・具体例つきで丁寧に解説します。",
   "ogTitle": "見出し・段落・強調：h1〜h6・p・strong・emの使い方",
-  "ogDescription": "【Web開発初心者向け】【Web開発初心者向け】HTMLのテキスト系タグを初心者向けに丁寧解説。見出し構造の正しい作り方からSEOへの影響まで説明します。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
+  "ogDescription": "【Web開発初心者向け】HTMLのテキスト系タグを初心者向けに丁寧解説。見出し構造の正しい作り方からSEOへの影響まで説明します。 図解・具体例つきで丁寧に解説します。",
   "knowledge": {
     "topic": "web",
     "courseId": "web",
@@ -46,6 +46,10 @@
     {
       "question": "見出しタグの見た目はCSSで変えられますか？",
       "answer": "はい、変えられます。例えばh2のフォントサイズ・色・太さなどはすべてCSSで自由にカスタマイズできます。h1をh2より小さく見せることも技術的には可能ですが、構造の意味と見た目が食い違うので混乱を招きます。タグは意味で選び、見た目はCSSで調整しましょう。"
+    },
+    {
+      "question": "HTML/CSSだけでWebサイトは作れますか？",
+      "answer": "静的なページなら可能です。フォーム送信やユーザー認証など動的な機能には、後から JavaScript やサーバー側の技術が必要になります。"
     }
   ],
   "nextEpisodeHint": "次回はリンク（aタグ）と画像（imgタグ）の使い方を学びます。href属性・src属性・alt属性の役割と、相対パス・絶対パスの違いを理解しましょう。",
@@ -60,7 +64,7 @@
         "headline": "見出し・段落・強調の書き方：h1〜h6・p・strong・emタグを徹底解説",
         "description": "【Web開発初心者向け】h1〜h6・p・strong・emなどHTMLのテキスト系タグの使い方と使い分けをhtml css 初心者向けに解説。SEOに重要な見出し構造の作り方もわかります。 図解・具体例つきで丁寧に解説します。",
         "datePublished": "2026-05-30T04:13:16.724Z",
-        "dateModified": "2026-05-30T04:13:16.735Z",
+        "dateModified": "2026-05-30T05:00:53.542Z",
         "author": {
           "@type": "Organization",
           "name": "StackShelf",
@@ -176,6 +180,14 @@
               "@type": "Answer",
               "text": "はい、変えられます。例えばh2のフォントサイズ・色・太さなどはすべてCSSで自由にカスタマイズできます。h1をh2より小さく見せることも技術的には可能ですが、構造の意味と見た目が食い違うので混乱を招きます。タグは意味で選び、見た目はCSSで調整しましょう。"
             }
+          },
+          {
+            "@type": "Question",
+            "name": "HTML/CSSだけでWebサイトは作れますか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "静的なページなら可能です。フォーム送信やユーザー認証など動的な機能には、後から JavaScript やサーバー側の技術が必要になります。"
+            }
           }
         ]
       }
@@ -265,7 +277,43 @@
           "@type": "Answer",
           "text": "はい、変えられます。例えばh2のフォントサイズ・色・太さなどはすべてCSSで自由にカスタマイズできます。h1をh2より小さく見せることも技術的には可能ですが、構造の意味と見た目が食い違うので混乱を招きます。タグは意味で選び、見た目はCSSで調整しましょう。"
         }
+      },
+      {
+        "@type": "Question",
+        "name": "HTML/CSSだけでWebサイトは作れますか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "静的なページなら可能です。フォーム送信やユーザー認証など動的な機能には、後から JavaScript やサーバー側の技術が必要になります。"
+        }
       }
     ]
-  }
+  },
+  "internalLinkCandidates": [
+    {
+      "slug": "web-publish-basics",
+      "title": "WebサイトをGitHub Pages・Vercelで無料公開する方法【完全手順】",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "web-css-practice",
+      "title": "ランディングページを実際に作ろう：HTML/CSS総合実践",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "web-forms",
+      "title": "HTMLフォームの作り方：form・input・label・buttonタグを徹底解説",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "web-lists-tables",
+      "title": "リストと表の作り方：ul・ol・li・tableタグをわかりやすく解説",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "web-links-images",
+      "title": "リンクと画像の書き方：aタグ・imgタグ・alt属性を初心者向けに解説",
+      "reason": "同じ講座の関連回です"
+    }
+  ],
+  "nextAction": "次はリンク（aタグ）と画像（imgタグ）の使い方を学びます。href属性・src属性・alt属性の役割と、相対パス・絶対パスの違いを理解しましょう。"
 }

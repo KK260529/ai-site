@@ -16,12 +16,12 @@
   "theme": "git - Git & GitHub 入門",
   "status": "published",
   "createdAt": "2026-05-30T03:49:59.391Z",
-  "updatedAt": "2026-05-30T03:49:59.396Z",
+  "updatedAt": "2026-05-30T05:00:56.503Z",
   "publishedAt": "2026-05-30T03:49:59.391Z",
   "metaTitle": "GitHub 入門｜アカウント作成からリポジトリ操作まで【初心者向け】",
   "metaDescription": "【Git初心者向け】GitHub の使い方を初心者向けに解説。アカウント作成、リポジトリ作成、README.md の書き方、.gitignore の設定方法をステップバイステップで説明します。 図解・具体例つきで丁寧に解説します。",
   "ogTitle": "GitHub 入門｜アカウントとリポジトリの基本操作",
-  "ogDescription": "【Git初心者向け】GitHub アカウントの作成からリポジトリの作成・管理まで。README や .gitignore など実務で欠かせない基礎を初心者向けに丁寧に解説します。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
+  "ogDescription": "【Git初心者向け】GitHub アカウントの作成からリポジトリの作成・管理まで。README や .gitignore など実務で欠かせない基礎を初心者向けに丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
   "knowledge": {
     "topic": "git",
     "courseId": "git",
@@ -43,6 +43,10 @@
     {
       "question": "README.md は必ず書かなければなりませんか？",
       "answer": "必須ではありませんが、書くことを強くおすすめします。README があるとリポジトリの目的がすぐわかり、チームメンバーや将来の自分が助かります。最低限「概要」と「使い方」だけでも書いておきましょう。"
+    },
+    {
+      "question": "エラーが出たときはどうすればいいですか？",
+      "answer": "まずは表示されたメッセージをそのまま読み、git status で現在の状態を確認してください。多くの場合、Git が次に打つべきコマンドのヒントを出してくれます。"
     }
   ],
   "nextEpisodeHint": "次のエピソードでは、チームで協力して開発するために欠かせない Pull Request の作成・レビュー・マージの流れを学びます。",
@@ -57,7 +61,7 @@
         "headline": "GitHub入門：アカウントとリポジトリ",
         "description": "【Git初心者向け】GitHub の使い方を初心者向けに解説。アカウント作成、リポジトリ作成、README.md の書き方、.gitignore の設定方法をステップバイステップで説明します。 図解・具体例つきで丁寧に解説します。",
         "datePublished": "2026-05-30T03:49:59.391Z",
-        "dateModified": "2026-05-30T03:49:59.396Z",
+        "dateModified": "2026-05-30T05:00:56.503Z",
         "author": {
           "@type": "Organization",
           "name": "StackShelf",
@@ -173,6 +177,14 @@
               "@type": "Answer",
               "text": "必須ではありませんが、書くことを強くおすすめします。README があるとリポジトリの目的がすぐわかり、チームメンバーや将来の自分が助かります。最低限「概要」と「使い方」だけでも書いておきましょう。"
             }
+          },
+          {
+            "@type": "Question",
+            "name": "エラーが出たときはどうすればいいですか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "まずは表示されたメッセージをそのまま読み、git status で現在の状態を確認してください。多くの場合、Git が次に打つべきコマンドのヒントを出してくれます。"
+            }
           }
         ]
       }
@@ -262,7 +274,43 @@
           "@type": "Answer",
           "text": "必須ではありませんが、書くことを強くおすすめします。README があるとリポジトリの目的がすぐわかり、チームメンバーや将来の自分が助かります。最低限「概要」と「使い方」だけでも書いておきましょう。"
         }
+      },
+      {
+        "@type": "Question",
+        "name": "エラーが出たときはどうすればいいですか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "まずは表示されたメッセージをそのまま読み、git status で現在の状態を確認してください。多くの場合、Git が次に打つべきコマンドのヒントを出してくれます。"
+        }
       }
     ]
-  }
+  },
+  "internalLinkCandidates": [
+    {
+      "slug": "git-workflow-practice",
+      "title": "実務で使うGitワークフロー",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "github-pull-request",
+      "title": "Pull Requestと協業の流れ",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "git-remote-push-pull",
+      "title": "push・pull・remote でリモート連携",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "git-merge-conflict",
+      "title": "マージとコンフリクトの解決",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "git-branch-basics",
+      "title": "Gitブランチの作り方と切り替え：git branch・checkout・switchの基本",
+      "reason": "同じ講座の関連回です"
+    }
+  ],
+  "nextAction": "次のエピソードでは、チームで協力して開発するために欠かせない Pull Request の作成・レビュー・マージの流れを学びます。"
 }

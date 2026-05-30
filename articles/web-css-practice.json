@@ -18,12 +18,12 @@
   "theme": "web - HTML/CSS Web制作入門",
   "status": "published",
   "createdAt": "2026-05-30T04:13:26.587Z",
-  "updatedAt": "2026-05-30T04:13:26.595Z",
+  "updatedAt": "2026-05-30T05:00:53.059Z",
   "publishedAt": "2026-05-30T04:13:26.587Z",
   "metaTitle": "ランディングページを作ろう！HTML/CSS総合実践【web制作 入門】｜Web開発入門 | StackShelf",
   "metaDescription": "HTML/CSSを使ってランディングページを実際に作る実践解説。ヘッダー・ヒーロー・カードレイアウト・フォーム・フッターをFlexboxとレスポンシブデザインで組み上げます。html css 初心者向け。 図解・具体例つきで丁寧に解説します。",
   "ogTitle": "ランディングページを実際に作ろう：HTML/CSS総合実践",
-  "ogDescription": "【Web開発初心者向け】学んだHTML/CSSでシンプルなランディングページを一から構築。ヘッダー・ヒーロー・カード・フォーム・フッターを実装します。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
+  "ogDescription": "【Web開発初心者向け】学んだHTML/CSSでシンプルなランディングページを一から構築。ヘッダー・ヒーロー・カード・フォーム・フッターを実装します。 図解・具体例つきで丁寧に解説します。",
   "knowledge": {
     "topic": "web",
     "courseId": "web",
@@ -45,6 +45,10 @@
     {
       "question": "linear-gradientはどう書きますか？",
       "answer": "linear-gradient(方向, 開始色, 終了色)の形式で書きます。「background: linear-gradient(135deg, #eff6ff, #dbeafe)」は135度方向（右下）に薄い青から水色に変わるグラデーションです。CSSgradient.ioなどのジェネレーターサイトを使うと視覚的に好みのグラデーションのコードを生成できます。"
+    },
+    {
+      "question": "HTML/CSSだけでWebサイトは作れますか？",
+      "answer": "静的なページなら可能です。フォーム送信やユーザー認証など動的な機能には、後から JavaScript やサーバー側の技術が必要になります。"
     }
   ],
   "nextEpisodeHint": "最終エピソードでは作ったWebサイトをインターネット上に公開する方法を学びます。GitHub Pagesを使えば無料でサイトを公開できます。GitとGitHubの基本も合わせて解説します。",
@@ -59,7 +63,7 @@
         "headline": "ランディングページを実際に作ろう：HTML/CSS総合実践",
         "description": "HTML/CSSを使ってランディングページを実際に作る実践解説。ヘッダー・ヒーロー・カードレイアウト・フォーム・フッターをFlexboxとレスポンシブデザインで組み上げます。html css 初心者向け。 図解・具体例つきで丁寧に解説します。",
         "datePublished": "2026-05-30T04:13:26.587Z",
-        "dateModified": "2026-05-30T04:13:26.595Z",
+        "dateModified": "2026-05-30T05:00:53.059Z",
         "author": {
           "@type": "Organization",
           "name": "StackShelf",
@@ -175,6 +179,14 @@
               "@type": "Answer",
               "text": "linear-gradient(方向, 開始色, 終了色)の形式で書きます。「background: linear-gradient(135deg, #eff6ff, #dbeafe)」は135度方向（右下）に薄い青から水色に変わるグラデーションです。CSSgradient.ioなどのジェネレーターサイトを使うと視覚的に好みのグラデーションのコードを生成できます。"
             }
+          },
+          {
+            "@type": "Question",
+            "name": "HTML/CSSだけでWebサイトは作れますか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "静的なページなら可能です。フォーム送信やユーザー認証など動的な機能には、後から JavaScript やサーバー側の技術が必要になります。"
+            }
           }
         ]
       }
@@ -264,7 +276,43 @@
           "@type": "Answer",
           "text": "linear-gradient(方向, 開始色, 終了色)の形式で書きます。「background: linear-gradient(135deg, #eff6ff, #dbeafe)」は135度方向（右下）に薄い青から水色に変わるグラデーションです。CSSgradient.ioなどのジェネレーターサイトを使うと視覚的に好みのグラデーションのコードを生成できます。"
         }
+      },
+      {
+        "@type": "Question",
+        "name": "HTML/CSSだけでWebサイトは作れますか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "静的なページなら可能です。フォーム送信やユーザー認証など動的な機能には、後から JavaScript やサーバー側の技術が必要になります。"
+        }
       }
     ]
-  }
+  },
+  "internalLinkCandidates": [
+    {
+      "slug": "web-flexbox",
+      "title": "CSSフレックスボックス完全入門：display:flexとjustify-contentを使いこなそう",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "web-publish-basics",
+      "title": "WebサイトをGitHub Pages・Vercelで無料公開する方法【完全手順】",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "web-forms",
+      "title": "HTMLフォームの作り方：form・input・label・buttonタグを徹底解説",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "web-responsive",
+      "title": "レスポンシブデザイン入門：viewportとメディアクエリでスマホ対応を実現しよう",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "web-box-model",
+      "title": "CSSボックスモデル完全解説：margin・padding・borderの仕組みを理解しよう",
+      "reason": "同じ講座の関連回です"
+    }
+  ],
+  "nextAction": "最終エピソードでは作ったWebサイトをインターネット上に公開する方法を学びます。GitHub Pagesを使えば無料でサイトを公開できます。GitとGitHubの基本も合わせて解説します。"
 }

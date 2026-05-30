@@ -18,12 +18,12 @@
   "theme": "web - HTML/CSS Web制作入門",
   "status": "published",
   "createdAt": "2026-05-30T04:13:15.451Z",
-  "updatedAt": "2026-05-30T04:13:15.456Z",
+  "updatedAt": "2026-05-30T05:00:53.610Z",
   "publishedAt": "2026-05-30T04:13:15.451Z",
   "metaTitle": "最初のHTMLページの作り方【html css 初心者・web制作 入門】｜Web開発入門 | StackShelf",
   "metaDescription": "HTMLの基本構造（DOCTYPE・html・head・body）をゼロから解説。VS Codeでファイルを作成してブラウザで確認するまでの手順をhtml css 初心者向けに丁寧に説明します。 図解・具体例つきで丁寧に解説します。",
   "ogTitle": "最初のHTMLページを作ろう！DOCTYPE・head・bodyの基本構造",
-  "ogDescription": "【Web開発初心者向け】HTMLファイルの基本構造をゼロから解説。初めてのHTMLページをVS Codeで作ってブラウザに表示する手順を説明します。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
+  "ogDescription": "【Web開発初心者向け】HTMLファイルの基本構造をゼロから解説。初めてのHTMLページをVS Codeで作ってブラウザに表示する手順を説明します。 図解・具体例つきで丁寧に解説します。",
   "knowledge": {
     "topic": "web",
     "courseId": "web",
@@ -45,6 +45,10 @@
     {
       "question": "htmlタグのlang属性は必須ですか？",
       "answer": "必須ではありませんが、書くことを強く推奨します。lang属性がないと検索エンジンやスクリーンリーダーがページの言語を正しく識別できず、SEOやアクセシビリティに悪影響が出ます。日本語ページはlang=\"ja\"、英語ページはlang=\"en\"を指定しましょう。"
+    },
+    {
+      "question": "HTML/CSSだけでWebサイトは作れますか？",
+      "answer": "静的なページなら可能です。フォーム送信やユーザー認証など動的な機能には、後から JavaScript やサーバー側の技術が必要になります。"
     }
   ],
   "nextEpisodeHint": "次回は見出し（h1〜h6）・段落（p）・強調（strong・em）などテキスト系のタグを詳しく学びます。ページの文章構造をHTMLで正しく表現する方法を習得しましょう。",
@@ -59,7 +63,7 @@
         "headline": "最初のHTMLページを作ろう！DOCTYPE・head・bodyの基本構造を解説",
         "description": "HTMLの基本構造（DOCTYPE・html・head・body）をゼロから解説。VS Codeでファイルを作成してブラウザで確認するまでの手順をhtml css 初心者向けに丁寧に説明します。 図解・具体例つきで丁寧に解説します。",
         "datePublished": "2026-05-30T04:13:15.451Z",
-        "dateModified": "2026-05-30T04:13:15.456Z",
+        "dateModified": "2026-05-30T05:00:53.610Z",
         "author": {
           "@type": "Organization",
           "name": "StackShelf",
@@ -175,6 +179,14 @@
               "@type": "Answer",
               "text": "必須ではありませんが、書くことを強く推奨します。lang属性がないと検索エンジンやスクリーンリーダーがページの言語を正しく識別できず、SEOやアクセシビリティに悪影響が出ます。日本語ページはlang=\"ja\"、英語ページはlang=\"en\"を指定しましょう。"
             }
+          },
+          {
+            "@type": "Question",
+            "name": "HTML/CSSだけでWebサイトは作れますか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "静的なページなら可能です。フォーム送信やユーザー認証など動的な機能には、後から JavaScript やサーバー側の技術が必要になります。"
+            }
           }
         ]
       }
@@ -264,7 +276,43 @@
           "@type": "Answer",
           "text": "必須ではありませんが、書くことを強く推奨します。lang属性がないと検索エンジンやスクリーンリーダーがページの言語を正しく識別できず、SEOやアクセシビリティに悪影響が出ます。日本語ページはlang=\"ja\"、英語ページはlang=\"en\"を指定しましょう。"
         }
+      },
+      {
+        "@type": "Question",
+        "name": "HTML/CSSだけでWebサイトは作れますか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "静的なページなら可能です。フォーム送信やユーザー認証など動的な機能には、後から JavaScript やサーバー側の技術が必要になります。"
+        }
       }
     ]
-  }
+  },
+  "internalLinkCandidates": [
+    {
+      "slug": "web-publish-basics",
+      "title": "WebサイトをGitHub Pages・Vercelで無料公開する方法【完全手順】",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "web-css-practice",
+      "title": "ランディングページを実際に作ろう：HTML/CSS総合実践",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "web-forms",
+      "title": "HTMLフォームの作り方：form・input・label・buttonタグを徹底解説",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "web-lists-tables",
+      "title": "リストと表の作り方：ul・ol・li・tableタグをわかりやすく解説",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "web-links-images",
+      "title": "リンクと画像の書き方：aタグ・imgタグ・alt属性を初心者向けに解説",
+      "reason": "同じ講座の関連回です"
+    }
+  ],
+  "nextAction": "次は見出し（h1〜h6）・段落（p）・強調（strong・em）などテキスト系のタグを詳しく学びます。ページの文章構造をHTMLで正しく表現する方法を習得しましょう。"
 }

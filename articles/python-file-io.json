@@ -17,12 +17,12 @@
   "theme": "python - Python 入門",
   "status": "published",
   "createdAt": "2026-05-30T04:12:58.119Z",
-  "updatedAt": "2026-05-30T04:12:58.128Z",
+  "updatedAt": "2026-05-30T05:00:55.693Z",
   "publishedAt": "2026-05-30T04:12:58.119Z",
   "metaTitle": "Python ファイル読み書き open read write 入門 | Python入門",
   "metaDescription": "Python入門：open()関数でのファイル読み書きを初心者向けに解説。withブロック・r/w/aモード・テキストファイル・CSVファイルの操作を豊富なコード例付きで説明します。 図解・具体例つきで丁寧に解説します。",
   "ogTitle": "Python ファイル読み書き open/read/write | Python入門",
-  "ogDescription": "【Python初心者向け】Pythonのopen()関数によるファイル操作を初心者向けに解説。withブロック・読み書き・CSV操作まで丁寧に説明します。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
+  "ogDescription": "【Python初心者向け】Pythonのopen()関数によるファイル操作を初心者向けに解説。withブロック・読み書き・CSV操作まで丁寧に説明します。 図解・具体例つきで丁寧に解説します。",
   "knowledge": {
     "topic": "python",
     "courseId": "python",
@@ -40,6 +40,14 @@
     {
       "question": "pathlib モジュールは使わないのですか？",
       "answer": "pathlibはPython 3.4以降で使えるオブジェクト指向のパス操作ライブラリです。osモジュールより直感的でモダンなため、新しいコードではpathlibの使用が推奨されています。本講座ではまず基本のosとopen()を学びます。"
+    },
+    {
+      "question": "プログラミング未経験でもPythonは学べますか？",
+      "answer": "はい。Pythonは文法が比較的シンプルで、エラーメッセージも読みやすい言語です。小さなプログラムから手を動かしながら進めましょう。"
+    },
+    {
+      "question": "エラーが出たときの対処法は？",
+      "answer": "エラーメッセージの最終行（例外名と説明）を読み、該当行のコードを確認してください。print() で変数の中身を表示するのも有効です。"
     }
   ],
   "nextEpisodeHint": "次回はモジュールとパッケージを学びます。import文で標準ライブラリを使う方法と、pipコマンドでサードパーティライブラリをインストールする方法を解説します。",
@@ -54,7 +62,7 @@
         "headline": "ファイルの読み書き（open, read, write）",
         "description": "Python入門：open()関数でのファイル読み書きを初心者向けに解説。withブロック・r/w/aモード・テキストファイル・CSVファイルの操作を豊富なコード例付きで説明します。 図解・具体例つきで丁寧に解説します。",
         "datePublished": "2026-05-30T04:12:58.119Z",
-        "dateModified": "2026-05-30T04:12:58.128Z",
+        "dateModified": "2026-05-30T05:00:55.693Z",
         "author": {
           "@type": "Organization",
           "name": "StackShelf",
@@ -162,6 +170,22 @@
               "@type": "Answer",
               "text": "pathlibはPython 3.4以降で使えるオブジェクト指向のパス操作ライブラリです。osモジュールより直感的でモダンなため、新しいコードではpathlibの使用が推奨されています。本講座ではまず基本のosとopen()を学びます。"
             }
+          },
+          {
+            "@type": "Question",
+            "name": "プログラミング未経験でもPythonは学べますか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "はい。Pythonは文法が比較的シンプルで、エラーメッセージも読みやすい言語です。小さなプログラムから手を動かしながら進めましょう。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "エラーが出たときの対処法は？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "エラーメッセージの最終行（例外名と説明）を読み、該当行のコードを確認してください。print() で変数の中身を表示するのも有効です。"
+            }
           }
         ]
       }
@@ -243,7 +267,51 @@
           "@type": "Answer",
           "text": "pathlibはPython 3.4以降で使えるオブジェクト指向のパス操作ライブラリです。osモジュールより直感的でモダンなため、新しいコードではpathlibの使用が推奨されています。本講座ではまず基本のosとopen()を学びます。"
         }
+      },
+      {
+        "@type": "Question",
+        "name": "プログラミング未経験でもPythonは学べますか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "はい。Pythonは文法が比較的シンプルで、エラーメッセージも読みやすい言語です。小さなプログラムから手を動かしながら進めましょう。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "エラーが出たときの対処法は？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "エラーメッセージの最終行（例外名と説明）を読み、該当行のコードを確認してください。print() で変数の中身を表示するのも有効です。"
+        }
       }
     ]
-  }
+  },
+  "internalLinkCandidates": [
+    {
+      "slug": "python-classes",
+      "title": "クラスの基礎（class, __init__, メソッド）",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "python-exceptions",
+      "title": "例外処理（try/except）",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "python-modules",
+      "title": "モジュールとパッケージ（import, pip install）",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "python-list-dict",
+      "title": "リストと辞書",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "python-functions",
+      "title": "関数の定義と使い方（def, 引数, return）",
+      "reason": "同じ講座の関連回です"
+    }
+  ],
+  "nextAction": "次はモジュールとパッケージを学びます。import文で標準ライブラリを使う方法と、pipコマンドでサードパーティライブラリをインストールする方法を解説します。"
 }

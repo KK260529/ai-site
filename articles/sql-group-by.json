@@ -17,12 +17,12 @@
   "theme": "sql - SQL・データベース入門",
   "status": "published",
   "createdAt": "2026-05-30T04:13:12.553Z",
-  "updatedAt": "2026-05-30T04:13:12.566Z",
+  "updatedAt": "2026-05-30T05:00:53.928Z",
   "publishedAt": "2026-05-30T04:13:12.553Z",
   "metaTitle": "GROUP BY HAVING ORDER BY｜sql 初心者向けグループ集計完全ガイド",
   "metaDescription": "GROUP BY・HAVING・ORDER BYをsql 初心者向けに解説。カテゴリ別集計・日付別集計・集計後絞り込みなどsql 使い方の応用を豊富なSQLiteサンプルで学べます。 図解・具体例つきで丁寧に解説します。",
   "ogTitle": "GROUP BY, HAVING, ORDER BY｜SQLグループ集計完全ガイド",
-  "ogDescription": "【SQL初心者向け】【SQL初心者向け】GROUP BYで集計・HAVINGで絞り込み・ORDER BYで並び替えをマスターしましょう。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
+  "ogDescription": "【SQL初心者向け】GROUP BYで集計・HAVINGで絞り込み・ORDER BYで並び替えをマスターしましょう。 図解・具体例つきで丁寧に解説します。",
   "knowledge": {
     "topic": "sql",
     "courseId": "sql",
@@ -44,6 +44,10 @@
     {
       "question": "月別・年別などで集計するにはどうすればよいですか？",
       "answer": "SQLiteではstrftime関数を使います。月別は「GROUP BY strftime('%Y-%m', 日付カラム)」、年別は「GROUP BY strftime('%Y', 日付カラム)」、曜日別は「GROUP BY strftime('%w', 日付カラム)」（0が日曜）です。MySQLではDATE_FORMAT、PostgreSQLではTO_CHARという関数を使います。"
+    },
+    {
+      "question": "SQLはどんな場面で使いますか？",
+      "answer": "Webアプリのユーザー情報保存、売上分析、ログ集計など、データを保存・検索・集計したい場面で使います。Excelの大量データ版と考えるとイメージしやすいです。"
     }
   ],
   "nextEpisodeHint": "次回はインデックス（CREATE INDEX）を使ってSQLクエリを高速化する方法と、EXPLAINコマンドでクエリの実行計画を確認する方法を学びます。",
@@ -58,7 +62,7 @@
         "headline": "GROUP BY, HAVING, ORDER BY｜SQLグループ集計完全ガイド",
         "description": "GROUP BY・HAVING・ORDER BYをsql 初心者向けに解説。カテゴリ別集計・日付別集計・集計後絞り込みなどsql 使い方の応用を豊富なSQLiteサンプルで学べます。 図解・具体例つきで丁寧に解説します。",
         "datePublished": "2026-05-30T04:13:12.553Z",
-        "dateModified": "2026-05-30T04:13:12.566Z",
+        "dateModified": "2026-05-30T05:00:53.928Z",
         "author": {
           "@type": "Organization",
           "name": "StackShelf",
@@ -174,6 +178,14 @@
               "@type": "Answer",
               "text": "SQLiteではstrftime関数を使います。月別は「GROUP BY strftime('%Y-%m', 日付カラム)」、年別は「GROUP BY strftime('%Y', 日付カラム)」、曜日別は「GROUP BY strftime('%w', 日付カラム)」（0が日曜）です。MySQLではDATE_FORMAT、PostgreSQLではTO_CHARという関数を使います。"
             }
+          },
+          {
+            "@type": "Question",
+            "name": "SQLはどんな場面で使いますか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Webアプリのユーザー情報保存、売上分析、ログ集計など、データを保存・検索・集計したい場面で使います。Excelの大量データ版と考えるとイメージしやすいです。"
+            }
           }
         ]
       }
@@ -263,7 +275,43 @@
           "@type": "Answer",
           "text": "SQLiteではstrftime関数を使います。月別は「GROUP BY strftime('%Y-%m', 日付カラム)」、年別は「GROUP BY strftime('%Y', 日付カラム)」、曜日別は「GROUP BY strftime('%w', 日付カラム)」（0が日曜）です。MySQLではDATE_FORMAT、PostgreSQLではTO_CHARという関数を使います。"
         }
+      },
+      {
+        "@type": "Question",
+        "name": "SQLはどんな場面で使いますか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Webアプリのユーザー情報保存、売上分析、ログ集計など、データを保存・検索・集計したい場面で使います。Excelの大量データ版と考えるとイメージしやすいです。"
+        }
       }
     ]
-  }
+  },
+  "internalLinkCandidates": [
+    {
+      "slug": "sql-practice-design",
+      "title": "TODOアプリDB設計実践｜SQLite設計・実装の総まとめ",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "sql-index-basics",
+      "title": "CREATE INDEX, EXPLAIN｜SQLインデックス基礎とパフォーマンス改善",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "sql-aggregate",
+      "title": "COUNT/SUM/AVG/MIN/MAX｜SQL集計関数の完全ガイド",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "sql-join",
+      "title": "INNER/LEFT JOIN｜複数テーブルを結合するSQL完全ガイド",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "sql-insert-update-delete",
+      "title": "INSERT/UPDATE/DELETE｜SQLデータ追加・更新・削除の完全ガイド",
+      "reason": "同じ講座の関連回です"
+    }
+  ],
+  "nextAction": "次はインデックス（CREATE INDEX）を使ってSQLクエリを高速化する方法と、EXPLAINコマンドでクエリの実行計画を確認する方法を学びます。"
 }

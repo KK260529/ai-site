@@ -17,12 +17,12 @@
   "theme": "python - Python 入門",
   "status": "published",
   "createdAt": "2026-05-30T04:13:00.487Z",
-  "updatedAt": "2026-05-30T04:13:00.491Z",
+  "updatedAt": "2026-05-30T05:00:55.324Z",
   "publishedAt": "2026-05-30T04:13:00.487Z",
   "metaTitle": "Python 実践CLI TODOツール ミニプロジェクト | Python入門",
   "metaDescription": "Python入門の総まとめ：クラス・JSON保存・例外処理・ループを組み合わせたCLI TODOツールを作成します。コードをステップバイステップで解説し、Pythonの実践力を身につけます。 図解・具体例つきで丁寧に解説します。",
   "ogTitle": "Python 実践：CLI TODOツール作成 | Python入門",
-  "ogDescription": "【Python初心者向け】Pythonの総まとめとして、コマンドラインTODOツールを作成します。クラス・ファイル保存・例外処理・ループを組み合わせた実践プロジェクトです。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
+  "ogDescription": "【Python初心者向け】Pythonの総まとめとして、コマンドラインTODOツールを作成します。クラス・ファイル保存・例外処理・ループを組み合わせた実践プロジェクトです。 図解・具体例つきで丁寧に解説します。",
   "knowledge": {
     "topic": "python",
     "courseId": "python",
@@ -40,6 +40,14 @@
     {
       "question": "GitHubにコードをアップロードするにはどうすればいいですか？",
       "answer": "Gitをインストールし、GitHubにアカウントを作成します。git init→git add .→git commit→git pushの流れでリポジトリにアップロードできます。GitHubはポートフォリオとしても活用できるので、ぜひ挑戦してみてください。"
+    },
+    {
+      "question": "プログラミング未経験でもPythonは学べますか？",
+      "answer": "はい。Pythonは文法が比較的シンプルで、エラーメッセージも読みやすい言語です。小さなプログラムから手を動かしながら進めましょう。"
+    },
+    {
+      "question": "エラーが出たときの対処法は？",
+      "answer": "エラーメッセージの最終行（例外名と説明）を読み、該当行のコードを確認してください。print() で変数の中身を表示するのも有効です。"
     }
   ],
   "nextEpisodeHint": "Python入門コースの全12エピソードを完了しました！次のステップとしてWebスクレイピング・データ分析（pandas）・Web開発（Flask）など、興味のある分野に進んでみましょう。",
@@ -54,7 +62,7 @@
         "headline": "実践：CLI TODOツールを作ろう",
         "description": "Python入門の総まとめ：クラス・JSON保存・例外処理・ループを組み合わせたCLI TODOツールを作成します。コードをステップバイステップで解説し、Pythonの実践力を身につけます。 図解・具体例つきで丁寧に解説します。",
         "datePublished": "2026-05-30T04:13:00.487Z",
-        "dateModified": "2026-05-30T04:13:00.491Z",
+        "dateModified": "2026-05-30T05:00:55.324Z",
         "author": {
           "@type": "Organization",
           "name": "StackShelf",
@@ -162,6 +170,22 @@
               "@type": "Answer",
               "text": "Gitをインストールし、GitHubにアカウントを作成します。git init→git add .→git commit→git pushの流れでリポジトリにアップロードできます。GitHubはポートフォリオとしても活用できるので、ぜひ挑戦してみてください。"
             }
+          },
+          {
+            "@type": "Question",
+            "name": "プログラミング未経験でもPythonは学べますか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "はい。Pythonは文法が比較的シンプルで、エラーメッセージも読みやすい言語です。小さなプログラムから手を動かしながら進めましょう。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "エラーが出たときの対処法は？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "エラーメッセージの最終行（例外名と説明）を読み、該当行のコードを確認してください。print() で変数の中身を表示するのも有効です。"
+            }
           }
         ]
       }
@@ -243,7 +267,51 @@
           "@type": "Answer",
           "text": "Gitをインストールし、GitHubにアカウントを作成します。git init→git add .→git commit→git pushの流れでリポジトリにアップロードできます。GitHubはポートフォリオとしても活用できるので、ぜひ挑戦してみてください。"
         }
+      },
+      {
+        "@type": "Question",
+        "name": "プログラミング未経験でもPythonは学べますか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "はい。Pythonは文法が比較的シンプルで、エラーメッセージも読みやすい言語です。小さなプログラムから手を動かしながら進めましょう。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "エラーが出たときの対処法は？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "エラーメッセージの最終行（例外名と説明）を読み、該当行のコードを確認してください。print() で変数の中身を表示するのも有効です。"
+        }
       }
     ]
-  }
+  },
+  "internalLinkCandidates": [
+    {
+      "slug": "python-classes",
+      "title": "クラスの基礎（class, __init__, メソッド）",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "python-exceptions",
+      "title": "例外処理（try/except）",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "python-modules",
+      "title": "モジュールとパッケージ（import, pip install）",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "python-file-io",
+      "title": "ファイルの読み書き（open, read, write）",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "python-list-dict",
+      "title": "リストと辞書",
+      "reason": "同じ講座の関連回です"
+    }
+  ],
+  "nextAction": "Python入門コースの全12エピソードを完了しました！次のステップとしてWebスクレイピング・データ分析（pandas）・Web開発（Flask）など、興味のある分野に進んでみましょう。"
 }

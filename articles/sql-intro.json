@@ -16,12 +16,12 @@
   "theme": "sql - SQL・データベース入門",
   "status": "published",
   "createdAt": "2026-05-30T04:13:07.574Z",
-  "updatedAt": "2026-05-30T04:13:07.579Z",
+  "updatedAt": "2026-05-30T05:00:54.570Z",
   "publishedAt": "2026-05-30T04:13:07.574Z",
   "metaTitle": "データベースとSQLとは？sql 初心者向け完全入門【sql 使い方基礎】｜SQL入門 | StackShelf",
-  "metaDescription": "【SQL初心者向け】SQLとは何かをsql 初心者向けにわかりやすく解説。データベースの仕組み、sql 使い方の基本概念、RDBMSの種類まで丁寧に説明します。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
+  "metaDescription": "【SQL初心者向け】SQLとは何かをsql 初心者向けにわかりやすく解説。データベースの仕組み、sql 使い方の基本概念、RDBMSの種類まで丁寧に説明します。 図解・具体例つきで丁寧に解説します。",
   "ogTitle": "データベースとSQLとは？初心者向け完全入門",
-  "ogDescription": "【SQL初心者向け】【SQL初心者向け】SQLがどんな言語か、なぜ必要か、どこで使われているかをゼロからわかりやすく解説します。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
+  "ogDescription": "【SQL初心者向け】SQLがどんな言語か、なぜ必要か、どこで使われているかをゼロからわかりやすく解説します。 図解・具体例つきで丁寧に解説します。",
   "knowledge": {
     "topic": "sql",
     "courseId": "sql",
@@ -43,6 +43,10 @@
     {
       "question": "SQLを覚えるとどんな仕事ができますか？",
       "answer": "データエンジニア・バックエンドエンジニア・データアナリスト・ビジネスアナリストなど多くの職種でSQLは必須スキルです。また、マーケターや経営企画担当者でもSQLが使えると社内データを自分で集計・分析できるため、キャリアの幅が広がります。"
+    },
+    {
+      "question": "SQLはどんな場面で使いますか？",
+      "answer": "Webアプリのユーザー情報保存、売上分析、ログ集計など、データを保存・検索・集計したい場面で使います。Excelの大量データ版と考えるとイメージしやすいです。"
     }
   ],
   "nextEpisodeHint": "次回は、SQLiteをインストールして実際に動かせる環境を作り、最初のテーブルをCREATE TABLE文で作成します。コマンドラインからSQLを打ち込む体験をしましょう。",
@@ -55,9 +59,9 @@
         "@context": "https://schema.org",
         "@type": "TechArticle",
         "headline": "データベースとSQLとは？sql 初心者のための完全入門",
-        "description": "【SQL初心者向け】SQLとは何かをsql 初心者向けにわかりやすく解説。データベースの仕組み、sql 使い方の基本概念、RDBMSの種類まで丁寧に説明します。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
+        "description": "【SQL初心者向け】SQLとは何かをsql 初心者向けにわかりやすく解説。データベースの仕組み、sql 使い方の基本概念、RDBMSの種類まで丁寧に説明します。 図解・具体例つきで丁寧に解説します。",
         "datePublished": "2026-05-30T04:13:07.574Z",
-        "dateModified": "2026-05-30T04:13:07.579Z",
+        "dateModified": "2026-05-30T05:00:54.570Z",
         "author": {
           "@type": "Organization",
           "name": "StackShelf",
@@ -173,6 +177,14 @@
               "@type": "Answer",
               "text": "データエンジニア・バックエンドエンジニア・データアナリスト・ビジネスアナリストなど多くの職種でSQLは必須スキルです。また、マーケターや経営企画担当者でもSQLが使えると社内データを自分で集計・分析できるため、キャリアの幅が広がります。"
             }
+          },
+          {
+            "@type": "Question",
+            "name": "SQLはどんな場面で使いますか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Webアプリのユーザー情報保存、売上分析、ログ集計など、データを保存・検索・集計したい場面で使います。Excelの大量データ版と考えるとイメージしやすいです。"
+            }
           }
         ]
       }
@@ -262,7 +274,43 @@
           "@type": "Answer",
           "text": "データエンジニア・バックエンドエンジニア・データアナリスト・ビジネスアナリストなど多くの職種でSQLは必須スキルです。また、マーケターや経営企画担当者でもSQLが使えると社内データを自分で集計・分析できるため、キャリアの幅が広がります。"
         }
+      },
+      {
+        "@type": "Question",
+        "name": "SQLはどんな場面で使いますか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Webアプリのユーザー情報保存、売上分析、ログ集計など、データを保存・検索・集計したい場面で使います。Excelの大量データ版と考えるとイメージしやすいです。"
+        }
       }
     ]
-  }
+  },
+  "internalLinkCandidates": [
+    {
+      "slug": "sql-practice-design",
+      "title": "TODOアプリDB設計実践｜SQLite設計・実装の総まとめ",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "sql-select-basics",
+      "title": "SELECT基本｜SQLでデータを取得するsql 使い方入門",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "sql-sqlite-setup",
+      "title": "SQLite準備とCREATE TABLE｜sql 初心者のための環境構築",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "sql-index-basics",
+      "title": "CREATE INDEX, EXPLAIN｜SQLインデックス基礎とパフォーマンス改善",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "sql-group-by",
+      "title": "GROUP BY, HAVING, ORDER BY｜SQLグループ集計完全ガイド",
+      "reason": "同じ講座の関連回です"
+    }
+  ],
+  "nextAction": "次はSQLiteをインストールして実際に動かせる環境を作り、最初のテーブルをCREATE TABLE文で作成します。コマンドラインからSQLを打ち込む体験をしましょう。"
 }

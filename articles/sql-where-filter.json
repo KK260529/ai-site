@@ -17,12 +17,12 @@
   "theme": "sql - SQL・データベース入門",
   "status": "published",
   "createdAt": "2026-05-30T04:13:09.718Z",
-  "updatedAt": "2026-05-30T04:13:09.727Z",
+  "updatedAt": "2026-05-30T05:00:54.295Z",
   "publishedAt": "2026-05-30T04:13:09.718Z",
   "metaTitle": "WHERE, AND/OR, LIKE｜sql 初心者向け条件絞り込み完全ガイド",
   "metaDescription": "WHERE句によるSQL条件絞り込みをsql 初心者向けに解説。AND/OR/NOT・LIKE部分一致・BETWEEN・IN・IS NULLなどsql 使い方の核心を豊富なSQLiteサンプルで学べます。 図解・具体例つきで丁寧に解説します。",
   "ogTitle": "WHERE, AND/OR, LIKE｜SQL条件絞り込み完全ガイド",
-  "ogDescription": "【SQL初心者向け】【SQL初心者向け】WHERE句でSQLデータを絞り込む方法を、LIKE・AND/OR・BETWEEN・INまで丁寧に解説。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
+  "ogDescription": "【SQL初心者向け】WHERE句でSQLデータを絞り込む方法を、LIKE・AND/OR・BETWEEN・INまで丁寧に解説。 図解・具体例つきで丁寧に解説します。",
   "knowledge": {
     "topic": "sql",
     "courseId": "sql",
@@ -44,6 +44,10 @@
     {
       "question": "WHEREの条件式は何個まで書けますか？",
       "answer": "AND/ORを使えば理論上いくつでも条件を連結できます。ただし、条件が多くなると可読性が下がるため、複雑な条件はサブクエリやCTEを使って分割することが実践的なテクニックです。また、条件が多いとパフォーマンスにも影響するため、インデックスの設計も考慮が必要です。"
+    },
+    {
+      "question": "SQLはどんな場面で使いますか？",
+      "answer": "Webアプリのユーザー情報保存、売上分析、ログ集計など、データを保存・検索・集計したい場面で使います。Excelの大量データ版と考えるとイメージしやすいです。"
     }
   ],
   "nextEpisodeHint": "次回はINSERT（データ追加）・UPDATE（データ更新）・DELETE（データ削除）の3つの操作を学びます。SELECTで読み取るだけでなく、データを変更する操作もマスターしましょう。",
@@ -58,7 +62,7 @@
         "headline": "WHERE, AND/OR, LIKE｜SQL条件絞り込みの完全ガイド",
         "description": "WHERE句によるSQL条件絞り込みをsql 初心者向けに解説。AND/OR/NOT・LIKE部分一致・BETWEEN・IN・IS NULLなどsql 使い方の核心を豊富なSQLiteサンプルで学べます。 図解・具体例つきで丁寧に解説します。",
         "datePublished": "2026-05-30T04:13:09.718Z",
-        "dateModified": "2026-05-30T04:13:09.727Z",
+        "dateModified": "2026-05-30T05:00:54.295Z",
         "author": {
           "@type": "Organization",
           "name": "StackShelf",
@@ -174,6 +178,14 @@
               "@type": "Answer",
               "text": "AND/ORを使えば理論上いくつでも条件を連結できます。ただし、条件が多くなると可読性が下がるため、複雑な条件はサブクエリやCTEを使って分割することが実践的なテクニックです。また、条件が多いとパフォーマンスにも影響するため、インデックスの設計も考慮が必要です。"
             }
+          },
+          {
+            "@type": "Question",
+            "name": "SQLはどんな場面で使いますか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Webアプリのユーザー情報保存、売上分析、ログ集計など、データを保存・検索・集計したい場面で使います。Excelの大量データ版と考えるとイメージしやすいです。"
+            }
           }
         ]
       }
@@ -263,7 +275,43 @@
           "@type": "Answer",
           "text": "AND/ORを使えば理論上いくつでも条件を連結できます。ただし、条件が多くなると可読性が下がるため、複雑な条件はサブクエリやCTEを使って分割することが実践的なテクニックです。また、条件が多いとパフォーマンスにも影響するため、インデックスの設計も考慮が必要です。"
         }
+      },
+      {
+        "@type": "Question",
+        "name": "SQLはどんな場面で使いますか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Webアプリのユーザー情報保存、売上分析、ログ集計など、データを保存・検索・集計したい場面で使います。Excelの大量データ版と考えるとイメージしやすいです。"
+        }
       }
     ]
-  }
+  },
+  "internalLinkCandidates": [
+    {
+      "slug": "sql-practice-design",
+      "title": "TODOアプリDB設計実践｜SQLite設計・実装の総まとめ",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "sql-index-basics",
+      "title": "CREATE INDEX, EXPLAIN｜SQLインデックス基礎とパフォーマンス改善",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "sql-group-by",
+      "title": "GROUP BY, HAVING, ORDER BY｜SQLグループ集計完全ガイド",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "sql-aggregate",
+      "title": "COUNT/SUM/AVG/MIN/MAX｜SQL集計関数の完全ガイド",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "sql-join",
+      "title": "INNER/LEFT JOIN｜複数テーブルを結合するSQL完全ガイド",
+      "reason": "同じ講座の関連回です"
+    }
+  ],
+  "nextAction": "次はINSERT（データ追加）・UPDATE（データ更新）・DELETE（データ削除）の3つの操作を学びます。SELECTで読み取るだけでなく、データを変更する操作もマスターしましょう。"
 }

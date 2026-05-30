@@ -17,12 +17,12 @@
   "theme": "sql - SQL・データベース入門",
   "status": "published",
   "createdAt": "2026-05-30T04:13:13.396Z",
-  "updatedAt": "2026-05-30T04:13:13.400Z",
+  "updatedAt": "2026-05-30T05:00:53.878Z",
   "publishedAt": "2026-05-30T04:13:13.396Z",
   "metaTitle": "CREATE INDEX EXPLAIN｜sql 初心者向けインデックス基礎とパフォーマンス改善",
-  "metaDescription": "SQLのCREATE INDEXによるクエリ高速化とEXPLAIN実行計画確認をsql 初心者向けに解説。インデックスの仕組み・設計方法・注意点などsql 使い方の応用を学べます。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
+  "metaDescription": "SQLのCREATE INDEXによるクエリ高速化とEXPLAIN実行計画確認をsql 初心者向けに解説。インデックスの仕組み・設計方法・注意点などsql 使い方の応用を学べます。 図解・具体例つきで丁寧に解説します。",
   "ogTitle": "CREATE INDEX, EXPLAIN｜SQLインデックス基礎ガイド",
-  "ogDescription": "【SQL初心者向け】【SQL初心者向け】インデックスでSQLを高速化。CREATE INDEXの使い方とEXPLAINで実行計画を確認しましょう。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
+  "ogDescription": "【SQL初心者向け】インデックスでSQLを高速化。CREATE INDEXの使い方とEXPLAINで実行計画を確認しましょう。 図解・具体例つきで丁寧に解説します。",
   "knowledge": {
     "topic": "sql",
     "courseId": "sql",
@@ -44,6 +44,10 @@
     {
       "question": "SQLiteでインデックスの効果を実際に確認する方法はありますか？",
       "answer": "EXPLAIN QUERY PLANでSCANとSEARCHの違いを確認する方法が基本です。より定量的に確認したい場合は「.timer on」コマンドで実行時間を表示できます。大量データ（数十万件以上）でテストすると差が顕著になります。本番環境ではSQLiteのSQL実行ログを有効化してスロークエリを検出する方法もあります。"
+    },
+    {
+      "question": "SQLはどんな場面で使いますか？",
+      "answer": "Webアプリのユーザー情報保存、売上分析、ログ集計など、データを保存・検索・集計したい場面で使います。Excelの大量データ版と考えるとイメージしやすいです。"
     }
   ],
   "nextEpisodeHint": "最終回は、これまで学んだすべての知識を使って、TODOアプリのデータベースを実際に設計・実装します。テーブル設計・正規化・インデックス設計を実践で体験しましょう。",
@@ -56,9 +60,9 @@
         "@context": "https://schema.org",
         "@type": "TechArticle",
         "headline": "CREATE INDEX, EXPLAIN｜SQLインデックス基礎とパフォーマンス改善",
-        "description": "SQLのCREATE INDEXによるクエリ高速化とEXPLAIN実行計画確認をsql 初心者向けに解説。インデックスの仕組み・設計方法・注意点などsql 使い方の応用を学べます。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
+        "description": "SQLのCREATE INDEXによるクエリ高速化とEXPLAIN実行計画確認をsql 初心者向けに解説。インデックスの仕組み・設計方法・注意点などsql 使い方の応用を学べます。 図解・具体例つきで丁寧に解説します。",
         "datePublished": "2026-05-30T04:13:13.396Z",
-        "dateModified": "2026-05-30T04:13:13.400Z",
+        "dateModified": "2026-05-30T05:00:53.878Z",
         "author": {
           "@type": "Organization",
           "name": "StackShelf",
@@ -174,6 +178,14 @@
               "@type": "Answer",
               "text": "EXPLAIN QUERY PLANでSCANとSEARCHの違いを確認する方法が基本です。より定量的に確認したい場合は「.timer on」コマンドで実行時間を表示できます。大量データ（数十万件以上）でテストすると差が顕著になります。本番環境ではSQLiteのSQL実行ログを有効化してスロークエリを検出する方法もあります。"
             }
+          },
+          {
+            "@type": "Question",
+            "name": "SQLはどんな場面で使いますか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Webアプリのユーザー情報保存、売上分析、ログ集計など、データを保存・検索・集計したい場面で使います。Excelの大量データ版と考えるとイメージしやすいです。"
+            }
           }
         ]
       }
@@ -263,7 +275,43 @@
           "@type": "Answer",
           "text": "EXPLAIN QUERY PLANでSCANとSEARCHの違いを確認する方法が基本です。より定量的に確認したい場合は「.timer on」コマンドで実行時間を表示できます。大量データ（数十万件以上）でテストすると差が顕著になります。本番環境ではSQLiteのSQL実行ログを有効化してスロークエリを検出する方法もあります。"
         }
+      },
+      {
+        "@type": "Question",
+        "name": "SQLはどんな場面で使いますか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Webアプリのユーザー情報保存、売上分析、ログ集計など、データを保存・検索・集計したい場面で使います。Excelの大量データ版と考えるとイメージしやすいです。"
+        }
       }
     ]
-  }
+  },
+  "internalLinkCandidates": [
+    {
+      "slug": "sql-practice-design",
+      "title": "TODOアプリDB設計実践｜SQLite設計・実装の総まとめ",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "sql-group-by",
+      "title": "GROUP BY, HAVING, ORDER BY｜SQLグループ集計完全ガイド",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "sql-aggregate",
+      "title": "COUNT/SUM/AVG/MIN/MAX｜SQL集計関数の完全ガイド",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "sql-join",
+      "title": "INNER/LEFT JOIN｜複数テーブルを結合するSQL完全ガイド",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "sql-insert-update-delete",
+      "title": "INSERT/UPDATE/DELETE｜SQLデータ追加・更新・削除の完全ガイド",
+      "reason": "同じ講座の関連回です"
+    }
+  ],
+  "nextAction": "最終回は、これまで学んだすべての知識を使って、TODOアプリのデータベースを実際に設計・実装します。テーブル設計・正規化・インデックス設計を実践で体験しましょう。"
 }

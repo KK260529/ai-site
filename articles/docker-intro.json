@@ -17,12 +17,12 @@
   "theme": "docker - Docker 入門",
   "status": "published",
   "createdAt": "2026-05-30T04:13:28.570Z",
-  "updatedAt": "2026-05-30T04:13:28.580Z",
+  "updatedAt": "2026-05-30T05:00:52.948Z",
   "publishedAt": "2026-05-30T04:13:28.570Z",
   "metaTitle": "Dockerとは？VMとの違いと基本概念を初心者向けに解説【docker 使い方入門】 | StackShelf",
   "metaDescription": "【Docker初心者向け】Dockerとは何かを初心者向けにわかりやすく解説。仮想マシンとの違い、コンテナの仕組み、Dockerを使うメリットをゼロから丁寧に説明します。docker 初心者必読。 図解・具体例つきで丁寧に解説します。",
   "ogTitle": "Dockerとは？VMとの違いをわかりやすく解説",
-  "ogDescription": "【Docker初心者向け】【Docker初心者向け】コンテナ技術Dockerの基本をゼロから解説。仮想マシンとの違い、仕組み、メリットを初心者向けに説明します。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
+  "ogDescription": "【Docker初心者向け】コンテナ技術Dockerの基本をゼロから解説。仮想マシンとの違い、仕組み、メリットを初心者向けに説明します。 図解・具体例つきで丁寧に解説します。",
   "knowledge": {
     "topic": "docker",
     "courseId": "docker",
@@ -44,6 +44,10 @@
     {
       "question": "仮想マシンとコンテナはどちらが優れていますか？",
       "answer": "用途によります。完全なOS隔離が必要な場合や異なるOSカーネルが必要な場合はVMが向いています。アプリの軽量・高速なデプロイには圧倒的にコンテナが優れています。多くのクラウドネイティブ用途ではコンテナが主流です。"
+    },
+    {
+      "question": "DockerはWindows/Macでも使えますか？",
+      "answer": "Docker Desktop をインストールすれば Windows 10/11 や macOS でも利用できます。Linux ネイティブ環境が最も軽量ですが、学習目的なら Desktop で十分です。"
     }
   ],
   "nextEpisodeHint": "次回は、Docker DesktopをWindows・Mac・Linuxにインストールし、実際にコマンドが使える状態にするまでの手順を丁寧に解説します。",
@@ -58,7 +62,7 @@
         "headline": "Dockerとは？仮想マシンとの違いをわかりやすく解説【初心者向け】",
         "description": "【Docker初心者向け】Dockerとは何かを初心者向けにわかりやすく解説。仮想マシンとの違い、コンテナの仕組み、Dockerを使うメリットをゼロから丁寧に説明します。docker 初心者必読。 図解・具体例つきで丁寧に解説します。",
         "datePublished": "2026-05-30T04:13:28.570Z",
-        "dateModified": "2026-05-30T04:13:28.580Z",
+        "dateModified": "2026-05-30T05:00:52.948Z",
         "author": {
           "@type": "Organization",
           "name": "StackShelf",
@@ -174,6 +178,14 @@
               "@type": "Answer",
               "text": "用途によります。完全なOS隔離が必要な場合や異なるOSカーネルが必要な場合はVMが向いています。アプリの軽量・高速なデプロイには圧倒的にコンテナが優れています。多くのクラウドネイティブ用途ではコンテナが主流です。"
             }
+          },
+          {
+            "@type": "Question",
+            "name": "DockerはWindows/Macでも使えますか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Docker Desktop をインストールすれば Windows 10/11 や macOS でも利用できます。Linux ネイティブ環境が最も軽量ですが、学習目的なら Desktop で十分です。"
+            }
           }
         ]
       }
@@ -263,7 +275,43 @@
           "@type": "Answer",
           "text": "用途によります。完全なOS隔離が必要な場合や異なるOSカーネルが必要な場合はVMが向いています。アプリの軽量・高速なデプロイには圧倒的にコンテナが優れています。多くのクラウドネイティブ用途ではコンテナが主流です。"
         }
+      },
+      {
+        "@type": "Question",
+        "name": "DockerはWindows/Macでも使えますか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Docker Desktop をインストールすれば Windows 10/11 や macOS でも利用できます。Linux ネイティブ環境が最も軽量ですが、学習目的なら Desktop で十分です。"
+        }
       }
     ]
-  }
+  },
+  "internalLinkCandidates": [
+    {
+      "slug": "docker-first-container",
+      "title": "Dockerで初めてのコンテナを動かす：hello-world・nginx実践入門",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "docker-install",
+      "title": "DockerをWindows・Mac・Linuxにインストールする方法【初心者向け完全ガイド】",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "docker-webapp-practice",
+      "title": "Node.js・Python WebアプリをDockerコンテナ化する実践ガイド",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "docker-volumes",
+      "title": "Dockerボリューム完全ガイド：データ永続化・バインドマウント・名前付きボリューム",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "docker-compose",
+      "title": "Docker Compose入門：docker-compose.ymlでマルチコンテナを管理する",
+      "reason": "同じ講座の関連回です"
+    }
+  ],
+  "nextAction": "次はDocker DesktopをWindows・Mac・Linuxにインストールし、実際にコマンドが使える状態にするまでの手順を丁寧に解説します。"
 }

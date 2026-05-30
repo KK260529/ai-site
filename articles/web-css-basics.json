@@ -18,12 +18,12 @@
   "theme": "web - HTML/CSS Web制作入門",
   "status": "published",
   "createdAt": "2026-05-30T04:13:22.058Z",
-  "updatedAt": "2026-05-30T04:13:22.063Z",
+  "updatedAt": "2026-05-30T05:00:53.326Z",
   "publishedAt": "2026-05-30T04:13:22.058Z",
   "metaTitle": "CSSの基本：セレクタ・color・font-size入門【html css 初心者向け】 | StackShelf",
   "metaDescription": "【Web開発初心者向け】CSSのセレクタ・color・font-sizeなど基本を初心者向けに解説。インライン・スタイルタグ・外部CSSファイルの違い、カスケードと詳細度の仕組みも説明します。 図解・具体例つきで丁寧に解説します。",
   "ogTitle": "CSSの基本：セレクタ・color・font-sizeをゼロから学ぼう",
-  "ogDescription": "【Web開発初心者向け】CSSの書き方をゼロから解説。セレクタ、color、font-size、HTMLへのCSSの適用方法をhtml css 初心者向けに丁寧に説明します。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
+  "ogDescription": "【Web開発初心者向け】CSSの書き方をゼロから解説。セレクタ、color、font-size、HTMLへのCSSの適用方法をhtml css 初心者向けに丁寧に説明します。 図解・具体例つきで丁寧に解説します。",
   "knowledge": {
     "topic": "web",
     "courseId": "web",
@@ -45,6 +45,10 @@
     {
       "question": "Google Fontsの日本語フォントをWebページで使うにはどうすればいいですか？",
       "answer": "Google FontsのサイトでNoto Sans JPなどの日本語フォントを選び、表示されるlinkタグとfont-familyのコードをコピーしてHTMLとCSSに貼り付けるだけです。headタグにlinkを追加し、CSSにfont-family: 'Noto Sans JP', sans-serif;と書けば適用されます。"
+    },
+    {
+      "question": "HTML/CSSだけでWebサイトは作れますか？",
+      "answer": "静的なページなら可能です。フォーム送信やユーザー認証など動的な機能には、後から JavaScript やサーバー側の技術が必要になります。"
     }
   ],
   "nextEpisodeHint": "次回はCSSのボックスモデルを学びます。margin・padding・border・widthの仕組みを理解すると、レイアウトの調整が格段にやりやすくなります。",
@@ -59,7 +63,7 @@
         "headline": "CSSの基本：セレクタ・color・font-sizeをゼロから学ぼう",
         "description": "【Web開発初心者向け】CSSのセレクタ・color・font-sizeなど基本を初心者向けに解説。インライン・スタイルタグ・外部CSSファイルの違い、カスケードと詳細度の仕組みも説明します。 図解・具体例つきで丁寧に解説します。",
         "datePublished": "2026-05-30T04:13:22.058Z",
-        "dateModified": "2026-05-30T04:13:22.063Z",
+        "dateModified": "2026-05-30T05:00:53.326Z",
         "author": {
           "@type": "Organization",
           "name": "StackShelf",
@@ -175,6 +179,14 @@
               "@type": "Answer",
               "text": "Google FontsのサイトでNoto Sans JPなどの日本語フォントを選び、表示されるlinkタグとfont-familyのコードをコピーしてHTMLとCSSに貼り付けるだけです。headタグにlinkを追加し、CSSにfont-family: 'Noto Sans JP', sans-serif;と書けば適用されます。"
             }
+          },
+          {
+            "@type": "Question",
+            "name": "HTML/CSSだけでWebサイトは作れますか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "静的なページなら可能です。フォーム送信やユーザー認証など動的な機能には、後から JavaScript やサーバー側の技術が必要になります。"
+            }
           }
         ]
       }
@@ -264,7 +276,43 @@
           "@type": "Answer",
           "text": "Google FontsのサイトでNoto Sans JPなどの日本語フォントを選び、表示されるlinkタグとfont-familyのコードをコピーしてHTMLとCSSに貼り付けるだけです。headタグにlinkを追加し、CSSにfont-family: 'Noto Sans JP', sans-serif;と書けば適用されます。"
         }
+      },
+      {
+        "@type": "Question",
+        "name": "HTML/CSSだけでWebサイトは作れますか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "静的なページなら可能です。フォーム送信やユーザー認証など動的な機能には、後から JavaScript やサーバー側の技術が必要になります。"
+        }
       }
     ]
-  }
+  },
+  "internalLinkCandidates": [
+    {
+      "slug": "web-css-practice",
+      "title": "ランディングページを実際に作ろう：HTML/CSS総合実践",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "web-responsive",
+      "title": "レスポンシブデザイン入門：viewportとメディアクエリでスマホ対応を実現しよう",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "web-flexbox",
+      "title": "CSSフレックスボックス完全入門：display:flexとjustify-contentを使いこなそう",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "web-box-model",
+      "title": "CSSボックスモデル完全解説：margin・padding・borderの仕組みを理解しよう",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "web-publish-basics",
+      "title": "WebサイトをGitHub Pages・Vercelで無料公開する方法【完全手順】",
+      "reason": "同じ講座の関連回です"
+    }
+  ],
+  "nextAction": "次はCSSのボックスモデルを学びます。margin・padding・border・widthの仕組みを理解すると、レイアウトの調整が格段にやりやすくなります。"
 }

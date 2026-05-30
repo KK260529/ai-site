@@ -18,12 +18,12 @@
   "theme": "web - HTML/CSS Web制作入門",
   "status": "published",
   "createdAt": "2026-05-30T04:13:23.045Z",
-  "updatedAt": "2026-05-30T04:13:23.049Z",
+  "updatedAt": "2026-05-30T05:00:53.266Z",
   "publishedAt": "2026-05-30T04:13:23.045Z",
   "metaTitle": "CSSボックスモデル：margin・padding・border入門【html css 初心者】 | StackShe…",
   "metaDescription": "CSSのmargin・padding・border・widthの仕組みをhtml css 初心者向けに解説。box-sizing:border-boxの重要性、ブロック要素とインライン要素の違いも説明します。 図解・具体例つきで丁寧に解説します。",
   "ogTitle": "CSSボックスモデル：margin・padding・borderの仕組みを理解しよう",
-  "ogDescription": "【Web開発初心者向け】HTMLのすべての要素は「箱」です。margin・padding・border・widthの仕組みを理解すると、レイアウト制御が格段に楽になります。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
+  "ogDescription": "【Web開発初心者向け】HTMLのすべての要素は「箱」です。margin・padding・border・widthの仕組みを理解すると、レイアウト制御が格段に楽になります。 図解・具体例つきで丁寧に解説します。",
   "knowledge": {
     "topic": "web",
     "courseId": "web",
@@ -45,6 +45,10 @@
     {
       "question": "マージンの相殺はどうやって回避できますか？",
       "answer": "マージンの相殺が起きるのは、隣接するブロック要素の上下マージンが接触するときです。回避方法はいくつかあり、親要素にpaddingやborderを設定する、親要素にoverflow:hiddenを設定する、またはFlexboxやGridコンテナを使うことで解消できます。"
+    },
+    {
+      "question": "HTML/CSSだけでWebサイトは作れますか？",
+      "answer": "静的なページなら可能です。フォーム送信やユーザー認証など動的な機能には、後から JavaScript やサーバー側の技術が必要になります。"
     }
   ],
   "nextEpisodeHint": "次回はCSSのFlexboxを学びます。display:flexとjustify-content・align-itemsを使えば、複雑な横並びレイアウトが驚くほど簡単に実現できます。",
@@ -59,7 +63,7 @@
         "headline": "CSSボックスモデル完全解説：margin・padding・borderの仕組みを理解しよう",
         "description": "CSSのmargin・padding・border・widthの仕組みをhtml css 初心者向けに解説。box-sizing:border-boxの重要性、ブロック要素とインライン要素の違いも説明します。 図解・具体例つきで丁寧に解説します。",
         "datePublished": "2026-05-30T04:13:23.045Z",
-        "dateModified": "2026-05-30T04:13:23.049Z",
+        "dateModified": "2026-05-30T05:00:53.266Z",
         "author": {
           "@type": "Organization",
           "name": "StackShelf",
@@ -175,6 +179,14 @@
               "@type": "Answer",
               "text": "マージンの相殺が起きるのは、隣接するブロック要素の上下マージンが接触するときです。回避方法はいくつかあり、親要素にpaddingやborderを設定する、親要素にoverflow:hiddenを設定する、またはFlexboxやGridコンテナを使うことで解消できます。"
             }
+          },
+          {
+            "@type": "Question",
+            "name": "HTML/CSSだけでWebサイトは作れますか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "静的なページなら可能です。フォーム送信やユーザー認証など動的な機能には、後から JavaScript やサーバー側の技術が必要になります。"
+            }
           }
         ]
       }
@@ -264,7 +276,43 @@
           "@type": "Answer",
           "text": "マージンの相殺が起きるのは、隣接するブロック要素の上下マージンが接触するときです。回避方法はいくつかあり、親要素にpaddingやborderを設定する、親要素にoverflow:hiddenを設定する、またはFlexboxやGridコンテナを使うことで解消できます。"
         }
+      },
+      {
+        "@type": "Question",
+        "name": "HTML/CSSだけでWebサイトは作れますか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "静的なページなら可能です。フォーム送信やユーザー認証など動的な機能には、後から JavaScript やサーバー側の技術が必要になります。"
+        }
       }
     ]
-  }
+  },
+  "internalLinkCandidates": [
+    {
+      "slug": "web-css-practice",
+      "title": "ランディングページを実際に作ろう：HTML/CSS総合実践",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "web-responsive",
+      "title": "レスポンシブデザイン入門：viewportとメディアクエリでスマホ対応を実現しよう",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "web-flexbox",
+      "title": "CSSフレックスボックス完全入門：display:flexとjustify-contentを使いこなそう",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "web-css-basics",
+      "title": "CSSの基本：セレクタ・color・font-sizeをゼロから学ぼう",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "web-publish-basics",
+      "title": "WebサイトをGitHub Pages・Vercelで無料公開する方法【完全手順】",
+      "reason": "同じ講座の関連回です"
+    }
+  ],
+  "nextAction": "次はCSSのFlexboxを学びます。display:flexとjustify-content・align-itemsを使えば、複雑な横並びレイアウトが驚くほど簡単に実現できます。"
 }

@@ -17,7 +17,7 @@
   "theme": "git - Git & GitHub 入門",
   "status": "published",
   "createdAt": "2026-05-30T03:50:00.389Z",
-  "updatedAt": "2026-05-30T03:50:00.394Z",
+  "updatedAt": "2026-05-30T05:00:56.307Z",
   "publishedAt": "2026-05-30T03:50:00.389Z",
   "metaTitle": "実務で使う Git ワークフロー｜Git Flow・GitHub Flow・git stash 解説",
   "metaDescription": "Git Flow と GitHub Flow の違い、git stash・git cherry-pick・git tag・git bisect の使い方を解説。実務のチーム開発で役立つ Git ワークフローを初心者向けにわかりやすく紹介します。",
@@ -44,6 +44,10 @@
     {
       "question": "バージョンタグの命名規則はありますか？",
       "answer": "セマンティックバージョニング（Semantic Versioning）が広く使われています。v<メジャー>.<マイナー>.<パッチ> の形式（例：v1.2.3）です。破壊的変更はメジャー、後方互換の機能追加はマイナー、バグ修正はパッチを上げます。"
+    },
+    {
+      "question": "エラーが出たときはどうすればいいですか？",
+      "answer": "まずは表示されたメッセージをそのまま読み、git status で現在の状態を確認してください。多くの場合、Git が次に打つべきコマンドのヒントを出してくれます。"
     }
   ],
   "nextEpisodeHint": "Git/GitHub 入門コースの全エピソードが完了しました。次は GitHub Actions を使った CI/CD 自動化や、より高度な Git 操作に挑戦してみましょう。",
@@ -58,7 +62,7 @@
         "headline": "実務で使うGitワークフロー",
         "description": "Git Flow と GitHub Flow の違い、git stash・git cherry-pick・git tag・git bisect の使い方を解説。実務のチーム開発で役立つ Git ワークフローを初心者向けにわかりやすく紹介します。",
         "datePublished": "2026-05-30T03:50:00.389Z",
-        "dateModified": "2026-05-30T03:50:00.394Z",
+        "dateModified": "2026-05-30T05:00:56.307Z",
         "author": {
           "@type": "Organization",
           "name": "StackShelf",
@@ -174,6 +178,14 @@
               "@type": "Answer",
               "text": "セマンティックバージョニング（Semantic Versioning）が広く使われています。v<メジャー>.<マイナー>.<パッチ> の形式（例：v1.2.3）です。破壊的変更はメジャー、後方互換の機能追加はマイナー、バグ修正はパッチを上げます。"
             }
+          },
+          {
+            "@type": "Question",
+            "name": "エラーが出たときはどうすればいいですか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "まずは表示されたメッセージをそのまま読み、git status で現在の状態を確認してください。多くの場合、Git が次に打つべきコマンドのヒントを出してくれます。"
+            }
           }
         ]
       }
@@ -263,7 +275,43 @@
           "@type": "Answer",
           "text": "セマンティックバージョニング（Semantic Versioning）が広く使われています。v<メジャー>.<マイナー>.<パッチ> の形式（例：v1.2.3）です。破壊的変更はメジャー、後方互換の機能追加はマイナー、バグ修正はパッチを上げます。"
         }
+      },
+      {
+        "@type": "Question",
+        "name": "エラーが出たときはどうすればいいですか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "まずは表示されたメッセージをそのまま読み、git status で現在の状態を確認してください。多くの場合、Git が次に打つべきコマンドのヒントを出してくれます。"
+        }
       }
     ]
-  }
+  },
+  "internalLinkCandidates": [
+    {
+      "slug": "github-pull-request",
+      "title": "Pull Requestと協業の流れ",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "github-basics",
+      "title": "GitHub入門：アカウントとリポジトリ",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "git-remote-push-pull",
+      "title": "push・pull・remote でリモート連携",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "git-merge-conflict",
+      "title": "マージとコンフリクトの解決",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "git-branch-basics",
+      "title": "Gitブランチの作り方と切り替え：git branch・checkout・switchの基本",
+      "reason": "同じ講座の関連回です"
+    }
+  ],
+  "nextAction": "Git/GitHub 入門コースの全エピソードが完了しました。次は GitHub Actions を使った CI/CD 自動化や、より高度な Git 操作に挑戦してみましょう。"
 }

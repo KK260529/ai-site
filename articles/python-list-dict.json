@@ -18,12 +18,12 @@
   "theme": "python - Python 入門",
   "status": "published",
   "createdAt": "2026-05-30T04:12:57.486Z",
-  "updatedAt": "2026-05-30T04:12:57.501Z",
+  "updatedAt": "2026-05-30T05:00:55.855Z",
   "publishedAt": "2026-05-30T04:12:57.486Z",
   "metaTitle": "Python リスト 辞書 list dict 入門 | Python入門",
   "metaDescription": "【Python初心者向け】Python入門：リスト（list）と辞書（dict）の作成・追加・削除・検索を初心者向けに解説。スライス・内包表記・よく使うメソッドも豊富なコード例付きで説明します。 図解・具体例つきで丁寧に解説します。",
   "ogTitle": "Python リストと辞書（list/dict）| Python入門",
-  "ogDescription": "【Python初心者向け】Pythonのリストと辞書を初心者向けに解説。追加・削除・検索・スライス・メソッドの使い方を豊富なコード例で学べます。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
+  "ogDescription": "【Python初心者向け】Pythonのリストと辞書を初心者向けに解説。追加・削除・検索・スライス・メソッドの使い方を豊富なコード例で学べます。 図解・具体例つきで丁寧に解説します。",
   "knowledge": {
     "topic": "python",
     "courseId": "python",
@@ -41,6 +41,14 @@
     {
       "question": "リストのコピーは = で代入するだけでいいですか？",
       "answer": "いいえ。`b = a` とすると b と a は同じリストを参照するので、どちらか一方を変更するともう一方も変わります。独立したコピーを作るには `b = a.copy()` または `b = a[:]` を使ってください。"
+    },
+    {
+      "question": "プログラミング未経験でもPythonは学べますか？",
+      "answer": "はい。Pythonは文法が比較的シンプルで、エラーメッセージも読みやすい言語です。小さなプログラムから手を動かしながら進めましょう。"
+    },
+    {
+      "question": "エラーが出たときの対処法は？",
+      "answer": "エラーメッセージの最終行（例外名と説明）を読み、該当行のコードを確認してください。print() で変数の中身を表示するのも有効です。"
     }
   ],
   "nextEpisodeHint": "次回はファイルの読み書きを学びます。open()関数・read()/write()・withブロックを使って、テキストファイルやCSVファイルをPythonで操作する方法を解説します。",
@@ -55,7 +63,7 @@
         "headline": "リストと辞書",
         "description": "【Python初心者向け】Python入門：リスト（list）と辞書（dict）の作成・追加・削除・検索を初心者向けに解説。スライス・内包表記・よく使うメソッドも豊富なコード例付きで説明します。 図解・具体例つきで丁寧に解説します。",
         "datePublished": "2026-05-30T04:12:57.486Z",
-        "dateModified": "2026-05-30T04:12:57.501Z",
+        "dateModified": "2026-05-30T05:00:55.855Z",
         "author": {
           "@type": "Organization",
           "name": "StackShelf",
@@ -163,6 +171,22 @@
               "@type": "Answer",
               "text": "いいえ。`b = a` とすると b と a は同じリストを参照するので、どちらか一方を変更するともう一方も変わります。独立したコピーを作るには `b = a.copy()` または `b = a[:]` を使ってください。"
             }
+          },
+          {
+            "@type": "Question",
+            "name": "プログラミング未経験でもPythonは学べますか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "はい。Pythonは文法が比較的シンプルで、エラーメッセージも読みやすい言語です。小さなプログラムから手を動かしながら進めましょう。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "エラーが出たときの対処法は？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "エラーメッセージの最終行（例外名と説明）を読み、該当行のコードを確認してください。print() で変数の中身を表示するのも有効です。"
+            }
           }
         ]
       }
@@ -244,7 +268,51 @@
           "@type": "Answer",
           "text": "いいえ。`b = a` とすると b と a は同じリストを参照するので、どちらか一方を変更するともう一方も変わります。独立したコピーを作るには `b = a.copy()` または `b = a[:]` を使ってください。"
         }
+      },
+      {
+        "@type": "Question",
+        "name": "プログラミング未経験でもPythonは学べますか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "はい。Pythonは文法が比較的シンプルで、エラーメッセージも読みやすい言語です。小さなプログラムから手を動かしながら進めましょう。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "エラーが出たときの対処法は？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "エラーメッセージの最終行（例外名と説明）を読み、該当行のコードを確認してください。print() で変数の中身を表示するのも有効です。"
+        }
       }
     ]
-  }
+  },
+  "internalLinkCandidates": [
+    {
+      "slug": "python-classes",
+      "title": "クラスの基礎（class, __init__, メソッド）",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "python-exceptions",
+      "title": "例外処理（try/except）",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "python-modules",
+      "title": "モジュールとパッケージ（import, pip install）",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "python-file-io",
+      "title": "ファイルの読み書き（open, read, write）",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "python-functions",
+      "title": "関数の定義と使い方（def, 引数, return）",
+      "reason": "同じ講座の関連回です"
+    }
+  ],
+  "nextAction": "次はファイルの読み書きを学びます。open()関数・read()/write()・withブロックを使って、テキストファイルやCSVファイルをPythonで操作する方法を解説します。"
 }

@@ -114,7 +114,12 @@ async function generateEpisodeArticle({ topic, courseId, slug, angle, length }) 
   };
 
   const seo = buildSeoExtended(articleMeta, ctx);
-  const finalArticle = { ...articleMeta, ...seo };
+  const finalArticle = {
+    ...articleMeta,
+    nextAction: parsed.nextAction || "",
+    internalLinkCandidates: parsed.internalLinkCandidates || [],
+    ...seo,
+  };
 
   historyStore.saveGenerationHistory(slug, {
     prompt: userPrompt,

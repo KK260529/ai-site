@@ -18,7 +18,7 @@
   "theme": "web - HTML/CSS Web制作入門",
   "status": "published",
   "createdAt": "2026-05-30T04:13:23.862Z",
-  "updatedAt": "2026-05-30T04:13:23.868Z",
+  "updatedAt": "2026-05-30T05:00:53.204Z",
   "publishedAt": "2026-05-30T04:13:23.862Z",
   "metaTitle": "CSSフレックスボックス入門：display:flex・justify-content【html css 初心者】 |…",
   "metaDescription": "CSSのFlexboxをhtml css 初心者向けに解説。display:flex・justify-content・align-items・flex-wrapの使い方を実例コードつきで説明。横並びレイアウトを簡単に実現しましょう。",
@@ -45,6 +45,10 @@
     {
       "question": "Flexboxを使っても要素が中央揃えにならないのはなぜですか？",
       "answer": "よくある原因は2つです。①コンテナに高さ（height）が指定されていないため縦方向の中央揃えが効かない、②対象要素がFlexコンテナの直接の子要素になっていない（孫要素にはFlexboxが直接効かない）。コンテナのheightを指定してから試してみましょう。"
+    },
+    {
+      "question": "HTML/CSSだけでWebサイトは作れますか？",
+      "answer": "静的なページなら可能です。フォーム送信やユーザー認証など動的な機能には、後から JavaScript やサーバー側の技術が必要になります。"
     }
   ],
   "nextEpisodeHint": "次回はレスポンシブデザインを学びます。viewportとメディアクエリを使って、スマートフォン・タブレット・PCすべてに対応したWebページを作る方法を解説します。",
@@ -59,7 +63,7 @@
         "headline": "CSSフレックスボックス完全入門：display:flexとjustify-contentを使いこなそう",
         "description": "CSSのFlexboxをhtml css 初心者向けに解説。display:flex・justify-content・align-items・flex-wrapの使い方を実例コードつきで説明。横並びレイアウトを簡単に実現しましょう。",
         "datePublished": "2026-05-30T04:13:23.862Z",
-        "dateModified": "2026-05-30T04:13:23.868Z",
+        "dateModified": "2026-05-30T05:00:53.204Z",
         "author": {
           "@type": "Organization",
           "name": "StackShelf",
@@ -175,6 +179,14 @@
               "@type": "Answer",
               "text": "よくある原因は2つです。①コンテナに高さ（height）が指定されていないため縦方向の中央揃えが効かない、②対象要素がFlexコンテナの直接の子要素になっていない（孫要素にはFlexboxが直接効かない）。コンテナのheightを指定してから試してみましょう。"
             }
+          },
+          {
+            "@type": "Question",
+            "name": "HTML/CSSだけでWebサイトは作れますか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "静的なページなら可能です。フォーム送信やユーザー認証など動的な機能には、後から JavaScript やサーバー側の技術が必要になります。"
+            }
           }
         ]
       }
@@ -264,7 +276,43 @@
           "@type": "Answer",
           "text": "よくある原因は2つです。①コンテナに高さ（height）が指定されていないため縦方向の中央揃えが効かない、②対象要素がFlexコンテナの直接の子要素になっていない（孫要素にはFlexboxが直接効かない）。コンテナのheightを指定してから試してみましょう。"
         }
+      },
+      {
+        "@type": "Question",
+        "name": "HTML/CSSだけでWebサイトは作れますか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "静的なページなら可能です。フォーム送信やユーザー認証など動的な機能には、後から JavaScript やサーバー側の技術が必要になります。"
+        }
       }
     ]
-  }
+  },
+  "internalLinkCandidates": [
+    {
+      "slug": "web-css-practice",
+      "title": "ランディングページを実際に作ろう：HTML/CSS総合実践",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "web-responsive",
+      "title": "レスポンシブデザイン入門：viewportとメディアクエリでスマホ対応を実現しよう",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "web-box-model",
+      "title": "CSSボックスモデル完全解説：margin・padding・borderの仕組みを理解しよう",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "web-css-basics",
+      "title": "CSSの基本：セレクタ・color・font-sizeをゼロから学ぼう",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "web-publish-basics",
+      "title": "WebサイトをGitHub Pages・Vercelで無料公開する方法【完全手順】",
+      "reason": "同じ講座の関連回です"
+    }
+  ],
+  "nextAction": "次はレスポンシブデザインを学びます。viewportとメディアクエリを使って、スマートフォン・タブレット・PCすべてに対応したWebページを作る方法を解説します。"
 }

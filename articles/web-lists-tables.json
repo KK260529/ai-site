@@ -20,12 +20,12 @@
   "theme": "web - HTML/CSS Web制作入門",
   "status": "published",
   "createdAt": "2026-05-30T04:13:19.435Z",
-  "updatedAt": "2026-05-30T04:13:19.450Z",
+  "updatedAt": "2026-05-30T05:00:53.387Z",
   "publishedAt": "2026-05-30T04:13:19.435Z",
   "metaTitle": "HTMLリスト（ul・ol・li）とテーブル（table）の作り方【html css 初心者】 | StackShelf",
   "metaDescription": "【Web開発初心者向け】HTMLのul・ol・liタグでリスト作成、table・tr・td・thタグで表を作る方法をhtml css 初心者向けに解説。定義リストや表の結合も説明します。 図解・具体例つきで丁寧に解説します。",
   "ogTitle": "HTMLリストと表の作り方：ul・ol・li・tableタグ完全解説",
-  "ogDescription": "【Web開発初心者向け】【Web開発初心者向け】箇条書きリスト・番号付きリスト・HTMLテーブルの作り方をゼロから解説。初心者向けに構造を丁寧に説明します。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
+  "ogDescription": "【Web開発初心者向け】箇条書きリスト・番号付きリスト・HTMLテーブルの作り方をゼロから解説。初心者向けに構造を丁寧に説明します。 図解・具体例つきで丁寧に解説します。",
   "knowledge": {
     "topic": "web",
     "courseId": "web",
@@ -47,6 +47,10 @@
     {
       "question": "テーブルとFlexbox、どちらを使えばいいですか？",
       "answer": "データを表形式で表示する場合はtableを使います。レイアウト（ページの構成・並べ方）にはFlexboxかGridを使います。例えばスプレッドシートのようなデータはtable、ナビゲーションバーやカード一覧のレイアウトはFlexboxが適しています。"
+    },
+    {
+      "question": "HTML/CSSだけでWebサイトは作れますか？",
+      "answer": "静的なページなら可能です。フォーム送信やユーザー認証など動的な機能には、後から JavaScript やサーバー側の技術が必要になります。"
     }
   ],
   "nextEpisodeHint": "次回からいよいよCSSを学びます。セレクタ・color・font-sizeなどCSSの基本構文と、HTMLにCSSを適用する3つの方法（インライン・スタイルタグ・外部ファイル）を解説します。",
@@ -61,7 +65,7 @@
         "headline": "リストと表の作り方：ul・ol・li・tableタグをわかりやすく解説",
         "description": "【Web開発初心者向け】HTMLのul・ol・liタグでリスト作成、table・tr・td・thタグで表を作る方法をhtml css 初心者向けに解説。定義リストや表の結合も説明します。 図解・具体例つきで丁寧に解説します。",
         "datePublished": "2026-05-30T04:13:19.435Z",
-        "dateModified": "2026-05-30T04:13:19.450Z",
+        "dateModified": "2026-05-30T05:00:53.387Z",
         "author": {
           "@type": "Organization",
           "name": "StackShelf",
@@ -177,6 +181,14 @@
               "@type": "Answer",
               "text": "データを表形式で表示する場合はtableを使います。レイアウト（ページの構成・並べ方）にはFlexboxかGridを使います。例えばスプレッドシートのようなデータはtable、ナビゲーションバーやカード一覧のレイアウトはFlexboxが適しています。"
             }
+          },
+          {
+            "@type": "Question",
+            "name": "HTML/CSSだけでWebサイトは作れますか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "静的なページなら可能です。フォーム送信やユーザー認証など動的な機能には、後から JavaScript やサーバー側の技術が必要になります。"
+            }
           }
         ]
       }
@@ -266,7 +278,43 @@
           "@type": "Answer",
           "text": "データを表形式で表示する場合はtableを使います。レイアウト（ページの構成・並べ方）にはFlexboxかGridを使います。例えばスプレッドシートのようなデータはtable、ナビゲーションバーやカード一覧のレイアウトはFlexboxが適しています。"
         }
+      },
+      {
+        "@type": "Question",
+        "name": "HTML/CSSだけでWebサイトは作れますか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "静的なページなら可能です。フォーム送信やユーザー認証など動的な機能には、後から JavaScript やサーバー側の技術が必要になります。"
+        }
       }
     ]
-  }
+  },
+  "internalLinkCandidates": [
+    {
+      "slug": "web-publish-basics",
+      "title": "WebサイトをGitHub Pages・Vercelで無料公開する方法【完全手順】",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "web-css-practice",
+      "title": "ランディングページを実際に作ろう：HTML/CSS総合実践",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "web-forms",
+      "title": "HTMLフォームの作り方：form・input・label・buttonタグを徹底解説",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "web-links-images",
+      "title": "リンクと画像の書き方：aタグ・imgタグ・alt属性を初心者向けに解説",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "web-first-html",
+      "title": "最初のHTMLページを作ろう！DOCTYPE・head・bodyの基本構造を解説",
+      "reason": "同じ講座の関連回です"
+    }
+  ],
+  "nextAction": "次回からいよいよCSSを学びます。セレクタ・color・font-sizeなどCSSの基本構文と、HTMLにCSSを適用する3つの方法（インライン・スタイルタグ・外部ファイル）を解説します。"
 }

@@ -16,12 +16,12 @@
   "theme": "python - Python 入門",
   "status": "published",
   "createdAt": "2026-05-30T04:12:54.114Z",
-  "updatedAt": "2026-05-30T04:12:54.126Z",
+  "updatedAt": "2026-05-30T05:00:56.247Z",
   "publishedAt": "2026-05-30T04:12:54.114Z",
   "metaTitle": "Pythonとは？初心者向けプログラミング入門 | Python入門",
-  "metaDescription": "【Python初心者向け】Python入門の第一歩。Pythonの特徴・歴史・用途をわかりやすく解説。初心者がプログラミングを始めるのにPythonが最適な理由を詳しく紹介します。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
+  "metaDescription": "【Python初心者向け】Python入門の第一歩。Pythonの特徴・歴史・用途をわかりやすく解説。初心者がプログラミングを始めるのにPythonが最適な理由を詳しく紹介します。 図解・具体例つきで丁寧に解説します。",
   "ogTitle": "Pythonとは？プログラミングの第一歩 | Python入門",
-  "ogDescription": "【Python初心者向け】【Python初心者向け】Python入門講座スタート。Pythonの特徴・歴史・用途を初心者向けにわかりやすく解説します。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
+  "ogDescription": "【Python初心者向け】Python入門講座スタート。Pythonの特徴・歴史・用途を初心者向けにわかりやすく解説します。 図解・具体例つきで丁寧に解説します。",
   "knowledge": {
     "topic": "python",
     "courseId": "python",
@@ -39,6 +39,14 @@
     {
       "question": "PythonとRubyやJavaScriptの違いは何ですか？",
       "answer": "Pythonはデータ分析・機械学習・科学計算に強みを持ちます。RubyはWeb開発、JavaScriptはブラウザ上の動的UIに特化しています。どれを選ぶかは目的次第ですが、汎用性の高さでPythonは特に人気です。"
+    },
+    {
+      "question": "プログラミング未経験でもPythonは学べますか？",
+      "answer": "はい。Pythonは文法が比較的シンプルで、エラーメッセージも読みやすい言語です。小さなプログラムから手を動かしながら進めましょう。"
+    },
+    {
+      "question": "エラーが出たときの対処法は？",
+      "answer": "エラーメッセージの最終行（例外名と説明）を読み、該当行のコードを確認してください。print() で変数の中身を表示するのも有効です。"
     }
   ],
   "nextEpisodeHint": "次回はPythonをWindowsとMacにインストールする手順を解説します。python --versionコマンドで動作確認し、初めてのprint('Hello, World!')を実行してみましょう。",
@@ -51,9 +59,9 @@
         "@context": "https://schema.org",
         "@type": "TechArticle",
         "headline": "Pythonとは？プログラミングの第一歩",
-        "description": "【Python初心者向け】Python入門の第一歩。Pythonの特徴・歴史・用途をわかりやすく解説。初心者がプログラミングを始めるのにPythonが最適な理由を詳しく紹介します。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
+        "description": "【Python初心者向け】Python入門の第一歩。Pythonの特徴・歴史・用途をわかりやすく解説。初心者がプログラミングを始めるのにPythonが最適な理由を詳しく紹介します。 図解・具体例つきで丁寧に解説します。",
         "datePublished": "2026-05-30T04:12:54.114Z",
-        "dateModified": "2026-05-30T04:12:54.126Z",
+        "dateModified": "2026-05-30T05:00:56.247Z",
         "author": {
           "@type": "Organization",
           "name": "StackShelf",
@@ -161,6 +169,22 @@
               "@type": "Answer",
               "text": "Pythonはデータ分析・機械学習・科学計算に強みを持ちます。RubyはWeb開発、JavaScriptはブラウザ上の動的UIに特化しています。どれを選ぶかは目的次第ですが、汎用性の高さでPythonは特に人気です。"
             }
+          },
+          {
+            "@type": "Question",
+            "name": "プログラミング未経験でもPythonは学べますか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "はい。Pythonは文法が比較的シンプルで、エラーメッセージも読みやすい言語です。小さなプログラムから手を動かしながら進めましょう。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "エラーが出たときの対処法は？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "エラーメッセージの最終行（例外名と説明）を読み、該当行のコードを確認してください。print() で変数の中身を表示するのも有効です。"
+            }
           }
         ]
       }
@@ -242,7 +266,51 @@
           "@type": "Answer",
           "text": "Pythonはデータ分析・機械学習・科学計算に強みを持ちます。RubyはWeb開発、JavaScriptはブラウザ上の動的UIに特化しています。どれを選ぶかは目的次第ですが、汎用性の高さでPythonは特に人気です。"
         }
+      },
+      {
+        "@type": "Question",
+        "name": "プログラミング未経験でもPythonは学べますか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "はい。Pythonは文法が比較的シンプルで、エラーメッセージも読みやすい言語です。小さなプログラムから手を動かしながら進めましょう。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "エラーが出たときの対処法は？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "エラーメッセージの最終行（例外名と説明）を読み、該当行のコードを確認してください。print() で変数の中身を表示するのも有効です。"
+        }
       }
     ]
-  }
+  },
+  "internalLinkCandidates": [
+    {
+      "slug": "python-classes",
+      "title": "クラスの基礎（class, __init__, メソッド）",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "python-exceptions",
+      "title": "例外処理（try/except）",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "python-modules",
+      "title": "モジュールとパッケージ（import, pip install）",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "python-file-io",
+      "title": "ファイルの読み書き（open, read, write）",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "python-list-dict",
+      "title": "リストと辞書",
+      "reason": "同じ講座の関連回です"
+    }
+  ],
+  "nextAction": "次はPythonをWindowsとMacにインストールする手順を解説します。python --versionコマンドで動作確認し、初めてのprint('Hello, World!')を実行してみましょう。"
 }

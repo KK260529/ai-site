@@ -14,7 +14,7 @@
   "theme": "java - Java",
   "status": "published",
   "createdAt": "2026-05-29T11:29:49.751Z",
-  "updatedAt": "2026-05-29T14:35:19.564Z",
+  "updatedAt": "2026-05-30T05:00:58.932Z",
   "publishedAt": "2026-05-29T11:29:49.751Z",
   "metaTitle": "Javaの関数｜Java入門 | StackShelf",
   "metaDescription": "【Java初心者向け】Javaの関数は、プログラムの再利用性と可読性を向上させるために使用されます。このエピソードでは、Javaの関数の基本について学びます。 図解・具体例つきで丁寧に解説します。",
@@ -33,6 +33,18 @@
     {
       "question": "メソッドを定義するには何が必要ですか？",
       "answer": "メソッドを定義するには、メソッドの名前、戻り値の型、パラメーターのリストを指定する必要があります。"
+    },
+    {
+      "question": "Javaを学ぶのに数学は必要ですか？",
+      "answer": "基礎レベルでは四則演算程度で十分です。オブジェクト指向の考え方に慣れることが最初のハードルで、高度な数学は後から必要になる場面もあります。"
+    },
+    {
+      "question": "コンパイルエラーと実行時エラーの違いは？",
+      "answer": "コンパイルエラーはプログラムを実行する前に文法や型の問題で検出されます。実行時エラーは動かしてから初めて表面化する問題（NullPointerException など）です。"
+    },
+    {
+      "question": "つまずいたときはどうすればいいですか？",
+      "answer": "エラーメッセージをそのまま検索し、公式ドキュメントを当たってください。小さなステップに分けて再現・確認すると原因を特定しやすくなります。"
     }
   ],
   "nextEpisodeHint": "次のエピソードでは、Javaの配列について学びます。",
@@ -46,7 +58,7 @@
         "headline": "Javaの関数",
         "description": "【Java初心者向け】Javaの関数は、プログラムの再利用性と可読性を向上させるために使用されます。このエピソードでは、Javaの関数の基本について学びます。 図解・具体例つきで丁寧に解説します。",
         "datePublished": "2026-05-29T11:29:49.751Z",
-        "dateModified": "2026-05-29T14:35:19.564Z",
+        "dateModified": "2026-05-30T05:00:58.932Z",
         "author": {
           "@type": "Organization",
           "name": "StackShelf",
@@ -146,6 +158,30 @@
               "@type": "Answer",
               "text": "メソッドを定義するには、メソッドの名前、戻り値の型、パラメーターのリストを指定する必要があります。"
             }
+          },
+          {
+            "@type": "Question",
+            "name": "Javaを学ぶのに数学は必要ですか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "基礎レベルでは四則演算程度で十分です。オブジェクト指向の考え方に慣れることが最初のハードルで、高度な数学は後から必要になる場面もあります。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "コンパイルエラーと実行時エラーの違いは？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "コンパイルエラーはプログラムを実行する前に文法や型の問題で検出されます。実行時エラーは動かしてから初めて表面化する問題（NullPointerException など）です。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "つまずいたときはどうすればいいですか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "エラーメッセージをそのまま検索し、公式ドキュメントを当たってください。小さなステップに分けて再現・確認すると原因を特定しやすくなります。"
+            }
           }
         ]
       }
@@ -219,8 +255,60 @@
           "@type": "Answer",
           "text": "メソッドを定義するには、メソッドの名前、戻り値の型、パラメーターのリストを指定する必要があります。"
         }
+      },
+      {
+        "@type": "Question",
+        "name": "Javaを学ぶのに数学は必要ですか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "基礎レベルでは四則演算程度で十分です。オブジェクト指向の考え方に慣れることが最初のハードルで、高度な数学は後から必要になる場面もあります。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "コンパイルエラーと実行時エラーの違いは？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "コンパイルエラーはプログラムを実行する前に文法や型の問題で検出されます。実行時エラーは動かしてから初めて表面化する問題（NullPointerException など）です。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "つまずいたときはどうすればいいですか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "エラーメッセージをそのまま検索し、公式ドキュメントを当たってください。小さなステップに分けて再現・確認すると原因を特定しやすくなります。"
+        }
       }
     ]
   },
+  "internalLinkCandidates": [
+    {
+      "slug": "java-exception-handling",
+      "title": "Javaの例外処理",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "java-polymorphism",
+      "title": "Javaの多態性",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "java-inheritance",
+      "title": "Javaの継承",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "java-classes",
+      "title": "Javaのクラスとオブジェクト",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "java-objects",
+      "title": "Javaのオブジェクト指向プログラミング",
+      "reason": "同じ講座の関連回です"
+    }
+  ],
+  "nextAction": "次のエピソードでは、Javaの配列について学びます。",
   "ogImage": "https://ai-site-iota-nine.vercel.app/og-default.svg"
 }

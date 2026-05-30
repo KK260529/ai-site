@@ -15,7 +15,7 @@
   "theme": "java - Java",
   "status": "published",
   "createdAt": "2026-05-29T11:30:02.657Z",
-  "updatedAt": "2026-05-29T14:35:20.071Z",
+  "updatedAt": "2026-05-30T05:00:58.538Z",
   "publishedAt": "2026-05-29T11:30:02.657Z",
   "metaTitle": "Javaの例外処理｜Java入門 | StackShelf",
   "metaDescription": "【Java初心者向け】Javaにおける例外処理の基礎を理解する。try-catch-finally文やthrowsキーワードの使い方を学ぶ。 図解・具体例つきで丁寧に解説します。",
@@ -30,6 +30,22 @@
     {
       "question": "例外処理の目的は何ですか？",
       "answer": "例外処理の目的は、プログラムが異常終了することを防ぐことです。"
+    },
+    {
+      "question": "Javaを学ぶのに数学は必要ですか？",
+      "answer": "基礎レベルでは四則演算程度で十分です。オブジェクト指向の考え方に慣れることが最初のハードルで、高度な数学は後から必要になる場面もあります。"
+    },
+    {
+      "question": "コンパイルエラーと実行時エラーの違いは？",
+      "answer": "コンパイルエラーはプログラムを実行する前に文法や型の問題で検出されます。実行時エラーは動かしてから初めて表面化する問題（NullPointerException など）です。"
+    },
+    {
+      "question": "つまずいたときはどうすればいいですか？",
+      "answer": "エラーメッセージをそのまま検索し、公式ドキュメントを当たってください。小さなステップに分けて再現・確認すると原因を特定しやすくなります。"
+    },
+    {
+      "question": "どのくらいのペースで学べばいいですか？",
+      "answer": "1日30分〜1時間、週に3〜4回のペースが続けやすい目安です。読むだけでなく、必ず手を動かして確認しましょう。"
     }
   ],
   "nextEpisodeHint": "次回は、Javaのベストプラクティスについて学びます。",
@@ -43,7 +59,7 @@
         "headline": "Javaの例外処理",
         "description": "【Java初心者向け】Javaにおける例外処理の基礎を理解する。try-catch-finally文やthrowsキーワードの使い方を学ぶ。 図解・具体例つきで丁寧に解説します。",
         "datePublished": "2026-05-29T11:30:02.657Z",
-        "dateModified": "2026-05-29T14:35:20.071Z",
+        "dateModified": "2026-05-30T05:00:58.538Z",
         "author": {
           "@type": "Organization",
           "name": "StackShelf",
@@ -135,6 +151,38 @@
               "@type": "Answer",
               "text": "例外処理の目的は、プログラムが異常終了することを防ぐことです。"
             }
+          },
+          {
+            "@type": "Question",
+            "name": "Javaを学ぶのに数学は必要ですか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "基礎レベルでは四則演算程度で十分です。オブジェクト指向の考え方に慣れることが最初のハードルで、高度な数学は後から必要になる場面もあります。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "コンパイルエラーと実行時エラーの違いは？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "コンパイルエラーはプログラムを実行する前に文法や型の問題で検出されます。実行時エラーは動かしてから初めて表面化する問題（NullPointerException など）です。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "つまずいたときはどうすればいいですか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "エラーメッセージをそのまま検索し、公式ドキュメントを当たってください。小さなステップに分けて再現・確認すると原因を特定しやすくなります。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "どのくらいのペースで学べばいいですか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "1日30分〜1時間、週に3〜4回のペースが続けやすい目安です。読むだけでなく、必ず手を動かして確認しましょう。"
+            }
           }
         ]
       }
@@ -200,8 +248,68 @@
           "@type": "Answer",
           "text": "例外処理の目的は、プログラムが異常終了することを防ぐことです。"
         }
+      },
+      {
+        "@type": "Question",
+        "name": "Javaを学ぶのに数学は必要ですか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "基礎レベルでは四則演算程度で十分です。オブジェクト指向の考え方に慣れることが最初のハードルで、高度な数学は後から必要になる場面もあります。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "コンパイルエラーと実行時エラーの違いは？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "コンパイルエラーはプログラムを実行する前に文法や型の問題で検出されます。実行時エラーは動かしてから初めて表面化する問題（NullPointerException など）です。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "つまずいたときはどうすればいいですか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "エラーメッセージをそのまま検索し、公式ドキュメントを当たってください。小さなステップに分けて再現・確認すると原因を特定しやすくなります。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "どのくらいのペースで学べばいいですか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "1日30分〜1時間、週に3〜4回のペースが続けやすい目安です。読むだけでなく、必ず手を動かして確認しましょう。"
+        }
       }
     ]
   },
+  "internalLinkCandidates": [
+    {
+      "slug": "java-polymorphism",
+      "title": "Javaの多態性",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "java-inheritance",
+      "title": "Javaの継承",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "java-classes",
+      "title": "Javaのクラスとオブジェクト",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "java-objects",
+      "title": "Javaのオブジェクト指向プログラミング",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "java-arrays",
+      "title": "Javaの配列",
+      "reason": "同じ講座の関連回です"
+    }
+  ],
+  "nextAction": "次はJavaのベストプラクティスについて学びます。",
   "ogImage": "https://ai-site-iota-nine.vercel.app/og-default.svg"
 }

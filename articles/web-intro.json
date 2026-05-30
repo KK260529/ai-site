@@ -17,12 +17,12 @@
   "theme": "web - HTML/CSS Web制作入門",
   "status": "published",
   "createdAt": "2026-05-30T04:13:14.664Z",
-  "updatedAt": "2026-05-30T04:13:14.669Z",
+  "updatedAt": "2026-05-30T05:00:53.679Z",
   "publishedAt": "2026-05-30T04:13:14.664Z",
   "metaTitle": "Webサイトの仕組みとは？HTML・CSS・JSを初心者向けに解説【web制作 入門】 | StackShelf",
   "metaDescription": "【Web開発初心者向け】WebサイトがどうやってブラウザにHTMLを届けているのか、HTML・CSS・JavaScriptの役割分担をhtml css 初心者向けにわかりやすく説明します。 図解・具体例つきで丁寧に解説します。",
   "ogTitle": "Webサイトの仕組み：HTML・CSS・JavaScriptをゼロから理解する",
-  "ogDescription": "【Web開発初心者向け】【Web開発初心者向け】ブラウザがWebページを表示する仕組み、HTML・CSS・JSの関係をゼロから丁寧に解説します。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
+  "ogDescription": "【Web開発初心者向け】ブラウザがWebページを表示する仕組み、HTML・CSS・JSの関係をゼロから丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
   "knowledge": {
     "topic": "web",
     "courseId": "web",
@@ -44,6 +44,10 @@
     {
       "question": "HTMLを学ぶのにどのくらいの期間が必要ですか？",
       "answer": "基本的なHTMLとCSSは、毎日1〜2時間の学習で1〜2ヶ月で習得できます。このコースを順番に進めれば、12エピソードを終えた段階で簡単なWebページを自分で作れるようになります。"
+    },
+    {
+      "question": "HTML/CSSだけでWebサイトは作れますか？",
+      "answer": "静的なページなら可能です。フォーム送信やユーザー認証など動的な機能には、後から JavaScript やサーバー側の技術が必要になります。"
     }
   ],
   "nextEpisodeHint": "次回は実際にVS Codeを使って最初のHTMLファイルを作り、ブラウザで表示するところまでやっていきます。HTMLの基本構造（DOCTYPE・html・head・body）を手を動かして学びましょう。",
@@ -58,7 +62,7 @@
         "headline": "Webサイトの仕組みとは？HTML・CSS・JavaScriptをゼロから理解する",
         "description": "【Web開発初心者向け】WebサイトがどうやってブラウザにHTMLを届けているのか、HTML・CSS・JavaScriptの役割分担をhtml css 初心者向けにわかりやすく説明します。 図解・具体例つきで丁寧に解説します。",
         "datePublished": "2026-05-30T04:13:14.664Z",
-        "dateModified": "2026-05-30T04:13:14.669Z",
+        "dateModified": "2026-05-30T05:00:53.679Z",
         "author": {
           "@type": "Organization",
           "name": "StackShelf",
@@ -174,6 +178,14 @@
               "@type": "Answer",
               "text": "基本的なHTMLとCSSは、毎日1〜2時間の学習で1〜2ヶ月で習得できます。このコースを順番に進めれば、12エピソードを終えた段階で簡単なWebページを自分で作れるようになります。"
             }
+          },
+          {
+            "@type": "Question",
+            "name": "HTML/CSSだけでWebサイトは作れますか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "静的なページなら可能です。フォーム送信やユーザー認証など動的な機能には、後から JavaScript やサーバー側の技術が必要になります。"
+            }
           }
         ]
       }
@@ -263,7 +275,43 @@
           "@type": "Answer",
           "text": "基本的なHTMLとCSSは、毎日1〜2時間の学習で1〜2ヶ月で習得できます。このコースを順番に進めれば、12エピソードを終えた段階で簡単なWebページを自分で作れるようになります。"
         }
+      },
+      {
+        "@type": "Question",
+        "name": "HTML/CSSだけでWebサイトは作れますか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "静的なページなら可能です。フォーム送信やユーザー認証など動的な機能には、後から JavaScript やサーバー側の技術が必要になります。"
+        }
       }
     ]
-  }
+  },
+  "internalLinkCandidates": [
+    {
+      "slug": "web-css-practice",
+      "title": "ランディングページを実際に作ろう：HTML/CSS総合実践",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "web-first-html",
+      "title": "最初のHTMLページを作ろう！DOCTYPE・head・bodyの基本構造を解説",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "web-publish-basics",
+      "title": "WebサイトをGitHub Pages・Vercelで無料公開する方法【完全手順】",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "web-forms",
+      "title": "HTMLフォームの作り方：form・input・label・buttonタグを徹底解説",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "web-responsive",
+      "title": "レスポンシブデザイン入門：viewportとメディアクエリでスマホ対応を実現しよう",
+      "reason": "同じ講座の関連回です"
+    }
+  ],
+  "nextAction": "次は実際にVS Codeを使って最初のHTMLファイルを作り、ブラウザで表示するところまでやっていきます。HTMLの基本構造（DOCTYPE・html・head・body）を手を動かして学びましょう。"
 }

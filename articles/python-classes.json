@@ -17,12 +17,12 @@
   "theme": "python - Python 入門",
   "status": "published",
   "createdAt": "2026-05-30T04:12:59.802Z",
-  "updatedAt": "2026-05-30T04:12:59.806Z",
+  "updatedAt": "2026-05-30T05:00:55.386Z",
   "publishedAt": "2026-05-30T04:12:59.802Z",
   "metaTitle": "Python クラス class __init__ メソッド 入門 | Python入門",
   "metaDescription": "Python入門：classによるオブジェクト指向プログラミングを初心者向けに解説。__init__コンストラクタ・インスタンスメソッド・継承・カプセル化まで豊富なコード例で学べます。 図解・具体例つきで丁寧に解説します。",
   "ogTitle": "Python クラスの基礎 class/__init__/メソッド | Python入門",
-  "ogDescription": "【Python初心者向け】Pythonのクラスとオブジェクト指向を初心者向けに解説。__init__・メソッド・継承・カプセル化まで丁寧に説明します。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
+  "ogDescription": "【Python初心者向け】Pythonのクラスとオブジェクト指向を初心者向けに解説。__init__・メソッド・継承・カプセル化まで丁寧に説明します。 図解・具体例つきで丁寧に解説します。",
   "knowledge": {
     "topic": "python",
     "courseId": "python",
@@ -40,6 +40,14 @@
     {
       "question": "Pythonに多重継承はありますか？",
       "answer": "はい、Pythonは複数のクラスを同時に継承できる多重継承をサポートしています。class C(A, B): と書くとAとB両方を継承できます。ただし設計が複雑になりやすいため、慎重に使う必要があります。"
+    },
+    {
+      "question": "プログラミング未経験でもPythonは学べますか？",
+      "answer": "はい。Pythonは文法が比較的シンプルで、エラーメッセージも読みやすい言語です。小さなプログラムから手を動かしながら進めましょう。"
+    },
+    {
+      "question": "エラーが出たときの対処法は？",
+      "answer": "エラーメッセージの最終行（例外名と説明）を読み、該当行のコードを確認してください。print() で変数の中身を表示するのも有効です。"
     }
   ],
   "nextEpisodeHint": "次回はいよいよ最終エピソード！これまでの知識を総動員して、コマンドラインで動くTODOツールを1から作ります。ファイル保存・クラス設計・例外処理・ループを組み合わせた実践的なプロジェクトです。",
@@ -54,7 +62,7 @@
         "headline": "クラスの基礎（class, __init__, メソッド）",
         "description": "Python入門：classによるオブジェクト指向プログラミングを初心者向けに解説。__init__コンストラクタ・インスタンスメソッド・継承・カプセル化まで豊富なコード例で学べます。 図解・具体例つきで丁寧に解説します。",
         "datePublished": "2026-05-30T04:12:59.802Z",
-        "dateModified": "2026-05-30T04:12:59.806Z",
+        "dateModified": "2026-05-30T05:00:55.386Z",
         "author": {
           "@type": "Organization",
           "name": "StackShelf",
@@ -162,6 +170,22 @@
               "@type": "Answer",
               "text": "はい、Pythonは複数のクラスを同時に継承できる多重継承をサポートしています。class C(A, B): と書くとAとB両方を継承できます。ただし設計が複雑になりやすいため、慎重に使う必要があります。"
             }
+          },
+          {
+            "@type": "Question",
+            "name": "プログラミング未経験でもPythonは学べますか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "はい。Pythonは文法が比較的シンプルで、エラーメッセージも読みやすい言語です。小さなプログラムから手を動かしながら進めましょう。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "エラーが出たときの対処法は？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "エラーメッセージの最終行（例外名と説明）を読み、該当行のコードを確認してください。print() で変数の中身を表示するのも有効です。"
+            }
           }
         ]
       }
@@ -243,7 +267,51 @@
           "@type": "Answer",
           "text": "はい、Pythonは複数のクラスを同時に継承できる多重継承をサポートしています。class C(A, B): と書くとAとB両方を継承できます。ただし設計が複雑になりやすいため、慎重に使う必要があります。"
         }
+      },
+      {
+        "@type": "Question",
+        "name": "プログラミング未経験でもPythonは学べますか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "はい。Pythonは文法が比較的シンプルで、エラーメッセージも読みやすい言語です。小さなプログラムから手を動かしながら進めましょう。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "エラーが出たときの対処法は？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "エラーメッセージの最終行（例外名と説明）を読み、該当行のコードを確認してください。print() で変数の中身を表示するのも有効です。"
+        }
       }
     ]
-  }
+  },
+  "internalLinkCandidates": [
+    {
+      "slug": "python-exceptions",
+      "title": "例外処理（try/except）",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "python-modules",
+      "title": "モジュールとパッケージ（import, pip install）",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "python-file-io",
+      "title": "ファイルの読み書き（open, read, write）",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "python-list-dict",
+      "title": "リストと辞書",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "python-functions",
+      "title": "関数の定義と使い方（def, 引数, return）",
+      "reason": "同じ講座の関連回です"
+    }
+  ],
+  "nextAction": "次はいよいよ最終エピソード！これまでの知識を総動員して、コマンドラインで動くTODOツールを1から作ります。ファイル保存・クラス設計・例外処理・ループを組み合わせた実践的なプロジェクトです。"
 }

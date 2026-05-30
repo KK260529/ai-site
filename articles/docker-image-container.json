@@ -17,12 +17,12 @@
   "theme": "docker - Docker 入門",
   "status": "published",
   "createdAt": "2026-05-30T04:13:31.502Z",
-  "updatedAt": "2026-05-30T05:00:52.770Z",
+  "updatedAt": "2026-05-30T05:01:27.740Z",
   "publishedAt": "2026-05-30T04:13:31.502Z",
   "metaTitle": "Dockerイメージとコンテナの違い・管理コマンド完全ガイド【docker 使い方】 | StackShelf",
   "metaDescription": "Dockerのイメージとコンテナの違いをわかりやすく解説。docker images、docker ps、docker exec、docker inspect の使い方を初心者向けに説明します。docker 初心者必読。",
   "ogTitle": "Dockerイメージとコンテナを完全理解：images・ps・exec解説",
-  "ogDescription": "【Docker初心者向け】DockerのイメージとコンテナはOOPのクラスとインスタンスの関係。管理コマンドを詳しく解説します。 図解・具体例つきで丁寧に解説します。",
+  "ogDescription": "DockerのイメージとコンテナはOOPのクラスとインスタンスの関係。管理コマンドを詳しく解説します。",
   "knowledge": {
     "topic": "docker",
     "courseId": "docker",
@@ -62,7 +62,7 @@
         "headline": "Dockerイメージとコンテナを理解する：images・ps・exec完全解説",
         "description": "Dockerのイメージとコンテナの違いをわかりやすく解説。docker images、docker ps、docker exec、docker inspect の使い方を初心者向けに説明します。docker 初心者必読。",
         "datePublished": "2026-05-30T04:13:31.502Z",
-        "dateModified": "2026-05-30T05:00:52.770Z",
+        "dateModified": "2026-05-30T05:01:27.740Z",
         "author": {
           "@type": "Organization",
           "name": "StackShelf",

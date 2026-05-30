@@ -17,12 +17,12 @@
   "theme": "git - Git & GitHub 入門",
   "status": "published",
   "createdAt": "2026-05-30T03:50:00.389Z",
-  "updatedAt": "2026-05-30T05:00:56.307Z",
+  "updatedAt": "2026-05-30T05:01:30.948Z",
   "publishedAt": "2026-05-30T03:50:00.389Z",
   "metaTitle": "実務で使う Git ワークフロー｜Git Flow・GitHub Flow・git stash 解説",
   "metaDescription": "Git Flow と GitHub Flow の違い、git stash・git cherry-pick・git tag・git bisect の使い方を解説。実務のチーム開発で役立つ Git ワークフローを初心者向けにわかりやすく紹介します。",
   "ogTitle": "実務で使う Git ワークフロー完全ガイド",
-  "ogDescription": "Git Flow・GitHub Flow のブランチ戦略から、git stash・cherry-pick・tag など実務コマンドまで。チーム開発で即使えるベストプラクティスを解説します。 図解・具体例つきで丁寧に解説します。",
+  "ogDescription": "Git Flow・GitHub Flow のブランチ戦略から、git stash・cherry-pick・tag など実務コマンドまで。チーム開発で即使えるベストプラクティスを解説します。",
   "knowledge": {
     "topic": "git",
     "courseId": "git",
@@ -62,7 +62,7 @@
         "headline": "実務で使うGitワークフロー",
         "description": "Git Flow と GitHub Flow の違い、git stash・git cherry-pick・git tag・git bisect の使い方を解説。実務のチーム開発で役立つ Git ワークフローを初心者向けにわかりやすく紹介します。",
         "datePublished": "2026-05-30T03:50:00.389Z",
-        "dateModified": "2026-05-30T05:00:56.307Z",
+        "dateModified": "2026-05-30T05:01:30.948Z",
         "author": {
           "@type": "Organization",
           "name": "StackShelf",

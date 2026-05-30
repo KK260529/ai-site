@@ -19,12 +19,12 @@
   "theme": "docker - Docker 入門",
   "status": "published",
   "createdAt": "2026-05-30T04:13:35.289Z",
-  "updatedAt": "2026-05-30T05:00:52.447Z",
+  "updatedAt": "2026-05-30T05:01:27.213Z",
   "publishedAt": "2026-05-30T04:13:35.289Z",
   "metaTitle": "Node.js・Python WebアプリをDockerコンテナ化する実践【docker 使い方 初心者総まとめ】 |…",
   "metaDescription": "Node.jsとPython（Flask）のWebアプリをDockerコンテナ化する実践ガイド。Dockerfile・docker-compose.yml作成からデプロイまでdocker 使い方の総まとめ。docker 初心者の集大成。",
   "ogTitle": "Node.js・Python WebアプリをDockerコンテナ化する実践ガイド",
-  "ogDescription": "【Docker初心者向け】Node.jsとPythonのWebアプリをDockerでコンテナ化する実践演習。DockerfileからDocker Composeまで総まとめ。 図解・具体例つきで丁寧に解説します。",
+  "ogDescription": "Node.jsとPythonのWebアプリをDockerでコンテナ化する実践演習。DockerfileからDocker Composeまで総まとめ。",
   "knowledge": {
     "topic": "docker",
     "courseId": "docker",
@@ -64,7 +64,7 @@
         "headline": "Node.js・Python WebアプリをDockerコンテナ化する実践ガイド",
         "description": "Node.jsとPython（Flask）のWebアプリをDockerコンテナ化する実践ガイド。Dockerfile・docker-compose.yml作成からデプロイまでdocker 使い方の総まとめ。docker 初心者の集大成。",
         "datePublished": "2026-05-30T04:13:35.289Z",
-        "dateModified": "2026-05-30T05:00:52.447Z",
+        "dateModified": "2026-05-30T05:01:27.213Z",
         "author": {
           "@type": "Organization",
           "name": "StackShelf",

@@ -17,12 +17,12 @@
   "theme": "docker - Docker 入門",
   "status": "published",
   "createdAt": "2026-05-30T04:13:33.332Z",
-  "updatedAt": "2026-05-30T05:00:52.622Z",
+  "updatedAt": "2026-05-30T05:01:27.463Z",
   "publishedAt": "2026-05-30T04:13:33.332Z",
   "metaTitle": "Docker Compose入門：docker-compose.yml完全ガイド【docker 使い方・初心者】 |…",
   "metaDescription": "Docker Composeでマルチコンテナアプリを管理する方法を初心者向けに解説。docker-compose.ymlの書き方、services定義、よく使うコマンドをわかりやすく説明します。docker 初心者必読。",
   "ogTitle": "Docker Compose入門：docker-compose.ymlの書き方と使い方",
-  "ogDescription": "【Docker初心者向け】Docker Composeでアプリ＋DB等の複数コンテナを一括管理する方法をゼロから解説します。 図解・具体例つきで丁寧に解説します。",
+  "ogDescription": "Docker Composeでアプリ＋DB等の複数コンテナを一括管理する方法をゼロから解説します。",
   "knowledge": {
     "topic": "docker",
     "courseId": "docker",
@@ -62,7 +62,7 @@
         "headline": "Docker Compose入門：docker-compose.ymlでマルチコンテナを管理する",
         "description": "Docker Composeでマルチコンテナアプリを管理する方法を初心者向けに解説。docker-compose.ymlの書き方、services定義、よく使うコマンドをわかりやすく説明します。docker 初心者必読。",
         "datePublished": "2026-05-30T04:13:33.332Z",
-        "dateModified": "2026-05-30T05:00:52.622Z",
+        "dateModified": "2026-05-30T05:01:27.463Z",
         "author": {
           "@type": "Organization",
           "name": "StackShelf",

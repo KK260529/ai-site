@@ -3,7 +3,7 @@
   "slug": "python-runtimeerror-dictionary-changed-size-during-iteration-9ac924",
   "title": "RuntimeError: dictionary changed size during iteration の原因と解決法",
   "summary": "RuntimeError: dictionary changed size during iteration の原因と具体的な解決手順をまとめました。",
-  "body": "<h2>エラーメッセージ（全文）</h2>\n<p>検索でヒットしやすいよう、実際のコンソール出力をそのまま掲載します。</p>\n<pre><code>RuntimeError: dictionary changed size during iteration</code></pre>\n\n<h2>このエラーとは</h2>\n<p>RuntimeError: dictionary changed size during iteration は Python 開発でよく遭遇するエラーです。</p>\n<p><strong>想定環境:</strong> Windows / macOS / Linux</p>\n<p><strong>よく出る状況:</strong> ループ中の dict 変更</p>\n\n<h2>よくある原因</h2>\n<ul>\n<li>ループ中の dict 変更</li>\n</ul><h2>解決方法</h2><h3>方法1: エラー種別に応じた修正</h3><p>メッセージに含まれるファイル名・行番号・型名を手がかりに修正します.</p>\n<h2>それでも直らないとき</h2>\n<p>バージョン情報（Python のバージョン、OS、実行コマンド）を添えて、エラーメッセージ全文と直前に変更した点を確認してください。ログの数行上にも原因の手がかりが残っていることが多いです。</p>",
+  "body": "<h2>エラーメッセージ（全文）</h2>\n<pre><code>RuntimeError: dictionary changed size during iteration</code></pre>\n\n<h2>このエラーとは</h2>\n<p>RuntimeError: dictionary changed size during iteration は Python 開発でよく遭遇するエラーです。</p>\n<p><strong>想定環境:</strong> Windows / macOS / Linux</p>\n<p><strong>よく出る状況:</strong> ループ中の dict 変更</p>\n\n<h2>よくある原因</h2>\n<ul>\n<li>ループ中の dict 変更</li>\n</ul><h2>解決方法</h2><h3>方法1: エラー種別に応じた修正</h3><p>メッセージに含まれるファイル名・行番号・型名を手がかりに修正します.</p>\n<h2>それでも直らないとき</h2>\n<p>バージョン情報（Python のバージョン、OS、実行コマンド）を添えて、エラーメッセージ全文と直前に変更した点を確認してください。ログの数行上にも原因の手がかりが残っていることが多いです。</p>",
   "conclusion": "「RuntimeError: dictionary changed size during iteration」は ループ中の dict 変更 が原因のことが多いです。上記の手順で切り分けてください。",
   "tags": [
     "python",

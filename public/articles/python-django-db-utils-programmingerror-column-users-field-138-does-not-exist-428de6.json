@@ -3,7 +3,7 @@
   "slug": "python-django-db-utils-programmingerror-column-users-field-138-does-not-exist-428de6",
   "title": "django.db.utils.ProgrammingError: column users.field_138 does not exist の原因と解決法",
   "summary": "django.db.utils.ProgrammingError: column users.field_138 does not exist の原因と具体的な解決手順をまとめました。",
-  "body": "<h2>エラーメッセージ（全文）</h2>\n<p>検索でヒットしやすいよう、実際のコンソール出力をそのまま掲載します。</p>\n<pre><code>django.db.utils.ProgrammingError: column users.field_138 does not exist</code></pre>\n\n<h2>このエラーとは</h2>\n<p>django.db.utils.ProgrammingError: column users.field_138 does not exist は Python 開発でよく遭遇するエラーです。</p>\n<p><strong>想定環境:</strong> Windows / macOS / Linux</p>\n<p><strong>よく出る状況:</strong> numpy 利用時</p>\n\n<h2>よくある原因</h2>\n<ul>\n<li>ネットワーク</li>\n<li>ファイルパス</li>\n<li>DB/外部サービス</li>\n</ul><h2>解決方法</h2><h3>方法1: ログとスタックトレース確認</h3><p>直前の操作と環境変数を確認.</p>\n<h2>それでも直らないとき</h2>\n<p>バージョン情報（Python のバージョン、OS、実行コマンド）を添えて、エラーメッセージ全文と直前に変更した点を確認してください。ログの数行上にも原因の手がかりが残っていることが多いです。</p>",
+  "body": "<h2>エラーメッセージ（全文）</h2>\n<pre><code>django.db.utils.ProgrammingError: column users.field_138 does not exist</code></pre>\n\n<h2>このエラーとは</h2>\n<p>django.db.utils.ProgrammingError: column users.field_138 does not exist は Python 開発でよく遭遇するエラーです。</p>\n<p><strong>想定環境:</strong> Windows / macOS / Linux</p>\n<p><strong>よく出る状況:</strong> numpy 利用時</p>\n\n<h2>よくある原因</h2>\n<ul>\n<li>ネットワーク</li>\n<li>ファイルパス</li>\n<li>DB/外部サービス</li>\n</ul><h2>解決方法</h2><h3>方法1: ログとスタックトレース確認</h3><p>直前の操作と環境変数を確認.</p>\n<h2>それでも直らないとき</h2>\n<p>バージョン情報（Python のバージョン、OS、実行コマンド）を添えて、エラーメッセージ全文と直前に変更した点を確認してください。ログの数行上にも原因の手がかりが残っていることが多いです。</p>",
   "conclusion": "「django.db.utils.ProgrammingError: column users.field_138 does not exist」は ネットワーク が原因のことが多いです。上記の手順で切り分けてください。",
   "tags": [
     "python",

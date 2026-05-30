@@ -1,5 +1,6 @@
 const articleStore = require("./articleStore");
 const knowledgeStore = require("./stores/knowledgeStore");
+const { getTopicLabel } = require("./internalLinks");
 
 function slugifyTag(tag) {
   return encodeURIComponent(String(tag || "").trim());
@@ -144,7 +145,7 @@ function listTopicSummaries() {
       .filter((a) => a.knowledge?.topic === topic).length;
     return {
       topic,
-      title: roadmap.title || topic,
+      title: getTopicLabel(topic) || roadmap.title || topic,
       description: roadmap.description || "",
       courseCount: courses.length,
       articleCount: published,

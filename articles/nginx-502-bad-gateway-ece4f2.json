@@ -3,7 +3,7 @@
   "slug": "nginx-502-bad-gateway-ece4f2",
   "title": "502 Bad Gateway の原因と解決法",
   "summary": "502 Bad Gateway の原因と具体的な解決手順をまとめました。",
-  "body": "<h2>エラーメッセージ（全文）</h2>\n<p>検索でヒットしやすいよう、実際のコンソール出力をそのまま掲載します。</p>\n<pre><code>502 Bad Gateway</code></pre>\n\n<h2>このエラーとは</h2>\n<p>502 Bad Gateway は nginx 開発でよく遭遇するエラーです。</p>\n<p><strong>想定環境:</strong> Windows / macOS / Linux</p>\n<p><strong>よく出る状況:</strong> nginx 起動・リバースプロキシ</p>\n\n<h2>よくある原因</h2>\n<ul>\n<li>設定文法エラー</li>\n<li>upstream 未起動</li>\n<li>SSL 設定不足</li>\n<li>バッファサイズ不足</li>\n</ul><h2>解決方法</h2><h3>方法1: 設定テスト</h3><p>nginx -t.</p><pre><code>sudo nginx -t\nsudo systemctl reload nginx</code></pre><h3>方法2: エラーログ</h3><p>tail -f /var/log/nginx/error.log.</p>\n<h2>それでも直らないとき</h2>\n<p>バージョン情報（nginx のバージョン、OS、実行コマンド）を添えて、エラーメッセージ全文と直前に変更した点を確認してください。ログの数行上にも原因の手がかりが残っていることが多いです。</p>",
+  "body": "<h2>エラーメッセージ（全文）</h2>\n<pre><code>502 Bad Gateway</code></pre>\n\n<h2>このエラーとは</h2>\n<p>502 Bad Gateway は nginx 開発でよく遭遇するエラーです。</p>\n<p><strong>想定環境:</strong> Windows / macOS / Linux</p>\n<p><strong>よく出る状況:</strong> nginx 起動・リバースプロキシ</p>\n\n<h2>よくある原因</h2>\n<ul>\n<li>設定文法エラー</li>\n<li>upstream 未起動</li>\n<li>SSL 設定不足</li>\n<li>バッファサイズ不足</li>\n</ul><h2>解決方法</h2><h3>方法1: 設定テスト</h3><p>nginx -t.</p><pre><code>sudo nginx -t\nsudo systemctl reload nginx</code></pre><h3>方法2: エラーログ</h3><p>tail -f /var/log/nginx/error.log.</p>\n<h2>それでも直らないとき</h2>\n<p>バージョン情報（nginx のバージョン、OS、実行コマンド）を添えて、エラーメッセージ全文と直前に変更した点を確認してください。ログの数行上にも原因の手がかりが残っていることが多いです。</p>",
   "conclusion": "「502 Bad Gateway」は 設定文法エラー が原因のことが多いです。上記の手順で切り分けてください。",
   "tags": [
     "nginx",

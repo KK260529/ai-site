@@ -3,7 +3,7 @@
   "slug": "docker-unable-to-find-user-appuser69-no-matching-entries-in-passwd-file-557977",
   "title": "unable to find user appuser69: no matching entries in passwd file の原因と解決法",
   "summary": "unable to find user appuser69: no matching entries in passwd file の原因と具体的な解決手順をまとめました。",
-  "body": "<h2>エラーメッセージ（全文）</h2>\n<p>検索でヒットしやすいよう、実際のコンソール出力をそのまま掲載します。</p>\n<pre><code>unable to find user appuser69: no matching entries in passwd file</code></pre>\n\n<h2>このエラーとは</h2>\n<p>unable to find user appuser69: no matching entries in passwd file は Docker 開発でよく遭遇するエラーです。</p>\n<p><strong>想定環境:</strong> Windows / macOS / Linux</p>\n<p><strong>よく出る状況:</strong> Docker / Compose</p>\n\n<h2>よくある原因</h2>\n<ul>\n<li>リソース</li>\n<li>設定</li>\n<li>イメージ</li>\n</ul><h2>解決方法</h2><h3>方法1: docker logs</h3><p>docker logs app-69 --tail 100</p>\n<h2>それでも直らないとき</h2>\n<p>バージョン情報（Docker のバージョン、OS、実行コマンド）を添えて、エラーメッセージ全文と直前に変更した点を確認してください。ログの数行上にも原因の手がかりが残っていることが多いです。</p>",
+  "body": "<h2>エラーメッセージ（全文）</h2>\n<pre><code>unable to find user appuser69: no matching entries in passwd file</code></pre>\n\n<h2>このエラーとは</h2>\n<p>unable to find user appuser69: no matching entries in passwd file は Docker 開発でよく遭遇するエラーです。</p>\n<p><strong>想定環境:</strong> Windows / macOS / Linux</p>\n<p><strong>よく出る状況:</strong> Docker / Compose</p>\n\n<h2>よくある原因</h2>\n<ul>\n<li>リソース</li>\n<li>設定</li>\n<li>イメージ</li>\n</ul><h2>解決方法</h2><h3>方法1: docker logs</h3><p>docker logs app-69 --tail 100</p>\n<h2>それでも直らないとき</h2>\n<p>バージョン情報（Docker のバージョン、OS、実行コマンド）を添えて、エラーメッセージ全文と直前に変更した点を確認してください。ログの数行上にも原因の手がかりが残っていることが多いです。</p>",
   "conclusion": "「unable to find user appuser69: no matching entries in passwd file」は リソース が原因のことが多いです。上記の手順で切り分けてください。",
   "tags": [
     "docker",

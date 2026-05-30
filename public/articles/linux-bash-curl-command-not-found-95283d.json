@@ -3,7 +3,7 @@
   "slug": "linux-bash-curl-command-not-found-95283d",
   "title": "bash: curl: command not found の原因と解決法",
   "summary": "bash: curl: command not found の原因と具体的な解決手順をまとめました。",
-  "body": "<h2>エラーメッセージ（全文）</h2>\n<p>検索でヒットしやすいよう、実際のコンソール出力をそのまま掲載します。</p>\n<pre><code>bash: curl: command not found</code></pre>\n\n<h2>このエラーとは</h2>\n<p>bash: curl: command not found は Linux 開発でよく遭遇するエラーです。</p>\n<p><strong>想定環境:</strong> Windows / macOS / Linux</p>\n<p><strong>よく出る状況:</strong> シェルでコマンド実行時</p>\n\n<h2>よくある原因</h2>\n<ul>\n<li>curl が未インストール</li>\n<li>PATH に含まれていない</li>\n<li>typo</li>\n</ul><h2>解決方法</h2><h3>方法1: インストール</h3><p>ディストリビューションのパッケージマネージャで導入.</p><pre><code>sudo apt install curl  # Debian/Ubuntu</code></pre><h3>方法2: PATH 確認</h3><p>echo $PATH と which.</p><pre><code>which curl\necho $PATH</code></pre>\n<h2>それでも直らないとき</h2>\n<p>バージョン情報（Linux のバージョン、OS、実行コマンド）を添えて、エラーメッセージ全文と直前に変更した点を確認してください。ログの数行上にも原因の手がかりが残っていることが多いです。</p>",
+  "body": "<h2>エラーメッセージ（全文）</h2>\n<pre><code>bash: curl: command not found</code></pre>\n\n<h2>このエラーとは</h2>\n<p>bash: curl: command not found は Linux 開発でよく遭遇するエラーです。</p>\n<p><strong>想定環境:</strong> Windows / macOS / Linux</p>\n<p><strong>よく出る状況:</strong> シェルでコマンド実行時</p>\n\n<h2>よくある原因</h2>\n<ul>\n<li>curl が未インストール</li>\n<li>PATH に含まれていない</li>\n<li>typo</li>\n</ul><h2>解決方法</h2><h3>方法1: インストール</h3><p>ディストリビューションのパッケージマネージャで導入.</p><pre><code>sudo apt install curl  # Debian/Ubuntu</code></pre><h3>方法2: PATH 確認</h3><p>echo $PATH と which.</p><pre><code>which curl\necho $PATH</code></pre>\n<h2>それでも直らないとき</h2>\n<p>バージョン情報（Linux のバージョン、OS、実行コマンド）を添えて、エラーメッセージ全文と直前に変更した点を確認してください。ログの数行上にも原因の手がかりが残っていることが多いです。</p>",
   "conclusion": "「bash: curl: command not found」は curl が未インストール が原因のことが多いです。上記の手順で切り分けてください。",
   "tags": [
     "linux",

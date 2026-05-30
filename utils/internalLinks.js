@@ -76,4 +76,10 @@ function linkifyTextPart(html, topic, currentSlug) {
   return result;
 }
 
-module.exports = { applyInternalLinks, TOPIC_LABELS };
+function getTopicLabel(topic) {
+  if (!topic) return "";
+  if (TOPIC_LABELS[topic]) return TOPIC_LABELS[topic];
+  return topic.charAt(0).toUpperCase() + topic.slice(1);
+}
+
+module.exports = { applyInternalLinks, TOPIC_LABELS, getTopicLabel };

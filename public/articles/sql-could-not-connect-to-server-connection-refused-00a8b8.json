@@ -3,7 +3,7 @@
   "slug": "sql-could-not-connect-to-server-connection-refused-00a8b8",
   "title": "could not connect to server: Connection refused の原因と解決法",
   "summary": "could not connect to server: Connection refused の原因と具体的な解決手順をまとめました。",
-  "body": "<h2>エラーメッセージ（全文）</h2>\n<p>検索でヒットしやすいよう、実際のコンソール出力をそのまま掲載します。</p>\n<pre><code>could not connect to server: Connection refused</code></pre>\n\n<h2>このエラーとは</h2>\n<p>could not connect to server: Connection refused は SQL 開発でよく遭遇するエラーです。</p>\n<p><strong>想定環境:</strong> Windows / macOS / Linux</p>\n<p><strong>よく出る状況:</strong> PostgreSQL 実行時</p>\n\n<h2>よくある原因</h2>\n<ul>\n<li>migrate 未実行</li>\n<li>権限不足</li>\n<li>接続設定誤り</li>\n</ul><h2>解決方法</h2><h3>方法1: \\dt でテーブル確認</h3><p>psql でスキーマを確認.</p>\n<h2>それでも直らないとき</h2>\n<p>バージョン情報（SQL のバージョン、OS、実行コマンド）を添えて、エラーメッセージ全文と直前に変更した点を確認してください。ログの数行上にも原因の手がかりが残っていることが多いです。</p>",
+  "body": "<h2>エラーメッセージ（全文）</h2>\n<pre><code>could not connect to server: Connection refused</code></pre>\n\n<h2>このエラーとは</h2>\n<p>could not connect to server: Connection refused は SQL 開発でよく遭遇するエラーです。</p>\n<p><strong>想定環境:</strong> Windows / macOS / Linux</p>\n<p><strong>よく出る状況:</strong> PostgreSQL 実行時</p>\n\n<h2>よくある原因</h2>\n<ul>\n<li>migrate 未実行</li>\n<li>権限不足</li>\n<li>接続設定誤り</li>\n</ul><h2>解決方法</h2><h3>方法1: \\dt でテーブル確認</h3><p>psql でスキーマを確認.</p>\n<h2>それでも直らないとき</h2>\n<p>バージョン情報（SQL のバージョン、OS、実行コマンド）を添えて、エラーメッセージ全文と直前に変更した点を確認してください。ログの数行上にも原因の手がかりが残っていることが多いです。</p>",
   "conclusion": "「could not connect to server: Connection refused」は migrate 未実行 が原因のことが多いです。上記の手順で切り分けてください。",
   "tags": [
     "sql",

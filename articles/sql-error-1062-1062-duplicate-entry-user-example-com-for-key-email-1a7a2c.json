@@ -3,7 +3,7 @@
   "slug": "sql-error-1062-1062-duplicate-entry-user-example-com-for-key-email-1a7a2c",
   "title": "ERROR 1062 (1062): Duplicate entry 'user@example.com' for key 'email' の原因と解決法",
   "summary": "ERROR 1062 (1062): Duplicate entry 'user@example.com' for key 'email' の原因と具体的な解決手順をまとめました。",
-  "body": "<h2>エラーメッセージ（全文）</h2>\n<p>検索でヒットしやすいよう、実際のコンソール出力をそのまま掲載します。</p>\n<pre><code>ERROR 1062 (1062): Duplicate entry 'user@example.com' for key 'email'</code></pre>\n\n<h2>このエラーとは</h2>\n<p>ERROR 1062 (1062): Duplicate entry 'user@example.com' for key 'email' は SQL 開発でよく遭遇するエラーです。</p>\n<p><strong>想定環境:</strong> Windows / macOS / Linux</p>\n<p><strong>よく出る状況:</strong> MySQL 実行時</p>\n\n<h2>よくある原因</h2>\n<ul>\n<li>制約違反</li>\n<li>スキーマ不一致</li>\n<li>権限・接続問題</li>\n</ul><h2>解決方法</h2><h3>方法1: エラーコードで検索</h3><p>MySQL ERROR 1062 の公式ドキュメントを参照.</p>\n<h2>それでも直らないとき</h2>\n<p>バージョン情報（SQL のバージョン、OS、実行コマンド）を添えて、エラーメッセージ全文と直前に変更した点を確認してください。ログの数行上にも原因の手がかりが残っていることが多いです。</p>",
+  "body": "<h2>エラーメッセージ（全文）</h2>\n<pre><code>ERROR 1062 (1062): Duplicate entry 'user@example.com' for key 'email'</code></pre>\n\n<h2>このエラーとは</h2>\n<p>ERROR 1062 (1062): Duplicate entry 'user@example.com' for key 'email' は SQL 開発でよく遭遇するエラーです。</p>\n<p><strong>想定環境:</strong> Windows / macOS / Linux</p>\n<p><strong>よく出る状況:</strong> MySQL 実行時</p>\n\n<h2>よくある原因</h2>\n<ul>\n<li>制約違反</li>\n<li>スキーマ不一致</li>\n<li>権限・接続問題</li>\n</ul><h2>解決方法</h2><h3>方法1: エラーコードで検索</h3><p>MySQL ERROR 1062 の公式ドキュメントを参照.</p>\n<h2>それでも直らないとき</h2>\n<p>バージョン情報（SQL のバージョン、OS、実行コマンド）を添えて、エラーメッセージ全文と直前に変更した点を確認してください。ログの数行上にも原因の手がかりが残っていることが多いです。</p>",
   "conclusion": "「ERROR 1062 (1062): Duplicate entry 'user@example.com' for key 'email'」は 制約違反 が原因のことが多いです。上記の手順で切り分けてください。",
   "tags": [
     "sql",

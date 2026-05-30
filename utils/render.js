@@ -27,7 +27,7 @@ const {
   getLearningPaths,
   listTopicSummaries,
 } = require("./discovery");
-const { applyInternalLinks, TOPIC_LABELS } = require("./internalLinks");
+const { applyInternalLinks, TOPIC_LABELS, getTopicLabel } = require("./internalLinks");
 
 const TEMPLATES_DIR = path.join(__dirname, "..", "templates");
 
@@ -318,16 +318,16 @@ function renderHome(articles, courses = [], { tag } = {}) {
 
 function renderKnowledge(topic, roadmap, courses) {
   const content = loadTemplate("knowledge.html");
-  const roadmapTitle = roadmap.title || topic;
+  const topicTitle = getTopicLabel(topic) || roadmap.title || topic;
   const metaDescription = optimizeSerpDescription(
     roadmap.description,
-    `${roadmapTitle}の学習ロードマップ。講座一覧から順番に学べる初心者向けカリキュラムです。`,
+    `${topicTitle}の学習ロードマップ。講座一覧から順番に学べる初心者向けカリキュラムです。`,
     { category: topic }
   );
 
   const breadcrumbItems = [
     { href: "/", label: "ホーム" },
-    { href: `/knowledge/${topic}`, label: roadmapTitle },
+    { href: `/knowledge/${topic}`, label: topicTitle },
   ];
 
   const courseList = courses
@@ -346,7 +346,7 @@ function renderKnowledge(topic, roadmap, courses) {
   const pageContent = replaceAll(content, {
     breadcrumb: buildBreadcrumbHtml(breadcrumbItems),
     topic: escapeHtml(topic),
-    title: escapeHtml(roadmapTitle),
+    title: escapeHtml(topicTitle),
     description: escapeHtml(roadmap.description || metaDescription),
     courseList: injectAdsInCourseCards(courseList || "<p>講座がありません</p>"),
     adTop: getAdSlot("top"),
@@ -364,7 +364,7 @@ function renderKnowledge(topic, roadmap, courses) {
       },
       {
         "@type": "CollectionPage",
-        name: roadmapTitle,
+        name: topicTitle,
         description: metaDescription,
         url: canonical,
         inLanguage: "ja",
@@ -378,10 +378,10 @@ function renderKnowledge(topic, roadmap, courses) {
   };
 
   return renderPage({
-    pageTitle: `${roadmapTitle} 学習ロードマップ | ${config.siteName}`,
+    pageTitle: `${topicTitle} | ${config.siteName}`,
     metaDescription,
     canonical,
-    ogTitle: `${roadmapTitle} — 講座一覧`,
+    ogTitle: `${topicTitle} — 講座一覧`,
     ogDescription: metaDescription,
     ogType: "website",
     jsonLd: JSON.stringify(jsonLd),
@@ -397,13 +397,14 @@ function renderKnowledge(topic, roadmap, courses) {
 
 function renderCourse(topic, course, articles) {
   const content = loadTemplate("course.html");
+  const topicTitle = getTopicLabel(topic) || topic;
   const publishedCount = (course.episodes || []).filter((ep) =>
     articles.some((a) => a.slug === ep.slug)
   ).length;
 
   const breadcrumbItems = [
     { href: "/", label: "ホーム" },
-    { href: `/knowledge/${topic}`, label: topic },
+    { href: `/knowledge/${topic}`, label: topicTitle },
     { href: `/course/${topic}/${course.courseId}`, label: course.title },
   ];
 
@@ -428,7 +429,7 @@ function renderCourse(topic, course, articles) {
 
   const pageContent = replaceAll(content, {
     breadcrumb: buildBreadcrumbHtml(breadcrumbItems),
-    topic: escapeHtml(topic),
+    topic: escapeHtml(topicTitle),
     courseId: escapeHtml(course.courseId),
     title: escapeHtml(course.title),
     description: escapeHtml(course.description),
@@ -534,9 +535,10 @@ function renderArticle(article, seriesNav = null) {
       article.knowledge.courseId
     );
     courseTitle = course?.title || article.knowledge.courseId;
+    const topicTitle = getTopicLabel(article.knowledge.topic) || article.knowledge.topic;
     breadcrumbItems.push({
       href: `/knowledge/${article.knowledge.topic}`,
-      label: article.knowledge.topic,
+      label: topicTitle,
     });
     breadcrumbItems.push({
       href: `/course/${article.knowledge.topic}/${article.knowledge.courseId}`,

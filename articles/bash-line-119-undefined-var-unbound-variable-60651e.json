@@ -3,7 +3,7 @@
   "slug": "bash-line-119-undefined-var-unbound-variable-60651e",
   "title": "line 119: $undefined_var: unbound variable の原因と解決法",
   "summary": "line 119: $undefined_var: unbound variable の原因と具体的な解決手順をまとめました。",
-  "body": "<h2>エラーメッセージ（全文）</h2>\n<p>検索でヒットしやすいよう、実際のコンソール出力をそのまま掲載します。</p>\n<pre><code>line 119: $undefined_var: unbound variable</code></pre>\n\n<h2>このエラーとは</h2>\n<p>line 119: $undefined_var: unbound variable は Bash 開発でよく遭遇するエラーです。</p>\n<p><strong>想定環境:</strong> Windows / macOS / Linux</p>\n<p><strong>よく出る状況:</strong> set -u 有効時</p>\n\n<h2>よくある原因</h2>\n<ul>\n<li>変数未 export</li>\n<li>typo</li>\n<li>引数未渡し</li>\n</ul><h2>解決方法</h2><h3>方法1: デフォルト値</h3><p>${VAR:-default} 構文を使う.</p><pre><code>echo &quot;${VAR:-default}&quot;</code></pre>\n<h2>それでも直らないとき</h2>\n<p>バージョン情報（Bash のバージョン、OS、実行コマンド）を添えて、エラーメッセージ全文と直前に変更した点を確認してください。ログの数行上にも原因の手がかりが残っていることが多いです。</p>",
+  "body": "<h2>エラーメッセージ（全文）</h2>\n<pre><code>line 119: $undefined_var: unbound variable</code></pre>\n\n<h2>このエラーとは</h2>\n<p>line 119: $undefined_var: unbound variable は Bash 開発でよく遭遇するエラーです。</p>\n<p><strong>想定環境:</strong> Windows / macOS / Linux</p>\n<p><strong>よく出る状況:</strong> set -u 有効時</p>\n\n<h2>よくある原因</h2>\n<ul>\n<li>変数未 export</li>\n<li>typo</li>\n<li>引数未渡し</li>\n</ul><h2>解決方法</h2><h3>方法1: デフォルト値</h3><p>${VAR:-default} 構文を使う.</p><pre><code>echo &quot;${VAR:-default}&quot;</code></pre>\n<h2>それでも直らないとき</h2>\n<p>バージョン情報（Bash のバージョン、OS、実行コマンド）を添えて、エラーメッセージ全文と直前に変更した点を確認してください。ログの数行上にも原因の手がかりが残っていることが多いです。</p>",
   "conclusion": "「line 119: $undefined_var: unbound variable」は 変数未 export が原因のことが多いです。上記の手順で切り分けてください。",
   "tags": [
     "bash",

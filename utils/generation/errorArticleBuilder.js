@@ -39,7 +39,6 @@ function buildErrorBody(entry, techDef) {
 
   let html = `
 <h2>エラーメッセージ（全文）</h2>
-<p>検索でヒットしやすいよう、実際のコンソール出力をそのまま掲載します。</p>
 <pre><code>${err}</code></pre>
 
 <h2>このエラーとは</h2>

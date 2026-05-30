@@ -3,7 +3,7 @@
   "slug": "bash-script-exited-with-status-128-invalid-exit-argument-c3a478",
   "title": "Script exited with status 128: Invalid exit argument の原因と解決法",
   "summary": "Script exited with status 128: Invalid exit argument の原因と具体的な解決手順をまとめました。",
-  "body": "<h2>エラーメッセージ（全文）</h2>\n<p>検索でヒットしやすいよう、実際のコンソール出力をそのまま掲載します。</p>\n<pre><code>Script exited with status 128: Invalid exit argument</code></pre>\n\n<h2>このエラーとは</h2>\n<p>Script exited with status 128: Invalid exit argument は Bash 開発でよく遭遇するエラーです。</p>\n<p><strong>想定環境:</strong> Windows / macOS / Linux</p>\n<p><strong>よく出る状況:</strong> CI / cron / スクリプト終了</p>\n\n<h2>よくある原因</h2>\n<ul>\n<li>コマンド失敗</li>\n<li>シグナル終了</li>\n<li>OOM Killer</li>\n</ul><h2>解決方法</h2><h3>方法1: set -euxo pipefail</h3><p>失敗箇所を特定.</p><pre><code>set -euxo pipefail\n# スクリプト本体</code></pre>\n<h2>それでも直らないとき</h2>\n<p>バージョン情報（Bash のバージョン、OS、実行コマンド）を添えて、エラーメッセージ全文と直前に変更した点を確認してください。ログの数行上にも原因の手がかりが残っていることが多いです。</p>",
+  "body": "<h2>エラーメッセージ（全文）</h2>\n<pre><code>Script exited with status 128: Invalid exit argument</code></pre>\n\n<h2>このエラーとは</h2>\n<p>Script exited with status 128: Invalid exit argument は Bash 開発でよく遭遇するエラーです。</p>\n<p><strong>想定環境:</strong> Windows / macOS / Linux</p>\n<p><strong>よく出る状況:</strong> CI / cron / スクリプト終了</p>\n\n<h2>よくある原因</h2>\n<ul>\n<li>コマンド失敗</li>\n<li>シグナル終了</li>\n<li>OOM Killer</li>\n</ul><h2>解決方法</h2><h3>方法1: set -euxo pipefail</h3><p>失敗箇所を特定.</p><pre><code>set -euxo pipefail\n# スクリプト本体</code></pre>\n<h2>それでも直らないとき</h2>\n<p>バージョン情報（Bash のバージョン、OS、実行コマンド）を添えて、エラーメッセージ全文と直前に変更した点を確認してください。ログの数行上にも原因の手がかりが残っていることが多いです。</p>",
   "conclusion": "「Script exited with status 128: Invalid exit argument」は コマンド失敗 が原因のことが多いです。上記の手順で切り分けてください。",
   "tags": [
     "bash",

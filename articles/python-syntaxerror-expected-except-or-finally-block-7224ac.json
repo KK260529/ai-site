@@ -3,7 +3,7 @@
   "slug": "python-syntaxerror-expected-except-or-finally-block-7224ac",
   "title": "SyntaxError: expected 'except' or 'finally' block の原因と解決法",
   "summary": "SyntaxError: expected 'except' or 'finally' block の原因と具体的な解決手順をまとめました。",
-  "body": "<h2>エラーメッセージ（全文）</h2>\n<p>検索でヒットしやすいよう、実際のコンソール出力をそのまま掲載します。</p>\n<pre><code>SyntaxError: expected 'except' or 'finally' block</code></pre>\n\n<h2>このエラーとは</h2>\n<p>SyntaxError: expected 'except' or 'finally' block は Python 開発でよく遭遇するエラーです。</p>\n<p><strong>想定環境:</strong> Windows / macOS / Linux</p>\n<p><strong>よく出る状況:</strong> コピペ、全角文字、括弧・インデントのミス</p>\n\n<h2>よくある原因</h2>\n<ul>\n<li>全角コロン・括弧の混入</li>\n<li>括弧/引用符の閉じ忘れ</li>\n<li>try ブロック後の except 欠落</li>\n</ul><h2>解決方法</h2><h3>方法1: 該当行付近を確認</h3><p>エラー行番号の ±3 行を見直します。</p><h3>方法2: 全角→半角</h3><p>エディタで全角記号を検索置換します。</p>\n<h2>それでも直らないとき</h2>\n<p>バージョン情報（Python のバージョン、OS、実行コマンド）を添えて、エラーメッセージ全文と直前に変更した点を確認してください。ログの数行上にも原因の手がかりが残っていることが多いです。</p>",
+  "body": "<h2>エラーメッセージ（全文）</h2>\n<pre><code>SyntaxError: expected 'except' or 'finally' block</code></pre>\n\n<h2>このエラーとは</h2>\n<p>SyntaxError: expected 'except' or 'finally' block は Python 開発でよく遭遇するエラーです。</p>\n<p><strong>想定環境:</strong> Windows / macOS / Linux</p>\n<p><strong>よく出る状況:</strong> コピペ、全角文字、括弧・インデントのミス</p>\n\n<h2>よくある原因</h2>\n<ul>\n<li>全角コロン・括弧の混入</li>\n<li>括弧/引用符の閉じ忘れ</li>\n<li>try ブロック後の except 欠落</li>\n</ul><h2>解決方法</h2><h3>方法1: 該当行付近を確認</h3><p>エラー行番号の ±3 行を見直します。</p><h3>方法2: 全角→半角</h3><p>エディタで全角記号を検索置換します。</p>\n<h2>それでも直らないとき</h2>\n<p>バージョン情報（Python のバージョン、OS、実行コマンド）を添えて、エラーメッセージ全文と直前に変更した点を確認してください。ログの数行上にも原因の手がかりが残っていることが多いです。</p>",
   "conclusion": "「SyntaxError: expected 'except' or 'finally' block」は 全角コロン・括弧の混入 が原因のことが多いです。上記の手順で切り分けてください。",
   "tags": [
     "python",

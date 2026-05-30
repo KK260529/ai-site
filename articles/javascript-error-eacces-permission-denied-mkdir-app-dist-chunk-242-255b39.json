@@ -3,7 +3,7 @@
   "slug": "javascript-error-eacces-permission-denied-mkdir-app-dist-chunk-242-255b39",
   "title": "Error: EACCES: permission denied, mkdir '/app/dist/chunk-242' の原因と解決法",
   "summary": "Error: EACCES: permission denied, mkdir '/app/dist/chunk-242' の原因と具体的な解決手順をまとめました。",
-  "body": "<h2>エラーメッセージ（全文）</h2>\n<p>検索でヒットしやすいよう、実際のコンソール出力をそのまま掲載します。</p>\n<pre><code>Error: EACCES: permission denied, mkdir '/app/dist/chunk-242'</code></pre>\n\n<h2>このエラーとは</h2>\n<p>Error: EACCES: permission denied, mkdir '/app/dist/chunk-242' は JavaScript 開発でよく遭遇するエラーです。</p>\n<p><strong>想定環境:</strong> Windows / macOS / Linux</p>\n<p><strong>よく出る状況:</strong> Node / フロントエンド / ORM</p>\n\n<h2>よくある原因</h2>\n<ul>\n<li>非同期</li>\n<li>import パス</li>\n<li>DB 制約</li>\n</ul><h2>解決方法</h2><h3>方法1: DevTools / ターミナルログ</h3><p>再現手順を最小化.</p>\n<h2>それでも直らないとき</h2>\n<p>バージョン情報（JavaScript のバージョン、OS、実行コマンド）を添えて、エラーメッセージ全文と直前に変更した点を確認してください。ログの数行上にも原因の手がかりが残っていることが多いです。</p>",
+  "body": "<h2>エラーメッセージ（全文）</h2>\n<pre><code>Error: EACCES: permission denied, mkdir '/app/dist/chunk-242'</code></pre>\n\n<h2>このエラーとは</h2>\n<p>Error: EACCES: permission denied, mkdir '/app/dist/chunk-242' は JavaScript 開発でよく遭遇するエラーです。</p>\n<p><strong>想定環境:</strong> Windows / macOS / Linux</p>\n<p><strong>よく出る状況:</strong> Node / フロントエンド / ORM</p>\n\n<h2>よくある原因</h2>\n<ul>\n<li>非同期</li>\n<li>import パス</li>\n<li>DB 制約</li>\n</ul><h2>解決方法</h2><h3>方法1: DevTools / ターミナルログ</h3><p>再現手順を最小化.</p>\n<h2>それでも直らないとき</h2>\n<p>バージョン情報（JavaScript のバージョン、OS、実行コマンド）を添えて、エラーメッセージ全文と直前に変更した点を確認してください。ログの数行上にも原因の手がかりが残っていることが多いです。</p>",
   "conclusion": "「Error: EACCES: permission denied, mkdir '/app/dist/chunk-242'」は 非同期 が原因のことが多いです。上記の手順で切り分けてください。",
   "tags": [
     "javascript",

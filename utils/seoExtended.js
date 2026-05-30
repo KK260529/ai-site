@@ -1,17 +1,19 @@
 const { config } = require("./config");
 const { buildSeo } = require("./seo");
 const { buildBreadcrumbSchema } = require("./seoMeta");
+const { getTopicLabel } = require("./internalLinks");
 
 function buildSeoExtended(article, ctx) {
   const base = buildSeo(article);
   const topic = ctx?.topic || article.knowledge?.topic;
   const courseId = ctx?.courseId || article.knowledge?.courseId;
   const courseTitle = ctx?.course?.title || courseId;
+  const topicTitle = topic ? getTopicLabel(topic) || topic : "";
 
   const breadcrumbItems = [{ label: "ホーム", href: "/" }];
   if (topic) {
     breadcrumbItems.push({
-      label: topic,
+      label: topicTitle,
       href: `/knowledge/${topic}`,
     });
   }

@@ -1,7 +1,7 @@
 const { config } = require("./config");
 const { buildSeo } = require("./seo");
 const { buildBreadcrumbSchema } = require("./seoMeta");
-const { getTopicLabel } = require("./internalLinks");
+const { getTopicLabel } = require("./topicLabels");
 
 function buildSeoExtended(article, ctx) {
   const base = buildSeo(article);

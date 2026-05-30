@@ -1,6 +1,6 @@
 const articleStore = require("./articleStore");
 const knowledgeStore = require("./stores/knowledgeStore");
-const { getTopicLabel } = require("./internalLinks");
+const { getTopicLabel } = require("./topicLabels");
 
 function slugifyTag(tag) {
   return encodeURIComponent(String(tag || "").trim());

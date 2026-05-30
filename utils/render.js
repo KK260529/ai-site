@@ -27,7 +27,8 @@ const {
   getLearningPaths,
   listTopicSummaries,
 } = require("./discovery");
-const { applyInternalLinks, TOPIC_LABELS, getTopicLabel } = require("./internalLinks");
+const { applyInternalLinks, TOPIC_LABELS } = require("./internalLinks");
+const { getTopicLabel } = require("./topicLabels");
 
 const TEMPLATES_DIR = path.join(__dirname, "..", "templates");
 

@@ -10,6 +10,7 @@ const {
   buildBreadcrumbSchema,
   buildSeoHeadExtras,
   buildFaviconLinks,
+  buildGoogleVerificationMeta,
   buildAnalyticsScript,
   injectHeadingIds,
   buildTableOfContents,
@@ -83,6 +84,7 @@ function layoutDefaults() {
     footerNav: buildFooterNavHtml(),
     adHeadScript: getAdHeadScript(),
     faviconLinks: buildFaviconLinks(),
+    googleVerificationMeta: buildGoogleVerificationMeta(),
     analyticsScript: buildAnalyticsScript(),
     seoExtraHead: "",
   };

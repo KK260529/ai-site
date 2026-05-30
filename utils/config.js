@@ -41,6 +41,7 @@ const config = {
     process.env.HOME_HERO_TITLE || "StackShelf — 初心者向け技術まとめ",
   twitterHandle: (process.env.TWITTER_HANDLE || "").trim(),
   ga4MeasurementId: (process.env.GA4_MEASUREMENT_ID || "").trim(),
+  googleSiteVerification: (process.env.GOOGLE_SITE_VERIFICATION || "").trim(),
   articlesDir: "articles",
   publicDir: path.join(ROOT_DIR, "public"),
   backupsDir: path.join(ROOT_DIR, "backups"),

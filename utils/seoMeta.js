@@ -197,6 +197,15 @@ function buildFaviconLinks() {
   ].join("\n  ");
 }
 
+function buildGoogleVerificationMeta() {
+  const token = config.googleSiteVerification;
+  if (!token) return "";
+  const content = token.startsWith("google-site-verification=")
+    ? token.slice("google-site-verification=".length)
+    : token;
+  return `<meta name="google-site-verification" content="${escapeAttr(content)}">`;
+}
+
 function buildAnalyticsScript() {
   const id = config.ga4MeasurementId;
   if (!id) return "";
@@ -218,6 +227,7 @@ module.exports = {
   buildTableOfContents,
   buildSeoHeadExtras,
   buildFaviconLinks,
+  buildGoogleVerificationMeta,
   buildAnalyticsScript,
   stripTags,
 };

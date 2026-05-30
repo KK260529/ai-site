@@ -117,6 +117,36 @@ router.delete("/articles/:slug", (req, res) => {
   res.json({ success: true });
 });
 
+router.get("/seo/analytics", (req, res) => {
+  const { getAnalyticsSummary } = require("../utils/searchConsoleAnalytics");
+  res.json(getAnalyticsSummary());
+});
+
+router.get("/seo/demand", (req, res) => {
+  const fs = require("fs");
+  const path = require("path");
+  const { config } = require("../utils/config");
+  const { rankArticlesByDemand, TOPIC_EXPANSION_RANKING } = require("../utils/articleDemand");
+  const demandPath = path.join(config.dataDir, "article-demand.json");
+
+  if (fs.existsSync(demandPath)) {
+    return res.json(JSON.parse(fs.readFileSync(demandPath, "utf-8")));
+  }
+
+  const all = articleStore.getPublishedArticles();
+  const ranked = rankArticlesByDemand(all);
+  const byTier = { high: 0, medium: 0, low: 0 };
+  for (const { tier } of ranked) byTier[tier] += 1;
+
+  res.json({
+    generatedAt: null,
+    totalArticles: all.length,
+    tiers: byTier,
+    topicExpansionRanking: TOPIC_EXPANSION_RANKING,
+    hint: "node scripts/analyze-article-demand.js で詳細レポートを生成",
+  });
+});
+
 function summarize(article) {
   return {
     id: article.id,

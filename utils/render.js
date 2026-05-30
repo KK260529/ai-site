@@ -29,6 +29,21 @@ const {
 } = require("./discovery");
 const { applyInternalLinks, TOPIC_LABELS } = require("./internalLinks");
 const { getTopicLabel } = require("./topicLabels");
+const { resolveLinkCandidates } = require("./linkCandidates");
+const {
+  getPopularArticles,
+  getTrendingErrorLinks,
+  getPopularCategories,
+  getErrorCategoryCards,
+  getTagDescription,
+  getCategoryHub,
+  getPopularInTag,
+  getPopularInCategory,
+  getBeginnerArticlesInCategory,
+  getNextReadArticles,
+  getSameCategoryArticles,
+  getLearningRouteForArticle,
+} = require("./contentHub");
 
 const TEMPLATES_DIR = path.join(__dirname, "..", "templates");
 
@@ -92,17 +107,12 @@ function layoutDefaults() {
 }
 
 function buildTopicNavLinks() {
-  return knowledgeStore
-    .listTopics()
-    .map((t) => {
-      const label = TOPIC_LABELS[t] || t.charAt(0).toUpperCase() + t.slice(1);
-      return `<a href="/knowledge/${escapeHtml(t)}">${escapeHtml(label)}</a>`;
-    })
-    .join("\n      ");
+  return `<a href="/knowledge/errors" class="nav-highlight">エラー検索</a>`;
 }
 
 function buildFooterNavHtml() {
-  return `<a href="/topics">講座一覧</a>
+  return `<a href="/knowledge/errors">エラー検索</a>
+      <a href="/topics">講座一覧</a>
       <a href="/articles">全記事</a>
       <a href="/rss.xml">RSS</a>
       <a href="/sitemap.xml">サイトマップ</a>
@@ -173,8 +183,8 @@ function buildSeriesNavHtml(seriesNav) {
   </nav>`;
 }
 
-function buildRelatedHtml(article) {
-  const related = findRelatedArticles(article, 6);
+function buildRelatedHtml(article, limit = 8) {
+  const related = findRelatedArticles(article, limit);
   if (!related.length) return "";
   return `<section class="related">
     <h2>関連記事</h2>
@@ -186,6 +196,189 @@ function buildRelatedHtml(article) {
       )
       .join("")}</ul>
   </section>`;
+}
+
+function buildCompactArticleList(articles, { title, className = "hub-list" } = {}) {
+  if (!articles?.length) return "";
+  const items = articles
+    .map(
+      (a) =>
+        `<li><a href="/article/${escapeHtml(a.slug)}">${escapeHtml(a.title)}</a>
+      <span class="hub-list__meta">${escapeHtml(a.category)}</span></li>`
+    )
+    .join("");
+  return `<section class="hub-block ${escapeHtml(className)}">
+    <h2>${escapeHtml(title)}</h2>
+    <ul class="hub-list__items">${items}</ul>
+  </section>`;
+}
+
+function buildArticleEngagementHtml(article) {
+  const parts = [];
+  const nextRead = getNextReadArticles(article, 5);
+  if (nextRead.length) {
+    parts.push(buildCompactArticleList(nextRead, { title: "次に読むべき記事", className: "hub-block--next" }));
+  }
+  const sameCat = getSameCategoryArticles(article, 6);
+  if (sameCat.length) {
+    parts.push(
+      buildCompactArticleList(sameCat, {
+        title: `同カテゴリ「${article.category}」の記事`,
+        className: "hub-block--category",
+      })
+    );
+  }
+  const popular = getPopularArticles(6).filter((a) => a.slug !== article.slug);
+  if (popular.length) {
+    parts.push(buildCompactArticleList(popular, { title: "人気記事", className: "hub-block--popular" }));
+  }
+  const route = getLearningRouteForArticle(article);
+  if (route?.href) {
+    parts.push(`<section class="hub-block hub-block--route">
+      <h2>学習ルート</h2>
+      <p class="hub-block__desc">体系的に学びたい方はこちらから。</p>
+      <a href="${escapeHtml(route.href)}" class="hub-route-link">${escapeHtml(route.title)} →</a>
+    </section>`);
+  }
+  if (!parts.length) return "";
+  return `<div class="article-engagement">${parts.join("")}</div>`;
+}
+
+function buildHubSectionsHtml(sections) {
+  return (sections || []).filter(Boolean).join("\n");
+}
+
+function buildTrendingErrorsHtml() {
+  return getTrendingErrorLinks(14)
+    .map(
+      (l) =>
+        `<a href="${escapeHtml(l.href)}" class="chip" title="${escapeHtml(l.title || l.label)}">${escapeHtml(l.label)}</a>`
+    )
+    .join("");
+}
+
+function buildErrorCategoryCardsHtml() {
+  return getErrorCategoryCards()
+    .map(
+      (c) =>
+        `<a href="${escapeHtml(c.href)}" class="hub-card">
+      <span class="hub-card__label">${escapeHtml(c.label)}</span>
+      <span class="hub-card__count">${c.count} 件</span>
+    </a>`
+    )
+    .join("");
+}
+
+function buildPopularArticlesHtml(articles) {
+  return articles
+    .map(
+      (a) =>
+        `<a href="/article/${escapeHtml(a.slug)}" class="hub-list-item">
+      <span class="hub-list-item__title">${escapeHtml(a.title)}</span>
+      <span class="hub-list-item__meta">${escapeHtml(a.category)}</span>
+    </a>`
+    )
+    .join("");
+}
+
+function buildCategoryLinksHtml(categories) {
+  return categories
+    .map(
+      (c) =>
+        `<a href="/category/${slugifyTag(c.category)}" class="chip chip--category">${escapeHtml(c.category)} <span class="chip__count">${c.count}</span></a>`
+    )
+    .join("");
+}
+
+function buildTagHubSections(tag, articles) {
+  const desc = getTagDescription(tag);
+  const popular = getPopularInTag(tag, 6);
+  const relatedTags = collectTagStats(2)
+    .filter((t) => t.tag !== tag)
+    .slice(0, 10);
+  const learningPaths = getLearningPaths()
+    .slice(0, 2)
+    .map(
+      (p) =>
+        `<article class="learning-path learning-path--compact">
+      <h3>${escapeHtml(p.title)}</h3>
+      <div class="learning-path__steps">${p.steps
+        .slice(0, 4)
+        .map((s, i) => {
+          const arrow = i > 0 ? '<span class="learning-path__arrow">→</span>' : "";
+          return `${arrow}<a href="${escapeHtml(s.href)}" class="learning-path__step">${escapeHtml(s.label)}</a>`;
+        })
+        .join("")}</div>
+    </article>`
+    )
+    .join("");
+
+  return buildHubSectionsHtml([
+    `<section class="hub-intro"><p>${escapeHtml(desc)}</p></section>`,
+    popular.length
+      ? `<section class="hub-block"><h2>人気記事</h2><div class="hub-list">${buildPopularArticlesHtml(popular)}</div></section>`
+      : "",
+    relatedTags.length
+      ? `<section class="hub-block"><h2>関連タグ</h2><div class="chip-grid">${relatedTags
+          .map(
+            ({ tag: t, count }) =>
+              `<a href="/tag/${slugifyTag(t)}" class="chip">${escapeHtml(t)} <span class="chip__count">${count}</span></a>`
+          )
+          .join("")}</div></section>`
+      : "",
+    learningPaths
+      ? `<section class="hub-block"><h2>学習ロードマップ</h2><div class="learning-paths">${learningPaths}</div></section>`
+      : "",
+  ]);
+}
+
+function buildCategoryHubSections(category, articles) {
+  const hub = getCategoryHub(category);
+  const popular = getPopularInCategory(category, 6);
+  const beginner = getBeginnerArticlesInCategory(category, 5);
+  const relatedCats = collectCategoryStats()
+    .filter((c) => c.category !== category)
+    .slice(0, 8);
+
+  const learnOrder =
+    beginner.length > 0
+      ? `<ol class="hub-order">${beginner
+          .map(
+            (a) =>
+              `<li><a href="/article/${escapeHtml(a.slug)}">${escapeHtml(a.title)}</a>${
+                a.knowledge?.episode ? `<span>第${a.knowledge.episode}回</span>` : ""
+              }</li>`
+          )
+          .join("")}</ol>`
+      : popular.length
+        ? `<ol class="hub-order">${popular
+            .slice(0, 5)
+            .map((a) => `<li><a href="/article/${escapeHtml(a.slug)}">${escapeHtml(a.title)}</a></li>`)
+            .join("")}</ol>`
+        : "";
+
+  return buildHubSectionsHtml([
+    `<section class="hub-intro">
+      <p>${escapeHtml(hub.intro)}</p>
+      ${hub.beginnerHint ? `<p class="hub-intro__hint">${escapeHtml(hub.beginnerHint)}</p>` : ""}
+      ${hub.courseHref ? `<p><a href="${escapeHtml(hub.courseHref)}" class="hub-route-link">このカテゴリの講座を見る →</a></p>` : ""}
+    </section>`,
+    popular.length
+      ? `<section class="hub-block"><h2>人気記事</h2><div class="hub-list">${buildPopularArticlesHtml(popular)}</div></section>`
+      : "",
+    beginner.length
+      ? `<section class="hub-block"><h2>初心者向け</h2><div class="hub-list">${buildPopularArticlesHtml(beginner)}</div></section>`
+      : "",
+    learnOrder ? `<section class="hub-block"><h2>おすすめの学習順序</h2>${learnOrder}</section>` : "",
+    relatedCats.length
+      ? `<section class="hub-block"><h2>関連カテゴリ</h2><div class="chip-grid">${relatedCats
+          .map(
+            (c) =>
+              `<a href="/category/${slugifyTag(c.category)}" class="chip chip--category">${escapeHtml(c.category)} <span class="chip__count">${c.count}</span></a>`
+          )
+          .join("")}</div></section>`
+      : "",
+  ]);
 }
 
 function buildNextActionHtml(nextAction) {
@@ -214,9 +407,12 @@ function buildInternalLinkSuggestionsHtml(candidates) {
 
 function renderHome(articles, courses = [], { tag } = {}) {
   const content = loadTemplate("home.html");
-  const cards = articles.map((a) => buildArticleCardHtml(a)).join("");
+  const popularArticles = getPopularArticles(10);
+  const displayArticles = popularArticles.length ? popularArticles : articles.slice(0, 12);
+  const cards = displayArticles.map((a) => buildArticleCardHtml(a)).join("");
 
   const courseCards = courses
+    .slice(0, 6)
     .map(
       (c) => `
     <article class="card card--course">
@@ -229,12 +425,13 @@ function renderHome(articles, courses = [], { tag } = {}) {
     )
     .join("");
 
-  const categories = [...new Set(articles.map((a) => a.category))];
+  const categories = getPopularCategories(12);
   const categoryOptions = categories
-    .map((c) => `<option value="${escapeHtml(c)}">${escapeHtml(c)}</option>`)
+    .map((c) => `<option value="${escapeHtml(c.category)}">${escapeHtml(c.category)}</option>`)
     .join("");
 
   const learningPaths = getLearningPaths()
+    .slice(0, 3)
     .map(
       (p) => `
     <article class="learning-path">
@@ -251,17 +448,14 @@ function renderHome(articles, courses = [], { tag } = {}) {
     .join("");
 
   const tagCloud = collectTagStats(2)
-    .slice(0, 24)
+    .slice(0, 20)
     .map(
       ({ tag: t, count }) =>
         `<a href="/tag/${slugifyTag(t)}" class="tag tag--cloud">${escapeHtml(t)} <span class="tag__count">${count}</span></a>`
     )
     .join("");
 
-  const courseCardsWithAds = injectAdsInCourseCards(
-    courseCards || "",
-    2
-  );
+  const courseCardsWithAds = injectAdsInCourseCards(courseCards || "", 2);
 
   const pageContent = replaceAll(content, {
     siteName: config.siteName,
@@ -273,19 +467,19 @@ function renderHome(articles, courses = [], { tag } = {}) {
     articleCount: String(articles.length),
     learningPaths,
     tagCloud,
+    trendingErrors: buildTrendingErrorsHtml(),
+    errorCategoryCards: buildErrorCategoryCardsHtml(),
+    popularArticles: buildPopularArticlesHtml(popularArticles),
+    categoryLinks: buildCategoryLinksHtml(categories),
     adAfterHero: getAdSlot("home"),
     adBetweenSections: getAdSlot("top"),
     adBeforeArticles: getAdSlot("inline"),
   });
 
-  const canonical = tag
-    ? `${config.siteUrl}/?tag=${encodeURIComponent(tag)}`
-    : config.siteUrl;
-  const pageTitle = tag
-    ? `「${tag}」の記事一覧 | ${config.siteName}`
-    : config.homePageTitle;
+  const canonical = tag ? `${config.siteUrl}/?tag=${encodeURIComponent(tag)}` : config.siteUrl;
+  const pageTitle = tag ? `「${tag}」の記事一覧 | ${config.siteName}` : config.homePageTitle;
   const metaDescription = tag
-    ? `「${tag}」タグの技術記事 ${articles.length} 件。初心者向けにわかりやすく解説したまとめ記事一覧です。`
+    ? `「${tag}」タグの技術エラー記事 ${articles.length} 件。`
     : config.siteDescription;
 
   const jsonLd = tag
@@ -595,10 +789,11 @@ function renderArticle(article, seriesNav = null) {
     episodeBadge,
     tableOfContents,
     seriesNav: buildSeriesNavHtml(seriesNav),
-    relatedArticles: buildRelatedHtml(article),
+    relatedArticles: buildRelatedHtml(article, 8),
     shareBar: buildShareHtml(article, liveSeo.canonical),
     nextAction: buildNextActionHtml(article.nextAction),
-    internalLinkSuggestions: buildInternalLinkSuggestionsHtml(article.internalLinkCandidates),
+    internalLinkSuggestions: buildInternalLinkSuggestionsHtml(resolveLinkCandidates(article)),
+    articleEngagement: buildArticleEngagementHtml(article),
     faq: faqHtml,
     adTop: getAdSlot("top"),
     adAfterSummary: getAdSlot("inline"),
@@ -700,6 +895,7 @@ function renderListingPage({
   countLabel,
   articles,
   breadcrumbItems,
+  hubSections = "",
   extraTop = "",
   relatedLinks = "",
   bodyClass,
@@ -719,6 +915,7 @@ function renderListingPage({
     description: escapeHtml(description),
     countLabel: escapeHtml(countLabel),
     articleCards: injectAdsInCardList(cards),
+    hubSections,
     extraTop,
     relatedLinks,
     adTop: getAdSlot("top"),
@@ -755,7 +952,12 @@ function renderListingPage({
 
 function renderTagPage(tag, articles) {
   const canonical = `${config.siteUrl}/tag/${slugifyTag(tag)}`;
-  const metaDescription = `「${tag}」タグの技術記事 ${articles.length} 件。初心者向けにわかりやすく解説したまとめ一覧です。`;
+  const tagDesc = getTagDescription(tag);
+  const metaDescription = optimizeSerpDescription(
+    tagDesc,
+    `「${tag}」タグの技術エラー記事 ${articles.length} 件。エラーメッセージ全文で検索しやすい解説一覧。`,
+    { category: tag }
+  );
   const relatedTags = collectTagStats(2)
     .filter((t) => t.tag !== tag)
     .slice(0, 12)
@@ -766,13 +968,14 @@ function renderTagPage(tag, articles) {
     .join("");
 
   return renderListingPage({
-    title: `「${tag}」の記事`,
-    description: `タグ「${tag}」が付いた記事一覧です。`,
+    title: `「${tag}」のエラー解説`,
+    description: tagDesc,
     countLabel: `${articles.length} 件`,
     articles,
+    hubSections: buildTagHubSections(tag, articles),
     breadcrumbItems: [
       { href: "/", label: "ホーム" },
-      { href: "/articles", label: "全記事" },
+      { href: "/knowledge/errors", label: "エラー検索" },
       { href: `/tag/${slugifyTag(tag)}`, label: tag },
     ],
     relatedLinks: relatedTags
@@ -780,15 +983,20 @@ function renderTagPage(tag, articles) {
       : "",
     bodyClass: "page-tag",
     canonical,
-    pageTitle: `「${tag}」の記事一覧 | ${config.siteName}`,
+    pageTitle: `「${tag}」のエラー解説 ${articles.length}件 | ${config.siteName}`,
     metaDescription,
-    ogTitle: `「${tag}」の記事一覧`,
+    ogTitle: `「${tag}」のエラー解説`,
   });
 }
 
 function renderCategoryPage(category, articles) {
   const canonical = `${config.siteUrl}/category/${slugifyTag(category)}`;
-  const metaDescription = `「${category}」カテゴリの技術記事 ${articles.length} 件。`;
+  const hub = getCategoryHub(category);
+  const metaDescription = optimizeSerpDescription(
+    hub.intro,
+    `「${category}」カテゴリの技術エラー記事 ${articles.length} 件。人気記事と学習順序付き。`,
+    { category }
+  );
   const otherCats = collectCategoryStats()
     .filter((c) => c.category !== category)
     .slice(0, 8)
@@ -800,12 +1008,13 @@ function renderCategoryPage(category, articles) {
 
   return renderListingPage({
     title: category,
-    description: `カテゴリ「${category}」の記事一覧です。`,
+    description: hub.intro,
     countLabel: `${articles.length} 件`,
     articles,
+    hubSections: buildCategoryHubSections(category, articles),
     breadcrumbItems: [
       { href: "/", label: "ホーム" },
-      { href: "/articles", label: "全記事" },
+      { href: "/knowledge/errors", label: "エラー検索" },
       { href: `/category/${slugifyTag(category)}`, label: category },
     ],
     relatedLinks: otherCats
@@ -813,9 +1022,9 @@ function renderCategoryPage(category, articles) {
       : "",
     bodyClass: "page-category",
     canonical,
-    pageTitle: `${category} の記事一覧 | ${config.siteName}`,
+    pageTitle: `${category} エラー解説 ${articles.length}件 | ${config.siteName}`,
     metaDescription,
-    ogTitle: `${category} の記事一覧`,
+    ogTitle: `${category} エラー解説`,
   });
 }
 

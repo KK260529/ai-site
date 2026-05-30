@@ -27,18 +27,18 @@ const config = {
   articleLength: (process.env.ARTICLE_LENGTH || "medium").trim().toLowerCase(),
   groqBaseURL: "https://api.groq.com/openai/v1",
   siteName: process.env.SITE_NAME || "StackShelf",
-  siteTagline: process.env.SITE_TAGLINE || "技術を、ひとつずつ積み上げる。",
+  siteTagline: process.env.SITE_TAGLINE || "エラーメッセージを検索して、すぐ解決策を見つける。",
   adminUser: (process.env.ADMIN_USER || "admin").trim() || "admin",
   adminPassword: process.env.ADMIN_PASSWORD || "",
   siteUrl,
   siteDescription:
     process.env.SITE_DESCRIPTION ||
-    "StackShelf — Linux・Git・Java・Python など、初心者にもわかる技術まとめ。AI編集と構造化メモリで組み立てた学習サイト。",
+    "StackShelf — Python・Git・Docker・Linux の技術エラー5,000件超を検索。ModuleNotFoundError や push rejected など、実際のエラー全文でヒットする解説サイト。",
   homePageTitle:
     process.env.HOME_PAGE_TITLE ||
-    "Java・Python・AI入門 | StackShelf — 初心者向け技術まとめ",
+    "技術エラー検索 | StackShelf — Python・Git・Docker エラー解決",
   homeHeroTitle:
-    process.env.HOME_HERO_TITLE || "StackShelf — 初心者向け技術まとめ",
+    process.env.HOME_HERO_TITLE || "技術エラー検索サイト",
   twitterHandle: (process.env.TWITTER_HANDLE || "").trim(),
   ga4MeasurementId: (process.env.GA4_MEASUREMENT_ID || "").trim(),
   googleSiteVerification: (process.env.GOOGLE_SITE_VERIFICATION || "").trim(),
@@ -47,7 +47,7 @@ const config = {
   backupsDir: path.join(ROOT_DIR, "backups"),
   logsDir: path.join(ROOT_DIR, "logs"),
   dataDir: path.join(ROOT_DIR, "data"),
-  adClient: (process.env.AD_CLIENT || "").trim(),
+  adClient: (process.env.AD_CLIENT || "ca-pub-1246463987388134").trim(),
   adSlotTop: (process.env.AD_SLOT_TOP || "").trim(),
   adSlotBottom: (process.env.AD_SLOT_BOTTOM || "").trim(),
   adSlotInline: (process.env.AD_SLOT_INLINE || "").trim(),

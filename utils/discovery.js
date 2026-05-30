@@ -61,6 +61,11 @@ function scoreRelatedArticle(article, candidate) {
     if (tags.has(t)) score += 4;
   }
   if (candidate.knowledge?.topic === article.knowledge?.topic) score += 2;
+  if (article.articleType === "error" && candidate.articleType === "error") {
+    const errA = (article.title || "").split(":")[0];
+    const errB = (candidate.title || "").split(":")[0];
+    if (errA && errA === errB) score += 8;
+  }
   return score;
 }
 

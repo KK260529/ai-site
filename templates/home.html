@@ -1,36 +1,43 @@
-<section class="hero">
+<section class="hero hero--search">
+  <p class="hero__badge">技術エラー検索</p>
   <h1 class="hero__title">{{heroTitle}}</h1>
   <p class="hero__sub">{{siteTagline}}</p>
-  <p class="hero__count"><span id="articleCount">{{articleCount}}</span> 件の公開記事 · <a href="/articles" class="hero__link">全記事を見る</a> · <a href="/topics" class="hero__link">講座一覧</a></p>
+  <form class="hero-search glass" id="homeSearchForm" action="/search" method="get">
+    <span class="hero-search__icon" aria-hidden="true">⌕</span>
+    <input type="search" name="q" id="searchInput" class="hero-search__input" placeholder="エラーメッセージをそのまま貼り付けて検索…" aria-label="エラー検索" autocomplete="off">
+    <button type="submit" class="btn btn--primary hero-search__btn">検索</button>
+  </form>
+  <p class="hero__count"><span id="articleCount">{{articleCount}}</span> 件のエラー解説 · <a href="/knowledge/errors" class="hero__link">エラー一覧</a> · <a href="/articles" class="hero__link">全記事</a></p>
 </section>
 
 {{adAfterHero}}
 
-<section class="section-block">
-  <h2 class="section-block__title">おすすめ学習パス</h2>
-  <div class="learning-paths">{{learningPaths}}</div>
+<section class="section-block hub-section">
+  <h2 class="section-block__title">よく検索されるエラー</h2>
+  <div class="chip-grid">{{trendingErrors}}</div>
 </section>
 
-<section class="section-block">
-  <h2 class="section-block__title">講座</h2>
-  <div class="cards cards--courses">{{courseCards}}</div>
-  <p class="section-block__more"><a href="/topics">すべての講座を見る →</a></p>
+<section class="section-block hub-section">
+  <h2 class="section-block__title">技術別エラー（人気カテゴリ）</h2>
+  <div class="hub-cards">{{errorCategoryCards}}</div>
+</section>
+
+<section class="section-block hub-section">
+  <h2 class="section-block__title">人気記事</h2>
+  <div class="hub-list">{{popularArticles}}</div>
+  <p class="section-block__more"><a href="/articles">人気順で全記事を見る →</a></p>
 </section>
 
 {{adBetweenSections}}
 
-<section class="section-block">
-  <h2 class="section-block__title">人気タグ</h2>
-  <div class="tag-cloud">{{tagCloud}}</div>
+<section class="section-block hub-section">
+  <h2 class="section-block__title">カテゴリから探す</h2>
+  <div class="chip-grid chip-grid--categories">{{categoryLinks}}</div>
 </section>
 
 <section class="filters glass">
-  <form class="filters__search" id="homeSearchForm" action="/search" method="get">
-    <input type="search" name="q" id="searchInput" class="input" placeholder="記事を検索…" aria-label="検索">
-    <button type="submit" class="btn btn--primary">検索</button>
-  </form>
   <div class="filters__row">
-    <select id="categoryFilter" class="select" aria-label="カテゴリ">
+    <select id="categoryFilter" class="select" aria-label="カテゴリで絞り込み">
       <option value="">すべてのカテゴリ</option>
       {{categoryOptions}}
     </select>
@@ -39,7 +46,20 @@
 </section>
 
 <section class="section-block">
-  <h2 class="section-block__title">記事</h2>
+  <h2 class="section-block__title">最新のエラー解説</h2>
   {{adBeforeArticles}}
   <section class="cards" id="articleGrid">{{articleCards}}</section>
+</section>
+
+<section class="section-block">
+  <h2 class="section-block__title">人気タグ</h2>
+  <div class="tag-cloud">{{tagCloud}}</div>
+</section>
+
+<section class="section-block section-block--secondary">
+  <h2 class="section-block__title">入門講座（順番に学ぶ）</h2>
+  <div class="learning-paths">{{learningPaths}}</div>
+  <h3 class="section-block__subtitle">講座一覧</h3>
+  <div class="cards cards--courses">{{courseCards}}</div>
+  <p class="section-block__more"><a href="/topics">すべての講座を見る →</a></p>
 </section>

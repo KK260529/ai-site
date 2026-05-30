@@ -1,5 +1,3 @@
-const fs = require("fs");
-const path = require("path");
 const express = require("express");
 const articleStore = require("../utils/articleStore");
 const knowledgeStore = require("../utils/stores/knowledgeStore");
@@ -17,38 +15,8 @@ const {
   renderTopicsPage,
   render404,
 } = require("../utils/render");
-const { buildSitemapXml } = require("../utils/seoExtended");
 const { decodeTagParam, buildLlmsTxt } = require("../utils/discovery");
-const { config } = require("../utils/config");
 const { requireAdminAuth } = require("../utils/auth/adminAuth");
-
-function sendPublicFile(res, filename, contentType) {
-  const filePath = path.join(config.publicDir, filename);
-  if (fs.existsSync(filePath)) {
-    const body = fs.readFileSync(filePath, "utf-8");
-    return res
-      .type(`${contentType}; charset=utf-8`)
-      .set("Cache-Control", "public, max-age=3600")
-      .send(body);
-  }
-  return null;
-}
-
-function sendSitemapXml(res) {
-  const articles = articleStore.listAllArticles();
-  const courses = knowledgeStore.listTopics().flatMap((t) =>
-    knowledgeStore.listCourses(t).map((c) => ({ ...c, topic: t }))
-  );
-  const { collectTagStats, collectCategoryStats } = require("../utils/discovery");
-  const xml = buildSitemapXml(articles, courses, knowledgeStore.listTopics(), {
-    tags: collectTagStats(2),
-    categories: collectCategoryStats(),
-  });
-  return res
-    .type("application/xml; charset=utf-8")
-    .set("Cache-Control", "public, max-age=3600")
-    .send(xml);
-}
 
 function sortArticlesNewest(articles) {
   return [...articles].sort(
@@ -168,23 +136,6 @@ router.get("/privacy", (_req, res) => {
 
 router.get("/llms.txt", (_req, res) => {
   res.type("text/plain; charset=utf-8").send(buildLlmsTxt());
-});
-
-router.get("/sitemap.xml", (_req, res) => {
-  if (sendPublicFile(res, "sitemap.xml", "application/xml")) return;
-  sendSitemapXml(res);
-});
-
-router.get("/robots.txt", (_req, res) => {
-  if (sendPublicFile(res, "robots.txt", "text/plain")) return;
-  const { generateText } = require("../utils/seo/robotsGenerator");
-  res.type("text/plain").send(generateText());
-});
-
-router.get("/rss.xml", (_req, res) => {
-  if (sendPublicFile(res, "rss.xml", "application/xml")) return;
-  const { generateXml } = require("../utils/rss/rssGenerator");
-  res.type("application/xml").send(generateXml());
 });
 
 module.exports = router;

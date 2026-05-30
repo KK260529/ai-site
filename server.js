@@ -3,6 +3,7 @@ const fs = require("fs");
 const { config, validateGroqApiKey } = require("./utils/config");
 const articleStore = require("./utils/articleStore");
 const pagesRouter = require("./routes/pages");
+const { handleSitemap, handleRobots, handleRss } = require("./routes/seoFiles");
 const apiRouter = require("./routes/api");
 const knowledgeApiRouter = require("./routes/knowledgeApi");
 const publishApiRouter = require("./routes/publishApi");
@@ -43,6 +44,9 @@ registerHook("onAfterPublish", async ({ article }) => {
 const app = express();
 
 app.use(express.json({ limit: "2mb" }));
+app.get("/sitemap.xml", handleSitemap);
+app.get("/robots.txt", handleRobots);
+app.get("/rss.xml", handleRss);
 app.use(express.static(path.join(__dirname, "public")));
 
 if (canWriteToDisk()) {

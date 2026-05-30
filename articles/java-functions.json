@@ -16,10 +16,10 @@
   "createdAt": "2026-05-29T11:29:49.751Z",
   "updatedAt": "2026-05-29T14:35:19.564Z",
   "publishedAt": "2026-05-29T11:29:49.751Z",
-  "metaTitle": "Javaの関数",
-  "metaDescription": "Javaの関数は、プログラムの再利用性と可読性を向上させるために使用されます。このエピソードでは、Javaの関数の基本について学びます。",
+  "metaTitle": "Javaの関数｜Java入門 | StackShelf",
+  "metaDescription": "【Java初心者向け】Javaの関数は、プログラムの再利用性と可読性を向上させるために使用されます。このエピソードでは、Javaの関数の基本について学びます。 図解・具体例つきで丁寧に解説します。",
   "ogTitle": "Javaの関数",
-  "ogDescription": "Javaの関数は、プログラムの再利用性と可読性を向上させるために使用されます。このエピソードでは、Javaの関数の基本について学びます。",
+  "ogDescription": "【Java初心者向け】Javaの関数は、プログラムの再利用性と可読性を向上させるために使用されます。このエピソードでは、Javaの関数の基本について学びます。 図解・具体例つきで丁寧に解説します。",
   "knowledge": {
     "topic": "java",
     "courseId": "java",
@@ -42,27 +42,41 @@
     "@graph": [
       {
         "@context": "https://schema.org",
-        "@type": "BlogPosting",
+        "@type": "TechArticle",
         "headline": "Javaの関数",
-        "description": "Javaの関数は、プログラムの再利用性と可読性を向上させるために使用されます。このエピソードでは、Javaの関数の基本について学びます。",
+        "description": "【Java初心者向け】Javaの関数は、プログラムの再利用性と可読性を向上させるために使用されます。このエピソードでは、Javaの関数の基本について学びます。 図解・具体例つきで丁寧に解説します。",
         "datePublished": "2026-05-29T11:29:49.751Z",
         "dateModified": "2026-05-29T14:35:19.564Z",
         "author": {
           "@type": "Organization",
-          "name": "StackShelf"
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
         },
         "publisher": {
           "@type": "Organization",
           "name": "StackShelf",
-          "url": "https://ai-site-iota-nine.vercel.app"
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
         },
+        "image": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+        "inLanguage": "ja",
+        "wordCount": 444,
         "mainEntityOfPage": {
           "@type": "WebPage",
           "@id": "https://ai-site-iota-nine.vercel.app/article/java-functions"
         },
         "keywords": "Java, 関数, メソッド",
         "articleSection": "Java",
-        "url": "https://ai-site-iota-nine.vercel.app/article/java-functions"
+        "url": "https://ai-site-iota-nine.vercel.app/article/java-functions",
+        "learningResourceType": "tutorial",
+        "educationalLevel": "beginner"
       },
       {
         "@context": "https://schema.org",
@@ -72,7 +86,7 @@
             "@type": "ListItem",
             "position": 1,
             "name": "ホーム",
-            "item": "https://ai-site-iota-nine.vercel.app"
+            "item": "https://ai-site-iota-nine.vercel.app/"
           },
           {
             "@type": "ListItem",
@@ -101,7 +115,16 @@
         "description": "Javaプログラミング言語の基礎から応用までを学習する講座です。初心者向けにJavaの基本構文、オブジェクト指向、データ構造、アルゴリズムなどを解説します。",
         "provider": {
           "@type": "Organization",
-          "name": "StackShelf"
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app"
+        },
+        "url": "https://ai-site-iota-nine.vercel.app/course/java/java",
+        "inLanguage": "ja",
+        "educationalLevel": "beginner",
+        "hasCourseInstance": {
+          "@type": "CourseInstance",
+          "courseMode": "online",
+          "courseWorkload": "PT1H"
         }
       },
       {
@@ -136,7 +159,7 @@
         "@type": "ListItem",
         "position": 1,
         "name": "ホーム",
-        "item": "https://ai-site-iota-nine.vercel.app"
+        "item": "https://ai-site-iota-nine.vercel.app/"
       },
       {
         "@type": "ListItem",
@@ -165,7 +188,16 @@
     "description": "Javaプログラミング言語の基礎から応用までを学習する講座です。初心者向けにJavaの基本構文、オブジェクト指向、データ構造、アルゴリズムなどを解説します。",
     "provider": {
       "@type": "Organization",
-      "name": "StackShelf"
+      "name": "StackShelf",
+      "url": "https://ai-site-iota-nine.vercel.app"
+    },
+    "url": "https://ai-site-iota-nine.vercel.app/course/java/java",
+    "inLanguage": "ja",
+    "educationalLevel": "beginner",
+    "hasCourseInstance": {
+      "@type": "CourseInstance",
+      "courseMode": "online",
+      "courseWorkload": "PT1H"
     }
   },
   "faqSchema": {
@@ -189,5 +221,6 @@
         }
       }
     ]
-  }
+  },
+  "ogImage": "https://ai-site-iota-nine.vercel.app/og-default.svg"
 }

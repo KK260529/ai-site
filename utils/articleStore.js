@@ -188,18 +188,31 @@ function updateArticle(slug, updates) {
   if (!article) return null;
 
   const now = new Date().toISOString();
-  const merged = mergeSeoIntoArticle({
+  let merged = {
     ...article,
     ...updates,
     slug: article.slug,
     updatedAt: now,
-  });
+  };
 
   if (updates.status === "published" && !article.publishedAt) {
     merged.publishedAt = now;
   }
   if (updates.status === "draft") {
     merged.publishedAt = null;
+  }
+
+  if (merged.knowledge) {
+    const { buildSeoExtended } = require("./seoExtended");
+    const knowledgeStore = require("./stores/knowledgeStore");
+    const ctx = {
+      topic: merged.knowledge.topic,
+      courseId: merged.knowledge.courseId,
+      course: knowledgeStore.getCourse(merged.knowledge.topic, merged.knowledge.courseId),
+    };
+    merged = { ...merged, ...buildSeoExtended(merged, ctx) };
+  } else {
+    merged = mergeSeoIntoArticle(merged);
   }
 
   return writeArticleFile(merged);

@@ -46,8 +46,10 @@ ${buildLengthSection(length)}
   "tags": ["タグ1", "タグ2", "タグ3"],
   "category": "カテゴリ",
   "slug": "english-kebab-slug",
-  "metaTitle": "SEOタイトル（60字以内）",
-  "metaDescription": "SEO説明（120〜155字）",
+  "metaTitle": "検索結果向けタイトル（55〜60字。ベネフィット＋キーワード。例: Javaの基礎をゼロから学ぶ｜初心者ガイド）",
+  "metaDescription": "120〜155字。誰向け・何が学べるか・クリックしたくなる一文（例: 初めてJavaを触る人向け。インストールからHello Worldまで、図解つきで丁寧に解説）",
+  "ogTitle": "SNSシェア向けタイトル（40字以内、インパクト重視）",
+  "ogDescription": "SNS向け説明（100字前後、要点を端的に）",
   "summaryMemory": ["要点1", "要点2", "要点3", "要点4"],
   "nextEpisodeHint": "次回予告（1〜2文）",
   "faq": [{"question":"...", "answer":"..."}, {"question":"...", "answer":"..."}]

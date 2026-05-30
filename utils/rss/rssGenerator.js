@@ -19,16 +19,20 @@ function generateXml() {
     .slice(0, 50);
 
   const lastBuild = articles[0]?.publishedAt || new Date().toISOString();
+  const ogImage = config.siteOgImage;
   const items = articles
     .map((a) => {
       const link = `${config.siteUrl}/article/${a.slug}`;
       const pubDate = new Date(a.publishedAt || a.createdAt).toUTCString();
+      const title = a.metaTitle?.includes("|") ? a.title : a.metaTitle || a.title;
       return `    <item>
-      <title>${escapeXml(a.title)}</title>
+      <title>${escapeXml(title)}</title>
       <link>${escapeXml(link)}</link>
       <guid isPermaLink="true">${escapeXml(link)}</guid>
-      <description>${escapeXml(a.summary)}</description>
+      <description>${escapeXml(a.metaDescription || a.summary)}</description>
+      ${a.category ? `<category>${escapeXml(a.category)}</category>` : ""}
       <pubDate>${pubDate}</pubDate>
+      ${ogImage ? `<enclosure url="${escapeXml(ogImage)}" type="image/svg+xml"/>` : ""}
     </item>`;
     })
     .join("\n");

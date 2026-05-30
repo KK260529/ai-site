@@ -1,35 +1,31 @@
 const { config } = require("./config");
 const { buildSeo } = require("./seo");
+const { buildBreadcrumbSchema } = require("./seoMeta");
 
 function buildSeoExtended(article, ctx) {
   const base = buildSeo(article);
   const topic = ctx?.topic || article.knowledge?.topic;
   const courseId = ctx?.courseId || article.knowledge?.courseId;
+  const courseTitle = ctx?.course?.title || courseId;
+
+  const breadcrumbItems = [{ label: "ホーム", href: "/" }];
+  if (topic) {
+    breadcrumbItems.push({
+      label: topic,
+      href: `/knowledge/${topic}`,
+    });
+  }
+  if (topic && courseId) {
+    breadcrumbItems.push({
+      label: courseTitle,
+      href: `/course/${topic}/${courseId}`,
+    });
+  }
+  breadcrumbItems.push({ label: article.title, href: `/article/${article.slug}` });
 
   const breadcrumb = {
     "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    itemListElement: [
-      { "@type": "ListItem", position: 1, name: "ホーム", item: config.siteUrl },
-      {
-        "@type": "ListItem",
-        position: 2,
-        name: topic || "Knowledge",
-        item: `${config.siteUrl}/knowledge/${topic}`,
-      },
-      {
-        "@type": "ListItem",
-        position: 3,
-        name: ctx?.course?.title || courseId,
-        item: `${config.siteUrl}/course/${topic}/${courseId}`,
-      },
-      {
-        "@type": "ListItem",
-        position: 4,
-        name: article.title,
-        item: base.canonical,
-      },
-    ],
+    ...buildBreadcrumbSchema(breadcrumbItems),
   };
 
   const courseSchema = ctx?.course
@@ -38,7 +34,15 @@ function buildSeoExtended(article, ctx) {
         "@type": "Course",
         name: ctx.course.title,
         description: ctx.course.description,
-        provider: { "@type": "Organization", name: config.siteName },
+        provider: { "@type": "Organization", name: config.siteName, url: config.siteUrl },
+        url: `${config.siteUrl}/course/${topic}/${courseId}`,
+        inLanguage: "ja",
+        educationalLevel: "beginner",
+        hasCourseInstance: {
+          "@type": "CourseInstance",
+          courseMode: "online",
+          courseWorkload: "PT1H",
+        },
       }
     : null;
 
@@ -68,18 +72,30 @@ function buildSeoExtended(article, ctx) {
   };
 }
 
-function buildSitemapXml(articles, courses = []) {
+function buildSitemapXml(articles, courses = [], topics = []) {
   const { siteUrl } = config;
   const urls = [
-    { loc: siteUrl, priority: "1.0" },
-    { loc: `${siteUrl}/privacy`, priority: "0.4" },
-    { loc: `${siteUrl}/admin`, priority: "0.3" },
+    { loc: siteUrl, priority: "1.0", changefreq: "daily" },
+    { loc: `${siteUrl}/privacy`, priority: "0.4", changefreq: "monthly" },
   ];
+
+  if (!config.isProduction) {
+    urls.push({ loc: `${siteUrl}/admin`, priority: "0.3", changefreq: "monthly" });
+  }
+
+  for (const topic of topics) {
+    urls.push({
+      loc: `${siteUrl}/knowledge/${topic}`,
+      priority: "0.85",
+      changefreq: "weekly",
+    });
+  }
 
   for (const c of courses) {
     urls.push({
       loc: `${siteUrl}/course/${c.topic}/${c.courseId}`,
       priority: "0.8",
+      changefreq: "weekly",
     });
   }
 
@@ -89,6 +105,7 @@ function buildSitemapXml(articles, courses = []) {
       loc: `${siteUrl}/article/${a.slug}`,
       lastmod: a.updatedAt || a.publishedAt,
       priority: "0.7",
+      changefreq: "monthly",
     });
   }
 
@@ -97,6 +114,7 @@ function buildSitemapXml(articles, courses = []) {
       (u) => `  <url>
     <loc>${u.loc}</loc>
     ${u.lastmod ? `<lastmod>${u.lastmod.split("T")[0]}</lastmod>` : ""}
+    ${u.changefreq ? `<changefreq>${u.changefreq}</changefreq>` : ""}
     <priority>${u.priority}</priority>
   </url>`
     )

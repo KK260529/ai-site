@@ -240,7 +240,48 @@ body {
   margin-bottom: 1.5rem;
 }
 
+.article-page__labels {
+  display: flex; flex-wrap: wrap; gap: 0.5rem; align-items: center; margin-bottom: 0.5rem;
+}
+
+.article-page__episode {
+  font-size: 0.75rem; font-weight: 600; color: var(--accent);
+  background: rgba(56,189,248,0.12); padding: 0.2rem 0.55rem; border-radius: 999px;
+}
+
+.article-page__reading {
+  color: var(--accent-2); font-weight: 500;
+}
+
+.article-page__updated { color: var(--text-muted); font-size: 0.8rem; }
+
 .article-page__tags { display: flex; flex-wrap: wrap; gap: 0.35rem; }
+
+.toc {
+  margin: 0 0 1.5rem; padding: 1rem 1.1rem;
+  background: rgba(15,23,42,0.45); border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+
+.toc__title { font-size: 0.85rem; font-weight: 600; margin-bottom: 0.6rem; color: var(--accent-2); }
+
+.toc__list {
+  margin: 0; padding-left: 1.1rem; font-size: 0.88rem; line-height: 1.7;
+}
+
+.toc__item--h3 { margin-left: 0.75rem; font-size: 0.82rem; }
+
+.toc__list a { color: var(--text); text-decoration: none; }
+.toc__list a:hover { color: var(--accent-2); text-decoration: underline; }
+
+.card__meta-row {
+  display: flex; justify-content: space-between; align-items: center;
+  gap: 0.5rem; margin-top: 0.65rem; font-size: 0.78rem; color: var(--text-muted);
+}
+
+.card__read { color: var(--accent-2); white-space: nowrap; }
+
+.prose h2[id], .prose h3[id] { scroll-margin-top: 5rem; }
 
 .article-page__conclusion {
   margin-top: 2rem; padding: 1.25rem;

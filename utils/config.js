@@ -34,6 +34,12 @@ const config = {
   siteDescription:
     process.env.SITE_DESCRIPTION ||
     "StackShelf — Linux・Git・Java・Python など、初心者にもわかる技術まとめ。AI編集と構造化メモリで組み立てた学習サイト。",
+  homePageTitle:
+    process.env.HOME_PAGE_TITLE ||
+    "Java・Python・AI入門 | StackShelf — 初心者向け技術まとめ",
+  homeHeroTitle:
+    process.env.HOME_HERO_TITLE || "StackShelf — 初心者向け技術まとめ",
+  twitterHandle: (process.env.TWITTER_HANDLE || "").trim(),
   articlesDir: "articles",
   publicDir: path.join(ROOT_DIR, "public"),
   backupsDir: path.join(ROOT_DIR, "backups"),
@@ -53,6 +59,9 @@ const config = {
     String(process.env.AUTO_GIT_DEPLOY ?? "true").trim().toLowerCase()
   ),
 };
+
+config.siteOgImage = (process.env.SITE_OG_IMAGE || `${siteUrl}/og-default.svg`).trim();
+config.siteLogo = (process.env.SITE_LOGO || `${siteUrl}/favicon.svg`).trim();
 
 function normalizeApiKey(key) {
   return String(key || "")

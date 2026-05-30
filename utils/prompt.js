@@ -29,8 +29,10 @@ function buildSystemPrompt(length) {
   "tags": ["タグ1", "タグ2", "タグ3"],
   "category": "カテゴリ名（Linux / Git / Java / Python / AI / Web開発 など）",
   "slug": "english-kebab-case-slug",
-  "metaTitle": "SEO用タイトル（60字以内）",
-  "metaDescription": "SEO用説明（120〜155字）"
+  "metaTitle": "検索結果向けタイトル（55〜60字。ベネフィット＋キーワード）",
+  "metaDescription": "120〜155字。誰向け・何が学べるか・クリックしたくなる一文",
+  "ogTitle": "SNS向けタイトル（40字以内）",
+  "ogDescription": "SNS向け説明（100字前後）"
 }`;
 }
 

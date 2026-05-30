@@ -12,147 +12,189 @@
       <link>https://ai-site-iota-nine.vercel.app/article/ai-intro</link>
       <guid isPermaLink="true">https://ai-site-iota-nine.vercel.app/article/ai-intro</guid>
       <description>人工知能の基礎を理解するための初回エピソード。人工知能の定義から歴史、応用例までを学び、自分の将来への活用方法を考えることができるようになる。</description>
+      <category>AI</category>
       <pubDate>Sat, 30 May 2026 02:46:20 GMT</pubDate>
+      <enclosure url="https://ai-site-iota-nine.vercel.app/og-default.svg" type="image/svg+xml"/>
     </item>
     <item>
       <title>Javaのプロジェクト開発</title>
       <link>https://ai-site-iota-nine.vercel.app/article/java-project-development</link>
       <guid isPermaLink="true">https://ai-site-iota-nine.vercel.app/article/java-project-development</guid>
       <description>小さな Java プロジェクトを設計・実装・ビルドする流れを学びます。パッケージ構成、Maven/Gradle の概要、テストと README の重要性を解説します。</description>
+      <category>プログラミング</category>
       <pubDate>Fri, 29 May 2026 14:36:45 GMT</pubDate>
+      <enclosure url="https://ai-site-iota-nine.vercel.app/og-default.svg" type="image/svg+xml"/>
     </item>
     <item>
       <title>Javaの関数型プログラミング</title>
       <link>https://ai-site-iota-nine.vercel.app/article/java-functional-programming</link>
       <guid isPermaLink="true">https://ai-site-iota-nine.vercel.app/article/java-functional-programming</guid>
       <description>Java における関数型プログラミングの考え方を学びます。不変性、副作用の削減、Optional、純粋関数のメリットを解説します。</description>
+      <category>プログラミング</category>
       <pubDate>Fri, 29 May 2026 14:36:45 GMT</pubDate>
+      <enclosure url="https://ai-site-iota-nine.vercel.app/og-default.svg" type="image/svg+xml"/>
     </item>
     <item>
       <title>Javaのラムダ式</title>
       <link>https://ai-site-iota-nine.vercel.app/article/java-lambda-expression</link>
       <guid isPermaLink="true">https://ai-site-iota-nine.vercel.app/article/java-lambda-expression</guid>
       <description>ラムダ式の構文と関数型インターフェースの関係を学びます。匿名クラスの短縮、メソッド参照、よく使う型を押さえます。</description>
+      <category>プログラミング</category>
       <pubDate>Fri, 29 May 2026 14:36:45 GMT</pubDate>
+      <enclosure url="https://ai-site-iota-nine.vercel.app/og-default.svg" type="image/svg+xml"/>
     </item>
     <item>
       <title>JavaのStream API</title>
       <link>https://ai-site-iota-nine.vercel.app/article/java-stream-api</link>
       <guid isPermaLink="true">https://ai-site-iota-nine.vercel.app/article/java-stream-api</guid>
       <description>Stream API でコレクションを filter、map、collect する方法を学びます。ループより宣言的にデータ処理を書く考え方を身につけます。</description>
+      <category>プログラミング</category>
       <pubDate>Fri, 29 May 2026 14:36:45 GMT</pubDate>
+      <enclosure url="https://ai-site-iota-nine.vercel.app/og-default.svg" type="image/svg+xml"/>
     </item>
     <item>
       <title>Javaのコレクションフレームワーク</title>
       <link>https://ai-site-iota-nine.vercel.app/article/java-collection-framework</link>
       <guid isPermaLink="true">https://ai-site-iota-nine.vercel.app/article/java-collection-framework</guid>
       <description>List、Set、Map の使い分けと ArrayList、HashMap の基本操作を学びます。ジェネリクス付きコレクションの書き方も押さえます。</description>
+      <category>プログラミング</category>
       <pubDate>Fri, 29 May 2026 14:36:45 GMT</pubDate>
+      <enclosure url="https://ai-site-iota-nine.vercel.app/og-default.svg" type="image/svg+xml"/>
     </item>
     <item>
       <title>Javaのスレッドプログラミング</title>
       <link>https://ai-site-iota-nine.vercel.app/article/java-thread-programming</link>
       <guid isPermaLink="true">https://ai-site-iota-nine.vercel.app/article/java-thread-programming</guid>
       <description>Thread と Runnable を使った並行処理の基礎を学びます。スレッドの起動、共有データの注意点、ExecutorService の概要を解説します。</description>
+      <category>プログラミング</category>
       <pubDate>Fri, 29 May 2026 14:36:44 GMT</pubDate>
+      <enclosure url="https://ai-site-iota-nine.vercel.app/og-default.svg" type="image/svg+xml"/>
     </item>
     <item>
       <title>Javaのネットワークプログラミング</title>
       <link>https://ai-site-iota-nine.vercel.app/article/java-network-programming</link>
       <guid isPermaLink="true">https://ai-site-iota-nine.vercel.app/article/java-network-programming</guid>
       <description>TCP ソケットを使った基本的なクライアント・サーバー通信を学びます。Socket、ServerSocket、入出力ストリームの流れを理解します。</description>
+      <category>プログラミング</category>
       <pubDate>Fri, 29 May 2026 14:36:44 GMT</pubDate>
+      <enclosure url="https://ai-site-iota-nine.vercel.app/og-default.svg" type="image/svg+xml"/>
     </item>
     <item>
       <title>Javaのファイル入出力</title>
       <link>https://ai-site-iota-nine.vercel.app/article/java-file-input-output</link>
       <guid isPermaLink="true">https://ai-site-iota-nine.vercel.app/article/java-file-input-output</guid>
       <description>Java でファイルを読み書きする方法を学びます。java.nio.file、Files、BufferedReader の基本と try-with-resources を解説します。</description>
+      <category>プログラミング</category>
       <pubDate>Fri, 29 May 2026 14:36:44 GMT</pubDate>
+      <enclosure url="https://ai-site-iota-nine.vercel.app/og-default.svg" type="image/svg+xml"/>
     </item>
     <item>
       <title>Javaの基礎構文</title>
       <link>https://ai-site-iota-nine.vercel.app/article/java-syntax</link>
       <guid isPermaLink="true">https://ai-site-iota-nine.vercel.app/article/java-syntax</guid>
       <description>Javaプログラムの骨格となる基礎構文を学びます。クラス定義、mainメソッド、文と式、コメント、セミコロンの役割を押さえましょう。</description>
+      <category>プログラミング</category>
       <pubDate>Fri, 29 May 2026 14:36:44 GMT</pubDate>
+      <enclosure url="https://ai-site-iota-nine.vercel.app/og-default.svg" type="image/svg+xml"/>
     </item>
     <item>
       <title>Javaの基礎</title>
       <link>https://ai-site-iota-nine.vercel.app/article/java-introduction</link>
       <guid isPermaLink="true">https://ai-site-iota-nine.vercel.app/article/java-introduction</guid>
       <description>Javaを学ぶための基礎を解説します。Javaの特徴や基本的な構造を理解しましょう。</description>
+      <category>プログラミング</category>
       <pubDate>Fri, 29 May 2026 11:36:53 GMT</pubDate>
+      <enclosure url="https://ai-site-iota-nine.vercel.app/og-default.svg" type="image/svg+xml"/>
     </item>
     <item>
       <title>Javaプログラミングのベストプラクティス</title>
       <link>https://ai-site-iota-nine.vercel.app/article/java-best-practices</link>
       <guid isPermaLink="true">https://ai-site-iota-nine.vercel.app/article/java-best-practices</guid>
-      <description>このエピソードでは、Javaプログラミングのベストプラクティスについて学びます。コードの可読性、メンテナンス性、効率性を向上させるためのテクニックを紹介します。具体例を通じて、実践的なアプローチでベストプラクティスを身につけましょう。</description>
+      <description>Javaプログラミングのベストプラクティスについて学びます。コードの可読性、メンテナンス性、効率性を向上させるためのテクニックを紹介します。</description>
+      <category>プログラミング</category>
       <pubDate>Fri, 29 May 2026 11:30:05 GMT</pubDate>
+      <enclosure url="https://ai-site-iota-nine.vercel.app/og-default.svg" type="image/svg+xml"/>
     </item>
     <item>
       <title>Javaの例外処理</title>
       <link>https://ai-site-iota-nine.vercel.app/article/java-exception-handling</link>
       <guid isPermaLink="true">https://ai-site-iota-nine.vercel.app/article/java-exception-handling</guid>
-      <description>Javaにおける例外処理の基礎を理解する。例外が発生したときにプログラムが異常終了しないようにする方法を学ぶ。try-catch-finally文やthrowsキーワードの使い方を実践する。</description>
+      <description>Javaにおける例外処理の基礎を理解する。try-catch-finally文やthrowsキーワードの使い方を学ぶ。</description>
+      <category>Java</category>
       <pubDate>Fri, 29 May 2026 11:30:02 GMT</pubDate>
+      <enclosure url="https://ai-site-iota-nine.vercel.app/og-default.svg" type="image/svg+xml"/>
     </item>
     <item>
       <title>Javaの多態性</title>
       <link>https://ai-site-iota-nine.vercel.app/article/java-polymorphism</link>
       <guid isPermaLink="true">https://ai-site-iota-nine.vercel.app/article/java-polymorphism</guid>
-      <description>Javaの多態性は、オブジェクト指向プログラミングの重要な概念の一つです。多態性を使用すると、同じメソッド名で異なる動作を実行することができます。この記事では、多態性の基本とその使用方法について説明します。</description>
+      <description>Javaの多態性は、オブジェクト指向プログラミングの重要な概念の一つです。この記事では、多態性の基本とその使用方法について説明します。</description>
+      <category>Java</category>
       <pubDate>Fri, 29 May 2026 11:30:00 GMT</pubDate>
+      <enclosure url="https://ai-site-iota-nine.vercel.app/og-default.svg" type="image/svg+xml"/>
     </item>
     <item>
       <title>Javaの継承</title>
       <link>https://ai-site-iota-nine.vercel.app/article/java-inheritance</link>
       <guid isPermaLink="true">https://ai-site-iota-nine.vercel.app/article/java-inheritance</guid>
-      <description>Javaの継承は、既存のクラスから新しいクラスを作成する方法です。継承を使用すると、コードの再利用性を高め、プログラミングの効率を向上させることができます。この記事では、Javaの継承の基本概念と使い方を解説します。</description>
+      <description>Javaの継承の基本概念と使い方を解説します。継承を使用すると、コードの再利用性を高め、プログラミングの効率を向上させることができます。</description>
+      <category>Java</category>
       <pubDate>Fri, 29 May 2026 11:29:58 GMT</pubDate>
+      <enclosure url="https://ai-site-iota-nine.vercel.app/og-default.svg" type="image/svg+xml"/>
     </item>
     <item>
       <title>Javaのクラスとオブジェクト</title>
       <link>https://ai-site-iota-nine.vercel.app/article/java-classes</link>
       <guid isPermaLink="true">https://ai-site-iota-nine.vercel.app/article/java-classes</guid>
-      <description>Javaのクラスとオブジェクトについて学びます。クラスはオブジェクトの設計図であり、オブジェクトはクラスから生成されるインスタンスです。このエピソードでは、クラスとオブジェクトの基本概念を理解し、Javaでクラスとオブジェクトを定義して使用する方法を学びます。</description>
+      <description>Javaのクラスとオブジェクトについて学びます。クラスはオブジェクトの設計図であり、オブジェクトはクラスから生成されるインスタンスです。</description>
+      <category>Java</category>
       <pubDate>Fri, 29 May 2026 11:29:57 GMT</pubDate>
+      <enclosure url="https://ai-site-iota-nine.vercel.app/og-default.svg" type="image/svg+xml"/>
     </item>
     <item>
       <title>Javaのオブジェクト指向プログラミング</title>
       <link>https://ai-site-iota-nine.vercel.app/article/java-objects</link>
       <guid isPermaLink="true">https://ai-site-iota-nine.vercel.app/article/java-objects</guid>
       <description>Javaのオブジェクト指向プログラミングの基礎を学びます。クラス、オブジェクト、継承、多態性について理解します。具体例を通じて、オブジェクト指向プログラミングの概念を実践的に学びます。</description>
+      <category>Java</category>
       <pubDate>Fri, 29 May 2026 11:29:55 GMT</pubDate>
+      <enclosure url="https://ai-site-iota-nine.vercel.app/og-default.svg" type="image/svg+xml"/>
     </item>
     <item>
       <title>Javaの配列</title>
       <link>https://ai-site-iota-nine.vercel.app/article/java-arrays</link>
       <guid isPermaLink="true">https://ai-site-iota-nine.vercel.app/article/java-arrays</guid>
-      <description>Javaの配列は、同じデータ型の複数の値を一つの変数に格納することができます。ここでは、配列の定義、初期化、要素へのアクセス、配列の操作について学びます。</description>
+      <description>Javaの配列について学ぶ。配列の定義、初期化、要素へのアクセス、配列の操作について解説します。</description>
+      <category>Java</category>
       <pubDate>Fri, 29 May 2026 11:29:51 GMT</pubDate>
+      <enclosure url="https://ai-site-iota-nine.vercel.app/og-default.svg" type="image/svg+xml"/>
     </item>
     <item>
       <title>Javaの関数</title>
       <link>https://ai-site-iota-nine.vercel.app/article/java-functions</link>
       <guid isPermaLink="true">https://ai-site-iota-nine.vercel.app/article/java-functions</guid>
-      <description>Javaの関数は、プログラムの再利用性と可読性を向上させるために使用されます。関数を使用すると、同じコードを複数回書く必要がなくなり、プログラムのメンテナンスが容易になります。このエピソードでは、Javaの関数の基本について学びます。</description>
+      <description>Javaの関数は、プログラムの再利用性と可読性を向上させるために使用されます。このエピソードでは、Javaの関数の基本について学びます。</description>
+      <category>Java</category>
       <pubDate>Fri, 29 May 2026 11:29:49 GMT</pubDate>
+      <enclosure url="https://ai-site-iota-nine.vercel.app/og-default.svg" type="image/svg+xml"/>
     </item>
     <item>
       <title>Java制御構文の基礎</title>
       <link>https://ai-site-iota-nine.vercel.app/article/java-control-structures</link>
       <guid isPermaLink="true">https://ai-site-iota-nine.vercel.app/article/java-control-structures</guid>
-      <description>Javaの制御構文は、プログラムの流れを制御するために使用されます。if文、switch文、for文、while文などの種類があります。このエピソードでは、Javaの制御構文の基礎を学びます。</description>
+      <description>Javaの制御構文は、プログラムの流れを制御するために使用されます。if文、switch文、for文、while文などの種類があります。</description>
+      <category>Java</category>
       <pubDate>Fri, 29 May 2026 11:29:47 GMT</pubDate>
+      <enclosure url="https://ai-site-iota-nine.vercel.app/og-default.svg" type="image/svg+xml"/>
     </item>
     <item>
       <title>Javaの変数とデータ型</title>
       <link>https://ai-site-iota-nine.vercel.app/article/java-variables</link>
       <guid isPermaLink="true">https://ai-site-iota-nine.vercel.app/article/java-variables</guid>
-      <description>Javaでは、変数を使用してデータを格納し、データ型を指定してデータの種類を定義します。このエピソードでは、Javaの変数とデータ型について学びます。</description>
+      <description>Javaの変数とデータ型について学びます。変数を使用してデータを格納し、データ型を指定してデータの種類を定義します。</description>
+      <category>プログラミング</category>
       <pubDate>Fri, 29 May 2026 11:29:44 GMT</pubDate>
+      <enclosure url="https://ai-site-iota-nine.vercel.app/og-default.svg" type="image/svg+xml"/>
     </item>
   </channel>
 </rss>

@@ -16,10 +16,10 @@
   "createdAt": "2026-05-29T11:30:00.683Z",
   "updatedAt": "2026-05-29T14:35:19.990Z",
   "publishedAt": "2026-05-29T11:30:00.683Z",
-  "metaTitle": "Javaの多態性",
-  "metaDescription": "Javaの多態性は、オブジェクト指向プログラミングの重要な概念の一つです。この記事では、多態性の基本とその使用方法について説明します。",
+  "metaTitle": "Javaの多態性｜Java入門 | StackShelf",
+  "metaDescription": "【Java初心者向け】Javaの多態性は、オブジェクト指向プログラミングの重要な概念の一つです。この記事では、多態性の基本とその使用方法について説明します。 図解・具体例つきで丁寧に解説します。",
   "ogTitle": "Javaの多態性",
-  "ogDescription": "Javaの多態性は、オブジェクト指向プログラミングの重要な概念の一つです。この記事では、多態性の基本とその使用方法について説明します。",
+  "ogDescription": "【Java初心者向け】Javaの多態性は、オブジェクト指向プログラミングの重要な概念の一つです。この記事では、多態性の基本とその使用方法について説明します。 図解・具体例つきで丁寧に解説します。",
   "knowledge": {
     "topic": "java",
     "courseId": "java",
@@ -46,27 +46,41 @@
     "@graph": [
       {
         "@context": "https://schema.org",
-        "@type": "BlogPosting",
+        "@type": "TechArticle",
         "headline": "Javaの多態性",
-        "description": "Javaの多態性は、オブジェクト指向プログラミングの重要な概念の一つです。この記事では、多態性の基本とその使用方法について説明します。",
+        "description": "【Java初心者向け】Javaの多態性は、オブジェクト指向プログラミングの重要な概念の一つです。この記事では、多態性の基本とその使用方法について説明します。 図解・具体例つきで丁寧に解説します。",
         "datePublished": "2026-05-29T11:30:00.683Z",
         "dateModified": "2026-05-29T14:35:19.990Z",
         "author": {
           "@type": "Organization",
-          "name": "StackShelf"
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
         },
         "publisher": {
           "@type": "Organization",
           "name": "StackShelf",
-          "url": "https://ai-site-iota-nine.vercel.app"
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
         },
+        "image": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+        "inLanguage": "ja",
+        "wordCount": 551,
         "mainEntityOfPage": {
           "@type": "WebPage",
           "@id": "https://ai-site-iota-nine.vercel.app/article/java-polymorphism"
         },
         "keywords": "Java, 多態性, オブジェクト指向プログラミング",
         "articleSection": "Java",
-        "url": "https://ai-site-iota-nine.vercel.app/article/java-polymorphism"
+        "url": "https://ai-site-iota-nine.vercel.app/article/java-polymorphism",
+        "learningResourceType": "tutorial",
+        "educationalLevel": "beginner"
       },
       {
         "@context": "https://schema.org",
@@ -76,7 +90,7 @@
             "@type": "ListItem",
             "position": 1,
             "name": "ホーム",
-            "item": "https://ai-site-iota-nine.vercel.app"
+            "item": "https://ai-site-iota-nine.vercel.app/"
           },
           {
             "@type": "ListItem",
@@ -105,7 +119,16 @@
         "description": "Javaプログラミング言語の基礎から応用までを学習する講座です。初心者向けにJavaの基本構文、オブジェクト指向、データ構造、アルゴリズムなどを解説します。",
         "provider": {
           "@type": "Organization",
-          "name": "StackShelf"
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app"
+        },
+        "url": "https://ai-site-iota-nine.vercel.app/course/java/java",
+        "inLanguage": "ja",
+        "educationalLevel": "beginner",
+        "hasCourseInstance": {
+          "@type": "CourseInstance",
+          "courseMode": "online",
+          "courseWorkload": "PT1H"
         }
       },
       {
@@ -148,7 +171,7 @@
         "@type": "ListItem",
         "position": 1,
         "name": "ホーム",
-        "item": "https://ai-site-iota-nine.vercel.app"
+        "item": "https://ai-site-iota-nine.vercel.app/"
       },
       {
         "@type": "ListItem",
@@ -177,7 +200,16 @@
     "description": "Javaプログラミング言語の基礎から応用までを学習する講座です。初心者向けにJavaの基本構文、オブジェクト指向、データ構造、アルゴリズムなどを解説します。",
     "provider": {
       "@type": "Organization",
-      "name": "StackShelf"
+      "name": "StackShelf",
+      "url": "https://ai-site-iota-nine.vercel.app"
+    },
+    "url": "https://ai-site-iota-nine.vercel.app/course/java/java",
+    "inLanguage": "ja",
+    "educationalLevel": "beginner",
+    "hasCourseInstance": {
+      "@type": "CourseInstance",
+      "courseMode": "online",
+      "courseWorkload": "PT1H"
     }
   },
   "faqSchema": {
@@ -209,5 +241,6 @@
         }
       }
     ]
-  }
+  },
+  "ogImage": "https://ai-site-iota-nine.vercel.app/og-default.svg"
 }

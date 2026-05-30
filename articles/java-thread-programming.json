@@ -15,10 +15,10 @@
   "createdAt": "2026-05-29T14:36:44.937Z",
   "updatedAt": "2026-05-29T14:36:44.937Z",
   "publishedAt": "2026-05-29T14:36:44.937Z",
-  "metaTitle": "Javaのスレッドプログラミング",
-  "metaDescription": "Thread と Runnable を使った並行処理の基礎を学びます。スレッドの起動、共有データの注意点、ExecutorService の概要を解説します。",
+  "metaTitle": "Javaのスレッドプログラミング｜プログラミング入門 | StackShelf",
+  "metaDescription": "【プログラミング初心者向け】Thread と Runnable を使った並行処理の基礎を学びます。スレッドの起動、共有データの注意点、ExecutorService の概要を解説します。 図解・具体例つきで丁寧に解説します。",
   "ogTitle": "Javaのスレッドプログラミング",
-  "ogDescription": "Thread と Runnable を使った並行処理の基礎を学びます。スレッドの起動、共有データの注意点、ExecutorService の概要を解説します。",
+  "ogDescription": "【プログラミング初心者向け】Thread と Runnable を使った並行処理の基礎を学びます。スレッドの起動、共有データの注意点、ExecutorService の概要を解説します。 図解・具体例つきで丁寧に解説します。",
   "knowledge": {
     "topic": "java",
     "courseId": "java",
@@ -41,27 +41,41 @@
     "@graph": [
       {
         "@context": "https://schema.org",
-        "@type": "BlogPosting",
+        "@type": "TechArticle",
         "headline": "Javaのスレッドプログラミング",
-        "description": "Thread と Runnable を使った並行処理の基礎を学びます。スレッドの起動、共有データの注意点、ExecutorService の概要を解説します。",
+        "description": "【プログラミング初心者向け】Thread と Runnable を使った並行処理の基礎を学びます。スレッドの起動、共有データの注意点、ExecutorService の概要を解説します。 図解・具体例つきで丁寧に解説します。",
         "datePublished": "2026-05-29T14:36:44.937Z",
         "dateModified": "2026-05-29T14:36:44.937Z",
         "author": {
           "@type": "Organization",
-          "name": "StackShelf"
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
         },
         "publisher": {
           "@type": "Organization",
           "name": "StackShelf",
-          "url": "https://ai-site-iota-nine.vercel.app"
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
         },
+        "image": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+        "inLanguage": "ja",
+        "wordCount": 706,
         "mainEntityOfPage": {
           "@type": "WebPage",
           "@id": "https://ai-site-iota-nine.vercel.app/article/java-thread-programming"
         },
         "keywords": "Java, スレッド, 並行処理",
         "articleSection": "プログラミング",
-        "url": "https://ai-site-iota-nine.vercel.app/article/java-thread-programming"
+        "url": "https://ai-site-iota-nine.vercel.app/article/java-thread-programming",
+        "learningResourceType": "tutorial",
+        "educationalLevel": "beginner"
       },
       {
         "@context": "https://schema.org",
@@ -71,7 +85,7 @@
             "@type": "ListItem",
             "position": 1,
             "name": "ホーム",
-            "item": "https://ai-site-iota-nine.vercel.app"
+            "item": "https://ai-site-iota-nine.vercel.app/"
           },
           {
             "@type": "ListItem",
@@ -100,7 +114,16 @@
         "description": "Javaプログラミング言語の基礎から応用までを学習する講座です。初心者向けにJavaの基本構文、オブジェクト指向、データ構造、アルゴリズムなどを解説します。",
         "provider": {
           "@type": "Organization",
-          "name": "StackShelf"
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app"
+        },
+        "url": "https://ai-site-iota-nine.vercel.app/course/java/java",
+        "inLanguage": "ja",
+        "educationalLevel": "beginner",
+        "hasCourseInstance": {
+          "@type": "CourseInstance",
+          "courseMode": "online",
+          "courseWorkload": "PT1H"
         }
       },
       {
@@ -135,7 +158,7 @@
         "@type": "ListItem",
         "position": 1,
         "name": "ホーム",
-        "item": "https://ai-site-iota-nine.vercel.app"
+        "item": "https://ai-site-iota-nine.vercel.app/"
       },
       {
         "@type": "ListItem",
@@ -164,7 +187,16 @@
     "description": "Javaプログラミング言語の基礎から応用までを学習する講座です。初心者向けにJavaの基本構文、オブジェクト指向、データ構造、アルゴリズムなどを解説します。",
     "provider": {
       "@type": "Organization",
-      "name": "StackShelf"
+      "name": "StackShelf",
+      "url": "https://ai-site-iota-nine.vercel.app"
+    },
+    "url": "https://ai-site-iota-nine.vercel.app/course/java/java",
+    "inLanguage": "ja",
+    "educationalLevel": "beginner",
+    "hasCourseInstance": {
+      "@type": "CourseInstance",
+      "courseMode": "online",
+      "courseWorkload": "PT1H"
     }
   },
   "faqSchema": {
@@ -188,5 +220,6 @@
         }
       }
     ]
-  }
+  },
+  "ogImage": "https://ai-site-iota-nine.vercel.app/og-default.svg"
 }

@@ -34,7 +34,7 @@ router.get("/", (req, res) => {
   const courses = knowledgeStore.listTopics().flatMap((t) =>
     knowledgeStore.listCourses(t).map((c) => ({ ...c, topic: t }))
   );
-  res.send(renderHome(articles, courses));
+  res.send(renderHome(articles, courses, { tag: tag || undefined }));
 });
 
 router.get("/knowledge/:topic", (req, res) => {
@@ -84,7 +84,7 @@ router.get("/sitemap.xml", (_req, res) => {
   const courses = knowledgeStore.listTopics().flatMap((t) =>
     knowledgeStore.listCourses(t).map((c) => ({ ...c, topic: t }))
   );
-  res.type("application/xml").send(buildSitemapXml(articles, courses));
+  res.type("application/xml").send(buildSitemapXml(articles, courses, knowledgeStore.listTopics()));
 });
 
 router.get("/robots.txt", (_req, res) => {

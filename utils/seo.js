@@ -1,35 +1,52 @@
 const { config } = require("./config");
+const {
+  optimizeSerpTitle,
+  optimizeSerpDescription,
+  getOgImageUrl,
+  plainTextLength,
+  buildOrganizationSchema,
+} = require("./seoMeta");
 
 /**
  * 記事データから SEO メタ情報を構築
  */
 function buildSeo(article) {
-  const metaTitle = article.metaTitle || `${article.title} | ${config.siteName}`;
-  const metaDescription =
-    article.metaDescription ||
-    article.summary?.slice(0, 155) ||
-    config.siteDescription;
+  const metaTitle = optimizeSerpTitle(article.metaTitle || article.title, {
+    category: article.category,
+  });
+  const metaDescription = optimizeSerpDescription(
+    article.metaDescription,
+    article.summary,
+    { category: article.category }
+  );
 
   const ogTitle = article.ogTitle || article.title;
-  const ogDescription = article.ogDescription || metaDescription;
+  const ogDescription = optimizeSerpDescription(
+    article.ogDescription || article.metaDescription,
+    article.summary,
+    { category: article.category }
+  );
   const canonical = `${config.siteUrl}/article/${article.slug}`;
+  const ogImage = getOgImageUrl(article);
+  const wordCount = plainTextLength(article.body);
 
   const jsonLd = {
     "@context": "https://schema.org",
-    "@type": "BlogPosting",
+    "@type": article.knowledge ? "TechArticle" : "BlogPosting",
     headline: article.title,
     description: metaDescription,
     datePublished: article.publishedAt || article.createdAt,
     dateModified: article.updatedAt || article.createdAt,
-    author: {
-      "@type": "Organization",
-      name: config.siteName,
-    },
+    author: buildOrganizationSchema(),
     publisher: {
-      "@type": "Organization",
-      name: config.siteName,
-      url: config.siteUrl,
+      ...buildOrganizationSchema(),
+      logo: config.siteLogo
+        ? { "@type": "ImageObject", url: config.siteLogo }
+        : undefined,
     },
+    image: ogImage,
+    inLanguage: "ja",
+    wordCount,
     mainEntityOfPage: {
       "@type": "WebPage",
       "@id": canonical,
@@ -39,11 +56,17 @@ function buildSeo(article) {
     url: canonical,
   };
 
+  if (article.knowledge) {
+    jsonLd.learningResourceType = "tutorial";
+    jsonLd.educationalLevel = "beginner";
+  }
+
   return {
     metaTitle,
     metaDescription,
     ogTitle,
     ogDescription,
+    ogImage,
     canonical,
     jsonLd,
   };
@@ -57,6 +80,7 @@ function mergeSeoIntoArticle(article) {
     metaDescription: seo.metaDescription,
     ogTitle: seo.ogTitle,
     ogDescription: seo.ogDescription,
+    ogImage: seo.ogImage,
     canonical: seo.canonical,
     jsonLd: seo.jsonLd,
   };

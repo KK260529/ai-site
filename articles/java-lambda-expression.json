@@ -15,10 +15,10 @@
   "createdAt": "2026-05-29T14:36:45.175Z",
   "updatedAt": "2026-05-29T14:36:45.175Z",
   "publishedAt": "2026-05-29T14:36:45.175Z",
-  "metaTitle": "Javaのラムダ式",
-  "metaDescription": "ラムダ式の構文と関数型インターフェースの関係を学びます。匿名クラスの短縮、メソッド参照、よく使う型を押さえます。",
+  "metaTitle": "Javaのラムダ式｜プログラミング入門 | StackShelf",
+  "metaDescription": "【プログラミング初心者向け】ラムダ式の構文と関数型インターフェースの関係を学びます。匿名クラスの短縮、メソッド参照、よく使う型を押さえます。 図解・具体例つきで丁寧に解説します。",
   "ogTitle": "Javaのラムダ式",
-  "ogDescription": "ラムダ式の構文と関数型インターフェースの関係を学びます。匿名クラスの短縮、メソッド参照、よく使う型を押さえます。",
+  "ogDescription": "【プログラミング初心者向け】ラムダ式の構文と関数型インターフェースの関係を学びます。匿名クラスの短縮、メソッド参照、よく使う型を押さえます。 図解・具体例つきで丁寧に解説します。",
   "knowledge": {
     "topic": "java",
     "courseId": "java",
@@ -41,27 +41,41 @@
     "@graph": [
       {
         "@context": "https://schema.org",
-        "@type": "BlogPosting",
+        "@type": "TechArticle",
         "headline": "Javaのラムダ式",
-        "description": "ラムダ式の構文と関数型インターフェースの関係を学びます。匿名クラスの短縮、メソッド参照、よく使う型を押さえます。",
+        "description": "【プログラミング初心者向け】ラムダ式の構文と関数型インターフェースの関係を学びます。匿名クラスの短縮、メソッド参照、よく使う型を押さえます。 図解・具体例つきで丁寧に解説します。",
         "datePublished": "2026-05-29T14:36:45.175Z",
         "dateModified": "2026-05-29T14:36:45.175Z",
         "author": {
           "@type": "Organization",
-          "name": "StackShelf"
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
         },
         "publisher": {
           "@type": "Organization",
           "name": "StackShelf",
-          "url": "https://ai-site-iota-nine.vercel.app"
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
         },
+        "image": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+        "inLanguage": "ja",
+        "wordCount": 665,
         "mainEntityOfPage": {
           "@type": "WebPage",
           "@id": "https://ai-site-iota-nine.vercel.app/article/java-lambda-expression"
         },
         "keywords": "Java, ラムダ, 関数型",
         "articleSection": "プログラミング",
-        "url": "https://ai-site-iota-nine.vercel.app/article/java-lambda-expression"
+        "url": "https://ai-site-iota-nine.vercel.app/article/java-lambda-expression",
+        "learningResourceType": "tutorial",
+        "educationalLevel": "beginner"
       },
       {
         "@context": "https://schema.org",
@@ -71,7 +85,7 @@
             "@type": "ListItem",
             "position": 1,
             "name": "ホーム",
-            "item": "https://ai-site-iota-nine.vercel.app"
+            "item": "https://ai-site-iota-nine.vercel.app/"
           },
           {
             "@type": "ListItem",
@@ -100,7 +114,16 @@
         "description": "Javaプログラミング言語の基礎から応用までを学習する講座です。初心者向けにJavaの基本構文、オブジェクト指向、データ構造、アルゴリズムなどを解説します。",
         "provider": {
           "@type": "Organization",
-          "name": "StackShelf"
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app"
+        },
+        "url": "https://ai-site-iota-nine.vercel.app/course/java/java",
+        "inLanguage": "ja",
+        "educationalLevel": "beginner",
+        "hasCourseInstance": {
+          "@type": "CourseInstance",
+          "courseMode": "online",
+          "courseWorkload": "PT1H"
         }
       },
       {
@@ -135,7 +158,7 @@
         "@type": "ListItem",
         "position": 1,
         "name": "ホーム",
-        "item": "https://ai-site-iota-nine.vercel.app"
+        "item": "https://ai-site-iota-nine.vercel.app/"
       },
       {
         "@type": "ListItem",
@@ -164,7 +187,16 @@
     "description": "Javaプログラミング言語の基礎から応用までを学習する講座です。初心者向けにJavaの基本構文、オブジェクト指向、データ構造、アルゴリズムなどを解説します。",
     "provider": {
       "@type": "Organization",
-      "name": "StackShelf"
+      "name": "StackShelf",
+      "url": "https://ai-site-iota-nine.vercel.app"
+    },
+    "url": "https://ai-site-iota-nine.vercel.app/course/java/java",
+    "inLanguage": "ja",
+    "educationalLevel": "beginner",
+    "hasCourseInstance": {
+      "@type": "CourseInstance",
+      "courseMode": "online",
+      "courseWorkload": "PT1H"
     }
   },
   "faqSchema": {
@@ -188,5 +220,6 @@
         }
       }
     ]
-  }
+  },
+  "ogImage": "https://ai-site-iota-nine.vercel.app/og-default.svg"
 }

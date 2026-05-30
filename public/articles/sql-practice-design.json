@@ -2,9 +2,9 @@
   "id": "art_sql_sql-practice-design",
   "slug": "sql-practice-design",
   "title": "TODOアプリDB設計実践｜SQLite設計・実装の総まとめ",
-  "summary": "これまで学んだSQLの知識を総動員して、TODOアプリのデータベースを設計・実装する実践演習。テーブル設計・正規化・インデックス・CRUD操作・JOIN集計まで完全に習得しましょう。",
-  "body": "<h2>このエピソードで作るもの</h2>\n<p>このコース最終回では、これまで学んだSQL/SQLiteの知識をすべて活用して、<strong>TODOアプリのデータベースを設計・実装</strong>します。単純なTODOリストではなく、実際のアプリで求められる機能を備えた本格的なDB設計を体験します。</p>\n<p>今回実装する機能は以下の通りです。</p>\n<ul>\n  <li>ユーザー管理：複数ユーザーが使えるTODOアプリ</li>\n  <li>タグ機能：TODOに複数のタグを付けられる</li>\n  <li>カテゴリ分類：仕事・プライベートなどでTODOを分類</li>\n  <li>優先度・期限管理：重要度と締め切りの管理</li>\n  <li>集計・分析：完了率・優先度別件数などの統計</li>\n</ul>\n\n<h2>データベース設計：テーブル構造を考える</h2>\n<p>機能要件を元に、どのようなテーブルが必要かを考えます。このプロセスが<strong>データベース設計（DB設計）</strong>です。</p>\n<pre><code>-- TODOアプリのER図（テーブル関係）\n-- users ─── todos ─── todo_tags ─── tags\n--             │\n--         categories\n\n-- テーブル一覧\n-- 1. users        ：ユーザー情報\n-- 2. categories   ：TODOのカテゴリ（仕事・プライベートなど）\n-- 3. todos        ：TODOの本体\n-- 4. tags         ：タグのマスターデータ\n-- 5. todo_tags    ：TODOとタグの中間テーブル（多対多の関係）\n\n-- なぜ中間テーブルが必要か？\n-- 1つのTODOに複数のタグを付けられ、\n-- 1つのタグを複数のTODOに付けられる（多対多の関係）\n-- この場合、中間テーブルで関係を管理する（正規化の原則）</code></pre>\n\n<h2>テーブルの作成（CREATE TABLE）</h2>\n<p>設計に基づいて実際にテーブルを作成します。</p>\n<pre><code>-- SQLiteを起動\n-- sqlite3 todo_app.db\n\n-- 外部キー制約を有効化\nPRAGMA foreign_keys = ON;\n\n-- 1. ユーザーテーブル\nCREATE TABLE users (\n  id         INTEGER PRIMARY KEY AUTOINCREMENT,\n  username   TEXT    NOT NULL UNIQUE,\n  email      TEXT    NOT NULL UNIQUE,\n  created_at TEXT    NOT NULL DEFAULT (datetime('now', 'localtime'))\n);\n\n-- 2. カテゴリテーブル\nCREATE TABLE categories (\n  id      INTEGER PRIMARY KEY AUTOINCREMENT,\n  user_id INTEGER NOT NULL,\n  name    TEXT    NOT NULL,\n  color   TEXT    DEFAULT '#888888',  -- 表示色（HEXカラーコード）\n  FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,\n  UNIQUE (user_id, name)  -- 同一ユーザー内でカテゴリ名重複禁止\n);\n\n-- 3. TODOテーブル（メインテーブル）\nCREATE TABLE todos (\n  id          INTEGER PRIMARY KEY AUTOINCREMENT,\n  user_id     INTEGER NOT NULL,\n  category_id INTEGER,\n  title       TEXT    NOT NULL,\n  description TEXT,\n  done        INTEGER NOT NULL DEFAULT 0 CHECK (done IN (0, 1)),\n  priority    TEXT    NOT NULL DEFAULT 'medium'\n                      CHECK (priority IN ('low', 'medium', 'high')),\n  due_date    TEXT,\n  completed_at TEXT,\n  created_at  TEXT    NOT NULL DEFAULT (datetime('now', 'localtime')),\n  updated_at  TEXT    NOT NULL DEFAULT (datetime('now', 'localtime')),\n  FOREIGN KEY (user_id)     REFERENCES users(id)      ON DELETE CASCADE,\n  FOREIGN KEY (category_id) REFERENCES categories(id) ON DELETE SET NULL\n);\n\n-- 4. タグテーブル\nCREATE TABLE tags (\n  id      INTEGER PRIMARY KEY AUTOINCREMENT,\n  user_id INTEGER NOT NULL,\n  name    TEXT    NOT NULL,\n  FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,\n  UNIQUE (user_id, name)\n);\n\n-- 5. TODO-タグ中間テーブル（多対多の関係）\nCREATE TABLE todo_tags (\n  todo_id INTEGER NOT NULL,\n  tag_id  INTEGER NOT NULL,\n  PRIMARY KEY (todo_id, tag_id),  -- 複合主キー（重複登録防止）\n  FOREIGN KEY (todo_id) REFERENCES todos(id) ON DELETE CASCADE,\n  FOREIGN KEY (tag_id)  REFERENCES tags(id)  ON DELETE CASCADE\n);</code></pre>\n\n<h2>インデックスの設計と作成</h2>\n<p>パフォーマンスを考慮してインデックスを設定します。</p>\n<pre><code>-- todosテーブルへのインデックス\n-- user_id は最もよく使われる検索条件（自分のTODOを取得）\nCREATE INDEX idx_todos_user_id ON todos (user_id);\n\n-- 期限日での検索・ソートに使う\nCREATE INDEX idx_todos_due_date ON todos (due_date);\n\n-- 未完了TODOの検索に使う（done=0が多い場合に有効）\nCREATE INDEX idx_todos_done ON todos (done);\n\n-- user_id + done の複合インデックス（「自分の未完了TODO」検索）\nCREATE INDEX idx_todos_user_done ON todos (user_id, done);\n\n-- 優先度別検索用\nCREATE INDEX idx_todos_priority ON todos (user_id, priority);\n\n-- todo_tagsテーブルへのインデックス\nCREATE INDEX idx_todo_tags_tag_id ON todo_tags (tag_id);\n\n-- インデックス確認\n.indexes todos\n-- idx_todos_user_id\n-- idx_todos_due_date\n-- idx_todos_done\n-- idx_todos_user_done\n-- idx_todos_priority</code></pre>\n\n<h2>サンプルデータの挿入</h2>\n<p>テスト用のサンプルデータを挿入して動作確認をします。</p>\n<pre><code>-- ユーザーを追加\nINSERT INTO users (username, email) VALUES\n  ('tanaka_taro', 'tanaka@example.com'),\n  ('suzuki_hanako', 'suzuki@example.com');\n\n-- カテゴリを追加（ユーザー1用）\nINSERT INTO categories (user_id, name, color) VALUES\n  (1, '仕事',           '#FF6B6B'),\n  (1, 'プライベート',   '#4ECDC4'),\n  (1, '学習',           '#45B7D1');\n\n-- タグを追加\nINSERT INTO tags (user_id, name) VALUES\n  (1, '急ぎ'),\n  (1, '重要'),\n  (1, 'SQL'),\n  (1, 'プロジェクトA');\n\n-- TODOを追加\nINSERT INTO todos (user_id, category_id, title, priority, due_date) VALUES\n  (1, 1, '週次レポートを作成する',     'high',   '2024-02-09'),\n  (1, 1, 'ミーティング資料を準備する', 'medium', '2024-02-12'),\n  (1, 3, 'SQLの練習問題を解く',        'high',   '2024-02-10'),\n  (1, 2, '買い物に行く',               'low',    '2024-02-08'),\n  (1, 3, 'GROUP BYを復習する',         'medium', '2024-02-11'),\n  (1, 1, 'コードレビューを実施する',   'high',   '2024-02-13');\n\n-- タグを紐付ける（todo_tags中間テーブル）\nINSERT INTO todo_tags (todo_id, tag_id) VALUES\n  (1, 1),  -- 週次レポート → 急ぎ\n  (1, 2),  -- 週次レポート → 重要\n  (3, 3),  -- SQL練習 → SQL\n  (3, 1),  -- SQL練習 → 急ぎ\n  (5, 3),  -- GROUP BY復習 → SQL\n  (6, 2),  -- コードレビュー → 重要\n  (6, 4);  -- コードレビュー → プロジェクトA</code></pre>\n\n<h2>実践クエリ：アプリの機能を実装するSQL</h2>\n<p>実際のアプリで必要なクエリを書いてみましょう。</p>\n<pre><code>-- 【機能1】自分の未完了TODOを優先度順に表示\nSELECT\n  t.id,\n  t.title,\n  t.priority,\n  t.due_date,\n  c.name AS カテゴリ\nFROM todos AS t\nLEFT JOIN categories AS c ON t.category_id = c.id\nWHERE t.user_id = 1 AND t.done = 0\nORDER BY\n  CASE t.priority WHEN 'high' THEN 1 WHEN 'medium' THEN 2 ELSE 3 END,\n  t.due_date ASC;\n\n-- 【機能2】TODOとそのタグを一覧表示\nSELECT\n  t.title,\n  GROUP_CONCAT(tg.name, ', ') AS タグ一覧\nFROM todos AS t\nLEFT JOIN todo_tags AS tt ON t.id = tt.todo_id\nLEFT JOIN tags      AS tg ON tt.tag_id = tg.id\nWHERE t.user_id = 1\nGROUP BY t.id, t.title\nORDER BY t.id;\n\n-- 出力例:\n-- title               | タグ一覧\n-- --------------------+-----------\n-- 週次レポートを作成   | 急ぎ, 重要\n-- SQL練習問題を解く    | SQL, 急ぎ\n-- GROUP BYを復習する   | SQL\n\n-- 【機能3】カテゴリ別のTODO集計\nSELECT\n  c.name         AS カテゴリ,\n  COUNT(t.id)    AS 合計,\n  SUM(t.done)    AS 完了数,\n  COUNT(t.id) - SUM(t.done) AS 未完了数,\n  ROUND(CAST(SUM(t.done) AS REAL) / COUNT(t.id) * 100, 1) AS 完了率\nFROM categories AS c\nLEFT JOIN todos AS t ON c.id = t.category_id AND t.user_id = 1\nWHERE c.user_id = 1\nGROUP BY c.id, c.name\nORDER BY 合計 DESC;\n\n-- 【機能4】期限切れのTODOを確認\nSELECT t.title, t.due_date, c.name AS カテゴリ\nFROM todos AS t\nLEFT JOIN categories AS c ON t.category_id = c.id\nWHERE t.user_id = 1\n  AND t.done = 0\n  AND t.due_date < date('now')\nORDER BY t.due_date ASC;\n\n-- 【機能5】TODOを完了にする\nUPDATE todos\nSET done = 1,\n    completed_at = datetime('now', 'localtime'),\n    updated_at   = datetime('now', 'localtime')\nWHERE id = 1 AND user_id = 1;  -- user_idも条件に含めると安全</code></pre>\n\n<h2>コース総まとめ：学んだことの振り返り</h2>\n<p>このコースで学んだSQL/SQLiteの知識を振り返りましょう。</p>\n<pre><code>-- 学んだSQL構文の総まとめ\n\n-- テーブル操作（DDL）\nCREATE TABLE ...        -- テーブル作成\nALTER TABLE ... ADD ... -- カラム追加\nDROP TABLE ...          -- テーブル削除\nCREATE INDEX ...        -- インデックス作成\n\n-- データ取得（DQL）\nSELECT カラム FROM テーブル  -- 基本取得\nWHERE 条件                   -- 絞り込み\nAND / OR / NOT               -- 複合条件\nLIKE '%検索%'               -- 部分一致\nBETWEEN 値1 AND 値2          -- 範囲指定\nIN (値1, 値2)               -- 複数値\nIS NULL                      -- NULL判定\nINNER JOIN ... ON ...        -- 内部結合\nLEFT JOIN ... ON ...         -- 左外部結合\nGROUP BY カラム              -- グループ化\nHAVING 集計条件              -- グループ後絞り込み\nORDER BY カラム ASC/DESC     -- 並び替え\nLIMIT N OFFSET M             -- 件数制限\n\n-- 集計関数\nCOUNT(*) / SUM() / AVG() / MIN() / MAX()\n\n-- データ操作（DML）\nINSERT INTO ... VALUES ...   -- データ追加\nUPDATE ... SET ... WHERE ... -- データ更新\nDELETE FROM ... WHERE ...    -- データ削除\n\n-- トランザクション\nBEGIN / COMMIT / ROLLBACK    -- 安全な複数操作\n\n-- SQLite専用\nPRAGMA foreign_keys = ON     -- 外部キー有効化\nEXPLAIN QUERY PLAN ...       -- 実行計画確認\nstrftime('%Y-%m', date_col)  -- 日付フォーマット\nGROUP_CONCAT(col, ', ')      -- 値を連結集計</code></pre>\n<p>sql 初心者として始めたこのコースで、データベースとSQLの基礎から実践的な設計まで幅広く学びました。ここで紹介した知識は、PythonやNode.jsなどのプログラミング言語からSQLiteやMySQLに接続する際にもそのまま活きます。次のステップとして、実際に自分のアプリにデータベースを組み込んでみることをお勧めします。sql 使い方をさらに深めるには、サブクエリ・CTE（WITH句）・ウィンドウ関数といった上級トピックにも挑戦してみましょう。</p>",
-  "conclusion": "コース最終回では、ユーザー・カテゴリ・TODO・タグ・中間テーブルの5テーブルからなるTODOアプリのデータベースを設計・実装しました。正規化・外部キー・複合主キー・インデックス設計・多対多の中間テーブル・GROUP_CONCATを使ったタグ集計・完了率計算など、実践的なDB設計の全工程を体験しました。このコースで学んだCREATE TABLE・SELECT/WHERE/JOIN/GROUP BY/HAVING/インデックスの知識は、あらゆるRDBMSに応用できます。実際のアプリ開発でSQLを活用してください。",
+  "summary": "TODOアプリのDBを設計・実装する総合演習。正規化、外部キー、中間テーブル、インデックス、CRUD/JOIN/集計を組み合わせた実践課題です。",
+  "body": "<h2>結論：TODOアプリDBで正規化・JOIN・集計・インデックスを一気通貫で実践する</h2>\n<p>本コース最終回では<strong>users / categories / todos / tags / tag_todos</strong> の5テーブルでTODOアプリを設計します。正規化で重複を排除し、多対多は<strong>中間テーブル</strong>、検索列に<strong>インデックス</strong>を設定。CREATE TABLEからCRUD、JOIN、GROUP BYまで、実務と同じ流れで体験します。</p>\n\n<h2>このエピソードで作るもの</h2>\n<p>このコース最終回では、これまで学んだSQL/SQLiteの知識をすべて活用して、<strong>TODOアプリのデータベースを設計・実装</strong>します。単純なTODOリストではなく、実際のアプリで求められる機能を備えた本格的なDB設計を体験します。</p>\n<p>今回実装する機能は以下の通りです。</p>\n<ul>\n  <li>ユーザー管理：複数ユーザーが使えるTODOアプリ</li>\n  <li>タグ機能：TODOに複数のタグを付けられる</li>\n  <li>カテゴリ分類：仕事・プライベートなどでTODOを分類</li>\n  <li>優先度・期限管理：重要度と締め切りの管理</li>\n  <li>集計・分析：完了率・優先度別件数などの統計</li>\n</ul>\n\n<h2>データベース設計：テーブル構造を考える</h2>\n<p>機能要件を元に、どのようなテーブルが必要かを考えます。このプロセスが<strong>データベース設計（DB設計）</strong>です。</p>\n<pre><code>-- TODOアプリのER図（テーブル関係）\n-- users ─── todos ─── todo_tags ─── tags\n--             │\n--         categories\n\n-- テーブル一覧\n-- 1. users        ：ユーザー情報\n-- 2. categories   ：TODOのカテゴリ（仕事・プライベートなど）\n-- 3. todos        ：TODOの本体\n-- 4. tags         ：タグのマスターデータ\n-- 5. todo_tags    ：TODOとタグの中間テーブル（多対多の関係）\n\n-- なぜ中間テーブルが必要か？\n-- 1つのTODOに複数のタグを付けられ、\n-- 1つのタグを複数のTODOに付けられる（多対多の関係）\n-- この場合、中間テーブルで関係を管理する（正規化の原則）</code></pre>\n\n<h2>テーブルの作成（CREATE TABLE）</h2>\n<p>設計に基づいて実際にテーブルを作成します。</p>\n<pre><code>-- SQLiteを起動\n-- sqlite3 todo_app.db\n\n-- 外部キー制約を有効化\nPRAGMA foreign_keys = ON;\n\n-- 1. ユーザーテーブル\nCREATE TABLE users (\n  id         INTEGER PRIMARY KEY AUTOINCREMENT,\n  username   TEXT    NOT NULL UNIQUE,\n  email      TEXT    NOT NULL UNIQUE,\n  created_at TEXT    NOT NULL DEFAULT (datetime('now', 'localtime'))\n);\n\n-- 2. カテゴリテーブル\nCREATE TABLE categories (\n  id      INTEGER PRIMARY KEY AUTOINCREMENT,\n  user_id INTEGER NOT NULL,\n  name    TEXT    NOT NULL,\n  color   TEXT    DEFAULT '#888888',  -- 表示色（HEXカラーコード）\n  FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,\n  UNIQUE (user_id, name)  -- 同一ユーザー内でカテゴリ名重複禁止\n);\n\n-- 3. TODOテーブル（メインテーブル）\nCREATE TABLE todos (\n  id          INTEGER PRIMARY KEY AUTOINCREMENT,\n  user_id     INTEGER NOT NULL,\n  category_id INTEGER,\n  title       TEXT    NOT NULL,\n  description TEXT,\n  done        INTEGER NOT NULL DEFAULT 0 CHECK (done IN (0, 1)),\n  priority    TEXT    NOT NULL DEFAULT 'medium'\n                      CHECK (priority IN ('low', 'medium', 'high')),\n  due_date    TEXT,\n  completed_at TEXT,\n  created_at  TEXT    NOT NULL DEFAULT (datetime('now', 'localtime')),\n  updated_at  TEXT    NOT NULL DEFAULT (datetime('now', 'localtime')),\n  FOREIGN KEY (user_id)     REFERENCES users(id)      ON DELETE CASCADE,\n  FOREIGN KEY (category_id) REFERENCES categories(id) ON DELETE SET NULL\n);\n\n-- 4. タグテーブル\nCREATE TABLE tags (\n  id      INTEGER PRIMARY KEY AUTOINCREMENT,\n  user_id INTEGER NOT NULL,\n  name    TEXT    NOT NULL,\n  FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,\n  UNIQUE (user_id, name)\n);\n\n-- 5. TODO-タグ中間テーブル（多対多の関係）\nCREATE TABLE todo_tags (\n  todo_id INTEGER NOT NULL,\n  tag_id  INTEGER NOT NULL,\n  PRIMARY KEY (todo_id, tag_id),  -- 複合主キー（重複登録防止）\n  FOREIGN KEY (todo_id) REFERENCES todos(id) ON DELETE CASCADE,\n  FOREIGN KEY (tag_id)  REFERENCES tags(id)  ON DELETE CASCADE\n);</code></pre>\n\n<h2>インデックスの設計と作成</h2>\n<p>パフォーマンスを考慮してインデックスを設定します。</p>\n<pre><code>-- todosテーブルへのインデックス\n-- user_id は最もよく使われる検索条件（自分のTODOを取得）\nCREATE INDEX idx_todos_user_id ON todos (user_id);\n\n-- 期限日での検索・ソートに使う\nCREATE INDEX idx_todos_due_date ON todos (due_date);\n\n-- 未完了TODOの検索に使う（done=0が多い場合に有効）\nCREATE INDEX idx_todos_done ON todos (done);\n\n-- user_id + done の複合インデックス（「自分の未完了TODO」検索）\nCREATE INDEX idx_todos_user_done ON todos (user_id, done);\n\n-- 優先度別検索用\nCREATE INDEX idx_todos_priority ON todos (user_id, priority);\n\n-- todo_tagsテーブルへのインデックス\nCREATE INDEX idx_todo_tags_tag_id ON todo_tags (tag_id);\n\n-- インデックス確認\n.indexes todos\n-- idx_todos_user_id\n-- idx_todos_due_date\n-- idx_todos_done\n-- idx_todos_user_done\n-- idx_todos_priority</code></pre>\n\n<h2>サンプルデータの挿入</h2>\n<p>テスト用のサンプルデータを挿入して動作確認をします。</p>\n<pre><code>-- ユーザーを追加\nINSERT INTO users (username, email) VALUES\n  ('tanaka_taro', 'tanaka@example.com'),\n  ('suzuki_hanako', 'suzuki@example.com');\n\n-- カテゴリを追加（ユーザー1用）\nINSERT INTO categories (user_id, name, color) VALUES\n  (1, '仕事',           '#FF6B6B'),\n  (1, 'プライベート',   '#4ECDC4'),\n  (1, '学習',           '#45B7D1');\n\n-- タグを追加\nINSERT INTO tags (user_id, name) VALUES\n  (1, '急ぎ'),\n  (1, '重要'),\n  (1, 'SQL'),\n  (1, 'プロジェクトA');\n\n-- TODOを追加\nINSERT INTO todos (user_id, category_id, title, priority, due_date) VALUES\n  (1, 1, '週次レポートを作成する',     'high',   '2024-02-09'),\n  (1, 1, 'ミーティング資料を準備する', 'medium', '2024-02-12'),\n  (1, 3, 'SQLの練習問題を解く',        'high',   '2024-02-10'),\n  (1, 2, '買い物に行く',               'low',    '2024-02-08'),\n  (1, 3, 'GROUP BYを復習する',         'medium', '2024-02-11'),\n  (1, 1, 'コードレビューを実施する',   'high',   '2024-02-13');\n\n-- タグを紐付ける（todo_tags中間テーブル）\nINSERT INTO todo_tags (todo_id, tag_id) VALUES\n  (1, 1),  -- 週次レポート → 急ぎ\n  (1, 2),  -- 週次レポート → 重要\n  (3, 3),  -- SQL練習 → SQL\n  (3, 1),  -- SQL練習 → 急ぎ\n  (5, 3),  -- GROUP BY復習 → SQL\n  (6, 2),  -- コードレビュー → 重要\n  (6, 4);  -- コードレビュー → プロジェクトA</code></pre>\n\n<h2>実践クエリ：アプリの機能を実装するSQL</h2>\n<p>実際のアプリで必要なクエリを書いてみましょう。</p>\n<pre><code>-- 【機能1】自分の未完了TODOを優先度順に表示\nSELECT\n  t.id,\n  t.title,\n  t.priority,\n  t.due_date,\n  c.name AS カテゴリ\nFROM todos AS t\nLEFT JOIN categories AS c ON t.category_id = c.id\nWHERE t.user_id = 1 AND t.done = 0\nORDER BY\n  CASE t.priority WHEN 'high' THEN 1 WHEN 'medium' THEN 2 ELSE 3 END,\n  t.due_date ASC;\n\n-- 【機能2】TODOとそのタグを一覧表示\nSELECT\n  t.title,\n  GROUP_CONCAT(tg.name, ', ') AS タグ一覧\nFROM todos AS t\nLEFT JOIN todo_tags AS tt ON t.id = tt.todo_id\nLEFT JOIN tags      AS tg ON tt.tag_id = tg.id\nWHERE t.user_id = 1\nGROUP BY t.id, t.title\nORDER BY t.id;\n\n-- 出力例:\n-- title               | タグ一覧\n-- --------------------+-----------\n-- 週次レポートを作成   | 急ぎ, 重要\n-- SQL練習問題を解く    | SQL, 急ぎ\n-- GROUP BYを復習する   | SQL\n\n-- 【機能3】カテゴリ別のTODO集計\nSELECT\n  c.name         AS カテゴリ,\n  COUNT(t.id)    AS 合計,\n  SUM(t.done)    AS 完了数,\n  COUNT(t.id) - SUM(t.done) AS 未完了数,\n  ROUND(CAST(SUM(t.done) AS REAL) / COUNT(t.id) * 100, 1) AS 完了率\nFROM categories AS c\nLEFT JOIN todos AS t ON c.id = t.category_id AND t.user_id = 1\nWHERE c.user_id = 1\nGROUP BY c.id, c.name\nORDER BY 合計 DESC;\n\n-- 【機能4】期限切れのTODOを確認\nSELECT t.title, t.due_date, c.name AS カテゴリ\nFROM todos AS t\nLEFT JOIN categories AS c ON t.category_id = c.id\nWHERE t.user_id = 1\n  AND t.done = 0\n  AND t.due_date < date('now')\nORDER BY t.due_date ASC;\n\n-- 【機能5】TODOを完了にする\nUPDATE todos\nSET done = 1,\n    completed_at = datetime('now', 'localtime'),\n    updated_at   = datetime('now', 'localtime')\nWHERE id = 1 AND user_id = 1;  -- user_idも条件に含めると安全</code></pre>\n\n<h2>つまずきやすいポイント・失敗例</h2>\n<h3>失敗例：多対多を1テーブルに詰め込む</h3>\n<p>「TODOに複数タグ」を1列にカンマ区切りで保存すると検索・更新が困難です。tag_todos中間テーブルで正しく表現しましょう。</p>\n<h3>失敗例：外部キー制約なしで孤児レコードが発生</h3>\n<p>参照整合性を保つため FOREIGN KEY を設定し、存在しないuser_idを参照するINSERTを防ぎます。</p>\n\n<h2>コース総まとめ：学んだことの振り返り</h2>\n<p>このコースで学んだSQL/SQLiteの知識を振り返りましょう。</p>\n<pre><code>-- 学んだSQL構文の総まとめ\n\n-- テーブル操作（DDL）\nCREATE TABLE ...        -- テーブル作成\nALTER TABLE ... ADD ... -- カラム追加\nDROP TABLE ...          -- テーブル削除\nCREATE INDEX ...        -- インデックス作成\n\n-- データ取得（DQL）\nSELECT カラム FROM テーブル  -- 基本取得\nWHERE 条件                   -- 絞り込み\nAND / OR / NOT               -- 複合条件\nLIKE '%検索%'               -- 部分一致\nBETWEEN 値1 AND 値2          -- 範囲指定\nIN (値1, 値2)               -- 複数値\nIS NULL                      -- NULL判定\nINNER JOIN ... ON ...        -- 内部結合\nLEFT JOIN ... ON ...         -- 左外部結合\nGROUP BY カラム              -- グループ化\nHAVING 集計条件              -- グループ後絞り込み\nORDER BY カラム ASC/DESC     -- 並び替え\nLIMIT N OFFSET M             -- 件数制限\n\n-- 集計関数\nCOUNT(*) / SUM() / AVG() / MIN() / MAX()\n\n-- データ操作（DML）\nINSERT INTO ... VALUES ...   -- データ追加\nUPDATE ... SET ... WHERE ... -- データ更新\nDELETE FROM ... WHERE ...    -- データ削除\n\n-- トランザクション\nBEGIN / COMMIT / ROLLBACK    -- 安全な複数操作\n\n-- SQLite専用\nPRAGMA foreign_keys = ON     -- 外部キー有効化\nEXPLAIN QUERY PLAN ...       -- 実行計画確認\nstrftime('%Y-%m', date_col)  -- 日付フォーマット\nGROUP_CONCAT(col, ', ')      -- 値を連結集計</code></pre>\n<p>sql 初心者として始めたこのコースで、データベースとSQLの基礎から実践的な設計まで幅広く学びました。ここで紹介した知識は、PythonやNode.jsなどのプログラミング言語からSQLiteやMySQLに接続する際にもそのまま活きます。次のステップとして、実際に自分のアプリにデータベースを組み込んでみることをお勧めします。sql 使い方をさらに深めるには、サブクエリ・CTE（WITH句）・ウィンドウ関数といった上級トピックにも挑戦してみましょう。</p>",
+  "conclusion": "TODOアプリでは users/categories/todos/tags/tag_todos の5テーブル構成で正規化・多対多・インデックスを実践しました。設計→CREATE TABLE→CRUD→JOIN→集計の一連の流れは、本番開発でも同じです。SQLiteで学んだスキルはMySQL/PostgreSQLにも応用できます。",
   "tags": [
     "SQL",
     "SQLite",
@@ -18,12 +18,12 @@
   "theme": "sql - SQL・データベース入門",
   "status": "published",
   "createdAt": "2026-05-30T04:13:14.023Z",
-  "updatedAt": "2026-05-30T04:13:14.031Z",
+  "updatedAt": "2026-05-30T05:23:48.132Z",
   "publishedAt": "2026-05-30T04:13:14.023Z",
   "metaTitle": "TODOアプリDB設計実践｜sql 初心者のSQLite総まとめ演習",
-  "metaDescription": "sql 初心者向けのSQLite実践演習。TODOアプリのDB設計・CREATE TABLE・CRUD操作・JOIN・GROUP BY・インデックスまでsql 使い方の集大成を手を動かして学べます。 図解・具体例つきで丁寧に解説します。",
+  "metaDescription": "TODOアプリのDB設計・実装総合演習。正規化、外部キー、多対多の中間テーブル、インデックス、CRUD/JOIN/集計を一気通貫で解説します。",
   "ogTitle": "TODOアプリDB設計実践｜SQLite設計・実装の総まとめ",
-  "ogDescription": "【SQL初心者向け】【SQL初心者向け】TODOアプリのデータベースをゼロから設計・実装。SQLの総まとめ実践演習です。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
+  "ogDescription": "SQL入門コースの総仕上げとして、TODOアプリのDB設計・実装を実践します。",
   "knowledge": {
     "topic": "sql",
     "courseId": "sql",
@@ -31,20 +31,24 @@
   },
   "faq": [
     {
-      "question": "多対多の関係はなぜ中間テーブルが必要なのですか？",
-      "answer": "1つのTODOに複数のタグを直接持たせようとすると、tag1・tag2・tag3...のようにカラムを増やし続けるか、カンマ区切りの文字列として保存する方法になります。どちらも検索や更新が困難です。中間テーブルを使うと「TODOにタグを追加・削除」が1行のINSERT/DELETEで実現でき、タグで絞り込む検索もJOINで効率的に行えます。"
+      "question": "なぜ5テーブルも必要？",
+      "answer": "正規化により更新異常（同じデータの重複・不整合）を防ぎ、多対多関係を中間テーブルで正しく表現するためです。"
     },
     {
-      "question": "ON DELETE CASCASEとON DELETE SET NULLの違いは何ですか？",
-      "answer": "ON DELETE CASCADEは親レコードが削除されたとき、子レコードも連鎖して削除されます。例えばユーザーが削除されたとき、そのユーザーのTODOもすべて削除されます。ON DELETE SET NULLは親レコードが削除されたとき、外部キーカラムをNULLに変更します。例えばカテゴリが削除されたとき、そのカテゴリに属するTODOのcategory_idがNULLになります。"
+      "question": "GROUP_CONCATは何のため？",
+      "answer": "GROUP BY集計時に、1グループ内の複数タグ名を1行にまとめて表示するSQLiteの便利関数です。"
     },
     {
-      "question": "GROUP_CONCAT関数はどのデータベースでも使えますか？",
-      "answer": "GROUP_CASCATEはSQLite・MySQLで使えます。PostgreSQLではSTRING_AGG(カラム, ', ')、SQL ServerではSTRING_AGG(カラム, ', ')が同等の機能です。MySQL 8.0以降でもGROUP_CONCATが使えます。データベース間で書き方が若干異なるため、移行時は注意が必要です。"
+      "question": "コース修了後の次のステップは？",
+      "answer": "Pythonのsqlite3やNode.jsのbetter-sqlite3でアプリからDB操作、またはMySQL/PostgreSQLへの移行を検討しましょう。"
     },
     {
-      "question": "このコースの次に何を学ぶべきですか？",
-      "answer": "次のステップとして①サブクエリ（SELECT内にSELECTを書く）、②CTE（WITH句：複雑なクエリを読みやすく分割）、③ウィンドウ関数（ROW_NUMBER・RANK・LAGなど行ごとの計算）、④PythonやNode.jsからSQLiteに接続する実装、⑤MySQL・PostgreSQLへの移行、をお勧めします。実際のアプリ開発プロジェクトでSQLを使いながら学ぶのが最も効果的です。"
+      "question": "設計を先に書くべき？",
+      "answer": "はい。ER図やテーブル一覧を紙やメモに書いてからCREATE TABLEすると手戻りが減ります。"
+    },
+    {
+      "question": "SQLはどんな場面で使いますか？",
+      "answer": "アプリ開発のDB設計、マイグレーション、管理画面のレポートなど、実務のデータ層すべてに直結します。"
     }
   ],
   "nextEpisodeHint": "コース修了おめでとうございます！次のステップとして、PythonのsqliteモジュールやNode.jsのbetter-sqlite3を使って、実際のアプリケーションからSQLiteを操作することに挑戦してみましょう。",
@@ -57,9 +61,9 @@
         "@context": "https://schema.org",
         "@type": "TechArticle",
         "headline": "TODOアプリDB設計実践｜SQLite設計・実装の総まとめ",
-        "description": "sql 初心者向けのSQLite実践演習。TODOアプリのDB設計・CREATE TABLE・CRUD操作・JOIN・GROUP BY・インデックスまでsql 使い方の集大成を手を動かして学べます。 図解・具体例つきで丁寧に解説します。",
+        "description": "TODOアプリのDB設計・実装総合演習。正規化、外部キー、多対多の中間テーブル、インデックス、CRUD/JOIN/集計を一気通貫で解説します。",
         "datePublished": "2026-05-30T04:13:14.023Z",
-        "dateModified": "2026-05-30T04:13:14.031Z",
+        "dateModified": "2026-05-30T05:23:48.132Z",
         "author": {
           "@type": "Organization",
           "name": "StackShelf",
@@ -80,7 +84,7 @@
         },
         "image": "https://ai-site-iota-nine.vercel.app/og-default.svg",
         "inLanguage": "ja",
-        "wordCount": 5528,
+        "wordCount": 5893,
         "mainEntityOfPage": {
           "@type": "WebPage",
           "@id": "https://ai-site-iota-nine.vercel.app/article/sql-practice-design"
@@ -146,34 +150,42 @@
         "mainEntity": [
           {
             "@type": "Question",
-            "name": "多対多の関係はなぜ中間テーブルが必要なのですか？",
+            "name": "なぜ5テーブルも必要？",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "1つのTODOに複数のタグを直接持たせようとすると、tag1・tag2・tag3...のようにカラムを増やし続けるか、カンマ区切りの文字列として保存する方法になります。どちらも検索や更新が困難です。中間テーブルを使うと「TODOにタグを追加・削除」が1行のINSERT/DELETEで実現でき、タグで絞り込む検索もJOINで効率的に行えます。"
+              "text": "正規化により更新異常（同じデータの重複・不整合）を防ぎ、多対多関係を中間テーブルで正しく表現するためです。"
             }
           },
           {
             "@type": "Question",
-            "name": "ON DELETE CASCASEとON DELETE SET NULLの違いは何ですか？",
+            "name": "GROUP_CONCATは何のため？",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "ON DELETE CASCADEは親レコードが削除されたとき、子レコードも連鎖して削除されます。例えばユーザーが削除されたとき、そのユーザーのTODOもすべて削除されます。ON DELETE SET NULLは親レコードが削除されたとき、外部キーカラムをNULLに変更します。例えばカテゴリが削除されたとき、そのカテゴリに属するTODOのcategory_idがNULLになります。"
+              "text": "GROUP BY集計時に、1グループ内の複数タグ名を1行にまとめて表示するSQLiteの便利関数です。"
             }
           },
           {
             "@type": "Question",
-            "name": "GROUP_CONCAT関数はどのデータベースでも使えますか？",
+            "name": "コース修了後の次のステップは？",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "GROUP_CASCATEはSQLite・MySQLで使えます。PostgreSQLではSTRING_AGG(カラム, ', ')、SQL ServerではSTRING_AGG(カラム, ', ')が同等の機能です。MySQL 8.0以降でもGROUP_CONCATが使えます。データベース間で書き方が若干異なるため、移行時は注意が必要です。"
+              "text": "Pythonのsqlite3やNode.jsのbetter-sqlite3でアプリからDB操作、またはMySQL/PostgreSQLへの移行を検討しましょう。"
             }
           },
           {
             "@type": "Question",
-            "name": "このコースの次に何を学ぶべきですか？",
+            "name": "設計を先に書くべき？",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "次のステップとして①サブクエリ（SELECT内にSELECTを書く）、②CTE（WITH句：複雑なクエリを読みやすく分割）、③ウィンドウ関数（ROW_NUMBER・RANK・LAGなど行ごとの計算）、④PythonやNode.jsからSQLiteに接続する実装、⑤MySQL・PostgreSQLへの移行、をお勧めします。実際のアプリ開発プロジェクトでSQLを使いながら学ぶのが最も効果的です。"
+              "text": "はい。ER図やテーブル一覧を紙やメモに書いてからCREATE TABLEすると手戻りが減ります。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "SQLはどんな場面で使いますか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "アプリ開発のDB設計、マイグレーション、管理画面のレポートなど、実務のデータ層すべてに直結します。"
             }
           }
         ]
@@ -235,36 +247,72 @@
     "mainEntity": [
       {
         "@type": "Question",
-        "name": "多対多の関係はなぜ中間テーブルが必要なのですか？",
+        "name": "なぜ5テーブルも必要？",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "1つのTODOに複数のタグを直接持たせようとすると、tag1・tag2・tag3...のようにカラムを増やし続けるか、カンマ区切りの文字列として保存する方法になります。どちらも検索や更新が困難です。中間テーブルを使うと「TODOにタグを追加・削除」が1行のINSERT/DELETEで実現でき、タグで絞り込む検索もJOINで効率的に行えます。"
+          "text": "正規化により更新異常（同じデータの重複・不整合）を防ぎ、多対多関係を中間テーブルで正しく表現するためです。"
         }
       },
       {
         "@type": "Question",
-        "name": "ON DELETE CASCASEとON DELETE SET NULLの違いは何ですか？",
+        "name": "GROUP_CONCATは何のため？",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "ON DELETE CASCADEは親レコードが削除されたとき、子レコードも連鎖して削除されます。例えばユーザーが削除されたとき、そのユーザーのTODOもすべて削除されます。ON DELETE SET NULLは親レコードが削除されたとき、外部キーカラムをNULLに変更します。例えばカテゴリが削除されたとき、そのカテゴリに属するTODOのcategory_idがNULLになります。"
+          "text": "GROUP BY集計時に、1グループ内の複数タグ名を1行にまとめて表示するSQLiteの便利関数です。"
         }
       },
       {
         "@type": "Question",
-        "name": "GROUP_CONCAT関数はどのデータベースでも使えますか？",
+        "name": "コース修了後の次のステップは？",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "GROUP_CASCATEはSQLite・MySQLで使えます。PostgreSQLではSTRING_AGG(カラム, ', ')、SQL ServerではSTRING_AGG(カラム, ', ')が同等の機能です。MySQL 8.0以降でもGROUP_CONCATが使えます。データベース間で書き方が若干異なるため、移行時は注意が必要です。"
+          "text": "Pythonのsqlite3やNode.jsのbetter-sqlite3でアプリからDB操作、またはMySQL/PostgreSQLへの移行を検討しましょう。"
         }
       },
       {
         "@type": "Question",
-        "name": "このコースの次に何を学ぶべきですか？",
+        "name": "設計を先に書くべき？",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "次のステップとして①サブクエリ（SELECT内にSELECTを書く）、②CTE（WITH句：複雑なクエリを読みやすく分割）、③ウィンドウ関数（ROW_NUMBER・RANK・LAGなど行ごとの計算）、④PythonやNode.jsからSQLiteに接続する実装、⑤MySQL・PostgreSQLへの移行、をお勧めします。実際のアプリ開発プロジェクトでSQLを使いながら学ぶのが最も効果的です。"
+          "text": "はい。ER図やテーブル一覧を紙やメモに書いてからCREATE TABLEすると手戻りが減ります。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "SQLはどんな場面で使いますか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "アプリ開発のDB設計、マイグレーション、管理画面のレポートなど、実務のデータ層すべてに直結します。"
         }
       }
     ]
-  }
+  },
+  "internalLinkCandidates": [
+    {
+      "slug": "sql-select-basics",
+      "title": "SELECT基本｜SQLでデータを取得するsql 使い方入門",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "sql-index-basics",
+      "title": "CREATE INDEX, EXPLAIN｜SQLインデックス基礎とパフォーマンス改善",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "sql-group-by",
+      "title": "GROUP BY, HAVING, ORDER BY｜SQLグループ集計完全ガイド",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "sql-aggregate",
+      "title": "COUNT/SUM/AVG/MIN/MAX｜SQL集計関数の完全ガイド",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "sql-join",
+      "title": "INNER/LEFT JOIN｜複数テーブルを結合するSQL完全ガイド",
+      "reason": "同じ講座の関連回です"
+    }
+  ],
+  "nextAction": "記事のDDLをすべて実行し、サンプルINSERT後に「未完了TODOをカテゴリ別件数で集計する」クエリを自分で1本書いて実行してください。"
 }

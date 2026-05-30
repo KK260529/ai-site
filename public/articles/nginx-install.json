@@ -17,12 +17,12 @@
   "theme": "nginx - nginx入門",
   "status": "published",
   "createdAt": "2026-05-30T05:15:01.865Z",
-  "updatedAt": "2026-05-30T05:15:01.870Z",
+  "updatedAt": "2026-05-30T05:15:41.455Z",
   "publishedAt": "2026-05-30T05:15:01.865Z",
   "metaTitle": "nginxインストール方法：Ubuntu/WSL2と基本設定【nginx 入門 初心者】 | StackShelf",
-  "metaDescription": "【nginx初心者向け】nginxをUbuntu・WSL2にインストールする手順とnginx.confの基本構造を初心者向けに解説。起動・停止・設定テストまで丁寧にガイドします。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
+  "metaDescription": "nginxをUbuntu・WSL2にインストールする手順とnginx.confの基本構造を初心者向けに解説。起動・停止・設定テストまで丁寧にガイドします。",
   "ogTitle": "nginxのインストールと基本設定",
-  "ogDescription": "【nginx初心者向け】【nginx初心者向け】Ubuntu/WSL2へのnginxインストールとnginx.confの読み方を初心者向けに解説。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
+  "ogDescription": "Ubuntu/WSL2へのnginxインストールとnginx.confの読み方を初心者向けに解説。",
   "knowledge": {
     "topic": "nginx",
     "courseId": "nginx",
@@ -51,37 +51,32 @@
     }
   ],
   "nextEpisodeHint": "次回は、HTML/CSS/画像からなる静的サイトをnginxで公開する手順と、キャッシュ・gzip圧縮などのパフォーマンス設定を学びます。",
-  "nextAction": "",
+  "nextAction": "次はHTML/CSS/画像からなる静的サイトをnginxで公開する手順と、キャッシュ・gzip圧縮などのパフォーマンス設定を学びます。",
   "internalLinkCandidates": [
     {
-      "slug": "linux-intro",
-      "title": "Linuxとは？コマンドラインの世界へようこそ【初心者向け完全入門】",
-      "reason": "nginxインストールとsystemctl操作の前提"
+      "slug": "nginx-logging",
+      "title": "nginxのログとトラブルシューティング入門【502/504エラー対処】",
+      "reason": "同じ講座の関連回です"
     },
     {
-      "slug": "linux-terminal-basics",
-      "title": "Linuxターミナル基本操作：cd・ls・mkdirをマスターしよう",
-      "reason": "設定ファイル編集やディレクトリ操作に必要"
+      "slug": "nginx-ssl",
+      "title": "nginxでSSL/TLS（HTTPS）を設定する方法【Let's Encrypt入門】",
+      "reason": "同じ講座の関連回です"
     },
     {
-      "slug": "docker-intro",
-      "title": "Dockerとは？仮想マシンとの違いをわかりやすく解説【初心者向け】",
-      "reason": "nginx公式Dockerイメージでの学習にも応用できる"
+      "slug": "nginx-location",
+      "title": "nginxのlocationとルーティング【マッチング優先順位入門】",
+      "reason": "同じ講座の関連回です"
     },
     {
-      "slug": "web-intro",
-      "title": "Webサイトの仕組みとは？HTML・CSS・JavaScriptをゼロから理解する",
-      "reason": "公開する静的コンテンツの理解"
+      "slug": "nginx-reverse-proxy",
+      "title": "nginxリバースプロキシの設定方法【proxy_pass入門・初心者向け】",
+      "reason": "同じ講座の関連回です"
     },
     {
-      "slug": "bash-intro",
-      "title": "シェルスクリプトとは？",
-      "reason": "設定デプロイや動作確認の自動化に役立つ"
-    },
-    {
-      "slug": "nginx-intro",
-      "title": "nginxとは？Apacheとの違いをわかりやすく解説【初心者向け】",
-      "reason": "同じ講座の前回：nginxの基本概念"
+      "slug": "nginx-static-site",
+      "title": "nginxで静的サイトを公開する方法【HTML/CSS配信・初心者向け】",
+      "reason": "同じ講座の関連回です"
     }
   ],
   "ogImage": "https://ai-site-iota-nine.vercel.app/og-default.svg",
@@ -95,7 +90,7 @@
         "headline": "nginxのインストールと基本設定【Ubuntu/WSL2対応・初心者向け】",
         "description": "【nginx初心者向け】nginxをUbuntu・WSL2にインストールする手順とnginx.confの基本構造を初心者向けに解説。起動・停止・設定テストまで丁寧にガイドします。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
         "datePublished": "2026-05-30T05:15:01.865Z",
-        "dateModified": "2026-05-30T05:15:01.870Z",
+        "dateModified": "2026-05-30T05:15:41.455Z",
         "author": {
           "@type": "Organization",
           "name": "StackShelf",

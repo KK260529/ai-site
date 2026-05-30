@@ -1,9 +1,9 @@
 {
   "slug": "java-functional-programming",
-  "title": "Javaの関数型プログラミング",
-  "summary": "Java における関数型プログラミングの考え方を学びます。不変性、副作用の削減、Optional、純粋関数のメリットを解説します。",
-  "body": "<h2>導入</h2><p>関数型プログラミング（FP）は「関数を中心にプログラムを組み立てる」スタイルです。Java はオブジェクト指向言語ですが、Java 8 以降 FP の要素を取り入れています。</p><h2>純粋関数と副作用</h2><p><strong>純粋関数</strong>は同じ引数なら常に同じ結果を返し、外部状態を変更しません。テストしやすく、並行処理でも扱いやすいです。</p><pre><code>static int add(int a, int b) { return a + b; }</code></pre><p>一方、ファイル書き込みやフィールド更新は副作用を伴います。FP では副作用を境界に押し出し、核心ロジックを純粋に保つことが多いです。</p><h2>Optional</h2><pre><code>Optional&lt;String&gt; name = Optional.ofNullable(user.getName());\nString display = name.orElse(\"guest\");</code></pre><p><code>null</code> チェックの代わりに「値があるかもしれない」ことを型で表現します。</p><h3>不変性</h3><p><code>List.of</code> や <code>record</code>（Java 16+）は不変データを作りやすくします。共有しても意図しない変更が起きにくいです。</p><h2>Java における FP の現実</h2><p>Java では完全な FP より、<strong>OO と FP のハイブリッド</strong>が一般的です。Stream・ラムダ・Optional をうまく使い、可読性と保守性を上げるのが実務的な目標です。</p><h2>確認方法</h2><p>null を返すメソッドを Optional 返却に書き換え、呼び出し側で <code>map</code> / <code>orElse</code> を使ってみてください。</p><h2>まとめ</h2><p>関数型の考え方は「副作用を減らし、データ変換を宣言的に書く」ことです。Java では Stream と Optional から始めるのがおすすめです。</p>",
-  "conclusion": "Java の関数型プログラミングは純粋関数・不変性・Optional の3点が鍵です。すべてを FP にする必要はなく、読みやすい部分から取り入れましょう。次回はベストプラクティスで実務向けの設計を学びます。",
+  "title": "Java関数型プログラミング｜不変性とOptional",
+  "summary": "Javaにおける関数型の考え方、不変オブジェクト、副作用の削減、Optionalの使い方、Streamとの組み合わせと失敗例を学びます。",
+  "body": "<h2>結論：Javaでも「不変データ＋純粋関数＋宣言的変換」でバグを減らし、Stream/Optionalと相性が良い</h2>\n<p>Javaは手続き型・OOPが中心ですが、Java 8以降は<strong>関数型スタイル</strong>を部分的に取り入れられます。完全な純関数言語ではありませんが、<strong>不変性</strong>と<strong>副作用の局所化</strong>は並行処理やテストで効きます。</p>\n\n<h2>不変性</h2>\n<pre><code>public record Point(int x, int y) { }\n\nList&lt;String&gt; copy = List.copyOf(original); // 変更不可</code></pre>\n<p>record（Java 16+）は不変データ保持に適しています。</p>\n\n<h2>Optional</h2>\n<pre><code>Optional&lt;User&gt; user = findUser(id);\nString name = user.map(User::getName).orElse(\"Guest\");\n// 避ける: user.get() を無条件呼び出し</code></pre>\n\n<h3>失敗例：Optionalをフィールドや引数に乱用</h3>\n<p>Optionalは<strong>戻り値</strong>向けです。引数/フィールドのOptionalは可読性を下げるとされています（Effective Java）。</p>\n\n<h2>副作用の削減</h2>\n<p>Streamパイプライン内で外部変数を変更せず、collectで結果を得ます。I/OやDBはパイプラインの<strong>外</strong>に置きます。</p>\n\n<h2>まとめ</h2>\n<p>関数型の考え方はJavaの既存OOPと対立ではなく complement です。次回はベストプラクティスで実務的な設計に進みます。</p>",
+  "conclusion": "Javaの関数型スタイルは不変データ、Optional、Streamによる宣言的変換が要点です。Optional.get()の乱用とOptional引数はアンチパターンです。findUserが空のときGuestを返すOptionalチェーンを書いてみましょう。",
   "tags": [
     "Java",
     "関数型",
@@ -13,12 +13,12 @@
   "theme": "java - Java",
   "status": "published",
   "createdAt": "2026-05-29T14:36:45.248Z",
-  "updatedAt": "2026-05-29T14:36:45.249Z",
+  "updatedAt": "2026-05-30T05:18:37.114Z",
   "publishedAt": "2026-05-29T14:36:45.248Z",
-  "metaTitle": "Javaの関数型プログラミング",
-  "metaDescription": "Java における関数型プログラミングの考え方を学びます。不変性、副作用の削減、Optional、純粋関数のメリットを解説します。",
+  "metaTitle": "Java関数型プログラミング｜不変性・Optional | StackShelf",
+  "metaDescription": "Javaでの関数型の考え方、record、Optional、副作用削減とOptional乱用の失敗例を解説します。",
   "ogTitle": "Javaの関数型プログラミング",
-  "ogDescription": "Java における関数型プログラミングの考え方を学びます。不変性、副作用の削減、Optional、純粋関数のメリットを解説します。",
+  "ogDescription": "不変性とOptionalの正しい使い方を学べます。",
   "knowledge": {
     "topic": "java",
     "courseId": "java",
@@ -26,42 +26,68 @@
   },
   "faq": [
     {
-      "question": "Optional をフィールドに使う？",
-      "answer": "一般には推奨されません。戻り値型として使うのが定石です。"
+      "question": "Javaは関数型言語？",
+      "answer": "マルチパラダイムです。ラムダ/Stream/Optionalで関数型要素を取り入れています。"
     },
     {
-      "question": "record とは？",
-      "answer": "不変データを簡潔に定義するクラスで、Java 16 以降で利用できます。"
+      "question": "純粋関数とは？",
+      "answer": "同じ入力に同じ出力、副作用なし。Javaでは完全純粋は難しいですが、ロジック部分を分離できます。"
+    },
+    {
+      "question": "record vs class？",
+      "answer": "recordはデータキャリア向け不変クラス。振る舞い中心なら通常class。"
+    },
+    {
+      "question": "Optional.of(null) は？",
+      "answer": "NullPointerException。ofNullableを使います。"
+    },
+    {
+      "question": "Streamだけで全部書くべき？",
+      "answer": "いいえ。複雑な分岐はforやメソッド分割の方が読みやすいこともあります。"
     }
   ],
-  "nextEpisodeHint": "次回はベストプラクティスとして、実務で役立つ設計のコツを学びます。",
+  "nextEpisodeHint": "次回はベストプラクティスとして、実務で役立つ設計・命名・テストのコツを学びます。",
   "canonical": "https://ai-site-iota-nine.vercel.app/article/java-functional-programming",
   "jsonLd": {
     "@context": "https://schema.org",
     "@graph": [
       {
         "@context": "https://schema.org",
-        "@type": "BlogPosting",
-        "headline": "Javaの関数型プログラミング",
-        "description": "Java における関数型プログラミングの考え方を学びます。不変性、副作用の削減、Optional、純粋関数のメリットを解説します。",
+        "@type": "TechArticle",
+        "headline": "Java関数型プログラミング｜不変性とOptional",
+        "description": "Javaでの関数型の考え方、record、Optional、副作用削減とOptional乱用の失敗例を解説します。",
         "datePublished": "2026-05-29T14:36:45.248Z",
-        "dateModified": "2026-05-29T14:36:45.249Z",
+        "dateModified": "2026-05-30T05:18:37.114Z",
         "author": {
           "@type": "Organization",
-          "name": "StackShelf"
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
         },
         "publisher": {
           "@type": "Organization",
           "name": "StackShelf",
-          "url": "https://ai-site-iota-nine.vercel.app"
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
         },
+        "image": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+        "inLanguage": "ja",
+        "wordCount": 605,
         "mainEntityOfPage": {
           "@type": "WebPage",
           "@id": "https://ai-site-iota-nine.vercel.app/article/java-functional-programming"
         },
         "keywords": "Java, 関数型, Optional",
         "articleSection": "プログラミング",
-        "url": "https://ai-site-iota-nine.vercel.app/article/java-functional-programming"
+        "url": "https://ai-site-iota-nine.vercel.app/article/java-functional-programming",
+        "learningResourceType": "tutorial",
+        "educationalLevel": "beginner"
       },
       {
         "@context": "https://schema.org",
@@ -71,7 +97,7 @@
             "@type": "ListItem",
             "position": 1,
             "name": "ホーム",
-            "item": "https://ai-site-iota-nine.vercel.app"
+            "item": "https://ai-site-iota-nine.vercel.app/"
           },
           {
             "@type": "ListItem",
@@ -88,7 +114,7 @@
           {
             "@type": "ListItem",
             "position": 4,
-            "name": "Javaの関数型プログラミング",
+            "name": "Java関数型プログラミング｜不変性とOptional",
             "item": "https://ai-site-iota-nine.vercel.app/article/java-functional-programming"
           }
         ]
@@ -100,7 +126,16 @@
         "description": "Javaプログラミング言語の基礎から応用までを学習する講座です。初心者向けにJavaの基本構文、オブジェクト指向、データ構造、アルゴリズムなどを解説します。",
         "provider": {
           "@type": "Organization",
-          "name": "StackShelf"
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app"
+        },
+        "url": "https://ai-site-iota-nine.vercel.app/course/java/java",
+        "inLanguage": "ja",
+        "educationalLevel": "beginner",
+        "hasCourseInstance": {
+          "@type": "CourseInstance",
+          "courseMode": "online",
+          "courseWorkload": "PT1H"
         }
       },
       {
@@ -109,18 +144,42 @@
         "mainEntity": [
           {
             "@type": "Question",
-            "name": "Optional をフィールドに使う？",
+            "name": "Javaは関数型言語？",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "一般には推奨されません。戻り値型として使うのが定石です。"
+              "text": "マルチパラダイムです。ラムダ/Stream/Optionalで関数型要素を取り入れています。"
             }
           },
           {
             "@type": "Question",
-            "name": "record とは？",
+            "name": "純粋関数とは？",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "不変データを簡潔に定義するクラスで、Java 16 以降で利用できます。"
+              "text": "同じ入力に同じ出力、副作用なし。Javaでは完全純粋は難しいですが、ロジック部分を分離できます。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "record vs class？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "recordはデータキャリア向け不変クラス。振る舞い中心なら通常class。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Optional.of(null) は？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "NullPointerException。ofNullableを使います。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Streamだけで全部書くべき？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "いいえ。複雑な分岐はforやメソッド分割の方が読みやすいこともあります。"
             }
           }
         ]
@@ -135,7 +194,7 @@
         "@type": "ListItem",
         "position": 1,
         "name": "ホーム",
-        "item": "https://ai-site-iota-nine.vercel.app"
+        "item": "https://ai-site-iota-nine.vercel.app/"
       },
       {
         "@type": "ListItem",
@@ -152,7 +211,7 @@
       {
         "@type": "ListItem",
         "position": 4,
-        "name": "Javaの関数型プログラミング",
+        "name": "Java関数型プログラミング｜不変性とOptional",
         "item": "https://ai-site-iota-nine.vercel.app/article/java-functional-programming"
       }
     ]
@@ -164,7 +223,16 @@
     "description": "Javaプログラミング言語の基礎から応用までを学習する講座です。初心者向けにJavaの基本構文、オブジェクト指向、データ構造、アルゴリズムなどを解説します。",
     "provider": {
       "@type": "Organization",
-      "name": "StackShelf"
+      "name": "StackShelf",
+      "url": "https://ai-site-iota-nine.vercel.app"
+    },
+    "url": "https://ai-site-iota-nine.vercel.app/course/java/java",
+    "inLanguage": "ja",
+    "educationalLevel": "beginner",
+    "hasCourseInstance": {
+      "@type": "CourseInstance",
+      "courseMode": "online",
+      "courseWorkload": "PT1H"
     }
   },
   "faqSchema": {
@@ -173,20 +241,73 @@
     "mainEntity": [
       {
         "@type": "Question",
-        "name": "Optional をフィールドに使う？",
+        "name": "Javaは関数型言語？",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "一般には推奨されません。戻り値型として使うのが定石です。"
+          "text": "マルチパラダイムです。ラムダ/Stream/Optionalで関数型要素を取り入れています。"
         }
       },
       {
         "@type": "Question",
-        "name": "record とは？",
+        "name": "純粋関数とは？",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "不変データを簡潔に定義するクラスで、Java 16 以降で利用できます。"
+          "text": "同じ入力に同じ出力、副作用なし。Javaでは完全純粋は難しいですが、ロジック部分を分離できます。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "record vs class？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "recordはデータキャリア向け不変クラス。振る舞い中心なら通常class。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Optional.of(null) は？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "NullPointerException。ofNullableを使います。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Streamだけで全部書くべき？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "いいえ。複雑な分岐はforやメソッド分割の方が読みやすいこともあります。"
         }
       }
     ]
-  }
+  },
+  "nextAction": "mutableなListをStreamで変換するのではなく、map+collectで新Listを作る形にリファクタしてください。",
+  "internalLinkCandidates": [
+    {
+      "slug": "java-lambda-expression",
+      "title": "Javaのラムダ式",
+      "reason": "関数型の構文"
+    },
+    {
+      "slug": "java-stream-api",
+      "title": "JavaのStream API",
+      "reason": "宣言的処理"
+    },
+    {
+      "slug": "java-best-practices",
+      "title": "Javaプログラミングのベストプラクティス",
+      "reason": "同じ講座の次の回"
+    },
+    {
+      "slug": "java-thread-programming",
+      "title": "Javaのスレッドプログラミング",
+      "reason": "不変性と並行"
+    },
+    {
+      "slug": "java-collection-framework",
+      "title": "Javaのコレクションフレームワーク",
+      "reason": "不変List"
+    }
+  ],
+  "ogImage": "https://ai-site-iota-nine.vercel.app/og-default.svg"
 }

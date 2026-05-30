@@ -1,9 +1,9 @@
 {
   "slug": "java-network-programming",
-  "title": "Javaのネットワークプログラミング",
-  "summary": "TCP ソケットを使った基本的なクライアント・サーバー通信を学びます。Socket、ServerSocket、入出力ストリームの流れを理解します。",
-  "body": "<h2>導入</h2><p>Web API やチャットアプリの裏側には<strong>TCP/IP 通信</strong>があります。Java では <code>java.net</code> パッケージでソケット通信を扱えます。</p><h2>サーバー側の基本</h2><pre><code>try (ServerSocket server = new ServerSocket(8080)) {\n    System.out.println(\"待機中...\");\n    try (Socket client = server.accept();\n         var in = new BufferedReader(new InputStreamReader(client.getInputStream()));\n         var out = client.getOutputStream()) {\n        String msg = in.readLine();\n        out.write((\"echo: \" + msg + \"\\n\").getBytes(StandardCharsets.UTF_8));\n    }\n}</code></pre><p><code>ServerSocket</code> がポート 8080 で待ち受け、<code>accept()</code> で接続を受け付けます。</p><h3>クライアント側</h3><pre><code>try (Socket socket = new Socket(\"localhost\", 8080);\n     var out = socket.getOutputStream();\n     var in = new BufferedReader(new InputStreamReader(socket.getInputStream()))) {\n    out.write(\"hello\\n\".getBytes(StandardCharsets.UTF_8));\n    System.out.println(in.readLine());\n}</code></pre><h2>通信の流れ</h2><ol><li>サーバーが bind / listen</li><li>クライアントが connect</li><li>双方向ストリームでデータ送受信</li><li>ソケットを close</li></ol><h3>よくある誤解</h3><p>実務の HTTP 通信は <code>HttpClient</code>（Java 11+）を使うことが多いです。ソケットは「仕組みを理解するため」の土台として学びます。</p><h2>確認方法</h2><p>サーバーを先に起動し、別プロセスでクライアントを実行します。<code>Connection refused</code> が出たらポートや起動順序を確認してください。</p><h2>まとめ</h2><p>ネットワークプログラミングの核心は「待ち受け→接続→ストリーム」です。小さな echo サーバーで体験すると、後の Web 開発理解が深まります。</p>",
-  "conclusion": "Java のネットワーク入門では ServerSocket と Socket の役割分担を押さえることが重要です。実務では HttpClient も使いますが、TCP の流れを知っておくとトラブルシュートに役立ちます。次回はスレッドで並行処理を学びます。",
+  "title": "Javaネットワーク入門｜SocketとTCP通信",
+  "summary": "TCPソケット、ServerSocket/Socket、入出力ストリーム、簡易エコーサーバー/clientの作り方とポート・ファイアウォールなど失敗例を学びます。",
+  "body": "<h2>結論：Javaのネットワーク通信はSocketでTCP接続を張り、入出力ストリームでデータをやり取りする</h2>\n<p><strong>TCP</strong>は信頼性のある双方向通信です。サーバー側は <code>ServerSocket</code> で待ち受け、クライアントは <code>Socket</code> で接続します。</p>\n\n<h2>簡易サーバー</h2>\n<pre><code>try (ServerSocket server = new ServerSocket(8080)) {\n    System.out.println(\"Listening...\");\n    try (Socket client = server.accept();\n         var in = new BufferedReader(new InputStreamReader(client.getInputStream()));\n         var out = client.getOutputStream()) {\n        String line = in.readLine();\n        out.write((\"Echo: \" + line + \"\\n\").getBytes(StandardCharsets.UTF_8));\n    }\n}</code></pre>\n\n<h2>クライアント</h2>\n<pre><code>try (Socket socket = new Socket(\"localhost\", 8080);\n     var out = new PrintWriter(socket.getOutputStream(), true);\n     var in = new BufferedReader(new InputStreamReader(socket.getInputStream()))) {\n    out.println(\"Hello\");\n    System.out.println(in.readLine());\n}</code></pre>\n\n<h3>失敗例：サーバー未起動で接続</h3>\n<p><code>ConnectException: Connection refused</code> — ポート・ホスト・ファイアウォールを確認します。</p>\n\n<h3>失敗例：ポート占有</h3>\n<p><code>BindException: Address already in use</code> — 前回のプロセスが残っていないか、別ポートを試します。</p>\n\n<h2>HTTPとの関係</h2>\n<p>WebのHTTPもTCPの上で動きます。実務では <code>java.net.http.HttpClient</code>（Java 11+）やSpring WebClientを使うことが多いですが、Socket理解はトラブルシュートの基礎になります。</p>\n\n<h2>まとめ</h2>\n<p>ネットワークプログラミングはリソース解放（try-with-resources）とエラー処理が重要です。localhostでエコーサーバーを動かし、次回はスレッドで複数クライアントに対応する方向を学びます。</p>",
+  "conclusion": "JavaのTCP通信はServerSocket/Socketとストリームで実装します。Connection refusedとポート占有は初学者がよく遭遇するエラーです。localhost:8080のエコーサーバー/クライアントをペアで動かしてみましょう。",
   "tags": [
     "Java",
     "ネットワーク",
@@ -13,12 +13,12 @@
   "theme": "java - Java",
   "status": "published",
   "createdAt": "2026-05-29T14:36:44.861Z",
-  "updatedAt": "2026-05-29T14:36:44.861Z",
+  "updatedAt": "2026-05-30T05:18:37.073Z",
   "publishedAt": "2026-05-29T14:36:44.861Z",
-  "metaTitle": "Javaのネットワークプログラミング",
-  "metaDescription": "TCP ソケットを使った基本的なクライアント・サーバー通信を学びます。Socket、ServerSocket、入出力ストリームの流れを理解します。",
+  "metaTitle": "Javaネットワーク入門｜Socket・TCP通信 | StackShelf",
+  "metaDescription": "JavaのServerSocket/Socket、TCPエコーサーバー/client、Connection refusedなど失敗例を具体例で解説します。",
   "ogTitle": "Javaのネットワークプログラミング",
-  "ogDescription": "TCP ソケットを使った基本的なクライアント・サーバー通信を学びます。Socket、ServerSocket、入出力ストリームの流れを理解します。",
+  "ogDescription": "TCPソケット通信の基本と典型エラーを学べます。",
   "knowledge": {
     "topic": "java",
     "courseId": "java",
@@ -26,42 +26,68 @@
   },
   "faq": [
     {
-      "question": "localhost とは？",
-      "answer": "自分のマシン自身を指す特別なホスト名です。"
+      "question": "UDPは？",
+      "answer": "DatagramSocket/DatagramPacketで扱います。TCPより軽量だが到達保証なし。動画配信などに使われます。"
     },
     {
-      "question": "ポートが使用中のエラーは？",
-      "answer": "別プロセスが同じポートを使っている可能性があります。"
+      "question": "localhost と 127.0.0.1？",
+      "answer": "同じ意味のループバックアドレス。自分のマシン上のサービスに接続します。"
+    },
+    {
+      "question": "本番でServerSocketを直接書く？",
+      "answer": "学習目的では有効。本番WebはServlet/Spring、HTTPクライアントはHttpClientを使います。"
+    },
+    {
+      "question": "タイムアウトは？",
+      "answer": "socket.setSoTimeout(ms) で読み取り待ちを制限できます。"
+    },
+    {
+      "question": "TLS/HTTPSは？",
+      "answer": "SSLSocketで暗号化。証明書管理が必要で、HttpClient利用が現実的です。"
     }
   ],
-  "nextEpisodeHint": "次回はスレッドを使い、並行処理の基礎を学びます。",
+  "nextEpisodeHint": "次回はThread/Runnableで並行処理の基礎と共有データの注意点を学びます。",
   "canonical": "https://ai-site-iota-nine.vercel.app/article/java-network-programming",
   "jsonLd": {
     "@context": "https://schema.org",
     "@graph": [
       {
         "@context": "https://schema.org",
-        "@type": "BlogPosting",
-        "headline": "Javaのネットワークプログラミング",
-        "description": "TCP ソケットを使った基本的なクライアント・サーバー通信を学びます。Socket、ServerSocket、入出力ストリームの流れを理解します。",
+        "@type": "TechArticle",
+        "headline": "Javaネットワーク入門｜SocketとTCP通信",
+        "description": "JavaのServerSocket/Socket、TCPエコーサーバー/client、Connection refusedなど失敗例を具体例で解説します。",
         "datePublished": "2026-05-29T14:36:44.861Z",
-        "dateModified": "2026-05-29T14:36:44.861Z",
+        "dateModified": "2026-05-30T05:18:37.073Z",
         "author": {
           "@type": "Organization",
-          "name": "StackShelf"
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
         },
         "publisher": {
           "@type": "Organization",
           "name": "StackShelf",
-          "url": "https://ai-site-iota-nine.vercel.app"
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
         },
+        "image": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+        "inLanguage": "ja",
+        "wordCount": 1027,
         "mainEntityOfPage": {
           "@type": "WebPage",
           "@id": "https://ai-site-iota-nine.vercel.app/article/java-network-programming"
         },
         "keywords": "Java, ネットワーク, Socket",
         "articleSection": "プログラミング",
-        "url": "https://ai-site-iota-nine.vercel.app/article/java-network-programming"
+        "url": "https://ai-site-iota-nine.vercel.app/article/java-network-programming",
+        "learningResourceType": "tutorial",
+        "educationalLevel": "beginner"
       },
       {
         "@context": "https://schema.org",
@@ -71,7 +97,7 @@
             "@type": "ListItem",
             "position": 1,
             "name": "ホーム",
-            "item": "https://ai-site-iota-nine.vercel.app"
+            "item": "https://ai-site-iota-nine.vercel.app/"
           },
           {
             "@type": "ListItem",
@@ -88,7 +114,7 @@
           {
             "@type": "ListItem",
             "position": 4,
-            "name": "Javaのネットワークプログラミング",
+            "name": "Javaネットワーク入門｜SocketとTCP通信",
             "item": "https://ai-site-iota-nine.vercel.app/article/java-network-programming"
           }
         ]
@@ -100,7 +126,16 @@
         "description": "Javaプログラミング言語の基礎から応用までを学習する講座です。初心者向けにJavaの基本構文、オブジェクト指向、データ構造、アルゴリズムなどを解説します。",
         "provider": {
           "@type": "Organization",
-          "name": "StackShelf"
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app"
+        },
+        "url": "https://ai-site-iota-nine.vercel.app/course/java/java",
+        "inLanguage": "ja",
+        "educationalLevel": "beginner",
+        "hasCourseInstance": {
+          "@type": "CourseInstance",
+          "courseMode": "online",
+          "courseWorkload": "PT1H"
         }
       },
       {
@@ -109,18 +144,42 @@
         "mainEntity": [
           {
             "@type": "Question",
-            "name": "localhost とは？",
+            "name": "UDPは？",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "自分のマシン自身を指す特別なホスト名です。"
+              "text": "DatagramSocket/DatagramPacketで扱います。TCPより軽量だが到達保証なし。動画配信などに使われます。"
             }
           },
           {
             "@type": "Question",
-            "name": "ポートが使用中のエラーは？",
+            "name": "localhost と 127.0.0.1？",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "別プロセスが同じポートを使っている可能性があります。"
+              "text": "同じ意味のループバックアドレス。自分のマシン上のサービスに接続します。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "本番でServerSocketを直接書く？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "学習目的では有効。本番WebはServlet/Spring、HTTPクライアントはHttpClientを使います。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "タイムアウトは？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "socket.setSoTimeout(ms) で読み取り待ちを制限できます。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "TLS/HTTPSは？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "SSLSocketで暗号化。証明書管理が必要で、HttpClient利用が現実的です。"
             }
           }
         ]
@@ -135,7 +194,7 @@
         "@type": "ListItem",
         "position": 1,
         "name": "ホーム",
-        "item": "https://ai-site-iota-nine.vercel.app"
+        "item": "https://ai-site-iota-nine.vercel.app/"
       },
       {
         "@type": "ListItem",
@@ -152,7 +211,7 @@
       {
         "@type": "ListItem",
         "position": 4,
-        "name": "Javaのネットワークプログラミング",
+        "name": "Javaネットワーク入門｜SocketとTCP通信",
         "item": "https://ai-site-iota-nine.vercel.app/article/java-network-programming"
       }
     ]
@@ -164,7 +223,16 @@
     "description": "Javaプログラミング言語の基礎から応用までを学習する講座です。初心者向けにJavaの基本構文、オブジェクト指向、データ構造、アルゴリズムなどを解説します。",
     "provider": {
       "@type": "Organization",
-      "name": "StackShelf"
+      "name": "StackShelf",
+      "url": "https://ai-site-iota-nine.vercel.app"
+    },
+    "url": "https://ai-site-iota-nine.vercel.app/course/java/java",
+    "inLanguage": "ja",
+    "educationalLevel": "beginner",
+    "hasCourseInstance": {
+      "@type": "CourseInstance",
+      "courseMode": "online",
+      "courseWorkload": "PT1H"
     }
   },
   "faqSchema": {
@@ -173,20 +241,73 @@
     "mainEntity": [
       {
         "@type": "Question",
-        "name": "localhost とは？",
+        "name": "UDPは？",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "自分のマシン自身を指す特別なホスト名です。"
+          "text": "DatagramSocket/DatagramPacketで扱います。TCPより軽量だが到達保証なし。動画配信などに使われます。"
         }
       },
       {
         "@type": "Question",
-        "name": "ポートが使用中のエラーは？",
+        "name": "localhost と 127.0.0.1？",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "別プロセスが同じポートを使っている可能性があります。"
+          "text": "同じ意味のループバックアドレス。自分のマシン上のサービスに接続します。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "本番でServerSocketを直接書く？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "学習目的では有効。本番WebはServlet/Spring、HTTPクライアントはHttpClientを使います。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "タイムアウトは？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "socket.setSoTimeout(ms) で読み取り待ちを制限できます。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "TLS/HTTPSは？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "SSLSocketで暗号化。証明書管理が必要で、HttpClient利用が現実的です。"
         }
       }
     ]
-  }
+  },
+  "nextAction": "ポート8080のエコーサーバーとクライアントを作り、サーバー起動後にクライアントから1行送って応答を確認してください。",
+  "internalLinkCandidates": [
+    {
+      "slug": "java-file-input-output",
+      "title": "Javaのファイル入出力",
+      "reason": "ストリームの基礎"
+    },
+    {
+      "slug": "java-thread-programming",
+      "title": "Javaのスレッドプログラミング",
+      "reason": "同じ講座の次の回"
+    },
+    {
+      "slug": "java-exception-handling",
+      "title": "Javaの例外処理",
+      "reason": "IOException"
+    },
+    {
+      "slug": "java-exception-handling",
+      "title": "Javaの例外処理",
+      "reason": "IOException"
+    },
+    {
+      "slug": "java-project-development",
+      "title": "Javaのプロジェクト開発",
+      "reason": "実アプリ構成"
+    }
+  ],
+  "ogImage": "https://ai-site-iota-nine.vercel.app/og-default.svg"
 }

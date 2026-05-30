@@ -1,10 +1,10 @@
 {
   "id": "art_1780054195475",
   "slug": "java-objects",
-  "title": "Javaのオブジェクト指向プログラミング",
-  "summary": "Javaのオブジェクト指向プログラミングの基礎を学びます。クラス、オブジェクト、継承、多態性について理解します。具体例を通じて、オブジェクト指向プログラミングの概念を実践的に学びます。",
-  "body": "<h2>オブジェクト指向プログラミングの基礎</h2><p>オブジェクト指向プログラミングは、プログラミングのパラダイムの一つで、クラス、オブジェクト、継承、多態性などの概念を使用して、プログラムを構造化します。</p><h3>クラスとオブジェクト</h3><p>クラスは、オブジェクトの設計図と考えられます。クラスから作成されたオブジェクトは、クラスのプロパティとメソッドを持ちます。例えば、<code>Car</code>クラスから作成された<code>myCar</code>オブジェクトは、<code>color</code>プロパティと<code>drive()</code>メソッドを持つことができます。</p><pre><code>public class Car {<br>  private String color;<br>  public void drive() {<br>    System.out.println(\"車を運転します\");<br>  }<br>}</code></pre><h3>継承</h3><p>継承は、既存のクラスから新しいクラスを作成する仕組みです。新しいクラスは、既存のクラスのプロパティとメソッドを継承し、さらに新しいプロパティとメソッドを追加することができます。例えば、<code>ElectricCar</code>クラスは、<code>Car</code>クラスから継承し、<code>charge()</code>メソッドを追加することができます。</p><pre><code>public class ElectricCar extends Car {<br>  public void charge() {<br>    System.out.println(\"車を充電します\");<br>  }<br>}</code></pre>",
-  "conclusion": "このエピソードでは、Javaのオブジェクト指向プログラミングの基礎を学びました。クラス、オブジェクト、継承、多態性について理解し、具体例を通じて実践的に学びました。次のエピソードでは、クラスについてさらに深く学びます。",
+  "title": "Javaのオブジェクト指向｜カプセル化とインスタンス",
+  "summary": "オブジェクト指向の4大概念（カプセル化・継承・多態性・抽象化）と、Javaにおけるクラス・インスタンス・フィールド・メソッドの関係を具体例と失敗例で学びます。",
+  "body": "<h2>結論：オブジェクト指向は「データと処理をオブジェクトにまとめ、設計図（クラス）から実体を作る」考え方</h2>\n<p><strong>オブジェクト指向（OOP）</strong>は、プログラムを「もの（オブジェクト）」の集合として設計する手法です。JavaはOOPを中心に据えた言語で、<strong>クラス</strong>が設計図、<strong>インスタンス</strong>が実体、<strong>フィールド</strong>が状態、<strong>メソッド</strong>が振る舞いに対応します。</p>\n\n<h2>4つの概念（概要）</h2>\n<ul>\n  <li><strong>カプセル化</strong>：内部状態を隠し、メソッド経由で操作</li>\n  <li><strong>継承</strong>：既存クラスを拡張して再利用</li>\n  <li><strong>多態性</strong>：同じ型で異なる振る舞い</li>\n  <li><strong>抽象化</strong>：本質だけを抽出（後の回で interface/abstract）</li>\n</ul>\n\n<h2>クラスからオブジェクトを作る</h2>\n<pre><code>public class BankAccount {\n    private int balance;\n\n    public void deposit(int amount) {\n        if (amount > 0) balance += amount;\n    }\n\n    public int getBalance() {\n        return balance;\n    }\n}\n\nBankAccount acc = new BankAccount();\nacc.deposit(1000);\nSystem.out.println(acc.getBalance());</code></pre>\n\n<h3>失敗例：private フィールドに直接代入</h3>\n<pre><code>acc.balance = -999; // コンパイルエラー: balance has private access</code></pre>\n<p>カプセル化により不正な状態変更を防ぎます。必ず public メソッドを通してください。</p>\n\n<h2>this キーワード</h2>\n<p>インスタンス自身を指します。フィールドと引数が同名のときに使います。</p>\n<pre><code>public void setName(String name) {\n    this.name = name;\n}</code></pre>\n\n<h2>まとめ</h2>\n<p>オブジェクト指向は状態と振る舞いを1つの単位にまとめる設計です。new でインスタンス化し、private + getter/setter でカプセル化が基本形です。次回はクラス定義をさらに深掘りします。</p>",
+  "conclusion": "Javaのオブジェクト指向はクラス（設計図）とインスタンス（実体）でプログラムを構成します。カプセル化により内部状態を保護し、メソッドで操作します。BankAccountのような小さなクラスを書いてdeposit/withdrawを試しましょう。",
   "tags": [
     "Java",
     "オブジェクト指向プログラミング",
@@ -16,12 +16,12 @@
   "theme": "java - Java",
   "status": "published",
   "createdAt": "2026-05-29T11:29:55.372Z",
-  "updatedAt": "2026-05-29T14:35:19.753Z",
+  "updatedAt": "2026-05-30T05:18:37.042Z",
   "publishedAt": "2026-05-29T11:29:55.372Z",
-  "metaTitle": "Javaのオブジェクト指向プログラミング",
-  "metaDescription": "Javaのオブジェクト指向プログラミングの基礎を学びます。クラス、オブジェクト、継承、多態性について理解します。具体例を通じて、オブジェクト指向プログラミングの概念を実践的に学びます。",
-  "ogTitle": "Javaのオブジェクト指向プログラミング",
-  "ogDescription": "Javaのオブジェクト指向プログラミングの基礎を学びます。クラス、オブジェクト、継承、多態性について理解します。具体例を通じて、オブジェクト指向プログラミングの概念を実践的に学びます。",
+  "metaTitle": "Javaオブジェクト指向入門｜クラスとインスタンス | StackShelf",
+  "metaDescription": "JavaのOOP基礎、カプセル化、クラスとインスタンス、private/publicの役割と失敗例を初心者向けに解説します。",
+  "ogTitle": "Javaのオブジェクト指向",
+  "ogDescription": "4大概念とカプセル化の基本を失敗例つきで学べます。",
   "knowledge": {
     "topic": "java",
     "courseId": "java",
@@ -29,42 +29,68 @@
   },
   "faq": [
     {
-      "question": "オブジェクト指向プログラミングとは何ですか？",
-      "answer": "オブジェクト指向プログラミングは、プログラミングのパラダイムの一つで、クラス、オブジェクト、継承、多態性などの概念を使用して、プログラムを構造化します。"
+      "question": "クラスとオブジェクトの違いは？",
+      "answer": "クラスは設計図、オブジェクト（インスタンス）はnewで作られる実体です。1クラスから複数インスタンスを作れます。"
     },
     {
-      "question": "クラスとは何ですか？",
-      "answer": "クラスは、オブジェクトの設計図と考えられます。クラスから作成されたオブジェクトは、クラスのプロパティとメソッドを持ちます。"
+      "question": "カプセル化はなぜ必要？",
+      "answer": "不正な値の代入や内部実装の変更を呼び出し側から隠し、保守性と安全性を高めるためです。"
+    },
+    {
+      "question": "new を省略できる場合は？",
+      "answer": "StringリテラルやInteger.valueOfなど一部APIです。基本はnewまたはファクトリメソッドで生成します。"
+    },
+    {
+      "question": "static フィールドとインスタンスフィールドの違いは？",
+      "answer": "staticはクラス共有、インスタンスフィールドは各オブジェクトが持ちます。"
+    },
+    {
+      "question": "ガベージコレクションとは？",
+      "answer": "参照がなくなったオブジェクトをJVMが自動回収します。C言語のfreeは不要です。"
     }
   ],
-  "nextEpisodeHint": "次のエピソードでは、クラスについてさらに深く学びます。",
+  "nextEpisodeHint": "次回はクラス定義、コンストラクタ、getter/setter、toString を詳しく学びます。",
   "canonical": "https://ai-site-iota-nine.vercel.app/article/java-objects",
   "jsonLd": {
     "@context": "https://schema.org",
     "@graph": [
       {
         "@context": "https://schema.org",
-        "@type": "BlogPosting",
-        "headline": "Javaのオブジェクト指向プログラミング",
-        "description": "Javaのオブジェクト指向プログラミングの基礎を学びます。クラス、オブジェクト、継承、多態性について理解します。具体例を通じて、オブジェクト指向プログラミングの概念を実践的に学びます。",
+        "@type": "TechArticle",
+        "headline": "Javaのオブジェクト指向｜カプセル化とインスタンス",
+        "description": "JavaのOOP基礎、カプセル化、クラスとインスタンス、private/publicの役割と失敗例を初心者向けに解説します。",
         "datePublished": "2026-05-29T11:29:55.372Z",
-        "dateModified": "2026-05-29T14:35:19.753Z",
+        "dateModified": "2026-05-30T05:18:37.042Z",
         "author": {
           "@type": "Organization",
-          "name": "StackShelf"
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
         },
         "publisher": {
           "@type": "Organization",
           "name": "StackShelf",
-          "url": "https://ai-site-iota-nine.vercel.app"
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
         },
+        "image": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+        "inLanguage": "ja",
+        "wordCount": 800,
         "mainEntityOfPage": {
           "@type": "WebPage",
           "@id": "https://ai-site-iota-nine.vercel.app/article/java-objects"
         },
         "keywords": "Java, オブジェクト指向プログラミング, クラス, オブジェクト, 継承",
         "articleSection": "Java",
-        "url": "https://ai-site-iota-nine.vercel.app/article/java-objects"
+        "url": "https://ai-site-iota-nine.vercel.app/article/java-objects",
+        "learningResourceType": "tutorial",
+        "educationalLevel": "beginner"
       },
       {
         "@context": "https://schema.org",
@@ -74,7 +100,7 @@
             "@type": "ListItem",
             "position": 1,
             "name": "ホーム",
-            "item": "https://ai-site-iota-nine.vercel.app"
+            "item": "https://ai-site-iota-nine.vercel.app/"
           },
           {
             "@type": "ListItem",
@@ -91,7 +117,7 @@
           {
             "@type": "ListItem",
             "position": 4,
-            "name": "Javaのオブジェクト指向プログラミング",
+            "name": "Javaのオブジェクト指向｜カプセル化とインスタンス",
             "item": "https://ai-site-iota-nine.vercel.app/article/java-objects"
           }
         ]
@@ -103,7 +129,16 @@
         "description": "Javaプログラミング言語の基礎から応用までを学習する講座です。初心者向けにJavaの基本構文、オブジェクト指向、データ構造、アルゴリズムなどを解説します。",
         "provider": {
           "@type": "Organization",
-          "name": "StackShelf"
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app"
+        },
+        "url": "https://ai-site-iota-nine.vercel.app/course/java/java",
+        "inLanguage": "ja",
+        "educationalLevel": "beginner",
+        "hasCourseInstance": {
+          "@type": "CourseInstance",
+          "courseMode": "online",
+          "courseWorkload": "PT1H"
         }
       },
       {
@@ -112,18 +147,42 @@
         "mainEntity": [
           {
             "@type": "Question",
-            "name": "オブジェクト指向プログラミングとは何ですか？",
+            "name": "クラスとオブジェクトの違いは？",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "オブジェクト指向プログラミングは、プログラミングのパラダイムの一つで、クラス、オブジェクト、継承、多態性などの概念を使用して、プログラムを構造化します。"
+              "text": "クラスは設計図、オブジェクト（インスタンス）はnewで作られる実体です。1クラスから複数インスタンスを作れます。"
             }
           },
           {
             "@type": "Question",
-            "name": "クラスとは何ですか？",
+            "name": "カプセル化はなぜ必要？",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "クラスは、オブジェクトの設計図と考えられます。クラスから作成されたオブジェクトは、クラスのプロパティとメソッドを持ちます。"
+              "text": "不正な値の代入や内部実装の変更を呼び出し側から隠し、保守性と安全性を高めるためです。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "new を省略できる場合は？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "StringリテラルやInteger.valueOfなど一部APIです。基本はnewまたはファクトリメソッドで生成します。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "static フィールドとインスタンスフィールドの違いは？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "staticはクラス共有、インスタンスフィールドは各オブジェクトが持ちます。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "ガベージコレクションとは？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "参照がなくなったオブジェクトをJVMが自動回収します。C言語のfreeは不要です。"
             }
           }
         ]
@@ -138,7 +197,7 @@
         "@type": "ListItem",
         "position": 1,
         "name": "ホーム",
-        "item": "https://ai-site-iota-nine.vercel.app"
+        "item": "https://ai-site-iota-nine.vercel.app/"
       },
       {
         "@type": "ListItem",
@@ -155,7 +214,7 @@
       {
         "@type": "ListItem",
         "position": 4,
-        "name": "Javaのオブジェクト指向プログラミング",
+        "name": "Javaのオブジェクト指向｜カプセル化とインスタンス",
         "item": "https://ai-site-iota-nine.vercel.app/article/java-objects"
       }
     ]
@@ -167,7 +226,16 @@
     "description": "Javaプログラミング言語の基礎から応用までを学習する講座です。初心者向けにJavaの基本構文、オブジェクト指向、データ構造、アルゴリズムなどを解説します。",
     "provider": {
       "@type": "Organization",
-      "name": "StackShelf"
+      "name": "StackShelf",
+      "url": "https://ai-site-iota-nine.vercel.app"
+    },
+    "url": "https://ai-site-iota-nine.vercel.app/course/java/java",
+    "inLanguage": "ja",
+    "educationalLevel": "beginner",
+    "hasCourseInstance": {
+      "@type": "CourseInstance",
+      "courseMode": "online",
+      "courseWorkload": "PT1H"
     }
   },
   "faqSchema": {
@@ -176,20 +244,73 @@
     "mainEntity": [
       {
         "@type": "Question",
-        "name": "オブジェクト指向プログラミングとは何ですか？",
+        "name": "クラスとオブジェクトの違いは？",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "オブジェクト指向プログラミングは、プログラミングのパラダイムの一つで、クラス、オブジェクト、継承、多態性などの概念を使用して、プログラムを構造化します。"
+          "text": "クラスは設計図、オブジェクト（インスタンス）はnewで作られる実体です。1クラスから複数インスタンスを作れます。"
         }
       },
       {
         "@type": "Question",
-        "name": "クラスとは何ですか？",
+        "name": "カプセル化はなぜ必要？",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "クラスは、オブジェクトの設計図と考えられます。クラスから作成されたオブジェクトは、クラスのプロパティとメソッドを持ちます。"
+          "text": "不正な値の代入や内部実装の変更を呼び出し側から隠し、保守性と安全性を高めるためです。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "new を省略できる場合は？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "StringリテラルやInteger.valueOfなど一部APIです。基本はnewまたはファクトリメソッドで生成します。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "static フィールドとインスタンスフィールドの違いは？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "staticはクラス共有、インスタンスフィールドは各オブジェクトが持ちます。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "ガベージコレクションとは？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "参照がなくなったオブジェクトをJVMが自動回収します。C言語のfreeは不要です。"
         }
       }
     ]
-  }
+  },
+  "nextAction": "Bookクラス（title, price）を作り、privateフィールドとgetPrice、applyDiscountメソッドを実装してください。",
+  "internalLinkCandidates": [
+    {
+      "slug": "java-arrays",
+      "title": "Javaの配列",
+      "reason": "オブジェクトの配列"
+    },
+    {
+      "slug": "java-classes",
+      "title": "Javaのクラスとオブジェクト",
+      "reason": "同じ講座の次の回"
+    },
+    {
+      "slug": "java-inheritance",
+      "title": "Javaの継承",
+      "reason": "OOPの継承"
+    },
+    {
+      "slug": "java-polymorphism",
+      "title": "Javaの多態性",
+      "reason": "OOPの多態性"
+    },
+    {
+      "slug": "java-best-practices",
+      "title": "Javaプログラミングのベストプラクティス",
+      "reason": "設計のコツ"
+    }
+  ],
+  "ogImage": "https://ai-site-iota-nine.vercel.app/og-default.svg"
 }

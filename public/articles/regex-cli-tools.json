@@ -17,12 +17,12 @@
   "theme": "regex - 正規表現入門",
   "status": "published",
   "createdAt": "2026-05-30T05:14:30.074Z",
-  "updatedAt": "2026-05-30T05:14:30.080Z",
+  "updatedAt": "2026-05-30T05:15:44.261Z",
   "publishedAt": "2026-05-30T05:14:30.074Z",
   "metaTitle": "grep 正規表現 | エディタ検索・CLIでのregex活用法",
-  "metaDescription": "【正規表現初心者向け】grep・ripgrep・VS Code検索での正規表現を初心者向けに解説。ログ解析、一括置換、-E -P オプションの違いも学べます。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
+  "metaDescription": "grep・ripgrep・VS Code検索での正規表現を初心者向けに解説。ログ解析、一括置換、-E -P オプションの違いも学べます。",
   "ogTitle": "grep・エディタ検索での正規表現",
-  "ogDescription": "【正規表現初心者向け】【正規表現初心者向け】CLIとエディタで正規表現を使う実践テクニックを解説します。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
+  "ogDescription": "CLIとエディタで正規表現を使う実践テクニックを解説します。",
   "knowledge": {
     "topic": "regex",
     "courseId": "regex",
@@ -51,37 +51,32 @@
     }
   ],
   "nextEpisodeHint": "最終回は、ログ解析とフォーム検証を題材に、これまで学んだ部品を組み合わせた実践パターンと、テスト・保守のコツをまとめます。",
-  "nextAction": "",
+  "nextAction": "最終回は、ログ解析とフォーム検証を題材に、これまで学んだ部品を組み合わせた実践パターンと、テスト・保守のコツをまとめます。",
   "internalLinkCandidates": [
     {
-      "slug": "linux-view-search",
-      "title": "ファイルの表示と検索",
-      "reason": "grep の基礎を学ぶ関連回"
-    },
-    {
-      "slug": "linux-pipe-redirect",
-      "title": "パイプとリダイレクト",
-      "reason": "grep と tail をパイプでつなぐ"
-    },
-    {
-      "slug": "linux-intro",
-      "title": "Linuxとは？",
-      "reason": "CLI 正規表現の実行環境"
-    },
-    {
-      "slug": "bash-intro",
-      "title": "シェルスクリプトとは？",
-      "reason": "スクリプト内で grep を呼ぶ"
-    },
-    {
-      "slug": "git-basic-commands",
-      "title": "Git基本コマンド",
-      "reason": "置換前にコミットする習慣"
+      "slug": "regex-practice",
+      "title": "実践：ログとフォーム検証｜正規表現コース総まとめ【入門】",
+      "reason": "同じ講座の関連回です"
     },
     {
       "slug": "regex-javascript",
-      "title": "JavaScriptでの正規表現",
-      "reason": "エディタと言語の記法の比較"
+      "title": "JavaScriptでの正規表現｜RegExp・test・match・replace【入門】",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "regex-lookahead",
+      "title": "先読み・後読み（応用）｜正規表現で条件だけチェックする【入門】",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "regex-groups",
+      "title": "グループとキャプチャ｜正規表現の ( ) と置換【入門】",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "regex-anchors",
+      "title": "アンカー ^ $ と単語境界｜正規表現で位置を指定する【入門】",
+      "reason": "同じ講座の関連回です"
     }
   ],
   "ogImage": "https://ai-site-iota-nine.vercel.app/og-default.svg",
@@ -95,7 +90,7 @@
         "headline": "grep・エディタ検索での正規表現｜CLIとVS Code活用法【入門】",
         "description": "【正規表現初心者向け】grep・ripgrep・VS Code検索での正規表現を初心者向けに解説。ログ解析、一括置換、-E -P オプションの違いも学べます。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
         "datePublished": "2026-05-30T05:14:30.074Z",
-        "dateModified": "2026-05-30T05:14:30.080Z",
+        "dateModified": "2026-05-30T05:15:44.261Z",
         "author": {
           "@type": "Organization",
           "name": "StackShelf",

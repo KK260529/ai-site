@@ -1,0 +1,291 @@
+{
+  "id": "art_errors_bash-line-111-undefined-var-unbound-variable-084e3e",
+  "slug": "bash-line-111-undefined-var-unbound-variable-084e3e",
+  "title": "line 111: $undefined_var: unbound variable の原因と解決法",
+  "summary": "line 111: $undefined_var: unbound variable の原因と具体的な解決手順をまとめました。",
+  "body": "<h2>エラーメッセージ（全文）</h2>\n<p>検索でヒットしやすいよう、実際のコンソール出力をそのまま掲載します。</p>\n<pre><code>line 111: $undefined_var: unbound variable</code></pre>\n\n<h2>このエラーとは</h2>\n<p>line 111: $undefined_var: unbound variable は Bash 開発でよく遭遇するエラーです。</p>\n<p><strong>想定環境:</strong> Windows / macOS / Linux</p>\n<p><strong>よく出る状況:</strong> set -u 有効時</p>\n\n<h2>よくある原因</h2>\n<ul>\n<li>変数未 export</li>\n<li>typo</li>\n<li>引数未渡し</li>\n</ul><h2>解決方法</h2><h3>方法1: デフォルト値</h3><p>${VAR:-default} 構文を使う.</p><pre><code>echo &quot;${VAR:-default}&quot;</code></pre>\n<h2>それでも直らないとき</h2>\n<p>バージョン情報（Bash のバージョン、OS、実行コマンド）を添えて、エラーメッセージ全文と直前に変更した点を確認してください。ログの数行上にも原因の手がかりが残っていることが多いです。</p>",
+  "conclusion": "「line 111: $undefined_var: unbound variable」は 変数未 export が原因のことが多いです。上記の手順で切り分けてください。",
+  "tags": [
+    "bash",
+    "Bashエラー",
+    "line 111",
+    "unbound variable",
+    "set -u",
+    "line 111: $undefined_var: unbound variab"
+  ],
+  "category": "Bashエラー",
+  "theme": "errors - Bash シェルスクリプト エラー・トラブル集",
+  "articleType": "error",
+  "status": "published",
+  "createdAt": "2026-05-30T05:48:46.521Z",
+  "updatedAt": "2026-05-30T05:48:46.521Z",
+  "publishedAt": "2026-05-30T05:48:46.521Z",
+  "metaTitle": "line 111: $undefined_var: unbound variable の原因と解決法 | Bashエラー",
+  "metaDescription": "line 111: $undefined_var: unbound variable が出たときの原因・確認手順・解決策を解説。set -u 有効時。",
+  "ogTitle": "line 111: $undefined_var: unbound variable の原因と解決法",
+  "ogDescription": "line 111: $undefined_var: unbound variable が出たときの原因・確認手順・解決策を解説。set -u 有効時。",
+  "knowledge": {
+    "topic": "errors",
+    "courseId": "bash-errors",
+    "episode": 137
+  },
+  "faq": [
+    {
+      "question": "line 111: $undefined_var: unbound variable とは何ですか？",
+      "answer": "line 111: $undefined_var: unbound variable は Bash 実行時に表示されるエラーです。変数未 export"
+    },
+    {
+      "question": "line 111: $undefined_var: unbound variable の原因は？",
+      "answer": "変数未 export。typo。引数未渡し。"
+    },
+    {
+      "question": "line 111: $undefined_var: unbound variable の直し方は？",
+      "answer": "デフォルト値：${VAR:-default} 構文を使う."
+    },
+    {
+      "question": "Bash で line 111 が出るのはなぜ？",
+      "answer": "set -u 有効時"
+    },
+    {
+      "question": "line 111: $undefined_var: unbound variable を防ぐには？",
+      "answer": "。"
+    }
+  ],
+  "nextAction": "同じ Bash カテゴリの関連エラーもあわせて確認してください。",
+  "internalLinkCandidates": [],
+  "ogImage": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+  "canonical": "https://ai-site-iota-nine.vercel.app/article/bash-line-111-undefined-var-unbound-variable-084e3e",
+  "jsonLd": {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@context": "https://schema.org",
+        "@type": "TechArticle",
+        "headline": "line 111: $undefined_var: unbound variable の原因と解決法",
+        "description": "line 111: $undefined_var: unbound variable が出たときの原因・確認手順・解決策を解説。set -u 有効時。",
+        "datePublished": "2026-05-30T05:48:46.521Z",
+        "dateModified": "2026-05-30T05:48:46.521Z",
+        "author": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
+        },
+        "image": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+        "inLanguage": "ja",
+        "wordCount": 380,
+        "mainEntityOfPage": {
+          "@type": "WebPage",
+          "@id": "https://ai-site-iota-nine.vercel.app/article/bash-line-111-undefined-var-unbound-variable-084e3e"
+        },
+        "keywords": "bash, Bashエラー, line 111, unbound variable, set -u, line 111: $undefined_var: unbound variab",
+        "articleSection": "Bashエラー",
+        "url": "https://ai-site-iota-nine.vercel.app/article/bash-line-111-undefined-var-unbound-variable-084e3e",
+        "learningResourceType": "tutorial",
+        "educationalLevel": "beginner"
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "ホーム",
+            "item": "https://ai-site-iota-nine.vercel.app/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "errors",
+            "item": "https://ai-site-iota-nine.vercel.app/knowledge/errors"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "Bash シェルスクリプト エラー・トラブル集",
+            "item": "https://ai-site-iota-nine.vercel.app/course/errors/bash-errors"
+          },
+          {
+            "@type": "ListItem",
+            "position": 4,
+            "name": "line 111: $undefined_var: unbound variable の原因と解決法",
+            "item": "https://ai-site-iota-nine.vercel.app/article/bash-line-111-undefined-var-unbound-variable-084e3e"
+          }
+        ]
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "Course",
+        "name": "Bash シェルスクリプト エラー・トラブル集",
+        "description": "Bash シェルスクリプト エラー・トラブル集",
+        "provider": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app"
+        },
+        "url": "https://ai-site-iota-nine.vercel.app/course/errors/bash-errors",
+        "inLanguage": "ja",
+        "educationalLevel": "beginner",
+        "hasCourseInstance": {
+          "@type": "CourseInstance",
+          "courseMode": "online",
+          "courseWorkload": "PT1H"
+        }
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "line 111: $undefined_var: unbound variable とは何ですか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "line 111: $undefined_var: unbound variable は Bash 実行時に表示されるエラーです。変数未 export"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "line 111: $undefined_var: unbound variable の原因は？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "変数未 export。typo。引数未渡し。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "line 111: $undefined_var: unbound variable の直し方は？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "デフォルト値：${VAR:-default} 構文を使う."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Bash で line 111 が出るのはなぜ？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "set -u 有効時"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "line 111: $undefined_var: unbound variable を防ぐには？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "。"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "breadcrumb": {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "ホーム",
+        "item": "https://ai-site-iota-nine.vercel.app/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "errors",
+        "item": "https://ai-site-iota-nine.vercel.app/knowledge/errors"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "Bash シェルスクリプト エラー・トラブル集",
+        "item": "https://ai-site-iota-nine.vercel.app/course/errors/bash-errors"
+      },
+      {
+        "@type": "ListItem",
+        "position": 4,
+        "name": "line 111: $undefined_var: unbound variable の原因と解決法",
+        "item": "https://ai-site-iota-nine.vercel.app/article/bash-line-111-undefined-var-unbound-variable-084e3e"
+      }
+    ]
+  },
+  "courseSchema": {
+    "@context": "https://schema.org",
+    "@type": "Course",
+    "name": "Bash シェルスクリプト エラー・トラブル集",
+    "description": "Bash シェルスクリプト エラー・トラブル集",
+    "provider": {
+      "@type": "Organization",
+      "name": "StackShelf",
+      "url": "https://ai-site-iota-nine.vercel.app"
+    },
+    "url": "https://ai-site-iota-nine.vercel.app/course/errors/bash-errors",
+    "inLanguage": "ja",
+    "educationalLevel": "beginner",
+    "hasCourseInstance": {
+      "@type": "CourseInstance",
+      "courseMode": "online",
+      "courseWorkload": "PT1H"
+    }
+  },
+  "faqSchema": {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "line 111: $undefined_var: unbound variable とは何ですか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "line 111: $undefined_var: unbound variable は Bash 実行時に表示されるエラーです。変数未 export"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "line 111: $undefined_var: unbound variable の原因は？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "変数未 export。typo。引数未渡し。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "line 111: $undefined_var: unbound variable の直し方は？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "デフォルト値：${VAR:-default} 構文を使う."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Bash で line 111 が出るのはなぜ？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "set -u 有効時"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "line 111: $undefined_var: unbound variable を防ぐには？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "。"
+        }
+      }
+    ]
+  }
+}

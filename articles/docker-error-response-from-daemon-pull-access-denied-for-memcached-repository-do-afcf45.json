@@ -1,0 +1,291 @@
+{
+  "id": "art_errors_docker-error-response-from-daemon-pull-access-denied-for-memcached-repository-do-afcf45",
+  "slug": "docker-error-response-from-daemon-pull-access-denied-for-memcached-repository-do-afcf45",
+  "title": "Error response from daemon: pull access denied for memcached, repository does not exist or may require 'docker login' の原因と解決法",
+  "summary": "Error response from daemon: pull access denied for memcached, repository does not exist or may require 'docker login' の原因と具体的な解決手順をまとめました。",
+  "body": "<h2>エラーメッセージ（全文）</h2>\n<p>検索でヒットしやすいよう、実際のコンソール出力をそのまま掲載します。</p>\n<pre><code>Error response from daemon: pull access denied for memcached, repository does not exist or may require 'docker login'</code></pre>\n\n<h2>このエラーとは</h2>\n<p>Error response from daemon: pull access denied for memcached, repository does not exist or may require 'docker login' は Docker 開発でよく遭遇するエラーです。</p>\n<p><strong>想定環境:</strong> Windows / macOS / Linux</p>\n<p><strong>よく出る状況:</strong> docker pull 時</p>\n\n<h2>よくある原因</h2>\n<ul>\n<li>イメージ名 typo</li>\n<li>プライベートレジストリ未ログイン</li>\n<li>レート制限</li>\n</ul><h2>解決方法</h2><h3>方法1: ログイン</h3><p>docker login で認証.</p><pre><code>docker pull memcached</code></pre>\n<h2>それでも直らないとき</h2>\n<p>バージョン情報（Docker のバージョン、OS、実行コマンド）を添えて、エラーメッセージ全文と直前に変更した点を確認してください。ログの数行上にも原因の手がかりが残っていることが多いです。</p>",
+  "conclusion": "「Error response from daemon: pull access denied for memcached, repository does not exist or may require 'docker login'」は イメージ名 typo が原因のことが多いです。上記の手順で切り分けてください。",
+  "tags": [
+    "docker",
+    "Dockerエラー",
+    "Error response from daemon",
+    "pull",
+    "memcached",
+    "Error response from daemon: pull access "
+  ],
+  "category": "Dockerエラー",
+  "theme": "errors - Docker エラー・トラブル集",
+  "articleType": "error",
+  "status": "published",
+  "createdAt": "2026-05-30T05:48:09.178Z",
+  "updatedAt": "2026-05-30T05:48:09.178Z",
+  "publishedAt": "2026-05-30T05:48:09.178Z",
+  "metaTitle": "Error response from daemon: pull access denied for memcache…",
+  "metaDescription": "Error response from daemon: pull access denied for memcached, repository does not exist or may require 'docker login' が出たときの原因・確認手順・解決策を解説。docker pull 時。",
+  "ogTitle": "Error response from daemon: pull access denied for memcached, repository does not exist or may require 'docker login' の原因と解決法",
+  "ogDescription": "Error response from daemon: pull access denied for memcached, repository does not exist or may require 'docker login' が出たときの原因・確認手順・解決策を解説。docker pull 時。",
+  "knowledge": {
+    "topic": "errors",
+    "courseId": "docker-errors",
+    "episode": 20
+  },
+  "faq": [
+    {
+      "question": "Error response from daemon: pull access denied for memcached, repository does… とは何ですか？",
+      "answer": "Error response from daemon: pull access denied for memcached, repository does not exist or may require 'docker login' は Docker 実行時に表示されるエラーです。イメージ名 typo"
+    },
+    {
+      "question": "Error response from daemon: pull access denied for memcached, repository does… の原因は？",
+      "answer": "イメージ名 typo。プライベートレジストリ未ログイン。レート制限。"
+    },
+    {
+      "question": "Error response from daemon: pull access denied for memcached, repository does… の直し方は？",
+      "answer": "ログイン：docker login で認証."
+    },
+    {
+      "question": "Docker で Error response from daemon が出るのはなぜ？",
+      "answer": "docker pull 時"
+    },
+    {
+      "question": "Error response from daemon: pull access denied for memcached, repository does… を防ぐには？",
+      "answer": "。"
+    }
+  ],
+  "nextAction": "同じ Docker カテゴリの関連エラーもあわせて確認してください。",
+  "internalLinkCandidates": [],
+  "ogImage": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+  "canonical": "https://ai-site-iota-nine.vercel.app/article/docker-error-response-from-daemon-pull-access-denied-for-memcached-repository-do-afcf45",
+  "jsonLd": {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@context": "https://schema.org",
+        "@type": "TechArticle",
+        "headline": "Error response from daemon: pull access denied for memcached, repository does not exist or may require 'docker login' の原因と解決法",
+        "description": "Error response from daemon: pull access denied for memcached, repository does not exist or may require 'docker login' が出たときの原因・確認手順・解決策を解説。docker pull 時。",
+        "datePublished": "2026-05-30T05:48:09.178Z",
+        "dateModified": "2026-05-30T05:48:09.178Z",
+        "author": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
+        },
+        "image": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+        "inLanguage": "ja",
+        "wordCount": 503,
+        "mainEntityOfPage": {
+          "@type": "WebPage",
+          "@id": "https://ai-site-iota-nine.vercel.app/article/docker-error-response-from-daemon-pull-access-denied-for-memcached-repository-do-afcf45"
+        },
+        "keywords": "docker, Dockerエラー, Error response from daemon, pull, memcached, Error response from daemon: pull access ",
+        "articleSection": "Dockerエラー",
+        "url": "https://ai-site-iota-nine.vercel.app/article/docker-error-response-from-daemon-pull-access-denied-for-memcached-repository-do-afcf45",
+        "learningResourceType": "tutorial",
+        "educationalLevel": "beginner"
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "ホーム",
+            "item": "https://ai-site-iota-nine.vercel.app/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "errors",
+            "item": "https://ai-site-iota-nine.vercel.app/knowledge/errors"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "Docker エラー・トラブル集",
+            "item": "https://ai-site-iota-nine.vercel.app/course/errors/docker-errors"
+          },
+          {
+            "@type": "ListItem",
+            "position": 4,
+            "name": "Error response from daemon: pull access denied for memcached, repository does not exist or may require 'docker login' の原因と解決法",
+            "item": "https://ai-site-iota-nine.vercel.app/article/docker-error-response-from-daemon-pull-access-denied-for-memcached-repository-do-afcf45"
+          }
+        ]
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "Course",
+        "name": "Docker エラー・トラブル集",
+        "description": "Docker エラー・トラブル集",
+        "provider": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app"
+        },
+        "url": "https://ai-site-iota-nine.vercel.app/course/errors/docker-errors",
+        "inLanguage": "ja",
+        "educationalLevel": "beginner",
+        "hasCourseInstance": {
+          "@type": "CourseInstance",
+          "courseMode": "online",
+          "courseWorkload": "PT1H"
+        }
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "Error response from daemon: pull access denied for memcached, repository does… とは何ですか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Error response from daemon: pull access denied for memcached, repository does not exist or may require 'docker login' は Docker 実行時に表示されるエラーです。イメージ名 typo"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Error response from daemon: pull access denied for memcached, repository does… の原因は？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "イメージ名 typo。プライベートレジストリ未ログイン。レート制限。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Error response from daemon: pull access denied for memcached, repository does… の直し方は？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "ログイン：docker login で認証."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Docker で Error response from daemon が出るのはなぜ？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "docker pull 時"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Error response from daemon: pull access denied for memcached, repository does… を防ぐには？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "。"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "breadcrumb": {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "ホーム",
+        "item": "https://ai-site-iota-nine.vercel.app/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "errors",
+        "item": "https://ai-site-iota-nine.vercel.app/knowledge/errors"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "Docker エラー・トラブル集",
+        "item": "https://ai-site-iota-nine.vercel.app/course/errors/docker-errors"
+      },
+      {
+        "@type": "ListItem",
+        "position": 4,
+        "name": "Error response from daemon: pull access denied for memcached, repository does not exist or may require 'docker login' の原因と解決法",
+        "item": "https://ai-site-iota-nine.vercel.app/article/docker-error-response-from-daemon-pull-access-denied-for-memcached-repository-do-afcf45"
+      }
+    ]
+  },
+  "courseSchema": {
+    "@context": "https://schema.org",
+    "@type": "Course",
+    "name": "Docker エラー・トラブル集",
+    "description": "Docker エラー・トラブル集",
+    "provider": {
+      "@type": "Organization",
+      "name": "StackShelf",
+      "url": "https://ai-site-iota-nine.vercel.app"
+    },
+    "url": "https://ai-site-iota-nine.vercel.app/course/errors/docker-errors",
+    "inLanguage": "ja",
+    "educationalLevel": "beginner",
+    "hasCourseInstance": {
+      "@type": "CourseInstance",
+      "courseMode": "online",
+      "courseWorkload": "PT1H"
+    }
+  },
+  "faqSchema": {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "Error response from daemon: pull access denied for memcached, repository does… とは何ですか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Error response from daemon: pull access denied for memcached, repository does not exist or may require 'docker login' は Docker 実行時に表示されるエラーです。イメージ名 typo"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Error response from daemon: pull access denied for memcached, repository does… の原因は？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "イメージ名 typo。プライベートレジストリ未ログイン。レート制限。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Error response from daemon: pull access denied for memcached, repository does… の直し方は？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "ログイン：docker login で認証."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Docker で Error response from daemon が出るのはなぜ？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "docker pull 時"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Error response from daemon: pull access denied for memcached, repository does… を防ぐには？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "。"
+        }
+      }
+    ]
+  }
+}

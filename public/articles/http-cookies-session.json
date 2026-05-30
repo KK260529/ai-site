@@ -18,12 +18,12 @@
   "theme": "http - HTTP・Web API入門",
   "status": "published",
   "createdAt": "2026-05-30T05:14:37.527Z",
-  "updatedAt": "2026-05-30T05:14:37.532Z",
+  "updatedAt": "2026-05-30T05:15:43.698Z",
   "publishedAt": "2026-05-30T05:14:37.527Z",
   "metaTitle": "Cookie・セッション・JWT認証の基礎【HTTP入門 第5回】｜HTTP入門 | StackShelf",
-  "metaDescription": "【HTTP初心者向け】Cookie、セッションID、JWT（JSON Web Token）の仕組みを具体例で解説。Webアプリのログイン・認証の基礎を初心者向けにわかりやすく説明します。 図解・具体例つきで丁寧に解説します。",
+  "metaDescription": "Cookie、セッションID、JWT（JSON Web Token）の仕組みを具体例で解説。Webアプリのログイン・認証の基礎を初心者向けにわかりやすく説明します。",
   "ogTitle": "Cookie・セッション・認証の基礎",
-  "ogDescription": "【HTTP初心者向け】【HTTP初心者向け】HTTP認証の3方式——Cookie+セッション、JWT、Basic認証——を具体例で解説します。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
+  "ogDescription": "HTTP認証の3方式——Cookie+セッション、JWT、Basic認証——を具体例で解説します。",
   "knowledge": {
     "topic": "http",
     "courseId": "http",
@@ -55,29 +55,29 @@
   "nextAction": "次回はHTTPSとTLS（Transport Layer Security）の仕組みを解説します。CookieやJWTを安全に送るために不可欠な暗号化通信の基礎を学びましょう。",
   "internalLinkCandidates": [
     {
-      "slug": "http-headers",
-      "title": "HTTPヘッダーの役割とよく使う項目",
-      "reason": "同じ講座の関連回です"
-    },
-    {
       "slug": "http-https-tls",
       "title": "HTTPSとTLSの仕組み",
       "reason": "同じ講座の関連回です"
     },
     {
-      "slug": "sql-intro",
-      "title": "データベースとSQLとは？",
-      "reason": "ログイン認証でユーザー情報をDBから取得します"
+      "slug": "http-practice",
+      "title": "実践：公開APIを叩いてみる",
+      "reason": "同じ講座の関連回です"
     },
     {
-      "slug": "web-forms",
-      "title": "HTMLフォームの作り方",
-      "reason": "ログインフォームはPOSTで認証情報を送信します"
+      "slug": "http-debugging",
+      "title": "CORS・エラー・デバッグ",
+      "reason": "同じ講座の関連回です"
     },
     {
-      "slug": "nginx-ssl",
-      "title": "nginx SSL/TLS（HTTPS）設定",
-      "reason": "本番環境でHTTPSを設定する方法を学べます"
+      "slug": "http-fetch-tools",
+      "title": "curlとDevToolsでAPIを試す",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "http-rest-api",
+      "title": "REST APIの設計原則",
+      "reason": "同じ講座の関連回です"
     }
   ],
   "ogImage": "https://ai-site-iota-nine.vercel.app/og-default.svg",
@@ -91,7 +91,7 @@
         "headline": "Cookie・セッション・認証の基礎",
         "description": "【HTTP初心者向け】Cookie、セッションID、JWT（JSON Web Token）の仕組みを具体例で解説。Webアプリのログイン・認証の基礎を初心者向けにわかりやすく説明します。 図解・具体例つきで丁寧に解説します。",
         "datePublished": "2026-05-30T05:14:37.527Z",
-        "dateModified": "2026-05-30T05:14:37.532Z",
+        "dateModified": "2026-05-30T05:15:43.698Z",
         "author": {
           "@type": "Organization",
           "name": "StackShelf",

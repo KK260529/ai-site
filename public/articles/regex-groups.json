@@ -17,12 +17,12 @@
   "theme": "regex - 正規表現入門",
   "status": "published",
   "createdAt": "2026-05-30T05:14:26.634Z",
-  "updatedAt": "2026-05-30T05:14:26.642Z",
+  "updatedAt": "2026-05-30T05:15:44.492Z",
   "publishedAt": "2026-05-30T05:14:26.634Z",
   "metaTitle": "正規表現 グループ キャプチャ | ( ) と置換",
-  "metaDescription": "【正規表現初心者向け】【正規表現初心者向け】正規表現のグループとキャプチャを初心者向けに解説。括弧での抽出、後方参照、エディタ置換の $1 も具体例で学べます。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
+  "metaDescription": "正規表現のグループとキャプチャを初心者向けに解説。括弧での抽出、後方参照、エディタ置換の $1 も具体例で学べます。",
   "ogTitle": "グループとキャプチャ｜正規表現入門",
-  "ogDescription": "【正規表現初心者向け】【正規表現初心者向け】正規表現のグループ、キャプチャ、置換での参照をわかりやすく解説します。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
+  "ogDescription": "正規表現のグループ、キャプチャ、置換での参照をわかりやすく解説します。",
   "knowledge": {
     "topic": "regex",
     "courseId": "regex",
@@ -51,37 +51,32 @@
     }
   ],
   "nextEpisodeHint": "次回は先読み・後読みを学びます。マッチ結果に含めずに「この前後にある条件だけ」をチェックする技法です。",
-  "nextAction": "",
+  "nextAction": "次は先読み・後読みを学びます。マッチ結果に含めずに「この前後にある条件だけ」をチェックする技法です。",
   "internalLinkCandidates": [
     {
+      "slug": "regex-javascript",
+      "title": "JavaScriptでの正規表現｜RegExp・test・match・replace【入門】",
+      "reason": "同じ講座の関連回です"
+    },
+    {
       "slug": "regex-anchors",
-      "title": "アンカー ^ $ と単語境界",
-      "reason": "グループと ^ $ を組み合わせた全体検証"
+      "title": "アンカー ^ $ と単語境界｜正規表現で位置を指定する【入門】",
+      "reason": "同じ講座の関連回です"
     },
     {
-      "slug": "python-list-dict",
-      "title": "リストと辞書",
-      "reason": "マッチ結果の配列・オブジェクトとの対応"
+      "slug": "regex-quantifiers",
+      "title": "量詞 * + ? {n,m}｜正規表現の繰り返しをマスター【入門】",
+      "reason": "同じ講座の関連回です"
     },
     {
-      "slug": "linux-file-operations",
-      "title": "ファイル操作",
-      "reason": "sed的な置換やテキスト整形"
+      "slug": "regex-character-classes",
+      "title": "文字クラス [] と否定｜正規表現で使える文字の範囲指定【入門】",
+      "reason": "同じ講座の関連回です"
     },
     {
-      "slug": "web-text-headings",
-      "title": "見出しと段落",
-      "reason": "構造化テキストの編集・置換"
-    },
-    {
-      "slug": "git-merge-conflict",
-      "title": "マージコンフリクト",
-      "reason": "差分テキストの編集作業"
-    },
-    {
-      "slug": "sql-insert-update-delete",
-      "title": "INSERT/UPDATE/DELETE",
-      "reason": "抽出した値を別形式に変換する発想"
+      "slug": "regex-literals",
+      "title": "リテラルとメタ文字の基本｜正規表現の . とエスケープ【初心者向け】",
+      "reason": "同じ講座の関連回です"
     }
   ],
   "ogImage": "https://ai-site-iota-nine.vercel.app/og-default.svg",
@@ -95,7 +90,7 @@
         "headline": "グループとキャプチャ｜正規表現の ( ) と置換【入門】",
         "description": "【正規表現初心者向け】【正規表現初心者向け】正規表現のグループとキャプチャを初心者向けに解説。括弧での抽出、後方参照、エディタ置換の $1 も具体例で学べます。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
         "datePublished": "2026-05-30T05:14:26.634Z",
-        "dateModified": "2026-05-30T05:14:26.642Z",
+        "dateModified": "2026-05-30T05:15:44.492Z",
         "author": {
           "@type": "Organization",
           "name": "StackShelf",

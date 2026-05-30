@@ -1,0 +1,291 @@
+{
+  "id": "art_errors_sql-cannot-insert-duplicate-key-row-in-object-dbo-users-with-unique-index-ix-ema-a2698f",
+  "slug": "sql-cannot-insert-duplicate-key-row-in-object-dbo-users-with-unique-index-ix-ema-a2698f",
+  "title": "Cannot insert duplicate key row in object 'dbo.Users' with unique index 'IX_Email_105' の原因と解決法",
+  "summary": "Cannot insert duplicate key row in object 'dbo.Users' with unique index 'IX_Email_105' の原因と具体的な解決手順をまとめました。",
+  "body": "<h2>エラーメッセージ（全文）</h2>\n<p>検索でヒットしやすいよう、実際のコンソール出力をそのまま掲載します。</p>\n<pre><code>Cannot insert duplicate key row in object 'dbo.Users' with unique index 'IX_Email_105'</code></pre>\n\n<h2>このエラーとは</h2>\n<p>Cannot insert duplicate key row in object 'dbo.Users' with unique index 'IX_Email_105' は SQL 開発でよく遭遇するエラーです。</p>\n<p><strong>想定環境:</strong> Windows / macOS / Linux</p>\n<p><strong>よく出る状況:</strong> PostgreSQL</p>\n\n<h2>よくある原因</h2>\n<ul>\n<li>制約</li>\n<li>タイムアウト</li>\n<li>型不一致</li>\n</ul><h2>解決方法</h2><h3>方法1: トランザクション確認</h3><p>SHOW ENGINE INNODB STATUS 等.</p>\n<h2>それでも直らないとき</h2>\n<p>バージョン情報（SQL のバージョン、OS、実行コマンド）を添えて、エラーメッセージ全文と直前に変更した点を確認してください。ログの数行上にも原因の手がかりが残っていることが多いです。</p>",
+  "conclusion": "「Cannot insert duplicate key row in object 'dbo.Users' with unique index 'IX_Email_105'」は 制約 が原因のことが多いです。上記の手順で切り分けてください。",
+  "tags": [
+    "sql",
+    "SQLエラー",
+    "Cannot insert duplicate key row in object 'dbo.Users' with unique index 'IX_Email_105'",
+    "PostgreSQL",
+    "SQL",
+    "Cannot insert duplicate key row in objec"
+  ],
+  "category": "SQLエラー",
+  "theme": "errors - SQL / データベース エラー・トラブル集",
+  "articleType": "error",
+  "status": "published",
+  "createdAt": "2026-05-30T05:48:04.111Z",
+  "updatedAt": "2026-05-30T05:48:04.111Z",
+  "publishedAt": "2026-05-30T05:48:04.111Z",
+  "metaTitle": "Cannot insert duplicate key row in object 'dbo.Users' with…",
+  "metaDescription": "Cannot insert duplicate key row in object 'dbo.Users' with unique index 'IX_Email_105' が出たときの原因・確認手順・解決策を解説。PostgreSQL。",
+  "ogTitle": "Cannot insert duplicate key row in object 'dbo.Users' with unique index 'IX_Email_105' の原因と解決法",
+  "ogDescription": "Cannot insert duplicate key row in object 'dbo.Users' with unique index 'IX_Email_105' が出たときの原因・確認手順・解決策を解説。PostgreSQL。",
+  "knowledge": {
+    "topic": "errors",
+    "courseId": "sql-errors",
+    "episode": 159
+  },
+  "faq": [
+    {
+      "question": "Cannot insert duplicate key row in object 'dbo.Users' with unique index 'IX_E… とは何ですか？",
+      "answer": "Cannot insert duplicate key row in object 'dbo.Users' with unique index 'IX_Email_105' は SQL 実行時に表示されるエラーです。制約"
+    },
+    {
+      "question": "Cannot insert duplicate key row in object 'dbo.Users' with unique index 'IX_E… の原因は？",
+      "answer": "制約。タイムアウト。型不一致。"
+    },
+    {
+      "question": "Cannot insert duplicate key row in object 'dbo.Users' with unique index 'IX_E… の直し方は？",
+      "answer": "トランザクション確認：SHOW ENGINE INNODB STATUS 等."
+    },
+    {
+      "question": "SQL で Cannot insert duplicate key row in object 'dbo.Users' with unique index 'IX_Email_105' が出るのはなぜ？",
+      "answer": "PostgreSQL"
+    },
+    {
+      "question": "Cannot insert duplicate key row in object 'dbo.Users' with unique index 'IX_E… を防ぐには？",
+      "answer": "。"
+    }
+  ],
+  "nextAction": "同じ SQL カテゴリの関連エラーもあわせて確認してください。",
+  "internalLinkCandidates": [],
+  "ogImage": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+  "canonical": "https://ai-site-iota-nine.vercel.app/article/sql-cannot-insert-duplicate-key-row-in-object-dbo-users-with-unique-index-ix-ema-a2698f",
+  "jsonLd": {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@context": "https://schema.org",
+        "@type": "TechArticle",
+        "headline": "Cannot insert duplicate key row in object 'dbo.Users' with unique index 'IX_Email_105' の原因と解決法",
+        "description": "Cannot insert duplicate key row in object 'dbo.Users' with unique index 'IX_Email_105' が出たときの原因・確認手順・解決策を解説。PostgreSQL。",
+        "datePublished": "2026-05-30T05:48:04.111Z",
+        "dateModified": "2026-05-30T05:48:04.111Z",
+        "author": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
+        },
+        "image": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+        "inLanguage": "ja",
+        "wordCount": 424,
+        "mainEntityOfPage": {
+          "@type": "WebPage",
+          "@id": "https://ai-site-iota-nine.vercel.app/article/sql-cannot-insert-duplicate-key-row-in-object-dbo-users-with-unique-index-ix-ema-a2698f"
+        },
+        "keywords": "sql, SQLエラー, Cannot insert duplicate key row in object 'dbo.Users' with unique index 'IX_Email_105', PostgreSQL, SQL, Cannot insert duplicate key row in objec",
+        "articleSection": "SQLエラー",
+        "url": "https://ai-site-iota-nine.vercel.app/article/sql-cannot-insert-duplicate-key-row-in-object-dbo-users-with-unique-index-ix-ema-a2698f",
+        "learningResourceType": "tutorial",
+        "educationalLevel": "beginner"
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "ホーム",
+            "item": "https://ai-site-iota-nine.vercel.app/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "errors",
+            "item": "https://ai-site-iota-nine.vercel.app/knowledge/errors"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "SQL / データベース エラー・トラブル集",
+            "item": "https://ai-site-iota-nine.vercel.app/course/errors/sql-errors"
+          },
+          {
+            "@type": "ListItem",
+            "position": 4,
+            "name": "Cannot insert duplicate key row in object 'dbo.Users' with unique index 'IX_Email_105' の原因と解決法",
+            "item": "https://ai-site-iota-nine.vercel.app/article/sql-cannot-insert-duplicate-key-row-in-object-dbo-users-with-unique-index-ix-ema-a2698f"
+          }
+        ]
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "Course",
+        "name": "SQL / データベース エラー・トラブル集",
+        "description": "SQL / データベース エラー・トラブル集",
+        "provider": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app"
+        },
+        "url": "https://ai-site-iota-nine.vercel.app/course/errors/sql-errors",
+        "inLanguage": "ja",
+        "educationalLevel": "beginner",
+        "hasCourseInstance": {
+          "@type": "CourseInstance",
+          "courseMode": "online",
+          "courseWorkload": "PT1H"
+        }
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "Cannot insert duplicate key row in object 'dbo.Users' with unique index 'IX_E… とは何ですか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Cannot insert duplicate key row in object 'dbo.Users' with unique index 'IX_Email_105' は SQL 実行時に表示されるエラーです。制約"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Cannot insert duplicate key row in object 'dbo.Users' with unique index 'IX_E… の原因は？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "制約。タイムアウト。型不一致。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Cannot insert duplicate key row in object 'dbo.Users' with unique index 'IX_E… の直し方は？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "トランザクション確認：SHOW ENGINE INNODB STATUS 等."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "SQL で Cannot insert duplicate key row in object 'dbo.Users' with unique index 'IX_Email_105' が出るのはなぜ？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "PostgreSQL"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Cannot insert duplicate key row in object 'dbo.Users' with unique index 'IX_E… を防ぐには？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "。"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "breadcrumb": {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "ホーム",
+        "item": "https://ai-site-iota-nine.vercel.app/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "errors",
+        "item": "https://ai-site-iota-nine.vercel.app/knowledge/errors"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "SQL / データベース エラー・トラブル集",
+        "item": "https://ai-site-iota-nine.vercel.app/course/errors/sql-errors"
+      },
+      {
+        "@type": "ListItem",
+        "position": 4,
+        "name": "Cannot insert duplicate key row in object 'dbo.Users' with unique index 'IX_Email_105' の原因と解決法",
+        "item": "https://ai-site-iota-nine.vercel.app/article/sql-cannot-insert-duplicate-key-row-in-object-dbo-users-with-unique-index-ix-ema-a2698f"
+      }
+    ]
+  },
+  "courseSchema": {
+    "@context": "https://schema.org",
+    "@type": "Course",
+    "name": "SQL / データベース エラー・トラブル集",
+    "description": "SQL / データベース エラー・トラブル集",
+    "provider": {
+      "@type": "Organization",
+      "name": "StackShelf",
+      "url": "https://ai-site-iota-nine.vercel.app"
+    },
+    "url": "https://ai-site-iota-nine.vercel.app/course/errors/sql-errors",
+    "inLanguage": "ja",
+    "educationalLevel": "beginner",
+    "hasCourseInstance": {
+      "@type": "CourseInstance",
+      "courseMode": "online",
+      "courseWorkload": "PT1H"
+    }
+  },
+  "faqSchema": {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "Cannot insert duplicate key row in object 'dbo.Users' with unique index 'IX_E… とは何ですか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Cannot insert duplicate key row in object 'dbo.Users' with unique index 'IX_Email_105' は SQL 実行時に表示されるエラーです。制約"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Cannot insert duplicate key row in object 'dbo.Users' with unique index 'IX_E… の原因は？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "制約。タイムアウト。型不一致。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Cannot insert duplicate key row in object 'dbo.Users' with unique index 'IX_E… の直し方は？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "トランザクション確認：SHOW ENGINE INNODB STATUS 等."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "SQL で Cannot insert duplicate key row in object 'dbo.Users' with unique index 'IX_Email_105' が出るのはなぜ？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "PostgreSQL"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Cannot insert duplicate key row in object 'dbo.Users' with unique index 'IX_E… を防ぐには？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "。"
+        }
+      }
+    ]
+  }
+}

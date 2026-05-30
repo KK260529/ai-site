@@ -1,10 +1,10 @@
 {
   "id": "art_1780054205498",
   "slug": "java-best-practices",
-  "title": "Javaプログラミングのベストプラクティス",
-  "summary": "このエピソードでは、Javaプログラミングのベストプラクティスについて学びます。コードの可読性、メンテナンス性、効率性を向上させるためのテクニックを紹介します。具体例を通じて、実践的なアプローチでベストプラクティスを身につけましょう。",
-  "body": "<h2>Javaプログラミングのベストプラクティス</h2><p>Javaプログラミングでは、コードの可読性、メンテナンス性、効率性を向上させるために、ベストプラクティスを学ぶことが重要です。このエピソードでは、具体例を通じて、実践的なアプローチでベストプラクティスを身につけましょう。</p><h3>コードの可読性</h3><p>コードの可読性を向上させるために、変数名やメソッド名を明確にし、コードの構造を整理することが重要です。例えば、次のようなコードは可読性が低いです。</p><pre><code>int x = 5;\nint y = 10;\nSystem.out.println(x + y);\n</code></pre><p>これを次のように書き直すと、可読性が向上します。</p><pre><code>int num1 = 5;\nint num2 = 10;\nSystem.out.println(num1 + num2);\n</code></pre><h3>メンテナンス性</h3><p>メンテナンス性を向上させるために、コードをモジュール化し、再利用可能なコードを書くことが重要です。例えば、次のようなコードはメンテナンス性が低いです。</p><pre><code>public class Calculator {\n    public static void main(String[] args) {\n        int num1 = 5;\n        int num2 = 10;\n        System.out.println(num1 + num2);\n    }\n}\n</code></pre><p>これを次のように書き直すと、メンテナンス性が向上します。</p><pre><code>public class Calculator {\n    public static int add(int num1, int num2) {\n        return num1 + num2;\n    }\n\n    public static void main(String[] args) {\n        int num1 = 5;\n        int num2 = 10;\n        System.out.println(add(num1, num2));\n    }\n}\n</code></pre>",
-  "conclusion": "このエピソードでは、Javaプログラミングのベストプラクティスについて学びました。コードの可読性、メンテナンス性、効率性を向上させるためのテクニックを紹介しました。具体例を通じて、実践的なアプローチでベストプラクティスを身につけましょう。次回は、Javaのデバッグ技術について学びます。",
+  "title": "Javaベストプラクティス｜可読性と保守性のコツ",
+  "summary": "命名規則、メソッド分割、マジックナンバー回避、null安全、ログ、テスト可能性などJava実務で役立つベストプラクティスとアンチパターンを解説します。",
+  "body": "<h2>結論：良いJavaコードは「意図が読み取れ、変更に強く、失敗が早く分かる」コード</h2>\n<p>文法を覚えたあとに差がつくのは<strong>設計と習慣</strong>です。可読性の高い命名、短いメソッド、適切な例外、テスト可能な構造を意識しましょう。</p>\n\n<h2>命名と定数</h2>\n<ul>\n  <li>クラス：<code>OrderService</code>、メソッド：<code>calculateTotal</code></li>\n  <li>マジックナンバーは <code>static final</code> 定数へ</li>\n  <li>略語より完全な単語（<code>usr</code> より <code>user</code>）</li>\n</ul>\n\n<h2>メソッドは1つの責務に</h2>\n<p>20行を超えたら分割を検討。ネストが深いifは早期return（ガード節）で平坦化します。</p>\n\n<h3>失敗例：神メソッド（God Method）</h3>\n<p>mainに入力・検証・計算・出力・ファイル保存を全部書くと、テストも再利用も困難になります。</p>\n\n<h2>null 安全</h2>\n<pre><code>if (name == null || name.isBlank()) {\n    throw new IllegalArgumentException(\"name required\");\n}\n// Java 8+: Optional&lt;User&gt; findById(String id)</code></pre>\n\n<h3>失敗例：NullPointerException を放置</h3>\n<p>メソッド引数のnullチェックをコンストラクタ/公開APIの境界で行い、内部ではnon-null前提にできます（Objects.requireNonNull）。</p>\n\n<h2>ログとテスト</h2>\n<p>System.out.println より SLF4J + Logback 等のロガーを使い、レベル（info/warn/error）を分けます。JUnit 5でpublicメソッドをユニットテストし、リグレッションを防ぎます。</p>\n\n<h2>Effective Java の要点</h2>\n<ul>\n  <li>インスタンス化を禁止したい utility クラスは private コンストラクタ</li>\n  <li>equals/hashCode/toString は必要ならセットで</li>\n  <li>公開APIは最小限（最小公開原則）</li>\n</ul>\n\n<h2>まとめ</h2>\n<p>ベストプラクティスはチーム規約とセットで効きます。個人学習でもFormatter・Checkstyle・SpotBugsを触ると癖が付きます。最終回のプロジェクト開発に向けてコードを整理しましょう。</p>",
+  "conclusion": "Javaのベストプラクティスは命名・短いメソッド・定数化・nullチェック・ログ・テストが柱です。神メソッドと空catch、printlnデバッグは避け、小さなクラスに分割する習慣を付けましょう。",
   "tags": [
     "Java",
     "プログラミング",
@@ -14,12 +14,12 @@
   "theme": "java - Java",
   "status": "published",
   "createdAt": "2026-05-29T11:30:05.476Z",
-  "updatedAt": "2026-05-29T14:35:20.206Z",
+  "updatedAt": "2026-05-30T05:18:37.059Z",
   "publishedAt": "2026-05-29T11:30:05.476Z",
-  "metaTitle": "Javaプログラミングのベストプラクティス",
-  "metaDescription": "Javaプログラミングのベストプラクティスについて学びます。コードの可読性、メンテナンス性、効率性を向上させるためのテクニックを紹介します。",
+  "metaTitle": "Javaベストプラクティス｜可読性・保守性のコツ | StackShelf",
+  "metaDescription": "Javaの命名、メソッド分割、null安全、ログ、テストとアンチパターン（神メソッド等）を実務目線で解説します。",
   "ogTitle": "Javaプログラミングのベストプラクティス",
-  "ogDescription": "Javaプログラミングのベストプラクティスについて学びます。コードの可読性、メンテナンス性、効率性を向上させるためのテクニックを紹介します。",
+  "ogDescription": "可読性と保守性を高める習慣と失敗例を押さえます。",
   "knowledge": {
     "topic": "java",
     "courseId": "java",
@@ -27,42 +27,68 @@
   },
   "faq": [
     {
-      "question": "Javaプログラミングのベストプラクティスとは何ですか？",
-      "answer": "Javaプログラミングのベストプラクティスとは、コードの可読性、メンテナンス性、効率性を向上させるためのテクニックです。"
+      "question": "コメントは多いほど良い？",
+      "answer": "いいえ。コードで表現できない「なぜ」を書きます。自明な処理のコメントはノイズです。"
     },
     {
-      "question": "コードの可読性を向上させるために何をする必要がありますか？",
-      "answer": "コードの可読性を向上させるために、変数名やメソッド名を明確にし、コードの構造を整理することが重要です。"
+      "question": "public フィールドは？",
+      "answer": "原則避け、private + アクセサ。recordは例外（不変データ）。"
+    },
+    {
+      "question": "シングルトンは？",
+      "answer": "enumシングルトン（Effective Java）がシンプル。乱用はテストを難しくします。"
+    },
+    {
+      "question": "フォーマッタは？",
+      "answer": "Google Java FormatやSpotlessで統一。レビューでスタイル議論を減らせます。"
+    },
+    {
+      "question": "リファクタリングのタイミングは？",
+      "answer": "テストがある状態で小さく繰り返す。動くコードを壊さないようIDEのリファクタ機能を使います。"
     }
   ],
-  "nextEpisodeHint": "次回は、Javaのデバッグ技術について学びます。",
+  "nextEpisodeHint": "次回（最終回）はMaven/Gradleプロジェクト構成とCLIアプリの開発フローを学びます。",
   "canonical": "https://ai-site-iota-nine.vercel.app/article/java-best-practices",
   "jsonLd": {
     "@context": "https://schema.org",
     "@graph": [
       {
         "@context": "https://schema.org",
-        "@type": "BlogPosting",
-        "headline": "Javaプログラミングのベストプラクティス",
-        "description": "Javaプログラミングのベストプラクティスについて学びます。コードの可読性、メンテナンス性、効率性を向上させるためのテクニックを紹介します。",
+        "@type": "TechArticle",
+        "headline": "Javaベストプラクティス｜可読性と保守性のコツ",
+        "description": "Javaの命名、メソッド分割、null安全、ログ、テストとアンチパターン（神メソッド等）を実務目線で解説します。",
         "datePublished": "2026-05-29T11:30:05.476Z",
-        "dateModified": "2026-05-29T14:35:20.206Z",
+        "dateModified": "2026-05-30T05:18:37.059Z",
         "author": {
           "@type": "Organization",
-          "name": "StackShelf"
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
         },
         "publisher": {
           "@type": "Organization",
           "name": "StackShelf",
-          "url": "https://ai-site-iota-nine.vercel.app"
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
         },
+        "image": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+        "inLanguage": "ja",
+        "wordCount": 869,
         "mainEntityOfPage": {
           "@type": "WebPage",
           "@id": "https://ai-site-iota-nine.vercel.app/article/java-best-practices"
         },
         "keywords": "Java, プログラミング, ベストプラクティス",
         "articleSection": "プログラミング",
-        "url": "https://ai-site-iota-nine.vercel.app/article/java-best-practices"
+        "url": "https://ai-site-iota-nine.vercel.app/article/java-best-practices",
+        "learningResourceType": "tutorial",
+        "educationalLevel": "beginner"
       },
       {
         "@context": "https://schema.org",
@@ -72,7 +98,7 @@
             "@type": "ListItem",
             "position": 1,
             "name": "ホーム",
-            "item": "https://ai-site-iota-nine.vercel.app"
+            "item": "https://ai-site-iota-nine.vercel.app/"
           },
           {
             "@type": "ListItem",
@@ -89,7 +115,7 @@
           {
             "@type": "ListItem",
             "position": 4,
-            "name": "Javaプログラミングのベストプラクティス",
+            "name": "Javaベストプラクティス｜可読性と保守性のコツ",
             "item": "https://ai-site-iota-nine.vercel.app/article/java-best-practices"
           }
         ]
@@ -101,7 +127,16 @@
         "description": "Javaプログラミング言語の基礎から応用までを学習する講座です。初心者向けにJavaの基本構文、オブジェクト指向、データ構造、アルゴリズムなどを解説します。",
         "provider": {
           "@type": "Organization",
-          "name": "StackShelf"
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app"
+        },
+        "url": "https://ai-site-iota-nine.vercel.app/course/java/java",
+        "inLanguage": "ja",
+        "educationalLevel": "beginner",
+        "hasCourseInstance": {
+          "@type": "CourseInstance",
+          "courseMode": "online",
+          "courseWorkload": "PT1H"
         }
       },
       {
@@ -110,18 +145,42 @@
         "mainEntity": [
           {
             "@type": "Question",
-            "name": "Javaプログラミングのベストプラクティスとは何ですか？",
+            "name": "コメントは多いほど良い？",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "Javaプログラミングのベストプラクティスとは、コードの可読性、メンテナンス性、効率性を向上させるためのテクニックです。"
+              "text": "いいえ。コードで表現できない「なぜ」を書きます。自明な処理のコメントはノイズです。"
             }
           },
           {
             "@type": "Question",
-            "name": "コードの可読性を向上させるために何をする必要がありますか？",
+            "name": "public フィールドは？",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "コードの可読性を向上させるために、変数名やメソッド名を明確にし、コードの構造を整理することが重要です。"
+              "text": "原則避け、private + アクセサ。recordは例外（不変データ）。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "シングルトンは？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "enumシングルトン（Effective Java）がシンプル。乱用はテストを難しくします。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "フォーマッタは？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Google Java FormatやSpotlessで統一。レビューでスタイル議論を減らせます。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "リファクタリングのタイミングは？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "テストがある状態で小さく繰り返す。動くコードを壊さないようIDEのリファクタ機能を使います。"
             }
           }
         ]
@@ -136,7 +195,7 @@
         "@type": "ListItem",
         "position": 1,
         "name": "ホーム",
-        "item": "https://ai-site-iota-nine.vercel.app"
+        "item": "https://ai-site-iota-nine.vercel.app/"
       },
       {
         "@type": "ListItem",
@@ -153,7 +212,7 @@
       {
         "@type": "ListItem",
         "position": 4,
-        "name": "Javaプログラミングのベストプラクティス",
+        "name": "Javaベストプラクティス｜可読性と保守性のコツ",
         "item": "https://ai-site-iota-nine.vercel.app/article/java-best-practices"
       }
     ]
@@ -165,7 +224,16 @@
     "description": "Javaプログラミング言語の基礎から応用までを学習する講座です。初心者向けにJavaの基本構文、オブジェクト指向、データ構造、アルゴリズムなどを解説します。",
     "provider": {
       "@type": "Organization",
-      "name": "StackShelf"
+      "name": "StackShelf",
+      "url": "https://ai-site-iota-nine.vercel.app"
+    },
+    "url": "https://ai-site-iota-nine.vercel.app/course/java/java",
+    "inLanguage": "ja",
+    "educationalLevel": "beginner",
+    "hasCourseInstance": {
+      "@type": "CourseInstance",
+      "courseMode": "online",
+      "courseWorkload": "PT1H"
     }
   },
   "faqSchema": {
@@ -174,20 +242,73 @@
     "mainEntity": [
       {
         "@type": "Question",
-        "name": "Javaプログラミングのベストプラクティスとは何ですか？",
+        "name": "コメントは多いほど良い？",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Javaプログラミングのベストプラクティスとは、コードの可読性、メンテナンス性、効率性を向上させるためのテクニックです。"
+          "text": "いいえ。コードで表現できない「なぜ」を書きます。自明な処理のコメントはノイズです。"
         }
       },
       {
         "@type": "Question",
-        "name": "コードの可読性を向上させるために何をする必要がありますか？",
+        "name": "public フィールドは？",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "コードの可読性を向上させるために、変数名やメソッド名を明確にし、コードの構造を整理することが重要です。"
+          "text": "原則避け、private + アクセサ。recordは例外（不変データ）。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "シングルトンは？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "enumシングルトン（Effective Java）がシンプル。乱用はテストを難しくします。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "フォーマッタは？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Google Java FormatやSpotlessで統一。レビューでスタイル議論を減らせます。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "リファクタリングのタイミングは？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "テストがある状態で小さく繰り返す。動くコードを壊さないようIDEのリファクタ機能を使います。"
         }
       }
     ]
-  }
+  },
+  "nextAction": "以前書いたサンプルを1つ選び、マジックナンバーを定数化し、20行超のメソッドを2つに分割してください。",
+  "internalLinkCandidates": [
+    {
+      "slug": "java-functional-programming",
+      "title": "Javaの関数型プログラミング",
+      "reason": "不変性の考え方"
+    },
+    {
+      "slug": "java-project-development",
+      "title": "Javaのプロジェクト開発",
+      "reason": "同じ講座の最終回"
+    },
+    {
+      "slug": "java-exception-handling",
+      "title": "Javaの例外処理",
+      "reason": "例外設計"
+    },
+    {
+      "slug": "java-classes",
+      "title": "Javaのクラスとオブジェクト",
+      "reason": "カプセル化"
+    },
+    {
+      "slug": "java-stream-api",
+      "title": "JavaのStream API",
+      "reason": "宣言的な書き方"
+    }
+  ],
+  "ogImage": "https://ai-site-iota-nine.vercel.app/og-default.svg"
 }

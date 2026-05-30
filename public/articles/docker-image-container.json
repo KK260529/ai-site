@@ -2,9 +2,9 @@
   "id": "art_docker_docker-image-container",
   "slug": "docker-image-container",
   "title": "Dockerイメージとコンテナを理解する：images・ps・exec完全解説",
-  "summary": "Dockerのイメージとコンテナの関係を徹底解説。docker images、docker ps、docker exec、docker inspectなどイメージ・コンテナ管理の必須コマンドをマスターします。",
-  "body": "<h2>イメージとコンテナの関係：クラスとインスタンス</h2>\n<p>DockerのイメージとコンテナはOOP（オブジェクト指向プログラミング）における<strong>クラスとインスタンス</strong>の関係に似ています。イメージはコンテナの「設計図（クラス）」であり、コンテナはその設計図から作られた「実体（インスタンス）」です。一つのイメージから、何個でもコンテナを作れます。</p>\n<p>例えば <code>nginx:latest</code> イメージが一つあれば、そこから3つのnginxコンテナを起動して、それぞれ異なるポート（8080、8081、8082）でWebサーバーを動かすことができます。各コンテナは独立して動作し、一方のコンテナを変更しても他のコンテナには影響しません。</p>\n<pre><code># 同じイメージから複数コンテナを起動\ndocker run -d -p 8080:80 --name nginx-1 nginx\ndocker run -d -p 8081:80 --name nginx-2 nginx\ndocker run -d -p 8082:80 --name nginx-3 nginx\n\n# 3つのコンテナが起動していることを確認\ndocker ps</code></pre>\n\n<h2>docker imagesでイメージを管理する</h2>\n<p>ローカルに保存されているDockerイメージを管理するコマンドを見ていきましょう。</p>\n<pre><code># ローカルのイメージ一覧を表示\ndocker images\n# 出力例:\n# REPOSITORY   TAG       IMAGE ID       CREATED        SIZE\n# nginx        latest    e784f4560448   2 weeks ago    188MB\n# ubuntu       22.04     174c8c134b2a   4 weeks ago    77.9MB\n# mysql        8.0       a3b6608898d6   6 weeks ago    603MB\n# hello-world  latest    d2c94e258dcb   14 months ago  13.3kB\n\n# イメージの詳細フォーマットで表示\ndocker images --format \"table {{.Repository}}\t{{.Tag}}\t{{.Size}}\"\n\n# 特定のリポジトリのイメージのみ表示\ndocker images nginx</code></pre>\n<p>各列の意味を理解しましょう。<strong>REPOSITORY</strong>はイメージ名、<strong>TAG</strong>はバージョンを示すラベル（latestは最新版）、<strong>IMAGE ID</strong>はイメージの一意な識別子、<strong>SIZE</strong>はイメージのディスク使用量です。</p>\n<pre><code># Docker HubからイメージをPull（ダウンロード）\ndocker pull ubuntu:22.04      # バージョン指定でpull\ndocker pull nginx:1.25-alpine # 軽量なalpineベース\n\n# イメージを削除\ndocker rmi nginx              # イメージ名で削除\ndocker rmi e784f4560448       # IMAGE IDで削除\n\n# 使われていないイメージを一括削除（dangling images）\ndocker image prune\n\n# タグなしを含む全未使用イメージを削除\ndocker image prune -a</code></pre>\n\n<h2>Dockerのイメージレイヤー構造</h2>\n<p>Dockerイメージは<strong>レイヤー（layer）</strong>と呼ばれる階層構造で構成されています。各レイヤーはファイルシステムの変更差分を表します。例えば、ubuntuのベースイメージの上にNode.jsをインストールすれば新しいレイヤーが追加されます。</p>\n<p>このレイヤー構造の最大のメリットは<strong>キャッシュの再利用</strong>です。ubuntuレイヤーはすでにローカルにある場合、同じubuntuをベースにした別のイメージをpullするときにそのレイヤーはダウンロードされません。ディスク容量の節約とpullの高速化につながります。</p>\n<pre><code># イメージのレイヤー履歴を確認\ndocker history nginx\n# 出力例:\n# IMAGE          CREATED       CREATED BY                                     SIZE\n# e784f4560448   2 weeks ago   CMD [\"nginx\" \"-g\" \"daemon off;\"]               0B\n# <missing>      2 weeks ago   STOPSIGNAL SIGQUIT                              0B\n# <missing>      2 weeks ago   EXPOSE 80                                       0B\n# ...\n\n# イメージの詳細情報（JSON形式）\ndocker inspect nginx</code></pre>\n\n<h2>docker psでコンテナを管理する</h2>\n<p><code>docker ps</code> はコンテナの状態を確認する最も基本的なコマンドです。日常の開発で何度も使います。</p>\n<pre><code># 実行中のコンテナを表示\ndocker ps\n# 出力例:\n# CONTAINER ID  IMAGE  COMMAND                CREATED       STATUS      PORTS                  NAMES\n# a1b2c3d4e5f6  nginx  \"/docker-entrypoint…\"  2 hours ago   Up 2 hours  0.0.0.0:8080->80/tcp   my-nginx\n\n# 全コンテナを表示（停止中含む）\ndocker ps -a\n\n# コンテナIDのみ表示（スクリプトでよく使う）\ndocker ps -q         # 実行中のコンテナIDのみ\ndocker ps -aq        # 全コンテナIDのみ\n\n# 特定のフォーマットで表示\ndocker ps --format \"table {{.Names}}\t{{.Status}}\t{{.Ports}}\"\n\n# 実行中の全コンテナを一括停止\ndocker stop $(docker ps -q)\n\n# 全コンテナを一括削除（停止が必要）\ndocker rm $(docker ps -aq)</code></pre>\n<p>STATUSの表示を理解しましょう。<strong>Up X hours/minutes</strong>は実行中、<strong>Exited (0) X minutes ago</strong>は正常終了、<strong>Exited (1) X minutes ago</strong>はエラー終了、<strong>Restarting</strong>は再起動中を意味します。</p>\n\n<h2>docker inspectで詳細情報を確認する</h2>\n<p><code>docker inspect</code> はコンテナやイメージの詳細情報をJSON形式で出力します。ネットワーク設定・ボリューム・環境変数など、あらゆる設定を確認できます。</p>\n<pre><code># コンテナの詳細情報\ndocker inspect my-nginx\n\n# 特定の情報だけ抽出（--formatオプション）\ndocker inspect --format '{{.NetworkSettings.IPAddress}}' my-nginx\n# 出力例: 172.17.0.2\n\n# コンテナのマウント情報を確認\ndocker inspect --format '{{json .Mounts}}' my-nginx\n\n# 環境変数を確認\ndocker inspect --format '{{range .Config.Env}}{{println .}}{{end}}' my-nginx\n\n# イメージの詳細情報\ndocker inspect nginx:latest</code></pre>\n<p>特にIPアドレスの確認はコンテナ間通信のデバッグでよく使います。コンテナはデフォルトで <code>172.17.0.0/16</code> のサブネットにIPアドレスが割り当てられます。</p>\n\n<h2>コンテナのログ・統計・ポートを確認する</h2>\n<p>実行中のコンテナの状態を把握するためのモニタリングコマンドです。</p>\n<pre><code># コンテナのログを確認\ndocker logs my-nginx\n\n# 最新の50行のみ表示\ndocker logs --tail 50 my-nginx\n\n# タイムスタンプ付きで表示\ndocker logs -t my-nginx\n\n# リアルタイムでログを追跡（Ctrl+Cで終了）\ndocker logs -f my-nginx\n\n# リソース使用状況をリアルタイムで表示\ndocker stats\n# 全コンテナのCPU・メモリ・ネットワーク使用量が表示される\n\ndocker stats my-nginx  # 特定コンテナのみ\n\n# ポートマッピングを確認\ndocker port my-nginx\n# 出力例: 80/tcp -> 0.0.0.0:8080\n\n# コンテナ内のプロセスを表示\ndocker top my-nginx</code></pre>\n\n<h2>不要なリソースのクリーンアップ</h2>\n<p>Dockerを使い続けると、停止済みコンテナや未使用イメージがディスクを圧迫することがあります。定期的にクリーンアップしましょう。</p>\n<pre><code># 停止中のコンテナを全削除\ndocker container prune\n\n# 未使用のイメージを削除（dangling images）\ndocker image prune\n\n# 未使用のボリュームを削除\ndocker volume prune\n\n# 未使用のネットワークを削除\ndocker network prune\n\n# 全てを一括でクリーンアップ（コンテナ・イメージ・ネットワーク）\ndocker system prune\n\n# ボリュームも含めて全削除（注意：データが消えます）\ndocker system prune -a --volumes\n\n# Dockerが使用しているディスク容量を確認\ndocker system df</code></pre>\n<p><code>docker system df</code> を実行すると、イメージ・コンテナ・ボリュームそれぞれのディスク使用量と、削除可能なサイズが確認できます。定期的なクリーンアップを習慣にしましょう。</p>\n<pre><code># 実際のdocker system df 出力例\n# TYPE            TOTAL  ACTIVE  SIZE      RECLAIMABLE\n# Images          12     3       3.456GB   2.1GB (60%)\n# Containers      8      2       245MB     198MB (80%)\n# Local Volumes   5      2       1.2GB     800MB (66%)\n# Build Cache     -      -       512MB     512MB</code></pre>",
-  "conclusion": "DockerのイメージとコンテナはOOPのクラスとインスタンスの関係です。docker imagesでイメージ管理、docker psでコンテナ状態確認、docker inspectで詳細情報取得、docker logsでログ確認ができます。定期的に docker system prune でディスクを整理する習慣をつけましょう。",
+  "summary": "Dockerイメージとコンテナの関係、docker images・ps・inspect・logs の使い方を解説。レイヤー構造やクリーンアップまで、日常運用で必要な管理操作を押さえます。",
+  "body": "<h2>結論：イメージは設計図、コンテナは実行中の実体</h2>\n<p>Dockerの核心は<strong>イメージ（読み取り専用のテンプレート）からコンテナ（実行インスタンス）を起動する</strong>関係です。OOPで言えばクラスとインスタンスに近く、同じイメージから複数コンテナを並行起動できます。状態確認は <code>docker images</code> と <code>docker ps</code> が基本です。</p>\n\n<h2>イメージとコンテナの関係：クラスとインスタンス</h2>\n<p>DockerのイメージとコンテナはOOP（オブジェクト指向プログラミング）における<strong>クラスとインスタンス</strong>の関係に似ています。イメージはコンテナの「設計図（クラス）」であり、コンテナはその設計図から作られた「実体（インスタンス）」です。一つのイメージから、何個でもコンテナを作れます。</p>\n<p>例えば <code>nginx:latest</code> イメージが一つあれば、そこから3つのnginxコンテナを起動して、それぞれ異なるポート（8080、8081、8082）でWebサーバーを動かすことができます。各コンテナは独立して動作し、一方のコンテナを変更しても他のコンテナには影響しません。</p>\n<pre><code># 同じイメージから複数コンテナを起動\ndocker run -d -p 8080:80 --name nginx-1 nginx\ndocker run -d -p 8081:80 --name nginx-2 nginx\ndocker run -d -p 8082:80 --name nginx-3 nginx\n\n# 3つのコンテナが起動していることを確認\ndocker ps</code></pre>\n\n<h2>docker imagesでイメージを管理する</h2>\n<p>ローカルに保存されているDockerイメージを管理するコマンドを見ていきましょう。</p>\n<pre><code># ローカルのイメージ一覧を表示\ndocker images\n# 出力例:\n# REPOSITORY   TAG       IMAGE ID       CREATED        SIZE\n# nginx        latest    e784f4560448   2 weeks ago    188MB\n# ubuntu       22.04     174c8c134b2a   4 weeks ago    77.9MB\n# mysql        8.0       a3b6608898d6   6 weeks ago    603MB\n# hello-world  latest    d2c94e258dcb   14 months ago  13.3kB\n\n# イメージの詳細フォーマットで表示\ndocker images --format \"table {{.Repository}}\t{{.Tag}}\t{{.Size}}\"\n\n# 特定のリポジトリのイメージのみ表示\ndocker images nginx</code></pre>\n<p>各列の意味を理解しましょう。<strong>REPOSITORY</strong>はイメージ名、<strong>TAG</strong>はバージョンを示すラベル（latestは最新版）、<strong>IMAGE ID</strong>はイメージの一意な識別子、<strong>SIZE</strong>はイメージのディスク使用量です。</p>\n<pre><code># Docker HubからイメージをPull（ダウンロード）\ndocker pull ubuntu:22.04      # バージョン指定でpull\ndocker pull nginx:1.25-alpine # 軽量なalpineベース\n\n# イメージを削除\ndocker rmi nginx              # イメージ名で削除\ndocker rmi e784f4560448       # IMAGE IDで削除\n\n# 使われていないイメージを一括削除（dangling images）\ndocker image prune\n\n# タグなしを含む全未使用イメージを削除\ndocker image prune -a</code></pre>\n\n<h2>Dockerのイメージレイヤー構造</h2>\n<p>Dockerイメージは<strong>レイヤー（layer）</strong>と呼ばれる階層構造で構成されています。各レイヤーはファイルシステムの変更差分を表します。例えば、ubuntuのベースイメージの上にNode.jsをインストールすれば新しいレイヤーが追加されます。</p>\n<p>このレイヤー構造の最大のメリットは<strong>キャッシュの再利用</strong>です。ubuntuレイヤーはすでにローカルにある場合、同じubuntuをベースにした別のイメージをpullするときにそのレイヤーはダウンロードされません。ディスク容量の節約とpullの高速化につながります。</p>\n<pre><code># イメージのレイヤー履歴を確認\ndocker history nginx\n# 出力例:\n# IMAGE          CREATED       CREATED BY                                     SIZE\n# e784f4560448   2 weeks ago   CMD [\"nginx\" \"-g\" \"daemon off;\"]               0B\n# <missing>      2 weeks ago   STOPSIGNAL SIGQUIT                              0B\n# <missing>      2 weeks ago   EXPOSE 80                                       0B\n# ...\n\n# イメージの詳細情報（JSON形式）\ndocker inspect nginx</code></pre>\n\n<h2>docker psでコンテナを管理する</h2>\n<p><code>docker ps</code> はコンテナの状態を確認する最も基本的なコマンドです。日常の開発で何度も使います。</p>\n<pre><code># 実行中のコンテナを表示\ndocker ps\n# 出力例:\n# CONTAINER ID  IMAGE  COMMAND                CREATED       STATUS      PORTS                  NAMES\n# a1b2c3d4e5f6  nginx  \"/docker-entrypoint…\"  2 hours ago   Up 2 hours  0.0.0.0:8080->80/tcp   my-nginx\n\n# 全コンテナを表示（停止中含む）\ndocker ps -a\n\n# コンテナIDのみ表示（スクリプトでよく使う）\ndocker ps -q         # 実行中のコンテナIDのみ\ndocker ps -aq        # 全コンテナIDのみ\n\n# 特定のフォーマットで表示\ndocker ps --format \"table {{.Names}}\t{{.Status}}\t{{.Ports}}\"\n\n# 実行中の全コンテナを一括停止\ndocker stop $(docker ps -q)\n\n# 全コンテナを一括削除（停止が必要）\ndocker rm $(docker ps -aq)</code></pre>\n<p>STATUSの表示を理解しましょう。<strong>Up X hours/minutes</strong>は実行中、<strong>Exited (0) X minutes ago</strong>は正常終了、<strong>Exited (1) X minutes ago</strong>はエラー終了、<strong>Restarting</strong>は再起動中を意味します。</p>\n\n<h2>docker inspectで詳細情報を確認する</h2>\n<p><code>docker inspect</code> はコンテナやイメージの詳細情報をJSON形式で出力します。ネットワーク設定・ボリューム・環境変数など、あらゆる設定を確認できます。</p>\n<pre><code># コンテナの詳細情報\ndocker inspect my-nginx\n\n# 特定の情報だけ抽出（--formatオプション）\ndocker inspect --format '{{.NetworkSettings.IPAddress}}' my-nginx\n# 出力例: 172.17.0.2\n\n# コンテナのマウント情報を確認\ndocker inspect --format '{{json .Mounts}}' my-nginx\n\n# 環境変数を確認\ndocker inspect --format '{{range .Config.Env}}{{println .}}{{end}}' my-nginx\n\n# イメージの詳細情報\ndocker inspect nginx:latest</code></pre>\n<p>特にIPアドレスの確認はコンテナ間通信のデバッグでよく使います。コンテナはデフォルトで <code>172.17.0.0/16</code> のサブネットにIPアドレスが割り当てられます。</p>\n\n<h2>コンテナのログ・統計・ポートを確認する</h2>\n<p>実行中のコンテナの状態を把握するためのモニタリングコマンドです。</p>\n<pre><code># コンテナのログを確認\ndocker logs my-nginx\n\n# 最新の50行のみ表示\ndocker logs --tail 50 my-nginx\n\n# タイムスタンプ付きで表示\ndocker logs -t my-nginx\n\n# リアルタイムでログを追跡（Ctrl+Cで終了）\ndocker logs -f my-nginx\n\n# リソース使用状況をリアルタイムで表示\ndocker stats\n# 全コンテナのCPU・メモリ・ネットワーク使用量が表示される\n\ndocker stats my-nginx  # 特定コンテナのみ\n\n# ポートマッピングを確認\ndocker port my-nginx\n# 出力例: 80/tcp -> 0.0.0.0:8080\n\n# コンテナ内のプロセスを表示\ndocker top my-nginx</code></pre>\n\n<h2>よくあるつまずきと失敗例</h2>\n<h3>イメージとコンテナの管理で起きるミス</h3>\n<ul>\n<li><strong>停止コンテナを放置してディスクが埋まる</strong>：<code>docker ps -a</code> で不要なコンテナを <code>docker rm</code> し、使わないイメージは <code>docker image prune</code> で整理します。</li>\n<li><strong>イメージIDとコンテナIDを混同</strong>：<code>docker rm</code> にはコンテナID、<code>docker rmi</code> にはイメージIDを使います。実行中コンテナがあるイメージは削除できません。</li>\n<li><strong>exec でシェルに入れない</strong>：Alpine系イメージは <code>/bin/sh</code>、Ubuntu系は <code>/bin/bash</code> です。<code>docker exec -it コンテナ名 sh</code> を試してください。</li>\n</ul>\n\n<h2>不要なリソースのクリーンアップ</h2>\n<p>Dockerを使い続けると、停止済みコンテナや未使用イメージがディスクを圧迫することがあります。定期的にクリーンアップしましょう。</p>\n<pre><code># 停止中のコンテナを全削除\ndocker container prune\n\n# 未使用のイメージを削除（dangling images）\ndocker image prune\n\n# 未使用のボリュームを削除\ndocker volume prune\n\n# 未使用のネットワークを削除\ndocker network prune\n\n# 全てを一括でクリーンアップ（コンテナ・イメージ・ネットワーク）\ndocker system prune\n\n# ボリュームも含めて全削除（注意：データが消えます）\ndocker system prune -a --volumes\n\n# Dockerが使用しているディスク容量を確認\ndocker system df</code></pre>\n<p><code>docker system df</code> を実行すると、イメージ・コンテナ・ボリュームそれぞれのディスク使用量と、削除可能なサイズが確認できます。定期的なクリーンアップを習慣にしましょう。</p>\n<pre><code># 実際のdocker system df 出力例\n# TYPE            TOTAL  ACTIVE  SIZE      RECLAIMABLE\n# Images          12     3       3.456GB   2.1GB (60%)\n# Containers      8      2       245MB     198MB (80%)\n# Local Volumes   5      2       1.2GB     800MB (66%)\n# Build Cache     -      -       512MB     512MB</code></pre>",
+  "conclusion": "イメージは設計図、コンテナはその実行体です。images と ps で一覧を確認し、inspect と logs で詳細を調べ、不要リソースは定期的に削除しましょう。次は Dockerfile で自分専用イメージを作ります。",
   "tags": [
     "Docker",
     "docker images",
@@ -17,12 +17,12 @@
   "theme": "docker - Docker 入門",
   "status": "published",
   "createdAt": "2026-05-30T04:13:31.502Z",
-  "updatedAt": "2026-05-30T04:13:31.507Z",
+  "updatedAt": "2026-05-30T05:17:43.849Z",
   "publishedAt": "2026-05-30T04:13:31.502Z",
   "metaTitle": "Dockerイメージとコンテナの違い・管理コマンド完全ガイド【docker 使い方】 | StackShelf",
-  "metaDescription": "Dockerのイメージとコンテナの違いをわかりやすく解説。docker images、docker ps、docker exec、docker inspect の使い方を初心者向けに説明します。docker 初心者必読。",
+  "metaDescription": "Dockerイメージとコンテナの違い、docker images・ps・inspect・logs の使い方。レイヤー構造とクリーンアップのコツ。コンテナ管理の基礎を押さえたい人向け。",
   "ogTitle": "Dockerイメージとコンテナを完全理解：images・ps・exec解説",
-  "ogDescription": "【Docker初心者向け】【Docker初心者向け】DockerのイメージとコンテナはOOPのクラスとインスタンスの関係。管理コマンドを詳しく解説します。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
+  "ogDescription": "Dockerイメージとコンテナの違い、docker images・ps・inspect・logs の使い方。レイヤー構造とクリーンアップのコツ。コンテナ管理の基礎を押さえたい人向け。",
   "knowledge": {
     "topic": "docker",
     "courseId": "docker",
@@ -44,6 +44,10 @@
     {
       "question": "docker psでコンテナが表示されません。",
       "answer": "docker psは実行中のコンテナのみ表示します。停止しているコンテナも確認するにはdocker ps -aを実行してください。STATUS列で「Exited」と表示されているコンテナは停止中です。"
+    },
+    {
+      "question": "つまずいたときはどうすればいいですか？",
+      "answer": "エラーメッセージをそのまま検索し、公式ドキュメントを当たってください。小さなステップに分けて再現・確認すると原因を特定しやすくなります。"
     }
   ],
   "nextEpisodeHint": "次回は、Dockerfileの書き方を学び、自分のアプリを含んだカスタムDockerイメージをビルドする方法を解説します。FROM・RUN・COPY・CMDなどの主要命令を丁寧に説明します。",
@@ -56,9 +60,9 @@
         "@context": "https://schema.org",
         "@type": "TechArticle",
         "headline": "Dockerイメージとコンテナを理解する：images・ps・exec完全解説",
-        "description": "Dockerのイメージとコンテナの違いをわかりやすく解説。docker images、docker ps、docker exec、docker inspect の使い方を初心者向けに説明します。docker 初心者必読。",
+        "description": "Dockerイメージとコンテナの違い、docker images・ps・inspect・logs の使い方。レイヤー構造とクリーンアップのコツ。コンテナ管理の基礎を押さえたい人向け。",
         "datePublished": "2026-05-30T04:13:31.502Z",
-        "dateModified": "2026-05-30T04:13:31.507Z",
+        "dateModified": "2026-05-30T05:17:43.849Z",
         "author": {
           "@type": "Organization",
           "name": "StackShelf",
@@ -79,7 +83,7 @@
         },
         "image": "https://ai-site-iota-nine.vercel.app/og-default.svg",
         "inLanguage": "ja",
-        "wordCount": 3712,
+        "wordCount": 4141,
         "mainEntityOfPage": {
           "@type": "WebPage",
           "@id": "https://ai-site-iota-nine.vercel.app/article/docker-image-container"
@@ -174,6 +178,14 @@
               "@type": "Answer",
               "text": "docker psは実行中のコンテナのみ表示します。停止しているコンテナも確認するにはdocker ps -aを実行してください。STATUS列で「Exited」と表示されているコンテナは停止中です。"
             }
+          },
+          {
+            "@type": "Question",
+            "name": "つまずいたときはどうすればいいですか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "エラーメッセージをそのまま検索し、公式ドキュメントを当たってください。小さなステップに分けて再現・確認すると原因を特定しやすくなります。"
+            }
           }
         ]
       }
@@ -263,7 +275,43 @@
           "@type": "Answer",
           "text": "docker psは実行中のコンテナのみ表示します。停止しているコンテナも確認するにはdocker ps -aを実行してください。STATUS列で「Exited」と表示されているコンテナは停止中です。"
         }
+      },
+      {
+        "@type": "Question",
+        "name": "つまずいたときはどうすればいいですか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "エラーメッセージをそのまま検索し、公式ドキュメントを当たってください。小さなステップに分けて再現・確認すると原因を特定しやすくなります。"
+        }
       }
     ]
-  }
+  },
+  "internalLinkCandidates": [
+    {
+      "slug": "docker-webapp-practice",
+      "title": "Node.js・Python WebアプリをDockerコンテナ化する実践ガイド",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "docker-volumes",
+      "title": "Dockerボリューム完全ガイド：データ永続化・バインドマウント・名前付きボリューム",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "docker-compose",
+      "title": "Docker Compose入門：docker-compose.ymlでマルチコンテナを管理する",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "docker-dockerfile",
+      "title": "Dockerfileの書き方完全ガイド：FROM・RUN・COPY・CMDをマスターする",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "docker-first-container",
+      "title": "Dockerで初めてのコンテナを動かす：hello-world・nginx実践入門",
+      "reason": "同じ講座の関連回です"
+    }
+  ],
+  "nextAction": "次はDockerfileの書き方を学び、自分のアプリを含んだカスタムDockerイメージをビルドする方法を解説します。FROM・RUN・COPY・CMDなどの主要命令を丁寧に説明します。"
 }

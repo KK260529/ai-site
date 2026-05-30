@@ -17,12 +17,12 @@
   "theme": "nginx - nginx入門",
   "status": "published",
   "createdAt": "2026-05-30T05:15:00.658Z",
-  "updatedAt": "2026-05-30T05:15:00.667Z",
+  "updatedAt": "2026-05-30T05:15:41.709Z",
   "publishedAt": "2026-05-30T05:15:00.658Z",
   "metaTitle": "nginxとは？Apacheとの違いと特徴を初心者向けに解説【nginx 入門】｜nginx入門 | StackShe…",
-  "metaDescription": "【nginx初心者向け】nginxとは何かを初心者向けにわかりやすく解説。Apacheとの違い、リバースプロキシの役割、nginxが選ばれる理由を設定例つきでゼロから学べます。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
+  "metaDescription": "nginxとは何かを初心者向けにわかりやすく解説。Apacheとの違い、リバースプロキシの役割、nginxが選ばれる理由を設定例つきでゼロから学べます。",
   "ogTitle": "nginxとは？Apacheとの違いをわかりやすく解説",
-  "ogDescription": "【nginx初心者向け】Webサーバーnginxの基本をゼロから解説。Apacheとの違い、リバースプロキシ、静的ファイル配信の仕組みを初心者向けに説明します。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
+  "ogDescription": "Webサーバーnginxの基本をゼロから解説。Apacheとの違い、リバースプロキシ、静的ファイル配信の仕組みを初心者向けに説明します。",
   "knowledge": {
     "topic": "nginx",
     "courseId": "nginx",
@@ -51,37 +51,32 @@
     }
   ],
   "nextEpisodeHint": "次回は、Ubuntu（WSL2含む）へのnginxインストールと、nginx.confの基本構造・設定ファイルの読み方を実践的に解説します。",
-  "nextAction": "",
+  "nextAction": "次はUbuntu（WSL2含む）へのnginxインストールと、nginx.confの基本構造・設定ファイルの読み方を実践的に解説します。",
   "internalLinkCandidates": [
     {
-      "slug": "docker-intro",
-      "title": "Dockerとは？仮想マシンとの違いをわかりやすく解説【初心者向け】",
-      "reason": "Docker環境でnginxコンテナを動かす際の前提知識"
+      "slug": "nginx-reverse-proxy",
+      "title": "nginxリバースプロキシの設定方法【proxy_pass入門・初心者向け】",
+      "reason": "同じ講座の関連回です"
     },
     {
-      "slug": "http-intro",
-      "title": "HTTPとは？Webの通信の仕組み",
-      "reason": "nginxが処理するHTTPリクエスト/レスポンスの基礎"
+      "slug": "nginx-practice",
+      "title": "実践：Node.jsアプリの前段にnginxを構築する【総合演習】",
+      "reason": "同じ講座の関連回です"
     },
     {
-      "slug": "linux-intro",
-      "title": "Linuxとは？コマンドラインの世界へようこそ【初心者向け完全入門】",
-      "reason": "nginxはLinux上で運用されることが多いため"
+      "slug": "nginx-logging",
+      "title": "nginxのログとトラブルシューティング入門【502/504エラー対処】",
+      "reason": "同じ講座の関連回です"
     },
     {
-      "slug": "web-intro",
-      "title": "Webサイトの仕組みとは？HTML・CSS・JavaScriptをゼロから理解する",
-      "reason": "nginxが配信する静的Webコンテンツの理解に役立つ"
+      "slug": "nginx-ssl",
+      "title": "nginxでSSL/TLS（HTTPS）を設定する方法【Let's Encrypt入門】",
+      "reason": "同じ講座の関連回です"
     },
     {
-      "slug": "bash-intro",
-      "title": "シェルスクリプトとは？",
-      "reason": "nginx設定のデプロイやログ確認でシェル操作が必要"
-    },
-    {
-      "slug": "nginx-install",
-      "title": "nginxのインストールと基本設定【Ubuntu/WSL2対応】",
-      "reason": "同じ講座の次回：実際にnginxを動かす"
+      "slug": "nginx-location",
+      "title": "nginxのlocationとルーティング【マッチング優先順位入門】",
+      "reason": "同じ講座の関連回です"
     }
   ],
   "ogImage": "https://ai-site-iota-nine.vercel.app/og-default.svg",
@@ -95,7 +90,7 @@
         "headline": "nginxとは？Apacheとの違いをわかりやすく解説【初心者向け】",
         "description": "【nginx初心者向け】nginxとは何かを初心者向けにわかりやすく解説。Apacheとの違い、リバースプロキシの役割、nginxが選ばれる理由を設定例つきでゼロから学べます。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
         "datePublished": "2026-05-30T05:15:00.658Z",
-        "dateModified": "2026-05-30T05:15:00.667Z",
+        "dateModified": "2026-05-30T05:15:41.709Z",
         "author": {
           "@type": "Organization",
           "name": "StackShelf",

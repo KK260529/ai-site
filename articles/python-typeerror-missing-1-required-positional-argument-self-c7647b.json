@@ -1,0 +1,289 @@
+{
+  "id": "art_errors_python-typeerror-missing-1-required-positional-argument-self-c7647b",
+  "slug": "python-typeerror-missing-1-required-positional-argument-self-c7647b",
+  "title": "TypeError: missing 1 required positional argument: 'self' の原因と解決法",
+  "summary": "TypeError: missing 1 required positional argument: 'self' の原因と具体的な解決手順をまとめました。",
+  "body": "<h2>エラーメッセージ（全文）</h2>\n<p>検索でヒットしやすいよう、実際のコンソール出力をそのまま掲載します。</p>\n<pre><code>TypeError: missing 1 required positional argument: 'self'</code></pre>\n\n<h2>このエラーとは</h2>\n<p>TypeError: missing 1 required positional argument: 'self' は Python 開発でよく遭遇するエラーです。</p>\n<p><strong>想定環境:</strong> Windows / macOS / Linux</p>\n<p><strong>よく出る状況:</strong> 型の不一致、None の参照、関数呼び出しミス</p>\n\n<h2>よくある原因</h2>\n<ul>\n<li>変数の型想定が間違っている</li>\n<li>API が None を返している</li>\n<li>メソッドと属性の取り違え</li>\n</ul><h2>解決方法</h2><h3>方法1: 型を確認</h3><p>print(type(x)) で実際の型を確認します。</p><pre><code>print(type(variable))\nprint(repr(variable))</code></pre><h3>方法2: None チェック</h3><p>参照前に if variable is not None を入れます。</p>\n<h2>それでも直らないとき</h2>\n<p>バージョン情報（Python のバージョン、OS、実行コマンド）を添えて、エラーメッセージ全文と直前に変更した点を確認してください。ログの数行上にも原因の手がかりが残っていることが多いです。</p>",
+  "conclusion": "「TypeError: missing 1 required positional argument: 'self'」は 変数の型想定が間違っている が原因のことが多いです。上記の手順で切り分けてください。",
+  "tags": [
+    "python",
+    "Pythonエラー",
+    "TypeError",
+    "TypeError: missing 1 required positional"
+  ],
+  "category": "Pythonエラー",
+  "theme": "errors - Python エラー・トラブル集",
+  "articleType": "error",
+  "status": "published",
+  "createdAt": "2026-05-30T05:47:30.723Z",
+  "updatedAt": "2026-05-30T05:47:30.723Z",
+  "publishedAt": "2026-05-30T05:47:30.723Z",
+  "metaTitle": "TypeError: missing 1 required positional argument: 'self' の…",
+  "metaDescription": "TypeError: missing 1 required positional argument: 'self' が出たときの原因・確認手順・解決策を解説。型の不一致、None の参照、関数呼び出しミス。",
+  "ogTitle": "TypeError: missing 1 required positional argument: 'self' の原因と解決法",
+  "ogDescription": "TypeError: missing 1 required positional argument: 'self' が出たときの原因・確認手順・解決策を解説。型の不一致、None の参照、関数呼び出しミス。",
+  "knowledge": {
+    "topic": "errors",
+    "courseId": "python-errors",
+    "episode": 242
+  },
+  "faq": [
+    {
+      "question": "TypeError: missing 1 required positional argument: 'self' とは何ですか？",
+      "answer": "TypeError: missing 1 required positional argument: 'self' は Python 実行時に表示されるエラーです。変数の型想定が間違っている"
+    },
+    {
+      "question": "TypeError: missing 1 required positional argument: 'self' の原因は？",
+      "answer": "変数の型想定が間違っている。API が None を返している。メソッドと属性の取り違え。"
+    },
+    {
+      "question": "TypeError: missing 1 required positional argument: 'self' の直し方は？",
+      "answer": "型を確認：print(type(x)) で実際の型を確認します。 None チェック：参照前に if variable is not None を入れます。"
+    },
+    {
+      "question": "Python で TypeError が出るのはなぜ？",
+      "answer": "型の不一致、None の参照、関数呼び出しミス"
+    },
+    {
+      "question": "TypeError: missing 1 required positional argument: 'self' を防ぐには？",
+      "answer": "。"
+    }
+  ],
+  "nextAction": "同じ Python カテゴリの関連エラーもあわせて確認してください。",
+  "internalLinkCandidates": [],
+  "ogImage": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+  "canonical": "https://ai-site-iota-nine.vercel.app/article/python-typeerror-missing-1-required-positional-argument-self-c7647b",
+  "jsonLd": {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@context": "https://schema.org",
+        "@type": "TechArticle",
+        "headline": "TypeError: missing 1 required positional argument: 'self' の原因と解決法",
+        "description": "TypeError: missing 1 required positional argument: 'self' が出たときの原因・確認手順・解決策を解説。型の不一致、None の参照、関数呼び出しミス。",
+        "datePublished": "2026-05-30T05:47:30.723Z",
+        "dateModified": "2026-05-30T05:47:30.723Z",
+        "author": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
+        },
+        "image": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+        "inLanguage": "ja",
+        "wordCount": 500,
+        "mainEntityOfPage": {
+          "@type": "WebPage",
+          "@id": "https://ai-site-iota-nine.vercel.app/article/python-typeerror-missing-1-required-positional-argument-self-c7647b"
+        },
+        "keywords": "python, Pythonエラー, TypeError, TypeError: missing 1 required positional",
+        "articleSection": "Pythonエラー",
+        "url": "https://ai-site-iota-nine.vercel.app/article/python-typeerror-missing-1-required-positional-argument-self-c7647b",
+        "learningResourceType": "tutorial",
+        "educationalLevel": "beginner"
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "ホーム",
+            "item": "https://ai-site-iota-nine.vercel.app/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "errors",
+            "item": "https://ai-site-iota-nine.vercel.app/knowledge/errors"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "Python エラー・トラブル集",
+            "item": "https://ai-site-iota-nine.vercel.app/course/errors/python-errors"
+          },
+          {
+            "@type": "ListItem",
+            "position": 4,
+            "name": "TypeError: missing 1 required positional argument: 'self' の原因と解決法",
+            "item": "https://ai-site-iota-nine.vercel.app/article/python-typeerror-missing-1-required-positional-argument-self-c7647b"
+          }
+        ]
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "Course",
+        "name": "Python エラー・トラブル集",
+        "description": "Python エラー・トラブル集",
+        "provider": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app"
+        },
+        "url": "https://ai-site-iota-nine.vercel.app/course/errors/python-errors",
+        "inLanguage": "ja",
+        "educationalLevel": "beginner",
+        "hasCourseInstance": {
+          "@type": "CourseInstance",
+          "courseMode": "online",
+          "courseWorkload": "PT1H"
+        }
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "TypeError: missing 1 required positional argument: 'self' とは何ですか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "TypeError: missing 1 required positional argument: 'self' は Python 実行時に表示されるエラーです。変数の型想定が間違っている"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "TypeError: missing 1 required positional argument: 'self' の原因は？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "変数の型想定が間違っている。API が None を返している。メソッドと属性の取り違え。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "TypeError: missing 1 required positional argument: 'self' の直し方は？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "型を確認：print(type(x)) で実際の型を確認します。 None チェック：参照前に if variable is not None を入れます。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Python で TypeError が出るのはなぜ？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "型の不一致、None の参照、関数呼び出しミス"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "TypeError: missing 1 required positional argument: 'self' を防ぐには？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "。"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "breadcrumb": {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "ホーム",
+        "item": "https://ai-site-iota-nine.vercel.app/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "errors",
+        "item": "https://ai-site-iota-nine.vercel.app/knowledge/errors"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "Python エラー・トラブル集",
+        "item": "https://ai-site-iota-nine.vercel.app/course/errors/python-errors"
+      },
+      {
+        "@type": "ListItem",
+        "position": 4,
+        "name": "TypeError: missing 1 required positional argument: 'self' の原因と解決法",
+        "item": "https://ai-site-iota-nine.vercel.app/article/python-typeerror-missing-1-required-positional-argument-self-c7647b"
+      }
+    ]
+  },
+  "courseSchema": {
+    "@context": "https://schema.org",
+    "@type": "Course",
+    "name": "Python エラー・トラブル集",
+    "description": "Python エラー・トラブル集",
+    "provider": {
+      "@type": "Organization",
+      "name": "StackShelf",
+      "url": "https://ai-site-iota-nine.vercel.app"
+    },
+    "url": "https://ai-site-iota-nine.vercel.app/course/errors/python-errors",
+    "inLanguage": "ja",
+    "educationalLevel": "beginner",
+    "hasCourseInstance": {
+      "@type": "CourseInstance",
+      "courseMode": "online",
+      "courseWorkload": "PT1H"
+    }
+  },
+  "faqSchema": {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "TypeError: missing 1 required positional argument: 'self' とは何ですか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "TypeError: missing 1 required positional argument: 'self' は Python 実行時に表示されるエラーです。変数の型想定が間違っている"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "TypeError: missing 1 required positional argument: 'self' の原因は？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "変数の型想定が間違っている。API が None を返している。メソッドと属性の取り違え。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "TypeError: missing 1 required positional argument: 'self' の直し方は？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "型を確認：print(type(x)) で実際の型を確認します。 None チェック：参照前に if variable is not None を入れます。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Python で TypeError が出るのはなぜ？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "型の不一致、None の参照、関数呼び出しミス"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "TypeError: missing 1 required positional argument: 'self' を防ぐには？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "。"
+        }
+      }
+    ]
+  }
+}

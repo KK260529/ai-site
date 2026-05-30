@@ -2,9 +2,9 @@
   "id": "art_sql_sql-sqlite-setup",
   "slug": "sql-sqlite-setup",
   "title": "SQLite準備とCREATE TABLE｜sql 初心者のための環境構築",
-  "summary": "SQLiteのインストール方法、コマンドラインからの起動、CREATE TABLE文でテーブルを作る方法をゼロから解説。実際に手を動かしながらSQLの基礎を体験しましょう。",
-  "body": "<h2>SQLiteとは？なぜ学習に最適か</h2>\n<p>SQLiteは、<strong>サーバー不要・ファイル1つで動く超軽量なリレーショナルデータベース</strong>です。通常のデータベース（MySQLやPostgreSQLなど）はサーバープロセスを別途起動する必要がありますが、SQLiteはアプリケーションに組み込まれて単一の <code>.db</code> ファイルとして動作します。</p>\n<p>sql 初心者にSQLiteを勧める理由は次の通りです。インストールが簡単で、Pythonには標準ライブラリとして同梱されています。AndroidやiOSアプリ、ブラウザのLocalStorageにも内部で使われており、実際のプロダクションでも広く採用されています。学習目的で始めて、将来的にMySQLやPostgreSQLに移行しても基本的なSQL構文はほぼそのまま使えます。</p>\n\n<h2>SQLiteのインストールとセットアップ</h2>\n<p>SQLiteのインストール方法はOSによって異なります。それぞれの手順を見ていきましょう。</p>\n\n<h3>Windowsへのインストール</h3>\n<p>SQLiteの公式サイト（sqlite.org/download.html）から「Precompiled Binaries for Windows」の <code>sqlite-tools-win32-*.zip</code> をダウンロードします。ZIPを展開し、<code>sqlite3.exe</code> を <code>C:sqlite</code> などに配置して、システム環境変数のPATHに追加します。コマンドプロンプトで以下を実行してバージョンが表示されれば成功です。</p>\n<pre><code>-- コマンドプロンプトで実行（SQLではなくシェルコマンド）\nsqlite3 --version\n-- 出力例: 3.45.0 2024-01-15 17:01:13\n\n-- SQLiteを起動する\nsqlite3 mydb.db\n-- SQLiteのプロンプトが表示される: sqlite></code></pre>\n\n<h3>macOS / Linuxへのインストール</h3>\n<p>macOSにはSQLiteがプリインストールされています。Linuxはディストリビューションによりますが、多くの場合デフォルトで入っています。</p>\n<pre><code>-- macOS/Linux：バージョン確認\nsqlite3 --version\n\n-- Ubuntuなどでインストールが必要な場合\nsudo apt-get install sqlite3\n\n-- SQLiteを起動してデータベースファイルを作成\nsqlite3 todo_app.db</code></pre>\n\n<h2>SQLiteの基本操作コマンド</h2>\n<p>SQLiteには、SQL文の他に「ドットコマンド」と呼ばれるSQLite専用の管理コマンドがあります。これらはセミコロン不要で、ドット（<code>.</code>）で始まります。</p>\n<pre><code>-- データベース内のテーブル一覧を表示\n.tables\n\n-- テーブルの構造（スキーマ）を確認\n.schema users\n\n-- 表示形式をカラム形式に変更（見やすくなる）\n.mode column\n.headers on\n\n-- SQLiteを終了する\n.quit</code></pre>\n<p>これらのドットコマンドはSQLiteのCLI（コマンドラインインターフェース）でのみ使えるコマンドです。PythonやNode.jsから接続する場合は不要で、通常のSQL文だけを使います。</p>\n\n<h2>CREATE TABLE文でテーブルを作成する</h2>\n<p>データベースにテーブルを作成するには <code>CREATE TABLE</code> 文を使います。sql 使い方の中でも最初に覚えるべき重要な構文です。基本的な書き方は次の通りです。</p>\n<pre><code>-- 基本構文\nCREATE TABLE テーブル名 (\n  カラム名1 データ型 [制約],\n  カラム名2 データ型 [制約],\n  ...\n);\n\n-- 実例：ユーザーテーブルの作成\nCREATE TABLE users (\n  id      INTEGER PRIMARY KEY AUTOINCREMENT,\n  name    TEXT    NOT NULL,\n  email   TEXT    NOT NULL UNIQUE,\n  age     INTEGER,\n  created_at TEXT DEFAULT (datetime('now', 'localtime'))\n);\n\n-- 実例：商品テーブルの作成\nCREATE TABLE products (\n  id          INTEGER PRIMARY KEY AUTOINCREMENT,\n  name        TEXT    NOT NULL,\n  price       INTEGER NOT NULL CHECK (price >= 0),\n  category    TEXT,\n  stock       INTEGER DEFAULT 0\n);</code></pre>\n\n<h2>データ型と制約を理解する</h2>\n<p>SQLiteで使えるデータ型と制約の種類を理解しておきましょう。</p>\n\n<h3>SQLiteの主なデータ型</h3>\n<p>SQLiteのデータ型は非常に柔軟で、以下の5つの「ストレージクラス」があります。</p>\n<pre><code>-- SQLiteの主なデータ型の使用例\nCREATE TABLE sample_types (\n  col_integer  INTEGER,   -- 整数（1, 2, 100, -5 など）\n  col_real     REAL,      -- 浮動小数点数（3.14, 2.5 など）\n  col_text     TEXT,      -- 文字列（'hello', '田中太郎' など）\n  col_blob     BLOB,      -- バイナリデータ（画像・ファイルなど）\n  col_null     INTEGER    -- NULL値も格納できる\n);</code></pre>\n\n<h3>制約（Constraint）の種類</h3>\n<ul>\n  <li><strong>PRIMARY KEY</strong>：主キー。テーブル内で一意な識別子。</li>\n  <li><strong>AUTOINCREMENT</strong>：自動的に1ずつ増加する整数を割り当てる。</li>\n  <li><strong>NOT NULL</strong>：NULL値を禁止する（必須入力）。</li>\n  <li><strong>UNIQUE</strong>：同じ値の重複を禁止する（メールアドレスなど）。</li>\n  <li><strong>DEFAULT</strong>：値が指定されない場合のデフォルト値を設定。</li>\n  <li><strong>CHECK</strong>：値の条件チェック（0以上の数値のみ許可など）。</li>\n  <li><strong>FOREIGN KEY</strong>：他テーブルのカラムを参照する外部キー。</li>\n</ul>\n<pre><code>-- 外部キーを使ったテーブル作成例\n-- まず親テーブルを作成\nCREATE TABLE categories (\n  id   INTEGER PRIMARY KEY AUTOINCREMENT,\n  name TEXT NOT NULL UNIQUE\n);\n\n-- 子テーブルに外部キーを設定\nCREATE TABLE items (\n  id          INTEGER PRIMARY KEY AUTOINCREMENT,\n  name        TEXT    NOT NULL,\n  category_id INTEGER NOT NULL,\n  FOREIGN KEY (category_id) REFERENCES categories(id)\n);\n\n-- SQLiteで外部キー制約を有効化するには以下が必要\nPRAGMA foreign_keys = ON;</code></pre>\n\n<h2>テーブルの確認・変更・削除</h2>\n<p>作成したテーブルの確認、変更、削除も重要な操作です。</p>\n<pre><code>-- テーブル構造を確認する\n.schema users\n\n-- または PRAGMA を使う\nPRAGMA table_info(users);\n-- cid | name       | type    | notnull | dflt_value | pk\n-- ----+------------+---------+---------+------------+---\n--   0 | id         | INTEGER |       0 |            |  1\n--   1 | name       | TEXT    |       1 |            |  0\n--   2 | email      | TEXT    |       1 |            |  0\n\n-- カラムを追加する（ALTER TABLE）\nALTER TABLE users ADD COLUMN phone TEXT;\n\n-- テーブルを削除する（元に戻せないので注意）\nDROP TABLE IF EXISTS users;\n\n-- テーブルが存在しない場合にのみ作成する（エラー防止）\nCREATE TABLE IF NOT EXISTS users (\n  id    INTEGER PRIMARY KEY AUTOINCREMENT,\n  name  TEXT NOT NULL\n);</code></pre>\n<p>なお、SQLiteの <code>ALTER TABLE</code> は機能が制限されており、カラムの追加（<code>ADD COLUMN</code>）は可能ですが、カラムの削除・変更は直接できません。カラムを削除したい場合は、テーブルを作り直す必要があります。</p>\n\n<h2>最初のデータベースを作ってみよう</h2>\n<p>ここまで学んだことを活かして、TODOアプリ用のデータベースを実際に作成してみましょう。</p>\n<pre><code>-- SQLiteを起動\n-- コマンドライン: sqlite3 todo_app.db\n\n-- TODOテーブルを作成\nCREATE TABLE todos (\n  id         INTEGER PRIMARY KEY AUTOINCREMENT,\n  title      TEXT    NOT NULL,\n  done       INTEGER NOT NULL DEFAULT 0,  -- 0: 未完了, 1: 完了\n  priority   TEXT    DEFAULT 'medium',    -- low/medium/high\n  due_date   TEXT,                        -- 'YYYY-MM-DD'形式\n  created_at TEXT    DEFAULT (datetime('now', 'localtime'))\n);\n\n-- テーブルが作成されたか確認\n.tables\n-- 出力: todos\n\n-- 構造を確認\n.schema todos</code></pre>\n<p>これでTODOアプリのデータベースの基盤ができました。次のエピソードからは、このテーブルにデータを入れて検索する操作を学んでいきます。sql 使い方の基礎として、まずは自分でテーブルを定義できるようになることが大切です。</p>",
-  "conclusion": "SQLiteはサーバー不要で手軽に使えるデータベースで、sql 初心者の学習環境として最適です。CREATE TABLE文でテーブルを定義し、データ型（INTEGER・TEXT・REALなど）と制約（PRIMARY KEY・NOT NULL・UNIQUEなど）を適切に設定することがデータベース設計の第一歩です。SQLiteのドットコマンド（.tables・.schema・.modeなど）を使えばCLIからテーブルの状態を確認できます。次回はSELECT文でテーブルからデータを取得する方法を学びます。",
+  "summary": "SQLiteのインストール、sqlite3 CLIの起動、CREATE TABLEでテーブルを作る手順を解説。データ型と制約（PRIMARY KEY・NOT NULL）の設定まで、実際に手を動かして学びます。",
+  "body": "<h2>結論：SQLiteはサーバー不要で、CREATE TABLEからSQL学習を始められる</h2>\n<p><strong>SQLite</strong>はファイル1つ（<code>.db</code>）で動く軽量RDBMSです。サーバープロセスが不要なため、<code>sqlite3 shop.db</code> と打てばすぐにSQLを試せます。テーブルは <code>CREATE TABLE</code> で定義し、<strong>PRIMARY KEY</strong>・<strong>NOT NULL</strong>・データ型（INTEGER/TEXT/REAL）を適切に設定することが設計の第一歩です。</p>\n\n<h2>SQLiteとは？なぜ学習に最適か</h2>\n<p>SQLiteは、<strong>サーバー不要・ファイル1つで動く超軽量なリレーショナルデータベース</strong>です。通常のデータベース（MySQLやPostgreSQLなど）はサーバープロセスを別途起動する必要がありますが、SQLiteはアプリケーションに組み込まれて単一の <code>.db</code> ファイルとして動作します。</p>\n<p>sql 初心者にSQLiteを勧める理由は次の通りです。インストールが簡単で、Pythonには標準ライブラリとして同梱されています。AndroidやiOSアプリ、ブラウザのLocalStorageにも内部で使われており、実際のプロダクションでも広く採用されています。学習目的で始めて、将来的にMySQLやPostgreSQLに移行しても基本的なSQL構文はほぼそのまま使えます。</p>\n\n<h2>SQLiteのインストールとセットアップ</h2>\n<p>SQLiteのインストール方法はOSによって異なります。それぞれの手順を見ていきましょう。</p>\n\n<h3>Windowsへのインストール</h3>\n<p>SQLiteの公式サイト（sqlite.org/download.html）から「Precompiled Binaries for Windows」の <code>sqlite-tools-win32-*.zip</code> をダウンロードします。ZIPを展開し、<code>sqlite3.exe</code> を <code>C:sqlite</code> などに配置して、システム環境変数のPATHに追加します。コマンドプロンプトで以下を実行してバージョンが表示されれば成功です。</p>\n<pre><code>-- コマンドプロンプトで実行（SQLではなくシェルコマンド）\nsqlite3 --version\n-- 出力例: 3.45.0 2024-01-15 17:01:13\n\n-- SQLiteを起動する\nsqlite3 mydb.db\n-- SQLiteのプロンプトが表示される: sqlite></code></pre>\n\n<h3>macOS / Linuxへのインストール</h3>\n<p>macOSにはSQLiteがプリインストールされています。Linuxはディストリビューションによりますが、多くの場合デフォルトで入っています。</p>\n<pre><code>-- macOS/Linux：バージョン確認\nsqlite3 --version\n\n-- Ubuntuなどでインストールが必要な場合\nsudo apt-get install sqlite3\n\n-- SQLiteを起動してデータベースファイルを作成\nsqlite3 todo_app.db</code></pre>\n\n<h2>SQLiteの基本操作コマンド</h2>\n<p>SQLiteには、SQL文の他に「ドットコマンド」と呼ばれるSQLite専用の管理コマンドがあります。これらはセミコロン不要で、ドット（<code>.</code>）で始まります。</p>\n<pre><code>-- データベース内のテーブル一覧を表示\n.tables\n\n-- テーブルの構造（スキーマ）を確認\n.schema users\n\n-- 表示形式をカラム形式に変更（見やすくなる）\n.mode column\n.headers on\n\n-- SQLiteを終了する\n.quit</code></pre>\n<p>これらのドットコマンドはSQLiteのCLI（コマンドラインインターフェース）でのみ使えるコマンドです。PythonやNode.jsから接続する場合は不要で、通常のSQL文だけを使います。</p>\n\n<h2>CREATE TABLE文でテーブルを作成する</h2>\n<p>データベースにテーブルを作成するには <code>CREATE TABLE</code> 文を使います。sql 使い方の中でも最初に覚えるべき重要な構文です。基本的な書き方は次の通りです。</p>\n<pre><code>-- 基本構文\nCREATE TABLE テーブル名 (\n  カラム名1 データ型 [制約],\n  カラム名2 データ型 [制約],\n  ...\n);\n\n-- 実例：ユーザーテーブルの作成\nCREATE TABLE users (\n  id      INTEGER PRIMARY KEY AUTOINCREMENT,\n  name    TEXT    NOT NULL,\n  email   TEXT    NOT NULL UNIQUE,\n  age     INTEGER,\n  created_at TEXT DEFAULT (datetime('now', 'localtime'))\n);\n\n-- 実例：商品テーブルの作成\nCREATE TABLE products (\n  id          INTEGER PRIMARY KEY AUTOINCREMENT,\n  name        TEXT    NOT NULL,\n  price       INTEGER NOT NULL CHECK (price >= 0),\n  category    TEXT,\n  stock       INTEGER DEFAULT 0\n);</code></pre>\n\n<h2>データ型と制約を理解する</h2>\n<p>SQLiteで使えるデータ型と制約の種類を理解しておきましょう。</p>\n\n<h3>SQLiteの主なデータ型</h3>\n<p>SQLiteのデータ型は非常に柔軟で、以下の5つの「ストレージクラス」があります。</p>\n<pre><code>-- SQLiteの主なデータ型の使用例\nCREATE TABLE sample_types (\n  col_integer  INTEGER,   -- 整数（1, 2, 100, -5 など）\n  col_real     REAL,      -- 浮動小数点数（3.14, 2.5 など）\n  col_text     TEXT,      -- 文字列（'hello', '田中太郎' など）\n  col_blob     BLOB,      -- バイナリデータ（画像・ファイルなど）\n  col_null     INTEGER    -- NULL値も格納できる\n);</code></pre>\n\n<h3>制約（Constraint）の種類</h3>\n<ul>\n  <li><strong>PRIMARY KEY</strong>：主キー。テーブル内で一意な識別子。</li>\n  <li><strong>AUTOINCREMENT</strong>：自動的に1ずつ増加する整数を割り当てる。</li>\n  <li><strong>NOT NULL</strong>：NULL値を禁止する（必須入力）。</li>\n  <li><strong>UNIQUE</strong>：同じ値の重複を禁止する（メールアドレスなど）。</li>\n  <li><strong>DEFAULT</strong>：値が指定されない場合のデフォルト値を設定。</li>\n  <li><strong>CHECK</strong>：値の条件チェック（0以上の数値のみ許可など）。</li>\n  <li><strong>FOREIGN KEY</strong>：他テーブルのカラムを参照する外部キー。</li>\n</ul>\n<pre><code>-- 外部キーを使ったテーブル作成例\n-- まず親テーブルを作成\nCREATE TABLE categories (\n  id   INTEGER PRIMARY KEY AUTOINCREMENT,\n  name TEXT NOT NULL UNIQUE\n);\n\n-- 子テーブルに外部キーを設定\nCREATE TABLE items (\n  id          INTEGER PRIMARY KEY AUTOINCREMENT,\n  name        TEXT    NOT NULL,\n  category_id INTEGER NOT NULL,\n  FOREIGN KEY (category_id) REFERENCES categories(id)\n);\n\n-- SQLiteで外部キー制約を有効化するには以下が必要\nPRAGMA foreign_keys = ON;</code></pre>\n\n<h2>テーブルの確認・変更・削除</h2>\n<p>作成したテーブルの確認、変更、削除も重要な操作です。</p>\n<pre><code>-- テーブル構造を確認する\n.schema users\n\n-- または PRAGMA を使う\nPRAGMA table_info(users);\n-- cid | name       | type    | notnull | dflt_value | pk\n-- ----+------------+---------+---------+------------+---\n--   0 | id         | INTEGER |       0 |            |  1\n--   1 | name       | TEXT    |       1 |            |  0\n--   2 | email      | TEXT    |       1 |            |  0\n\n-- カラムを追加する（ALTER TABLE）\nALTER TABLE users ADD COLUMN phone TEXT;\n\n-- テーブルを削除する（元に戻せないので注意）\nDROP TABLE IF EXISTS users;\n\n-- テーブルが存在しない場合にのみ作成する（エラー防止）\nCREATE TABLE IF NOT EXISTS users (\n  id    INTEGER PRIMARY KEY AUTOINCREMENT,\n  name  TEXT NOT NULL\n);</code></pre>\n<p>なお、SQLiteの <code>ALTER TABLE</code> は機能が制限されており、カラムの追加（<code>ADD COLUMN</code>）は可能ですが、カラムの削除・変更は直接できません。カラムを削除したい場合は、テーブルを作り直す必要があります。</p>\n\n<h2>最初のデータベースを作ってみよう</h2>\n<p>ここまで学んだことを活かして、TODOアプリ用のデータベースを実際に作成してみましょう。</p>\n<pre><code>-- SQLiteを起動\n-- コマンドライン: sqlite3 todo_app.db\n\n-- TODOテーブルを作成\nCREATE TABLE todos (\n  id         INTEGER PRIMARY KEY AUTOINCREMENT,\n  title      TEXT    NOT NULL,\n  done       INTEGER NOT NULL DEFAULT 0,  -- 0: 未完了, 1: 完了\n  priority   TEXT    DEFAULT 'medium',    -- low/medium/high\n  due_date   TEXT,                        -- 'YYYY-MM-DD'形式\n  created_at TEXT    DEFAULT (datetime('now', 'localtime'))\n);\n\n-- テーブルが作成されたか確認\n.tables\n-- 出力: todos\n\n-- 構造を確認\n.schema todos</code></pre>\n<p>これでTODOアプリのデータベースの基盤ができました。次のエピソードからは、このテーブルにデータを入れて検索する操作を学んでいきます。sql 使い方の基礎として、まずは自分でテーブルを定義できるようになることが大切です。</p>\n\n<h2>つまずきやすいポイント・失敗例</h2>\n<h3>失敗例：CREATE TABLEの末尾カンマ</h3>\n<p>最後のカラム定義の後にカンマを付けると syntax error になります。閉じ括弧 <code>)</code> の直前にはカンマを置きません。</p>\n<h3>失敗例：sqlite3 を終了できない</h3>\n<p><code>.quit</code> または Ctrl+D（WindowsはCtrl+Z→Enter）で終了します。<code>exit</code> はSQL文ではないためエラーになることがあります。</p>",
+  "conclusion": "SQLiteはサーバー不要で手軽に使える学習向きDBです。CREATE TABLEでテーブルを定義し、データ型と制約を適切に設定することが設計の第一歩です。.tablesや.schemaなどのドットコマンドで状態を確認しながら進めましょう。",
   "tags": [
     "SQL",
     "SQLite",
@@ -16,12 +16,12 @@
   "theme": "sql - SQL・データベース入門",
   "status": "published",
   "createdAt": "2026-05-30T04:13:08.260Z",
-  "updatedAt": "2026-05-30T04:13:08.266Z",
+  "updatedAt": "2026-05-30T05:23:47.378Z",
   "publishedAt": "2026-05-30T04:13:08.260Z",
   "metaTitle": "SQLite準備とCREATE TABLE｜sql 初心者向けセットアップ完全ガイド",
-  "metaDescription": "【SQL初心者向け】SQLiteのインストールからCREATE TABLE文まで、sql 初心者向けに丁寧に解説。sql 使い方の第一歩として実際に動く環境を整えましょう。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
+  "metaDescription": "SQLiteのインストールとCREATE TABLEの書き方を解説。データ型・制約・sqlite3 CLIの基本操作と、環境構築でつまずくポイントを紹介します。",
   "ogTitle": "SQLite準備とCREATE TABLE完全ガイド",
-  "ogDescription": "【SQL初心者向け】【SQL初心者向け】SQLiteのセットアップからテーブル作成まで、ゼロから手順を追って解説します。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
+  "ogDescription": "SQLite環境の構築から最初のテーブル作成まで、コマンド例付きで手順を解説します。",
   "knowledge": {
     "topic": "sql",
     "courseId": "sql",
@@ -29,20 +29,24 @@
   },
   "faq": [
     {
-      "question": "SQLiteとMySQLはどちらを学ぶべきですか？",
-      "answer": "学習初期はSQLiteをお勧めします。インストールが簡単でサーバー管理が不要なため、SQLの構文学習に集中できます。基本的なSQL構文はMySQLやPostgreSQLと共通なので、SQLiteで習得した知識はそのまま移行できます。実際の本番Webサービスではいずれ MySQLやPostgreSQLに移行することになりますが、まずSQLite で基礎を固めましょう。"
+      "question": "SQLiteは本番でも使えますか？",
+      "answer": "小規模アプリや組み込み、プロトタイプでは十分使われます。大規模WebのメインDBにはMySQL/PostgreSQLが選ばれることが多いです。"
     },
     {
-      "question": "PRIMARY KEYとUNIQUEの違いは何ですか？",
-      "answer": "PRIMARY KEYはテーブルごとに1つだけ設定でき、NULL値を許可しません。テーブルの各レコードを一意に識別するための主キーです。UNIQUEは同じ値の重複を防ぐ制約ですが、NULL値は許可され（SQLiteの場合）、テーブルに複数設定できます。例えば、idをPRIMARY KEYに、emailをUNIQUEに設定することが多いです。"
+      "question": "CREATE TABLE IF NOT EXISTS は何のため？",
+      "answer": "同名テーブルが既にある場合にエラーを出さずスキップします。スクリプトの再実行や初期化で便利です。"
     },
     {
-      "question": "CREATE TABLEのAUTOINCREMENTは必須ですか？",
-      "answer": "必須ではありません。SQLiteでは INTEGER PRIMARY KEY だけでも自動インクリメントに近い動作をします（削除されたIDの再利用あり）。AUTOINCREMENT を付けると削除済みIDは再利用されない保証が得られますが、パフォーマンスが若干低下します。一般的なアプリでは INTEGER PRIMARY KEY AUTOINCREMENT が慣例として使われます。"
+      "question": "PRIMARY KEYとUNIQUEの違いは？",
+      "answer": "PRIMARY KEYは行を一意に識別する主キーで1テーブルに1つ。UNIQUEは重複禁止ですがNULLは許容される場合があります。"
     },
     {
-      "question": "SQLiteファイルはどこに保存されますか？",
-      "answer": "sqlite3コマンドを実行したディレクトリに .db ファイルが作成されます。例えば sqlite3 mydb.db を実行すると、カレントディレクトリに mydb.db が作成されます。このファイルをコピーするだけでデータベースのバックアップができるのもSQLiteの便利な点です。"
+      "question": "sqlite3コマンドが見つからない",
+      "answer": "Windowsはsqlite.orgからCLIを入手、Macは通常プリインストール、Linuxは sudo apt install sqlite3 などで導入します。"
+    },
+    {
+      "question": "SQLはどんな場面で使いますか？",
+      "answer": "Webアプリのデータ保存、売上分析、ログ集計など、データを保存・検索・集計したい場面で使います。"
     }
   ],
   "nextEpisodeHint": "次回は、作成したテーブルにデータを入れて、SELECT文でデータを取得する方法を学びます。SELECT * FROM テーブル名 から始まる検索の基本をマスターしましょう。",
@@ -55,9 +59,9 @@
         "@context": "https://schema.org",
         "@type": "TechArticle",
         "headline": "SQLite準備とCREATE TABLE｜sql 初心者のための環境構築",
-        "description": "【SQL初心者向け】SQLiteのインストールからCREATE TABLE文まで、sql 初心者向けに丁寧に解説。sql 使い方の第一歩として実際に動く環境を整えましょう。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
+        "description": "SQLiteのインストールとCREATE TABLEの書き方を解説。データ型・制約・sqlite3 CLIの基本操作と、環境構築でつまずくポイントを紹介します。",
         "datePublished": "2026-05-30T04:13:08.260Z",
-        "dateModified": "2026-05-30T04:13:08.266Z",
+        "dateModified": "2026-05-30T05:23:47.378Z",
         "author": {
           "@type": "Organization",
           "name": "StackShelf",
@@ -78,7 +82,7 @@
         },
         "image": "https://ai-site-iota-nine.vercel.app/og-default.svg",
         "inLanguage": "ja",
-        "wordCount": 3663,
+        "wordCount": 4046,
         "mainEntityOfPage": {
           "@type": "WebPage",
           "@id": "https://ai-site-iota-nine.vercel.app/article/sql-sqlite-setup"
@@ -144,34 +148,42 @@
         "mainEntity": [
           {
             "@type": "Question",
-            "name": "SQLiteとMySQLはどちらを学ぶべきですか？",
+            "name": "SQLiteは本番でも使えますか？",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "学習初期はSQLiteをお勧めします。インストールが簡単でサーバー管理が不要なため、SQLの構文学習に集中できます。基本的なSQL構文はMySQLやPostgreSQLと共通なので、SQLiteで習得した知識はそのまま移行できます。実際の本番Webサービスではいずれ MySQLやPostgreSQLに移行することになりますが、まずSQLite で基礎を固めましょう。"
+              "text": "小規模アプリや組み込み、プロトタイプでは十分使われます。大規模WebのメインDBにはMySQL/PostgreSQLが選ばれることが多いです。"
             }
           },
           {
             "@type": "Question",
-            "name": "PRIMARY KEYとUNIQUEの違いは何ですか？",
+            "name": "CREATE TABLE IF NOT EXISTS は何のため？",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "PRIMARY KEYはテーブルごとに1つだけ設定でき、NULL値を許可しません。テーブルの各レコードを一意に識別するための主キーです。UNIQUEは同じ値の重複を防ぐ制約ですが、NULL値は許可され（SQLiteの場合）、テーブルに複数設定できます。例えば、idをPRIMARY KEYに、emailをUNIQUEに設定することが多いです。"
+              "text": "同名テーブルが既にある場合にエラーを出さずスキップします。スクリプトの再実行や初期化で便利です。"
             }
           },
           {
             "@type": "Question",
-            "name": "CREATE TABLEのAUTOINCREMENTは必須ですか？",
+            "name": "PRIMARY KEYとUNIQUEの違いは？",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "必須ではありません。SQLiteでは INTEGER PRIMARY KEY だけでも自動インクリメントに近い動作をします（削除されたIDの再利用あり）。AUTOINCREMENT を付けると削除済みIDは再利用されない保証が得られますが、パフォーマンスが若干低下します。一般的なアプリでは INTEGER PRIMARY KEY AUTOINCREMENT が慣例として使われます。"
+              "text": "PRIMARY KEYは行を一意に識別する主キーで1テーブルに1つ。UNIQUEは重複禁止ですがNULLは許容される場合があります。"
             }
           },
           {
             "@type": "Question",
-            "name": "SQLiteファイルはどこに保存されますか？",
+            "name": "sqlite3コマンドが見つからない",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "sqlite3コマンドを実行したディレクトリに .db ファイルが作成されます。例えば sqlite3 mydb.db を実行すると、カレントディレクトリに mydb.db が作成されます。このファイルをコピーするだけでデータベースのバックアップができるのもSQLiteの便利な点です。"
+              "text": "Windowsはsqlite.orgからCLIを入手、Macは通常プリインストール、Linuxは sudo apt install sqlite3 などで導入します。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "SQLはどんな場面で使いますか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Webアプリのデータ保存、売上分析、ログ集計など、データを保存・検索・集計したい場面で使います。"
             }
           }
         ]
@@ -233,36 +245,72 @@
     "mainEntity": [
       {
         "@type": "Question",
-        "name": "SQLiteとMySQLはどちらを学ぶべきですか？",
+        "name": "SQLiteは本番でも使えますか？",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "学習初期はSQLiteをお勧めします。インストールが簡単でサーバー管理が不要なため、SQLの構文学習に集中できます。基本的なSQL構文はMySQLやPostgreSQLと共通なので、SQLiteで習得した知識はそのまま移行できます。実際の本番Webサービスではいずれ MySQLやPostgreSQLに移行することになりますが、まずSQLite で基礎を固めましょう。"
+          "text": "小規模アプリや組み込み、プロトタイプでは十分使われます。大規模WebのメインDBにはMySQL/PostgreSQLが選ばれることが多いです。"
         }
       },
       {
         "@type": "Question",
-        "name": "PRIMARY KEYとUNIQUEの違いは何ですか？",
+        "name": "CREATE TABLE IF NOT EXISTS は何のため？",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "PRIMARY KEYはテーブルごとに1つだけ設定でき、NULL値を許可しません。テーブルの各レコードを一意に識別するための主キーです。UNIQUEは同じ値の重複を防ぐ制約ですが、NULL値は許可され（SQLiteの場合）、テーブルに複数設定できます。例えば、idをPRIMARY KEYに、emailをUNIQUEに設定することが多いです。"
+          "text": "同名テーブルが既にある場合にエラーを出さずスキップします。スクリプトの再実行や初期化で便利です。"
         }
       },
       {
         "@type": "Question",
-        "name": "CREATE TABLEのAUTOINCREMENTは必須ですか？",
+        "name": "PRIMARY KEYとUNIQUEの違いは？",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "必須ではありません。SQLiteでは INTEGER PRIMARY KEY だけでも自動インクリメントに近い動作をします（削除されたIDの再利用あり）。AUTOINCREMENT を付けると削除済みIDは再利用されない保証が得られますが、パフォーマンスが若干低下します。一般的なアプリでは INTEGER PRIMARY KEY AUTOINCREMENT が慣例として使われます。"
+          "text": "PRIMARY KEYは行を一意に識別する主キーで1テーブルに1つ。UNIQUEは重複禁止ですがNULLは許容される場合があります。"
         }
       },
       {
         "@type": "Question",
-        "name": "SQLiteファイルはどこに保存されますか？",
+        "name": "sqlite3コマンドが見つからない",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "sqlite3コマンドを実行したディレクトリに .db ファイルが作成されます。例えば sqlite3 mydb.db を実行すると、カレントディレクトリに mydb.db が作成されます。このファイルをコピーするだけでデータベースのバックアップができるのもSQLiteの便利な点です。"
+          "text": "Windowsはsqlite.orgからCLIを入手、Macは通常プリインストール、Linuxは sudo apt install sqlite3 などで導入します。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "SQLはどんな場面で使いますか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Webアプリのデータ保存、売上分析、ログ集計など、データを保存・検索・集計したい場面で使います。"
         }
       }
     ]
-  }
+  },
+  "internalLinkCandidates": [
+    {
+      "slug": "sql-practice-design",
+      "title": "TODOアプリDB設計実践｜SQLite設計・実装の総まとめ",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "sql-select-basics",
+      "title": "SELECT基本｜SQLでデータを取得するsql 使い方入門",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "sql-index-basics",
+      "title": "CREATE INDEX, EXPLAIN｜SQLインデックス基礎とパフォーマンス改善",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "sql-group-by",
+      "title": "GROUP BY, HAVING, ORDER BY｜SQLグループ集計完全ガイド",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "sql-aggregate",
+      "title": "COUNT/SUM/AVG/MIN/MAX｜SQL集計関数の完全ガイド",
+      "reason": "同じ講座の関連回です"
+    }
+  ],
+  "nextAction": "sqlite3 shop.db でDBファイルを作成し、CREATE TABLE products (...) を実行して .tables と .schema products でテーブルができたか確認してください。"
 }

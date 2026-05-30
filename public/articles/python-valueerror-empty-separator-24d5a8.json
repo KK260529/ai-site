@@ -1,0 +1,289 @@
+{
+  "id": "art_errors_python-valueerror-empty-separator-24d5a8",
+  "slug": "python-valueerror-empty-separator-24d5a8",
+  "title": "ValueError: empty separator の原因と解決法",
+  "summary": "ValueError: empty separator の原因と具体的な解決手順をまとめました。",
+  "body": "<h2>エラーメッセージ（全文）</h2>\n<p>検索でヒットしやすいよう、実際のコンソール出力をそのまま掲載します。</p>\n<pre><code>ValueError: empty separator</code></pre>\n\n<h2>このエラーとは</h2>\n<p>ValueError: empty separator は Python 開発でよく遭遇するエラーです。</p>\n<p><strong>想定環境:</strong> Windows / macOS / Linux</p>\n<p><strong>よく出る状況:</strong> 入力値・データ形式の不正</p>\n\n<h2>よくある原因</h2>\n<ul>\n<li>空文字や不正フォーマットのパース</li>\n<li>split/unpack の要素数不一致</li>\n<li>空リストへの max/min</li>\n</ul><h2>解決方法</h2><h3>方法1: 入力バリデーション</h3><p>変換前に strip() と空チェックを行います。</p><h3>方法2: try/except で捕捉</h3><p>ユーザー入力は ValueError を想定して処理します.</p><pre><code>try:\n    n = int(text)\nexcept ValueError:\n    print('整数を入力してください')</code></pre>\n<h2>それでも直らないとき</h2>\n<p>バージョン情報（Python のバージョン、OS、実行コマンド）を添えて、エラーメッセージ全文と直前に変更した点を確認してください。ログの数行上にも原因の手がかりが残っていることが多いです。</p>",
+  "conclusion": "「ValueError: empty separator」は 空文字や不正フォーマットのパース が原因のことが多いです。上記の手順で切り分けてください。",
+  "tags": [
+    "python",
+    "Pythonエラー",
+    "ValueError",
+    "ValueError: empty separator"
+  ],
+  "category": "Pythonエラー",
+  "theme": "errors - Python エラー・トラブル集",
+  "articleType": "error",
+  "status": "published",
+  "createdAt": "2026-05-30T05:47:31.092Z",
+  "updatedAt": "2026-05-30T05:47:31.092Z",
+  "publishedAt": "2026-05-30T05:47:31.092Z",
+  "metaTitle": "ValueError: empty separator の原因と解決法 | Pythonエラー",
+  "metaDescription": "ValueError: empty separator が出たときの原因・確認手順・解決策を解説。入力値・データ形式の不正。",
+  "ogTitle": "ValueError: empty separator の原因と解決法",
+  "ogDescription": "ValueError: empty separator が出たときの原因・確認手順・解決策を解説。入力値・データ形式の不正。",
+  "knowledge": {
+    "topic": "errors",
+    "courseId": "python-errors",
+    "episode": 255
+  },
+  "faq": [
+    {
+      "question": "ValueError: empty separator とは何ですか？",
+      "answer": "ValueError: empty separator は Python 実行時に表示されるエラーです。空文字や不正フォーマットのパース"
+    },
+    {
+      "question": "ValueError: empty separator の原因は？",
+      "answer": "空文字や不正フォーマットのパース。split/unpack の要素数不一致。空リストへの max/min。"
+    },
+    {
+      "question": "ValueError: empty separator の直し方は？",
+      "answer": "入力バリデーション：変換前に strip() と空チェックを行います。 try/except で捕捉：ユーザー入力は ValueError を想定して処理します."
+    },
+    {
+      "question": "Python で ValueError が出るのはなぜ？",
+      "answer": "入力値・データ形式の不正"
+    },
+    {
+      "question": "ValueError: empty separator を防ぐには？",
+      "answer": "。"
+    }
+  ],
+  "nextAction": "同じ Python カテゴリの関連エラーもあわせて確認してください。",
+  "internalLinkCandidates": [],
+  "ogImage": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+  "canonical": "https://ai-site-iota-nine.vercel.app/article/python-valueerror-empty-separator-24d5a8",
+  "jsonLd": {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@context": "https://schema.org",
+        "@type": "TechArticle",
+        "headline": "ValueError: empty separator の原因と解決法",
+        "description": "ValueError: empty separator が出たときの原因・確認手順・解決策を解説。入力値・データ形式の不正。",
+        "datePublished": "2026-05-30T05:47:31.092Z",
+        "dateModified": "2026-05-30T05:47:31.092Z",
+        "author": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
+        },
+        "image": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+        "inLanguage": "ja",
+        "wordCount": 463,
+        "mainEntityOfPage": {
+          "@type": "WebPage",
+          "@id": "https://ai-site-iota-nine.vercel.app/article/python-valueerror-empty-separator-24d5a8"
+        },
+        "keywords": "python, Pythonエラー, ValueError, ValueError: empty separator",
+        "articleSection": "Pythonエラー",
+        "url": "https://ai-site-iota-nine.vercel.app/article/python-valueerror-empty-separator-24d5a8",
+        "learningResourceType": "tutorial",
+        "educationalLevel": "beginner"
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "ホーム",
+            "item": "https://ai-site-iota-nine.vercel.app/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "errors",
+            "item": "https://ai-site-iota-nine.vercel.app/knowledge/errors"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "Python エラー・トラブル集",
+            "item": "https://ai-site-iota-nine.vercel.app/course/errors/python-errors"
+          },
+          {
+            "@type": "ListItem",
+            "position": 4,
+            "name": "ValueError: empty separator の原因と解決法",
+            "item": "https://ai-site-iota-nine.vercel.app/article/python-valueerror-empty-separator-24d5a8"
+          }
+        ]
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "Course",
+        "name": "Python エラー・トラブル集",
+        "description": "Python エラー・トラブル集",
+        "provider": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app"
+        },
+        "url": "https://ai-site-iota-nine.vercel.app/course/errors/python-errors",
+        "inLanguage": "ja",
+        "educationalLevel": "beginner",
+        "hasCourseInstance": {
+          "@type": "CourseInstance",
+          "courseMode": "online",
+          "courseWorkload": "PT1H"
+        }
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "ValueError: empty separator とは何ですか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "ValueError: empty separator は Python 実行時に表示されるエラーです。空文字や不正フォーマットのパース"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "ValueError: empty separator の原因は？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "空文字や不正フォーマットのパース。split/unpack の要素数不一致。空リストへの max/min。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "ValueError: empty separator の直し方は？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "入力バリデーション：変換前に strip() と空チェックを行います。 try/except で捕捉：ユーザー入力は ValueError を想定して処理します."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Python で ValueError が出るのはなぜ？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "入力値・データ形式の不正"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "ValueError: empty separator を防ぐには？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "。"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "breadcrumb": {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "ホーム",
+        "item": "https://ai-site-iota-nine.vercel.app/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "errors",
+        "item": "https://ai-site-iota-nine.vercel.app/knowledge/errors"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "Python エラー・トラブル集",
+        "item": "https://ai-site-iota-nine.vercel.app/course/errors/python-errors"
+      },
+      {
+        "@type": "ListItem",
+        "position": 4,
+        "name": "ValueError: empty separator の原因と解決法",
+        "item": "https://ai-site-iota-nine.vercel.app/article/python-valueerror-empty-separator-24d5a8"
+      }
+    ]
+  },
+  "courseSchema": {
+    "@context": "https://schema.org",
+    "@type": "Course",
+    "name": "Python エラー・トラブル集",
+    "description": "Python エラー・トラブル集",
+    "provider": {
+      "@type": "Organization",
+      "name": "StackShelf",
+      "url": "https://ai-site-iota-nine.vercel.app"
+    },
+    "url": "https://ai-site-iota-nine.vercel.app/course/errors/python-errors",
+    "inLanguage": "ja",
+    "educationalLevel": "beginner",
+    "hasCourseInstance": {
+      "@type": "CourseInstance",
+      "courseMode": "online",
+      "courseWorkload": "PT1H"
+    }
+  },
+  "faqSchema": {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "ValueError: empty separator とは何ですか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "ValueError: empty separator は Python 実行時に表示されるエラーです。空文字や不正フォーマットのパース"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "ValueError: empty separator の原因は？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "空文字や不正フォーマットのパース。split/unpack の要素数不一致。空リストへの max/min。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "ValueError: empty separator の直し方は？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "入力バリデーション：変換前に strip() と空チェックを行います。 try/except で捕捉：ユーザー入力は ValueError を想定して処理します."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Python で ValueError が出るのはなぜ？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "入力値・データ形式の不正"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "ValueError: empty separator を防ぐには？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "。"
+        }
+      }
+    ]
+  }
+}

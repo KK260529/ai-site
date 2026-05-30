@@ -1,0 +1,290 @@
+{
+  "id": "art_errors_linux-grep-var-log-app-log-permission-denied-30f2dd",
+  "slug": "linux-grep-var-log-app-log-permission-denied-30f2dd",
+  "title": "grep: /var/log/app.log: Permission denied の原因と解決法",
+  "summary": "grep: /var/log/app.log: Permission denied の原因と具体的な解決手順をまとめました。",
+  "body": "<h2>エラーメッセージ（全文）</h2>\n<p>検索でヒットしやすいよう、実際のコンソール出力をそのまま掲載します。</p>\n<pre><code>grep: /var/log/app.log: Permission denied</code></pre>\n\n<h2>このエラーとは</h2>\n<p>grep: /var/log/app.log: Permission denied は Linux 開発でよく遭遇するエラーです。</p>\n<p><strong>想定環境:</strong> Windows / macOS / Linux</p>\n<p><strong>よく出る状況:</strong> ログファイル読み取り</p>\n\n<h2>よくある原因</h2>\n<ul>\n<li>一般ユーザーで root 権限ファイルを読んだ</li>\n</ul><h2>解決方法</h2><h3>方法1: sudo またはグループ追加</h3><p>sudo grep ... または adm グループ.</p>\n<h2>それでも直らないとき</h2>\n<p>バージョン情報（Linux のバージョン、OS、実行コマンド）を添えて、エラーメッセージ全文と直前に変更した点を確認してください。ログの数行上にも原因の手がかりが残っていることが多いです。</p>",
+  "conclusion": "「grep: /var/log/app.log: Permission denied」は 一般ユーザーで root 権限ファイルを読んだ が原因のことが多いです。上記の手順で切り分けてください。",
+  "tags": [
+    "linux",
+    "Linuxエラー",
+    "grep",
+    "permission",
+    "grep: /var/log/app.log: Permission denie"
+  ],
+  "category": "Linuxエラー",
+  "theme": "errors - Linux エラー・トラブル集",
+  "articleType": "error",
+  "status": "published",
+  "createdAt": "2026-05-30T05:47:53.449Z",
+  "updatedAt": "2026-05-30T05:47:53.449Z",
+  "publishedAt": "2026-05-30T05:47:53.449Z",
+  "metaTitle": "grep: /var/log/app.log: Permission denied の原因と解決法 | Linuxエラー",
+  "metaDescription": "grep: /var/log/app.log: Permission denied が出たときの原因・確認手順・解決策を解説。ログファイル読み取り。",
+  "ogTitle": "grep: /var/log/app.log: Permission denied の原因と解決法",
+  "ogDescription": "grep: /var/log/app.log: Permission denied が出たときの原因・確認手順・解決策を解説。ログファイル読み取り。",
+  "knowledge": {
+    "topic": "errors",
+    "courseId": "linux-errors",
+    "episode": 92
+  },
+  "faq": [
+    {
+      "question": "grep: /var/log/app.log: Permission denied とは何ですか？",
+      "answer": "grep: /var/log/app.log: Permission denied は Linux 実行時に表示されるエラーです。一般ユーザーで root 権限ファイルを読んだ"
+    },
+    {
+      "question": "grep: /var/log/app.log: Permission denied の原因は？",
+      "answer": "一般ユーザーで root 権限ファイルを読んだ。"
+    },
+    {
+      "question": "grep: /var/log/app.log: Permission denied の直し方は？",
+      "answer": "sudo またはグループ追加：sudo grep ... または adm グループ."
+    },
+    {
+      "question": "Linux で grep が出るのはなぜ？",
+      "answer": "ログファイル読み取り"
+    },
+    {
+      "question": "grep: /var/log/app.log: Permission denied を防ぐには？",
+      "answer": "。"
+    }
+  ],
+  "nextAction": "同じ Linux カテゴリの関連エラーもあわせて確認してください。",
+  "internalLinkCandidates": [],
+  "ogImage": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+  "canonical": "https://ai-site-iota-nine.vercel.app/article/linux-grep-var-log-app-log-permission-denied-30f2dd",
+  "jsonLd": {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@context": "https://schema.org",
+        "@type": "TechArticle",
+        "headline": "grep: /var/log/app.log: Permission denied の原因と解決法",
+        "description": "grep: /var/log/app.log: Permission denied が出たときの原因・確認手順・解決策を解説。ログファイル読み取り。",
+        "datePublished": "2026-05-30T05:47:53.449Z",
+        "dateModified": "2026-05-30T05:47:53.449Z",
+        "author": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
+        },
+        "image": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+        "inLanguage": "ja",
+        "wordCount": 364,
+        "mainEntityOfPage": {
+          "@type": "WebPage",
+          "@id": "https://ai-site-iota-nine.vercel.app/article/linux-grep-var-log-app-log-permission-denied-30f2dd"
+        },
+        "keywords": "linux, Linuxエラー, grep, permission, grep: /var/log/app.log: Permission denie",
+        "articleSection": "Linuxエラー",
+        "url": "https://ai-site-iota-nine.vercel.app/article/linux-grep-var-log-app-log-permission-denied-30f2dd",
+        "learningResourceType": "tutorial",
+        "educationalLevel": "beginner"
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "ホーム",
+            "item": "https://ai-site-iota-nine.vercel.app/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "errors",
+            "item": "https://ai-site-iota-nine.vercel.app/knowledge/errors"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "Linux エラー・トラブル集",
+            "item": "https://ai-site-iota-nine.vercel.app/course/errors/linux-errors"
+          },
+          {
+            "@type": "ListItem",
+            "position": 4,
+            "name": "grep: /var/log/app.log: Permission denied の原因と解決法",
+            "item": "https://ai-site-iota-nine.vercel.app/article/linux-grep-var-log-app-log-permission-denied-30f2dd"
+          }
+        ]
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "Course",
+        "name": "Linux エラー・トラブル集",
+        "description": "Linux エラー・トラブル集",
+        "provider": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app"
+        },
+        "url": "https://ai-site-iota-nine.vercel.app/course/errors/linux-errors",
+        "inLanguage": "ja",
+        "educationalLevel": "beginner",
+        "hasCourseInstance": {
+          "@type": "CourseInstance",
+          "courseMode": "online",
+          "courseWorkload": "PT1H"
+        }
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "grep: /var/log/app.log: Permission denied とは何ですか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "grep: /var/log/app.log: Permission denied は Linux 実行時に表示されるエラーです。一般ユーザーで root 権限ファイルを読んだ"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "grep: /var/log/app.log: Permission denied の原因は？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "一般ユーザーで root 権限ファイルを読んだ。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "grep: /var/log/app.log: Permission denied の直し方は？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "sudo またはグループ追加：sudo grep ... または adm グループ."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Linux で grep が出るのはなぜ？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "ログファイル読み取り"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "grep: /var/log/app.log: Permission denied を防ぐには？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "。"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "breadcrumb": {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "ホーム",
+        "item": "https://ai-site-iota-nine.vercel.app/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "errors",
+        "item": "https://ai-site-iota-nine.vercel.app/knowledge/errors"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "Linux エラー・トラブル集",
+        "item": "https://ai-site-iota-nine.vercel.app/course/errors/linux-errors"
+      },
+      {
+        "@type": "ListItem",
+        "position": 4,
+        "name": "grep: /var/log/app.log: Permission denied の原因と解決法",
+        "item": "https://ai-site-iota-nine.vercel.app/article/linux-grep-var-log-app-log-permission-denied-30f2dd"
+      }
+    ]
+  },
+  "courseSchema": {
+    "@context": "https://schema.org",
+    "@type": "Course",
+    "name": "Linux エラー・トラブル集",
+    "description": "Linux エラー・トラブル集",
+    "provider": {
+      "@type": "Organization",
+      "name": "StackShelf",
+      "url": "https://ai-site-iota-nine.vercel.app"
+    },
+    "url": "https://ai-site-iota-nine.vercel.app/course/errors/linux-errors",
+    "inLanguage": "ja",
+    "educationalLevel": "beginner",
+    "hasCourseInstance": {
+      "@type": "CourseInstance",
+      "courseMode": "online",
+      "courseWorkload": "PT1H"
+    }
+  },
+  "faqSchema": {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "grep: /var/log/app.log: Permission denied とは何ですか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "grep: /var/log/app.log: Permission denied は Linux 実行時に表示されるエラーです。一般ユーザーで root 権限ファイルを読んだ"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "grep: /var/log/app.log: Permission denied の原因は？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "一般ユーザーで root 権限ファイルを読んだ。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "grep: /var/log/app.log: Permission denied の直し方は？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "sudo またはグループ追加：sudo grep ... または adm グループ."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Linux で grep が出るのはなぜ？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "ログファイル読み取り"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "grep: /var/log/app.log: Permission denied を防ぐには？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "。"
+        }
+      }
+    ]
+  }
+}

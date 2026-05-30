@@ -1,0 +1,288 @@
+{
+  "id": "art_errors_bash-bash-value-too-great-for-base-d44ead",
+  "slug": "bash-bash-value-too-great-for-base-d44ead",
+  "title": "bash: value too great for base の原因と解決法",
+  "summary": "bash: value too great for base の原因と具体的な解決手順をまとめました。",
+  "body": "<h2>エラーメッセージ（全文）</h2>\n<p>検索でヒットしやすいよう、実際のコンソール出力をそのまま掲載します。</p>\n<pre><code>bash: value too great for base</code></pre>\n\n<h2>このエラーとは</h2>\n<p>bash: value too great for base は Bash 開発でよく遭遇するエラーです。</p>\n<p><strong>想定環境:</strong> Windows / macOS / Linux</p>\n<p><strong>よく出る状況:</strong> シェルスクリプト実行</p>\n\n<h2>よくある原因</h2>\n<ul>\n<li>文法エラー</li>\n<li>CRLF 改行</li>\n<li>実行権限なし</li>\n<li>set -u で未設定変数</li>\n</ul><h2>解決方法</h2><h3>方法1: bash -n 構文チェック</h3><p>bash -n script.sh.</p><pre><code>bash -n script.sh\nshellcheck script.sh</code></pre><h3>方法2: dos2unix</h3><p>Windows 改行を変換.</p><pre><code>dos2unix script.sh\nchmod +x script.sh</code></pre>\n<h2>それでも直らないとき</h2>\n<p>バージョン情報（Bash のバージョン、OS、実行コマンド）を添えて、エラーメッセージ全文と直前に変更した点を確認してください。ログの数行上にも原因の手がかりが残っていることが多いです。</p>",
+  "conclusion": "「bash: value too great for base」は 文法エラー が原因のことが多いです。上記の手順で切り分けてください。",
+  "tags": [
+    "bash",
+    "Bashエラー",
+    "bash: value too great for base"
+  ],
+  "category": "Bashエラー",
+  "theme": "errors - Bash シェルスクリプト エラー・トラブル集",
+  "articleType": "error",
+  "status": "published",
+  "createdAt": "2026-05-30T05:48:42.585Z",
+  "updatedAt": "2026-05-30T05:48:42.585Z",
+  "publishedAt": "2026-05-30T05:48:42.585Z",
+  "metaTitle": "bash: value too great for base の原因と解決法 | Bashエラー",
+  "metaDescription": "bash: value too great for base が出たときの原因・確認手順・解決策を解説。シェルスクリプト実行。",
+  "ogTitle": "bash: value too great for base の原因と解決法",
+  "ogDescription": "bash: value too great for base が出たときの原因・確認手順・解決策を解説。シェルスクリプト実行。",
+  "knowledge": {
+    "topic": "errors",
+    "courseId": "bash-errors",
+    "episode": 18
+  },
+  "faq": [
+    {
+      "question": "bash: value too great for base とは何ですか？",
+      "answer": "bash: value too great for base は Bash 実行時に表示されるエラーです。文法エラー"
+    },
+    {
+      "question": "bash: value too great for base の原因は？",
+      "answer": "文法エラー。CRLF 改行。実行権限なし。"
+    },
+    {
+      "question": "bash: value too great for base の直し方は？",
+      "answer": "bash -n 構文チェック：bash -n script.sh. dos2unix：Windows 改行を変換."
+    },
+    {
+      "question": "Bash で bash が出るのはなぜ？",
+      "answer": "シェルスクリプト実行"
+    },
+    {
+      "question": "bash: value too great for base を防ぐには？",
+      "answer": "。"
+    }
+  ],
+  "nextAction": "同じ Bash カテゴリの関連エラーもあわせて確認してください。",
+  "internalLinkCandidates": [],
+  "ogImage": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+  "canonical": "https://ai-site-iota-nine.vercel.app/article/bash-bash-value-too-great-for-base-d44ead",
+  "jsonLd": {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@context": "https://schema.org",
+        "@type": "TechArticle",
+        "headline": "bash: value too great for base の原因と解決法",
+        "description": "bash: value too great for base が出たときの原因・確認手順・解決策を解説。シェルスクリプト実行。",
+        "datePublished": "2026-05-30T05:48:42.585Z",
+        "dateModified": "2026-05-30T05:48:42.585Z",
+        "author": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
+        },
+        "image": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+        "inLanguage": "ja",
+        "wordCount": 428,
+        "mainEntityOfPage": {
+          "@type": "WebPage",
+          "@id": "https://ai-site-iota-nine.vercel.app/article/bash-bash-value-too-great-for-base-d44ead"
+        },
+        "keywords": "bash, Bashエラー, bash: value too great for base",
+        "articleSection": "Bashエラー",
+        "url": "https://ai-site-iota-nine.vercel.app/article/bash-bash-value-too-great-for-base-d44ead",
+        "learningResourceType": "tutorial",
+        "educationalLevel": "beginner"
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "ホーム",
+            "item": "https://ai-site-iota-nine.vercel.app/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "errors",
+            "item": "https://ai-site-iota-nine.vercel.app/knowledge/errors"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "Bash シェルスクリプト エラー・トラブル集",
+            "item": "https://ai-site-iota-nine.vercel.app/course/errors/bash-errors"
+          },
+          {
+            "@type": "ListItem",
+            "position": 4,
+            "name": "bash: value too great for base の原因と解決法",
+            "item": "https://ai-site-iota-nine.vercel.app/article/bash-bash-value-too-great-for-base-d44ead"
+          }
+        ]
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "Course",
+        "name": "Bash シェルスクリプト エラー・トラブル集",
+        "description": "Bash シェルスクリプト エラー・トラブル集",
+        "provider": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app"
+        },
+        "url": "https://ai-site-iota-nine.vercel.app/course/errors/bash-errors",
+        "inLanguage": "ja",
+        "educationalLevel": "beginner",
+        "hasCourseInstance": {
+          "@type": "CourseInstance",
+          "courseMode": "online",
+          "courseWorkload": "PT1H"
+        }
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "bash: value too great for base とは何ですか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "bash: value too great for base は Bash 実行時に表示されるエラーです。文法エラー"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "bash: value too great for base の原因は？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "文法エラー。CRLF 改行。実行権限なし。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "bash: value too great for base の直し方は？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "bash -n 構文チェック：bash -n script.sh. dos2unix：Windows 改行を変換."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Bash で bash が出るのはなぜ？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "シェルスクリプト実行"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "bash: value too great for base を防ぐには？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "。"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "breadcrumb": {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "ホーム",
+        "item": "https://ai-site-iota-nine.vercel.app/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "errors",
+        "item": "https://ai-site-iota-nine.vercel.app/knowledge/errors"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "Bash シェルスクリプト エラー・トラブル集",
+        "item": "https://ai-site-iota-nine.vercel.app/course/errors/bash-errors"
+      },
+      {
+        "@type": "ListItem",
+        "position": 4,
+        "name": "bash: value too great for base の原因と解決法",
+        "item": "https://ai-site-iota-nine.vercel.app/article/bash-bash-value-too-great-for-base-d44ead"
+      }
+    ]
+  },
+  "courseSchema": {
+    "@context": "https://schema.org",
+    "@type": "Course",
+    "name": "Bash シェルスクリプト エラー・トラブル集",
+    "description": "Bash シェルスクリプト エラー・トラブル集",
+    "provider": {
+      "@type": "Organization",
+      "name": "StackShelf",
+      "url": "https://ai-site-iota-nine.vercel.app"
+    },
+    "url": "https://ai-site-iota-nine.vercel.app/course/errors/bash-errors",
+    "inLanguage": "ja",
+    "educationalLevel": "beginner",
+    "hasCourseInstance": {
+      "@type": "CourseInstance",
+      "courseMode": "online",
+      "courseWorkload": "PT1H"
+    }
+  },
+  "faqSchema": {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "bash: value too great for base とは何ですか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "bash: value too great for base は Bash 実行時に表示されるエラーです。文法エラー"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "bash: value too great for base の原因は？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "文法エラー。CRLF 改行。実行権限なし。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "bash: value too great for base の直し方は？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "bash -n 構文チェック：bash -n script.sh. dos2unix：Windows 改行を変換."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Bash で bash が出るのはなぜ？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "シェルスクリプト実行"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "bash: value too great for base を防ぐには？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "。"
+        }
+      }
+    ]
+  }
+}

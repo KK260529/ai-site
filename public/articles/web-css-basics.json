@@ -2,9 +2,9 @@
   "id": "art_web_web-css-basics",
   "slug": "web-css-basics",
   "title": "CSSの基本：セレクタ・color・font-sizeをゼロから学ぼう",
-  "summary": "CSSのセレクタ・color・font-size・background-colorなど基本プロパティを初心者向けに丁寧に解説します。HTMLにCSSを適用する3つの方法と、カスケードの仕組みも説明します。",
-  "body": "<h2>CSSとは何か：HTMLに「見た目」を加える言語</h2>\n<p>CSS（Cascading Style Sheets）は、HTMLで構築したページの<strong>見た目を定義するスタイルシート言語</strong>です。文字の色・大きさ・フォント、背景色、余白、配置などをCSSで指定します。</p>\n<p>html css 初心者が理解しておくべき重要な考え方は「HTMLは構造・意味の担当、CSSは見た目の担当」という役割分担です。例えばh1タグを「大きな見出し」として使うのはHTMLの役割であり、「h1を青色の32pxにする」という指定はCSSの役割です。この分離により、同じHTMLに異なるCSSを適用するだけで全く異なるデザインのページを作れます。</p>\n<pre><code>/* CSSの基本構文 */\nセレクタ {\n  プロパティ: 値;\n  プロパティ: 値;\n}</code></pre>\n<p>「セレクタ」はどのHTML要素にスタイルを適用するかを指定します。「プロパティ」は変更したい見た目の種類（色・サイズなど）、「値」はその具体的な内容です。プロパティと値は <code>:</code> で区切り、末尾に <code>;</code> を書きます。</p>\n\n<h2>CSSをHTMLに適用する3つの方法</h2>\n<p>CSSをHTMLに読み込む方法は3種類あります。それぞれ用途が異なります。</p>\n<p><strong>①インラインスタイル</strong>：HTML要素に直接 <code>style</code> 属性で書く方法。</p>\n<pre><code>&lt;p style=\"color: red; font-size: 18px;\"&gt;この文字は赤でサイズ18px&lt;/p&gt;</code></pre>\n<p>インラインスタイルは他の方法より優先度が高く、1箇所だけ特定のスタイルを当てたいときに使います。ただし多用するとHTMLが見にくくなるため、基本的には使用を避けましょう。</p>\n<p><strong>②内部スタイルシート</strong>：HTMLの <code>&lt;head&gt;</code> タグ内に <code>&lt;style&gt;</code> タグで書く方法。</p>\n<pre><code>&lt;head&gt;\n  &lt;style&gt;\n    h1 {\n      color: blue;\n      font-size: 32px;\n    }\n    p {\n      font-size: 16px;\n    }\n  &lt;/style&gt;\n&lt;/head&gt;</code></pre>\n<p>ページ固有のスタイルを書くときに使いますが、複数ページにわたるサイトには向きません。</p>\n<p><strong>③外部スタイルシート（推奨）</strong>：別の <code>.css</code> ファイルを作成し、HTMLからリンクする方法。</p>\n<pre><code>&lt;!-- HTMLのheadタグ内で読み込む --&gt;\n&lt;link rel=\"stylesheet\" href=\"style.css\"&gt;</code></pre>\n<pre><code>/* style.css の内容 */\nh1 {\n  color: #2563eb;\n  font-size: 32px;\n}\np {\n  font-size: 16px;\n  line-height: 1.7;\n}</code></pre>\n<p>外部スタイルシートは複数のHTMLページで同じCSSを共有できるため、サイト全体のデザインを一括管理できます。web制作では基本的にこの方法を使います。</p>\n\n<h2>CSSセレクタの種類と使い方</h2>\n<p>セレクタはスタイルを適用する対象を指定します。主要なセレクタを覚えましょう。</p>\n<pre><code>/* タイプセレクタ：タグ名で指定 */\nh1 { color: navy; }\np { font-size: 16px; }\n\n/* クラスセレクタ：class属性の値で指定（.ドット） */\n.highlight { background-color: yellow; }\n\n/* IDセレクタ：id属性の値で指定（#シャープ） */\n#header { background-color: #333; }\n\n/* 子孫セレクタ：特定の要素の中にある要素を指定 */\nnav a { color: white; text-decoration: none; }\n\n/* グループセレクタ：複数要素に同じスタイルを一度に */\nh1, h2, h3 { font-family: sans-serif; }\n\n/* ユニバーサルセレクタ：すべての要素 */\n* { box-sizing: border-box; }</code></pre>\n<p>class属性は<strong>複数の要素に使い回せる</strong>ため最もよく使います。id属性はページ内で唯一の要素を指定するときに使います。基本的にはclassセレクタを中心に使いましょう。</p>\n<pre><code>&lt;!-- HTML側でclass属性をつける --&gt;\n&lt;p class=\"highlight\"&gt;この段落は黄色の背景になります。&lt;/p&gt;\n&lt;p class=\"highlight\"&gt;こちらも同じスタイルが適用されます。&lt;/p&gt;</code></pre>\n\n<h2>色を指定するCSSの書き方</h2>\n<p>CSSで色を指定する方法は複数あります。</p>\n<pre><code>/* カラーネーム（英語の色名） */\ncolor: red;\ncolor: blue;\ncolor: darkgreen;\n\n/* 16進数カラーコード（最も一般的） */\ncolor: #ff0000;     /* 赤 */\ncolor: #2563eb;     /* 青 */\ncolor: #333333;     /* 濃いグレー（#333と省略可） */\n\n/* RGB形式 */\ncolor: rgb(255, 0, 0);     /* 赤 */\ncolor: rgb(37, 99, 235);   /* 青 */\n\n/* RGBA形式（透明度あり） */\ncolor: rgba(0, 0, 0, 0.5);  /* 半透明の黒 */\n\n/* HSL形式（色相・彩度・明度） */\ncolor: hsl(220, 90%, 56%);  /* 青 */</code></pre>\n<p>最もよく使われるのは16進数カラーコードです。デザインツール（FigmaやAdobe XD）やカラーピッカーサイトから色コードをコピーして使うのが実務での標準的なやり方です。<code>color</code> プロパティはテキストの色を指定し、<code>background-color</code> は背景色を指定します。</p>\n\n<h2>フォント関連のプロパティ</h2>\n<p>テキストの見た目を制御する主要なCSSプロパティです。</p>\n<pre><code>p {\n  /* フォントサイズ */\n  font-size: 16px;      /* ピクセル指定 */\n  font-size: 1rem;      /* ルートのフォントサイズ基準（推奨） */\n  font-size: 1.2em;     /* 親要素のフォントサイズ基準 */\n\n  /* フォントの太さ */\n  font-weight: normal;  /* 標準（400） */\n  font-weight: bold;    /* 太字（700） */\n  font-weight: 600;     /* 数値で細かく指定 */\n\n  /* フォントの種類 */\n  font-family: \"Helvetica Neue\", Arial, sans-serif;\n  font-family: \"Noto Sans JP\", sans-serif;  /* 日本語フォント */\n\n  /* イタリック（斜体） */\n  font-style: italic;\n  font-style: normal;  /* 斜体を解除 */\n\n  /* 行間 */\n  line-height: 1.7;    /* フォントサイズの1.7倍（日本語に推奨） */\n\n  /* 文字間隔 */\n  letter-spacing: 0.05em;\n\n  /* テキストの配置 */\n  text-align: left;    /* 左揃え（デフォルト） */\n  text-align: center;  /* 中央揃え */\n  text-align: right;   /* 右揃え */\n}</code></pre>\n<p><code>rem</code> はルート要素（htmlタグ）のフォントサイズを基準とした相対単位で、ブラウザのデフォルトフォントサイズ（通常16px）に対して相対的にサイズを指定します。pxより <code>rem</code> を使う方が、ユーザーのブラウザフォント設定を尊重できアクセシビリティが向上します。</p>\n\n<h2>カスケード（優先順位）と詳細度の基礎</h2>\n<p>「Cascading」とはスタイルが上から流れ落ちる（滝のように）という意味で、同じ要素に複数のスタイルが指定されたとき<strong>どのルールが勝つか</strong>を決める仕組みです。</p>\n<p>基本的な優先順位は次のとおりです（上が低く、下が高い）。</p>\n<ul>\n  <li>ブラウザのデフォルトスタイル（最も低い）</li>\n  <li>外部スタイルシート</li>\n  <li>内部スタイルシート（styleタグ）</li>\n  <li>インラインスタイル</li>\n  <li><code>!important</code> 宣言（最も高い・多用は禁物）</li>\n</ul>\n<p>また、セレクタの<strong>詳細度（Specificity）</strong>も優先順位に影響します。IDセレクタ > classセレクタ > タイプセレクタの順で詳細度が高く、詳細度が高い方が優先されます。</p>\n<pre><code>/* タイプセレクタ（詳細度: 0,0,1） */\np { color: blue; }\n\n/* クラスセレクタ（詳細度: 0,1,0） ← こちらが勝つ */\n.text { color: red; }\n\n/* IDセレクタ（詳細度: 1,0,0） ← さらにこちらが勝つ */\n#main-text { color: green; }</code></pre>\n<p>詳細度の仕組みを理解することで、「なぜ思ったスタイルが効かないのか」というCSSのデバッグがしやすくなります。</p>\n\n<h2>CSSのコメントとコーディング規則</h2>\n<p>CSSのコメントは <code>/* */</code> で書きます。HTMLの <code>&lt;!-- --&gt;</code> とは形式が異なります。</p>\n<pre><code>/* ==============================\n   ヘッダースタイル\n   ============================== */\nheader {\n  background-color: #1e293b;\n  color: white;\n  padding: 16px 24px;\n}\n\n/* ナビゲーション */\nnav ul {\n  list-style: none;  /* リストの記号を消す */\n  display: flex;\n  gap: 16px;\n}</code></pre>\n<p>読みやすいCSSを書くための基本ルールとして、インデントを統一する（スペース2つまたは4つ）、プロパティごとに改行する、セクションをコメントで区切るなどの習慣を最初から身につけましょう。</p>\n\n<h2>まとめ：CSSの3本柱はセレクタ・プロパティ・値</h2>\n<p>CSSはセレクタでどの要素を対象にするかを指定し、プロパティ:値の形式でスタイルを指定します。HTMLへのCSSの適用は外部ファイル（linkタグ）が基本です。colorプロパティでテキスト色、font-sizeでフォントサイズ、background-colorで背景色を指定します。カスケードと詳細度を理解することで、「なぜスタイルが効かないか」の問題解決能力が上がります。</p>",
-  "conclusion": "CSSは「セレクタ { プロパティ: 値; }」という形式で書き、外部ファイルとしてlinkタグで読み込むのが基本です。color・font-size・background-colorなど基本プロパティと、タイプ・クラス・IDセレクタの使い分けを押さえましょう。カスケードと詳細度の仕組みを理解すると、スタイルが効かないときのデバッグが格段に楽になります。",
+  "summary": "CSSセレクタ、color/font-size/background-color等の基本プロパティ、インライン/style/linkの3つの適用方法、カスケードの基本を解説します。",
+  "body": "<h2>結論：CSSは「セレクタ { プロパティ: 値; }」で見た目を指定する</h2>\n<p><code>h1 { color: navy; font-size: 24px; }</code> のように、<strong>セレクタ</strong>でHTML要素を選び、<strong>プロパティ</strong>で色・サイズ等を変更します。適用は<strong>外部CSS（link）</strong>が保守性最高。同じ要素に複数ルールがある場合は<strong>カスケード</strong>（詳細度・順序）で決まります。</p>\n\n<h2>CSSとは何か：HTMLに「見た目」を加える言語</h2>\n<p>CSS（Cascading Style Sheets）は、HTMLで構築したページの<strong>見た目を定義するスタイルシート言語</strong>です。文字の色・大きさ・フォント、背景色、余白、配置などをCSSで指定します。</p>\n<p>html css 初心者が理解しておくべき重要な考え方は「HTMLは構造・意味の担当、CSSは見た目の担当」という役割分担です。例えばh1タグを「大きな見出し」として使うのはHTMLの役割であり、「h1を青色の32pxにする」という指定はCSSの役割です。この分離により、同じHTMLに異なるCSSを適用するだけで全く異なるデザインのページを作れます。</p>\n<pre><code>/* CSSの基本構文 */\nセレクタ {\n  プロパティ: 値;\n  プロパティ: 値;\n}</code></pre>\n<p>「セレクタ」はどのHTML要素にスタイルを適用するかを指定します。「プロパティ」は変更したい見た目の種類（色・サイズなど）、「値」はその具体的な内容です。プロパティと値は <code>:</code> で区切り、末尾に <code>;</code> を書きます。</p>\n\n<h2>CSSをHTMLに適用する3つの方法</h2>\n<p>CSSをHTMLに読み込む方法は3種類あります。それぞれ用途が異なります。</p>\n<p><strong>①インラインスタイル</strong>：HTML要素に直接 <code>style</code> 属性で書く方法。</p>\n<pre><code>&lt;p style=\"color: red; font-size: 18px;\"&gt;この文字は赤でサイズ18px&lt;/p&gt;</code></pre>\n<p>インラインスタイルは他の方法より優先度が高く、1箇所だけ特定のスタイルを当てたいときに使います。ただし多用するとHTMLが見にくくなるため、基本的には使用を避けましょう。</p>\n<p><strong>②内部スタイルシート</strong>：HTMLの <code>&lt;head&gt;</code> タグ内に <code>&lt;style&gt;</code> タグで書く方法。</p>\n<pre><code>&lt;head&gt;\n  &lt;style&gt;\n    h1 {\n      color: blue;\n      font-size: 32px;\n    }\n    p {\n      font-size: 16px;\n    }\n  &lt;/style&gt;\n&lt;/head&gt;</code></pre>\n<p>ページ固有のスタイルを書くときに使いますが、複数ページにわたるサイトには向きません。</p>\n<p><strong>③外部スタイルシート（推奨）</strong>：別の <code>.css</code> ファイルを作成し、HTMLからリンクする方法。</p>\n<pre><code>&lt;!-- HTMLのheadタグ内で読み込む --&gt;\n&lt;link rel=\"stylesheet\" href=\"style.css\"&gt;</code></pre>\n<pre><code>/* style.css の内容 */\nh1 {\n  color: #2563eb;\n  font-size: 32px;\n}\np {\n  font-size: 16px;\n  line-height: 1.7;\n}</code></pre>\n<p>外部スタイルシートは複数のHTMLページで同じCSSを共有できるため、サイト全体のデザインを一括管理できます。web制作では基本的にこの方法を使います。</p>\n\n<h2>CSSセレクタの種類と使い方</h2>\n<p>セレクタはスタイルを適用する対象を指定します。主要なセレクタを覚えましょう。</p>\n<pre><code>/* タイプセレクタ：タグ名で指定 */\nh1 { color: navy; }\np { font-size: 16px; }\n\n/* クラスセレクタ：class属性の値で指定（.ドット） */\n.highlight { background-color: yellow; }\n\n/* IDセレクタ：id属性の値で指定（#シャープ） */\n#header { background-color: #333; }\n\n/* 子孫セレクタ：特定の要素の中にある要素を指定 */\nnav a { color: white; text-decoration: none; }\n\n/* グループセレクタ：複数要素に同じスタイルを一度に */\nh1, h2, h3 { font-family: sans-serif; }\n\n/* ユニバーサルセレクタ：すべての要素 */\n* { box-sizing: border-box; }</code></pre>\n<p>class属性は<strong>複数の要素に使い回せる</strong>ため最もよく使います。id属性はページ内で唯一の要素を指定するときに使います。基本的にはclassセレクタを中心に使いましょう。</p>\n<pre><code>&lt;!-- HTML側でclass属性をつける --&gt;\n&lt;p class=\"highlight\"&gt;この段落は黄色の背景になります。&lt;/p&gt;\n&lt;p class=\"highlight\"&gt;こちらも同じスタイルが適用されます。&lt;/p&gt;</code></pre>\n\n<h2>色を指定するCSSの書き方</h2>\n<p>CSSで色を指定する方法は複数あります。</p>\n<pre><code>/* カラーネーム（英語の色名） */\ncolor: red;\ncolor: blue;\ncolor: darkgreen;\n\n/* 16進数カラーコード（最も一般的） */\ncolor: #ff0000;     /* 赤 */\ncolor: #2563eb;     /* 青 */\ncolor: #333333;     /* 濃いグレー（#333と省略可） */\n\n/* RGB形式 */\ncolor: rgb(255, 0, 0);     /* 赤 */\ncolor: rgb(37, 99, 235);   /* 青 */\n\n/* RGBA形式（透明度あり） */\ncolor: rgba(0, 0, 0, 0.5);  /* 半透明の黒 */\n\n/* HSL形式（色相・彩度・明度） */\ncolor: hsl(220, 90%, 56%);  /* 青 */</code></pre>\n<p>最もよく使われるのは16進数カラーコードです。デザインツール（FigmaやAdobe XD）やカラーピッカーサイトから色コードをコピーして使うのが実務での標準的なやり方です。<code>color</code> プロパティはテキストの色を指定し、<code>background-color</code> は背景色を指定します。</p>\n\n<h2>フォント関連のプロパティ</h2>\n<p>テキストの見た目を制御する主要なCSSプロパティです。</p>\n<pre><code>p {\n  /* フォントサイズ */\n  font-size: 16px;      /* ピクセル指定 */\n  font-size: 1rem;      /* ルートのフォントサイズ基準（推奨） */\n  font-size: 1.2em;     /* 親要素のフォントサイズ基準 */\n\n  /* フォントの太さ */\n  font-weight: normal;  /* 標準（400） */\n  font-weight: bold;    /* 太字（700） */\n  font-weight: 600;     /* 数値で細かく指定 */\n\n  /* フォントの種類 */\n  font-family: \"Helvetica Neue\", Arial, sans-serif;\n  font-family: \"Noto Sans JP\", sans-serif;  /* 日本語フォント */\n\n  /* イタリック（斜体） */\n  font-style: italic;\n  font-style: normal;  /* 斜体を解除 */\n\n  /* 行間 */\n  line-height: 1.7;    /* フォントサイズの1.7倍（日本語に推奨） */\n\n  /* 文字間隔 */\n  letter-spacing: 0.05em;\n\n  /* テキストの配置 */\n  text-align: left;    /* 左揃え（デフォルト） */\n  text-align: center;  /* 中央揃え */\n  text-align: right;   /* 右揃え */\n}</code></pre>\n<p><code>rem</code> はルート要素（htmlタグ）のフォントサイズを基準とした相対単位で、ブラウザのデフォルトフォントサイズ（通常16px）に対して相対的にサイズを指定します。pxより <code>rem</code> を使う方が、ユーザーのブラウザフォント設定を尊重できアクセシビリティが向上します。</p>\n\n<h2>カスケード（優先順位）と詳細度の基礎</h2>\n<p>「Cascading」とはスタイルが上から流れ落ちる（滝のように）という意味で、同じ要素に複数のスタイルが指定されたとき<strong>どのルールが勝つか</strong>を決める仕組みです。</p>\n<p>基本的な優先順位は次のとおりです（上が低く、下が高い）。</p>\n<ul>\n  <li>ブラウザのデフォルトスタイル（最も低い）</li>\n  <li>外部スタイルシート</li>\n  <li>内部スタイルシート（styleタグ）</li>\n  <li>インラインスタイル</li>\n  <li><code>!important</code> 宣言（最も高い・多用は禁物）</li>\n</ul>\n<p>また、セレクタの<strong>詳細度（Specificity）</strong>も優先順位に影響します。IDセレクタ > classセレクタ > タイプセレクタの順で詳細度が高く、詳細度が高い方が優先されます。</p>\n<pre><code>/* タイプセレクタ（詳細度: 0,0,1） */\np { color: blue; }\n\n/* クラスセレクタ（詳細度: 0,1,0） ← こちらが勝つ */\n.text { color: red; }\n\n/* IDセレクタ（詳細度: 1,0,0） ← さらにこちらが勝つ */\n#main-text { color: green; }</code></pre>\n<p>詳細度の仕組みを理解することで、「なぜ思ったスタイルが効かないのか」というCSSのデバッグがしやすくなります。</p>\n\n<h2>CSSのコメントとコーディング規則</h2>\n<p>CSSのコメントは <code>/* */</code> で書きます。HTMLの <code>&lt;!-- --&gt;</code> とは形式が異なります。</p>\n<pre><code>/* ==============================\n   ヘッダースタイル\n   ============================== */\nheader {\n  background-color: #1e293b;\n  color: white;\n  padding: 16px 24px;\n}\n\n/* ナビゲーション */\nnav ul {\n  list-style: none;  /* リストの記号を消す */\n  display: flex;\n  gap: 16px;\n}</code></pre>\n<p>読みやすいCSSを書くための基本ルールとして、インデントを統一する（スペース2つまたは4つ）、プロパティごとに改行する、セクションをコメントで区切るなどの習慣を最初から身につけましょう。</p>\n\n<h2>つまずきやすいポイント・失敗例</h2>\n<h3>失敗例：セミコロン忘れ</h3>\n<p>各宣言の末尾に <code>;</code> が必要です。1つ抜けると以降のルールが効かなくなることがあります。</p>\n<h3>失敗例：linkのhrefパス間違い</h3>\n<p><code>&lt;link rel=\"stylesheet\" href=\"style.css\"&gt;</code> のパスはHTMLからの相対位置です。Networkタブで404になっていないか確認しましょう。</p>\n\n<h2>まとめ：CSSの3本柱はセレクタ・プロパティ・値</h2>\n<p>CSSはセレクタでどの要素を対象にするかを指定し、プロパティ:値の形式でスタイルを指定します。HTMLへのCSSの適用は外部ファイル（linkタグ）が基本です。colorプロパティでテキスト色、font-sizeでフォントサイズ、background-colorで背景色を指定します。カスケードと詳細度を理解することで、「なぜスタイルが効かないか」の問題解決能力が上がります。</p>",
+  "conclusion": "CSSはセレクタで対象を選び、プロパティで見た目を指定します。適用方法はインライン・styleタグ・外部CSS（link）の3つで、保守性のため外部CSSが推奨です。",
   "tags": [
     "CSS",
     "セレクタ",
@@ -18,12 +18,12 @@
   "theme": "web - HTML/CSS Web制作入門",
   "status": "published",
   "createdAt": "2026-05-30T04:13:22.058Z",
-  "updatedAt": "2026-05-30T04:13:22.063Z",
+  "updatedAt": "2026-05-30T05:23:48.878Z",
   "publishedAt": "2026-05-30T04:13:22.058Z",
   "metaTitle": "CSSの基本：セレクタ・color・font-size入門【html css 初心者向け】 | StackShelf",
-  "metaDescription": "【Web開発初心者向け】CSSのセレクタ・color・font-sizeなど基本を初心者向けに解説。インライン・スタイルタグ・外部CSSファイルの違い、カスケードと詳細度の仕組みも説明します。 図解・具体例つきで丁寧に解説します。",
+  "metaDescription": "CSSのセレクタと基本プロパティ（color/font-size等）、3つの適用方法とカスケードの仕組みを初心者向けに解説します。",
   "ogTitle": "CSSの基本：セレクタ・color・font-sizeをゼロから学ぼう",
-  "ogDescription": "【Web開発初心者向け】CSSの書き方をゼロから解説。セレクタ、color、font-size、HTMLへのCSSの適用方法をhtml css 初心者向けに丁寧に説明します。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
+  "ogDescription": "CSSの基本構文とHTMLへの適用方法を具体例で学べます。",
   "knowledge": {
     "topic": "web",
     "courseId": "web",
@@ -31,20 +31,24 @@
   },
   "faq": [
     {
-      "question": "pxとremどちらを使えばいいですか？",
-      "answer": "フォントサイズにはremを使うことを推奨します。remはブラウザのデフォルトフォントサイズ（通常16px）を基準にした相対単位で、ユーザーがブラウザの文字サイズ設定を変えたときに正しくスケールします。margin・paddingなどにはpxもよく使われます。"
+      "question": "classとidセレクタの書き方は？",
+      "answer": ".classname { } がクラス、#idname { } がIDです。classは複数要素に、idは原則1ページ1要素です。"
     },
     {
-      "question": "CSSが効かないとき何を確認すればいいですか？",
-      "answer": "①セレクタのtypoがないか、②linkタグのhrefのパスが正しいか、③より高い詳細度の別スタイルで上書きされていないか、④ブラウザのキャッシュが残っていないか（Ctrl+F5で強制リロード）の順に確認しましょう。ブラウザの開発者ツール（F12→Styles）で適用されているスタイルを視覚的に確認できます。"
+      "question": "インラインstyleはなぜ非推奨？",
+      "answer": "HTMLとCSSが混在し保守が困難になるためです。例外は動的に1属性だけ変える場合など限定的です。"
     },
     {
-      "question": "!importantはいつ使えばいいですか？",
-      "answer": "原則として使わないことを推奨します。!importantは詳細度の競合を力技で解決しますが、後から修正しにくいCSSを作る原因になります。使うとすれば他のCSSを上書きできないサードパーティのスタイルを強制的に変えたいときなど、限定的な場面だけです。"
+      "question": "CSSが効かないときの確認順は？",
+      "answer": "①linkのパス ②セレクタのスペル ③詳細度で上書きされていないか ④開発者ツールのStylesタブ"
     },
     {
-      "question": "Google Fontsの日本語フォントをWebページで使うにはどうすればいいですか？",
-      "answer": "Google FontsのサイトでNoto Sans JPなどの日本語フォントを選び、表示されるlinkタグとfont-familyのコードをコピーしてHTMLとCSSに貼り付けるだけです。headタグにlinkを追加し、CSSにfont-family: 'Noto Sans JP', sans-serif;と書けば適用されます。"
+      "question": "pxとem/remの違いは？",
+      "answer": "pxは固定、emは親要素基準、remはルート(html)基準の相対サイズです。"
+    },
+    {
+      "question": "HTML/CSSだけでWebサイトは作れますか？",
+      "answer": "静的ページなら可能です。"
     }
   ],
   "nextEpisodeHint": "次回はCSSのボックスモデルを学びます。margin・padding・border・widthの仕組みを理解すると、レイアウトの調整が格段にやりやすくなります。",
@@ -57,9 +61,9 @@
         "@context": "https://schema.org",
         "@type": "TechArticle",
         "headline": "CSSの基本：セレクタ・color・font-sizeをゼロから学ぼう",
-        "description": "【Web開発初心者向け】CSSのセレクタ・color・font-sizeなど基本を初心者向けに解説。インライン・スタイルタグ・外部CSSファイルの違い、カスケードと詳細度の仕組みも説明します。 図解・具体例つきで丁寧に解説します。",
+        "description": "CSSのセレクタと基本プロパティ（color/font-size等）、3つの適用方法とカスケードの仕組みを初心者向けに解説します。",
         "datePublished": "2026-05-30T04:13:22.058Z",
-        "dateModified": "2026-05-30T04:13:22.063Z",
+        "dateModified": "2026-05-30T05:23:48.878Z",
         "author": {
           "@type": "Organization",
           "name": "StackShelf",
@@ -80,7 +84,7 @@
         },
         "image": "https://ai-site-iota-nine.vercel.app/og-default.svg",
         "inLanguage": "ja",
-        "wordCount": 3981,
+        "wordCount": 4315,
         "mainEntityOfPage": {
           "@type": "WebPage",
           "@id": "https://ai-site-iota-nine.vercel.app/article/web-css-basics"
@@ -146,34 +150,42 @@
         "mainEntity": [
           {
             "@type": "Question",
-            "name": "pxとremどちらを使えばいいですか？",
+            "name": "classとidセレクタの書き方は？",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "フォントサイズにはremを使うことを推奨します。remはブラウザのデフォルトフォントサイズ（通常16px）を基準にした相対単位で、ユーザーがブラウザの文字サイズ設定を変えたときに正しくスケールします。margin・paddingなどにはpxもよく使われます。"
+              "text": ".classname { } がクラス、#idname { } がIDです。classは複数要素に、idは原則1ページ1要素です。"
             }
           },
           {
             "@type": "Question",
-            "name": "CSSが効かないとき何を確認すればいいですか？",
+            "name": "インラインstyleはなぜ非推奨？",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "①セレクタのtypoがないか、②linkタグのhrefのパスが正しいか、③より高い詳細度の別スタイルで上書きされていないか、④ブラウザのキャッシュが残っていないか（Ctrl+F5で強制リロード）の順に確認しましょう。ブラウザの開発者ツール（F12→Styles）で適用されているスタイルを視覚的に確認できます。"
+              "text": "HTMLとCSSが混在し保守が困難になるためです。例外は動的に1属性だけ変える場合など限定的です。"
             }
           },
           {
             "@type": "Question",
-            "name": "!importantはいつ使えばいいですか？",
+            "name": "CSSが効かないときの確認順は？",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "原則として使わないことを推奨します。!importantは詳細度の競合を力技で解決しますが、後から修正しにくいCSSを作る原因になります。使うとすれば他のCSSを上書きできないサードパーティのスタイルを強制的に変えたいときなど、限定的な場面だけです。"
+              "text": "①linkのパス ②セレクタのスペル ③詳細度で上書きされていないか ④開発者ツールのStylesタブ"
             }
           },
           {
             "@type": "Question",
-            "name": "Google Fontsの日本語フォントをWebページで使うにはどうすればいいですか？",
+            "name": "pxとem/remの違いは？",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "Google FontsのサイトでNoto Sans JPなどの日本語フォントを選び、表示されるlinkタグとfont-familyのコードをコピーしてHTMLとCSSに貼り付けるだけです。headタグにlinkを追加し、CSSにfont-family: 'Noto Sans JP', sans-serif;と書けば適用されます。"
+              "text": "pxは固定、emは親要素基準、remはルート(html)基準の相対サイズです。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "HTML/CSSだけでWebサイトは作れますか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "静的ページなら可能です。"
             }
           }
         ]
@@ -235,36 +247,72 @@
     "mainEntity": [
       {
         "@type": "Question",
-        "name": "pxとremどちらを使えばいいですか？",
+        "name": "classとidセレクタの書き方は？",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "フォントサイズにはremを使うことを推奨します。remはブラウザのデフォルトフォントサイズ（通常16px）を基準にした相対単位で、ユーザーがブラウザの文字サイズ設定を変えたときに正しくスケールします。margin・paddingなどにはpxもよく使われます。"
+          "text": ".classname { } がクラス、#idname { } がIDです。classは複数要素に、idは原則1ページ1要素です。"
         }
       },
       {
         "@type": "Question",
-        "name": "CSSが効かないとき何を確認すればいいですか？",
+        "name": "インラインstyleはなぜ非推奨？",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "①セレクタのtypoがないか、②linkタグのhrefのパスが正しいか、③より高い詳細度の別スタイルで上書きされていないか、④ブラウザのキャッシュが残っていないか（Ctrl+F5で強制リロード）の順に確認しましょう。ブラウザの開発者ツール（F12→Styles）で適用されているスタイルを視覚的に確認できます。"
+          "text": "HTMLとCSSが混在し保守が困難になるためです。例外は動的に1属性だけ変える場合など限定的です。"
         }
       },
       {
         "@type": "Question",
-        "name": "!importantはいつ使えばいいですか？",
+        "name": "CSSが効かないときの確認順は？",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "原則として使わないことを推奨します。!importantは詳細度の競合を力技で解決しますが、後から修正しにくいCSSを作る原因になります。使うとすれば他のCSSを上書きできないサードパーティのスタイルを強制的に変えたいときなど、限定的な場面だけです。"
+          "text": "①linkのパス ②セレクタのスペル ③詳細度で上書きされていないか ④開発者ツールのStylesタブ"
         }
       },
       {
         "@type": "Question",
-        "name": "Google Fontsの日本語フォントをWebページで使うにはどうすればいいですか？",
+        "name": "pxとem/remの違いは？",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Google FontsのサイトでNoto Sans JPなどの日本語フォントを選び、表示されるlinkタグとfont-familyのコードをコピーしてHTMLとCSSに貼り付けるだけです。headタグにlinkを追加し、CSSにfont-family: 'Noto Sans JP', sans-serif;と書けば適用されます。"
+          "text": "pxは固定、emは親要素基準、remはルート(html)基準の相対サイズです。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "HTML/CSSだけでWebサイトは作れますか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "静的ページなら可能です。"
         }
       }
     ]
-  }
+  },
+  "internalLinkCandidates": [
+    {
+      "slug": "web-css-practice",
+      "title": "ランディングページを実際に作ろう：HTML/CSS総合実践",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "web-responsive",
+      "title": "レスポンシブデザイン入門：viewportとメディアクエリでスマホ対応を実現しよう",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "web-flexbox",
+      "title": "CSSフレックスボックス完全入門：display:flexとjustify-contentを使いこなそう",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "web-box-model",
+      "title": "CSSボックスモデル完全解説：margin・padding・borderの仕組みを理解しよう",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "web-publish-basics",
+      "title": "WebサイトをGitHub Pages・Vercelで無料公開する方法【完全手順】",
+      "reason": "同じ講座の関連回です"
+    }
+  ],
+  "nextAction": "style.css を作成し、linkでHTMLに読み込み、h1 { color: navy; } と p { font-size: 18px; } を書いて反映を確認してください。"
 }

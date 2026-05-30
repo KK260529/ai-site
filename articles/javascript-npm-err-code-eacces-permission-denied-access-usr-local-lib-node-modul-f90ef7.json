@@ -1,0 +1,290 @@
+{
+  "id": "art_errors_javascript-npm-err-code-eacces-permission-denied-access-usr-local-lib-node-modul-f90ef7",
+  "slug": "javascript-npm-err-code-eacces-permission-denied-access-usr-local-lib-node-modul-f90ef7",
+  "title": "npm ERR! code EACCES permission denied, access '/usr/local/lib/node_modules' の原因と解決法",
+  "summary": "npm ERR! code EACCES permission denied, access '/usr/local/lib/node_modules' の原因と具体的な解決手順をまとめました。",
+  "body": "<h2>エラーメッセージ（全文）</h2>\n<p>検索でヒットしやすいよう、実際のコンソール出力をそのまま掲載します。</p>\n<pre><code>npm ERR! code EACCES permission denied, access '/usr/local/lib/node_modules'</code></pre>\n\n<h2>このエラーとは</h2>\n<p>npm ERR! code EACCES permission denied, access '/usr/local/lib/node_modules' は JavaScript 開発でよく遭遇するエラーです。</p>\n<p><strong>想定環境:</strong> Windows / macOS / Linux</p>\n<p><strong>よく出る状況:</strong> npm / yarn / pnpm install 時</p>\n\n<h2>よくある原因</h2>\n<ul>\n<li>peer dependency 競合</li>\n<li>権限不足</li>\n<li>lock ファイル不整合</li>\n</ul><h2>解決方法</h2><h3>方法1: legacy-peer-deps</h3><p>一時的回避.</p><pre><code>npm install --legacy-peer-deps</code></pre><h3>方法2: node_modules 削除</h3><p>クリーンインストール.</p><pre><code>rm -rf node_modules package-lock.json &amp;&amp; npm install</code></pre>\n<h2>それでも直らないとき</h2>\n<p>バージョン情報（JavaScript のバージョン、OS、実行コマンド）を添えて、エラーメッセージ全文と直前に変更した点を確認してください。ログの数行上にも原因の手がかりが残っていることが多いです。</p>",
+  "conclusion": "「npm ERR! code EACCES permission denied, access '/usr/local/lib/node_modules'」は peer dependency 競合 が原因のことが多いです。上記の手順で切り分けてください。",
+  "tags": [
+    "javascript",
+    "JavaScriptエラー",
+    "npm ERR! code EACCES permission denied, access '/usr/local/lib/node_modules'",
+    "npm",
+    "npm ERR! code EACCES permission denied, "
+  ],
+  "category": "JavaScriptエラー",
+  "theme": "errors - JavaScript / Node.js エラー・トラブル集",
+  "articleType": "error",
+  "status": "published",
+  "createdAt": "2026-05-30T05:47:45.059Z",
+  "updatedAt": "2026-05-30T05:47:45.059Z",
+  "publishedAt": "2026-05-30T05:47:45.059Z",
+  "metaTitle": "npm ERR! code EACCES permission denied, access '/usr/local/…",
+  "metaDescription": "npm ERR! code EACCES permission denied, access '/usr/local/lib/node_modules' が出たときの原因・確認手順・解決策を解説。npm / yarn / pnpm install 時。",
+  "ogTitle": "npm ERR! code EACCES permission denied, access '/usr/local/lib/node_modules' の原因と解決法",
+  "ogDescription": "npm ERR! code EACCES permission denied, access '/usr/local/lib/node_modules' が出たときの原因・確認手順・解決策を解説。npm / yarn / pnpm install 時。",
+  "knowledge": {
+    "topic": "errors",
+    "courseId": "javascript-errors",
+    "episode": 111
+  },
+  "faq": [
+    {
+      "question": "npm ERR! code EACCES permission denied, access '/usr/local/lib/node_modules' とは何ですか？",
+      "answer": "npm ERR! code EACCES permission denied, access '/usr/local/lib/node_modules' は JavaScript 実行時に表示されるエラーです。peer dependency 競合"
+    },
+    {
+      "question": "npm ERR! code EACCES permission denied, access '/usr/local/lib/node_modules' の原因は？",
+      "answer": "peer dependency 競合。権限不足。lock ファイル不整合。"
+    },
+    {
+      "question": "npm ERR! code EACCES permission denied, access '/usr/local/lib/node_modules' の直し方は？",
+      "answer": "legacy-peer-deps：一時的回避. node_modules 削除：クリーンインストール."
+    },
+    {
+      "question": "JavaScript で npm ERR! code EACCES permission denied, access '/usr/local/lib/node_modules' が出るのはなぜ？",
+      "answer": "npm / yarn / pnpm install 時"
+    },
+    {
+      "question": "npm ERR! code EACCES permission denied, access '/usr/local/lib/node_modules' を防ぐには？",
+      "answer": "。"
+    }
+  ],
+  "nextAction": "同じ JavaScript カテゴリの関連エラーもあわせて確認してください。",
+  "internalLinkCandidates": [],
+  "ogImage": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+  "canonical": "https://ai-site-iota-nine.vercel.app/article/javascript-npm-err-code-eacces-permission-denied-access-usr-local-lib-node-modul-f90ef7",
+  "jsonLd": {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@context": "https://schema.org",
+        "@type": "TechArticle",
+        "headline": "npm ERR! code EACCES permission denied, access '/usr/local/lib/node_modules' の原因と解決法",
+        "description": "npm ERR! code EACCES permission denied, access '/usr/local/lib/node_modules' が出たときの原因・確認手順・解決策を解説。npm / yarn / pnpm install 時。",
+        "datePublished": "2026-05-30T05:47:45.059Z",
+        "dateModified": "2026-05-30T05:47:45.059Z",
+        "author": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
+        },
+        "image": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+        "inLanguage": "ja",
+        "wordCount": 555,
+        "mainEntityOfPage": {
+          "@type": "WebPage",
+          "@id": "https://ai-site-iota-nine.vercel.app/article/javascript-npm-err-code-eacces-permission-denied-access-usr-local-lib-node-modul-f90ef7"
+        },
+        "keywords": "javascript, JavaScriptエラー, npm ERR! code EACCES permission denied, access '/usr/local/lib/node_modules', npm, npm ERR! code EACCES permission denied, ",
+        "articleSection": "JavaScriptエラー",
+        "url": "https://ai-site-iota-nine.vercel.app/article/javascript-npm-err-code-eacces-permission-denied-access-usr-local-lib-node-modul-f90ef7",
+        "learningResourceType": "tutorial",
+        "educationalLevel": "beginner"
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "ホーム",
+            "item": "https://ai-site-iota-nine.vercel.app/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "errors",
+            "item": "https://ai-site-iota-nine.vercel.app/knowledge/errors"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "JavaScript / Node.js エラー・トラブル集",
+            "item": "https://ai-site-iota-nine.vercel.app/course/errors/javascript-errors"
+          },
+          {
+            "@type": "ListItem",
+            "position": 4,
+            "name": "npm ERR! code EACCES permission denied, access '/usr/local/lib/node_modules' の原因と解決法",
+            "item": "https://ai-site-iota-nine.vercel.app/article/javascript-npm-err-code-eacces-permission-denied-access-usr-local-lib-node-modul-f90ef7"
+          }
+        ]
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "Course",
+        "name": "JavaScript / Node.js エラー・トラブル集",
+        "description": "JavaScript / Node.js エラー・トラブル集",
+        "provider": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app"
+        },
+        "url": "https://ai-site-iota-nine.vercel.app/course/errors/javascript-errors",
+        "inLanguage": "ja",
+        "educationalLevel": "beginner",
+        "hasCourseInstance": {
+          "@type": "CourseInstance",
+          "courseMode": "online",
+          "courseWorkload": "PT1H"
+        }
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "npm ERR! code EACCES permission denied, access '/usr/local/lib/node_modules' とは何ですか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "npm ERR! code EACCES permission denied, access '/usr/local/lib/node_modules' は JavaScript 実行時に表示されるエラーです。peer dependency 競合"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "npm ERR! code EACCES permission denied, access '/usr/local/lib/node_modules' の原因は？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "peer dependency 競合。権限不足。lock ファイル不整合。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "npm ERR! code EACCES permission denied, access '/usr/local/lib/node_modules' の直し方は？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "legacy-peer-deps：一時的回避. node_modules 削除：クリーンインストール."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "JavaScript で npm ERR! code EACCES permission denied, access '/usr/local/lib/node_modules' が出るのはなぜ？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "npm / yarn / pnpm install 時"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "npm ERR! code EACCES permission denied, access '/usr/local/lib/node_modules' を防ぐには？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "。"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "breadcrumb": {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "ホーム",
+        "item": "https://ai-site-iota-nine.vercel.app/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "errors",
+        "item": "https://ai-site-iota-nine.vercel.app/knowledge/errors"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "JavaScript / Node.js エラー・トラブル集",
+        "item": "https://ai-site-iota-nine.vercel.app/course/errors/javascript-errors"
+      },
+      {
+        "@type": "ListItem",
+        "position": 4,
+        "name": "npm ERR! code EACCES permission denied, access '/usr/local/lib/node_modules' の原因と解決法",
+        "item": "https://ai-site-iota-nine.vercel.app/article/javascript-npm-err-code-eacces-permission-denied-access-usr-local-lib-node-modul-f90ef7"
+      }
+    ]
+  },
+  "courseSchema": {
+    "@context": "https://schema.org",
+    "@type": "Course",
+    "name": "JavaScript / Node.js エラー・トラブル集",
+    "description": "JavaScript / Node.js エラー・トラブル集",
+    "provider": {
+      "@type": "Organization",
+      "name": "StackShelf",
+      "url": "https://ai-site-iota-nine.vercel.app"
+    },
+    "url": "https://ai-site-iota-nine.vercel.app/course/errors/javascript-errors",
+    "inLanguage": "ja",
+    "educationalLevel": "beginner",
+    "hasCourseInstance": {
+      "@type": "CourseInstance",
+      "courseMode": "online",
+      "courseWorkload": "PT1H"
+    }
+  },
+  "faqSchema": {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "npm ERR! code EACCES permission denied, access '/usr/local/lib/node_modules' とは何ですか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "npm ERR! code EACCES permission denied, access '/usr/local/lib/node_modules' は JavaScript 実行時に表示されるエラーです。peer dependency 競合"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "npm ERR! code EACCES permission denied, access '/usr/local/lib/node_modules' の原因は？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "peer dependency 競合。権限不足。lock ファイル不整合。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "npm ERR! code EACCES permission denied, access '/usr/local/lib/node_modules' の直し方は？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "legacy-peer-deps：一時的回避. node_modules 削除：クリーンインストール."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "JavaScript で npm ERR! code EACCES permission denied, access '/usr/local/lib/node_modules' が出るのはなぜ？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "npm / yarn / pnpm install 時"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "npm ERR! code EACCES permission denied, access '/usr/local/lib/node_modules' を防ぐには？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "。"
+        }
+      }
+    ]
+  }
+}

@@ -16,12 +16,12 @@
   "theme": "markdown - Markdown & 技術ドキュメント入門",
   "status": "published",
   "createdAt": "2026-05-30T05:14:17.653Z",
-  "updatedAt": "2026-05-30T05:14:17.669Z",
+  "updatedAt": "2026-05-30T05:15:45.281Z",
   "publishedAt": "2026-05-30T05:14:17.653Z",
   "metaTitle": "技術ドキュメントの構成設計【Markdown】｜Markdown入門 | StackShelf",
-  "metaDescription": "【Markdown初心者向け】Markdownで設計書・運用手順・ADRを整理する方法、docsフォルダ構成、読者別の書き分けとドキュメント負債の防ぎ方を解説します。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
+  "metaDescription": "Markdownで設計書・運用手順・ADRを整理する方法、docsフォルダ構成、読者別の書き分けとドキュメント負債の防ぎ方を解説します。",
   "ogTitle": "技術ドキュメントの構成設計",
-  "ogDescription": "【Markdown初心者向け】【Markdown初心者向け】読まれるMarkdownドキュメントのディレクトリ設計と情報の分け方を具体例で解説します。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
+  "ogDescription": "読まれるMarkdownドキュメントのディレクトリ設計と情報の分け方を具体例で解説します。",
   "knowledge": {
     "topic": "markdown",
     "courseId": "markdown",
@@ -53,29 +53,29 @@
   "nextAction": "架空プロジェクトで README.md と docs/getting-started.md の2ファイル構成を作り、READMEからdocsへリンクし、それぞれの想定読者（利用者/開発者）を見出しで明示してください。",
   "internalLinkCandidates": [
     {
+      "slug": "markdown-intro",
+      "title": "Markdownとは？技術文書を書く理由と全体像",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "markdown-practice",
+      "title": "実践：プロジェクトREADMEを一から作る｜Markdown総仕上げ",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "markdown-tools",
+      "title": "エディタ・プレビュー・Lint｜Markdown執筆を効率化するツール",
+      "reason": "同じ講座の関連回です"
+    },
+    {
       "slug": "markdown-github-readme",
-      "title": "GitHub READMEの書き方",
-      "reason": "READMEを入口に据える設計は前回のGitHub READMEの延長です"
+      "title": "GitHub READMEの書き方｜公開リポジトリの顔を整える",
+      "reason": "同じ講座の関連回です"
     },
     {
-      "slug": "git-intro",
-      "title": "Git入門",
-      "reason": "docsをリポジトリで管理する前提としてGitの理解が役立ちます"
-    },
-    {
-      "slug": "python-intro",
-      "title": "Python入門",
-      "reason": "Pythonプロジェクトのdocs/構成例とそのまま対応づけられます"
-    },
-    {
-      "slug": "docker-intro",
-      "title": "Docker入門",
-      "reason": "デプロイ手順のHow-toはDocker学習とセットで書く場面が多いです"
-    },
-    {
-      "slug": "linux-intro",
-      "title": "Linux入門",
-      "reason": "運用向け手順書はLinuxコマンド前提の説明と組み合わせられます"
+      "slug": "markdown-code-tables",
+      "title": "コードブロックと表｜Markdownで技術内容を正確に書く",
+      "reason": "同じ講座の関連回です"
     }
   ],
   "ogImage": "https://ai-site-iota-nine.vercel.app/og-default.svg",
@@ -89,7 +89,7 @@
         "headline": "技術ドキュメントの構成設計｜読まれるMarkdownの組み立て方",
         "description": "【Markdown初心者向け】Markdownで設計書・運用手順・ADRを整理する方法、docsフォルダ構成、読者別の書き分けとドキュメント負債の防ぎ方を解説します。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
         "datePublished": "2026-05-30T05:14:17.653Z",
-        "dateModified": "2026-05-30T05:14:17.669Z",
+        "dateModified": "2026-05-30T05:15:45.281Z",
         "author": {
           "@type": "Organization",
           "name": "StackShelf",

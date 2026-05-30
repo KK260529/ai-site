@@ -2,9 +2,9 @@
   "id": "art_web_web-intro",
   "slug": "web-intro",
   "title": "Webサイトの仕組みとは？HTML・CSS・JavaScriptをゼロから理解する",
-  "summary": "Webサイトがどのように動いているのか、HTML・CSS・JavaScriptがそれぞれ何をしているのかをわかりやすく解説します。web制作 入門の第一歩としてぜひ読んでください。",
-  "body": "<h2>Webサイトはどうやって表示されるのか</h2>\n<p>あなたがブラウザで「https://example.com」と入力してEnterを押すと、画面にWebページが表示されます。この一瞬の間に、実はたくさんのことが起きています。まずブラウザは、インターネットを通じてサーバー（Webサイトのデータを保管しているコンピューター）に「このページのデータをください」とリクエストを送ります。サーバーはそれに応じてHTMLファイルなどを返し、ブラウザはそのデータを解釈して画面に表示します。この一連の流れを<strong>クライアント・サーバーモデル</strong>と呼びます。</p>\n<p>ブラウザ側（あなたのPC・スマートフォン）を「クライアント」、データを管理・返送するコンピューターを「サーバー」と呼びます。Webサイトを作るということは、このサーバーから返ってくるファイルを作ることにほかなりません。html css 初心者はまず、この「ブラウザがHTMLを受け取って表示する」という仕組みを頭に入れておくと理解が早くなります。</p>\n\n<h2>HTMLの役割：ページの「骨格」を作る</h2>\n<p>HTML（HyperText Markup Language）は、Webページの<strong>構造と内容</strong>を記述するための言語です。「これはタイトルです」「これは段落です」「ここに画像があります」という情報を、<strong>タグ</strong>と呼ばれる特別な記号で表現します。</p>\n<p>例えば、見出しは <code>&lt;h1&gt;</code> タグ、段落は <code>&lt;p&gt;</code> タグ、リンクは <code>&lt;a&gt;</code> タグで表します。HTMLだけで作られたページは装飾がなく、黒い文字が並ぶだけのシンプルな見た目になりますが、それで問題ありません。まずは骨格をきっちり作ることが大切です。</p>\n<pre><code>&lt;!-- HTMLの基本例 --&gt;\n&lt;h1&gt;こんにちは、世界！&lt;/h1&gt;\n&lt;p&gt;これは最初のWebページです。&lt;/p&gt;\n&lt;a href=\"https://example.com\"&gt;リンクはこうやって作ります&lt;/a&gt;</code></pre>\n<p>HTMLはプログラミング言語ではなく<strong>マークアップ言語</strong>です。計算や条件分岐などの処理はできませんが、ページの構造を定義するという目的においては非常に強力で、すべてのWebページの基盤となっています。</p>\n\n<h2>CSSの役割：ページの「見た目」を整える</h2>\n<p>CSS（Cascading Style Sheets）は、HTMLで作られた骨格に<strong>色・フォント・レイアウト・余白</strong>などの見た目を加えるための言語です。HTMLがページの「何がある」を決めるなら、CSSは「どう見えるか」を決めます。</p>\n<p>例えば「見出しを青い大文字にする」「段落のフォントサイズを16pxにする」「背景をグレーにする」といった指示をCSSで書きます。CSSを適用することで、素朴なHTMLページが一気に洗練されたデザインになります。</p>\n<pre><code>/* CSSの基本例 */\nh1 {\n  color: #2563eb;\n  font-size: 32px;\n}\n\np {\n  font-size: 16px;\n  line-height: 1.7;\n}</code></pre>\n<p>CSSの「Cascading（カスケード）」という言葉は「滝のように流れる」という意味で、スタイルが複数の場所から適用されるとき、どのルールが優先されるかを決める仕組みを指しています。最初は少し難しく感じるかもしれませんが、基本を押さえると自然と理解できるようになります。</p>\n\n<h2>JavaScriptの役割：ページに「動き」を加える</h2>\n<p>JavaScript（JS）は、Webページに<strong>インタラクティブな動作</strong>を追加するためのプログラミング言語です。ボタンをクリックしたときにメニューが開く、フォームの入力内容をリアルタイムでチェックする、ページを更新せずに新しいデータを表示するといった動作はJavaScriptが担っています。</p>\n<p>このコースはHTML/CSSに集中したweb制作 入門コースなので、JavaScriptの詳細は別コースで扱います。ただし「HTMLが骨格・CSSが見た目・JSが動き」という三層の概念は常に意識しておきましょう。</p>\n<pre><code>// JavaScriptの基本例（参考程度）\ndocument.getElementById(\"btn\").addEventListener(\"click\", function() {\n  alert(\"ボタンがクリックされました！\");\n});</code></pre>\n\n<h2>ブラウザが果たす役割</h2>\n<p>Chrome・Firefox・Safari・Edgeなどのブラウザは、受け取ったHTMLファイルを解析して画面に表示する「レンダリングエンジン」を持っています。HTMLを読み込んで<strong>DOMツリー</strong>（Document Object Model）という内部構造に変換し、CSSを適用して最終的な見た目を計算し、JavaScriptを実行して動作を加える、という手順を経てページが表示されます。</p>\n<p>重要なことは、すべてのブラウザが少しずつ異なる挙動をすることがあるという点です。これを「ブラウザ差異」と呼び、web制作では複数のブラウザで表示を確認することが基本習慣です。現代では以前ほど大きな差はなくなりましたが、意識しておくことは大切です。</p>\n\n<h2>HTMLファイル・CSSファイル・JSファイルの関係</h2>\n<p>実際のWebサイトでは、これら3つの言語を別々のファイルに書くのが基本です。</p>\n<ul>\n  <li><code>index.html</code> ：ページの構造と内容</li>\n  <li><code>style.css</code> ：見た目のスタイル</li>\n  <li><code>script.js</code> ：インタラクティブな動作</li>\n</ul>\n<p>HTMLファイルからCSSとJSを読み込む記述を書くことで、3つが連携して動作します。これが現代のWebページの基本構成です。小規模なサイトでは1つのHTMLファイルにCSSもJSも書くこともありますが、ファイルを分けた方がメンテナンスしやすくなります。</p>\n<pre><code>&lt;!DOCTYPE html&gt;\n&lt;html lang=\"ja\"&gt;\n&lt;head&gt;\n  &lt;meta charset=\"UTF-8\"&gt;\n  &lt;title&gt;Myサイト&lt;/title&gt;\n  &lt;link rel=\"stylesheet\" href=\"style.css\"&gt;\n&lt;/head&gt;\n&lt;body&gt;\n  &lt;h1&gt;Myサイトへようこそ&lt;/h1&gt;\n  &lt;script src=\"script.js\"&gt;&lt;/script&gt;\n&lt;/body&gt;\n&lt;/html&gt;</code></pre>\n\n<h2>Web制作を学ぶ環境を整えよう</h2>\n<p>html css 初心者がまず用意すべきものは2つだけです。</p>\n<ul>\n  <li><strong>テキストエディタ</strong>：コードを書くためのアプリ。VS Code（Visual Studio Code）が最も人気で、無料で使え、初心者にも扱いやすいのでおすすめです。</li>\n  <li><strong>ブラウザ</strong>：作ったページを確認するためのアプリ。Google Chromeがおすすめです。開発者ツール（DevTools）という強力な調査ツールが内蔵されています。</li>\n</ul>\n<p>インストールしたら、新しいフォルダを作り、その中に <code>index.html</code> というファイルを作成するだけで準備完了です。サーバーや特別なソフトは一切不要で、作ったHTMLファイルをブラウザにドラッグ＆ドロップするだけで表示確認ができます。これがHTML/CSS学習のシンプルさであり魅力のひとつです。</p>\n\n<h2>まとめ：Web制作の全体像を把握しよう</h2>\n<p>Webサイトはサーバーからファイルを受け取ったブラウザが表示します。HTMLが骨格、CSSが見た目、JavaScriptが動きを担い、この3つが協力してWebページを作っています。web制作 入門として最初に学ぶべきはHTMLとCSSです。特別な環境構築は不要で、テキストエディタとブラウザさえあれば今日から始めることができます。次のエピソードでは、実際に最初のHTMLページを作成していきましょう。</p>",
-  "conclusion": "Webサイトはサーバーからファイルを受け取りブラウザが表示する仕組みです。HTMLが構造、CSSが見た目、JavaScriptが動きを担います。html css 初心者はまずテキストエディタとブラウザを用意するだけで学習を始められます。シンプルな仕組みを理解してから手を動かすことが、web制作 入門の近道です。",
+  "summary": "WebサイトはHTML（構造）・CSS（見た目）・JavaScript（動き）の3層で成り立ちます。ブラウザがサーバーからHTMLを取得して表示する流れを、初心者向けに解説します。",
+  "body": "<h2>結論：WebページはHTML（骨組み）・CSS（見た目）・JavaScript（動き）の3層構造</h2>\n<p>ブラウザはURL先のサーバーから<strong>HTML</strong>を取得し、<strong>CSS</strong>で装飾、<strong>JavaScript</strong>でボタンクリックなどの動きを実現します。静的サイトはHTML+CSSだけで完成し、フォーム送信や認証など動的機能にはJSとサーバー技術が加わります。</p>\n\n<h2>Webサイトはどうやって表示されるのか</h2>\n<p>あなたがブラウザで「https://example.com」と入力してEnterを押すと、画面にWebページが表示されます。この一瞬の間に、実はたくさんのことが起きています。まずブラウザは、インターネットを通じてサーバー（Webサイトのデータを保管しているコンピューター）に「このページのデータをください」とリクエストを送ります。サーバーはそれに応じてHTMLファイルなどを返し、ブラウザはそのデータを解釈して画面に表示します。この一連の流れを<strong>クライアント・サーバーモデル</strong>と呼びます。</p>\n<p>ブラウザ側（あなたのPC・スマートフォン）を「クライアント」、データを管理・返送するコンピューターを「サーバー」と呼びます。Webサイトを作るということは、このサーバーから返ってくるファイルを作ることにほかなりません。html css 初心者はまず、この「ブラウザがHTMLを受け取って表示する」という仕組みを頭に入れておくと理解が早くなります。</p>\n\n<h2>HTMLの役割：ページの「骨格」を作る</h2>\n<p>HTML（HyperText Markup Language）は、Webページの<strong>構造と内容</strong>を記述するための言語です。「これはタイトルです」「これは段落です」「ここに画像があります」という情報を、<strong>タグ</strong>と呼ばれる特別な記号で表現します。</p>\n<p>例えば、見出しは <code>&lt;h1&gt;</code> タグ、段落は <code>&lt;p&gt;</code> タグ、リンクは <code>&lt;a&gt;</code> タグで表します。HTMLだけで作られたページは装飾がなく、黒い文字が並ぶだけのシンプルな見た目になりますが、それで問題ありません。まずは骨格をきっちり作ることが大切です。</p>\n<pre><code>&lt;!-- HTMLの基本例 --&gt;\n&lt;h1&gt;こんにちは、世界！&lt;/h1&gt;\n&lt;p&gt;これは最初のWebページです。&lt;/p&gt;\n&lt;a href=\"https://example.com\"&gt;リンクはこうやって作ります&lt;/a&gt;</code></pre>\n<p>HTMLはプログラミング言語ではなく<strong>マークアップ言語</strong>です。計算や条件分岐などの処理はできませんが、ページの構造を定義するという目的においては非常に強力で、すべてのWebページの基盤となっています。</p>\n\n<h2>CSSの役割：ページの「見た目」を整える</h2>\n<p>CSS（Cascading Style Sheets）は、HTMLで作られた骨格に<strong>色・フォント・レイアウト・余白</strong>などの見た目を加えるための言語です。HTMLがページの「何がある」を決めるなら、CSSは「どう見えるか」を決めます。</p>\n<p>例えば「見出しを青い大文字にする」「段落のフォントサイズを16pxにする」「背景をグレーにする」といった指示をCSSで書きます。CSSを適用することで、素朴なHTMLページが一気に洗練されたデザインになります。</p>\n<pre><code>/* CSSの基本例 */\nh1 {\n  color: #2563eb;\n  font-size: 32px;\n}\n\np {\n  font-size: 16px;\n  line-height: 1.7;\n}</code></pre>\n<p>CSSの「Cascading（カスケード）」という言葉は「滝のように流れる」という意味で、スタイルが複数の場所から適用されるとき、どのルールが優先されるかを決める仕組みを指しています。最初は少し難しく感じるかもしれませんが、基本を押さえると自然と理解できるようになります。</p>\n\n<h2>JavaScriptの役割：ページに「動き」を加える</h2>\n<p>JavaScript（JS）は、Webページに<strong>インタラクティブな動作</strong>を追加するためのプログラミング言語です。ボタンをクリックしたときにメニューが開く、フォームの入力内容をリアルタイムでチェックする、ページを更新せずに新しいデータを表示するといった動作はJavaScriptが担っています。</p>\n<p>このコースはHTML/CSSに集中したweb制作 入門コースなので、JavaScriptの詳細は別コースで扱います。ただし「HTMLが骨格・CSSが見た目・JSが動き」という三層の概念は常に意識しておきましょう。</p>\n<pre><code>// JavaScriptの基本例（参考程度）\ndocument.getElementById(\"btn\").addEventListener(\"click\", function() {\n  alert(\"ボタンがクリックされました！\");\n});</code></pre>\n\n<h2>ブラウザが果たす役割</h2>\n<p>Chrome・Firefox・Safari・Edgeなどのブラウザは、受け取ったHTMLファイルを解析して画面に表示する「レンダリングエンジン」を持っています。HTMLを読み込んで<strong>DOMツリー</strong>（Document Object Model）という内部構造に変換し、CSSを適用して最終的な見た目を計算し、JavaScriptを実行して動作を加える、という手順を経てページが表示されます。</p>\n<p>重要なことは、すべてのブラウザが少しずつ異なる挙動をすることがあるという点です。これを「ブラウザ差異」と呼び、web制作では複数のブラウザで表示を確認することが基本習慣です。現代では以前ほど大きな差はなくなりましたが、意識しておくことは大切です。</p>\n\n<h2>HTMLファイル・CSSファイル・JSファイルの関係</h2>\n<p>実際のWebサイトでは、これら3つの言語を別々のファイルに書くのが基本です。</p>\n<ul>\n  <li><code>index.html</code> ：ページの構造と内容</li>\n  <li><code>style.css</code> ：見た目のスタイル</li>\n  <li><code>script.js</code> ：インタラクティブな動作</li>\n</ul>\n<p>HTMLファイルからCSSとJSを読み込む記述を書くことで、3つが連携して動作します。これが現代のWebページの基本構成です。小規模なサイトでは1つのHTMLファイルにCSSもJSも書くこともありますが、ファイルを分けた方がメンテナンスしやすくなります。</p>\n<pre><code>&lt;!DOCTYPE html&gt;\n&lt;html lang=\"ja\"&gt;\n&lt;head&gt;\n  &lt;meta charset=\"UTF-8\"&gt;\n  &lt;title&gt;Myサイト&lt;/title&gt;\n  &lt;link rel=\"stylesheet\" href=\"style.css\"&gt;\n&lt;/head&gt;\n&lt;body&gt;\n  &lt;h1&gt;Myサイトへようこそ&lt;/h1&gt;\n  &lt;script src=\"script.js\"&gt;&lt;/script&gt;\n&lt;/body&gt;\n&lt;/html&gt;</code></pre>\n\n<h2>Web制作を学ぶ環境を整えよう</h2>\n<p>html css 初心者がまず用意すべきものは2つだけです。</p>\n<ul>\n  <li><strong>テキストエディタ</strong>：コードを書くためのアプリ。VS Code（Visual Studio Code）が最も人気で、無料で使え、初心者にも扱いやすいのでおすすめです。</li>\n  <li><strong>ブラウザ</strong>：作ったページを確認するためのアプリ。Google Chromeがおすすめです。開発者ツール（DevTools）という強力な調査ツールが内蔵されています。</li>\n</ul>\n<p>インストールしたら、新しいフォルダを作り、その中に <code>index.html</code> というファイルを作成するだけで準備完了です。サーバーや特別なソフトは一切不要で、作ったHTMLファイルをブラウザにドラッグ＆ドロップするだけで表示確認ができます。これがHTML/CSS学習のシンプルさであり魅力のひとつです。</p>\n\n<h2>つまずきやすいポイント・失敗例</h2>\n<h3>よくある誤解：Web制作＝プログラミングだけ</h3>\n<p>HTML/CSSは「マークアップ」「スタイル指定」が中心で、まずはブラウザで見えるものを作る体験から始めるのが定着しやすいです。</p>\n<h3>よくある誤解：JavaScriptを最初から全部覚える必要がある</h3>\n<p>本コースはHTML→CSSの順で進みます。JSは後続コースで十分です。</p>\n\n<h2>まとめ：Web制作の全体像を把握しよう</h2>\n<p>Webサイトはサーバーからファイルを受け取ったブラウザが表示します。HTMLが骨格、CSSが見た目、JavaScriptが動きを担い、この3つが協力してWebページを作っています。web制作 入門として最初に学ぶべきはHTMLとCSSです。特別な環境構築は不要で、テキストエディタとブラウザさえあれば今日から始めることができます。次のエピソードでは、実際に最初のHTMLページを作成していきましょう。</p>",
+  "conclusion": "WebページはHTMLで構造、CSSで装飾、JavaScriptで動きを担当します。ブラウザがURLのサーバーからHTMLを取得し、CSS/JSを読み込んで画面に描画します。次回はVS Codeで最初のHTMLファイルを作成しましょう。",
   "tags": [
     "HTML",
     "CSS",
@@ -17,12 +17,12 @@
   "theme": "web - HTML/CSS Web制作入門",
   "status": "published",
   "createdAt": "2026-05-30T04:13:14.664Z",
-  "updatedAt": "2026-05-30T04:13:14.669Z",
+  "updatedAt": "2026-05-30T05:23:48.224Z",
   "publishedAt": "2026-05-30T04:13:14.664Z",
   "metaTitle": "Webサイトの仕組みとは？HTML・CSS・JSを初心者向けに解説【web制作 入門】 | StackShelf",
-  "metaDescription": "【Web開発初心者向け】WebサイトがどうやってブラウザにHTMLを届けているのか、HTML・CSS・JavaScriptの役割分担をhtml css 初心者向けにわかりやすく説明します。 図解・具体例つきで丁寧に解説します。",
+  "metaDescription": "Webサイトの仕組みとHTML/CSS/JavaScriptの役割分担を初心者向けに解説。ブラウザの表示の流れと、web制作入門の学習順序を具体例で説明します。",
   "ogTitle": "Webサイトの仕組み：HTML・CSS・JavaScriptをゼロから理解する",
-  "ogDescription": "【Web開発初心者向け】【Web開発初心者向け】ブラウザがWebページを表示する仕組み、HTML・CSS・JSの関係をゼロから丁寧に解説します。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
+  "ogDescription": "HTML・CSS・JavaScriptがWebページで担う役割をわかりやすく解説します。",
   "knowledge": {
     "topic": "web",
     "courseId": "web",
@@ -30,20 +30,24 @@
   },
   "faq": [
     {
-      "question": "HTMLとCSSはプログラミング言語ですか？",
-      "answer": "HTMLはマークアップ言語、CSSはスタイルシート言語で、どちらも厳密にはプログラミング言語ではありません。計算や条件分岐などの処理はできませんが、Webページを作るための必須知識です。JavaScriptが本来の意味でのプログラミング言語に当たります。"
+      "question": "HTML/CSSだけでWebサイトは作れますか？",
+      "answer": "静的なページなら可能です。フォーム送信やログインなど動的機能にはJavaScriptやサーバー側技術が必要になります。"
     },
     {
-      "question": "Web制作を始めるのに費用はかかりますか？",
-      "answer": "HTMLとCSSの学習自体は完全無料です。VS CodeもGoogle Chromeも無料で使えます。実際にWebサイトを公開する際にはドメイン代やサーバー代がかかることがありますが、GitHub PagesやVercelなどの無料サービスを使えば費用ゼロで公開することも可能です。"
+      "question": "どのブラウザで確認すべき？",
+      "answer": "ChromeまたはEdgeの開発者ツール（F12）が便利です。本番前にSafari/Firefoxでも表示確認すると安心です。"
     },
     {
-      "question": "スマートフォンでもWebサイトは作れますか？",
-      "answer": "技術的には可能ですが、コードを書く作業はPCの方が圧倒的に効率的です。このコースではPC（WindowsまたはMac）での学習を前提としています。学習環境はVS CodeとブラウザだけでOKです。"
+      "question": "サーバーは最初から必要？",
+      "answer": "ローカルでHTMLファイルをブラウザにドラッグ＆ドロップすれば学習開始できます。公開時にGitHub Pages等を使います。"
     },
     {
-      "question": "HTMLを学ぶのにどのくらいの期間が必要ですか？",
-      "answer": "基本的なHTMLとCSSは、毎日1〜2時間の学習で1〜2ヶ月で習得できます。このコースを順番に進めれば、12エピソードを終えた段階で簡単なWebページを自分で作れるようになります。"
+      "question": "Web開発とWebデザインの違いは？",
+      "answer": "デザインは見た目・UXの設計、開発はHTML/CSS/JSで実装することです。本コースは実装（コーディング）寄りです。"
+    },
+    {
+      "question": "HTML/CSS/JSの学習順序は？",
+      "answer": "HTML（構造）→ CSS（見た目）→ JavaScript（動き）が一般的です。本コースもこの順序です。"
     }
   ],
   "nextEpisodeHint": "次回は実際にVS Codeを使って最初のHTMLファイルを作り、ブラウザで表示するところまでやっていきます。HTMLの基本構造（DOCTYPE・html・head・body）を手を動かして学びましょう。",
@@ -56,9 +60,9 @@
         "@context": "https://schema.org",
         "@type": "TechArticle",
         "headline": "Webサイトの仕組みとは？HTML・CSS・JavaScriptをゼロから理解する",
-        "description": "【Web開発初心者向け】WebサイトがどうやってブラウザにHTMLを届けているのか、HTML・CSS・JavaScriptの役割分担をhtml css 初心者向けにわかりやすく説明します。 図解・具体例つきで丁寧に解説します。",
+        "description": "Webサイトの仕組みとHTML/CSS/JavaScriptの役割分担を初心者向けに解説。ブラウザの表示の流れと、web制作入門の学習順序を具体例で説明します。",
         "datePublished": "2026-05-30T04:13:14.664Z",
-        "dateModified": "2026-05-30T04:13:14.669Z",
+        "dateModified": "2026-05-30T05:23:48.224Z",
         "author": {
           "@type": "Organization",
           "name": "StackShelf",
@@ -79,7 +83,7 @@
         },
         "image": "https://ai-site-iota-nine.vercel.app/og-default.svg",
         "inLanguage": "ja",
-        "wordCount": 3203,
+        "wordCount": 3535,
         "mainEntityOfPage": {
           "@type": "WebPage",
           "@id": "https://ai-site-iota-nine.vercel.app/article/web-intro"
@@ -145,34 +149,42 @@
         "mainEntity": [
           {
             "@type": "Question",
-            "name": "HTMLとCSSはプログラミング言語ですか？",
+            "name": "HTML/CSSだけでWebサイトは作れますか？",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "HTMLはマークアップ言語、CSSはスタイルシート言語で、どちらも厳密にはプログラミング言語ではありません。計算や条件分岐などの処理はできませんが、Webページを作るための必須知識です。JavaScriptが本来の意味でのプログラミング言語に当たります。"
+              "text": "静的なページなら可能です。フォーム送信やログインなど動的機能にはJavaScriptやサーバー側技術が必要になります。"
             }
           },
           {
             "@type": "Question",
-            "name": "Web制作を始めるのに費用はかかりますか？",
+            "name": "どのブラウザで確認すべき？",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "HTMLとCSSの学習自体は完全無料です。VS CodeもGoogle Chromeも無料で使えます。実際にWebサイトを公開する際にはドメイン代やサーバー代がかかることがありますが、GitHub PagesやVercelなどの無料サービスを使えば費用ゼロで公開することも可能です。"
+              "text": "ChromeまたはEdgeの開発者ツール（F12）が便利です。本番前にSafari/Firefoxでも表示確認すると安心です。"
             }
           },
           {
             "@type": "Question",
-            "name": "スマートフォンでもWebサイトは作れますか？",
+            "name": "サーバーは最初から必要？",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "技術的には可能ですが、コードを書く作業はPCの方が圧倒的に効率的です。このコースではPC（WindowsまたはMac）での学習を前提としています。学習環境はVS CodeとブラウザだけでOKです。"
+              "text": "ローカルでHTMLファイルをブラウザにドラッグ＆ドロップすれば学習開始できます。公開時にGitHub Pages等を使います。"
             }
           },
           {
             "@type": "Question",
-            "name": "HTMLを学ぶのにどのくらいの期間が必要ですか？",
+            "name": "Web開発とWebデザインの違いは？",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "基本的なHTMLとCSSは、毎日1〜2時間の学習で1〜2ヶ月で習得できます。このコースを順番に進めれば、12エピソードを終えた段階で簡単なWebページを自分で作れるようになります。"
+              "text": "デザインは見た目・UXの設計、開発はHTML/CSS/JSで実装することです。本コースは実装（コーディング）寄りです。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "HTML/CSS/JSの学習順序は？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "HTML（構造）→ CSS（見た目）→ JavaScript（動き）が一般的です。本コースもこの順序です。"
             }
           }
         ]
@@ -234,36 +246,72 @@
     "mainEntity": [
       {
         "@type": "Question",
-        "name": "HTMLとCSSはプログラミング言語ですか？",
+        "name": "HTML/CSSだけでWebサイトは作れますか？",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "HTMLはマークアップ言語、CSSはスタイルシート言語で、どちらも厳密にはプログラミング言語ではありません。計算や条件分岐などの処理はできませんが、Webページを作るための必須知識です。JavaScriptが本来の意味でのプログラミング言語に当たります。"
+          "text": "静的なページなら可能です。フォーム送信やログインなど動的機能にはJavaScriptやサーバー側技術が必要になります。"
         }
       },
       {
         "@type": "Question",
-        "name": "Web制作を始めるのに費用はかかりますか？",
+        "name": "どのブラウザで確認すべき？",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "HTMLとCSSの学習自体は完全無料です。VS CodeもGoogle Chromeも無料で使えます。実際にWebサイトを公開する際にはドメイン代やサーバー代がかかることがありますが、GitHub PagesやVercelなどの無料サービスを使えば費用ゼロで公開することも可能です。"
+          "text": "ChromeまたはEdgeの開発者ツール（F12）が便利です。本番前にSafari/Firefoxでも表示確認すると安心です。"
         }
       },
       {
         "@type": "Question",
-        "name": "スマートフォンでもWebサイトは作れますか？",
+        "name": "サーバーは最初から必要？",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "技術的には可能ですが、コードを書く作業はPCの方が圧倒的に効率的です。このコースではPC（WindowsまたはMac）での学習を前提としています。学習環境はVS CodeとブラウザだけでOKです。"
+          "text": "ローカルでHTMLファイルをブラウザにドラッグ＆ドロップすれば学習開始できます。公開時にGitHub Pages等を使います。"
         }
       },
       {
         "@type": "Question",
-        "name": "HTMLを学ぶのにどのくらいの期間が必要ですか？",
+        "name": "Web開発とWebデザインの違いは？",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "基本的なHTMLとCSSは、毎日1〜2時間の学習で1〜2ヶ月で習得できます。このコースを順番に進めれば、12エピソードを終えた段階で簡単なWebページを自分で作れるようになります。"
+          "text": "デザインは見た目・UXの設計、開発はHTML/CSS/JSで実装することです。本コースは実装（コーディング）寄りです。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "HTML/CSS/JSの学習順序は？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "HTML（構造）→ CSS（見た目）→ JavaScript（動き）が一般的です。本コースもこの順序です。"
         }
       }
     ]
-  }
+  },
+  "internalLinkCandidates": [
+    {
+      "slug": "web-css-practice",
+      "title": "ランディングページを実際に作ろう：HTML/CSS総合実践",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "web-first-html",
+      "title": "最初のHTMLページを作ろう！DOCTYPE・head・bodyの基本構造を解説",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "web-publish-basics",
+      "title": "WebサイトをGitHub Pages・Vercelで無料公開する方法【完全手順】",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "web-forms",
+      "title": "HTMLフォームの作り方：form・input・label・buttonタグを徹底解説",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "web-responsive",
+      "title": "レスポンシブデザイン入門：viewportとメディアクエリでスマホ対応を実現しよう",
+      "reason": "同じ講座の関連回です"
+    }
+  ],
+  "nextAction": "ブラウザで適当なWebサイトを開き、F12→Networkタブをリロードして、html/css/jsファイルが順に読み込まれる様子を観察してください。"
 }

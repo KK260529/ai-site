@@ -1,0 +1,291 @@
+{
+  "id": "art_errors_linux-bash-ansible-command-not-found-dda7df",
+  "slug": "linux-bash-ansible-command-not-found-dda7df",
+  "title": "bash: ansible: command not found の原因と解決法",
+  "summary": "bash: ansible: command not found の原因と具体的な解決手順をまとめました。",
+  "body": "<h2>エラーメッセージ（全文）</h2>\n<p>検索でヒットしやすいよう、実際のコンソール出力をそのまま掲載します。</p>\n<pre><code>bash: ansible: command not found</code></pre>\n\n<h2>このエラーとは</h2>\n<p>bash: ansible: command not found は Linux 開発でよく遭遇するエラーです。</p>\n<p><strong>想定環境:</strong> Windows / macOS / Linux</p>\n<p><strong>よく出る状況:</strong> シェルでコマンド実行時</p>\n\n<h2>よくある原因</h2>\n<ul>\n<li>ansible が未インストール</li>\n<li>PATH に含まれていない</li>\n<li>typo</li>\n</ul><h2>解決方法</h2><h3>方法1: インストール</h3><p>ディストリビューションのパッケージマネージャで導入.</p><pre><code>sudo apt install ansible  # Debian/Ubuntu</code></pre><h3>方法2: PATH 確認</h3><p>echo $PATH と which.</p><pre><code>which ansible\necho $PATH</code></pre>\n<h2>それでも直らないとき</h2>\n<p>バージョン情報（Linux のバージョン、OS、実行コマンド）を添えて、エラーメッセージ全文と直前に変更した点を確認してください。ログの数行上にも原因の手がかりが残っていることが多いです。</p>",
+  "conclusion": "「bash: ansible: command not found」は ansible が未インストール が原因のことが多いです。上記の手順で切り分けてください。",
+  "tags": [
+    "linux",
+    "Linuxエラー",
+    "bash",
+    "command not found",
+    "ansible",
+    "bash: ansible: command not found"
+  ],
+  "category": "Linuxエラー",
+  "theme": "errors - Linux エラー・トラブル集",
+  "articleType": "error",
+  "status": "published",
+  "createdAt": "2026-05-30T05:47:51.924Z",
+  "updatedAt": "2026-05-30T05:47:51.924Z",
+  "publishedAt": "2026-05-30T05:47:51.924Z",
+  "metaTitle": "bash: ansible: command not found の原因と解決法 | Linuxエラー",
+  "metaDescription": "bash: ansible: command not found が出たときの原因・確認手順・解決策を解説。シェルでコマンド実行時。",
+  "ogTitle": "bash: ansible: command not found の原因と解決法",
+  "ogDescription": "bash: ansible: command not found が出たときの原因・確認手順・解決策を解説。シェルでコマンド実行時。",
+  "knowledge": {
+    "topic": "errors",
+    "courseId": "linux-errors",
+    "episode": 14
+  },
+  "faq": [
+    {
+      "question": "bash: ansible: command not found とは何ですか？",
+      "answer": "bash: ansible: command not found は Linux 実行時に表示されるエラーです。ansible が未インストール"
+    },
+    {
+      "question": "bash: ansible: command not found の原因は？",
+      "answer": "ansible が未インストール。PATH に含まれていない。typo。"
+    },
+    {
+      "question": "bash: ansible: command not found の直し方は？",
+      "answer": "インストール：ディストリビューションのパッケージマネージャで導入. PATH 確認：echo $PATH と which."
+    },
+    {
+      "question": "Linux で bash が出るのはなぜ？",
+      "answer": "シェルでコマンド実行時"
+    },
+    {
+      "question": "bash: ansible: command not found を防ぐには？",
+      "answer": "。"
+    }
+  ],
+  "nextAction": "同じ Linux カテゴリの関連エラーもあわせて確認してください。",
+  "internalLinkCandidates": [],
+  "ogImage": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+  "canonical": "https://ai-site-iota-nine.vercel.app/article/linux-bash-ansible-command-not-found-dda7df",
+  "jsonLd": {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@context": "https://schema.org",
+        "@type": "TechArticle",
+        "headline": "bash: ansible: command not found の原因と解決法",
+        "description": "bash: ansible: command not found が出たときの原因・確認手順・解決策を解説。シェルでコマンド実行時。",
+        "datePublished": "2026-05-30T05:47:51.924Z",
+        "dateModified": "2026-05-30T05:47:51.924Z",
+        "author": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
+        },
+        "image": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+        "inLanguage": "ja",
+        "wordCount": 434,
+        "mainEntityOfPage": {
+          "@type": "WebPage",
+          "@id": "https://ai-site-iota-nine.vercel.app/article/linux-bash-ansible-command-not-found-dda7df"
+        },
+        "keywords": "linux, Linuxエラー, bash, command not found, ansible, bash: ansible: command not found",
+        "articleSection": "Linuxエラー",
+        "url": "https://ai-site-iota-nine.vercel.app/article/linux-bash-ansible-command-not-found-dda7df",
+        "learningResourceType": "tutorial",
+        "educationalLevel": "beginner"
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "ホーム",
+            "item": "https://ai-site-iota-nine.vercel.app/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "errors",
+            "item": "https://ai-site-iota-nine.vercel.app/knowledge/errors"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "Linux エラー・トラブル集",
+            "item": "https://ai-site-iota-nine.vercel.app/course/errors/linux-errors"
+          },
+          {
+            "@type": "ListItem",
+            "position": 4,
+            "name": "bash: ansible: command not found の原因と解決法",
+            "item": "https://ai-site-iota-nine.vercel.app/article/linux-bash-ansible-command-not-found-dda7df"
+          }
+        ]
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "Course",
+        "name": "Linux エラー・トラブル集",
+        "description": "Linux エラー・トラブル集",
+        "provider": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app"
+        },
+        "url": "https://ai-site-iota-nine.vercel.app/course/errors/linux-errors",
+        "inLanguage": "ja",
+        "educationalLevel": "beginner",
+        "hasCourseInstance": {
+          "@type": "CourseInstance",
+          "courseMode": "online",
+          "courseWorkload": "PT1H"
+        }
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "bash: ansible: command not found とは何ですか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "bash: ansible: command not found は Linux 実行時に表示されるエラーです。ansible が未インストール"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "bash: ansible: command not found の原因は？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "ansible が未インストール。PATH に含まれていない。typo。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "bash: ansible: command not found の直し方は？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "インストール：ディストリビューションのパッケージマネージャで導入. PATH 確認：echo $PATH と which."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Linux で bash が出るのはなぜ？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "シェルでコマンド実行時"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "bash: ansible: command not found を防ぐには？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "。"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "breadcrumb": {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "ホーム",
+        "item": "https://ai-site-iota-nine.vercel.app/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "errors",
+        "item": "https://ai-site-iota-nine.vercel.app/knowledge/errors"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "Linux エラー・トラブル集",
+        "item": "https://ai-site-iota-nine.vercel.app/course/errors/linux-errors"
+      },
+      {
+        "@type": "ListItem",
+        "position": 4,
+        "name": "bash: ansible: command not found の原因と解決法",
+        "item": "https://ai-site-iota-nine.vercel.app/article/linux-bash-ansible-command-not-found-dda7df"
+      }
+    ]
+  },
+  "courseSchema": {
+    "@context": "https://schema.org",
+    "@type": "Course",
+    "name": "Linux エラー・トラブル集",
+    "description": "Linux エラー・トラブル集",
+    "provider": {
+      "@type": "Organization",
+      "name": "StackShelf",
+      "url": "https://ai-site-iota-nine.vercel.app"
+    },
+    "url": "https://ai-site-iota-nine.vercel.app/course/errors/linux-errors",
+    "inLanguage": "ja",
+    "educationalLevel": "beginner",
+    "hasCourseInstance": {
+      "@type": "CourseInstance",
+      "courseMode": "online",
+      "courseWorkload": "PT1H"
+    }
+  },
+  "faqSchema": {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "bash: ansible: command not found とは何ですか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "bash: ansible: command not found は Linux 実行時に表示されるエラーです。ansible が未インストール"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "bash: ansible: command not found の原因は？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "ansible が未インストール。PATH に含まれていない。typo。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "bash: ansible: command not found の直し方は？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "インストール：ディストリビューションのパッケージマネージャで導入. PATH 確認：echo $PATH と which."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Linux で bash が出るのはなぜ？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "シェルでコマンド実行時"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "bash: ansible: command not found を防ぐには？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "。"
+        }
+      }
+    ]
+  }
+}

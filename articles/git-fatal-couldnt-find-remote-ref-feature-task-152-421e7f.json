@@ -1,0 +1,290 @@
+{
+  "id": "art_errors_git-fatal-couldnt-find-remote-ref-feature-task-152-421e7f",
+  "slug": "git-fatal-couldnt-find-remote-ref-feature-task-152-421e7f",
+  "title": "fatal: couldn't find remote ref feature/task-152 の原因と解決法",
+  "summary": "fatal: couldn't find remote ref feature/task-152 の原因と具体的な解決手順をまとめました。",
+  "body": "<h2>エラーメッセージ（全文）</h2>\n<p>検索でヒットしやすいよう、実際のコンソール出力をそのまま掲載します。</p>\n<pre><code>fatal: couldn't find remote ref feature/task-152</code></pre>\n\n<h2>このエラーとは</h2>\n<p>fatal: couldn't find remote ref feature/task-152 は Git 開発でよく遭遇するエラーです。</p>\n<p><strong>想定環境:</strong> Windows / macOS / Linux</p>\n<p><strong>よく出る状況:</strong> ブランチ運用</p>\n\n<h2>よくある原因</h2>\n<ul>\n<li>コンフリクト</li>\n<li>保護ブランチ</li>\n<li>リモート不一致</li>\n</ul><h2>解決方法</h2><h3>方法1: git diff</h3><p>コンフリクトマーカーを確認.</p>\n<h2>それでも直らないとき</h2>\n<p>バージョン情報（Git のバージョン、OS、実行コマンド）を添えて、エラーメッセージ全文と直前に変更した点を確認してください。ログの数行上にも原因の手がかりが残っていることが多いです。</p>",
+  "conclusion": "「fatal: couldn't find remote ref feature/task-152」は コンフリクト が原因のことが多いです。上記の手順で切り分けてください。",
+  "tags": [
+    "git",
+    "Gitエラー",
+    "fatal",
+    "Git",
+    "fatal: couldn't find remote ref feature/"
+  ],
+  "category": "Gitエラー",
+  "theme": "errors - Git / GitHub エラー・トラブル集",
+  "articleType": "error",
+  "status": "published",
+  "createdAt": "2026-05-30T05:48:20.803Z",
+  "updatedAt": "2026-05-30T05:48:20.803Z",
+  "publishedAt": "2026-05-30T05:48:20.803Z",
+  "metaTitle": "fatal: couldn't find remote ref feature/task-152 の原因と解決法 |…",
+  "metaDescription": "fatal: couldn't find remote ref feature/task-152 が出たときの原因・確認手順・解決策を解説。ブランチ運用。",
+  "ogTitle": "fatal: couldn't find remote ref feature/task-152 の原因と解決法",
+  "ogDescription": "fatal: couldn't find remote ref feature/task-152 が出たときの原因・確認手順・解決策を解説。ブランチ運用。",
+  "knowledge": {
+    "topic": "errors",
+    "courseId": "git-errors",
+    "episode": 200
+  },
+  "faq": [
+    {
+      "question": "fatal: couldn't find remote ref feature/task-152 とは何ですか？",
+      "answer": "fatal: couldn't find remote ref feature/task-152 は Git 実行時に表示されるエラーです。コンフリクト"
+    },
+    {
+      "question": "fatal: couldn't find remote ref feature/task-152 の原因は？",
+      "answer": "コンフリクト。保護ブランチ。リモート不一致。"
+    },
+    {
+      "question": "fatal: couldn't find remote ref feature/task-152 の直し方は？",
+      "answer": "git diff：コンフリクトマーカーを確認."
+    },
+    {
+      "question": "Git で fatal が出るのはなぜ？",
+      "answer": "ブランチ運用"
+    },
+    {
+      "question": "fatal: couldn't find remote ref feature/task-152 を防ぐには？",
+      "answer": "。"
+    }
+  ],
+  "nextAction": "同じ Git カテゴリの関連エラーもあわせて確認してください。",
+  "internalLinkCandidates": [],
+  "ogImage": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+  "canonical": "https://ai-site-iota-nine.vercel.app/article/git-fatal-couldnt-find-remote-ref-feature-task-152-421e7f",
+  "jsonLd": {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@context": "https://schema.org",
+        "@type": "TechArticle",
+        "headline": "fatal: couldn't find remote ref feature/task-152 の原因と解決法",
+        "description": "fatal: couldn't find remote ref feature/task-152 が出たときの原因・確認手順・解決策を解説。ブランチ運用。",
+        "datePublished": "2026-05-30T05:48:20.803Z",
+        "dateModified": "2026-05-30T05:48:20.803Z",
+        "author": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
+        },
+        "image": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+        "inLanguage": "ja",
+        "wordCount": 350,
+        "mainEntityOfPage": {
+          "@type": "WebPage",
+          "@id": "https://ai-site-iota-nine.vercel.app/article/git-fatal-couldnt-find-remote-ref-feature-task-152-421e7f"
+        },
+        "keywords": "git, Gitエラー, fatal, Git, fatal: couldn't find remote ref feature/",
+        "articleSection": "Gitエラー",
+        "url": "https://ai-site-iota-nine.vercel.app/article/git-fatal-couldnt-find-remote-ref-feature-task-152-421e7f",
+        "learningResourceType": "tutorial",
+        "educationalLevel": "beginner"
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "ホーム",
+            "item": "https://ai-site-iota-nine.vercel.app/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "errors",
+            "item": "https://ai-site-iota-nine.vercel.app/knowledge/errors"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "Git / GitHub エラー・トラブル集",
+            "item": "https://ai-site-iota-nine.vercel.app/course/errors/git-errors"
+          },
+          {
+            "@type": "ListItem",
+            "position": 4,
+            "name": "fatal: couldn't find remote ref feature/task-152 の原因と解決法",
+            "item": "https://ai-site-iota-nine.vercel.app/article/git-fatal-couldnt-find-remote-ref-feature-task-152-421e7f"
+          }
+        ]
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "Course",
+        "name": "Git / GitHub エラー・トラブル集",
+        "description": "Git / GitHub エラー・トラブル集",
+        "provider": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app"
+        },
+        "url": "https://ai-site-iota-nine.vercel.app/course/errors/git-errors",
+        "inLanguage": "ja",
+        "educationalLevel": "beginner",
+        "hasCourseInstance": {
+          "@type": "CourseInstance",
+          "courseMode": "online",
+          "courseWorkload": "PT1H"
+        }
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "fatal: couldn't find remote ref feature/task-152 とは何ですか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "fatal: couldn't find remote ref feature/task-152 は Git 実行時に表示されるエラーです。コンフリクト"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "fatal: couldn't find remote ref feature/task-152 の原因は？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "コンフリクト。保護ブランチ。リモート不一致。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "fatal: couldn't find remote ref feature/task-152 の直し方は？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "git diff：コンフリクトマーカーを確認."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Git で fatal が出るのはなぜ？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "ブランチ運用"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "fatal: couldn't find remote ref feature/task-152 を防ぐには？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "。"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "breadcrumb": {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "ホーム",
+        "item": "https://ai-site-iota-nine.vercel.app/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "errors",
+        "item": "https://ai-site-iota-nine.vercel.app/knowledge/errors"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "Git / GitHub エラー・トラブル集",
+        "item": "https://ai-site-iota-nine.vercel.app/course/errors/git-errors"
+      },
+      {
+        "@type": "ListItem",
+        "position": 4,
+        "name": "fatal: couldn't find remote ref feature/task-152 の原因と解決法",
+        "item": "https://ai-site-iota-nine.vercel.app/article/git-fatal-couldnt-find-remote-ref-feature-task-152-421e7f"
+      }
+    ]
+  },
+  "courseSchema": {
+    "@context": "https://schema.org",
+    "@type": "Course",
+    "name": "Git / GitHub エラー・トラブル集",
+    "description": "Git / GitHub エラー・トラブル集",
+    "provider": {
+      "@type": "Organization",
+      "name": "StackShelf",
+      "url": "https://ai-site-iota-nine.vercel.app"
+    },
+    "url": "https://ai-site-iota-nine.vercel.app/course/errors/git-errors",
+    "inLanguage": "ja",
+    "educationalLevel": "beginner",
+    "hasCourseInstance": {
+      "@type": "CourseInstance",
+      "courseMode": "online",
+      "courseWorkload": "PT1H"
+    }
+  },
+  "faqSchema": {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "fatal: couldn't find remote ref feature/task-152 とは何ですか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "fatal: couldn't find remote ref feature/task-152 は Git 実行時に表示されるエラーです。コンフリクト"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "fatal: couldn't find remote ref feature/task-152 の原因は？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "コンフリクト。保護ブランチ。リモート不一致。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "fatal: couldn't find remote ref feature/task-152 の直し方は？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "git diff：コンフリクトマーカーを確認."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Git で fatal が出るのはなぜ？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "ブランチ運用"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "fatal: couldn't find remote ref feature/task-152 を防ぐには？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "。"
+        }
+      }
+    ]
+  }
+}

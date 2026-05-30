@@ -1,0 +1,290 @@
+{
+  "id": "art_errors_linux-useradd-user-appuser531-already-exists-c8050b",
+  "slug": "linux-useradd-user-appuser531-already-exists-c8050b",
+  "title": "useradd: user 'appuser531' already exists の原因と解決法",
+  "summary": "useradd: user 'appuser531' already exists の原因と具体的な解決手順をまとめました。",
+  "body": "<h2>エラーメッセージ（全文）</h2>\n<p>検索でヒットしやすいよう、実際のコンソール出力をそのまま掲載します。</p>\n<pre><code>useradd: user 'appuser531' already exists</code></pre>\n\n<h2>このエラーとは</h2>\n<p>useradd: user 'appuser531' already exists は Linux 開発でよく遭遇するエラーです。</p>\n<p><strong>想定環境:</strong> Windows / macOS / Linux</p>\n<p><strong>よく出る状況:</strong> サーバー運用</p>\n\n<h2>よくある原因</h2>\n<ul>\n<li>権限</li>\n<li>ディスク</li>\n<li>プロセス</li>\n</ul><h2>解決方法</h2><h3>方法1: sudo / 所有者確認</h3><p>ls -la と df -h.</p>\n<h2>それでも直らないとき</h2>\n<p>バージョン情報（Linux のバージョン、OS、実行コマンド）を添えて、エラーメッセージ全文と直前に変更した点を確認してください。ログの数行上にも原因の手がかりが残っていることが多いです。</p>",
+  "conclusion": "「useradd: user 'appuser531' already exists」は 権限 が原因のことが多いです。上記の手順で切り分けてください。",
+  "tags": [
+    "linux",
+    "Linuxエラー",
+    "useradd",
+    "Linux",
+    "useradd: user 'appuser531' already exist"
+  ],
+  "category": "Linuxエラー",
+  "theme": "errors - Linux エラー・トラブル集",
+  "articleType": "error",
+  "status": "published",
+  "createdAt": "2026-05-30T05:47:59.849Z",
+  "updatedAt": "2026-05-30T05:47:59.849Z",
+  "publishedAt": "2026-05-30T05:47:59.849Z",
+  "metaTitle": "useradd: user 'appuser531' already exists の原因と解決法 | Linuxエラー",
+  "metaDescription": "useradd: user 'appuser531' already exists が出たときの原因・確認手順・解決策を解説。サーバー運用。",
+  "ogTitle": "useradd: user 'appuser531' already exists の原因と解決法",
+  "ogDescription": "useradd: user 'appuser531' already exists が出たときの原因・確認手順・解決策を解説。サーバー運用。",
+  "knowledge": {
+    "topic": "errors",
+    "courseId": "linux-errors",
+    "episode": 418
+  },
+  "faq": [
+    {
+      "question": "useradd: user 'appuser531' already exists とは何ですか？",
+      "answer": "useradd: user 'appuser531' already exists は Linux 実行時に表示されるエラーです。権限"
+    },
+    {
+      "question": "useradd: user 'appuser531' already exists の原因は？",
+      "answer": "権限。ディスク。プロセス。"
+    },
+    {
+      "question": "useradd: user 'appuser531' already exists の直し方は？",
+      "answer": "sudo / 所有者確認：ls -la と df -h."
+    },
+    {
+      "question": "Linux で useradd が出るのはなぜ？",
+      "answer": "サーバー運用"
+    },
+    {
+      "question": "useradd: user 'appuser531' already exists を防ぐには？",
+      "answer": "。"
+    }
+  ],
+  "nextAction": "同じ Linux カテゴリの関連エラーもあわせて確認してください。",
+  "internalLinkCandidates": [],
+  "ogImage": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+  "canonical": "https://ai-site-iota-nine.vercel.app/article/linux-useradd-user-appuser531-already-exists-c8050b",
+  "jsonLd": {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@context": "https://schema.org",
+        "@type": "TechArticle",
+        "headline": "useradd: user 'appuser531' already exists の原因と解決法",
+        "description": "useradd: user 'appuser531' already exists が出たときの原因・確認手順・解決策を解説。サーバー運用。",
+        "datePublished": "2026-05-30T05:47:59.849Z",
+        "dateModified": "2026-05-30T05:47:59.849Z",
+        "author": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
+        },
+        "image": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+        "inLanguage": "ja",
+        "wordCount": 333,
+        "mainEntityOfPage": {
+          "@type": "WebPage",
+          "@id": "https://ai-site-iota-nine.vercel.app/article/linux-useradd-user-appuser531-already-exists-c8050b"
+        },
+        "keywords": "linux, Linuxエラー, useradd, Linux, useradd: user 'appuser531' already exist",
+        "articleSection": "Linuxエラー",
+        "url": "https://ai-site-iota-nine.vercel.app/article/linux-useradd-user-appuser531-already-exists-c8050b",
+        "learningResourceType": "tutorial",
+        "educationalLevel": "beginner"
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "ホーム",
+            "item": "https://ai-site-iota-nine.vercel.app/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "errors",
+            "item": "https://ai-site-iota-nine.vercel.app/knowledge/errors"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "Linux エラー・トラブル集",
+            "item": "https://ai-site-iota-nine.vercel.app/course/errors/linux-errors"
+          },
+          {
+            "@type": "ListItem",
+            "position": 4,
+            "name": "useradd: user 'appuser531' already exists の原因と解決法",
+            "item": "https://ai-site-iota-nine.vercel.app/article/linux-useradd-user-appuser531-already-exists-c8050b"
+          }
+        ]
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "Course",
+        "name": "Linux エラー・トラブル集",
+        "description": "Linux エラー・トラブル集",
+        "provider": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app"
+        },
+        "url": "https://ai-site-iota-nine.vercel.app/course/errors/linux-errors",
+        "inLanguage": "ja",
+        "educationalLevel": "beginner",
+        "hasCourseInstance": {
+          "@type": "CourseInstance",
+          "courseMode": "online",
+          "courseWorkload": "PT1H"
+        }
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "useradd: user 'appuser531' already exists とは何ですか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "useradd: user 'appuser531' already exists は Linux 実行時に表示されるエラーです。権限"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "useradd: user 'appuser531' already exists の原因は？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "権限。ディスク。プロセス。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "useradd: user 'appuser531' already exists の直し方は？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "sudo / 所有者確認：ls -la と df -h."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Linux で useradd が出るのはなぜ？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "サーバー運用"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "useradd: user 'appuser531' already exists を防ぐには？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "。"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "breadcrumb": {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "ホーム",
+        "item": "https://ai-site-iota-nine.vercel.app/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "errors",
+        "item": "https://ai-site-iota-nine.vercel.app/knowledge/errors"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "Linux エラー・トラブル集",
+        "item": "https://ai-site-iota-nine.vercel.app/course/errors/linux-errors"
+      },
+      {
+        "@type": "ListItem",
+        "position": 4,
+        "name": "useradd: user 'appuser531' already exists の原因と解決法",
+        "item": "https://ai-site-iota-nine.vercel.app/article/linux-useradd-user-appuser531-already-exists-c8050b"
+      }
+    ]
+  },
+  "courseSchema": {
+    "@context": "https://schema.org",
+    "@type": "Course",
+    "name": "Linux エラー・トラブル集",
+    "description": "Linux エラー・トラブル集",
+    "provider": {
+      "@type": "Organization",
+      "name": "StackShelf",
+      "url": "https://ai-site-iota-nine.vercel.app"
+    },
+    "url": "https://ai-site-iota-nine.vercel.app/course/errors/linux-errors",
+    "inLanguage": "ja",
+    "educationalLevel": "beginner",
+    "hasCourseInstance": {
+      "@type": "CourseInstance",
+      "courseMode": "online",
+      "courseWorkload": "PT1H"
+    }
+  },
+  "faqSchema": {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "useradd: user 'appuser531' already exists とは何ですか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "useradd: user 'appuser531' already exists は Linux 実行時に表示されるエラーです。権限"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "useradd: user 'appuser531' already exists の原因は？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "権限。ディスク。プロセス。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "useradd: user 'appuser531' already exists の直し方は？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "sudo / 所有者確認：ls -la と df -h."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Linux で useradd が出るのはなぜ？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "サーバー運用"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "useradd: user 'appuser531' already exists を防ぐには？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "。"
+        }
+      }
+    ]
+  }
+}

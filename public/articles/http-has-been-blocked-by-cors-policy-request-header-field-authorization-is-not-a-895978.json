@@ -1,0 +1,290 @@
+{
+  "id": "art_errors_http-has-been-blocked-by-cors-policy-request-header-field-authorization-is-not-a-895978",
+  "slug": "http-has-been-blocked-by-cors-policy-request-header-field-authorization-is-not-a-895978",
+  "title": "has been blocked by CORS policy: Request header field authorization is not allowed の原因と解決法",
+  "summary": "has been blocked by CORS policy: Request header field authorization is not allowed の原因と具体的な解決手順をまとめました。",
+  "body": "<h2>エラーメッセージ（全文）</h2>\n<p>検索でヒットしやすいよう、実際のコンソール出力をそのまま掲載します。</p>\n<pre><code>has been blocked by CORS policy: Request header field authorization is not allowed</code></pre>\n\n<h2>このエラーとは</h2>\n<p>has been blocked by CORS policy: Request header field authorization is not allowed は HTTP 開発でよく遭遇するエラーです。</p>\n<p><strong>想定環境:</strong> Windows / macOS / Linux</p>\n<p><strong>よく出る状況:</strong> ブラウザ fetch / axios 時</p>\n\n<h2>よくある原因</h2>\n<ul>\n<li>サーバー側 CORS 未設定</li>\n<li>preflight OPTIONS 未対応</li>\n<li>credentials 設定不一致</li>\n</ul><h2>解決方法</h2><h3>方法1: サーバーで CORS ヘッダ</h3><p>Access-Control-Allow-Origin を設定.</p>\n<h2>それでも直らないとき</h2>\n<p>バージョン情報（HTTP のバージョン、OS、実行コマンド）を添えて、エラーメッセージ全文と直前に変更した点を確認してください。ログの数行上にも原因の手がかりが残っていることが多いです。</p>",
+  "conclusion": "「has been blocked by CORS policy: Request header field authorization is not allowed」は サーバー側 CORS 未設定 が原因のことが多いです。上記の手順で切り分けてください。",
+  "tags": [
+    "http",
+    "HTTPエラー",
+    "has been blocked by CORS policy",
+    "CORS",
+    "has been blocked by CORS policy: Request"
+  ],
+  "category": "HTTPエラー",
+  "theme": "errors - HTTP / Web API エラー・トラブル集",
+  "articleType": "error",
+  "status": "published",
+  "createdAt": "2026-05-30T05:48:27.482Z",
+  "updatedAt": "2026-05-30T05:48:27.482Z",
+  "publishedAt": "2026-05-30T05:48:27.482Z",
+  "metaTitle": "has been blocked by CORS policy: Request header field autho…",
+  "metaDescription": "has been blocked by CORS policy: Request header field authorization is not allowed が出たときの原因・確認手順・解決策を解説。ブラウザ fetch / axios 時。",
+  "ogTitle": "has been blocked by CORS policy: Request header field authorization is not allowed の原因と解決法",
+  "ogDescription": "has been blocked by CORS policy: Request header field authorization is not allowed が出たときの原因・確認手順・解決策を解説。ブラウザ fetch / axios 時。",
+  "knowledge": {
+    "topic": "errors",
+    "courseId": "http-errors",
+    "episode": 37
+  },
+  "faq": [
+    {
+      "question": "has been blocked by CORS policy: Request header field authorization is not al… とは何ですか？",
+      "answer": "has been blocked by CORS policy: Request header field authorization is not allowed は HTTP 実行時に表示されるエラーです。サーバー側 CORS 未設定"
+    },
+    {
+      "question": "has been blocked by CORS policy: Request header field authorization is not al… の原因は？",
+      "answer": "サーバー側 CORS 未設定。preflight OPTIONS 未対応。credentials 設定不一致。"
+    },
+    {
+      "question": "has been blocked by CORS policy: Request header field authorization is not al… の直し方は？",
+      "answer": "サーバーで CORS ヘッダ：Access-Control-Allow-Origin を設定."
+    },
+    {
+      "question": "HTTP で has been blocked by CORS policy が出るのはなぜ？",
+      "answer": "ブラウザ fetch / axios 時"
+    },
+    {
+      "question": "has been blocked by CORS policy: Request header field authorization is not al… を防ぐには？",
+      "answer": "。"
+    }
+  ],
+  "nextAction": "同じ HTTP カテゴリの関連エラーもあわせて確認してください。",
+  "internalLinkCandidates": [],
+  "ogImage": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+  "canonical": "https://ai-site-iota-nine.vercel.app/article/http-has-been-blocked-by-cors-policy-request-header-field-authorization-is-not-a-895978",
+  "jsonLd": {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@context": "https://schema.org",
+        "@type": "TechArticle",
+        "headline": "has been blocked by CORS policy: Request header field authorization is not allowed の原因と解決法",
+        "description": "has been blocked by CORS policy: Request header field authorization is not allowed が出たときの原因・確認手順・解決策を解説。ブラウザ fetch / axios 時。",
+        "datePublished": "2026-05-30T05:48:27.482Z",
+        "dateModified": "2026-05-30T05:48:27.482Z",
+        "author": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
+        },
+        "image": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+        "inLanguage": "ja",
+        "wordCount": 466,
+        "mainEntityOfPage": {
+          "@type": "WebPage",
+          "@id": "https://ai-site-iota-nine.vercel.app/article/http-has-been-blocked-by-cors-policy-request-header-field-authorization-is-not-a-895978"
+        },
+        "keywords": "http, HTTPエラー, has been blocked by CORS policy, CORS, has been blocked by CORS policy: Request",
+        "articleSection": "HTTPエラー",
+        "url": "https://ai-site-iota-nine.vercel.app/article/http-has-been-blocked-by-cors-policy-request-header-field-authorization-is-not-a-895978",
+        "learningResourceType": "tutorial",
+        "educationalLevel": "beginner"
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "ホーム",
+            "item": "https://ai-site-iota-nine.vercel.app/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "errors",
+            "item": "https://ai-site-iota-nine.vercel.app/knowledge/errors"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "HTTP / Web API エラー・トラブル集",
+            "item": "https://ai-site-iota-nine.vercel.app/course/errors/http-errors"
+          },
+          {
+            "@type": "ListItem",
+            "position": 4,
+            "name": "has been blocked by CORS policy: Request header field authorization is not allowed の原因と解決法",
+            "item": "https://ai-site-iota-nine.vercel.app/article/http-has-been-blocked-by-cors-policy-request-header-field-authorization-is-not-a-895978"
+          }
+        ]
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "Course",
+        "name": "HTTP / Web API エラー・トラブル集",
+        "description": "HTTP / Web API エラー・トラブル集",
+        "provider": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app"
+        },
+        "url": "https://ai-site-iota-nine.vercel.app/course/errors/http-errors",
+        "inLanguage": "ja",
+        "educationalLevel": "beginner",
+        "hasCourseInstance": {
+          "@type": "CourseInstance",
+          "courseMode": "online",
+          "courseWorkload": "PT1H"
+        }
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "has been blocked by CORS policy: Request header field authorization is not al… とは何ですか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "has been blocked by CORS policy: Request header field authorization is not allowed は HTTP 実行時に表示されるエラーです。サーバー側 CORS 未設定"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "has been blocked by CORS policy: Request header field authorization is not al… の原因は？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "サーバー側 CORS 未設定。preflight OPTIONS 未対応。credentials 設定不一致。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "has been blocked by CORS policy: Request header field authorization is not al… の直し方は？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "サーバーで CORS ヘッダ：Access-Control-Allow-Origin を設定."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "HTTP で has been blocked by CORS policy が出るのはなぜ？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "ブラウザ fetch / axios 時"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "has been blocked by CORS policy: Request header field authorization is not al… を防ぐには？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "。"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "breadcrumb": {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "ホーム",
+        "item": "https://ai-site-iota-nine.vercel.app/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "errors",
+        "item": "https://ai-site-iota-nine.vercel.app/knowledge/errors"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "HTTP / Web API エラー・トラブル集",
+        "item": "https://ai-site-iota-nine.vercel.app/course/errors/http-errors"
+      },
+      {
+        "@type": "ListItem",
+        "position": 4,
+        "name": "has been blocked by CORS policy: Request header field authorization is not allowed の原因と解決法",
+        "item": "https://ai-site-iota-nine.vercel.app/article/http-has-been-blocked-by-cors-policy-request-header-field-authorization-is-not-a-895978"
+      }
+    ]
+  },
+  "courseSchema": {
+    "@context": "https://schema.org",
+    "@type": "Course",
+    "name": "HTTP / Web API エラー・トラブル集",
+    "description": "HTTP / Web API エラー・トラブル集",
+    "provider": {
+      "@type": "Organization",
+      "name": "StackShelf",
+      "url": "https://ai-site-iota-nine.vercel.app"
+    },
+    "url": "https://ai-site-iota-nine.vercel.app/course/errors/http-errors",
+    "inLanguage": "ja",
+    "educationalLevel": "beginner",
+    "hasCourseInstance": {
+      "@type": "CourseInstance",
+      "courseMode": "online",
+      "courseWorkload": "PT1H"
+    }
+  },
+  "faqSchema": {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "has been blocked by CORS policy: Request header field authorization is not al… とは何ですか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "has been blocked by CORS policy: Request header field authorization is not allowed は HTTP 実行時に表示されるエラーです。サーバー側 CORS 未設定"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "has been blocked by CORS policy: Request header field authorization is not al… の原因は？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "サーバー側 CORS 未設定。preflight OPTIONS 未対応。credentials 設定不一致。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "has been blocked by CORS policy: Request header field authorization is not al… の直し方は？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "サーバーで CORS ヘッダ：Access-Control-Allow-Origin を設定."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "HTTP で has been blocked by CORS policy が出るのはなぜ？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "ブラウザ fetch / axios 時"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "has been blocked by CORS policy: Request header field authorization is not al… を防ぐには？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "。"
+        }
+      }
+    ]
+  }
+}

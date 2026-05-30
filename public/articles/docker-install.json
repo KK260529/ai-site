@@ -2,9 +2,9 @@
   "id": "art_docker_docker-install",
   "slug": "docker-install",
   "title": "DockerをWindows・Mac・Linuxにインストールする方法【初心者向け完全ガイド】",
-  "summary": "Docker DesktopをWindows・Mac・Linuxにインストールする手順を画像なしでも理解できるよう丁寧に解説。初期設定からバージョン確認まで一通り学べます。",
-  "body": "<h2>インストール前に確認すること</h2>\n<p>Dockerをインストールする前に、使用しているOSと環境を確認しましょう。DockerにはGUIで操作できる<strong>Docker Desktop</strong>と、コマンドラインのみの<strong>Docker Engine</strong>があります。初心者にはDocker Desktopがおすすめです。Docker DesktopにはDocker Composeや可視化ツールも含まれており、一括でセットアップできます。</p>\n<p>各OSの最小要件は以下の通りです。Windows 10/11（64bit）、macOS 12以降、Ubuntu 22.04以降（LTS推奨）であれば問題なく動作します。特にWindowsはWSL2（Windows Subsystem for Linux 2）の有効化が必要なため、少し手順が多くなります。順を追って解説します。</p>\n\n<h2>WindowsへのDockerインストール手順</h2>\n<p>WindowsでDockerを使うには、まずWSL2を有効にする必要があります。WSL2はWindows上でLinuxを動かす仕組みで、DockerはこのLinux環境を利用してコンテナを実行します。</p>\n<p><strong>ステップ1：WSL2の有効化</strong><br>PowerShellを管理者権限で開き、以下のコマンドを実行します。</p>\n<pre><code># WSLを有効化（管理者権限のPowerShellで実行）\nwsl --install\n\n# 再起動後、WSLのバージョンを確認\nwsl --version\n\n# WSL2をデフォルトに設定\nwsl --set-default-version 2</code></pre>\n<p>コマンド実行後にPCを再起動してください。再起動するとUbuntuのセットアップが始まるので、ユーザー名とパスワードを設定します。</p>\n<p><strong>ステップ2：Docker Desktopのダウンロードとインストール</strong><br>Docker公式サイト（https://www.docker.com/products/docker-desktop/）からWindows用のインストーラー（Docker Desktop Installer.exe）をダウンロードします。インストーラーを実行し、「Use WSL 2 instead of Hyper-V」にチェックが入っていることを確認してインストールを進めます。インストール完了後にPCを再起動します。</p>\n<p><strong>ステップ3：動作確認</strong></p>\n<pre><code># Docker Desktopを起動してからコマンドプロンプトまたはPowerShellで実行\ndocker --version\n# 出力例: Docker version 26.1.4, build 5650f9b\n\ndocker run hello-world\n# Hello from Docker! と表示されれば成功</code></pre>\n\n<h2>MacへのDockerインストール手順</h2>\n<p>MacはWindowsよりもシンプルにインストールできます。AppleシリコンMac（M1/M2/M3）とIntelMacで使うインストーラーが異なるため、まず自分のMacのチップを確認してください。</p>\n<p><strong>チップ確認方法：</strong>左上のAppleメニュー →「このMacについて」→「プロセッサ」または「チップ」を確認します。「Apple M1」などと表示されればAppleシリコン、「Intel Core」と表示されればIntelMacです。</p>\n<p><strong>インストール手順：</strong>Docker公式サイトからMac用のDocker Desktop（.dmgファイル）をダウンロードします。AppleシリコンとIntelで別々のリンクがあるので注意してください。ダウンロードした.dmgファイルを開き、DockerアイコンをApplicationsフォルダにドラッグ＆ドロップします。Applicationsから「Docker」を起動すると、メニューバーにクジラのアイコンが表示されます。</p>\n<pre><code># ターミナルで動作確認\ndocker --version\n# 出力例: Docker version 26.1.4, build 5650f9b\n\ndocker info\n# Dockerのシステム情報が表示される\n\n# hello-worldコンテナを実行\ndocker run hello-world</code></pre>\n<p>Homebrewを使っているMacユーザーはコマンドラインでインストールすることもできます。</p>\n<pre><code># Homebrewでのインストール（任意）\nbrew install --cask docker</code></pre>\n\n<h2>LinuxへのDockerインストール手順（Ubuntu）</h2>\n<p>Linuxには「Docker Engine」をコマンドラインでインストールするのが標準的です。Ubuntu 22.04/24.04 LTSを例に手順を説明します。古いバージョンのDockerが入っている場合は先に削除してください。</p>\n<pre><code># 古いDockerの削除（初回インストール時は不要）\nsudo apt remove docker docker-engine docker.io containerd runc\n\n# 必要なパッケージのインストール\nsudo apt update\nsudo apt install -y ca-certificates curl gnupg\n\n# DockerのGPGキーを追加\nsudo install -m 0755 -d /etc/apt/keyrings\ncurl -fsSL https://download.docker.com/linux/ubuntu/gpg |   sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg\nsudo chmod a+r /etc/apt/keyrings/docker.gpg\n\n# Dockerのリポジトリを追加\necho \"deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg]   https://download.docker.com/linux/ubuntu $(. /etc/os-release && echo $VERSION_CODENAME) stable\" |   sudo tee /etc/apt/sources.list.d/docker.list > /dev/null\n\n# Docker Engineのインストール\nsudo apt update\nsudo apt install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin\n\n# インストール確認\ndocker --version</code></pre>\n<p>Linuxでは通常、<code>sudo</code>なしでdockerコマンドを実行できないため、ユーザーをdockerグループに追加します。</p>\n<pre><code># 現在のユーザーをdockerグループに追加\nsudo usermod -aG docker $USER\n\n# 変更を反映（再ログインまたは以下を実行）\nnewgrp docker\n\n# sudoなしで動作確認\ndocker run hello-world</code></pre>\n\n<h2>インストール後の初期設定</h2>\n<p>Docker Desktopをインストールしたら、いくつかの初期設定を確認しておきましょう。</p>\n<p><strong>リソース設定（Windows/Mac）：</strong>Docker Desktopの設定（Settings）→「Resources」でCPU・メモリ・ディスクの使用量を調整できます。開発用途では、CPUを4コア以上、メモリを4〜8GB程度に設定しておくと快適に動作します。PCのスペックに合わせて調整してください。</p>\n<p><strong>Docker Composeの確認：</strong>Docker DesktopにはDocker Composeが同梱されています。バージョンを確認してみましょう。</p>\n<pre><code># Docker Composeのバージョン確認\ndocker compose version\n# 出力例: Docker Compose version v2.27.1\n\n# システム全体の情報確認\ndocker info</code></pre>\n<p><strong>Docker Hubへのサインイン（任意）：</strong>Docker Hubにアカウントを作成してサインインすることで、自分のイメージをプッシュしたり、プライベートリポジトリを使ったりできます。Docker Desktop上のサインインボタン、またはコマンドラインから実行できます。</p>\n<pre><code># Docker Hubにログイン\ndocker login\n# ユーザー名とパスワードを入力する</code></pre>\n\n<h2>よくあるインストールエラーと対処法</h2>\n<p>Dockerのインストール時によく遭遇するエラーと解決方法をまとめました。</p>\n<p><strong>Windows：「Hardware assisted virtualization and data execution protection must be enabled」</strong><br>BIOSでVirtualization Technology（VT-x/AMD-V）を有効にする必要があります。PCの起動時にF2やDelキーを押してBIOS設定を開き、CPU設定からVirtualization（仮想化）をEnabledにしてください。</p>\n<p><strong>Windows：WSL2カーネルの更新が必要と表示される</strong><br>Microsoftが提供するWSL2 Linuxカーネル更新パッケージをインストールしてください。エラーメッセージに表示されるURLからダウンロードできます。</p>\n<p><strong>Mac：「Docker Desktop requires a newer macOS version」</strong><br>macOSをアップデートしてください。Docker DesktopはmacOS 12（Monterey）以降を要求します。</p>\n<pre><code># トラブル時の診断コマンド\ndocker info\n# エラーがあれば詳細なメッセージが表示される\n\n# Dockerデーモンの再起動（Linux）\nsudo systemctl restart docker\nsudo systemctl status docker</code></pre>\n\n<h2>インストール完了の確認まとめ</h2>\n<p>以下のコマンドがすべてエラーなく実行できれば、Dockerのインストールは完了です。</p>\n<pre><code># 基本確認コマンド一覧\ndocker --version       # バージョン表示\ndocker info            # システム情報表示\ndocker run hello-world # テストコンテナ実行\ndocker ps              # 実行中コンテナ一覧\ndocker images          # ローカルイメージ一覧</code></pre>\n<p><code>docker run hello-world</code>を実行して「Hello from Docker!」と表示されれば、Dockerは正常にインストールされ、動作しています。次のステップでは実際にコンテナを動かしてみましょう。</p>",
-  "conclusion": "Docker DesktopはWindows（WSL2経由）・Mac・Linuxいずれにもインストールできます。Windowsは事前にWSL2を有効化する必要があります。インストール後は `docker run hello-world` で動作確認し、「Hello from Docker!」が表示されれば準備完了です。次は実際にコンテナを動かしてみましょう。",
+  "summary": "Docker Desktopのインストール手順をWindows（WSL2）・Mac・Linux別に解説。事前確認、初期設定、よくあるエラーへの対処まで、初回セットアップで詰まりやすい点を押さえます。",
+  "body": "<h2>結論：Docker Desktopを入れれば3OSどれでも同じコマンドが使える</h2>\n<p>Windows・Mac・Linuxいずれも<strong>Docker Desktop（またはLinuxのDocker Engine）を入れ、<code>docker --version</code> が通れば準備完了</strong>です。WindowsだけはWSL2の有効化が前提になりますが、一度設定すれば以降は <code>docker run</code> などLinux/Macと同じコマンドで学習を進められます。</p>\n\n<h2>インストール前に確認すること</h2>\n<p>Dockerをインストールする前に、使用しているOSと環境を確認しましょう。DockerにはGUIで操作できる<strong>Docker Desktop</strong>と、コマンドラインのみの<strong>Docker Engine</strong>があります。初心者にはDocker Desktopがおすすめです。Docker DesktopにはDocker Composeや可視化ツールも含まれており、一括でセットアップできます。</p>\n<p>各OSの最小要件は以下の通りです。Windows 10/11（64bit）、macOS 12以降、Ubuntu 22.04以降（LTS推奨）であれば問題なく動作します。特にWindowsはWSL2（Windows Subsystem for Linux 2）の有効化が必要なため、少し手順が多くなります。順を追って解説します。</p>\n\n<h2>WindowsへのDockerインストール手順</h2>\n<p>WindowsでDockerを使うには、まずWSL2を有効にする必要があります。WSL2はWindows上でLinuxを動かす仕組みで、DockerはこのLinux環境を利用してコンテナを実行します。</p>\n<p><strong>ステップ1：WSL2の有効化</strong><br>PowerShellを管理者権限で開き、以下のコマンドを実行します。</p>\n<pre><code># WSLを有効化（管理者権限のPowerShellで実行）\nwsl --install\n\n# 再起動後、WSLのバージョンを確認\nwsl --version\n\n# WSL2をデフォルトに設定\nwsl --set-default-version 2</code></pre>\n<p>コマンド実行後にPCを再起動してください。再起動するとUbuntuのセットアップが始まるので、ユーザー名とパスワードを設定します。</p>\n<p><strong>ステップ2：Docker Desktopのダウンロードとインストール</strong><br>Docker公式サイト（https://www.docker.com/products/docker-desktop/）からWindows用のインストーラー（Docker Desktop Installer.exe）をダウンロードします。インストーラーを実行し、「Use WSL 2 instead of Hyper-V」にチェックが入っていることを確認してインストールを進めます。インストール完了後にPCを再起動します。</p>\n<p><strong>ステップ3：動作確認</strong></p>\n<pre><code># Docker Desktopを起動してからコマンドプロンプトまたはPowerShellで実行\ndocker --version\n# 出力例: Docker version 26.1.4, build 5650f9b\n\ndocker run hello-world\n# Hello from Docker! と表示されれば成功</code></pre>\n\n<h2>MacへのDockerインストール手順</h2>\n<p>MacはWindowsよりもシンプルにインストールできます。AppleシリコンMac（M1/M2/M3）とIntelMacで使うインストーラーが異なるため、まず自分のMacのチップを確認してください。</p>\n<p><strong>チップ確認方法：</strong>左上のAppleメニュー →「このMacについて」→「プロセッサ」または「チップ」を確認します。「Apple M1」などと表示されればAppleシリコン、「Intel Core」と表示されればIntelMacです。</p>\n<p><strong>インストール手順：</strong>Docker公式サイトからMac用のDocker Desktop（.dmgファイル）をダウンロードします。AppleシリコンとIntelで別々のリンクがあるので注意してください。ダウンロードした.dmgファイルを開き、DockerアイコンをApplicationsフォルダにドラッグ＆ドロップします。Applicationsから「Docker」を起動すると、メニューバーにクジラのアイコンが表示されます。</p>\n<pre><code># ターミナルで動作確認\ndocker --version\n# 出力例: Docker version 26.1.4, build 5650f9b\n\ndocker info\n# Dockerのシステム情報が表示される\n\n# hello-worldコンテナを実行\ndocker run hello-world</code></pre>\n<p>Homebrewを使っているMacユーザーはコマンドラインでインストールすることもできます。</p>\n<pre><code># Homebrewでのインストール（任意）\nbrew install --cask docker</code></pre>\n\n<h2>LinuxへのDockerインストール手順（Ubuntu）</h2>\n<p>Linuxには「Docker Engine」をコマンドラインでインストールするのが標準的です。Ubuntu 22.04/24.04 LTSを例に手順を説明します。古いバージョンのDockerが入っている場合は先に削除してください。</p>\n<pre><code># 古いDockerの削除（初回インストール時は不要）\nsudo apt remove docker docker-engine docker.io containerd runc\n\n# 必要なパッケージのインストール\nsudo apt update\nsudo apt install -y ca-certificates curl gnupg\n\n# DockerのGPGキーを追加\nsudo install -m 0755 -d /etc/apt/keyrings\ncurl -fsSL https://download.docker.com/linux/ubuntu/gpg |   sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg\nsudo chmod a+r /etc/apt/keyrings/docker.gpg\n\n# Dockerのリポジトリを追加\necho \"deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg]   https://download.docker.com/linux/ubuntu $(. /etc/os-release && echo $VERSION_CODENAME) stable\" |   sudo tee /etc/apt/sources.list.d/docker.list > /dev/null\n\n# Docker Engineのインストール\nsudo apt update\nsudo apt install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin\n\n# インストール確認\ndocker --version</code></pre>\n<p>Linuxでは通常、<code>sudo</code>なしでdockerコマンドを実行できないため、ユーザーをdockerグループに追加します。</p>\n<pre><code># 現在のユーザーをdockerグループに追加\nsudo usermod -aG docker $USER\n\n# 変更を反映（再ログインまたは以下を実行）\nnewgrp docker\n\n# sudoなしで動作確認\ndocker run hello-world</code></pre>\n\n<h2>インストール後の初期設定</h2>\n<p>Docker Desktopをインストールしたら、いくつかの初期設定を確認しておきましょう。</p>\n<p><strong>リソース設定（Windows/Mac）：</strong>Docker Desktopの設定（Settings）→「Resources」でCPU・メモリ・ディスクの使用量を調整できます。開発用途では、CPUを4コア以上、メモリを4〜8GB程度に設定しておくと快適に動作します。PCのスペックに合わせて調整してください。</p>\n<p><strong>Docker Composeの確認：</strong>Docker DesktopにはDocker Composeが同梱されています。バージョンを確認してみましょう。</p>\n<pre><code># Docker Composeのバージョン確認\ndocker compose version\n# 出力例: Docker Compose version v2.27.1\n\n# システム全体の情報確認\ndocker info</code></pre>\n<p><strong>Docker Hubへのサインイン（任意）：</strong>Docker Hubにアカウントを作成してサインインすることで、自分のイメージをプッシュしたり、プライベートリポジトリを使ったりできます。Docker Desktop上のサインインボタン、またはコマンドラインから実行できます。</p>\n<pre><code># Docker Hubにログイン\ndocker login\n# ユーザー名とパスワードを入力する</code></pre>\n\n<h2>よくあるインストールエラーと対処法</h2>\n<p>Dockerのインストール時によく遭遇するエラーと解決方法をまとめました。</p>\n<p><strong>Windows：「Hardware assisted virtualization and data execution protection must be enabled」</strong><br>BIOSでVirtualization Technology（VT-x/AMD-V）を有効にする必要があります。PCの起動時にF2やDelキーを押してBIOS設定を開き、CPU設定からVirtualization（仮想化）をEnabledにしてください。</p>\n<p><strong>Windows：WSL2カーネルの更新が必要と表示される</strong><br>Microsoftが提供するWSL2 Linuxカーネル更新パッケージをインストールしてください。エラーメッセージに表示されるURLからダウンロードできます。</p>\n<p><strong>Mac：「Docker Desktop requires a newer macOS version」</strong><br>macOSをアップデートしてください。Docker DesktopはmacOS 12（Monterey）以降を要求します。</p>\n<pre><code># トラブル時の診断コマンド\ndocker info\n# エラーがあれば詳細なメッセージが表示される\n\n# Dockerデーモンの再起動（Linux）\nsudo systemctl restart docker\nsudo systemctl status docker</code></pre>\n\n<h2>よくあるつまずきと失敗例</h2>\n<h3>インストールでつまずく典型パターン</h3>\n<ul>\n<li><strong>WSL2未設定のままWindows版を入れる</strong>：「WSL 2 installation is incomplete」と出たら、公式手順どおりWSL2とLinuxカーネル更新を先に済ませます。</li>\n<li><strong>仮想化がBIOSで無効</strong>：Hyper-Vや仮想化支援がオフだとDocker Desktopが起動しません。タスクマネージャーの「仮想化」欄を確認してください。</li>\n<li><strong>古いDocker Desktopを残したまま上書き</strong>：アップデート後に動かないときは一度アンインストールし、再起動してから再インストールすると直ることがあります。</li>\n</ul>\n<p>エラーメッセージはそのまま検索すると公式IssueやStack Overflowに同じ事例が見つかりやすいです。焦らず1項目ずつ潰しましょう。</p>\n\n<h2>インストール完了の確認まとめ</h2>\n<p>以下のコマンドがすべてエラーなく実行できれば、Dockerのインストールは完了です。</p>\n<pre><code># 基本確認コマンド一覧\ndocker --version       # バージョン表示\ndocker info            # システム情報表示\ndocker run hello-world # テストコンテナ実行\ndocker ps              # 実行中コンテナ一覧\ndocker images          # ローカルイメージ一覧</code></pre>\n<p><code>docker run hello-world</code>を実行して「Hello from Docker!」と表示されれば、Dockerは正常にインストールされ、動作しています。次のステップでは実際にコンテナを動かしてみましょう。</p>",
+  "conclusion": "Docker Desktopは3OSいずれにも導入でき、WindowsはWSL2の準備が鍵です。インストール後は <code>docker run hello-world</code> で動作確認し、問題なければコンテナ操作の学習に進みましょう。",
   "tags": [
     "Docker",
     "インストール",
@@ -18,12 +18,12 @@
   "theme": "docker - Docker 入門",
   "status": "published",
   "createdAt": "2026-05-30T04:13:29.605Z",
-  "updatedAt": "2026-05-30T04:13:29.615Z",
+  "updatedAt": "2026-05-30T05:17:43.576Z",
   "publishedAt": "2026-05-30T04:13:29.605Z",
   "metaTitle": "Dockerインストール方法：Windows・Mac・Linux対応【docker 使い方 初心者】 | StackS…",
-  "metaDescription": "DockerをWindows・Mac・Linuxにインストールする方法を初心者向けに詳しく解説。Docker Desktop、WSL2設定、初期動作確認まで丁寧にガイドします。docker 初心者向け。 図解・具体例つきで丁寧に解説します。",
+  "metaDescription": "Docker Desktopのインストール手順をOS別に解説。WSL2設定、仮想化エラー、初期確認コマンドまで。初めてDockerを入れる人向けのセットアップガイド。",
   "ogTitle": "DockerをWindows・Mac・Linuxにインストールする方法",
-  "ogDescription": "【Docker初心者向け】Docker Desktopのインストール手順をOS別に詳しく解説。初期設定から動作確認まで初心者向けにまとめました。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
+  "ogDescription": "Docker Desktopのインストール手順をOS別に解説。WSL2設定、仮想化エラー、初期確認コマンドまで。初めてDockerを入れる人向けのセットアップガイド。",
   "knowledge": {
     "topic": "docker",
     "courseId": "docker",
@@ -45,6 +45,10 @@
     {
       "question": "インストール後にPCが重くなりました。対処法はありますか？",
       "answer": "Docker Desktopが使用するリソースを制限してください。Settings→Resourcesでメモリ・CPU使用量を調整できます。また、使わないときはDocker Desktopを終了させることでリソースを解放できます。"
+    },
+    {
+      "question": "つまずいたときはどうすればいいですか？",
+      "answer": "エラーメッセージをそのまま検索し、公式ドキュメントを当たってください。小さなステップに分けて再現・確認すると原因を特定しやすくなります。"
     }
   ],
   "nextEpisodeHint": "次回は、実際に `docker run hello-world` や `docker run nginx` などのコマンドを使って、初めてのコンテナを動かす体験をしていきます。",
@@ -57,9 +61,9 @@
         "@context": "https://schema.org",
         "@type": "TechArticle",
         "headline": "DockerをWindows・Mac・Linuxにインストールする方法【初心者向け完全ガイド】",
-        "description": "DockerをWindows・Mac・Linuxにインストールする方法を初心者向けに詳しく解説。Docker Desktop、WSL2設定、初期動作確認まで丁寧にガイドします。docker 初心者向け。 図解・具体例つきで丁寧に解説します。",
+        "description": "Docker Desktopのインストール手順をOS別に解説。WSL2設定、仮想化エラー、初期確認コマンドまで。初めてDockerを入れる人向けのセットアップガイド。",
         "datePublished": "2026-05-30T04:13:29.605Z",
-        "dateModified": "2026-05-30T04:13:29.615Z",
+        "dateModified": "2026-05-30T05:17:43.576Z",
         "author": {
           "@type": "Organization",
           "name": "StackShelf",
@@ -80,7 +84,7 @@
         },
         "image": "https://ai-site-iota-nine.vercel.app/og-default.svg",
         "inLanguage": "ja",
-        "wordCount": 4211,
+        "wordCount": 4757,
         "mainEntityOfPage": {
           "@type": "WebPage",
           "@id": "https://ai-site-iota-nine.vercel.app/article/docker-install"
@@ -175,6 +179,14 @@
               "@type": "Answer",
               "text": "Docker Desktopが使用するリソースを制限してください。Settings→Resourcesでメモリ・CPU使用量を調整できます。また、使わないときはDocker Desktopを終了させることでリソースを解放できます。"
             }
+          },
+          {
+            "@type": "Question",
+            "name": "つまずいたときはどうすればいいですか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "エラーメッセージをそのまま検索し、公式ドキュメントを当たってください。小さなステップに分けて再現・確認すると原因を特定しやすくなります。"
+            }
           }
         ]
       }
@@ -264,7 +276,43 @@
           "@type": "Answer",
           "text": "Docker Desktopが使用するリソースを制限してください。Settings→Resourcesでメモリ・CPU使用量を調整できます。また、使わないときはDocker Desktopを終了させることでリソースを解放できます。"
         }
+      },
+      {
+        "@type": "Question",
+        "name": "つまずいたときはどうすればいいですか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "エラーメッセージをそのまま検索し、公式ドキュメントを当たってください。小さなステップに分けて再現・確認すると原因を特定しやすくなります。"
+        }
       }
     ]
-  }
+  },
+  "internalLinkCandidates": [
+    {
+      "slug": "docker-first-container",
+      "title": "Dockerで初めてのコンテナを動かす：hello-world・nginx実践入門",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "docker-intro",
+      "title": "Dockerとは？仮想マシンとの違いをわかりやすく解説【初心者向け】",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "docker-webapp-practice",
+      "title": "Node.js・Python WebアプリをDockerコンテナ化する実践ガイド",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "docker-volumes",
+      "title": "Dockerボリューム完全ガイド：データ永続化・バインドマウント・名前付きボリューム",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "docker-compose",
+      "title": "Docker Compose入門：docker-compose.ymlでマルチコンテナを管理する",
+      "reason": "同じ講座の関連回です"
+    }
+  ],
+  "nextAction": "次は実際に `docker run hello-world` や `docker run nginx` などのコマンドを使って、初めてのコンテナを動かす体験をしていきます。"
 }

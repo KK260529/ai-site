@@ -1,0 +1,290 @@
+{
+  "id": "art_errors_docker-denied-requested-access-to-the-resource-is-denied-4696c5",
+  "slug": "docker-denied-requested-access-to-the-resource-is-denied-4696c5",
+  "title": "denied: requested access to the resource is denied の原因と解決法",
+  "summary": "denied: requested access to the resource is denied の原因と具体的な解決手順をまとめました。",
+  "body": "<h2>エラーメッセージ（全文）</h2>\n<p>検索でヒットしやすいよう、実際のコンソール出力をそのまま掲載します。</p>\n<pre><code>denied: requested access to the resource is denied</code></pre>\n\n<h2>このエラーとは</h2>\n<p>denied: requested access to the resource is denied は Docker 開発でよく遭遇するエラーです。</p>\n<p><strong>想定環境:</strong> Windows / macOS / Linux</p>\n<p><strong>よく出る状況:</strong> docker run / build / compose 時</p>\n\n<h2>よくある原因</h2>\n<ul>\n<li>デーモン停止</li>\n<li>ポート競合</li>\n<li>Dockerfile ビルド失敗</li>\n<li>ディスク不足</li>\n</ul><h2>解決方法</h2><h3>方法1: デーモン確認</h3><p>sudo systemctl status docker</p><pre><code>sudo systemctl start docker</code></pre><h3>方法2: ポート変更</h3><p>-p 8080:80 など別ポートにマッピング.</p>\n<h2>それでも直らないとき</h2>\n<p>バージョン情報（Docker のバージョン、OS、実行コマンド）を添えて、エラーメッセージ全文と直前に変更した点を確認してください。ログの数行上にも原因の手がかりが残っていることが多いです。</p>",
+  "conclusion": "「denied: requested access to the resource is denied」は デーモン停止 が原因のことが多いです。上記の手順で切り分けてください。",
+  "tags": [
+    "docker",
+    "Dockerエラー",
+    "denied",
+    "Docker",
+    "denied: requested access to the resource"
+  ],
+  "category": "Dockerエラー",
+  "theme": "errors - Docker エラー・トラブル集",
+  "articleType": "error",
+  "status": "published",
+  "createdAt": "2026-05-30T05:48:09.231Z",
+  "updatedAt": "2026-05-30T05:48:09.231Z",
+  "publishedAt": "2026-05-30T05:48:09.231Z",
+  "metaTitle": "denied: requested access to the resource is denied の原因と解決法…",
+  "metaDescription": "denied: requested access to the resource is denied が出たときの原因・確認手順・解決策を解説。docker run / build / compose 時。",
+  "ogTitle": "denied: requested access to the resource is denied の原因と解決法",
+  "ogDescription": "denied: requested access to the resource is denied が出たときの原因・確認手順・解決策を解説。docker run / build / compose 時。",
+  "knowledge": {
+    "topic": "errors",
+    "courseId": "docker-errors",
+    "episode": 29
+  },
+  "faq": [
+    {
+      "question": "denied: requested access to the resource is denied とは何ですか？",
+      "answer": "denied: requested access to the resource is denied は Docker 実行時に表示されるエラーです。デーモン停止"
+    },
+    {
+      "question": "denied: requested access to the resource is denied の原因は？",
+      "answer": "デーモン停止。ポート競合。Dockerfile ビルド失敗。"
+    },
+    {
+      "question": "denied: requested access to the resource is denied の直し方は？",
+      "answer": "デーモン確認：sudo systemctl status docker ポート変更：-p 8080:80 など別ポートにマッピング."
+    },
+    {
+      "question": "Docker で denied が出るのはなぜ？",
+      "answer": "docker run / build / compose 時"
+    },
+    {
+      "question": "denied: requested access to the resource is denied を防ぐには？",
+      "answer": "。"
+    }
+  ],
+  "nextAction": "同じ Docker カテゴリの関連エラーもあわせて確認してください。",
+  "internalLinkCandidates": [],
+  "ogImage": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+  "canonical": "https://ai-site-iota-nine.vercel.app/article/docker-denied-requested-access-to-the-resource-is-denied-4696c5",
+  "jsonLd": {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@context": "https://schema.org",
+        "@type": "TechArticle",
+        "headline": "denied: requested access to the resource is denied の原因と解決法",
+        "description": "denied: requested access to the resource is denied が出たときの原因・確認手順・解決策を解説。docker run / build / compose 時。",
+        "datePublished": "2026-05-30T05:48:09.231Z",
+        "dateModified": "2026-05-30T05:48:09.231Z",
+        "author": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
+        },
+        "image": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+        "inLanguage": "ja",
+        "wordCount": 452,
+        "mainEntityOfPage": {
+          "@type": "WebPage",
+          "@id": "https://ai-site-iota-nine.vercel.app/article/docker-denied-requested-access-to-the-resource-is-denied-4696c5"
+        },
+        "keywords": "docker, Dockerエラー, denied, Docker, denied: requested access to the resource",
+        "articleSection": "Dockerエラー",
+        "url": "https://ai-site-iota-nine.vercel.app/article/docker-denied-requested-access-to-the-resource-is-denied-4696c5",
+        "learningResourceType": "tutorial",
+        "educationalLevel": "beginner"
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "ホーム",
+            "item": "https://ai-site-iota-nine.vercel.app/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "errors",
+            "item": "https://ai-site-iota-nine.vercel.app/knowledge/errors"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "Docker エラー・トラブル集",
+            "item": "https://ai-site-iota-nine.vercel.app/course/errors/docker-errors"
+          },
+          {
+            "@type": "ListItem",
+            "position": 4,
+            "name": "denied: requested access to the resource is denied の原因と解決法",
+            "item": "https://ai-site-iota-nine.vercel.app/article/docker-denied-requested-access-to-the-resource-is-denied-4696c5"
+          }
+        ]
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "Course",
+        "name": "Docker エラー・トラブル集",
+        "description": "Docker エラー・トラブル集",
+        "provider": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app"
+        },
+        "url": "https://ai-site-iota-nine.vercel.app/course/errors/docker-errors",
+        "inLanguage": "ja",
+        "educationalLevel": "beginner",
+        "hasCourseInstance": {
+          "@type": "CourseInstance",
+          "courseMode": "online",
+          "courseWorkload": "PT1H"
+        }
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "denied: requested access to the resource is denied とは何ですか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "denied: requested access to the resource is denied は Docker 実行時に表示されるエラーです。デーモン停止"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "denied: requested access to the resource is denied の原因は？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "デーモン停止。ポート競合。Dockerfile ビルド失敗。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "denied: requested access to the resource is denied の直し方は？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "デーモン確認：sudo systemctl status docker ポート変更：-p 8080:80 など別ポートにマッピング."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Docker で denied が出るのはなぜ？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "docker run / build / compose 時"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "denied: requested access to the resource is denied を防ぐには？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "。"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "breadcrumb": {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "ホーム",
+        "item": "https://ai-site-iota-nine.vercel.app/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "errors",
+        "item": "https://ai-site-iota-nine.vercel.app/knowledge/errors"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "Docker エラー・トラブル集",
+        "item": "https://ai-site-iota-nine.vercel.app/course/errors/docker-errors"
+      },
+      {
+        "@type": "ListItem",
+        "position": 4,
+        "name": "denied: requested access to the resource is denied の原因と解決法",
+        "item": "https://ai-site-iota-nine.vercel.app/article/docker-denied-requested-access-to-the-resource-is-denied-4696c5"
+      }
+    ]
+  },
+  "courseSchema": {
+    "@context": "https://schema.org",
+    "@type": "Course",
+    "name": "Docker エラー・トラブル集",
+    "description": "Docker エラー・トラブル集",
+    "provider": {
+      "@type": "Organization",
+      "name": "StackShelf",
+      "url": "https://ai-site-iota-nine.vercel.app"
+    },
+    "url": "https://ai-site-iota-nine.vercel.app/course/errors/docker-errors",
+    "inLanguage": "ja",
+    "educationalLevel": "beginner",
+    "hasCourseInstance": {
+      "@type": "CourseInstance",
+      "courseMode": "online",
+      "courseWorkload": "PT1H"
+    }
+  },
+  "faqSchema": {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "denied: requested access to the resource is denied とは何ですか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "denied: requested access to the resource is denied は Docker 実行時に表示されるエラーです。デーモン停止"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "denied: requested access to the resource is denied の原因は？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "デーモン停止。ポート競合。Dockerfile ビルド失敗。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "denied: requested access to the resource is denied の直し方は？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "デーモン確認：sudo systemctl status docker ポート変更：-p 8080:80 など別ポートにマッピング."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Docker で denied が出るのはなぜ？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "docker run / build / compose 時"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "denied: requested access to the resource is denied を防ぐには？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "。"
+        }
+      }
+    ]
+  }
+}

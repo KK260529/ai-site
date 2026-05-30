@@ -18,12 +18,12 @@
   "theme": "nginx - nginx入門",
   "status": "published",
   "createdAt": "2026-05-30T05:15:09.728Z",
-  "updatedAt": "2026-05-30T05:15:09.732Z",
+  "updatedAt": "2026-05-30T05:15:40.789Z",
   "publishedAt": "2026-05-30T05:15:09.728Z",
   "metaTitle": "nginx実践：Node.jsアプリ前段の構築【nginx 入門 総まとめ】｜nginx入門 | StackShelf",
-  "metaDescription": "【nginx初心者向け】Node.jsアプリの前段にnginxを構築する実践演習。静的配信・APIプロキシ・gzip・キャッシュ・ログ設定を組み合わせた本番構成を初心者向けに解説。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
+  "metaDescription": "Node.jsアプリの前段にnginxを構築する実践演習。静的配信・APIプロキシ・gzip・キャッシュ・ログ設定を組み合わせた本番構成を初心者向けに解説。",
   "ogTitle": "実践：Node.jsアプリの前段にnginxを構築",
-  "ogDescription": "【nginx初心者向け】【nginx初心者向け】nginx+Node.jsの本番に近い構成を一から構築する総合演習。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
+  "ogDescription": "nginx+Node.jsの本番に近い構成を一から構築する総合演習。",
   "knowledge": {
     "topic": "nginx",
     "courseId": "nginx",
@@ -52,37 +52,32 @@
     }
   ],
   "nextEpisodeHint": "nginx入門コースはここまでです。HTTPS本番化、Docker Compose、Kubernetes Ingressなど、学んだnginx知識をさらに実践環境で活かしてみましょう。",
-  "nextAction": "",
+  "nextAction": "nginx入門コースはここまでです。HTTPS本番化、Docker Compose、Kubernetes Ingressなど、学んだnginx知識をさらに実践環境で活かしてみましょう。",
   "internalLinkCandidates": [
     {
-      "slug": "docker-webapp-practice",
-      "title": "Node.js・Python WebアプリをDockerコンテナ化する実践ガイド",
-      "reason": "Node.jsアプリのコンテナ化とnginx連携"
+      "slug": "nginx-reverse-proxy",
+      "title": "nginxリバースプロキシの設定方法【proxy_pass入門・初心者向け】",
+      "reason": "同じ講座の関連回です"
     },
     {
-      "slug": "docker-compose",
-      "title": "Docker Compose入門：複数コンテナを一括管理する方法",
-      "reason": "nginx+appのDocker Compose構成"
+      "slug": "nginx-intro",
+      "title": "nginxとは？Apacheとの違いをわかりやすく解説【初心者向け】",
+      "reason": "同じ講座の関連回です"
     },
     {
-      "slug": "docker-intro",
-      "title": "Dockerとは？仮想マシンとの違いをわかりやすく解説【初心者向け】",
-      "reason": "nginx公式Dockerイメージの活用"
+      "slug": "nginx-logging",
+      "title": "nginxのログとトラブルシューティング入門【502/504エラー対処】",
+      "reason": "同じ講座の関連回です"
     },
     {
-      "slug": "http-intro",
-      "title": "HTTPとは？Webの通信の仕組み",
-      "reason": "プロキシが扱うHTTP通信の基礎"
+      "slug": "nginx-ssl",
+      "title": "nginxでSSL/TLS（HTTPS）を設定する方法【Let's Encrypt入門】",
+      "reason": "同じ講座の関連回です"
     },
     {
-      "slug": "linux-intro",
-      "title": "Linuxとは？コマンドラインの世界へようこそ【初心者向け完全入門】",
-      "reason": "systemdとサーバー運用の基礎"
-    },
-    {
-      "slug": "web-intro",
-      "title": "Webサイトの仕組みとは？HTML・CSS・JavaScriptをゼロから理解する",
-      "reason": "フロントエンドとAPIの分離理解"
+      "slug": "nginx-location",
+      "title": "nginxのlocationとルーティング【マッチング優先順位入門】",
+      "reason": "同じ講座の関連回です"
     }
   ],
   "ogImage": "https://ai-site-iota-nine.vercel.app/og-default.svg",
@@ -96,7 +91,7 @@
         "headline": "実践：Node.jsアプリの前段にnginxを構築する【総合演習】",
         "description": "【nginx初心者向け】Node.jsアプリの前段にnginxを構築する実践演習。静的配信・APIプロキシ・gzip・キャッシュ・ログ設定を組み合わせた本番構成を初心者向けに解説。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
         "datePublished": "2026-05-30T05:15:09.728Z",
-        "dateModified": "2026-05-30T05:15:09.732Z",
+        "dateModified": "2026-05-30T05:15:40.789Z",
         "author": {
           "@type": "Organization",
           "name": "StackShelf",

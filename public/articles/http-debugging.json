@@ -18,12 +18,12 @@
   "theme": "http - HTTP・Web API入門",
   "status": "published",
   "createdAt": "2026-05-30T05:14:42.451Z",
-  "updatedAt": "2026-05-30T05:14:42.455Z",
+  "updatedAt": "2026-05-30T05:15:43.375Z",
   "publishedAt": "2026-05-30T05:14:42.451Z",
   "metaTitle": "CORS・HTTPエラー・デバッグ技法【HTTP入門 第9回】｜HTTP入門 | StackShelf",
-  "metaDescription": "CORSの仕組みと解決法、HTTPエラー（4xx/5xx）のデバッグ技法を解説。Access-Control-Allow-Origin、プリフライトリクエスト、Network タブでの問題切り分けを学びます。 図解・具体例つきで丁寧に解説します。",
+  "metaDescription": "CORSの仕組みと解決法、HTTPエラー（4xx/5xx）のデバッグ技法を解説。Access-Control-Allow-Origin、プリフライトリクエスト、Network タブでの問題切り分けを学びます。",
   "ogTitle": "CORS・エラー・デバッグ",
-  "ogDescription": "【HTTP初心者向け】【HTTP初心者向け】CORSの仕組みとHTTPエラーのデバッグ技法を、具体例とトラブルシュート手順で解説します。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
+  "ogDescription": "CORSの仕組みとHTTPエラーのデバッグ技法を、具体例とトラブルシュート手順で解説します。",
   "knowledge": {
     "topic": "http",
     "courseId": "http",
@@ -55,11 +55,6 @@
   "nextAction": "次回は最終回！JSONPlaceholder等の公開APIを実際に叩き、curl・fetch API・DevToolsを使ってこれまで学んだHTTP知識を総動員する実践エピソードです。",
   "internalLinkCandidates": [
     {
-      "slug": "http-headers",
-      "title": "HTTPヘッダーの役割とよく使う項目",
-      "reason": "CORSヘッダーの詳細は第4回で紹介しました"
-    },
-    {
       "slug": "http-fetch-tools",
       "title": "curlとDevToolsでAPIを試す",
       "reason": "同じ講座の関連回です"
@@ -70,14 +65,19 @@
       "reason": "同じ講座の関連回です"
     },
     {
-      "slug": "nginx-reverse-proxy",
-      "title": "nginxリバースプロキシの設定",
-      "reason": "nginxでCORS設定やプロキシを行います"
+      "slug": "http-headers",
+      "title": "HTTPヘッダーの役割とよく使う項目",
+      "reason": "同じ講座の関連回です"
     },
     {
-      "slug": "docker-webapp-practice",
-      "title": "Node.js・Python WebアプリをDockerコンテナ化",
-      "reason": "502エラーの原因調査でDockerログを確認します"
+      "slug": "http-intro",
+      "title": "HTTPとは？Webの通信の仕組みを初心者向けに解説",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "http-rest-api",
+      "title": "REST APIの設計原則",
+      "reason": "同じ講座の関連回です"
     }
   ],
   "ogImage": "https://ai-site-iota-nine.vercel.app/og-default.svg",
@@ -91,7 +91,7 @@
         "headline": "CORS・エラー・デバッグ",
         "description": "CORSの仕組みと解決法、HTTPエラー（4xx/5xx）のデバッグ技法を解説。Access-Control-Allow-Origin、プリフライトリクエスト、Network タブでの問題切り分けを学びます。 図解・具体例つきで丁寧に解説します。",
         "datePublished": "2026-05-30T05:14:42.451Z",
-        "dateModified": "2026-05-30T05:14:42.455Z",
+        "dateModified": "2026-05-30T05:15:43.375Z",
         "author": {
           "@type": "Organization",
           "name": "StackShelf",

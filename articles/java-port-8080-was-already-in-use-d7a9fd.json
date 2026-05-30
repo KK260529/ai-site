@@ -1,0 +1,289 @@
+{
+  "id": "art_errors_java-port-8080-was-already-in-use-d7a9fd",
+  "slug": "java-port-8080-was-already-in-use-d7a9fd",
+  "title": "Port 8080 was already in use の原因と解決法",
+  "summary": "Port 8080 was already in use の原因と具体的な解決手順をまとめました。",
+  "body": "<h2>エラーメッセージ（全文）</h2>\n<p>検索でヒットしやすいよう、実際のコンソール出力をそのまま掲載します。</p>\n<pre><code>Port 8080 was already in use</code></pre>\n\n<h2>このエラーとは</h2>\n<p>Port 8080 was already in use は Java 開発でよく遭遇するエラーです。</p>\n<p><strong>想定環境:</strong> Windows / macOS / Linux</p>\n<p><strong>よく出る状況:</strong> Spring Boot 起動・実行時</p>\n\n<h2>よくある原因</h2>\n<ul>\n<li>@Autowired 先が未登録</li>\n<li>application.properties 不足</li>\n<li>Controller マッピング重複</li>\n</ul><h2>解決方法</h2><h3>方法1: ComponentScan 確認</h3><p>パッケージ配置と @SpringBootApplication の位置.</p><h3>方法2: 設定ファイル</h3><p>application.yml の datasource 設定を確認.</p>\n<h2>それでも直らないとき</h2>\n<p>バージョン情報（Java のバージョン、OS、実行コマンド）を添えて、エラーメッセージ全文と直前に変更した点を確認してください。ログの数行上にも原因の手がかりが残っていることが多いです。</p>",
+  "conclusion": "「Port 8080 was already in use」は @Autowired 先が未登録 が原因のことが多いです。上記の手順で切り分けてください。",
+  "tags": [
+    "java",
+    "Javaエラー",
+    "Port 8080 was already in use",
+    "Spring Boot"
+  ],
+  "category": "Javaエラー",
+  "theme": "errors - Java エラー・トラブル集",
+  "articleType": "error",
+  "status": "published",
+  "createdAt": "2026-05-30T05:47:36.546Z",
+  "updatedAt": "2026-05-30T05:47:36.546Z",
+  "publishedAt": "2026-05-30T05:47:36.546Z",
+  "metaTitle": "Port 8080 was already in use の原因と解決法 | Javaエラー",
+  "metaDescription": "Port 8080 was already in use が出たときの原因・確認手順・解決策を解説。Spring Boot 起動・実行時。",
+  "ogTitle": "Port 8080 was already in use の原因と解決法",
+  "ogDescription": "Port 8080 was already in use が出たときの原因・確認手順・解決策を解説。Spring Boot 起動・実行時。",
+  "knowledge": {
+    "topic": "errors",
+    "courseId": "java-errors",
+    "episode": 42
+  },
+  "faq": [
+    {
+      "question": "Port 8080 was already in use とは何ですか？",
+      "answer": "Port 8080 was already in use は Java 実行時に表示されるエラーです。@Autowired 先が未登録"
+    },
+    {
+      "question": "Port 8080 was already in use の原因は？",
+      "answer": "@Autowired 先が未登録。application.properties 不足。Controller マッピング重複。"
+    },
+    {
+      "question": "Port 8080 was already in use の直し方は？",
+      "answer": "ComponentScan 確認：パッケージ配置と @SpringBootApplication の位置. 設定ファイル：application.yml の datasource 設定を確認."
+    },
+    {
+      "question": "Java で Port 8080 was already in use が出るのはなぜ？",
+      "answer": "Spring Boot 起動・実行時"
+    },
+    {
+      "question": "Port 8080 was already in use を防ぐには？",
+      "answer": "。"
+    }
+  ],
+  "nextAction": "同じ Java カテゴリの関連エラーもあわせて確認してください。",
+  "internalLinkCandidates": [],
+  "ogImage": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+  "canonical": "https://ai-site-iota-nine.vercel.app/article/java-port-8080-was-already-in-use-d7a9fd",
+  "jsonLd": {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@context": "https://schema.org",
+        "@type": "TechArticle",
+        "headline": "Port 8080 was already in use の原因と解決法",
+        "description": "Port 8080 was already in use が出たときの原因・確認手順・解決策を解説。Spring Boot 起動・実行時。",
+        "datePublished": "2026-05-30T05:47:36.546Z",
+        "dateModified": "2026-05-30T05:47:36.546Z",
+        "author": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
+        },
+        "image": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+        "inLanguage": "ja",
+        "wordCount": 429,
+        "mainEntityOfPage": {
+          "@type": "WebPage",
+          "@id": "https://ai-site-iota-nine.vercel.app/article/java-port-8080-was-already-in-use-d7a9fd"
+        },
+        "keywords": "java, Javaエラー, Port 8080 was already in use, Spring Boot",
+        "articleSection": "Javaエラー",
+        "url": "https://ai-site-iota-nine.vercel.app/article/java-port-8080-was-already-in-use-d7a9fd",
+        "learningResourceType": "tutorial",
+        "educationalLevel": "beginner"
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "ホーム",
+            "item": "https://ai-site-iota-nine.vercel.app/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "errors",
+            "item": "https://ai-site-iota-nine.vercel.app/knowledge/errors"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "Java エラー・トラブル集",
+            "item": "https://ai-site-iota-nine.vercel.app/course/errors/java-errors"
+          },
+          {
+            "@type": "ListItem",
+            "position": 4,
+            "name": "Port 8080 was already in use の原因と解決法",
+            "item": "https://ai-site-iota-nine.vercel.app/article/java-port-8080-was-already-in-use-d7a9fd"
+          }
+        ]
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "Course",
+        "name": "Java エラー・トラブル集",
+        "description": "Java エラー・トラブル集",
+        "provider": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app"
+        },
+        "url": "https://ai-site-iota-nine.vercel.app/course/errors/java-errors",
+        "inLanguage": "ja",
+        "educationalLevel": "beginner",
+        "hasCourseInstance": {
+          "@type": "CourseInstance",
+          "courseMode": "online",
+          "courseWorkload": "PT1H"
+        }
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "Port 8080 was already in use とは何ですか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Port 8080 was already in use は Java 実行時に表示されるエラーです。@Autowired 先が未登録"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Port 8080 was already in use の原因は？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "@Autowired 先が未登録。application.properties 不足。Controller マッピング重複。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Port 8080 was already in use の直し方は？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "ComponentScan 確認：パッケージ配置と @SpringBootApplication の位置. 設定ファイル：application.yml の datasource 設定を確認."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Java で Port 8080 was already in use が出るのはなぜ？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Spring Boot 起動・実行時"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Port 8080 was already in use を防ぐには？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "。"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "breadcrumb": {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "ホーム",
+        "item": "https://ai-site-iota-nine.vercel.app/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "errors",
+        "item": "https://ai-site-iota-nine.vercel.app/knowledge/errors"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "Java エラー・トラブル集",
+        "item": "https://ai-site-iota-nine.vercel.app/course/errors/java-errors"
+      },
+      {
+        "@type": "ListItem",
+        "position": 4,
+        "name": "Port 8080 was already in use の原因と解決法",
+        "item": "https://ai-site-iota-nine.vercel.app/article/java-port-8080-was-already-in-use-d7a9fd"
+      }
+    ]
+  },
+  "courseSchema": {
+    "@context": "https://schema.org",
+    "@type": "Course",
+    "name": "Java エラー・トラブル集",
+    "description": "Java エラー・トラブル集",
+    "provider": {
+      "@type": "Organization",
+      "name": "StackShelf",
+      "url": "https://ai-site-iota-nine.vercel.app"
+    },
+    "url": "https://ai-site-iota-nine.vercel.app/course/errors/java-errors",
+    "inLanguage": "ja",
+    "educationalLevel": "beginner",
+    "hasCourseInstance": {
+      "@type": "CourseInstance",
+      "courseMode": "online",
+      "courseWorkload": "PT1H"
+    }
+  },
+  "faqSchema": {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "Port 8080 was already in use とは何ですか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Port 8080 was already in use は Java 実行時に表示されるエラーです。@Autowired 先が未登録"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Port 8080 was already in use の原因は？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "@Autowired 先が未登録。application.properties 不足。Controller マッピング重複。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Port 8080 was already in use の直し方は？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "ComponentScan 確認：パッケージ配置と @SpringBootApplication の位置. 設定ファイル：application.yml の datasource 設定を確認."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Java で Port 8080 was already in use が出るのはなぜ？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Spring Boot 起動・実行時"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Port 8080 was already in use を防ぐには？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "。"
+        }
+      }
+    ]
+  }
+}

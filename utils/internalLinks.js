@@ -15,6 +15,7 @@ const TOPIC_LABELS = {
   http: "HTTP",
   bash: "Bash",
   nginx: "nginx",
+  errors: "エラー・トラブル集",
 };
 
 function escapeRegex(s) {

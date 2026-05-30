@@ -1,0 +1,290 @@
+{
+  "id": "art_errors_javascript-next-js-error-page-api-users-160-is-missing-exported-function-get-1aa2b6",
+  "slug": "javascript-next-js-error-page-api-users-160-is-missing-exported-function-get-1aa2b6",
+  "title": "Next.js Error: Page \"/api/users/160\" is missing exported function \"GET\" の原因と解決法",
+  "summary": "Next.js Error: Page \"/api/users/160\" is missing exported function \"GET\" の原因と具体的な解決手順をまとめました。",
+  "body": "<h2>エラーメッセージ（全文）</h2>\n<p>検索でヒットしやすいよう、実際のコンソール出力をそのまま掲載します。</p>\n<pre><code>Next.js Error: Page &quot;/api/users/160&quot; is missing exported function &quot;GET&quot;</code></pre>\n\n<h2>このエラーとは</h2>\n<p>Next.js Error: Page &quot;/api/users/160&quot; is missing exported function &quot;GET&quot; は JavaScript 開発でよく遭遇するエラーです。</p>\n<p><strong>想定環境:</strong> Windows / macOS / Linux</p>\n<p><strong>よく出る状況:</strong> Node / フロントエンド / ORM</p>\n\n<h2>よくある原因</h2>\n<ul>\n<li>非同期</li>\n<li>import パス</li>\n<li>DB 制約</li>\n</ul><h2>解決方法</h2><h3>方法1: DevTools / ターミナルログ</h3><p>再現手順を最小化.</p>\n<h2>それでも直らないとき</h2>\n<p>バージョン情報（JavaScript のバージョン、OS、実行コマンド）を添えて、エラーメッセージ全文と直前に変更した点を確認してください。ログの数行上にも原因の手がかりが残っていることが多いです。</p>",
+  "conclusion": "「Next.js Error: Page \"/api/users/160\" is missing exported function \"GET\"」は 非同期 が原因のことが多いです。上記の手順で切り分けてください。",
+  "tags": [
+    "javascript",
+    "JavaScriptエラー",
+    "Next.js Error",
+    "JavaScript",
+    "Next.js Error: Page \"/api/users/160\" is "
+  ],
+  "category": "JavaScriptエラー",
+  "theme": "errors - JavaScript / Node.js エラー・トラブル集",
+  "articleType": "error",
+  "status": "published",
+  "createdAt": "2026-05-30T05:47:49.796Z",
+  "updatedAt": "2026-05-30T05:47:49.796Z",
+  "publishedAt": "2026-05-30T05:47:49.796Z",
+  "metaTitle": "Next.js Error: Page \"/api/users/160\" is missing exported fu…",
+  "metaDescription": "Next.js Error: Page \"/api/users/160\" is missing exported function \"GET\" が出たときの原因・確認手順・解決策を解説。Node / フロントエンド / ORM。",
+  "ogTitle": "Next.js Error: Page \"/api/users/160\" is missing exported function \"GET\" の原因と解決法",
+  "ogDescription": "Next.js Error: Page \"/api/users/160\" is missing exported function \"GET\" が出たときの原因・確認手順・解決策を解説。Node / フロントエンド / ORM。",
+  "knowledge": {
+    "topic": "errors",
+    "courseId": "javascript-errors",
+    "episode": 365
+  },
+  "faq": [
+    {
+      "question": "Next.js Error: Page \"/api/users/160\" is missing exported function \"GET\" とは何ですか？",
+      "answer": "Next.js Error: Page \"/api/users/160\" is missing exported function \"GET\" は JavaScript 実行時に表示されるエラーです。非同期"
+    },
+    {
+      "question": "Next.js Error: Page \"/api/users/160\" is missing exported function \"GET\" の原因は？",
+      "answer": "非同期。import パス。DB 制約。"
+    },
+    {
+      "question": "Next.js Error: Page \"/api/users/160\" is missing exported function \"GET\" の直し方は？",
+      "answer": "DevTools / ターミナルログ：再現手順を最小化."
+    },
+    {
+      "question": "JavaScript で Next.js Error が出るのはなぜ？",
+      "answer": "Node / フロントエンド / ORM"
+    },
+    {
+      "question": "Next.js Error: Page \"/api/users/160\" is missing exported function \"GET\" を防ぐには？",
+      "answer": "。"
+    }
+  ],
+  "nextAction": "同じ JavaScript カテゴリの関連エラーもあわせて確認してください。",
+  "internalLinkCandidates": [],
+  "ogImage": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+  "canonical": "https://ai-site-iota-nine.vercel.app/article/javascript-next-js-error-page-api-users-160-is-missing-exported-function-get-1aa2b6",
+  "jsonLd": {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@context": "https://schema.org",
+        "@type": "TechArticle",
+        "headline": "Next.js Error: Page \"/api/users/160\" is missing exported function \"GET\" の原因と解決法",
+        "description": "Next.js Error: Page \"/api/users/160\" is missing exported function \"GET\" が出たときの原因・確認手順・解決策を解説。Node / フロントエンド / ORM。",
+        "datePublished": "2026-05-30T05:47:49.796Z",
+        "dateModified": "2026-05-30T05:47:49.796Z",
+        "author": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
+        },
+        "image": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+        "inLanguage": "ja",
+        "wordCount": 454,
+        "mainEntityOfPage": {
+          "@type": "WebPage",
+          "@id": "https://ai-site-iota-nine.vercel.app/article/javascript-next-js-error-page-api-users-160-is-missing-exported-function-get-1aa2b6"
+        },
+        "keywords": "javascript, JavaScriptエラー, Next.js Error, JavaScript, Next.js Error: Page \"/api/users/160\" is ",
+        "articleSection": "JavaScriptエラー",
+        "url": "https://ai-site-iota-nine.vercel.app/article/javascript-next-js-error-page-api-users-160-is-missing-exported-function-get-1aa2b6",
+        "learningResourceType": "tutorial",
+        "educationalLevel": "beginner"
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "ホーム",
+            "item": "https://ai-site-iota-nine.vercel.app/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "errors",
+            "item": "https://ai-site-iota-nine.vercel.app/knowledge/errors"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "JavaScript / Node.js エラー・トラブル集",
+            "item": "https://ai-site-iota-nine.vercel.app/course/errors/javascript-errors"
+          },
+          {
+            "@type": "ListItem",
+            "position": 4,
+            "name": "Next.js Error: Page \"/api/users/160\" is missing exported function \"GET\" の原因と解決法",
+            "item": "https://ai-site-iota-nine.vercel.app/article/javascript-next-js-error-page-api-users-160-is-missing-exported-function-get-1aa2b6"
+          }
+        ]
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "Course",
+        "name": "JavaScript / Node.js エラー・トラブル集",
+        "description": "JavaScript / Node.js エラー・トラブル集",
+        "provider": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app"
+        },
+        "url": "https://ai-site-iota-nine.vercel.app/course/errors/javascript-errors",
+        "inLanguage": "ja",
+        "educationalLevel": "beginner",
+        "hasCourseInstance": {
+          "@type": "CourseInstance",
+          "courseMode": "online",
+          "courseWorkload": "PT1H"
+        }
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "Next.js Error: Page \"/api/users/160\" is missing exported function \"GET\" とは何ですか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Next.js Error: Page \"/api/users/160\" is missing exported function \"GET\" は JavaScript 実行時に表示されるエラーです。非同期"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Next.js Error: Page \"/api/users/160\" is missing exported function \"GET\" の原因は？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "非同期。import パス。DB 制約。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Next.js Error: Page \"/api/users/160\" is missing exported function \"GET\" の直し方は？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "DevTools / ターミナルログ：再現手順を最小化."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "JavaScript で Next.js Error が出るのはなぜ？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Node / フロントエンド / ORM"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Next.js Error: Page \"/api/users/160\" is missing exported function \"GET\" を防ぐには？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "。"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "breadcrumb": {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "ホーム",
+        "item": "https://ai-site-iota-nine.vercel.app/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "errors",
+        "item": "https://ai-site-iota-nine.vercel.app/knowledge/errors"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "JavaScript / Node.js エラー・トラブル集",
+        "item": "https://ai-site-iota-nine.vercel.app/course/errors/javascript-errors"
+      },
+      {
+        "@type": "ListItem",
+        "position": 4,
+        "name": "Next.js Error: Page \"/api/users/160\" is missing exported function \"GET\" の原因と解決法",
+        "item": "https://ai-site-iota-nine.vercel.app/article/javascript-next-js-error-page-api-users-160-is-missing-exported-function-get-1aa2b6"
+      }
+    ]
+  },
+  "courseSchema": {
+    "@context": "https://schema.org",
+    "@type": "Course",
+    "name": "JavaScript / Node.js エラー・トラブル集",
+    "description": "JavaScript / Node.js エラー・トラブル集",
+    "provider": {
+      "@type": "Organization",
+      "name": "StackShelf",
+      "url": "https://ai-site-iota-nine.vercel.app"
+    },
+    "url": "https://ai-site-iota-nine.vercel.app/course/errors/javascript-errors",
+    "inLanguage": "ja",
+    "educationalLevel": "beginner",
+    "hasCourseInstance": {
+      "@type": "CourseInstance",
+      "courseMode": "online",
+      "courseWorkload": "PT1H"
+    }
+  },
+  "faqSchema": {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "Next.js Error: Page \"/api/users/160\" is missing exported function \"GET\" とは何ですか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Next.js Error: Page \"/api/users/160\" is missing exported function \"GET\" は JavaScript 実行時に表示されるエラーです。非同期"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Next.js Error: Page \"/api/users/160\" is missing exported function \"GET\" の原因は？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "非同期。import パス。DB 制約。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Next.js Error: Page \"/api/users/160\" is missing exported function \"GET\" の直し方は？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "DevTools / ターミナルログ：再現手順を最小化."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "JavaScript で Next.js Error が出るのはなぜ？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Node / フロントエンド / ORM"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Next.js Error: Page \"/api/users/160\" is missing exported function \"GET\" を防ぐには？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "。"
+        }
+      }
+    ]
+  }
+}

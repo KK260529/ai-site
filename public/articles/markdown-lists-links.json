@@ -16,12 +16,12 @@
   "theme": "markdown - Markdown & 技術ドキュメント入門",
   "status": "published",
   "createdAt": "2026-05-30T05:14:14.904Z",
-  "updatedAt": "2026-05-30T05:14:14.911Z",
+  "updatedAt": "2026-05-30T05:15:45.769Z",
   "publishedAt": "2026-05-30T05:14:14.904Z",
   "metaTitle": "Markdown リスト・リンク・画像の書き方【実践】｜Markdown入門 | StackShelf",
-  "metaDescription": "【Markdown初心者向け】Markdownの箇条書き、番号リスト、リンク・画像の記法とネストのルール、相対パスの失敗例を具体例で解説します。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
+  "metaDescription": "Markdownの箇条書き、番号リスト、リンク・画像の記法とネストのルール、相対パスの失敗例を具体例で解説します。",
   "ogTitle": "Markdown：リスト・リンク・画像",
-  "ogDescription": "【Markdown初心者向け】【Markdown初心者向け】リストのネスト、リンクと画像の書き方、よくあるパスの失敗をわかりやすく解説します。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
+  "ogDescription": "リストのネスト、リンクと画像の書き方、よくあるパスの失敗をわかりやすく解説します。",
   "knowledge": {
     "topic": "markdown",
     "courseId": "markdown",
@@ -53,29 +53,29 @@
   "nextAction": "READMEに「必要条件」を箇条書き3項目、「セットアップ手順」を番号リスト3ステップで書き、公式ドキュメントへのリンク1つを追加してGitHubまたはプレビューでクリック確認してください。",
   "internalLinkCandidates": [
     {
-      "slug": "markdown-basic-syntax",
-      "title": "見出し・段落・強調",
-      "reason": "リストの前に見出しでセクション分けするため、前回の基本記法と組み合わせて使います"
+      "slug": "markdown-practice",
+      "title": "実践：プロジェクトREADMEを一から作る｜Markdown総仕上げ",
+      "reason": "同じ講座の関連回です"
     },
     {
-      "slug": "git-intro",
-      "title": "Git入門",
-      "reason": "リポジトリ内の相対リンクはGitのディレクトリ構造理解があると組み立てやすいです"
+      "slug": "markdown-github-readme",
+      "title": "GitHub READMEの書き方｜公開リポジトリの顔を整える",
+      "reason": "同じ講座の関連回です"
     },
     {
-      "slug": "web-intro",
-      "title": "Web入門",
-      "reason": "URLやパスの考え方はWeb開発の基礎と共通します"
+      "slug": "markdown-code-tables",
+      "title": "コードブロックと表｜Markdownで技術内容を正確に書く",
+      "reason": "同じ講座の関連回です"
     },
     {
-      "slug": "docker-intro",
-      "title": "Docker入門",
-      "reason": "Docker READMEでも手順リストと公式リンクのパターンが同じです"
+      "slug": "markdown-intro",
+      "title": "Markdownとは？技術文書を書く理由と全体像",
+      "reason": "同じ講座の関連回です"
     },
     {
-      "slug": "linux-intro",
-      "title": "Linux入門",
-      "reason": "パス指定の感覚はLinuxのファイルパス理解と直結します"
+      "slug": "markdown-tools",
+      "title": "エディタ・プレビュー・Lint｜Markdown執筆を効率化するツール",
+      "reason": "同じ講座の関連回です"
     }
   ],
   "ogImage": "https://ai-site-iota-nine.vercel.app/og-default.svg",
@@ -89,7 +89,7 @@
         "headline": "リスト・リンク・画像｜Markdownで情報を整理する",
         "description": "【Markdown初心者向け】Markdownの箇条書き、番号リスト、リンク・画像の記法とネストのルール、相対パスの失敗例を具体例で解説します。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
         "datePublished": "2026-05-30T05:14:14.904Z",
-        "dateModified": "2026-05-30T05:14:14.911Z",
+        "dateModified": "2026-05-30T05:15:45.769Z",
         "author": {
           "@type": "Organization",
           "name": "StackShelf",

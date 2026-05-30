@@ -7,19 +7,39 @@ const OUT = path.join(config.rootDir, "utils", "articleIndex.json");
 
 function buildArticleIndex() {
   articleStore.ensurePublicArticlesDir();
-  for (const a of articleStore.listAllArticles().filter((x) => x.status === "published")) {
-    articleStore.mirrorPublishedArticle(a);
+  const articlesDir = path.join(config.rootDir, config.articlesDir);
+  const publicDir = path.join(config.publicDir, "articles");
+  const index = {};
+
+  if (fs.existsSync(articlesDir)) {
+    for (const f of fs.readdirSync(articlesDir).filter((name) => name.endsWith(".json"))) {
+      try {
+        const a = JSON.parse(fs.readFileSync(path.join(articlesDir, f), "utf-8"));
+        if (a?.slug && a.status === "published") {
+          index[a.slug] = a;
+          articleStore.mirrorPublishedArticle(a);
+        }
+      } catch {
+        /* skip bad file */
+      }
+    }
   }
 
-  const articles = articleStore
-    .listAllArticles()
-    .filter((a) => a.status === "published");
-  const index = {};
-  for (const a of articles) {
-    index[a.slug] = a;
+  if (fs.existsSync(publicDir)) {
+    const keep = new Set(Object.keys(index).map((slug) => `${slug}.json`));
+    for (const f of fs.readdirSync(publicDir)) {
+      if (f.endsWith(".json") && !keep.has(f)) {
+        try {
+          fs.unlinkSync(path.join(publicDir, f));
+        } catch {
+          /* ignore */
+        }
+      }
+    }
   }
+
   fs.writeFileSync(OUT, JSON.stringify(index, null, 2), "utf-8");
-  return { count: articles.length, out: OUT };
+  return { count: Object.keys(index).length, out: OUT };
 }
 
 if (require.main === module) {

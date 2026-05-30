@@ -11,20 +11,19 @@ const {
  * 記事データから SEO メタ情報を構築
  */
 function buildSeo(article) {
-  const metaTitle = optimizeSerpTitle(article.metaTitle || article.title, {
-    category: article.category,
-  });
+  const seoOpts = { category: article.category, articleType: article.articleType };
+  const metaTitle = optimizeSerpTitle(article.metaTitle || article.title, seoOpts);
   const metaDescription = optimizeSerpDescription(
     article.metaDescription,
     article.summary,
-    { category: article.category }
+    seoOpts
   );
 
   const ogTitle = article.ogTitle || article.title;
   const ogDescription = optimizeSerpDescription(
     article.ogDescription || article.metaDescription,
     article.summary,
-    { category: article.category }
+    seoOpts
   );
   const canonical = `${config.siteUrl}/article/${article.slug}`;
   const ogImage = getOgImageUrl(article);

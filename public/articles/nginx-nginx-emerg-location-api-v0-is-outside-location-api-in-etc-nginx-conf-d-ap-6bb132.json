@@ -1,0 +1,288 @@
+{
+  "id": "art_errors_nginx-nginx-emerg-location-api-v0-is-outside-location-api-in-etc-nginx-conf-d-ap-6bb132",
+  "slug": "nginx-nginx-emerg-location-api-v0-is-outside-location-api-in-etc-nginx-conf-d-ap-6bb132",
+  "title": "nginx: [emerg] location \"/api/v0\" is outside location \"/api\" in /etc/nginx/conf.d/app.conf:10 の原因と解決法",
+  "summary": "nginx: [emerg] location \"/api/v0\" is outside location \"/api\" in /etc/nginx/conf.d/app.conf:10 の原因と具体的な解決手順をまとめました。",
+  "body": "<h2>エラーメッセージ（全文）</h2>\n<p>検索でヒットしやすいよう、実際のコンソール出力をそのまま掲載します。</p>\n<pre><code>nginx: [emerg] location &quot;/api/v0&quot; is outside location &quot;/api&quot; in /etc/nginx/conf.d/app.conf:10</code></pre>\n\n<h2>このエラーとは</h2>\n<p>nginx: [emerg] location &quot;/api/v0&quot; is outside location &quot;/api&quot; in /etc/nginx/conf.d/app.conf:10 は nginx 開発でよく遭遇するエラーです。</p>\n<p><strong>想定環境:</strong> Windows / macOS / Linux</p>\n<p><strong>よく出る状況:</strong> nginx 設定・プロキシ</p>\n\n<h2>よくある原因</h2>\n<ul>\n<li>location ネスト</li>\n<li>upstream ダウン</li>\n<li>レート制限</li>\n</ul><h2>解決方法</h2><h3>方法1: nginx -t</h3><p>設定テスト後 reload.</p>\n<h2>それでも直らないとき</h2>\n<p>バージョン情報（nginx のバージョン、OS、実行コマンド）を添えて、エラーメッセージ全文と直前に変更した点を確認してください。ログの数行上にも原因の手がかりが残っていることが多いです。</p>",
+  "conclusion": "「nginx: [emerg] location \"/api/v0\" is outside location \"/api\" in /etc/nginx/conf.d/app.conf:10」は location ネスト が原因のことが多いです。上記の手順で切り分けてください。",
+  "tags": [
+    "nginx",
+    "nginxエラー",
+    "nginx: [emerg] location \"/api/v0\" is out"
+  ],
+  "category": "nginxエラー",
+  "theme": "errors - nginx エラー・トラブル集",
+  "articleType": "error",
+  "status": "published",
+  "createdAt": "2026-05-30T05:48:36.695Z",
+  "updatedAt": "2026-05-30T05:48:36.695Z",
+  "publishedAt": "2026-05-30T05:48:36.695Z",
+  "metaTitle": "nginx: [emerg] location \"/api/v0\" is outside location \"/api…",
+  "metaDescription": "nginx: [emerg] location \"/api/v0\" is outside location \"/api\" in /etc/nginx/conf.d/app.conf:10 が出たときの原因・確認手順・解決策を解説。nginx 設定・プロキシ。",
+  "ogTitle": "nginx: [emerg] location \"/api/v0\" is outside location \"/api\" in /etc/nginx/conf.d/app.conf:10 の原因と解決法",
+  "ogDescription": "nginx: [emerg] location \"/api/v0\" is outside location \"/api\" in /etc/nginx/conf.d/app.conf:10 が出たときの原因・確認手順・解決策を解説。nginx 設定・プロキシ。",
+  "knowledge": {
+    "topic": "errors",
+    "courseId": "nginx-errors",
+    "episode": 123
+  },
+  "faq": [
+    {
+      "question": "nginx: [emerg] location \"/api/v0\" is outside location \"/api\" in /etc/nginx/co… とは何ですか？",
+      "answer": "nginx: [emerg] location \"/api/v0\" is outside location \"/api\" in /etc/nginx/conf.d/app.conf:10 は nginx 実行時に表示されるエラーです。location ネスト"
+    },
+    {
+      "question": "nginx: [emerg] location \"/api/v0\" is outside location \"/api\" in /etc/nginx/co… の原因は？",
+      "answer": "location ネスト。upstream ダウン。レート制限。"
+    },
+    {
+      "question": "nginx: [emerg] location \"/api/v0\" is outside location \"/api\" in /etc/nginx/co… の直し方は？",
+      "answer": "nginx -t：設定テスト後 reload."
+    },
+    {
+      "question": "nginx で nginx が出るのはなぜ？",
+      "answer": "nginx 設定・プロキシ"
+    },
+    {
+      "question": "nginx: [emerg] location \"/api/v0\" is outside location \"/api\" in /etc/nginx/co… を防ぐには？",
+      "answer": "。"
+    }
+  ],
+  "nextAction": "同じ nginx カテゴリの関連エラーもあわせて確認してください。",
+  "internalLinkCandidates": [],
+  "ogImage": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+  "canonical": "https://ai-site-iota-nine.vercel.app/article/nginx-nginx-emerg-location-api-v0-is-outside-location-api-in-etc-nginx-conf-d-ap-6bb132",
+  "jsonLd": {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@context": "https://schema.org",
+        "@type": "TechArticle",
+        "headline": "nginx: [emerg] location \"/api/v0\" is outside location \"/api\" in /etc/nginx/conf.d/app.conf:10 の原因と解決法",
+        "description": "nginx: [emerg] location \"/api/v0\" is outside location \"/api\" in /etc/nginx/conf.d/app.conf:10 が出たときの原因・確認手順・解決策を解説。nginx 設定・プロキシ。",
+        "datePublished": "2026-05-30T05:48:36.695Z",
+        "dateModified": "2026-05-30T05:48:36.695Z",
+        "author": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
+        },
+        "image": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+        "inLanguage": "ja",
+        "wordCount": 489,
+        "mainEntityOfPage": {
+          "@type": "WebPage",
+          "@id": "https://ai-site-iota-nine.vercel.app/article/nginx-nginx-emerg-location-api-v0-is-outside-location-api-in-etc-nginx-conf-d-ap-6bb132"
+        },
+        "keywords": "nginx, nginxエラー, nginx: [emerg] location \"/api/v0\" is out",
+        "articleSection": "nginxエラー",
+        "url": "https://ai-site-iota-nine.vercel.app/article/nginx-nginx-emerg-location-api-v0-is-outside-location-api-in-etc-nginx-conf-d-ap-6bb132",
+        "learningResourceType": "tutorial",
+        "educationalLevel": "beginner"
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "ホーム",
+            "item": "https://ai-site-iota-nine.vercel.app/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "errors",
+            "item": "https://ai-site-iota-nine.vercel.app/knowledge/errors"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "nginx エラー・トラブル集",
+            "item": "https://ai-site-iota-nine.vercel.app/course/errors/nginx-errors"
+          },
+          {
+            "@type": "ListItem",
+            "position": 4,
+            "name": "nginx: [emerg] location \"/api/v0\" is outside location \"/api\" in /etc/nginx/conf.d/app.conf:10 の原因と解決法",
+            "item": "https://ai-site-iota-nine.vercel.app/article/nginx-nginx-emerg-location-api-v0-is-outside-location-api-in-etc-nginx-conf-d-ap-6bb132"
+          }
+        ]
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "Course",
+        "name": "nginx エラー・トラブル集",
+        "description": "nginx エラー・トラブル集",
+        "provider": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app"
+        },
+        "url": "https://ai-site-iota-nine.vercel.app/course/errors/nginx-errors",
+        "inLanguage": "ja",
+        "educationalLevel": "beginner",
+        "hasCourseInstance": {
+          "@type": "CourseInstance",
+          "courseMode": "online",
+          "courseWorkload": "PT1H"
+        }
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "nginx: [emerg] location \"/api/v0\" is outside location \"/api\" in /etc/nginx/co… とは何ですか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "nginx: [emerg] location \"/api/v0\" is outside location \"/api\" in /etc/nginx/conf.d/app.conf:10 は nginx 実行時に表示されるエラーです。location ネスト"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "nginx: [emerg] location \"/api/v0\" is outside location \"/api\" in /etc/nginx/co… の原因は？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "location ネスト。upstream ダウン。レート制限。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "nginx: [emerg] location \"/api/v0\" is outside location \"/api\" in /etc/nginx/co… の直し方は？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "nginx -t：設定テスト後 reload."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "nginx で nginx が出るのはなぜ？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "nginx 設定・プロキシ"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "nginx: [emerg] location \"/api/v0\" is outside location \"/api\" in /etc/nginx/co… を防ぐには？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "。"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "breadcrumb": {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "ホーム",
+        "item": "https://ai-site-iota-nine.vercel.app/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "errors",
+        "item": "https://ai-site-iota-nine.vercel.app/knowledge/errors"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "nginx エラー・トラブル集",
+        "item": "https://ai-site-iota-nine.vercel.app/course/errors/nginx-errors"
+      },
+      {
+        "@type": "ListItem",
+        "position": 4,
+        "name": "nginx: [emerg] location \"/api/v0\" is outside location \"/api\" in /etc/nginx/conf.d/app.conf:10 の原因と解決法",
+        "item": "https://ai-site-iota-nine.vercel.app/article/nginx-nginx-emerg-location-api-v0-is-outside-location-api-in-etc-nginx-conf-d-ap-6bb132"
+      }
+    ]
+  },
+  "courseSchema": {
+    "@context": "https://schema.org",
+    "@type": "Course",
+    "name": "nginx エラー・トラブル集",
+    "description": "nginx エラー・トラブル集",
+    "provider": {
+      "@type": "Organization",
+      "name": "StackShelf",
+      "url": "https://ai-site-iota-nine.vercel.app"
+    },
+    "url": "https://ai-site-iota-nine.vercel.app/course/errors/nginx-errors",
+    "inLanguage": "ja",
+    "educationalLevel": "beginner",
+    "hasCourseInstance": {
+      "@type": "CourseInstance",
+      "courseMode": "online",
+      "courseWorkload": "PT1H"
+    }
+  },
+  "faqSchema": {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "nginx: [emerg] location \"/api/v0\" is outside location \"/api\" in /etc/nginx/co… とは何ですか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "nginx: [emerg] location \"/api/v0\" is outside location \"/api\" in /etc/nginx/conf.d/app.conf:10 は nginx 実行時に表示されるエラーです。location ネスト"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "nginx: [emerg] location \"/api/v0\" is outside location \"/api\" in /etc/nginx/co… の原因は？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "location ネスト。upstream ダウン。レート制限。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "nginx: [emerg] location \"/api/v0\" is outside location \"/api\" in /etc/nginx/co… の直し方は？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "nginx -t：設定テスト後 reload."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "nginx で nginx が出るのはなぜ？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "nginx 設定・プロキシ"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "nginx: [emerg] location \"/api/v0\" is outside location \"/api\" in /etc/nginx/co… を防ぐには？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "。"
+        }
+      }
+    ]
+  }
+}

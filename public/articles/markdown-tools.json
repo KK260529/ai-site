@@ -16,12 +16,12 @@
   "theme": "markdown - Markdown & 技術ドキュメント入門",
   "status": "published",
   "createdAt": "2026-05-30T05:14:18.706Z",
-  "updatedAt": "2026-05-30T05:14:18.710Z",
+  "updatedAt": "2026-05-30T05:15:45.178Z",
   "publishedAt": "2026-05-30T05:14:18.706Z",
   "metaTitle": "Markdown エディタ・Lint・プレビューツール【実務】｜Markdown入門 | StackShelf",
-  "metaDescription": "【Markdown初心者向け】VS CodeでのMarkdown執筆、markdownlint・Prettier設定、プレビューとMkDocsなど静的サイト生成の選び方を具体例で解説します。 図解・具体例つきで丁寧に解説します。",
+  "metaDescription": "VS CodeでのMarkdown執筆、markdownlint・Prettier設定、プレビューとMkDocsなど静的サイト生成の選び方を具体例で解説します。",
   "ogTitle": "Markdown執筆ツール入門",
-  "ogDescription": "【Markdown初心者向け】【Markdown初心者向け】エディタ、Lint、プレビュー、サイト生成ツールでMarkdown品質を上げる方法を解説します。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
+  "ogDescription": "エディタ、Lint、プレビュー、サイト生成ツールでMarkdown品質を上げる方法を解説します。",
   "knowledge": {
     "topic": "markdown",
     "courseId": "markdown",
@@ -53,29 +53,29 @@
   "nextAction": "VS Codeにmarkdownlint拡張を入れ、既存の.mdを1つ開いて警告を1つずつ直し、修正後にプレビューと横並び表示で見出し・表・コードが意図どおりか確認してください。",
   "internalLinkCandidates": [
     {
+      "slug": "markdown-practice",
+      "title": "実践：プロジェクトREADMEを一から作る｜Markdown総仕上げ",
+      "reason": "同じ講座の関連回です"
+    },
+    {
       "slug": "markdown-docs-structure",
-      "title": "ドキュメント構成設計",
-      "reason": "LintとSSGはdocs/構成とセットで運用するため前回の設計と連動します"
+      "title": "技術ドキュメントの構成設計｜読まれるMarkdownの組み立て方",
+      "reason": "同じ講座の関連回です"
     },
     {
-      "slug": "web-intro",
-      "title": "Web入門",
-      "reason": "SSGが生成するHTMLサイトの公開はWebの基礎と関連します"
+      "slug": "markdown-github-readme",
+      "title": "GitHub READMEの書き方｜公開リポジトリの顔を整える",
+      "reason": "同じ講座の関連回です"
     },
     {
-      "slug": "git-intro",
-      "title": "Git入門",
-      "reason": "CIでのドキュメントチェックはGitHub ActionsとGit運用の延長です"
+      "slug": "markdown-code-tables",
+      "title": "コードブロックと表｜Markdownで技術内容を正確に書く",
+      "reason": "同じ講座の関連回です"
     },
     {
-      "slug": "linux-intro",
-      "title": "Linux入門",
-      "reason": "CLIでのmarkdownlintやpandoc実行はターミナル操作の練習になります"
-    },
-    {
-      "slug": "python-intro",
-      "title": "Python入門",
-      "reason": "MkDocsはPython系プロジェクトでよく使われ、Python学習者にとって自然な次の一歩です"
+      "slug": "markdown-lists-links",
+      "title": "リスト・リンク・画像｜Markdownで情報を整理する",
+      "reason": "同じ講座の関連回です"
     }
   ],
   "ogImage": "https://ai-site-iota-nine.vercel.app/og-default.svg",
@@ -89,7 +89,7 @@
         "headline": "エディタ・プレビュー・Lint｜Markdown執筆を効率化するツール",
         "description": "【Markdown初心者向け】VS CodeでのMarkdown執筆、markdownlint・Prettier設定、プレビューとMkDocsなど静的サイト生成の選び方を具体例で解説します。 図解・具体例つきで丁寧に解説します。",
         "datePublished": "2026-05-30T05:14:18.706Z",
-        "dateModified": "2026-05-30T05:14:18.710Z",
+        "dateModified": "2026-05-30T05:15:45.178Z",
         "author": {
           "@type": "Organization",
           "name": "StackShelf",

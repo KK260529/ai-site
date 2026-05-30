@@ -1,10 +1,10 @@
 {
   "id": "art_1780054191748",
   "slug": "java-arrays",
-  "title": "Javaの配列",
-  "summary": "Javaの配列は、同じデータ型の複数の値を一つの変数に格納することができます。ここでは、配列の定義、初期化、要素へのアクセス、配列の操作について学びます。",
-  "body": "<h2>配列の定義</h2><p>Javaの配列は、同じデータ型の複数の値を一つの変数に格納することができます。配列を定義するには、型の後に[]を付ける必要があります。</p><h3>例</h3><pre><code>int[] scores = {10, 20, 30};</code></pre><h2>配列の初期化</h2><p>配列を初期化するには、{}を使用して値を指定することができます。配列の要素数は、初期化時に指定された値の数によって決定されます。</p><h3>例</h3><pre><code>int[] scores = new int[3];\nscores[0] = 10;\nscores[1] = 20;\nscores[2] = 30;</code></pre><h2>配列の要素へのアクセス</h2><p>配列の要素にアクセスするには、配列の名前とインデックスを使用します。インデックスは0から始まり、配列の要素数より1小さい値まで使用できます。</p><h3>例</h3><pre><code>int score = scores[0];\nSystem.out.println(score); // 10</code></pre>",
-  "conclusion": "このエピソードでは、Javaの配列について学びました。配列は、同じデータ型の複数の値を一つの変数に格納することができます。配列の定義、初期化、要素へのアクセス、配列の操作について学んだことで、Javaプログラミングの基礎をさらに固めることができました。",
+  "title": "Javaの配列｜宣言・初期化・走査",
+  "summary": "Java配列の宣言、初期化、インデックスアクセス、length、多次元配列、Arraysユーティリティを学びます。ArrayIndexOutOfBoundsExceptionなど失敗例も解説。",
+  "body": "<h2>結論：配列は同じ型の固定長データ列で、インデックス0からlength-1までアクセスする</h2>\n<p>Javaの<strong>配列</strong>は、同じデータ型の要素を連続して保持する<strong>固定長</strong>のデータ構造です。後の回で学ぶ ArrayList と違い、サイズは作成後に変えられません（別配列へのコピーは可能）。</p>\n\n<h2>宣言と初期化</h2>\n<pre><code>int[] nums = new int[3];       // {0, 0, 0}\nint[] primes = {2, 3, 5, 7};\nString[] names = new String[] {\"A\", \"B\"};</code></pre>\n\n<h2>要素アクセスと length</h2>\n<pre><code>nums[0] = 10;\nSystem.out.println(nums.length); // 3（メソッドではなくフィールド）</code></pre>\n\n<h3>失敗例：ArrayIndexOutOfBoundsException</h3>\n<pre><code>int[] a = {1, 2, 3};\nSystem.out.println(a[3]); // インデックス3は範囲外（有効は0〜2）</code></pre>\n<p>ループでは <code>i &lt; arr.length</code> を厳守します。<code>&lt;= length</code> は1つオーバーします。</p>\n\n<h2>配列の走査</h2>\n<pre><code>for (int i = 0; i &lt; nums.length; i++) {\n    System.out.println(nums[i]);\n}\nfor (int n : nums) {\n    System.out.println(n);\n}</code></pre>\n\n<h2>多次元配列</h2>\n<pre><code>int[][] matrix = {\n    {1, 2},\n    {3, 4}\n};\nSystem.out.println(matrix[1][0]); // 3</code></pre>\n\n<h2>Arrays ユーティリティ</h2>\n<pre><code>import java.util.Arrays;\nArrays.sort(nums);\nSystem.out.println(Arrays.toString(nums));</code></pre>\n\n<h3>失敗例：配列の比較に == を使う</h3>\n<pre><code>int[] x = {1, 2};\nint[] y = {1, 2};\nSystem.out.println(x == y);              // false\nSystem.out.println(Arrays.equals(x, y)); // true</code></pre>\n\n<h2>まとめ</h2>\n<p>配列は固定長・インデックス0始まり・lengthはフィールド、が基本です。範囲外アクセスと==比較は初学者の典型ミスです。次回はオブジェクト指向の考え方に入ります。</p>",
+  "conclusion": "Java配列は固定長でインデックス0からアクセスし、lengthで要素数を取得します。範囲外アクセスと配列の==比較は要注意です。5要素の配列に値を入れ、ソートして表示する練習をしましょう。",
   "tags": [
     "Java",
     "配列"
@@ -13,12 +13,12 @@
   "theme": "java - Java",
   "status": "published",
   "createdAt": "2026-05-29T11:29:51.735Z",
-  "updatedAt": "2026-05-29T14:35:19.665Z",
+  "updatedAt": "2026-05-30T05:18:37.038Z",
   "publishedAt": "2026-05-29T11:29:51.735Z",
-  "metaTitle": "Javaの配列",
-  "metaDescription": "Javaの配列について学ぶ。配列の定義、初期化、要素へのアクセス、配列の操作について解説します。",
+  "metaTitle": "Java配列入門｜宣言・走査・多次元配列 | StackShelf",
+  "metaDescription": "Java配列の宣言、初期化、インデックス、length、Arrays.sort/toStringと範囲外アクセスの失敗例を解説します。",
   "ogTitle": "Javaの配列",
-  "ogDescription": "Javaの配列について学ぶ。配列の定義、初期化、要素へのアクセス、配列の操作について解説します。",
+  "ogDescription": "固定長配列の基本操作と典型エラーを失敗例つきで学べます。",
   "knowledge": {
     "topic": "java",
     "courseId": "java",
@@ -26,42 +26,68 @@
   },
   "faq": [
     {
-      "question": "配列のインデックスは何から始まりますか？",
-      "answer": "0から始まります。"
+      "question": "配列とArrayListの違いは？",
+      "answer": "配列は固定長、ArrayListは可変長です。サイズが変わるならArrayList、パフォーマンス重視の固定データなら配列も選択肢です。"
     },
     {
-      "question": "配列の要素数はどうやって決まりますか？",
-      "answer": "初期化時に指定された値の数によって決まります。"
+      "question": "配列のデフォルト値は？",
+      "answer": "intは0、booleanはfalse、参照型はnullです。new int[3] は {0,0,0} 相当です。"
+    },
+    {
+      "question": "length と length() の違いは？",
+      "answer": "配列は length フィールド、Stringは length() メソッドです。"
+    },
+    {
+      "question": "配列をコピーするには？",
+      "answer": "Arrays.copyOf や System.arraycopy を使います。単純代入は参照のコピーだけです。"
+    },
+    {
+      "question": "拡張forで要素を書き換えられますか？",
+      "answer": "プリミティブ配列では不可（コピー値）。参照型配列では要素のフィールド変更は可能です。"
     }
   ],
-  "nextEpisodeHint": "次回のエピソードでは、Javaのオブジェクトについて学びます。",
+  "nextEpisodeHint": "次回はオブジェクト指向の基本概念（カプセル化・クラスとインスタンス）を学びます。",
   "canonical": "https://ai-site-iota-nine.vercel.app/article/java-arrays",
   "jsonLd": {
     "@context": "https://schema.org",
     "@graph": [
       {
         "@context": "https://schema.org",
-        "@type": "BlogPosting",
-        "headline": "Javaの配列",
-        "description": "Javaの配列について学ぶ。配列の定義、初期化、要素へのアクセス、配列の操作について解説します。",
+        "@type": "TechArticle",
+        "headline": "Javaの配列｜宣言・初期化・走査",
+        "description": "Java配列の宣言、初期化、インデックス、length、Arrays.sort/toStringと範囲外アクセスの失敗例を解説します。",
         "datePublished": "2026-05-29T11:29:51.735Z",
-        "dateModified": "2026-05-29T14:35:19.665Z",
+        "dateModified": "2026-05-30T05:18:37.038Z",
         "author": {
           "@type": "Organization",
-          "name": "StackShelf"
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
         },
         "publisher": {
           "@type": "Organization",
           "name": "StackShelf",
-          "url": "https://ai-site-iota-nine.vercel.app"
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
         },
+        "image": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+        "inLanguage": "ja",
+        "wordCount": 914,
         "mainEntityOfPage": {
           "@type": "WebPage",
           "@id": "https://ai-site-iota-nine.vercel.app/article/java-arrays"
         },
         "keywords": "Java, 配列",
         "articleSection": "Java",
-        "url": "https://ai-site-iota-nine.vercel.app/article/java-arrays"
+        "url": "https://ai-site-iota-nine.vercel.app/article/java-arrays",
+        "learningResourceType": "tutorial",
+        "educationalLevel": "beginner"
       },
       {
         "@context": "https://schema.org",
@@ -71,7 +97,7 @@
             "@type": "ListItem",
             "position": 1,
             "name": "ホーム",
-            "item": "https://ai-site-iota-nine.vercel.app"
+            "item": "https://ai-site-iota-nine.vercel.app/"
           },
           {
             "@type": "ListItem",
@@ -88,7 +114,7 @@
           {
             "@type": "ListItem",
             "position": 4,
-            "name": "Javaの配列",
+            "name": "Javaの配列｜宣言・初期化・走査",
             "item": "https://ai-site-iota-nine.vercel.app/article/java-arrays"
           }
         ]
@@ -100,7 +126,16 @@
         "description": "Javaプログラミング言語の基礎から応用までを学習する講座です。初心者向けにJavaの基本構文、オブジェクト指向、データ構造、アルゴリズムなどを解説します。",
         "provider": {
           "@type": "Organization",
-          "name": "StackShelf"
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app"
+        },
+        "url": "https://ai-site-iota-nine.vercel.app/course/java/java",
+        "inLanguage": "ja",
+        "educationalLevel": "beginner",
+        "hasCourseInstance": {
+          "@type": "CourseInstance",
+          "courseMode": "online",
+          "courseWorkload": "PT1H"
         }
       },
       {
@@ -109,18 +144,42 @@
         "mainEntity": [
           {
             "@type": "Question",
-            "name": "配列のインデックスは何から始まりますか？",
+            "name": "配列とArrayListの違いは？",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "0から始まります。"
+              "text": "配列は固定長、ArrayListは可変長です。サイズが変わるならArrayList、パフォーマンス重視の固定データなら配列も選択肢です。"
             }
           },
           {
             "@type": "Question",
-            "name": "配列の要素数はどうやって決まりますか？",
+            "name": "配列のデフォルト値は？",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "初期化時に指定された値の数によって決まります。"
+              "text": "intは0、booleanはfalse、参照型はnullです。new int[3] は {0,0,0} 相当です。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "length と length() の違いは？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "配列は length フィールド、Stringは length() メソッドです。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "配列をコピーするには？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Arrays.copyOf や System.arraycopy を使います。単純代入は参照のコピーだけです。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "拡張forで要素を書き換えられますか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "プリミティブ配列では不可（コピー値）。参照型配列では要素のフィールド変更は可能です。"
             }
           }
         ]
@@ -135,7 +194,7 @@
         "@type": "ListItem",
         "position": 1,
         "name": "ホーム",
-        "item": "https://ai-site-iota-nine.vercel.app"
+        "item": "https://ai-site-iota-nine.vercel.app/"
       },
       {
         "@type": "ListItem",
@@ -152,7 +211,7 @@
       {
         "@type": "ListItem",
         "position": 4,
-        "name": "Javaの配列",
+        "name": "Javaの配列｜宣言・初期化・走査",
         "item": "https://ai-site-iota-nine.vercel.app/article/java-arrays"
       }
     ]
@@ -164,7 +223,16 @@
     "description": "Javaプログラミング言語の基礎から応用までを学習する講座です。初心者向けにJavaの基本構文、オブジェクト指向、データ構造、アルゴリズムなどを解説します。",
     "provider": {
       "@type": "Organization",
-      "name": "StackShelf"
+      "name": "StackShelf",
+      "url": "https://ai-site-iota-nine.vercel.app"
+    },
+    "url": "https://ai-site-iota-nine.vercel.app/course/java/java",
+    "inLanguage": "ja",
+    "educationalLevel": "beginner",
+    "hasCourseInstance": {
+      "@type": "CourseInstance",
+      "courseMode": "online",
+      "courseWorkload": "PT1H"
     }
   },
   "faqSchema": {
@@ -173,20 +241,73 @@
     "mainEntity": [
       {
         "@type": "Question",
-        "name": "配列のインデックスは何から始まりますか？",
+        "name": "配列とArrayListの違いは？",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "0から始まります。"
+          "text": "配列は固定長、ArrayListは可変長です。サイズが変わるならArrayList、パフォーマンス重視の固定データなら配列も選択肢です。"
         }
       },
       {
         "@type": "Question",
-        "name": "配列の要素数はどうやって決まりますか？",
+        "name": "配列のデフォルト値は？",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "初期化時に指定された値の数によって決まります。"
+          "text": "intは0、booleanはfalse、参照型はnullです。new int[3] は {0,0,0} 相当です。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "length と length() の違いは？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "配列は length フィールド、Stringは length() メソッドです。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "配列をコピーするには？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Arrays.copyOf や System.arraycopy を使います。単純代入は参照のコピーだけです。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "拡張forで要素を書き換えられますか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "プリミティブ配列では不可（コピー値）。参照型配列では要素のフィールド変更は可能です。"
         }
       }
     ]
-  }
+  },
+  "nextAction": "int[10] に1〜10を代入し、拡張forと通常forの両方で合計を計算して一致するか確認してください。",
+  "internalLinkCandidates": [
+    {
+      "slug": "java-functions",
+      "title": "Javaの関数",
+      "reason": "配列を引数に渡す"
+    },
+    {
+      "slug": "java-objects",
+      "title": "Javaのオブジェクト指向プログラミング",
+      "reason": "同じ講座の次の回"
+    },
+    {
+      "slug": "java-collection-framework",
+      "title": "Javaのコレクションフレームワーク",
+      "reason": "可変長のList"
+    },
+    {
+      "slug": "java-variables",
+      "title": "Javaの変数とデータ型",
+      "reason": "要素の型"
+    },
+    {
+      "slug": "java-control-structures",
+      "title": "Java制御構文の基礎",
+      "reason": "配列のループ"
+    }
+  ],
+  "ogImage": "https://ai-site-iota-nine.vercel.app/og-default.svg"
 }

@@ -2,9 +2,9 @@
   "id": "art_sql_sql-group-by",
   "slug": "sql-group-by",
   "title": "GROUP BY, HAVING, ORDER BY｜SQLグループ集計完全ガイド",
-  "summary": "GROUP BYでカテゴリ別・日付別のグループ集計、HAVINGで集計後の絞り込み、ORDER BYで並び替えを組み合わせる方法を解説。実践的なsql 使い方をSQLiteサンプルで習得しましょう。",
-  "body": "<h2>GROUP BYとは？グループ別に集計する</h2>\n<p><code>GROUP BY</code> は、指定したカラムの値が同じ行をグループにまとめ、グループごとに集計関数を適用する構文です。前回学んだ集計関数（COUNT・SUM・AVGなど）を「全体」ではなく「グループ別」に実行できるようになります。</p>\n<p>例えば「カテゴリ別の売上合計」「日付別の注文件数」「ユーザー別の購入金額」といった集計がGROUP BYで実現できます。これはデータ分析・レポート作成に欠かせないスキルです。</p>\n<pre><code>-- GROUP BYの基本構文\nSELECT グループ化カラム, 集計関数(カラム)\nFROM テーブル名\nGROUP BY グループ化カラム;\n\n-- カテゴリ別の件数を集計\nSELECT category, COUNT(*) AS 件数\nFROM sales\nGROUP BY category;\n\n-- 出力:\n-- category | 件数\n-- ---------+----\n-- 果物     |    4\n-- 乳製品   |    3\n-- 野菜     |    2\n-- パン     |    1</code></pre>\n\n<h2>GROUP BYと集計関数の組み合わせ</h2>\n<p>GROUP BYと集計関数を組み合わせると、様々なグループ別集計が実現できます。</p>\n<pre><code>-- カテゴリ別の総売上・平均価格・件数を一度に集計\nSELECT\n  category                        AS カテゴリ,\n  COUNT(*)                        AS 件数,\n  SUM(amount * quantity)          AS 総売上,\n  ROUND(AVG(amount), 0)           AS 平均単価,\n  MIN(amount)                     AS 最低単価,\n  MAX(amount)                     AS 最高単価\nFROM sales\nGROUP BY category;\n\n-- 出力:\n-- カテゴリ | 件数 | 総売上 | 平均単価 | 最低単価 | 最高単価\n-- --------+------+--------+---------+---------+---------\n-- パン     |    1 |    250 |      250 |      250 |      250\n-- 乳製品   |    3 |    910 |      243 |      180 |      350\n-- 果物     |    4 |   1470 |      115 |       80 |      150\n-- 野菜     |    2 |    480 |       95 |       90 |      100\n\n-- 日付別の売上集計\nSELECT\n  sale_date                   AS 日付,\n  COUNT(*)                    AS 取引件数,\n  SUM(amount * quantity)      AS 日別売上\nFROM sales\nGROUP BY sale_date\nORDER BY sale_date;\n\n-- 月別集計（strftime関数で月を抽出）\nSELECT\n  strftime('%Y-%m', sale_date) AS 月,\n  COUNT(*)                     AS 件数,\n  SUM(amount * quantity)       AS 月別売上\nFROM sales\nGROUP BY strftime('%Y-%m', sale_date)\nORDER BY 月;</code></pre>\n\n<h2>GROUP BYの注意点：SELECTで使えるカラム</h2>\n<p>GROUP BYを使う場合、SELECT句に書けるのは「<strong>GROUP BYに指定したカラム</strong>」または「<strong>集計関数</strong>」だけです。これはSQLの重要なルールです。</p>\n<pre><code>-- NG例：GROUP BYに指定していないカラムをSELECTに書くとエラー\nSELECT category, product_name, COUNT(*)  -- product_name がNG\nFROM sales\nGROUP BY category;\n-- エラー：product_nameはGROUP BYに含まれていない\n\n-- OK例：GROUP BYに複数カラムを指定する\nSELECT category, product_name, COUNT(*) AS 件数\nFROM sales\nGROUP BY category, product_name;  -- 両方をGROUP BYに含める\n\n-- 出力:\n-- category | product_name | 件数\n-- ---------+--------------+----\n-- パン     | 食パン       |    1\n-- 乳製品   | チーズ       |    1\n-- 乳製品   | ヨーグルト   |    1\n-- 乳製品   | 牛乳         |    1\n-- 果物     | バナナ       |    2\n-- 果物     | りんご       |    2\n-- 野菜     | にんじん     |    1\n-- 野菜     | ほうれん草   |    1</code></pre>\n\n<h2>HAVING：集計後の結果を絞り込む</h2>\n<p><code>HAVING</code> は、GROUP BYで集計した後の結果に対して条件を適用します。WHERE句との違いは、WHEREが「集計前のデータ」を絞り込むのに対し、HAVINGは「集計後の結果」を絞り込む点です。</p>\n<pre><code>-- HAVING の基本構文\nSELECT グループ化カラム, 集計関数(カラム)\nFROM テーブル名\nGROUP BY グループ化カラム\nHAVING 集計後の条件;\n\n-- 総売上が500以上のカテゴリのみ表示\nSELECT\n  category,\n  SUM(amount * quantity) AS 総売上\nFROM sales\nGROUP BY category\nHAVING SUM(amount * quantity) >= 500;\n\n-- 出力:\n-- category | 総売上\n-- ---------+-------\n-- 乳製品   |    910\n-- 果物     |   1470\n\n-- 件数が2件以上のカテゴリのみ表示\nSELECT category, COUNT(*) AS 件数\nFROM sales\nGROUP BY category\nHAVING COUNT(*) >= 2;\n\n-- WHEREとHAVINGの組み合わせ\n-- WHEREで先に絞り込み → GROUP BY集計 → HAVINGで絞り込み\nSELECT\n  category,\n  COUNT(*) AS 件数,\n  SUM(amount * quantity) AS 総売上\nFROM sales\nWHERE sale_date >= '2024-01-07'   -- 1月7日以降のデータのみ集計\nGROUP BY category\nHAVING SUM(amount * quantity) >= 300  -- 集計後に300以上に絞り込む\nORDER BY 総売上 DESC;</code></pre>\n\n<h2>ORDER BYで集計結果を並び替える</h2>\n<p>GROUP BY・HAVINGと組み合わせてORDER BYで並び替えると、ランキングやレポートが作成できます。</p>\n<pre><code>-- 総売上ランキング（降順）\nSELECT\n  category,\n  SUM(amount * quantity) AS 総売上\nFROM sales\nGROUP BY category\nORDER BY 総売上 DESC;\n\n-- 出力:\n-- category | 総売上\n-- ---------+-------\n-- 果物     |   1470\n-- 乳製品   |    910\n-- 野菜     |    480\n-- パン     |    250\n\n-- 商品別売上ランキングTop3\nSELECT\n  product_name        AS 商品名,\n  SUM(amount * quantity) AS 総売上\nFROM sales\nGROUP BY product_name\nORDER BY 総売上 DESC\nLIMIT 3;\n\n-- 出力:\n-- 商品名  | 総売上\n-- --------+------\n-- バナナ  |    720\n-- りんご  |    750\n-- チーズ  |    350\n\n-- 日付別・カテゴリ別の売上（複合GROUP BY + ORDER BY）\nSELECT\n  sale_date    AS 日付,\n  category     AS カテゴリ,\n  SUM(amount * quantity) AS 日別カテゴリ売上\nFROM sales\nGROUP BY sale_date, category\nORDER BY sale_date, 日別カテゴリ売上 DESC;</code></pre>\n\n<h2>SELECT文の実行順序を理解する</h2>\n<p>SQLの各句の実行順序を理解すると、エラーの意味や最適化の方法が理解しやすくなります。SELECT文は書いた順番ではなく、次の順番で評価されます。</p>\n<pre><code>-- SQLの実行順序\n-- 1. FROM       テーブルを指定\n-- 2. JOIN       テーブルを結合\n-- 3. WHERE      行を絞り込む（集計前）\n-- 4. GROUP BY   グループ化\n-- 5. HAVING     グループを絞り込む（集計後）\n-- 6. SELECT     カラムを選択・計算\n-- 7. DISTINCT   重複除去\n-- 8. ORDER BY   並び替え\n-- 9. LIMIT      件数制限\n\n-- この順序を意識した総合クエリ例\nSELECT\n  category                        AS カテゴリ,    -- 6. SELECT\n  COUNT(*) AS 件数,                               -- 6.\n  SUM(amount * quantity) AS 総売上               -- 6.\nFROM sales                                        -- 1. FROM\nWHERE sale_date >= '2024-01-06'                   -- 3. WHERE\nGROUP BY category                                 -- 4. GROUP BY\nHAVING COUNT(*) >= 2                              -- 5. HAVING\nORDER BY 総売上 DESC                              -- 8. ORDER BY\nLIMIT 3;                                          -- 9. LIMIT</code></pre>\n<p>この実行順序を理解すると「なぜWHERE句で集計関数を使えないのか（HAVINGを使う理由）」「なぜSELECTのエイリアス名をWHEREで使えないのか」といった疑問が解消されます。WHEREはSELECTより前に評価されるため、SELECTで定義したエイリアスをWHERE条件に使うことはできません（ただしSQLiteではORDER BYでエイリアスを使えます）。</p>",
-  "conclusion": "GROUP BYはデータをグループ化して集計するための重要な構文で、カテゴリ別・日付別・ユーザー別など様々なグループ集計に使います。HAVINGは集計後の結果に条件を適用し、WHEREは集計前のデータを絞り込みます。ORDER BYと組み合わせることで売上ランキングなどのレポートが作成できます。SQL実行順序（FROM→WHERE→GROUP BY→HAVING→SELECT→ORDER BY→LIMIT）を理解すると、エラーの原因がわかりやすくなります。",
+  "summary": "GROUP BY・HAVING・ORDER BYでグループ集計と並び替えを解説。SQL実行順序（FROM→WHERE→GROUP BY→HAVING→SELECT→ORDER BY）を理解してエラーを減らします。",
+  "body": "<h2>結論：GROUP BYでグループ別集計、HAVINGで集計結果を絞り込む</h2>\n<p><code>GROUP BY 列</code> で同値の行をまとめ、<code>COUNT/SUM/AVG</code> をグループごとに適用します。<strong>HAVING</strong>は集計<strong>後</strong>の条件、<strong>WHERE</strong>は集計<strong>前</strong>の行フィルタです。実行順序は <code>FROM → WHERE → GROUP BY → HAVING → SELECT → ORDER BY → LIMIT</code> です。</p>\n\n<h2>GROUP BYとは？グループ別に集計する</h2>\n<p><code>GROUP BY</code> は、指定したカラムの値が同じ行をグループにまとめ、グループごとに集計関数を適用する構文です。前回学んだ集計関数（COUNT・SUM・AVGなど）を「全体」ではなく「グループ別」に実行できるようになります。</p>\n<p>例えば「カテゴリ別の売上合計」「日付別の注文件数」「ユーザー別の購入金額」といった集計がGROUP BYで実現できます。これはデータ分析・レポート作成に欠かせないスキルです。</p>\n<pre><code>-- GROUP BYの基本構文\nSELECT グループ化カラム, 集計関数(カラム)\nFROM テーブル名\nGROUP BY グループ化カラム;\n\n-- カテゴリ別の件数を集計\nSELECT category, COUNT(*) AS 件数\nFROM sales\nGROUP BY category;\n\n-- 出力:\n-- category | 件数\n-- ---------+----\n-- 果物     |    4\n-- 乳製品   |    3\n-- 野菜     |    2\n-- パン     |    1</code></pre>\n\n<h2>GROUP BYと集計関数の組み合わせ</h2>\n<p>GROUP BYと集計関数を組み合わせると、様々なグループ別集計が実現できます。</p>\n<pre><code>-- カテゴリ別の総売上・平均価格・件数を一度に集計\nSELECT\n  category                        AS カテゴリ,\n  COUNT(*)                        AS 件数,\n  SUM(amount * quantity)          AS 総売上,\n  ROUND(AVG(amount), 0)           AS 平均単価,\n  MIN(amount)                     AS 最低単価,\n  MAX(amount)                     AS 最高単価\nFROM sales\nGROUP BY category;\n\n-- 出力:\n-- カテゴリ | 件数 | 総売上 | 平均単価 | 最低単価 | 最高単価\n-- --------+------+--------+---------+---------+---------\n-- パン     |    1 |    250 |      250 |      250 |      250\n-- 乳製品   |    3 |    910 |      243 |      180 |      350\n-- 果物     |    4 |   1470 |      115 |       80 |      150\n-- 野菜     |    2 |    480 |       95 |       90 |      100\n\n-- 日付別の売上集計\nSELECT\n  sale_date                   AS 日付,\n  COUNT(*)                    AS 取引件数,\n  SUM(amount * quantity)      AS 日別売上\nFROM sales\nGROUP BY sale_date\nORDER BY sale_date;\n\n-- 月別集計（strftime関数で月を抽出）\nSELECT\n  strftime('%Y-%m', sale_date) AS 月,\n  COUNT(*)                     AS 件数,\n  SUM(amount * quantity)       AS 月別売上\nFROM sales\nGROUP BY strftime('%Y-%m', sale_date)\nORDER BY 月;</code></pre>\n\n<h2>GROUP BYの注意点：SELECTで使えるカラム</h2>\n<p>GROUP BYを使う場合、SELECT句に書けるのは「<strong>GROUP BYに指定したカラム</strong>」または「<strong>集計関数</strong>」だけです。これはSQLの重要なルールです。</p>\n<pre><code>-- NG例：GROUP BYに指定していないカラムをSELECTに書くとエラー\nSELECT category, product_name, COUNT(*)  -- product_name がNG\nFROM sales\nGROUP BY category;\n-- エラー：product_nameはGROUP BYに含まれていない\n\n-- OK例：GROUP BYに複数カラムを指定する\nSELECT category, product_name, COUNT(*) AS 件数\nFROM sales\nGROUP BY category, product_name;  -- 両方をGROUP BYに含める\n\n-- 出力:\n-- category | product_name | 件数\n-- ---------+--------------+----\n-- パン     | 食パン       |    1\n-- 乳製品   | チーズ       |    1\n-- 乳製品   | ヨーグルト   |    1\n-- 乳製品   | 牛乳         |    1\n-- 果物     | バナナ       |    2\n-- 果物     | りんご       |    2\n-- 野菜     | にんじん     |    1\n-- 野菜     | ほうれん草   |    1</code></pre>\n\n<h2>HAVING：集計後の結果を絞り込む</h2>\n<p><code>HAVING</code> は、GROUP BYで集計した後の結果に対して条件を適用します。WHERE句との違いは、WHEREが「集計前のデータ」を絞り込むのに対し、HAVINGは「集計後の結果」を絞り込む点です。</p>\n<pre><code>-- HAVING の基本構文\nSELECT グループ化カラム, 集計関数(カラム)\nFROM テーブル名\nGROUP BY グループ化カラム\nHAVING 集計後の条件;\n\n-- 総売上が500以上のカテゴリのみ表示\nSELECT\n  category,\n  SUM(amount * quantity) AS 総売上\nFROM sales\nGROUP BY category\nHAVING SUM(amount * quantity) >= 500;\n\n-- 出力:\n-- category | 総売上\n-- ---------+-------\n-- 乳製品   |    910\n-- 果物     |   1470\n\n-- 件数が2件以上のカテゴリのみ表示\nSELECT category, COUNT(*) AS 件数\nFROM sales\nGROUP BY category\nHAVING COUNT(*) >= 2;\n\n-- WHEREとHAVINGの組み合わせ\n-- WHEREで先に絞り込み → GROUP BY集計 → HAVINGで絞り込み\nSELECT\n  category,\n  COUNT(*) AS 件数,\n  SUM(amount * quantity) AS 総売上\nFROM sales\nWHERE sale_date >= '2024-01-07'   -- 1月7日以降のデータのみ集計\nGROUP BY category\nHAVING SUM(amount * quantity) >= 300  -- 集計後に300以上に絞り込む\nORDER BY 総売上 DESC;</code></pre>\n\n<h2>ORDER BYで集計結果を並び替える</h2>\n<p>GROUP BY・HAVINGと組み合わせてORDER BYで並び替えると、ランキングやレポートが作成できます。</p>\n<pre><code>-- 総売上ランキング（降順）\nSELECT\n  category,\n  SUM(amount * quantity) AS 総売上\nFROM sales\nGROUP BY category\nORDER BY 総売上 DESC;\n\n-- 出力:\n-- category | 総売上\n-- ---------+-------\n-- 果物     |   1470\n-- 乳製品   |    910\n-- 野菜     |    480\n-- パン     |    250\n\n-- 商品別売上ランキングTop3\nSELECT\n  product_name        AS 商品名,\n  SUM(amount * quantity) AS 総売上\nFROM sales\nGROUP BY product_name\nORDER BY 総売上 DESC\nLIMIT 3;\n\n-- 出力:\n-- 商品名  | 総売上\n-- --------+------\n-- バナナ  |    720\n-- りんご  |    750\n-- チーズ  |    350\n\n-- 日付別・カテゴリ別の売上（複合GROUP BY + ORDER BY）\nSELECT\n  sale_date    AS 日付,\n  category     AS カテゴリ,\n  SUM(amount * quantity) AS 日別カテゴリ売上\nFROM sales\nGROUP BY sale_date, category\nORDER BY sale_date, 日別カテゴリ売上 DESC;</code></pre>\n\n<h2>SELECT文の実行順序を理解する</h2>\n<p>SQLの各句の実行順序を理解すると、エラーの意味や最適化の方法が理解しやすくなります。SELECT文は書いた順番ではなく、次の順番で評価されます。</p>\n<pre><code>-- SQLの実行順序\n-- 1. FROM       テーブルを指定\n-- 2. JOIN       テーブルを結合\n-- 3. WHERE      行を絞り込む（集計前）\n-- 4. GROUP BY   グループ化\n-- 5. HAVING     グループを絞り込む（集計後）\n-- 6. SELECT     カラムを選択・計算\n-- 7. DISTINCT   重複除去\n-- 8. ORDER BY   並び替え\n-- 9. LIMIT      件数制限\n\n-- この順序を意識した総合クエリ例\nSELECT\n  category                        AS カテゴリ,    -- 6. SELECT\n  COUNT(*) AS 件数,                               -- 6.\n  SUM(amount * quantity) AS 総売上               -- 6.\nFROM sales                                        -- 1. FROM\nWHERE sale_date >= '2024-01-06'                   -- 3. WHERE\nGROUP BY category                                 -- 4. GROUP BY\nHAVING COUNT(*) >= 2                              -- 5. HAVING\nORDER BY 総売上 DESC                              -- 8. ORDER BY\nLIMIT 3;                                          -- 9. LIMIT</code></pre>\n<p>この実行順序を理解すると「なぜWHERE句で集計関数を使えないのか（HAVINGを使う理由）」「なぜSELECTのエイリアス名をWHEREで使えないのか」といった疑問が解消されます。WHEREはSELECTより前に評価されるため、SELECTで定義したエイリアスをWHERE条件に使うことはできません（ただしSQLiteではORDER BYでエイリアスを使えます）。</p>\n\n<h2>つまずきやすいポイント・失敗例</h2>\n<h3>失敗例：SELECTにGROUP BYにない列を書く</h3>\n<p>集計クエリではSELECTの非集計列はGROUP BYに含める必要があります（MySQLの旧設定を除く）。</p>\n<h3>失敗例：WHEREに集計関数を書く</h3>\n<p><code>WHERE COUNT(*) > 5</code> は不可です。集計後の条件は <code>HAVING COUNT(*) > 5</code> を使います。</p>",
+  "conclusion": "GROUP BYは同じ値の行をグループ化して集計します。HAVINGは集計後の条件、WHEREは集計前の絞り込みです。実行順序を理解すると「なぜエラーになるか」が分かりやすくなります。",
   "tags": [
     "SQL",
     "GROUP BY",
@@ -17,12 +17,12 @@
   "theme": "sql - SQL・データベース入門",
   "status": "published",
   "createdAt": "2026-05-30T04:13:12.553Z",
-  "updatedAt": "2026-05-30T04:13:12.566Z",
+  "updatedAt": "2026-05-30T05:23:47.954Z",
   "publishedAt": "2026-05-30T04:13:12.553Z",
   "metaTitle": "GROUP BY HAVING ORDER BY｜sql 初心者向けグループ集計完全ガイド",
-  "metaDescription": "GROUP BY・HAVING・ORDER BYをsql 初心者向けに解説。カテゴリ別集計・日付別集計・集計後絞り込みなどsql 使い方の応用を豊富なSQLiteサンプルで学べます。 図解・具体例つきで丁寧に解説します。",
+  "metaDescription": "GROUP BY/HAVING/ORDER BYとSQL実行順序をSQLite例付きで解説。WHEREとの違い、集計クエリのつまずきポイントを紹介します。",
   "ogTitle": "GROUP BY, HAVING, ORDER BY｜SQLグループ集計完全ガイド",
-  "ogDescription": "【SQL初心者向け】【SQL初心者向け】GROUP BYで集計・HAVINGで絞り込み・ORDER BYで並び替えをマスターしましょう。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
+  "ogDescription": "カテゴリ別・日付別のグループ集計とHAVINGの使い方を具体例で学べます。",
   "knowledge": {
     "topic": "sql",
     "courseId": "sql",
@@ -30,20 +30,24 @@
   },
   "faq": [
     {
-      "question": "WHEREとHAVINGの使い分けを教えてください",
-      "answer": "WHEREは集計前の各行に対して条件を適用します。「カテゴリが果物の行だけを対象に集計する」はWHERE。HAVINGは集計後のグループ結果に条件を適用します。「集計した総売上が1000以上のカテゴリのみ表示する」はHAVING。集計関数（COUNT・SUM・AVGなど）を条件に使う場合はHAVINGを使います。"
+      "question": "GROUP BY 1列だけで複数集計できる？",
+      "answer": "はい。1つのGROUP BYに対して複数の集計関数（COUNT, SUM, AVG等）を同時に書けます。"
     },
     {
-      "question": "GROUP BYには何個もカラムを指定できますか？",
-      "answer": "はい、複数のカラムを指定できます。例えば「GROUP BY category, sale_date」とすると「カテゴリと日付の組み合わせ」でグループ化されます。グループ化の組み合わせが増えるほど、結果の行数も増えます。"
+      "question": "HAVINGとWHEREの使い分けは？",
+      "answer": "行の属性（category='果物'）→WHERE。集計結果（COUNT(*)>10）→HAVING。"
     },
     {
-      "question": "GROUP BYの結果を並び替えるとき、集計結果のエイリアス名で並び替えできますか？",
-      "answer": "SQLiteではできます。例えば「SELECT category, SUM(amount) AS total FROM sales GROUP BY category ORDER BY total DESC」のようにORDER BYでSELECTで定義したエイリアス（total）を使えます。ただし、MySQLやPostgreSQLではこの書き方ができない場合もあり、その場合は「ORDER BY SUM(amount) DESC」のように集計関数をそのまま書きます。"
+      "question": "GROUP BYなしで集計関数は使える？",
+      "answer": "はい。テーブル全体を1グループとして扱い、1行の結果が返ります。"
     },
     {
-      "question": "月別・年別などで集計するにはどうすればよいですか？",
-      "answer": "SQLiteではstrftime関数を使います。月別は「GROUP BY strftime('%Y-%m', 日付カラム)」、年別は「GROUP BY strftime('%Y', 日付カラム)」、曜日別は「GROUP BY strftime('%w', 日付カラム)」（0が日曜）です。MySQLではDATE_FORMAT、PostgreSQLではTO_CHARという関数を使います。"
+      "question": "日付別集計はどう書く？",
+      "answer": "strftime('%Y-%m', date_col) 等で日付を丸めてGROUP BYに指定します（DBにより関数は異なります）。"
+    },
+    {
+      "question": "SQLはどんな場面で使いますか？",
+      "answer": "カテゴリ別売上、月次レポート、ランキング作成など、グループ単位の分析に使います。"
     }
   ],
   "nextEpisodeHint": "次回はインデックス（CREATE INDEX）を使ってSQLクエリを高速化する方法と、EXPLAINコマンドでクエリの実行計画を確認する方法を学びます。",
@@ -56,9 +60,9 @@
         "@context": "https://schema.org",
         "@type": "TechArticle",
         "headline": "GROUP BY, HAVING, ORDER BY｜SQLグループ集計完全ガイド",
-        "description": "GROUP BY・HAVING・ORDER BYをsql 初心者向けに解説。カテゴリ別集計・日付別集計・集計後絞り込みなどsql 使い方の応用を豊富なSQLiteサンプルで学べます。 図解・具体例つきで丁寧に解説します。",
+        "description": "GROUP BY/HAVING/ORDER BYとSQL実行順序をSQLite例付きで解説。WHEREとの違い、集計クエリのつまずきポイントを紹介します。",
         "datePublished": "2026-05-30T04:13:12.553Z",
-        "dateModified": "2026-05-30T04:13:12.566Z",
+        "dateModified": "2026-05-30T05:23:47.954Z",
         "author": {
           "@type": "Organization",
           "name": "StackShelf",
@@ -79,7 +83,7 @@
         },
         "image": "https://ai-site-iota-nine.vercel.app/og-default.svg",
         "inLanguage": "ja",
-        "wordCount": 3522,
+        "wordCount": 3847,
         "mainEntityOfPage": {
           "@type": "WebPage",
           "@id": "https://ai-site-iota-nine.vercel.app/article/sql-group-by"
@@ -145,34 +149,42 @@
         "mainEntity": [
           {
             "@type": "Question",
-            "name": "WHEREとHAVINGの使い分けを教えてください",
+            "name": "GROUP BY 1列だけで複数集計できる？",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "WHEREは集計前の各行に対して条件を適用します。「カテゴリが果物の行だけを対象に集計する」はWHERE。HAVINGは集計後のグループ結果に条件を適用します。「集計した総売上が1000以上のカテゴリのみ表示する」はHAVING。集計関数（COUNT・SUM・AVGなど）を条件に使う場合はHAVINGを使います。"
+              "text": "はい。1つのGROUP BYに対して複数の集計関数（COUNT, SUM, AVG等）を同時に書けます。"
             }
           },
           {
             "@type": "Question",
-            "name": "GROUP BYには何個もカラムを指定できますか？",
+            "name": "HAVINGとWHEREの使い分けは？",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "はい、複数のカラムを指定できます。例えば「GROUP BY category, sale_date」とすると「カテゴリと日付の組み合わせ」でグループ化されます。グループ化の組み合わせが増えるほど、結果の行数も増えます。"
+              "text": "行の属性（category='果物'）→WHERE。集計結果（COUNT(*)>10）→HAVING。"
             }
           },
           {
             "@type": "Question",
-            "name": "GROUP BYの結果を並び替えるとき、集計結果のエイリアス名で並び替えできますか？",
+            "name": "GROUP BYなしで集計関数は使える？",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "SQLiteではできます。例えば「SELECT category, SUM(amount) AS total FROM sales GROUP BY category ORDER BY total DESC」のようにORDER BYでSELECTで定義したエイリアス（total）を使えます。ただし、MySQLやPostgreSQLではこの書き方ができない場合もあり、その場合は「ORDER BY SUM(amount) DESC」のように集計関数をそのまま書きます。"
+              "text": "はい。テーブル全体を1グループとして扱い、1行の結果が返ります。"
             }
           },
           {
             "@type": "Question",
-            "name": "月別・年別などで集計するにはどうすればよいですか？",
+            "name": "日付別集計はどう書く？",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "SQLiteではstrftime関数を使います。月別は「GROUP BY strftime('%Y-%m', 日付カラム)」、年別は「GROUP BY strftime('%Y', 日付カラム)」、曜日別は「GROUP BY strftime('%w', 日付カラム)」（0が日曜）です。MySQLではDATE_FORMAT、PostgreSQLではTO_CHARという関数を使います。"
+              "text": "strftime('%Y-%m', date_col) 等で日付を丸めてGROUP BYに指定します（DBにより関数は異なります）。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "SQLはどんな場面で使いますか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "カテゴリ別売上、月次レポート、ランキング作成など、グループ単位の分析に使います。"
             }
           }
         ]
@@ -234,36 +246,72 @@
     "mainEntity": [
       {
         "@type": "Question",
-        "name": "WHEREとHAVINGの使い分けを教えてください",
+        "name": "GROUP BY 1列だけで複数集計できる？",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "WHEREは集計前の各行に対して条件を適用します。「カテゴリが果物の行だけを対象に集計する」はWHERE。HAVINGは集計後のグループ結果に条件を適用します。「集計した総売上が1000以上のカテゴリのみ表示する」はHAVING。集計関数（COUNT・SUM・AVGなど）を条件に使う場合はHAVINGを使います。"
+          "text": "はい。1つのGROUP BYに対して複数の集計関数（COUNT, SUM, AVG等）を同時に書けます。"
         }
       },
       {
         "@type": "Question",
-        "name": "GROUP BYには何個もカラムを指定できますか？",
+        "name": "HAVINGとWHEREの使い分けは？",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "はい、複数のカラムを指定できます。例えば「GROUP BY category, sale_date」とすると「カテゴリと日付の組み合わせ」でグループ化されます。グループ化の組み合わせが増えるほど、結果の行数も増えます。"
+          "text": "行の属性（category='果物'）→WHERE。集計結果（COUNT(*)>10）→HAVING。"
         }
       },
       {
         "@type": "Question",
-        "name": "GROUP BYの結果を並び替えるとき、集計結果のエイリアス名で並び替えできますか？",
+        "name": "GROUP BYなしで集計関数は使える？",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "SQLiteではできます。例えば「SELECT category, SUM(amount) AS total FROM sales GROUP BY category ORDER BY total DESC」のようにORDER BYでSELECTで定義したエイリアス（total）を使えます。ただし、MySQLやPostgreSQLではこの書き方ができない場合もあり、その場合は「ORDER BY SUM(amount) DESC」のように集計関数をそのまま書きます。"
+          "text": "はい。テーブル全体を1グループとして扱い、1行の結果が返ります。"
         }
       },
       {
         "@type": "Question",
-        "name": "月別・年別などで集計するにはどうすればよいですか？",
+        "name": "日付別集計はどう書く？",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "SQLiteではstrftime関数を使います。月別は「GROUP BY strftime('%Y-%m', 日付カラム)」、年別は「GROUP BY strftime('%Y', 日付カラム)」、曜日別は「GROUP BY strftime('%w', 日付カラム)」（0が日曜）です。MySQLではDATE_FORMAT、PostgreSQLではTO_CHARという関数を使います。"
+          "text": "strftime('%Y-%m', date_col) 等で日付を丸めてGROUP BYに指定します（DBにより関数は異なります）。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "SQLはどんな場面で使いますか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "カテゴリ別売上、月次レポート、ランキング作成など、グループ単位の分析に使います。"
         }
       }
     ]
-  }
+  },
+  "internalLinkCandidates": [
+    {
+      "slug": "sql-practice-design",
+      "title": "TODOアプリDB設計実践｜SQLite設計・実装の総まとめ",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "sql-index-basics",
+      "title": "CREATE INDEX, EXPLAIN｜SQLインデックス基礎とパフォーマンス改善",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "sql-aggregate",
+      "title": "COUNT/SUM/AVG/MIN/MAX｜SQL集計関数の完全ガイド",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "sql-join",
+      "title": "INNER/LEFT JOIN｜複数テーブルを結合するSQL完全ガイド",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "sql-insert-update-delete",
+      "title": "INSERT/UPDATE/DELETE｜SQLデータ追加・更新・削除の完全ガイド",
+      "reason": "同じ講座の関連回です"
+    }
+  ],
+  "nextAction": "SELECT category, COUNT(*), AVG(price) FROM products GROUP BY category HAVING COUNT(*) >= 2 ORDER BY AVG(price) DESC; を実行し、各句の役割をコメントしながら読み解いてください。"
 }

@@ -1,0 +1,291 @@
+{
+  "id": "art_errors_docker-health-check-failed-service-api-149-is-unhealthy-51eaef",
+  "slug": "docker-health-check-failed-service-api-149-is-unhealthy-51eaef",
+  "title": "Health check failed: service \"api-149\" is unhealthy の原因と解決法",
+  "summary": "Health check failed: service \"api-149\" is unhealthy の原因と具体的な解決手順をまとめました。",
+  "body": "<h2>エラーメッセージ（全文）</h2>\n<p>検索でヒットしやすいよう、実際のコンソール出力をそのまま掲載します。</p>\n<pre><code>Health check failed: service &quot;api-149&quot; is unhealthy</code></pre>\n\n<h2>このエラーとは</h2>\n<p>Health check failed: service &quot;api-149&quot; is unhealthy は Docker 開発でよく遭遇するエラーです。</p>\n<p><strong>想定環境:</strong> Windows / macOS / Linux</p>\n<p><strong>よく出る状況:</strong> Docker / Compose</p>\n\n<h2>よくある原因</h2>\n<ul>\n<li>リソース</li>\n<li>設定</li>\n<li>イメージ</li>\n</ul><h2>解決方法</h2><h3>方法1: docker logs</h3><p>docker logs app-149 --tail 100</p>\n<h2>それでも直らないとき</h2>\n<p>バージョン情報（Docker のバージョン、OS、実行コマンド）を添えて、エラーメッセージ全文と直前に変更した点を確認してください。ログの数行上にも原因の手がかりが残っていることが多いです。</p>",
+  "conclusion": "「Health check failed: service \"api-149\" is unhealthy」は リソース が原因のことが多いです。上記の手順で切り分けてください。",
+  "tags": [
+    "docker",
+    "Dockerエラー",
+    "Health check failed",
+    "Docker",
+    "mysql",
+    "Health check failed: service \"api-149\" i"
+  ],
+  "category": "Dockerエラー",
+  "theme": "errors - Docker エラー・トラブル集",
+  "articleType": "error",
+  "status": "published",
+  "createdAt": "2026-05-30T05:48:13.089Z",
+  "updatedAt": "2026-05-30T05:48:13.089Z",
+  "publishedAt": "2026-05-30T05:48:13.089Z",
+  "metaTitle": "Health check failed: service \"api-149\" is unhealthy の原因と解決法…",
+  "metaDescription": "Health check failed: service \"api-149\" is unhealthy が出たときの原因・確認手順・解決策を解説。Docker / Compose。",
+  "ogTitle": "Health check failed: service \"api-149\" is unhealthy の原因と解決法",
+  "ogDescription": "Health check failed: service \"api-149\" is unhealthy が出たときの原因・確認手順・解決策を解説。Docker / Compose。",
+  "knowledge": {
+    "topic": "errors",
+    "courseId": "docker-errors",
+    "episode": 267
+  },
+  "faq": [
+    {
+      "question": "Health check failed: service \"api-149\" is unhealthy とは何ですか？",
+      "answer": "Health check failed: service \"api-149\" is unhealthy は Docker 実行時に表示されるエラーです。リソース"
+    },
+    {
+      "question": "Health check failed: service \"api-149\" is unhealthy の原因は？",
+      "answer": "リソース。設定。イメージ。"
+    },
+    {
+      "question": "Health check failed: service \"api-149\" is unhealthy の直し方は？",
+      "answer": "docker logs：docker logs app-149 --tail 100"
+    },
+    {
+      "question": "Docker で Health check failed が出るのはなぜ？",
+      "answer": "Docker / Compose"
+    },
+    {
+      "question": "Health check failed: service \"api-149\" is unhealthy を防ぐには？",
+      "answer": "。"
+    }
+  ],
+  "nextAction": "同じ Docker カテゴリの関連エラーもあわせて確認してください。",
+  "internalLinkCandidates": [],
+  "ogImage": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+  "canonical": "https://ai-site-iota-nine.vercel.app/article/docker-health-check-failed-service-api-149-is-unhealthy-51eaef",
+  "jsonLd": {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@context": "https://schema.org",
+        "@type": "TechArticle",
+        "headline": "Health check failed: service \"api-149\" is unhealthy の原因と解決法",
+        "description": "Health check failed: service \"api-149\" is unhealthy が出たときの原因・確認手順・解決策を解説。Docker / Compose。",
+        "datePublished": "2026-05-30T05:48:13.089Z",
+        "dateModified": "2026-05-30T05:48:13.089Z",
+        "author": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
+        },
+        "image": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+        "inLanguage": "ja",
+        "wordCount": 394,
+        "mainEntityOfPage": {
+          "@type": "WebPage",
+          "@id": "https://ai-site-iota-nine.vercel.app/article/docker-health-check-failed-service-api-149-is-unhealthy-51eaef"
+        },
+        "keywords": "docker, Dockerエラー, Health check failed, Docker, mysql, Health check failed: service \"api-149\" i",
+        "articleSection": "Dockerエラー",
+        "url": "https://ai-site-iota-nine.vercel.app/article/docker-health-check-failed-service-api-149-is-unhealthy-51eaef",
+        "learningResourceType": "tutorial",
+        "educationalLevel": "beginner"
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "ホーム",
+            "item": "https://ai-site-iota-nine.vercel.app/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "errors",
+            "item": "https://ai-site-iota-nine.vercel.app/knowledge/errors"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "Docker エラー・トラブル集",
+            "item": "https://ai-site-iota-nine.vercel.app/course/errors/docker-errors"
+          },
+          {
+            "@type": "ListItem",
+            "position": 4,
+            "name": "Health check failed: service \"api-149\" is unhealthy の原因と解決法",
+            "item": "https://ai-site-iota-nine.vercel.app/article/docker-health-check-failed-service-api-149-is-unhealthy-51eaef"
+          }
+        ]
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "Course",
+        "name": "Docker エラー・トラブル集",
+        "description": "Docker エラー・トラブル集",
+        "provider": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app"
+        },
+        "url": "https://ai-site-iota-nine.vercel.app/course/errors/docker-errors",
+        "inLanguage": "ja",
+        "educationalLevel": "beginner",
+        "hasCourseInstance": {
+          "@type": "CourseInstance",
+          "courseMode": "online",
+          "courseWorkload": "PT1H"
+        }
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "Health check failed: service \"api-149\" is unhealthy とは何ですか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Health check failed: service \"api-149\" is unhealthy は Docker 実行時に表示されるエラーです。リソース"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Health check failed: service \"api-149\" is unhealthy の原因は？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "リソース。設定。イメージ。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Health check failed: service \"api-149\" is unhealthy の直し方は？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "docker logs：docker logs app-149 --tail 100"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Docker で Health check failed が出るのはなぜ？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Docker / Compose"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Health check failed: service \"api-149\" is unhealthy を防ぐには？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "。"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "breadcrumb": {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "ホーム",
+        "item": "https://ai-site-iota-nine.vercel.app/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "errors",
+        "item": "https://ai-site-iota-nine.vercel.app/knowledge/errors"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "Docker エラー・トラブル集",
+        "item": "https://ai-site-iota-nine.vercel.app/course/errors/docker-errors"
+      },
+      {
+        "@type": "ListItem",
+        "position": 4,
+        "name": "Health check failed: service \"api-149\" is unhealthy の原因と解決法",
+        "item": "https://ai-site-iota-nine.vercel.app/article/docker-health-check-failed-service-api-149-is-unhealthy-51eaef"
+      }
+    ]
+  },
+  "courseSchema": {
+    "@context": "https://schema.org",
+    "@type": "Course",
+    "name": "Docker エラー・トラブル集",
+    "description": "Docker エラー・トラブル集",
+    "provider": {
+      "@type": "Organization",
+      "name": "StackShelf",
+      "url": "https://ai-site-iota-nine.vercel.app"
+    },
+    "url": "https://ai-site-iota-nine.vercel.app/course/errors/docker-errors",
+    "inLanguage": "ja",
+    "educationalLevel": "beginner",
+    "hasCourseInstance": {
+      "@type": "CourseInstance",
+      "courseMode": "online",
+      "courseWorkload": "PT1H"
+    }
+  },
+  "faqSchema": {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "Health check failed: service \"api-149\" is unhealthy とは何ですか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Health check failed: service \"api-149\" is unhealthy は Docker 実行時に表示されるエラーです。リソース"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Health check failed: service \"api-149\" is unhealthy の原因は？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "リソース。設定。イメージ。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Health check failed: service \"api-149\" is unhealthy の直し方は？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "docker logs：docker logs app-149 --tail 100"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Docker で Health check failed が出るのはなぜ？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Docker / Compose"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Health check failed: service \"api-149\" is unhealthy を防ぐには？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "。"
+        }
+      }
+    ]
+  }
+}

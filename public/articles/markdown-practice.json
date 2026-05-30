@@ -16,12 +16,12 @@
   "theme": "markdown - Markdown & 技術ドキュメント入門",
   "status": "published",
   "createdAt": "2026-05-30T05:14:19.531Z",
-  "updatedAt": "2026-05-30T05:14:19.536Z",
+  "updatedAt": "2026-05-30T05:15:45.093Z",
   "publishedAt": "2026-05-30T05:14:19.531Z",
   "metaTitle": "実践：プロジェクトREADME作成【Markdown総仕上げ】｜Markdown入門 | StackShelf",
-  "metaDescription": "【Markdown初心者向け】Markdown講座の総仕上げとして、プロジェクトREADMEを一から作る手順、チェックリスト、仕上げ時の失敗例を具体例で解説します。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
+  "metaDescription": "Markdown講座の総仕上げとして、プロジェクトREADMEを一から作る手順、チェックリスト、仕上げ時の失敗例を具体例で解説します。",
   "ogTitle": "実践：プロジェクトREADMEを作る",
-  "ogDescription": "【Markdown初心者向け】【Markdown初心者向け】Markdown入門の総仕上げ。READMEを一から組み立てる手順と品質チェックを解説します。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
+  "ogDescription": "Markdown入門の総仕上げ。READMEを一から組み立てる手順と品質チェックを解説します。",
   "knowledge": {
     "topic": "markdown",
     "courseId": "markdown",
@@ -53,29 +53,29 @@
   "nextAction": "自分のプロジェクト（または練習用リポジトリ）にREADME.mdを作成し、本回のチェックリスト8項目をすべて満たしたらGitHubにpushするか、ローカルで完成版として保存してください。",
   "internalLinkCandidates": [
     {
-      "slug": "git-intro",
-      "title": "Git入門",
-      "reason": "READMEをリポジトリで管理・PRで改善するにはGitの基礎が次の一歩です"
+      "slug": "markdown-github-readme",
+      "title": "GitHub READMEの書き方｜公開リポジトリの顔を整える",
+      "reason": "同じ講座の関連回です"
     },
     {
-      "slug": "github-basics",
-      "title": "GitHubの基本",
-      "reason": "README公開とIssue運用はGitHubの機能と直結します"
+      "slug": "markdown-code-tables",
+      "title": "コードブロックと表｜Markdownで技術内容を正確に書く",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "markdown-lists-links",
+      "title": "リスト・リンク・画像｜Markdownで情報を整理する",
+      "reason": "同じ講座の関連回です"
     },
     {
       "slug": "markdown-intro",
-      "title": "Markdown入門",
-      "reason": "記法の復習や抜けの確認に第1回へ戻れます"
+      "title": "Markdownとは？技術文書を書く理由と全体像",
+      "reason": "同じ講座の関連回です"
     },
     {
-      "slug": "web-intro",
-      "title": "Web入門",
-      "reason": "docsサイトやGitHub PagesでHTML公開する場合に役立ちます"
-    },
-    {
-      "slug": "python-intro",
-      "title": "Python入門",
-      "reason": "PythonプロジェクトのREADME実践にそのまま応用できます"
+      "slug": "markdown-tools",
+      "title": "エディタ・プレビュー・Lint｜Markdown執筆を効率化するツール",
+      "reason": "同じ講座の関連回です"
     }
   ],
   "ogImage": "https://ai-site-iota-nine.vercel.app/og-default.svg",
@@ -89,7 +89,7 @@
         "headline": "実践：プロジェクトREADMEを一から作る｜Markdown総仕上げ",
         "description": "【Markdown初心者向け】Markdown講座の総仕上げとして、プロジェクトREADMEを一から作る手順、チェックリスト、仕上げ時の失敗例を具体例で解説します。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
         "datePublished": "2026-05-30T05:14:19.531Z",
-        "dateModified": "2026-05-30T05:14:19.536Z",
+        "dateModified": "2026-05-30T05:15:45.093Z",
         "author": {
           "@type": "Organization",
           "name": "StackShelf",

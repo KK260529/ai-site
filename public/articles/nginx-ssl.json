@@ -18,12 +18,12 @@
   "theme": "nginx - nginx入門",
   "status": "published",
   "createdAt": "2026-05-30T05:15:07.209Z",
-  "updatedAt": "2026-05-30T05:15:07.213Z",
+  "updatedAt": "2026-05-30T05:15:40.957Z",
   "publishedAt": "2026-05-30T05:15:07.209Z",
   "metaTitle": "nginx SSL/TLS設定：Let's EncryptでHTTPS化【nginx 初心者入門】 | StackSh…",
-  "metaDescription": "【nginx初心者向け】nginxでHTTPS（SSL/TLS）を設定する方法を初心者向けに解説。Let's Encrypt・certbotでの証明書取得、nginx設定、自動更新まで設定例つき。 図解・具体例つきで丁寧に解説します。",
+  "metaDescription": "nginxでHTTPS（SSL/TLS）を設定する方法を初心者向けに解説。Let's Encrypt・certbotでの証明書取得、nginx設定、自動更新まで設定例つき。",
   "ogTitle": "nginxでSSL/TLS（HTTPS）を設定する",
-  "ogDescription": "【nginx初心者向け】【nginx初心者向け】Let's EncryptとcertbotでnginxをHTTPS化する手順を初心者向けに解説。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
+  "ogDescription": "Let's EncryptとcertbotでnginxをHTTPS化する手順を初心者向けに解説。",
   "knowledge": {
     "topic": "nginx",
     "courseId": "nginx",
@@ -52,37 +52,32 @@
     }
   ],
   "nextEpisodeHint": "次回は、nginxのアクセスログ・エラーログの読み方、ログフォーマットのカスタマイズ、502/504等のエラー調査手法を学びます。",
-  "nextAction": "",
+  "nextAction": "次はnginxのアクセスログ・エラーログの読み方、ログフォーマットのカスタマイズ、502/504等のエラー調査手法を学びます。",
   "internalLinkCandidates": [
     {
-      "slug": "http-https-tls",
-      "title": "HTTPSとTLSの仕組み",
-      "reason": "SSL/TLS暗号化の理論的背景"
+      "slug": "nginx-logging",
+      "title": "nginxのログとトラブルシューティング入門【502/504エラー対処】",
+      "reason": "同じ講座の関連回です"
     },
     {
-      "slug": "http-intro",
-      "title": "HTTPとは？Webの通信の仕組み",
-      "reason": "HTTPとHTTPSの違いの基礎"
+      "slug": "nginx-location",
+      "title": "nginxのlocationとルーティング【マッチング優先順位入門】",
+      "reason": "同じ講座の関連回です"
     },
     {
       "slug": "nginx-reverse-proxy",
-      "title": "nginxリバースプロキシの設定方法【proxy_pass入門】",
-      "reason": "HTTPS + リバースプロキシの組み合わせ"
+      "title": "nginxリバースプロキシの設定方法【proxy_pass入門・初心者向け】",
+      "reason": "同じ講座の関連回です"
     },
     {
-      "slug": "linux-intro",
-      "title": "Linuxとは？コマンドラインの世界へようこそ【初心者向け完全入門】",
-      "reason": "certbotやsystemctl操作の前提"
+      "slug": "nginx-static-site",
+      "title": "nginxで静的サイトを公開する方法【HTML/CSS配信・初心者向け】",
+      "reason": "同じ講座の関連回です"
     },
     {
-      "slug": "web-publish-basics",
-      "title": "Webサイトを公開する方法：ドメイン・サーバー・DNSの基礎",
-      "reason": "ドメインとDNS設定（証明書取得の前提）"
-    },
-    {
-      "slug": "nginx-logging",
-      "title": "nginxのログとトラブルシューティング入門",
-      "reason": "同じ講座の次回：SSLエラーのログ調査"
+      "slug": "nginx-install",
+      "title": "nginxのインストールと基本設定【Ubuntu/WSL2対応・初心者向け】",
+      "reason": "同じ講座の関連回です"
     }
   ],
   "ogImage": "https://ai-site-iota-nine.vercel.app/og-default.svg",
@@ -96,7 +91,7 @@
         "headline": "nginxでSSL/TLS（HTTPS）を設定する方法【Let's Encrypt入門】",
         "description": "【nginx初心者向け】nginxでHTTPS（SSL/TLS）を設定する方法を初心者向けに解説。Let's Encrypt・certbotでの証明書取得、nginx設定、自動更新まで設定例つき。 図解・具体例つきで丁寧に解説します。",
         "datePublished": "2026-05-30T05:15:07.209Z",
-        "dateModified": "2026-05-30T05:15:07.213Z",
+        "dateModified": "2026-05-30T05:15:40.957Z",
         "author": {
           "@type": "Organization",
           "name": "StackShelf",

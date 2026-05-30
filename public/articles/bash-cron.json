@@ -17,12 +17,12 @@
   "theme": "bash - Bashシェルスクリプト入門",
   "status": "published",
   "createdAt": "2026-05-30T05:14:54.468Z",
-  "updatedAt": "2026-05-30T05:14:54.474Z",
+  "updatedAt": "2026-05-30T05:15:42.278Z",
   "publishedAt": "2026-05-30T05:14:54.468Z",
   "metaTitle": "cron crontab 定期実行 の書き方｜Bashスクリプト",
-  "metaDescription": "【Bash初心者向け】Bashスクリプトを cron で定期実行する方法を解説。crontab の書式、PATH問題、ログリダイレクト、安全な運用のコツを具体例で学べます。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
+  "metaDescription": "Bashスクリプトを cron で定期実行する方法を解説。crontab の書式、PATH問題、ログリダイレクト、安全な運用のコツを具体例で学べます。",
   "ogTitle": "cronでBashスクリプトを定期実行",
-  "ogDescription": "【Bash初心者向け】【Bash初心者向け】crontab の設定から運用上の落とし穴まで、定期実行をマスターします。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
+  "ogDescription": "crontab の設定から運用上の落とし穴まで、定期実行をマスターします。",
   "knowledge": {
     "topic": "bash",
     "courseId": "bash",
@@ -54,29 +54,29 @@
   "nextAction": "backup.sh を作成し、crontab -e で5分ごと（テスト用）に実行、ログファイルへ出力する行を追加して動作確認してください。テスト後はスケジュールを本番用に変更しましょう。",
   "internalLinkCandidates": [
     {
-      "slug": "linux-processes",
-      "title": "プロセス管理（ps/top/kill/nohup）【Linux入門】",
-      "reason": "cron が起動するプロセスの理解に役立ちます。"
+      "slug": "bash-practice",
+      "title": "【実践】Bashでバックアップスクリプトを作る｜運用自動化の総仕上げ【第10回】",
+      "reason": "同じ講座の関連回です"
     },
     {
-      "slug": "docker-intro",
-      "title": "Dockerとは？仮想マシンとの違いをわかりやすく解説【初心者向け】",
-      "reason": "コンテナ環境での cron / CronJob 設計と関連します。"
+      "slug": "bash-intro",
+      "title": "Bashシェルスクリプトとは？自動化の第一歩をわかりやすく解説【初心者向け】",
+      "reason": "同じ講座の関連回です"
     },
     {
-      "slug": "linux-intro",
-      "title": "Linuxとは？コマンドラインの世界へようこそ【初心者向け完全入門】",
-      "reason": "cron は Linux サーバー運用の基本ツールです。"
+      "slug": "bash-error-handling",
+      "title": "Bashの set -e とエラーハンドリング｜安全なスクリプトを書く【第9回】",
+      "reason": "同じ講座の関連回です"
     },
     {
-      "slug": "git-intro",
-      "title": "Gitとは？バージョン管理を初めて学ぶ人のための完全入門",
-      "reason": "デプロイスクリプトを cron と Git 運用で組み合わせる例があります。"
+      "slug": "bash-file-processing",
+      "title": "Bashでgrep・sed・awk入門｜ログ解析とテキスト加工【第7回】",
+      "reason": "同じ講座の関連回です"
     },
     {
-      "slug": "nginx-intro",
-      "title": "nginxとは？Apacheとの違い",
-      "reason": "Webサーバーログローテーション等で cron がよく使われます。"
+      "slug": "bash-pipes-scripts",
+      "title": "Bashのパイプとコマンド置換｜CLIを組み合わせるデータ処理【第6回】",
+      "reason": "同じ講座の関連回です"
     }
   ],
   "ogImage": "https://ai-site-iota-nine.vercel.app/og-default.svg",
@@ -90,7 +90,7 @@
         "headline": "cronとcrontabでBashスクリプトを定期実行する【シェルスクリプト第8回】",
         "description": "【Bash初心者向け】Bashスクリプトを cron で定期実行する方法を解説。crontab の書式、PATH問題、ログリダイレクト、安全な運用のコツを具体例で学べます。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
         "datePublished": "2026-05-30T05:14:54.468Z",
-        "dateModified": "2026-05-30T05:14:54.474Z",
+        "dateModified": "2026-05-30T05:15:42.278Z",
         "author": {
           "@type": "Organization",
           "name": "StackShelf",

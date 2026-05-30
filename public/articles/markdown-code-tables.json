@@ -16,12 +16,12 @@
   "theme": "markdown - Markdown & 技術ドキュメント入門",
   "status": "published",
   "createdAt": "2026-05-30T05:14:16.024Z",
-  "updatedAt": "2026-05-30T05:14:16.029Z",
+  "updatedAt": "2026-05-30T05:15:45.544Z",
   "publishedAt": "2026-05-30T05:14:16.024Z",
   "metaTitle": "Markdown コードブロック・表の書き方【技術文書】｜Markdown入門 | StackShelf",
-  "metaDescription": "【Markdown初心者向け】Markdownのインラインコード、```によるコードブロック、シンタックスハイライト、表の書き方とよくある崩れを具体例で解説します。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
+  "metaDescription": "Markdownのインラインコード、```によるコードブロック、シンタックスハイライト、表の書き方とよくある崩れを具体例で解説します。",
   "ogTitle": "Markdown：コードブロックと表",
-  "ogDescription": "【Markdown初心者向け】【Markdown初心者向け】技術文書に必須のコードブロックと表の記法、失敗例と対策をわかりやすく解説します。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
+  "ogDescription": "技術文書に必須のコードブロックと表の記法、失敗例と対策をわかりやすく解説します。",
   "knowledge": {
     "topic": "markdown",
     "courseId": "markdown",
@@ -53,29 +53,29 @@
   "nextAction": "手元のREADMEに、インストール用bashブロック1つ、環境変数の表（3列2行以上）、ファイル名をインラインコードで3箇所書き、プレビューで表とハイライトを確認してください。",
   "internalLinkCandidates": [
     {
+      "slug": "markdown-practice",
+      "title": "実践：プロジェクトREADMEを一から作る｜Markdown総仕上げ",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "markdown-github-readme",
+      "title": "GitHub READMEの書き方｜公開リポジトリの顔を整える",
+      "reason": "同じ講座の関連回です"
+    },
+    {
       "slug": "markdown-lists-links",
-      "title": "リスト・リンク・画像",
-      "reason": "手順リストの下にコードブロックを置く構成は前回のリスト記法とセットです"
+      "title": "リスト・リンク・画像｜Markdownで情報を整理する",
+      "reason": "同じ講座の関連回です"
     },
     {
-      "slug": "git-intro",
-      "title": "Git入門",
-      "reason": "READMEはGitHub上で表示され、diffでコード変更が追えるためGitの理解があると便利です"
+      "slug": "markdown-intro",
+      "title": "Markdownとは？技術文書を書く理由と全体像",
+      "reason": "同じ講座の関連回です"
     },
     {
-      "slug": "python-intro",
-      "title": "Python入門",
-      "reason": "pythonフェンスでのコード例はPython学習記事と横断的に使えます"
-    },
-    {
-      "slug": "linux-intro",
-      "title": "Linux入門",
-      "reason": "bashブロックのコマンド例はLinux入門の内容と直結します"
-    },
-    {
-      "slug": "docker-intro",
-      "title": "Docker入門",
-      "reason": "Dockerfileやcompose例もコードブロックでREADMEに載せるのが一般的です"
+      "slug": "markdown-tools",
+      "title": "エディタ・プレビュー・Lint｜Markdown執筆を効率化するツール",
+      "reason": "同じ講座の関連回です"
     }
   ],
   "ogImage": "https://ai-site-iota-nine.vercel.app/og-default.svg",
@@ -89,7 +89,7 @@
         "headline": "コードブロックと表｜Markdownで技術内容を正確に書く",
         "description": "【Markdown初心者向け】Markdownのインラインコード、```によるコードブロック、シンタックスハイライト、表の書き方とよくある崩れを具体例で解説します。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
         "datePublished": "2026-05-30T05:14:16.024Z",
-        "dateModified": "2026-05-30T05:14:16.029Z",
+        "dateModified": "2026-05-30T05:15:45.544Z",
         "author": {
           "@type": "Organization",
           "name": "StackShelf",

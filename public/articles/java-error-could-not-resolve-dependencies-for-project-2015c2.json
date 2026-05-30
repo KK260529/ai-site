@@ -1,0 +1,290 @@
+{
+  "id": "art_errors_java-error-could-not-resolve-dependencies-for-project-2015c2",
+  "slug": "java-error-could-not-resolve-dependencies-for-project-2015c2",
+  "title": "[ERROR] Could not resolve dependencies for project の原因と解決法",
+  "summary": "[ERROR] Could not resolve dependencies for project の原因と具体的な解決手順をまとめました。",
+  "body": "<h2>エラーメッセージ（全文）</h2>\n<p>検索でヒットしやすいよう、実際のコンソール出力をそのまま掲載します。</p>\n<pre><code>[ERROR] Could not resolve dependencies for project</code></pre>\n\n<h2>このエラーとは</h2>\n<p>[ERROR] Could not resolve dependencies for project は Java 開発でよく遭遇するエラーです。</p>\n<p><strong>想定環境:</strong> Windows / macOS / Linux</p>\n<p><strong>よく出る状況:</strong> mvn compile / package 実行時</p>\n\n<h2>よくある原因</h2>\n<ul>\n<li>JDK 未設定</li>\n<li>依存解決失敗</li>\n<li>settings.xml / リポジトリ問題</li>\n</ul><h2>解決方法</h2><h3>方法1: JAVA_HOME 確認</h3><p>JDK が指されているか確認.</p><pre><code>echo %JAVA_HOME%\njavac -version</code></pre><h3>方法2: 依存キャッシュクリア</h3><p>ローカル repo の問題を切り分け.</p><pre><code>mvn dependency:purge-local-repository</code></pre>\n<h2>それでも直らないとき</h2>\n<p>バージョン情報（Java のバージョン、OS、実行コマンド）を添えて、エラーメッセージ全文と直前に変更した点を確認してください。ログの数行上にも原因の手がかりが残っていることが多いです。</p>",
+  "conclusion": "「[ERROR] Could not resolve dependencies for project」は JDK 未設定 が原因のことが多いです。上記の手順で切り分けてください。",
+  "tags": [
+    "java",
+    "Javaエラー",
+    "[ERROR] Could not resolve dependencies for project",
+    "Maven",
+    "[ERROR] Could not resolve dependencies f"
+  ],
+  "category": "Javaエラー",
+  "theme": "errors - Java エラー・トラブル集",
+  "articleType": "error",
+  "status": "published",
+  "createdAt": "2026-05-30T05:47:36.053Z",
+  "updatedAt": "2026-05-30T05:47:36.053Z",
+  "publishedAt": "2026-05-30T05:47:36.053Z",
+  "metaTitle": "[ERROR] Could not resolve dependencies for project の原因と解決法…",
+  "metaDescription": "[ERROR] Could not resolve dependencies for project が出たときの原因・確認手順・解決策を解説。mvn compile / package 実行時。",
+  "ogTitle": "[ERROR] Could not resolve dependencies for project の原因と解決法",
+  "ogDescription": "[ERROR] Could not resolve dependencies for project が出たときの原因・確認手順・解決策を解説。mvn compile / package 実行時。",
+  "knowledge": {
+    "topic": "errors",
+    "courseId": "java-errors",
+    "episode": 32
+  },
+  "faq": [
+    {
+      "question": "[ERROR] Could not resolve dependencies for project とは何ですか？",
+      "answer": "[ERROR] Could not resolve dependencies for project は Java 実行時に表示されるエラーです。JDK 未設定"
+    },
+    {
+      "question": "[ERROR] Could not resolve dependencies for project の原因は？",
+      "answer": "JDK 未設定。依存解決失敗。settings.xml / リポジトリ問題。"
+    },
+    {
+      "question": "[ERROR] Could not resolve dependencies for project の直し方は？",
+      "answer": "JAVA_HOME 確認：JDK が指されているか確認. 依存キャッシュクリア：ローカル repo の問題を切り分け."
+    },
+    {
+      "question": "Java で [ERROR] Could not resolve dependencies for project が出るのはなぜ？",
+      "answer": "mvn compile / package 実行時"
+    },
+    {
+      "question": "[ERROR] Could not resolve dependencies for project を防ぐには？",
+      "answer": "。"
+    }
+  ],
+  "nextAction": "同じ Java カテゴリの関連エラーもあわせて確認してください。",
+  "internalLinkCandidates": [],
+  "ogImage": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+  "canonical": "https://ai-site-iota-nine.vercel.app/article/java-error-could-not-resolve-dependencies-for-project-2015c2",
+  "jsonLd": {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@context": "https://schema.org",
+        "@type": "TechArticle",
+        "headline": "[ERROR] Could not resolve dependencies for project の原因と解決法",
+        "description": "[ERROR] Could not resolve dependencies for project が出たときの原因・確認手順・解決策を解説。mvn compile / package 実行時。",
+        "datePublished": "2026-05-30T05:47:36.053Z",
+        "dateModified": "2026-05-30T05:47:36.053Z",
+        "author": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
+        },
+        "image": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+        "inLanguage": "ja",
+        "wordCount": 481,
+        "mainEntityOfPage": {
+          "@type": "WebPage",
+          "@id": "https://ai-site-iota-nine.vercel.app/article/java-error-could-not-resolve-dependencies-for-project-2015c2"
+        },
+        "keywords": "java, Javaエラー, [ERROR] Could not resolve dependencies for project, Maven, [ERROR] Could not resolve dependencies f",
+        "articleSection": "Javaエラー",
+        "url": "https://ai-site-iota-nine.vercel.app/article/java-error-could-not-resolve-dependencies-for-project-2015c2",
+        "learningResourceType": "tutorial",
+        "educationalLevel": "beginner"
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "ホーム",
+            "item": "https://ai-site-iota-nine.vercel.app/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "errors",
+            "item": "https://ai-site-iota-nine.vercel.app/knowledge/errors"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "Java エラー・トラブル集",
+            "item": "https://ai-site-iota-nine.vercel.app/course/errors/java-errors"
+          },
+          {
+            "@type": "ListItem",
+            "position": 4,
+            "name": "[ERROR] Could not resolve dependencies for project の原因と解決法",
+            "item": "https://ai-site-iota-nine.vercel.app/article/java-error-could-not-resolve-dependencies-for-project-2015c2"
+          }
+        ]
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "Course",
+        "name": "Java エラー・トラブル集",
+        "description": "Java エラー・トラブル集",
+        "provider": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app"
+        },
+        "url": "https://ai-site-iota-nine.vercel.app/course/errors/java-errors",
+        "inLanguage": "ja",
+        "educationalLevel": "beginner",
+        "hasCourseInstance": {
+          "@type": "CourseInstance",
+          "courseMode": "online",
+          "courseWorkload": "PT1H"
+        }
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "[ERROR] Could not resolve dependencies for project とは何ですか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "[ERROR] Could not resolve dependencies for project は Java 実行時に表示されるエラーです。JDK 未設定"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "[ERROR] Could not resolve dependencies for project の原因は？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "JDK 未設定。依存解決失敗。settings.xml / リポジトリ問題。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "[ERROR] Could not resolve dependencies for project の直し方は？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "JAVA_HOME 確認：JDK が指されているか確認. 依存キャッシュクリア：ローカル repo の問題を切り分け."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Java で [ERROR] Could not resolve dependencies for project が出るのはなぜ？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "mvn compile / package 実行時"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "[ERROR] Could not resolve dependencies for project を防ぐには？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "。"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "breadcrumb": {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "ホーム",
+        "item": "https://ai-site-iota-nine.vercel.app/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "errors",
+        "item": "https://ai-site-iota-nine.vercel.app/knowledge/errors"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "Java エラー・トラブル集",
+        "item": "https://ai-site-iota-nine.vercel.app/course/errors/java-errors"
+      },
+      {
+        "@type": "ListItem",
+        "position": 4,
+        "name": "[ERROR] Could not resolve dependencies for project の原因と解決法",
+        "item": "https://ai-site-iota-nine.vercel.app/article/java-error-could-not-resolve-dependencies-for-project-2015c2"
+      }
+    ]
+  },
+  "courseSchema": {
+    "@context": "https://schema.org",
+    "@type": "Course",
+    "name": "Java エラー・トラブル集",
+    "description": "Java エラー・トラブル集",
+    "provider": {
+      "@type": "Organization",
+      "name": "StackShelf",
+      "url": "https://ai-site-iota-nine.vercel.app"
+    },
+    "url": "https://ai-site-iota-nine.vercel.app/course/errors/java-errors",
+    "inLanguage": "ja",
+    "educationalLevel": "beginner",
+    "hasCourseInstance": {
+      "@type": "CourseInstance",
+      "courseMode": "online",
+      "courseWorkload": "PT1H"
+    }
+  },
+  "faqSchema": {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "[ERROR] Could not resolve dependencies for project とは何ですか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "[ERROR] Could not resolve dependencies for project は Java 実行時に表示されるエラーです。JDK 未設定"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "[ERROR] Could not resolve dependencies for project の原因は？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "JDK 未設定。依存解決失敗。settings.xml / リポジトリ問題。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "[ERROR] Could not resolve dependencies for project の直し方は？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "JAVA_HOME 確認：JDK が指されているか確認. 依存キャッシュクリア：ローカル repo の問題を切り分け."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Java で [ERROR] Could not resolve dependencies for project が出るのはなぜ？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "mvn compile / package 実行時"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "[ERROR] Could not resolve dependencies for project を防ぐには？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "。"
+        }
+      }
+    ]
+  }
+}

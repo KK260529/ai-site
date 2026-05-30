@@ -17,12 +17,12 @@
   "theme": "bash - Bashシェルスクリプト入門",
   "status": "published",
   "createdAt": "2026-05-30T05:14:46.047Z",
-  "updatedAt": "2026-05-30T05:14:46.057Z",
+  "updatedAt": "2026-05-30T05:15:43.152Z",
   "publishedAt": "2026-05-30T05:14:46.047Z",
   "metaTitle": "Bashシェルスクリプトとは？自動化入門を初心者向けに解説【bash 使い方】｜Bash入門 | StackShelf",
-  "metaDescription": "【Bash初心者向け】Bashシェルスクリプトとは何かを初心者向けにわかりやすく解説。シェルとスクリプトの違い、.shファイルの作り方、実行権限の付け方まで具体例で学べます。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
+  "metaDescription": "Bashシェルスクリプトとは何かを初心者向けにわかりやすく解説。シェルとスクリプトの違い、.shファイルの作り方、実行権限の付け方まで具体例で学べます。",
   "ogTitle": "Bashシェルスクリプトとは？自動化の第一歩",
-  "ogDescription": "【Bash初心者向け】【Bash初心者向け】Bashシェルスクリプトの基本概念と最初のスクリプト作成手順をゼロから解説します。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
+  "ogDescription": "Bashシェルスクリプトの基本概念と最初のスクリプト作成手順をゼロから解説します。",
   "knowledge": {
     "topic": "bash",
     "courseId": "bash",
@@ -54,29 +54,29 @@
   "nextAction": "WSLまたはLinux環境で ~/scripts ディレクトリを作り、hello.sh を作成して chmod +x のあと ./hello.sh を実行してみてください。echo $SHELL と bash --version も合わせて確認すると、自分の環境が把握できます。",
   "internalLinkCandidates": [
     {
-      "slug": "linux-intro",
-      "title": "Linuxとは？コマンドラインの世界へようこそ【初心者向け完全入門】",
-      "reason": "BashスクリプトはLinux/macOS/WSLのCLI上で動くため、Linuxの基礎知識が前提になります。"
+      "slug": "bash-practice",
+      "title": "【実践】Bashでバックアップスクリプトを作る｜運用自動化の総仕上げ【第10回】",
+      "reason": "同じ講座の関連回です"
     },
     {
-      "slug": "git-intro",
-      "title": "Gitとは？バージョン管理を初めて学ぶ人のための完全入門",
-      "reason": "スクリプトもGitで管理・共有するのが一般的で、バージョン管理の考え方と相性が良いです。"
+      "slug": "bash-cron",
+      "title": "cronとcrontabでBashスクリプトを定期実行する【シェルスクリプト第8回】",
+      "reason": "同じ講座の関連回です"
     },
     {
-      "slug": "docker-intro",
-      "title": "Dockerとは？仮想マシンとの違いをわかりやすく解説【初心者向け】",
-      "reason": "DockerfileのRUNやENTRYPOINTでBashスクリプトがよく使われます。"
+      "slug": "bash-pipes-scripts",
+      "title": "Bashのパイプとコマンド置換｜CLIを組み合わせるデータ処理【第6回】",
+      "reason": "同じ講座の関連回です"
     },
     {
-      "slug": "python-intro",
-      "title": "Pythonとは？プログラミング入門の第一歩【完全初心者向け】",
-      "reason": "BashとPythonの使い分けを理解すると、自動化の選択肢が広がります。"
+      "slug": "bash-functions",
+      "title": "Bash関数の定義と使い方｜再利用可能なスクリプトを書く【第5回】",
+      "reason": "同じ講座の関連回です"
     },
     {
-      "slug": "regex-intro",
-      "title": "正規表現とは？いつ使うのか",
-      "reason": "後の回で登場するgrepやsedと組み合わせる際、正規表現の基礎があると理解が深まります。"
+      "slug": "bash-loops",
+      "title": "Bashのfor・whileループ完全ガイド｜一括処理と対話入力【シェルスクリプト第4回】",
+      "reason": "同じ講座の関連回です"
     }
   ],
   "ogImage": "https://ai-site-iota-nine.vercel.app/og-default.svg",
@@ -90,7 +90,7 @@
         "headline": "Bashシェルスクリプトとは？自動化の第一歩をわかりやすく解説【初心者向け】",
         "description": "【Bash初心者向け】Bashシェルスクリプトとは何かを初心者向けにわかりやすく解説。シェルとスクリプトの違い、.shファイルの作り方、実行権限の付け方まで具体例で学べます。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
         "datePublished": "2026-05-30T05:14:46.047Z",
-        "dateModified": "2026-05-30T05:14:46.057Z",
+        "dateModified": "2026-05-30T05:15:43.152Z",
         "author": {
           "@type": "Organization",
           "name": "StackShelf",

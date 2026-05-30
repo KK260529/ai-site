@@ -2,9 +2,9 @@
   "id": "art_git_git-repository-basics",
   "slug": "git-repository-basics",
   "title": "Gitリポジトリの作成とclone：git initとgit cloneの使い方",
-  "summary": "git initで新規リポジトリを作る方法とgit cloneで既存リポジトリをコピーする方法を、実例コマンド付きで初心者にもわかりやすく解説します。",
-  "body": "<h2>リポジトリとは何か、おさらい</h2>\n<p>Gitにおける<strong>リポジトリ（repository）</strong>とは、Gitがファイルの変更履歴を管理するための「入れ物」です。プロジェクトのルートフォルダをGitの管理下に置くことで、そのフォルダ内のすべてのファイルの変更を追跡できるようになります。</p>\n<p>リポジトリには2種類あります。</p>\n<ul>\n  <li><strong>ローカルリポジトリ</strong>：自分のパソコン上にあるリポジトリ</li>\n  <li><strong>リモートリポジトリ</strong>：GitHubなどのサービス上にあるリポジトリ</li>\n</ul>\n<p>この2つを連携させることで、チームでの開発やバックアップが実現できます。今回はまず、ローカルリポジトリを作成する方法から学びます。</p>\n\n<h2>git init：新しいリポジトリを作る</h2>\n<p><code>git init</code> は、現在のフォルダをGitリポジトリとして初期化するコマンドです。このコマンドを実行することで、そのフォルダがGitの管理下に置かれます。</p>\n\n<h3>基本的な使い方</h3>\n<p>まず、プロジェクト用のフォルダを作成し、その中に移動してから <code>git init</code> を実行します。</p>\n<pre><code># プロジェクトフォルダを作成\nmkdir my-project\n\n# フォルダに移動\ncd my-project\n\n# Gitリポジトリとして初期化\ngit init</code></pre>\n<p>実行すると、次のようなメッセージが表示されます。</p>\n<pre><code>Initialized empty Git repository in /Users/taro/my-project/.git/</code></pre>\n<p>これで <code>my-project</code> フォルダがGitリポジトリになりました。</p>\n\n<h3>.gitフォルダの正体</h3>\n<p><code>git init</code> を実行すると、プロジェクトフォルダの中に<strong>.git</strong>という隠しフォルダが作成されます。このフォルダの中にGitの管理情報（コミット履歴、設定、インデックスなど）がすべて保存されています。</p>\n<pre><code># 隠しフォルダを含めて表示（Mac/Linux）\nls -la\n\n# Windowsの場合\ndir /a</code></pre>\n<p><strong>重要</strong>：<code>.git</code> フォルダを手動で削除すると、Gitの管理情報がすべて消えてしまいます。誤って削除しないよう注意してください。逆に言えば、<code>.git</code> フォルダを削除すれば、そのフォルダはGit管理から外れます。</p>\n\n<h3>既存フォルダをGit管理に追加する</h3>\n<p>すでにファイルが入っているフォルダをGit管理下に置くことも可能です。</p>\n<pre><code># 既存のプロジェクトフォルダに移動\ncd /path/to/existing-project\n\n# Gitリポジトリとして初期化\ngit init\n\n# 既存ファイルをGitに追加してコミット\ngit add .\ngit commit -m \"initial commit\"</code></pre>\n\n<h2>git clone：既存リポジトリをコピーする</h2>\n<p><code>git clone</code> は、GitHubなどに公開されているリポジトリを自分のパソコンにコピーするコマンドです。オープンソースのコードを手元で試したいときや、チームのリポジトリを初めて取得するときに使います。</p>\n\n<h3>基本的なcloneの方法</h3>\n<pre><code># 基本構文\ngit clone &lt;リポジトリのURL&gt;\n\n# 例：GitHubのリポジトリをclone\ngit clone https://github.com/username/repository-name.git</code></pre>\n<p>このコマンドを実行すると、カレントディレクトリに <code>repository-name</code> という名前のフォルダが作成され、リポジトリの内容がすべてダウンロードされます。</p>\n\n<h3>フォルダ名を指定してcloneする</h3>\n<p>デフォルトではリポジトリ名がフォルダ名になりますが、別の名前を指定することもできます。</p>\n<pre><code># myapp という名前のフォルダにclone\ngit clone https://github.com/username/repository-name.git myapp</code></pre>\n\n<h3>cloneできる場所の確認</h3>\n<p>GitHubのリポジトリページを開くと、緑色の「Code」ボタンからURLを取得できます。URLには主に2種類あります。</p>\n<ul>\n  <li><strong>HTTPS URL</strong>：<code>https://github.com/username/repo.git</code> — アカウント設定が不要で初心者に向いています</li>\n  <li><strong>SSH URL</strong>：<code>git@github.com:username/repo.git</code> — SSHキーの設定が必要ですが、毎回パスワードを入力しなくて済みます</li>\n</ul>\n<p>最初はHTTPS URLを使うのが簡単です。</p>\n\n<h2>git initとgit cloneの使い分け</h2>\n<p>どちらを使うかは状況によって変わります。</p>\n<ul>\n  <li><strong>git init</strong>：まったく新しいプロジェクトをゼロから始めるとき、または既存フォルダをGit管理下に置くとき</li>\n  <li><strong>git clone</strong>：GitHubなど既存のリモートリポジトリを取得するとき</li>\n</ul>\n<p>チームに新しく参加したエンジニアが最初にやることの多くは <code>git clone</code> です。一方、新規プロジェクトを立ち上げるリーダーが最初にやることは <code>git init</code> であることが多いです。</p>\n\n<h2>リポジトリの状態を確認する</h2>\n<p>リポジトリを作成または取得したら、まず状態を確認する習慣をつけましょう。</p>\n<pre><code># リポジトリの状態確認\ngit status\n\n# コミット履歴の確認（cloneしたリポジトリの場合）\ngit log --oneline</code></pre>\n<p><code>git status</code> の出力例：</p>\n<pre><code>On branch main\n\nNo commits yet\n\nnothing to commit (create/copy files and use \"git add\" to track)</code></pre>\n<p>これは「mainブランチにいて、まだコミットが一つもない空のリポジトリ」を意味します。</p>\n\n<h3>リモートリポジトリとの接続確認</h3>\n<p><code>git clone</code> でコピーしたリポジトリは、自動的にリモートリポジトリとの接続（リモート追跡）が設定されます。次のコマンドで確認できます。</p>\n<pre><code># リモートリポジトリの接続先を表示\ngit remote -v</code></pre>\n<p>出力例：</p>\n<pre><code>origin  https://github.com/username/repository-name.git (fetch)\norigin  https://github.com/username/repository-name.git (push)</code></pre>\n<p><code>origin</code> はリモートリポジトリの通称で、cloneすると自動的にこの名前が付きます。</p>\n\n<h2>よくある失敗と対処法</h2>\n\n<h3>「Permission denied」エラーが出た</h3>\n<p>プライベートリポジトリをcloneしようとしてこのエラーが出た場合、GitHubへの認証が失敗しています。HTTPS URLの場合はGitHubのユーザー名とパスワード（またはPersonal Access Token）を正しく入力してください。</p>\n\n<h3>「destination path already exists」エラーが出た</h3>\n<p>同じ名前のフォルダがすでに存在する場合に出るエラーです。既存フォルダを削除するか、別の場所でcloneするか、フォルダ名を指定してcloneしてください。</p>\n<pre><code># 別フォルダ名を指定してclone\ngit clone https://github.com/username/repo.git repo-new</code></pre>\n\n<h2>まとめ：リポジトリ作成の2つのパターン</h2>\n<p>Gitリポジトリのスタート地点は常に「<code>git init</code> か <code>git clone</code> か」のどちらかです。新規プロジェクトなら <code>git init</code>、既存プロジェクトの取得なら <code>git clone</code> を使いましょう。どちらのコマンドも一度覚えてしまえば迷うことはありません。<code>.git</code> フォルダの存在がGit管理の証であることも覚えておきましょう。</p>",
-  "conclusion": "git initは新規プロジェクトをGit管理下に置くコマンドで、.gitフォルダが作成されることでリポジトリとなります。git cloneはGitHubなど既存のリモートリポジトリをローカルにコピーするコマンドで、チームへの参加時やオープンソースコードの取得時に使います。どちらも実行後はgit statusで状態を確認する習慣をつけることが大切です。リモートリポジトリはoriginという名前で自動登録され、git remote -vで確認できます。次のステップでは、リポジトリ内のファイルを実際に追跡・記録する基本操作を学びます。",
+  "summary": "git init と git clone の使い分け、リポジトリの仕組み、状態確認方法を解説。新規作成と既存複製でつまずきやすいポイントも押さえます。",
+  "body": "<h2>結論：新規は git init、既存の複製は git clone</h2>\n<p>リポジトリ作成は用途で2パターンです。<strong>ゼロから始めるなら <code>git init</code>、GitHub等の既存リポジトリを手元に持ってくるなら <code>git clone URL</code></strong>。どちらも .git フォルダができた時点でGit管理が始まります。</p>\n\n<h2>リポジトリとは何か、おさらい</h2>\n<p>Gitにおける<strong>リポジトリ（repository）</strong>とは、Gitがファイルの変更履歴を管理するための「入れ物」です。プロジェクトのルートフォルダをGitの管理下に置くことで、そのフォルダ内のすべてのファイルの変更を追跡できるようになります。</p>\n<p>リポジトリには2種類あります。</p>\n<ul>\n  <li><strong>ローカルリポジトリ</strong>：自分のパソコン上にあるリポジトリ</li>\n  <li><strong>リモートリポジトリ</strong>：GitHubなどのサービス上にあるリポジトリ</li>\n</ul>\n<p>この2つを連携させることで、チームでの開発やバックアップが実現できます。今回はまず、ローカルリポジトリを作成する方法から学びます。</p>\n\n<h2>git init：新しいリポジトリを作る</h2>\n<p><code>git init</code> は、現在のフォルダをGitリポジトリとして初期化するコマンドです。このコマンドを実行することで、そのフォルダがGitの管理下に置かれます。</p>\n\n<h3>基本的な使い方</h3>\n<p>まず、プロジェクト用のフォルダを作成し、その中に移動してから <code>git init</code> を実行します。</p>\n<pre><code># プロジェクトフォルダを作成\nmkdir my-project\n\n# フォルダに移動\ncd my-project\n\n# Gitリポジトリとして初期化\ngit init</code></pre>\n<p>実行すると、次のようなメッセージが表示されます。</p>\n<pre><code>Initialized empty Git repository in /Users/taro/my-project/.git/</code></pre>\n<p>これで <code>my-project</code> フォルダがGitリポジトリになりました。</p>\n\n<h3>.gitフォルダの正体</h3>\n<p><code>git init</code> を実行すると、プロジェクトフォルダの中に<strong>.git</strong>という隠しフォルダが作成されます。このフォルダの中にGitの管理情報（コミット履歴、設定、インデックスなど）がすべて保存されています。</p>\n<pre><code># 隠しフォルダを含めて表示（Mac/Linux）\nls -la\n\n# Windowsの場合\ndir /a</code></pre>\n<p><strong>重要</strong>：<code>.git</code> フォルダを手動で削除すると、Gitの管理情報がすべて消えてしまいます。誤って削除しないよう注意してください。逆に言えば、<code>.git</code> フォルダを削除すれば、そのフォルダはGit管理から外れます。</p>\n\n<h3>既存フォルダをGit管理に追加する</h3>\n<p>すでにファイルが入っているフォルダをGit管理下に置くことも可能です。</p>\n<pre><code># 既存のプロジェクトフォルダに移動\ncd /path/to/existing-project\n\n# Gitリポジトリとして初期化\ngit init\n\n# 既存ファイルをGitに追加してコミット\ngit add .\ngit commit -m \"initial commit\"</code></pre>\n\n<h2>git clone：既存リポジトリをコピーする</h2>\n<p><code>git clone</code> は、GitHubなどに公開されているリポジトリを自分のパソコンにコピーするコマンドです。オープンソースのコードを手元で試したいときや、チームのリポジトリを初めて取得するときに使います。</p>\n\n<h3>基本的なcloneの方法</h3>\n<pre><code># 基本構文\ngit clone &lt;リポジトリのURL&gt;\n\n# 例：GitHubのリポジトリをclone\ngit clone https://github.com/username/repository-name.git</code></pre>\n<p>このコマンドを実行すると、カレントディレクトリに <code>repository-name</code> という名前のフォルダが作成され、リポジトリの内容がすべてダウンロードされます。</p>\n\n<h3>フォルダ名を指定してcloneする</h3>\n<p>デフォルトではリポジトリ名がフォルダ名になりますが、別の名前を指定することもできます。</p>\n<pre><code># myapp という名前のフォルダにclone\ngit clone https://github.com/username/repository-name.git myapp</code></pre>\n\n<h3>cloneできる場所の確認</h3>\n<p>GitHubのリポジトリページを開くと、緑色の「Code」ボタンからURLを取得できます。URLには主に2種類あります。</p>\n<ul>\n  <li><strong>HTTPS URL</strong>：<code>https://github.com/username/repo.git</code> — アカウント設定が不要で初心者に向いています</li>\n  <li><strong>SSH URL</strong>：<code>git@github.com:username/repo.git</code> — SSHキーの設定が必要ですが、毎回パスワードを入力しなくて済みます</li>\n</ul>\n<p>最初はHTTPS URLを使うのが簡単です。</p>\n\n<h2>git initとgit cloneの使い分け</h2>\n<p>どちらを使うかは状況によって変わります。</p>\n<ul>\n  <li><strong>git init</strong>：まったく新しいプロジェクトをゼロから始めるとき、または既存フォルダをGit管理下に置くとき</li>\n  <li><strong>git clone</strong>：GitHubなど既存のリモートリポジトリを取得するとき</li>\n</ul>\n<p>チームに新しく参加したエンジニアが最初にやることの多くは <code>git clone</code> です。一方、新規プロジェクトを立ち上げるリーダーが最初にやることは <code>git init</code> であることが多いです。</p>\n\n<h2>リポジトリの状態を確認する</h2>\n<p>リポジトリを作成または取得したら、まず状態を確認する習慣をつけましょう。</p>\n<pre><code># リポジトリの状態確認\ngit status\n\n# コミット履歴の確認（cloneしたリポジトリの場合）\ngit log --oneline</code></pre>\n<p><code>git status</code> の出力例：</p>\n<pre><code>On branch main\n\nNo commits yet\n\nnothing to commit (create/copy files and use \"git add\" to track)</code></pre>\n<p>これは「mainブランチにいて、まだコミットが一つもない空のリポジトリ」を意味します。</p>\n\n<h3>リモートリポジトリとの接続確認</h3>\n<p><code>git clone</code> でコピーしたリポジトリは、自動的にリモートリポジトリとの接続（リモート追跡）が設定されます。次のコマンドで確認できます。</p>\n<pre><code># リモートリポジトリの接続先を表示\ngit remote -v</code></pre>\n<p>出力例：</p>\n<pre><code>origin  https://github.com/username/repository-name.git (fetch)\norigin  https://github.com/username/repository-name.git (push)</code></pre>\n<p><code>origin</code> はリモートリポジトリの通称で、cloneすると自動的にこの名前が付きます。</p>\n\n<h2>よくある失敗と対処法</h2>\n\n<h3>「Permission denied」エラーが出た</h3>\n<p>プライベートリポジトリをcloneしようとしてこのエラーが出た場合、GitHubへの認証が失敗しています。HTTPS URLの場合はGitHubのユーザー名とパスワード（またはPersonal Access Token）を正しく入力してください。</p>\n\n<h3>「destination path already exists」エラーが出た</h3>\n<p>同じ名前のフォルダがすでに存在する場合に出るエラーです。既存フォルダを削除するか、別の場所でcloneするか、フォルダ名を指定してcloneしてください。</p>\n<pre><code># 別フォルダ名を指定してclone\ngit clone https://github.com/username/repo.git repo-new</code></pre>\n\n<h2>よくあるつまずきと失敗例</h2>\n<h3>リポジトリ作成・cloneで起きるミス</h3>\n<ul>\n<li><strong>git init したフォルダの中にまた git init</strong>：入れ子の .git は混乱の元です。プロジェクトルートだけで init してください。</li>\n<li><strong>clone先に同名フォルダがある</strong>：<code>git clone</code> は新しいディレクトリを作ります。既存フォルダに入れたい場合は <code>git clone URL .</code>（末尾ドット）を使います。</li>\n<li><strong>HTTPSとSSHのURLを混同</strong>：HTTPSは都度認証、SSHは鍵設定後にパスワードなしで push できます。チームのルールに合わせて選びましょう。</li>\n</ul>\n\n<h2>まとめ：リポジトリ作成の2つのパターン</h2>\n<p>Gitリポジトリのスタート地点は常に「<code>git init</code> か <code>git clone</code> か」のどちらかです。新規プロジェクトなら <code>git init</code>、既存プロジェクトの取得なら <code>git clone</code> を使いましょう。どちらのコマンドも一度覚えてしまえば迷うことはありません。<code>.git</code> フォルダの存在がGit管理の証であることも覚えておきましょう。</p>",
+  "conclusion": "新規プロジェクトは git init、既存リポジトリは git clone です。.git フォルダの有無でGit管理下か判断できます。リポジトリができたら add・commit の基本操作へ進みましょう。",
   "tags": [
     "Git",
     "git init",
@@ -17,12 +17,12 @@
   "theme": "git - Git & GitHub 入門",
   "status": "published",
   "createdAt": "2026-05-30T03:49:57.835Z",
-  "updatedAt": "2026-05-30T03:49:57.841Z",
+  "updatedAt": "2026-05-30T05:17:44.872Z",
   "publishedAt": "2026-05-30T03:49:57.835Z",
   "metaTitle": "git initとgit clone の使い方【リポジトリ作成入門】初心者向け解説｜Git入門 | StackShelf",
-  "metaDescription": "【Git初心者向け】git initで新しいリポジトリを作成する方法とgit cloneでGitHubからコードを取得する方法を、実例コマンドとともに初心者向けに丁寧に解説します。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
+  "metaDescription": "git init と git clone の使い分け。リポジトリの仕組み、clone先の指定、HTTPS/SSHの違い。Gitリポジトリを初めて作る・複製する人向け。",
   "ogTitle": "git initとgit cloneの使い方入門",
-  "ogDescription": "【Git初心者向け】【Git初心者向け】リポジトリの作成（git init）とクローン（git clone）を実例コマンドで解説。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
+  "ogDescription": "git init と git clone の使い分け。リポジトリの仕組み、clone先の指定、HTTPS/SSHの違い。Gitリポジトリを初めて作る・複製する人向け。",
   "knowledge": {
     "topic": "git",
     "courseId": "git",
@@ -40,6 +40,14 @@
     {
       "question": "git cloneは遅いのですが、最初のダウンロードだけ高速化できますか？",
       "answer": "大きなリポジトリをcloneするとき、`--depth 1` オプションを付けると最新のコミットのみをダウンロードするシャロークローンになり高速化できます。`git clone --depth 1 https://github.com/username/repo.git` のように使います。ただし過去の履歴は取得されません。"
+    },
+    {
+      "question": "つまずいたときはどうすればいいですか？",
+      "answer": "エラーメッセージをそのまま検索し、公式ドキュメントを当たってください。小さなステップに分けて再現・確認すると原因を特定しやすくなります。"
+    },
+    {
+      "question": "読むだけでなく手を動かすべきですか？",
+      "answer": "はい。コマンドは実際に打って出力を確認してください。1回動かした経験が、記事を10回読むより定着しやすくなります。"
     }
   ],
   "nextEpisodeHint": "次回は、Gitの日常的な作業の核心となるadd・commit・status・logの基本操作を学びます。ファイルの変更を記録するまでの一連の流れをマスターしましょう。",
@@ -52,9 +60,9 @@
         "@context": "https://schema.org",
         "@type": "TechArticle",
         "headline": "Gitリポジトリの作成とclone：git initとgit cloneの使い方",
-        "description": "【Git初心者向け】git initで新しいリポジトリを作成する方法とgit cloneでGitHubからコードを取得する方法を、実例コマンドとともに初心者向けに丁寧に解説します。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
+        "description": "git init と git clone の使い分け。リポジトリの仕組み、clone先の指定、HTTPS/SSHの違い。Gitリポジトリを初めて作る・複製する人向け。",
         "datePublished": "2026-05-30T03:49:57.835Z",
-        "dateModified": "2026-05-30T03:49:57.841Z",
+        "dateModified": "2026-05-30T05:17:44.872Z",
         "author": {
           "@type": "Organization",
           "name": "StackShelf",
@@ -75,7 +83,7 @@
         },
         "image": "https://ai-site-iota-nine.vercel.app/og-default.svg",
         "inLanguage": "ja",
-        "wordCount": 2974,
+        "wordCount": 3356,
         "mainEntityOfPage": {
           "@type": "WebPage",
           "@id": "https://ai-site-iota-nine.vercel.app/article/git-repository-basics"
@@ -162,6 +170,22 @@
               "@type": "Answer",
               "text": "大きなリポジトリをcloneするとき、`--depth 1` オプションを付けると最新のコミットのみをダウンロードするシャロークローンになり高速化できます。`git clone --depth 1 https://github.com/username/repo.git` のように使います。ただし過去の履歴は取得されません。"
             }
+          },
+          {
+            "@type": "Question",
+            "name": "つまずいたときはどうすればいいですか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "エラーメッセージをそのまま検索し、公式ドキュメントを当たってください。小さなステップに分けて再現・確認すると原因を特定しやすくなります。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "読むだけでなく手を動かすべきですか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "はい。コマンドは実際に打って出力を確認してください。1回動かした経験が、記事を10回読むより定着しやすくなります。"
+            }
           }
         ]
       }
@@ -243,7 +267,51 @@
           "@type": "Answer",
           "text": "大きなリポジトリをcloneするとき、`--depth 1` オプションを付けると最新のコミットのみをダウンロードするシャロークローンになり高速化できます。`git clone --depth 1 https://github.com/username/repo.git` のように使います。ただし過去の履歴は取得されません。"
         }
+      },
+      {
+        "@type": "Question",
+        "name": "つまずいたときはどうすればいいですか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "エラーメッセージをそのまま検索し、公式ドキュメントを当たってください。小さなステップに分けて再現・確認すると原因を特定しやすくなります。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "読むだけでなく手を動かすべきですか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "はい。コマンドは実際に打って出力を確認してください。1回動かした経験が、記事を10回読むより定着しやすくなります。"
+        }
       }
     ]
-  }
+  },
+  "internalLinkCandidates": [
+    {
+      "slug": "git-intro",
+      "title": "Gitとは？バージョン管理を初めて学ぶ人のための完全入門",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "git-merge-conflict",
+      "title": "マージとコンフリクトの解決",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "git-branch-basics",
+      "title": "Gitブランチの作り方と切り替え：git branch・checkout・switchの基本",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "git-basic-commands",
+      "title": "git add・commit・status・logの使い方：Gitの基本操作を完全マスター",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "git-install-setup",
+      "title": "Gitのインストールと初期設定：Windows・Mac対応の完全ガイド",
+      "reason": "同じ講座の関連回です"
+    }
+  ],
+  "nextAction": "次はGitの日常的な作業の核心となるadd・commit・status・logの基本操作を学びます。ファイルの変更を記録するまでの一連の流れをマスターしましょう。"
 }

@@ -2,9 +2,9 @@
   "id": "art_web_web-box-model",
   "slug": "web-box-model",
   "title": "CSSボックスモデル完全解説：margin・padding・borderの仕組みを理解しよう",
-  "summary": "CSSのボックスモデル（margin・padding・border・width・height）を初心者向けに丁寧に解説します。box-sizingの重要性と、ブロック要素とインライン要素の違いも説明します。",
-  "body": "<h2>すべてのHTML要素は「箱（ボックス）」でできている</h2>\n<p>CSSを学ぶ上で最も重要な概念のひとつが<strong>ボックスモデル（Box Model）</strong>です。HTMLのすべての要素は、ブラウザによって矩形（四角形）の「箱」として扱われます。この箱は4つの領域から構成されています。</p>\n<ul>\n  <li><strong>content（コンテンツ）</strong>：テキストや画像などの実際の内容が表示される領域</li>\n  <li><strong>padding（パディング）</strong>：コンテンツとborderの間の内側の余白</li>\n  <li><strong>border（ボーダー）</strong>：paddingの外側を囲む枠線</li>\n  <li><strong>margin（マージン）</strong>：要素の外側の余白（他の要素との距離）</li>\n</ul>\n<p>この4層構造を理解することで、「なぜ要素がずれるのか」「どこに余白を追加すればいいか」という問題が明確に解決できます。html css 初心者がレイアウトで行き詰まる多くの原因が、このボックスモデルの理解不足にあります。</p>\n<pre><code>/* ボックスモデルの視覚的なイメージ */\n/*\n  ┌─────────────────────── margin ─────────────────────────┐\n  │  ┌─────────────────── border ──────────────────────┐   │\n  │  │  ┌────────────── padding ──────────────────┐    │   │\n  │  │  │                                          │    │   │\n  │  │  │              content                     │    │   │\n  │  │  │                                          │    │   │\n  │  │  └──────────────────────────────────────────┘    │   │\n  │  └──────────────────────────────────────────────────┘   │\n  └─────────────────────────────────────────────────────────┘\n*/</code></pre>\n\n<h2>padding（内側の余白）の指定方法</h2>\n<p>paddingはコンテンツとborderの間の余白です。背景色はpaddingの領域まで広がります。</p>\n<pre><code>/* 上下左右すべてに同じpadding */\n.box {\n  padding: 20px;\n}\n\n/* 上下・左右をそれぞれ指定 */\n.box {\n  padding: 16px 24px;  /* 上下16px, 左右24px */\n}\n\n/* 上・右・下・左を時計回りに指定 */\n.box {\n  padding: 10px 20px 15px 20px;  /* 上右下左 */\n}\n\n/* 個別に指定 */\n.box {\n  padding-top: 10px;\n  padding-right: 20px;\n  padding-bottom: 10px;\n  padding-left: 20px;\n}</code></pre>\n<p>paddingのショートハンドは最大4値まで指定でき、値の数によって解釈が変わります。1値ですべて同じ、2値で上下・左右、4値で上・右・下・左（時計回り）です。</p>\n\n<h2>margin（外側の余白）の指定方法</h2>\n<p>marginは要素の外側の余白で、他の要素との距離を制御します。書き方はpaddingと同じです。</p>\n<pre><code>/* 基本的なmarginの指定 */\n.card {\n  margin: 20px;           /* 全方向 */\n  margin: 10px 20px;      /* 上下10px, 左右20px */\n  margin: 10px 20px 15px 25px;  /* 上右下左 */\n}\n\n/* 要素を水平方向に中央揃えにする */\n.container {\n  width: 800px;\n  margin: 0 auto;  /* 上下0, 左右autoで中央寄せ */\n}\n\n/* 特定の方向のmarginを0にする */\nh1 {\n  margin-top: 0;\n  margin-bottom: 16px;\n}</code></pre>\n<p><code>margin: 0 auto;</code> は要素を水平中央に配置する古典的な手法です。ただし、対象要素に <code>width</code> が指定されている必要があります。</p>\n<p><strong>マージンの相殺（Margin Collapsing）</strong>に注意しましょう。縦方向（上下）の隣接するマージンは、それぞれが加算されるのではなく、大きい方の値だけが有効になります。例えば上の要素のmargin-bottomが20px、下の要素のmargin-topが16pxなら、実際の間隔は36pxではなく20pxになります。</p>\n\n<h2>border（枠線）の指定方法</h2>\n<p>borderは要素の外周に枠線を引きます。太さ・スタイル・色の3つをまとめて指定できます。</p>\n<pre><code>/* borderの基本（太さ スタイル 色） */\n.box {\n  border: 1px solid #ccc;\n}\n\n/* 各スタイルの種類 */\n.box1 { border: 2px solid #333; }    /* 実線 */\n.box2 { border: 2px dashed #333; }   /* 破線 */\n.box3 { border: 2px dotted #333; }   /* 点線 */\n.box4 { border: 4px double #333; }   /* 二重線 */\n\n/* 特定の辺だけborderをつける */\n.bottom-only {\n  border-bottom: 2px solid #e2e8f0;\n}\n\n/* 角を丸くする */\n.rounded {\n  border: 1px solid #94a3b8;\n  border-radius: 8px;     /* 全角を8pxの丸みに */\n  border-radius: 50%;     /* 完全な円形（正方形に使う）*/\n}</code></pre>\n<p><code>border-radius</code> は角を丸くするプロパティで、カードやボタンのデザインに非常によく使います。<code>50%</code> を指定すると正方形の要素を円形にできます。</p>\n\n<h2>box-sizing：ボックスサイズ計算の落とし穴と解決策</h2>\n<p>CSSボックスモデルで最も注意が必要な落とし穴が <code>box-sizing</code> プロパティです。</p>\n<p><strong>デフォルト（content-box）の問題</strong>：widthで指定した値はcontentの幅だけを意味し、padding・borderの幅は別途加算されます。</p>\n<pre><code>/* content-box（デフォルト）の場合 */\n.box {\n  width: 300px;\n  padding: 20px;\n  border: 2px solid;\n  /* 実際の表示幅 = 300 + 20×2 + 2×2 = 344px（意図と違う！） */\n}</code></pre>\n<p>これは非常に混乱を招くため、現代のweb制作では <code>box-sizing: border-box</code> を全要素に適用するのが標準です。</p>\n<pre><code>/* 推奨：すべての要素にborder-boxを適用する */\n*, *::before, *::after {\n  box-sizing: border-box;\n}\n\n/* border-boxの場合 */\n.box {\n  width: 300px;\n  padding: 20px;\n  border: 2px solid;\n  /* 実際の表示幅 = 300px（paddingとborderを含めた幅が300px） */\n}</code></pre>\n<p>この <code>*, *::before, *::after { box-sizing: border-box; }</code> はほぼすべての現代のWebサイトで使われているお約束のコードです。CSSファイルの先頭に必ず書く習慣をつけましょう。</p>\n\n<h2>ブロック要素とインライン要素の違い</h2>\n<p>HTML要素はデフォルトで「ブロック要素」か「インライン要素」に分類されており、ボックスモデルへの影響が異なります。</p>\n<p><strong>ブロック要素</strong>（div・p・h1〜h6・ul・liなど）：</p>\n<ul>\n  <li>幅いっぱいに広がり、前後に改行が入る</li>\n  <li>width・height・margin・paddingすべてが有効</li>\n</ul>\n<p><strong>インライン要素</strong>（span・a・strong・emなど）：</p>\n<ul>\n  <li>コンテンツの幅だけを占め、横に並ぶ</li>\n  <li>width・heightは効かない、margin・paddingは左右のみ有効</li>\n</ul>\n<pre><code>/* displayプロパティで表示タイプを変更できる */\na {\n  display: block;           /* インライン→ブロックに変更 */\n}\n\nspan {\n  display: inline-block;    /* インラインだがwidth/heightが使える */\n}\n\ndiv {\n  display: inline;          /* ブロック→インラインに変更 */\n}</code></pre>\n<p><code>display: inline-block</code> はインライン要素のように横に並びながら、widthやheightも指定できる便利な値です。ナビゲーションメニューのリンクにwidthを設定したいときなどによく使います。</p>\n\n<h2>ブラウザの開発者ツールでボックスモデルを確認する</h2>\n<p>ブラウザの開発者ツール（F12→Elements→Computed）でボックスモデルの視覚的な図を確認できます。各要素を選択すると、その要素のmargin・border・padding・contentの実際のサイズが色分けで表示されます。</p>\n<p>レイアウトが崩れたときはまず開発者ツールでボックスモデルを確認することが問題解決の第一歩です。「なぜこの要素がこんな場所にあるのか」「なぜ予想より大きいのか」がすぐに把握できます。html css 初心者はこのツールを積極的に活用しましょう。</p>\n<pre><code>/* ボックスモデルを視覚的に確認するデバッグテクニック */\n* {\n  outline: 1px solid red;  /* すべての要素に赤い枠を表示 */\n}</code></pre>\n<p>このコードを一時的にCSSに追加すると、すべての要素のボックスが見えるようになります。レイアウトの確認が終わったら必ず削除しましょう。</p>\n\n<h2>まとめ：ボックスモデルはCSSの土台</h2>\n<p>すべてのHTML要素はcontent・padding・border・marginの4層からなる「箱」です。paddingは内側の余白、marginは外側の余白、borderは枠線です。デフォルトのcontent-boxではwidth指定が混乱を招くため、<code>box-sizing: border-box</code> を全要素に適用するのが現代のスタンダードです。開発者ツールを使ってボックスモデルを視覚的に確認しながらCSSを書く習慣をつけましょう。</p>",
-  "conclusion": "ボックスモデルはcontent・padding・border・marginの4層構造です。padding（内側余白）とmargin（外側余白）の違い、box-sizing:border-boxの重要性、マージンの相殺が主要な概念です。CSSファイル先頭に「*, *::before, *::after { box-sizing: border-box; }」を書く習慣は、html css 初心者が最初から身につけるべき現代の標準です。",
+  "summary": "CSSボックスモデル（content/padding/border/margin）、box-sizing:border-box、display:block/inlineの違いを解説。レイアウト調整の基礎を学びます。",
+  "body": "<h2>結論：すべての要素はボックス—padding/border/marginで余白と枠を調整する</h2>\n<p>CSSの<strong>ボックスモデル</strong>は content → padding → border → margin の4層です。<code>box-sizing: border-box</code> にすると <code>width</code> に padding/border が含まれ、レイアウト計算が直感的になります。</p>\n\n<h2>すべてのHTML要素は「箱（ボックス）」でできている</h2>\n<p>CSSを学ぶ上で最も重要な概念のひとつが<strong>ボックスモデル（Box Model）</strong>です。HTMLのすべての要素は、ブラウザによって矩形（四角形）の「箱」として扱われます。この箱は4つの領域から構成されています。</p>\n<ul>\n  <li><strong>content（コンテンツ）</strong>：テキストや画像などの実際の内容が表示される領域</li>\n  <li><strong>padding（パディング）</strong>：コンテンツとborderの間の内側の余白</li>\n  <li><strong>border（ボーダー）</strong>：paddingの外側を囲む枠線</li>\n  <li><strong>margin（マージン）</strong>：要素の外側の余白（他の要素との距離）</li>\n</ul>\n<p>この4層構造を理解することで、「なぜ要素がずれるのか」「どこに余白を追加すればいいか」という問題が明確に解決できます。html css 初心者がレイアウトで行き詰まる多くの原因が、このボックスモデルの理解不足にあります。</p>\n<pre><code>/* ボックスモデルの視覚的なイメージ */\n/*\n  ┌─────────────────────── margin ─────────────────────────┐\n  │  ┌─────────────────── border ──────────────────────┐   │\n  │  │  ┌────────────── padding ──────────────────┐    │   │\n  │  │  │                                          │    │   │\n  │  │  │              content                     │    │   │\n  │  │  │                                          │    │   │\n  │  │  └──────────────────────────────────────────┘    │   │\n  │  └──────────────────────────────────────────────────┘   │\n  └─────────────────────────────────────────────────────────┘\n*/</code></pre>\n\n<h2>padding（内側の余白）の指定方法</h2>\n<p>paddingはコンテンツとborderの間の余白です。背景色はpaddingの領域まで広がります。</p>\n<pre><code>/* 上下左右すべてに同じpadding */\n.box {\n  padding: 20px;\n}\n\n/* 上下・左右をそれぞれ指定 */\n.box {\n  padding: 16px 24px;  /* 上下16px, 左右24px */\n}\n\n/* 上・右・下・左を時計回りに指定 */\n.box {\n  padding: 10px 20px 15px 20px;  /* 上右下左 */\n}\n\n/* 個別に指定 */\n.box {\n  padding-top: 10px;\n  padding-right: 20px;\n  padding-bottom: 10px;\n  padding-left: 20px;\n}</code></pre>\n<p>paddingのショートハンドは最大4値まで指定でき、値の数によって解釈が変わります。1値ですべて同じ、2値で上下・左右、4値で上・右・下・左（時計回り）です。</p>\n\n<h2>margin（外側の余白）の指定方法</h2>\n<p>marginは要素の外側の余白で、他の要素との距離を制御します。書き方はpaddingと同じです。</p>\n<pre><code>/* 基本的なmarginの指定 */\n.card {\n  margin: 20px;           /* 全方向 */\n  margin: 10px 20px;      /* 上下10px, 左右20px */\n  margin: 10px 20px 15px 25px;  /* 上右下左 */\n}\n\n/* 要素を水平方向に中央揃えにする */\n.container {\n  width: 800px;\n  margin: 0 auto;  /* 上下0, 左右autoで中央寄せ */\n}\n\n/* 特定の方向のmarginを0にする */\nh1 {\n  margin-top: 0;\n  margin-bottom: 16px;\n}</code></pre>\n<p><code>margin: 0 auto;</code> は要素を水平中央に配置する古典的な手法です。ただし、対象要素に <code>width</code> が指定されている必要があります。</p>\n<p><strong>マージンの相殺（Margin Collapsing）</strong>に注意しましょう。縦方向（上下）の隣接するマージンは、それぞれが加算されるのではなく、大きい方の値だけが有効になります。例えば上の要素のmargin-bottomが20px、下の要素のmargin-topが16pxなら、実際の間隔は36pxではなく20pxになります。</p>\n\n<h2>border（枠線）の指定方法</h2>\n<p>borderは要素の外周に枠線を引きます。太さ・スタイル・色の3つをまとめて指定できます。</p>\n<pre><code>/* borderの基本（太さ スタイル 色） */\n.box {\n  border: 1px solid #ccc;\n}\n\n/* 各スタイルの種類 */\n.box1 { border: 2px solid #333; }    /* 実線 */\n.box2 { border: 2px dashed #333; }   /* 破線 */\n.box3 { border: 2px dotted #333; }   /* 点線 */\n.box4 { border: 4px double #333; }   /* 二重線 */\n\n/* 特定の辺だけborderをつける */\n.bottom-only {\n  border-bottom: 2px solid #e2e8f0;\n}\n\n/* 角を丸くする */\n.rounded {\n  border: 1px solid #94a3b8;\n  border-radius: 8px;     /* 全角を8pxの丸みに */\n  border-radius: 50%;     /* 完全な円形（正方形に使う）*/\n}</code></pre>\n<p><code>border-radius</code> は角を丸くするプロパティで、カードやボタンのデザインに非常によく使います。<code>50%</code> を指定すると正方形の要素を円形にできます。</p>\n\n<h2>box-sizing：ボックスサイズ計算の落とし穴と解決策</h2>\n<p>CSSボックスモデルで最も注意が必要な落とし穴が <code>box-sizing</code> プロパティです。</p>\n<p><strong>デフォルト（content-box）の問題</strong>：widthで指定した値はcontentの幅だけを意味し、padding・borderの幅は別途加算されます。</p>\n<pre><code>/* content-box（デフォルト）の場合 */\n.box {\n  width: 300px;\n  padding: 20px;\n  border: 2px solid;\n  /* 実際の表示幅 = 300 + 20×2 + 2×2 = 344px（意図と違う！） */\n}</code></pre>\n<p>これは非常に混乱を招くため、現代のweb制作では <code>box-sizing: border-box</code> を全要素に適用するのが標準です。</p>\n<pre><code>/* 推奨：すべての要素にborder-boxを適用する */\n*, *::before, *::after {\n  box-sizing: border-box;\n}\n\n/* border-boxの場合 */\n.box {\n  width: 300px;\n  padding: 20px;\n  border: 2px solid;\n  /* 実際の表示幅 = 300px（paddingとborderを含めた幅が300px） */\n}</code></pre>\n<p>この <code>*, *::before, *::after { box-sizing: border-box; }</code> はほぼすべての現代のWebサイトで使われているお約束のコードです。CSSファイルの先頭に必ず書く習慣をつけましょう。</p>\n\n<h2>ブロック要素とインライン要素の違い</h2>\n<p>HTML要素はデフォルトで「ブロック要素」か「インライン要素」に分類されており、ボックスモデルへの影響が異なります。</p>\n<p><strong>ブロック要素</strong>（div・p・h1〜h6・ul・liなど）：</p>\n<ul>\n  <li>幅いっぱいに広がり、前後に改行が入る</li>\n  <li>width・height・margin・paddingすべてが有効</li>\n</ul>\n<p><strong>インライン要素</strong>（span・a・strong・emなど）：</p>\n<ul>\n  <li>コンテンツの幅だけを占め、横に並ぶ</li>\n  <li>width・heightは効かない、margin・paddingは左右のみ有効</li>\n</ul>\n<pre><code>/* displayプロパティで表示タイプを変更できる */\na {\n  display: block;           /* インライン→ブロックに変更 */\n}\n\nspan {\n  display: inline-block;    /* インラインだがwidth/heightが使える */\n}\n\ndiv {\n  display: inline;          /* ブロック→インラインに変更 */\n}</code></pre>\n<p><code>display: inline-block</code> はインライン要素のように横に並びながら、widthやheightも指定できる便利な値です。ナビゲーションメニューのリンクにwidthを設定したいときなどによく使います。</p>\n\n<h2>ブラウザの開発者ツールでボックスモデルを確認する</h2>\n<p>ブラウザの開発者ツール（F12→Elements→Computed）でボックスモデルの視覚的な図を確認できます。各要素を選択すると、その要素のmargin・border・padding・contentの実際のサイズが色分けで表示されます。</p>\n<p>レイアウトが崩れたときはまず開発者ツールでボックスモデルを確認することが問題解決の第一歩です。「なぜこの要素がこんな場所にあるのか」「なぜ予想より大きいのか」がすぐに把握できます。html css 初心者はこのツールを積極的に活用しましょう。</p>\n<pre><code>/* ボックスモデルを視覚的に確認するデバッグテクニック */\n* {\n  outline: 1px solid red;  /* すべての要素に赤い枠を表示 */\n}</code></pre>\n<p>このコードを一時的にCSSに追加すると、すべての要素のボックスが見えるようになります。レイアウトの確認が終わったら必ず削除しましょう。</p>\n\n<h2>つまずきやすいポイント・失敗例</h2>\n<h3>失敗例：width指定なのに要素がはみ出す</h3>\n<p>content-box（デフォルト）ではpadding/borderがwidthに加算されます。border-boxに切り替えるか、widthを余白分小さくしましょう。</p>\n<h3>失敗例：marginの相殺（collapse）を知らない</h3>\n<p>隣接するblock要素の上下marginは大きい方1つにまとまることがあります。意図しない隙間/重なりの原因になります。</p>\n\n<h2>まとめ：ボックスモデルはCSSの土台</h2>\n<p>すべてのHTML要素はcontent・padding・border・marginの4層からなる「箱」です。paddingは内側の余白、marginは外側の余白、borderは枠線です。デフォルトのcontent-boxではwidth指定が混乱を招くため、<code>box-sizing: border-box</code> を全要素に適用するのが現代のスタンダードです。開発者ツールを使ってボックスモデルを視覚的に確認しながらCSSを書く習慣をつけましょう。</p>",
+  "conclusion": "要素はcontent+padding+border+marginの箱として扱われます。box-sizing:border-boxでwidthにpadding/borderを含め、marginで外側の余白、paddingで内側の余白を調整します。",
   "tags": [
     "CSS",
     "ボックスモデル",
@@ -18,12 +18,12 @@
   "theme": "web - HTML/CSS Web制作入門",
   "status": "published",
   "createdAt": "2026-05-30T04:13:23.045Z",
-  "updatedAt": "2026-05-30T04:13:23.049Z",
+  "updatedAt": "2026-05-30T05:23:48.962Z",
   "publishedAt": "2026-05-30T04:13:23.045Z",
   "metaTitle": "CSSボックスモデル：margin・padding・border入門【html css 初心者】 | StackShe…",
-  "metaDescription": "CSSのmargin・padding・border・widthの仕組みをhtml css 初心者向けに解説。box-sizing:border-boxの重要性、ブロック要素とインライン要素の違いも説明します。 図解・具体例つきで丁寧に解説します。",
+  "metaDescription": "CSSボックスモデル（margin/padding/border/width）とbox-sizing、block/inlineの違いを初心者向けに解説します。",
   "ogTitle": "CSSボックスモデル：margin・padding・borderの仕組みを理解しよう",
-  "ogDescription": "【Web開発初心者向け】HTMLのすべての要素は「箱」です。margin・padding・border・widthの仕組みを理解すると、レイアウト制御が格段に楽になります。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
+  "ogDescription": "ボックスモデルの仕組みとレイアウト調整の基本を具体例で学べます。",
   "knowledge": {
     "topic": "web",
     "courseId": "web",
@@ -31,20 +31,24 @@
   },
   "faq": [
     {
-      "question": "paddingとmarginはどう使い分ければいいですか？",
-      "answer": "paddingはコンテンツと枠・背景の内側に余白を作りたいとき（ボタンのクリック領域を広げるなど）に使います。marginは要素同士の間隔を空けたいときに使います。ボタンの内側の余白はpadding、ボタンとその隣の要素の間隔はmarginです。"
+      "question": "paddingとmarginの違いは？",
+      "answer": "paddingは要素の内側余白（背景色が付く）、marginは外側余白（隣要素との間隔）です。"
     },
     {
-      "question": "margin: 0 autoで中央揃えが効かないのはなぜですか？",
-      "answer": "margin: 0 autoで水平中央揃えをするには、対象要素がブロック要素であり、かつwidthが設定されている必要があります。widthを指定していない場合、要素が親要素の幅いっぱいに広がるためautoが意味を持ちません。また、インライン要素には効きません。"
+      "question": "border-boxは全要素に指定すべき？",
+      "answer": "多くのプロジェクトで * { box-sizing: border-box; } をリセットCSSとして使います。"
     },
     {
-      "question": "border-radiusで円を作るにはどうすればいいですか？",
-      "answer": "border-radius: 50%を指定します。ただしwidthとheightが同じ値（正方形）の場合に完全な円になります。例えばwidth:80px; height:80px; border-radius:50%で円形のアバター画像が作れます。"
+      "question": "inline要素にwidth/heightは効く？",
+      "answer": "通常は効きません。blockまたはinline-block、Flex/Gridアイテムに変更が必要です。"
     },
     {
-      "question": "マージンの相殺はどうやって回避できますか？",
-      "answer": "マージンの相殺が起きるのは、隣接するブロック要素の上下マージンが接触するときです。回避方法はいくつかあり、親要素にpaddingやborderを設定する、親要素にoverflow:hiddenを設定する、またはFlexboxやGridコンテナを使うことで解消できます。"
+      "question": "margin: 0 auto; の意味は？",
+      "answer": "上下0、左右autoで、block要素を水平中央寄せします（width指定が必要）。"
+    },
+    {
+      "question": "HTML/CSSだけでWebサイトは作れますか？",
+      "answer": "静的ページなら可能です。"
     }
   ],
   "nextEpisodeHint": "次回はCSSのFlexboxを学びます。display:flexとjustify-content・align-itemsを使えば、複雑な横並びレイアウトが驚くほど簡単に実現できます。",
@@ -57,9 +61,9 @@
         "@context": "https://schema.org",
         "@type": "TechArticle",
         "headline": "CSSボックスモデル完全解説：margin・padding・borderの仕組みを理解しよう",
-        "description": "CSSのmargin・padding・border・widthの仕組みをhtml css 初心者向けに解説。box-sizing:border-boxの重要性、ブロック要素とインライン要素の違いも説明します。 図解・具体例つきで丁寧に解説します。",
+        "description": "CSSボックスモデル（margin/padding/border/width）とbox-sizing、block/inlineの違いを初心者向けに解説します。",
         "datePublished": "2026-05-30T04:13:23.045Z",
-        "dateModified": "2026-05-30T04:13:23.049Z",
+        "dateModified": "2026-05-30T05:23:48.962Z",
         "author": {
           "@type": "Organization",
           "name": "StackShelf",
@@ -80,7 +84,7 @@
         },
         "image": "https://ai-site-iota-nine.vercel.app/og-default.svg",
         "inLanguage": "ja",
-        "wordCount": 3883,
+        "wordCount": 4251,
         "mainEntityOfPage": {
           "@type": "WebPage",
           "@id": "https://ai-site-iota-nine.vercel.app/article/web-box-model"
@@ -146,34 +150,42 @@
         "mainEntity": [
           {
             "@type": "Question",
-            "name": "paddingとmarginはどう使い分ければいいですか？",
+            "name": "paddingとmarginの違いは？",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "paddingはコンテンツと枠・背景の内側に余白を作りたいとき（ボタンのクリック領域を広げるなど）に使います。marginは要素同士の間隔を空けたいときに使います。ボタンの内側の余白はpadding、ボタンとその隣の要素の間隔はmarginです。"
+              "text": "paddingは要素の内側余白（背景色が付く）、marginは外側余白（隣要素との間隔）です。"
             }
           },
           {
             "@type": "Question",
-            "name": "margin: 0 autoで中央揃えが効かないのはなぜですか？",
+            "name": "border-boxは全要素に指定すべき？",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "margin: 0 autoで水平中央揃えをするには、対象要素がブロック要素であり、かつwidthが設定されている必要があります。widthを指定していない場合、要素が親要素の幅いっぱいに広がるためautoが意味を持ちません。また、インライン要素には効きません。"
+              "text": "多くのプロジェクトで * { box-sizing: border-box; } をリセットCSSとして使います。"
             }
           },
           {
             "@type": "Question",
-            "name": "border-radiusで円を作るにはどうすればいいですか？",
+            "name": "inline要素にwidth/heightは効く？",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "border-radius: 50%を指定します。ただしwidthとheightが同じ値（正方形）の場合に完全な円になります。例えばwidth:80px; height:80px; border-radius:50%で円形のアバター画像が作れます。"
+              "text": "通常は効きません。blockまたはinline-block、Flex/Gridアイテムに変更が必要です。"
             }
           },
           {
             "@type": "Question",
-            "name": "マージンの相殺はどうやって回避できますか？",
+            "name": "margin: 0 auto; の意味は？",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "マージンの相殺が起きるのは、隣接するブロック要素の上下マージンが接触するときです。回避方法はいくつかあり、親要素にpaddingやborderを設定する、親要素にoverflow:hiddenを設定する、またはFlexboxやGridコンテナを使うことで解消できます。"
+              "text": "上下0、左右autoで、block要素を水平中央寄せします（width指定が必要）。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "HTML/CSSだけでWebサイトは作れますか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "静的ページなら可能です。"
             }
           }
         ]
@@ -235,36 +247,72 @@
     "mainEntity": [
       {
         "@type": "Question",
-        "name": "paddingとmarginはどう使い分ければいいですか？",
+        "name": "paddingとmarginの違いは？",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "paddingはコンテンツと枠・背景の内側に余白を作りたいとき（ボタンのクリック領域を広げるなど）に使います。marginは要素同士の間隔を空けたいときに使います。ボタンの内側の余白はpadding、ボタンとその隣の要素の間隔はmarginです。"
+          "text": "paddingは要素の内側余白（背景色が付く）、marginは外側余白（隣要素との間隔）です。"
         }
       },
       {
         "@type": "Question",
-        "name": "margin: 0 autoで中央揃えが効かないのはなぜですか？",
+        "name": "border-boxは全要素に指定すべき？",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "margin: 0 autoで水平中央揃えをするには、対象要素がブロック要素であり、かつwidthが設定されている必要があります。widthを指定していない場合、要素が親要素の幅いっぱいに広がるためautoが意味を持ちません。また、インライン要素には効きません。"
+          "text": "多くのプロジェクトで * { box-sizing: border-box; } をリセットCSSとして使います。"
         }
       },
       {
         "@type": "Question",
-        "name": "border-radiusで円を作るにはどうすればいいですか？",
+        "name": "inline要素にwidth/heightは効く？",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "border-radius: 50%を指定します。ただしwidthとheightが同じ値（正方形）の場合に完全な円になります。例えばwidth:80px; height:80px; border-radius:50%で円形のアバター画像が作れます。"
+          "text": "通常は効きません。blockまたはinline-block、Flex/Gridアイテムに変更が必要です。"
         }
       },
       {
         "@type": "Question",
-        "name": "マージンの相殺はどうやって回避できますか？",
+        "name": "margin: 0 auto; の意味は？",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "マージンの相殺が起きるのは、隣接するブロック要素の上下マージンが接触するときです。回避方法はいくつかあり、親要素にpaddingやborderを設定する、親要素にoverflow:hiddenを設定する、またはFlexboxやGridコンテナを使うことで解消できます。"
+          "text": "上下0、左右autoで、block要素を水平中央寄せします（width指定が必要）。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "HTML/CSSだけでWebサイトは作れますか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "静的ページなら可能です。"
         }
       }
     ]
-  }
+  },
+  "internalLinkCandidates": [
+    {
+      "slug": "web-css-practice",
+      "title": "ランディングページを実際に作ろう：HTML/CSS総合実践",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "web-responsive",
+      "title": "レスポンシブデザイン入門：viewportとメディアクエリでスマホ対応を実現しよう",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "web-flexbox",
+      "title": "CSSフレックスボックス完全入門：display:flexとjustify-contentを使いこなそう",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "web-css-basics",
+      "title": "CSSの基本：セレクタ・color・font-sizeをゼロから学ぼう",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "web-publish-basics",
+      "title": "WebサイトをGitHub Pages・Vercelで無料公開する方法【完全手順】",
+      "reason": "同じ講座の関連回です"
+    }
+  ],
+  "nextAction": "*{ box-sizing: border-box; } をCSS先頭に追加し、width:200px + padding:20px のdivがはみ出さないことを確認してください。"
 }

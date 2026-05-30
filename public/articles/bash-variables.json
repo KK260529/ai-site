@@ -17,12 +17,12 @@
   "theme": "bash - Bashシェルスクリプト入門",
   "status": "published",
   "createdAt": "2026-05-30T05:14:47.437Z",
-  "updatedAt": "2026-05-30T05:14:47.441Z",
+  "updatedAt": "2026-05-30T05:15:42.997Z",
   "publishedAt": "2026-05-30T05:14:47.437Z",
   "metaTitle": "Bash 変数 引数 終了コード の使い方｜シェルスクリプト入門",
-  "metaDescription": "【Bash初心者向け】Bashスクリプトの変数、コマンドライン引数、終了コード（exit status）を初心者向けに解説。$1 $# $? の意味と実践例を具体例で学べます。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
+  "metaDescription": "Bashスクリプトの変数、コマンドライン引数、終了コード（exit status）を初心者向けに解説。$1 $# $? の意味と実践例を具体例で学べます。",
   "ogTitle": "Bashの変数・引数・終了コード入門",
-  "ogDescription": "【Bash初心者向け】【Bash初心者向け】スクリプトに入力を渡し、実行結果を判定するための基本テクニックを解説します。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
+  "ogDescription": "スクリプトに入力を渡し、実行結果を判定するための基本テクニックを解説します。",
   "knowledge": {
     "topic": "bash",
     "courseId": "bash",
@@ -54,29 +54,29 @@
   "nextAction": "引数を2つ取る backup.sh を書き、引数不足時に使い方を表示して exit 1 する処理を入れて実行してみてください。ls /存在しないパス のあと echo $? で終了コードも確認しましょう。",
   "internalLinkCandidates": [
     {
-      "slug": "linux-intro",
-      "title": "Linuxとは？コマンドラインの世界へようこそ【初心者向け完全入門】",
-      "reason": "環境変数 HOME や PATH は Linux CLI の基礎概念です。"
+      "slug": "bash-pipes-scripts",
+      "title": "Bashのパイプとコマンド置換｜CLIを組み合わせるデータ処理【第6回】",
+      "reason": "同じ講座の関連回です"
     },
     {
-      "slug": "linux-environment",
-      "title": "環境変数・.bashrc・PATHの仕組みを理解する【Linux設定入門】",
-      "reason": "export や PATH の詳細は Linux 環境設定の回と連動します。"
+      "slug": "bash-functions",
+      "title": "Bash関数の定義と使い方｜再利用可能なスクリプトを書く【第5回】",
+      "reason": "同じ講座の関連回です"
     },
     {
-      "slug": "git-intro",
-      "title": "Gitとは？バージョン管理を初めて学ぶ人のための完全入門",
-      "reason": "git コマンドの終了コードを $? で判定する場面が多いです。"
+      "slug": "bash-loops",
+      "title": "Bashのfor・whileループ完全ガイド｜一括処理と対話入力【シェルスクリプト第4回】",
+      "reason": "同じ講座の関連回です"
     },
     {
-      "slug": "python-intro",
-      "title": "Pythonとは？プログラミング入門の第一歩【完全初心者向け】",
-      "reason": "Pythonの sys.argv と Bash の $1 などは同じ「引数」の考え方です。"
+      "slug": "bash-conditionals",
+      "title": "Bashのifとtestによる条件分岐｜ファイル判定・文字列比較をマスター【第3回】",
+      "reason": "同じ講座の関連回です"
     },
     {
-      "slug": "docker-intro",
-      "title": "Dockerとは？仮想マシンとの違いをわかりやすく解説【初心者向け】",
-      "reason": "docker run の終了コードがコンテナの成否を表します。"
+      "slug": "bash-intro",
+      "title": "Bashシェルスクリプトとは？自動化の第一歩をわかりやすく解説【初心者向け】",
+      "reason": "同じ講座の関連回です"
     }
   ],
   "ogImage": "https://ai-site-iota-nine.vercel.app/og-default.svg",
@@ -90,7 +90,7 @@
         "headline": "Bashの変数・引数・終了コードをマスターする【シェルスクリプト入門第2回】",
         "description": "【Bash初心者向け】Bashスクリプトの変数、コマンドライン引数、終了コード（exit status）を初心者向けに解説。$1 $# $? の意味と実践例を具体例で学べます。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
         "datePublished": "2026-05-30T05:14:47.437Z",
-        "dateModified": "2026-05-30T05:14:47.441Z",
+        "dateModified": "2026-05-30T05:15:42.997Z",
         "author": {
           "@type": "Organization",
           "name": "StackShelf",

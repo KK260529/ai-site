@@ -17,12 +17,12 @@
   "theme": "regex - 正規表現入門",
   "status": "published",
   "createdAt": "2026-05-30T05:14:23.747Z",
-  "updatedAt": "2026-05-30T05:14:23.751Z",
+  "updatedAt": "2026-05-30T05:15:44.725Z",
   "publishedAt": "2026-05-30T05:14:23.747Z",
   "metaTitle": "正規表現 文字クラス [] | 範囲と否定の書き方",
-  "metaDescription": "【正規表現初心者向け】正規表現の文字クラス [abc] [0-9] [^x] を初心者向けに解説。プリ定義クラス \\d \\s と . との違いも具体例で学べます。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
+  "metaDescription": "正規表現の文字クラス [abc] [0-9] [^x] を初心者向けに解説。プリ定義クラス \\d \\s と . との違いも具体例で学べます。",
   "ogTitle": "文字クラス [] と否定｜正規表現入門",
-  "ogDescription": "【正規表現初心者向け】【正規表現初心者向け】正規表現の文字クラスと否定、プリ定義クラスをわかりやすく解説します。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
+  "ogDescription": "正規表現の文字クラスと否定、プリ定義クラスをわかりやすく解説します。",
   "knowledge": {
     "topic": "regex",
     "courseId": "regex",
@@ -51,37 +51,32 @@
     }
   ],
   "nextEpisodeHint": "次回は量詞 * + ? {n,m} を学びます。「0回以上」「1回以上」「ちょうどn回」を組み合わせて、電話番号や繰り返しフィールドを表現できるようになります。",
-  "nextAction": "",
+  "nextAction": "次は量詞 * + ? {n,m} を学びます。「0回以上」「1回以上」「ちょうどn回」を組み合わせて、電話番号や繰り返しフィールドを表現できるようになります。",
   "internalLinkCandidates": [
     {
+      "slug": "regex-javascript",
+      "title": "JavaScriptでの正規表現｜RegExp・test・match・replace【入門】",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "regex-groups",
+      "title": "グループとキャプチャ｜正規表現の ( ) と置換【入門】",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "regex-anchors",
+      "title": "アンカー ^ $ と単語境界｜正規表現で位置を指定する【入門】",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "regex-quantifiers",
+      "title": "量詞 * + ? {n,m}｜正規表現の繰り返しをマスター【入門】",
+      "reason": "同じ講座の関連回です"
+    },
+    {
       "slug": "regex-literals",
-      "title": "リテラルとメタ文字の基本",
-      "reason": "メタ文字とエスケープの復習"
-    },
-    {
-      "slug": "python-conditions",
-      "title": "条件分岐 if/elif/else",
-      "reason": "マッチ結果に応じた分岐のプログラム基礎"
-    },
-    {
-      "slug": "sql-where-filter",
-      "title": "WHEREで絞り込み",
-      "reason": "条件でデータを絞る考え方が似ている"
-    },
-    {
-      "slug": "linux-view-search",
-      "title": "grepで検索",
-      "reason": "文字クラスをgrepと一緒に使う"
-    },
-    {
-      "slug": "web-forms",
-      "title": "HTMLフォーム",
-      "reason": "入力形式の検証に文字クラスが使われる"
-    },
-    {
-      "slug": "git-intro",
-      "title": "Gitとは？",
-      "reason": "テキストベースの開発フロー全般の基礎"
+      "title": "リテラルとメタ文字の基本｜正規表現の . とエスケープ【初心者向け】",
+      "reason": "同じ講座の関連回です"
     }
   ],
   "ogImage": "https://ai-site-iota-nine.vercel.app/og-default.svg",
@@ -95,7 +90,7 @@
         "headline": "文字クラス [] と否定｜正規表現で使える文字の範囲指定【入門】",
         "description": "【正規表現初心者向け】正規表現の文字クラス [abc] [0-9] [^x] を初心者向けに解説。プリ定義クラス \\d \\s と . との違いも具体例で学べます。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
         "datePublished": "2026-05-30T05:14:23.747Z",
-        "dateModified": "2026-05-30T05:14:23.751Z",
+        "dateModified": "2026-05-30T05:15:44.725Z",
         "author": {
           "@type": "Organization",
           "name": "StackShelf",

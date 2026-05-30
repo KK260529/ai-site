@@ -2,9 +2,9 @@
   "id": "art_git_git-merge-conflict",
   "slug": "git-merge-conflict",
   "title": "マージとコンフリクトの解決",
-  "summary": "git merge の仕組みを基礎から解説し、コンフリクト（競合）が発生する原因と、ファイルを編集して手動で解決する手順をステップバイステップで学ぶ。",
-  "body": "<h2>マージとは何か</h2>\n<p>\n  Gitにおける<strong>マージ（merge）</strong>とは、2つのブランチの変更履歴を統合する操作です。\n  たとえば機能開発用に作成した <code>feature/login</code> ブランチの変更を、\n  メインの <code>main</code> ブランチへ取り込む場面が典型例です。\n  マージを正しく使いこなすと、複数人での並行開発がスムーズになります。\n</p>\n<p>\n  マージには大きく分けて2種類あります。\n  <strong>Fast-forward マージ</strong>と<strong>3-way マージ</strong>です。\n  Fast-forward は派生ブランチがそのまま前進できる場合に使われ、履歴が一直線になります。\n  3-way マージは双方のブランチで変更が行われた場合に使われ、マージコミットが作られます。\n</p>\n\n<h2>基本的な git merge の手順</h2>\n<p>\n  マージを実行する前に、まず現在のブランチを確認します。\n  <code>main</code> ブランチへ取り込む場合は <code>main</code> に移動してからマージコマンドを実行します。\n</p>\n<pre><code># 現在のブランチ一覧を確認\ngit branch\n\n# main ブランチへ切り替え\ngit checkout main\n\n# feature/login ブランチの変更を main へマージ\ngit merge feature/login</code></pre>\n<p>\n  コンフリクトが発生しなければ、自動的にマージコミットが作成されます。\n  <code>--no-ff</code> オプションを付けると、Fast-forward が可能な場合でも\n  必ずマージコミットを残すことができ、履歴が見やすくなります。\n</p>\n<pre><code>git merge --no-ff feature/login</code></pre>\n\n<h3>マージ前に差分を確認する</h3>\n<p>\n  いきなりマージする前に、どのような変更があるか確認しておくと安心です。\n  <code>git diff</code> を使うと2つのブランチ間の差分を事前に把握できます。\n</p>\n<pre><code># main と feature/login の差分を確認\ngit diff main..feature/login</code></pre>\n\n<h2>コンフリクトとは何か</h2>\n<p>\n  <strong>コンフリクト（conflict / 競合）</strong>とは、\n  同じファイルの同じ行を2つのブランチで別々に変更した際に発生する状態です。\n  Gitはどちらの変更を採用すべきか判断できないため、開発者に解決を求めます。\n  コンフリクトが起きてもパニックにならず、落ち着いて対処することが大切です。\n</p>\n<p>\n  コンフリクトが発生すると、ターミナルに次のようなメッセージが表示されます。\n</p>\n<pre><code>Auto-merging index.html\nCONFLICT (content): Merge conflict in index.html\nAutomatic merge failed; fix conflicts and then commit the result.</code></pre>\n\n<h3>コンフリクトマーカーの読み方</h3>\n<p>\n  コンフリクトが発生したファイルを開くと、次のようなマーカーが挿入されています。\n</p>\n<pre><code>&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD\n&lt;p&gt;ログインページです。&lt;/p&gt;\n=======\n&lt;p&gt;サインインページです。&lt;/p&gt;\n&gt;&gt;&gt;&gt;&gt;&gt;&gt; feature/login</code></pre>\n<p>\n  <code>&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD</code> から <code>=======</code> までが現在のブランチ（HEAD）の内容、\n  <code>=======</code> から <code>&gt;&gt;&gt;&gt;&gt;&gt;&gt; feature/login</code> までがマージしようとしているブランチの内容です。\n  どちらを残すか、あるいは両方を組み合わせるかを手動で決めます。\n</p>\n\n<h2>コンフリクトを手動で解決する手順</h2>\n<p>\n  コンフリクトの解決は次の3ステップで行います。\n</p>\n<ol>\n  <li>コンフリクトが発生したファイルをテキストエディタで開く</li>\n  <li>マーカー（<code>&lt;&lt;&lt;&lt;&lt;&lt;&lt;</code>、<code>=======</code>、<code>&gt;&gt;&gt;&gt;&gt;&gt;&gt;</code>）を含む行を削除し、正しい内容に書き換える</li>\n  <li>ファイルを保存し、<code>git add</code> でステージングしてからコミットする</li>\n</ol>\n<p>\n  たとえば上の例で「両方の文言を使いたい」場合はこのように編集します。\n</p>\n<pre><code>&lt;p&gt;ログイン（サインイン）ページです。&lt;/p&gt;</code></pre>\n<p>マーカーがすべて取り除かれたら保存します。</p>\n<pre><code># 解決済みファイルをステージング\ngit add index.html\n\n# マージコミットを作成\ngit commit -m \"Merge feature/login into main (コンフリクト解決)\"</code></pre>\n\n<h3>git status でコンフリクト状況を確認する</h3>\n<p>\n  解決途中でどのファイルがまだコンフリクト中かを確認したいときは\n  <code>git status</code> を使います。\n  <code>both modified:</code> と表示されているファイルがコンフリクト対象です。\n</p>\n<pre><code>git status\n# both modified:   index.html</code></pre>\n\n<h2>コンフリクトを避けるための工夫</h2>\n<p>\n  コンフリクトは完全に避けることはできませんが、発生頻度を下げる工夫はできます。\n</p>\n<ul>\n  <li><strong>こまめにプル・プッシュする</strong>：リモートの最新状態を常に取り込むことで差分を小さく保てます</li>\n  <li><strong>ブランチを小さく短命に保つ</strong>：長期間分岐したままにすると差分が大きくなります</li>\n  <li><strong>責任範囲を分ける</strong>：チームで同じファイルを同時に編集しないよう調整します</li>\n  <li><strong>定期的にマージベースを更新する</strong>：<code>git merge main</code> や <code>git rebase main</code> で派生元の変更を取り込みます</li>\n</ul>\n\n<h2>git rebase との違い</h2>\n<p>\n  マージと似た操作に <code>git rebase</code> があります。\n  <code>rebase</code> はコミット履歴を一直線に整理したいときに使います。\n  ただし <strong>すでにリモートへプッシュしたブランチへの rebase は危険</strong>です。\n  チーム開発では基本的に <code>merge</code> を使い、\n  個人の作業ブランチを整理するときだけ <code>rebase</code> を使うのが安全です。\n</p>\n<pre><code># feature/login ブランチ上で main の変更を取り込む（rebase）\ngit checkout feature/login\ngit rebase main</code></pre>\n\n<h2>マージを取り消したいとき</h2>\n<p>\n  マージ後に問題が発覚した場合、まだコミットしていなければ <code>git merge --abort</code> でマージを中断できます。\n  すでにコミット済みの場合は <code>git revert</code> で逆操作のコミットを作成するか、\n  <code>git reset</code> でコミット自体をなかったことにできます（履歴を書き換えるため注意が必要です）。\n</p>\n<pre><code># マージを中断して元の状態に戻す（コミット前）\ngit merge --abort\n\n# マージコミットを取り消す（コミット後・安全な方法）\ngit revert -m 1 HEAD</code></pre>",
-  "conclusion": "このエピソードでは git merge の基本と、コンフリクトが発生したときの解決手順を学びました。コンフリクトは慣れれば怖くありません。マーカーを読んで正しい内容に書き換え、git add → git commit の流れを守れば確実に解決できます。次のエピソードではリモートリポジトリとの連携（push・pull・remote）を学びます。",
+  "summary": "git merge の基本とコンフリクト（競合）の解決手順を解説。マーカーの読み方、add/commit の流れ、abort の使い方、予防のコツまで。マージで初めて止まった人向け。",
+  "body": "<h2>結論：コンフリクトは同じ行を両方が編集したときに起き、手動で正しい内容を選んで解決する</h2>\n<p><code>git merge</code> でブランチを統合するとき、<strong>同じファイルの同じ箇所を両方が変更していた場合にコンフリクト（競合）</strong>が発生します。<<<<<< / ====== / >>>>>> のマーカーを読み、残すコードを選んでから add → commit で解決完了です。怖がらず、小さな変更で一度体験するのが近道です。</p>\n\n<h2>マージとは何か</h2>\n<p>\n  Gitにおける<strong>マージ（merge）</strong>とは、2つのブランチの変更履歴を統合する操作です。\n  たとえば機能開発用に作成した <code>feature/login</code> ブランチの変更を、\n  メインの <code>main</code> ブランチへ取り込む場面が典型例です。\n  マージを正しく使いこなすと、複数人での並行開発がスムーズになります。\n</p>\n<p>\n  マージには大きく分けて2種類あります。\n  <strong>Fast-forward マージ</strong>と<strong>3-way マージ</strong>です。\n  Fast-forward は派生ブランチがそのまま前進できる場合に使われ、履歴が一直線になります。\n  3-way マージは双方のブランチで変更が行われた場合に使われ、マージコミットが作られます。\n</p>\n\n<h2>基本的な git merge の手順</h2>\n<p>\n  マージを実行する前に、まず現在のブランチを確認します。\n  <code>main</code> ブランチへ取り込む場合は <code>main</code> に移動してからマージコマンドを実行します。\n</p>\n<pre><code># 現在のブランチ一覧を確認\ngit branch\n\n# main ブランチへ切り替え\ngit checkout main\n\n# feature/login ブランチの変更を main へマージ\ngit merge feature/login</code></pre>\n<p>\n  コンフリクトが発生しなければ、自動的にマージコミットが作成されます。\n  <code>--no-ff</code> オプションを付けると、Fast-forward が可能な場合でも\n  必ずマージコミットを残すことができ、履歴が見やすくなります。\n</p>\n<pre><code>git merge --no-ff feature/login</code></pre>\n\n<h3>マージ前に差分を確認する</h3>\n<p>\n  いきなりマージする前に、どのような変更があるか確認しておくと安心です。\n  <code>git diff</code> を使うと2つのブランチ間の差分を事前に把握できます。\n</p>\n<pre><code># main と feature/login の差分を確認\ngit diff main..feature/login</code></pre>\n\n<h2>コンフリクトとは何か</h2>\n<p>\n  <strong>コンフリクト（conflict / 競合）</strong>とは、\n  同じファイルの同じ行を2つのブランチで別々に変更した際に発生する状態です。\n  Gitはどちらの変更を採用すべきか判断できないため、開発者に解決を求めます。\n  コンフリクトが起きてもパニックにならず、落ち着いて対処することが大切です。\n</p>\n<p>\n  コンフリクトが発生すると、ターミナルに次のようなメッセージが表示されます。\n</p>\n<pre><code>Auto-merging index.html\nCONFLICT (content): Merge conflict in index.html\nAutomatic merge failed; fix conflicts and then commit the result.</code></pre>\n\n<h3>コンフリクトマーカーの読み方</h3>\n<p>\n  コンフリクトが発生したファイルを開くと、次のようなマーカーが挿入されています。\n</p>\n<pre><code>&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD\n&lt;p&gt;ログインページです。&lt;/p&gt;\n=======\n&lt;p&gt;サインインページです。&lt;/p&gt;\n&gt;&gt;&gt;&gt;&gt;&gt;&gt; feature/login</code></pre>\n<p>\n  <code>&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD</code> から <code>=======</code> までが現在のブランチ（HEAD）の内容、\n  <code>=======</code> から <code>&gt;&gt;&gt;&gt;&gt;&gt;&gt; feature/login</code> までがマージしようとしているブランチの内容です。\n  どちらを残すか、あるいは両方を組み合わせるかを手動で決めます。\n</p>\n\n<h2>コンフリクトを手動で解決する手順</h2>\n<p>\n  コンフリクトの解決は次の3ステップで行います。\n</p>\n<ol>\n  <li>コンフリクトが発生したファイルをテキストエディタで開く</li>\n  <li>マーカー（<code>&lt;&lt;&lt;&lt;&lt;&lt;&lt;</code>、<code>=======</code>、<code>&gt;&gt;&gt;&gt;&gt;&gt;&gt;</code>）を含む行を削除し、正しい内容に書き換える</li>\n  <li>ファイルを保存し、<code>git add</code> でステージングしてからコミットする</li>\n</ol>\n<p>\n  たとえば上の例で「両方の文言を使いたい」場合はこのように編集します。\n</p>\n<pre><code>&lt;p&gt;ログイン（サインイン）ページです。&lt;/p&gt;</code></pre>\n<p>マーカーがすべて取り除かれたら保存します。</p>\n<pre><code># 解決済みファイルをステージング\ngit add index.html\n\n# マージコミットを作成\ngit commit -m \"Merge feature/login into main (コンフリクト解決)\"</code></pre>\n\n<h3>git status でコンフリクト状況を確認する</h3>\n<p>\n  解決途中でどのファイルがまだコンフリクト中かを確認したいときは\n  <code>git status</code> を使います。\n  <code>both modified:</code> と表示されているファイルがコンフリクト対象です。\n</p>\n<pre><code>git status\n# both modified:   index.html</code></pre>\n\n<h2>コンフリクトを避けるための工夫</h2>\n<p>\n  コンフリクトは完全に避けることはできませんが、発生頻度を下げる工夫はできます。\n</p>\n<ul>\n  <li><strong>こまめにプル・プッシュする</strong>：リモートの最新状態を常に取り込むことで差分を小さく保てます</li>\n  <li><strong>ブランチを小さく短命に保つ</strong>：長期間分岐したままにすると差分が大きくなります</li>\n  <li><strong>責任範囲を分ける</strong>：チームで同じファイルを同時に編集しないよう調整します</li>\n  <li><strong>定期的にマージベースを更新する</strong>：<code>git merge main</code> や <code>git rebase main</code> で派生元の変更を取り込みます</li>\n</ul>\n\n<h2>git rebase との違い</h2>\n<p>\n  マージと似た操作に <code>git rebase</code> があります。\n  <code>rebase</code> はコミット履歴を一直線に整理したいときに使います。\n  ただし <strong>すでにリモートへプッシュしたブランチへの rebase は危険</strong>です。\n  チーム開発では基本的に <code>merge</code> を使い、\n  個人の作業ブランチを整理するときだけ <code>rebase</code> を使うのが安全です。\n</p>\n<pre><code># feature/login ブランチ上で main の変更を取り込む（rebase）\ngit checkout feature/login\ngit rebase main</code></pre>\n\n<h2>よくあるつまずきと失敗例</h2>\n<h3>コンフリクト解決でやりがちなミス</h3>\n<ul>\n<li><strong>マーカーを消し忘れる</strong>：<<<<<< 等がファイルに残ったまま commit するとビルドエラーになります。エディタのマージ支援機能を使うと安全です。</li>\n<li><strong>相手の変更を全部消す</strong>：どちらが正しいか確認せず片方だけ残すと、チームメンバーの作業が失われます。status と diff で両方の意図を確認しましょう。</li>\n<li><strong>解決途中で merge --abort しない</strong>：混乱したら <code>git merge --abort</code> でマージ前に戻れます。焦って壊れたファイルを commit しないでください。</li>\n</ul>\n<p>コンフリクトは「同時編集の通知」です。小さく頻繁に merge し、担当ファイルを分けると発生頻度は下がります。</p>\n\n<h2>マージを取り消したいとき</h2>\n<p>\n  マージ後に問題が発覚した場合、まだコミットしていなければ <code>git merge --abort</code> でマージを中断できます。\n  すでにコミット済みの場合は <code>git revert</code> で逆操作のコミットを作成するか、\n  <code>git reset</code> でコミット自体をなかったことにできます（履歴を書き換えるため注意が必要です）。\n</p>\n<pre><code># マージを中断して元の状態に戻す（コミット前）\ngit merge --abort\n\n# マージコミットを取り消す（コミット後・安全な方法）\ngit revert -m 1 HEAD</code></pre>",
+  "conclusion": "コンフリクトは同じ行の同時編集が原因です。マーカーを編集して正しい内容に直し、add → commit で完了。混乱したら merge --abort で巻き戻せます。解決できたら push/pull でリモート連携へ進みましょう。",
   "tags": [
     "git merge",
     "コンフリクト解決",
@@ -16,12 +16,12 @@
   "theme": "git - Git & GitHub 入門",
   "status": "published",
   "createdAt": "2026-05-30T03:49:58.542Z",
-  "updatedAt": "2026-05-30T03:49:58.548Z",
+  "updatedAt": "2026-05-30T05:17:45.237Z",
   "publishedAt": "2026-05-30T03:49:58.542Z",
   "metaTitle": "git merge とコンフリクト解決の完全ガイド【初心者向け】｜Git入門 | StackShelf",
-  "metaDescription": "git merge の使い方とコンフリクト（競合）が起きる原因を解説。マーカーの読み方・手動解決・git add / git commit の流れを初心者向けにわかりやすく説明します。 図解・具体例つきで丁寧に解説します。",
+  "metaDescription": "git merge とコンフリクト解決手順。競合マーカーの読み方、add/commit、merge --abort、予防のコツ。マージで止まった初心者向け。",
   "ogTitle": "git merge とコンフリクト解決の完全ガイド",
-  "ogDescription": "【Git初心者向け】【Git初心者向け】ブランチのマージ方法から、コンフリクトが起きたときの解決手順まで。実際のコマンド例とともに丁寧に解説します。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
+  "ogDescription": "git merge とコンフリクト解決手順。競合マーカーの読み方、add/commit、merge --abort、予防のコツ。マージで止まった初心者向け。",
   "knowledge": {
     "topic": "git",
     "courseId": "git",
@@ -43,6 +43,10 @@
     {
       "question": "複数ファイルでコンフリクトが発生した場合はどうすればよいですか？",
       "answer": "git status でコンフリクト中のファイル一覧を確認し、1ファイルずつ解決して git add します。すべてのファイルを解決し終えたら git commit でマージを完了させます。"
+    },
+    {
+      "question": "つまずいたときはどうすればいいですか？",
+      "answer": "エラーメッセージをそのまま検索し、公式ドキュメントを当たってください。小さなステップに分けて再現・確認すると原因を特定しやすくなります。"
     }
   ],
   "nextEpisodeHint": "次のエピソードでは、リモートリポジトリとのやり取りに使う git push・git pull・git remote の使い方を学びます。",
@@ -55,9 +59,9 @@
         "@context": "https://schema.org",
         "@type": "TechArticle",
         "headline": "マージとコンフリクトの解決",
-        "description": "git merge の使い方とコンフリクト（競合）が起きる原因を解説。マーカーの読み方・手動解決・git add / git commit の流れを初心者向けにわかりやすく説明します。 図解・具体例つきで丁寧に解説します。",
+        "description": "git merge とコンフリクト解決手順。競合マーカーの読み方、add/commit、merge --abort、予防のコツ。マージで止まった初心者向け。",
         "datePublished": "2026-05-30T03:49:58.542Z",
-        "dateModified": "2026-05-30T03:49:58.548Z",
+        "dateModified": "2026-05-30T05:17:45.237Z",
         "author": {
           "@type": "Organization",
           "name": "StackShelf",
@@ -78,7 +82,7 @@
         },
         "image": "https://ai-site-iota-nine.vercel.app/og-default.svg",
         "inLanguage": "ja",
-        "wordCount": 2592,
+        "wordCount": 3009,
         "mainEntityOfPage": {
           "@type": "WebPage",
           "@id": "https://ai-site-iota-nine.vercel.app/article/git-merge-conflict"
@@ -173,6 +177,14 @@
               "@type": "Answer",
               "text": "git status でコンフリクト中のファイル一覧を確認し、1ファイルずつ解決して git add します。すべてのファイルを解決し終えたら git commit でマージを完了させます。"
             }
+          },
+          {
+            "@type": "Question",
+            "name": "つまずいたときはどうすればいいですか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "エラーメッセージをそのまま検索し、公式ドキュメントを当たってください。小さなステップに分けて再現・確認すると原因を特定しやすくなります。"
+            }
           }
         ]
       }
@@ -262,7 +274,43 @@
           "@type": "Answer",
           "text": "git status でコンフリクト中のファイル一覧を確認し、1ファイルずつ解決して git add します。すべてのファイルを解決し終えたら git commit でマージを完了させます。"
         }
+      },
+      {
+        "@type": "Question",
+        "name": "つまずいたときはどうすればいいですか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "エラーメッセージをそのまま検索し、公式ドキュメントを当たってください。小さなステップに分けて再現・確認すると原因を特定しやすくなります。"
+        }
       }
     ]
-  }
+  },
+  "internalLinkCandidates": [
+    {
+      "slug": "git-branch-basics",
+      "title": "Gitブランチの作り方と切り替え：git branch・checkout・switchの基本",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "git-repository-basics",
+      "title": "Gitリポジトリの作成とclone：git initとgit cloneの使い方",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "git-intro",
+      "title": "Gitとは？バージョン管理を初めて学ぶ人のための完全入門",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "git-workflow-practice",
+      "title": "実務で使うGitワークフロー",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "github-pull-request",
+      "title": "Pull Requestと協業の流れ",
+      "reason": "同じ講座の関連回です"
+    }
+  ],
+  "nextAction": "次のエピソードでは、リモートリポジトリとのやり取りに使う git push・git pull・git remote の使い方を学びます。"
 }

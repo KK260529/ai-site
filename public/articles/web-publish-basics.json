@@ -2,9 +2,9 @@
   "id": "art_web_web-publish-basics",
   "slug": "web-publish-basics",
   "title": "WebサイトをGitHub Pages・Vercelで無料公開する方法【完全手順】",
-  "summary": "作ったHTMLサイトをインターネットに公開する方法を解説します。GitHub Pagesを使った無料公開の手順、Vercelへのデプロイ方法、独自ドメインの設定方法までweb制作 入門として説明します。",
-  "body": "<h2>WebサイトをインターネットでPublishするとはどういうことか</h2>\n<p>前回のエピソードまでで、あなたはローカル（自分のパソコン）でHTMLとCSSを使ってWebページを作れるようになりました。しかし現状ではそのページはあなたのパソコンの中にしかなく、他の人はインターネット経由でアクセスできません。作ったWebサイトを世界中の誰でも見られるようにするには、<strong>Webサーバー</strong>にファイルをアップロードして公開する必要があります。</p>\n<p>この「ファイルをサーバーにアップロードして公開する」作業を<strong>デプロイ（deploy）</strong>と呼びます。かつてはサーバーレンタルやFTP操作が必要で、初心者には少し難しい作業でしたが、現代では無料で簡単にデプロイできるサービスがあります。</p>\n<p>html css 初心者が最初に使うべき無料の公開サービスは次の2つです。</p>\n<ul>\n  <li><strong>GitHub Pages</strong>：GitHubのリポジトリから直接Webサイトを公開できるサービス。HTMLとCSSだけのサイトに最適。</li>\n  <li><strong>Vercel</strong>：GitHubと連携してデプロイを自動化できるサービス。GitHub Pagesより高機能で、将来的なフレームワーク対応も良好。</li>\n</ul>\n\n<h2>GitHub Pagesの仕組みと準備</h2>\n<p>GitHub PagesはGitHubが提供する静的サイトホスティングサービスです。GitHubのリポジトリにHTMLファイルをプッシュするだけで、自動的に <code>https://ユーザー名.github.io/リポジトリ名</code> というURLでWebサイトが公開されます。</p>\n<p>GitHub Pagesを使うために必要なものは次の3つです。</p>\n<ul>\n  <li>GitHubのアカウント（無料）</li>\n  <li>Gitがインストールされたパソコン</li>\n  <li>公開したいHTMLファイル（前回作ったランディングページなど）</li>\n</ul>\n<p>GitHubのアカウントを持っていない場合は、<code>github.com</code> でサインアップしてください。メールアドレスがあれば無料で作れます。GitのインストールはGitコースの第2回でも解説していますが、<code>git.scm.com</code> からダウンロードできます。</p>\n\n<h2>GitHub Pagesで公開する手順（ステップバイステップ）</h2>\n<p>GitHubにリポジトリを作成してサイトを公開する手順を詳しく説明します。</p>\n<p><strong>ステップ1：GitHubでリポジトリを作成する</strong></p>\n<ul>\n  <li>GitHubにログインして「New repository」をクリック</li>\n  <li>Repository nameに「my-website」など好きな名前を入力</li>\n  <li>「Public」を選択（GitHub Pagesを無料で使うにはPublicが必要）</li>\n  <li>「Add a README file」にチェックを入れると初期化が簡単</li>\n  <li>「Create repository」をクリック</li>\n</ul>\n<p><strong>ステップ2：ローカルにクローンしてファイルを追加する</strong></p>\n<pre><code># ターミナル（PowerShellまたはコマンドプロンプト）で実行\n# リポジトリをクローン（GitHubからローカルにコピー）\ngit clone https://github.com/あなたのユーザー名/my-website.git\n\n# クローンしたフォルダに移動\ncd my-website\n\n# 作ったHTMLとCSSファイルをこのフォルダにコピーする\n# （index.htmlとstyle.cssをmy-websiteフォルダに配置）</code></pre>\n<p><strong>ステップ3：GitでファイルをコミットしてGitHubにプッシュする</strong></p>\n<pre><code># ファイルをGitの管理対象に追加\ngit add .\n\n# 変更を記録（コミット）\ngit commit -m \"最初のWebページを追加\"\n\n# GitHubにプッシュ（アップロード）\ngit push origin main</code></pre>\n<p><strong>ステップ4：GitHub Pagesを有効化する</strong></p>\n<ul>\n  <li>GitHubのリポジトリページを開く</li>\n  <li>「Settings」タブをクリック</li>\n  <li>左サイドバーの「Pages」をクリック</li>\n  <li>「Source」で「Deploy from a branch」を選択</li>\n  <li>「Branch」を「main」に設定して「Save」をクリック</li>\n  <li>しばらく待つと「Your site is published at https://...」と表示される</li>\n</ul>\n<pre><code>&lt;!-- 公開されるURLの形式 --&gt;\n&lt;!-- https://ユーザー名.github.io/リポジトリ名/ --&gt;\n\n&lt;!-- 例：GitHubユーザー名がtanako、リポジトリ名がmy-websiteの場合 --&gt;\n&lt;!-- https://tanako.github.io/my-website/ --&gt;</code></pre>\n\n<h2>Vercelを使った公開方法</h2>\n<p>Vercelはより高機能な無料ホスティングサービスです。GitHubリポジトリと連携することで、コードをpushするたびに自動的にデプロイが走る（継続的デプロイ）仕組みが簡単に設定できます。</p>\n<p><strong>Vercelでのデプロイ手順</strong></p>\n<ul>\n  <li><code>vercel.com</code> にアクセスして「Sign Up」をクリック</li>\n  <li>「Continue with GitHub」でGitHubアカウントと連携</li>\n  <li>「Add New...」→「Project」をクリック</li>\n  <li>先ほど作ったGitHubリポジトリを選んで「Import」</li>\n  <li>設定はデフォルトのまま「Deploy」をクリック</li>\n  <li>数十秒でデプロイ完了。ランダムな <code>https://プロジェクト名.vercel.app</code> というURLが発行される</li>\n</ul>\n<p>Vercelの最大の特徴は、GitHubにpushするたびに自動でデプロイが更新されることです。ファイルを修正してgit pushするだけで、数十秒後に公開サイトにも変更が反映されます。これは現代的なweb制作ワークフローの基本です。</p>\n\n<h2>GitHub PagesとVercelの比較</h2>\n<p>どちらを使えばいいか迷ったときの判断基準を整理します。</p>\n<pre><code>/*\n  GitHub Pages                     | Vercel\n  ─────────────────────────────────|──────────────────────────────\n  ✅ 完全無料                        | ✅ 無料プランあり\n  ✅ GitHubと一体化                  | ✅ 高速なCDN（世界中のサーバー）\n  ✅ 静的HTMLに最適                  | ✅ 自動デプロイ（pushで更新）\n  ✅ 設定が簡単                      | ✅ 独自ドメインの設定が容易\n  ❌ ビルドツールの対応が限定的       | ✅ ReactやNext.jsなどのフレームワーク対応\n  ❌ Publicリポジトリのみ無料で使える | ✅ Privateリポジトリも対応\n*/</code></pre>\n<p>html css 初心者がHTML/CSSだけのサイトを公開するならどちらでも問題ありません。将来的にReactやNext.jsを使いたいと思っているならVercelに慣れておくことをおすすめします。</p>\n\n<h2>独自ドメインの設定方法</h2>\n<p>GitHub PagesやVercelのデフォルトURLではなく、<code>https://yourname.com</code> のような独自ドメインを使いたい場合は、ドメインを購入してDNS設定を行う必要があります。</p>\n<ul>\n  <li>ドメイン取得サービス（お名前.com、Xserver Domain、Cloudflareなど）でドメインを購入</li>\n  <li>GitHub Pagesの場合：リポジトリのSettings→Pages→「Custom domain」にドメインを入力</li>\n  <li>Vercelの場合：プロジェクトのSettings→Domains→ドメインを追加</li>\n  <li>ドメイン取得サービスのDNS設定で、CNAMEレコードまたはAレコードを設定</li>\n</ul>\n<pre><code>&lt;!-- GitHub Pagesのカスタムドメイン設定後 --&gt;\n&lt;!-- リポジトリのルートにCNAMEファイルを作成（GitHub Pagesの場合） --&gt;\n&lt;!-- ファイル名：CNAME（拡張子なし） --&gt;\n&lt;!-- 内容：yourname.com（取得したドメイン） --&gt;</code></pre>\n<p>ドメインの設定はDNSの反映に最大48時間かかることがあります。設定後しばらく待ってからアクセスを確認しましょう。</p>\n\n<h2>公開後に確認すべきこと</h2>\n<p>サイトを公開したら必ず確認しておくべきポイントをまとめます。</p>\n<ul>\n  <li><strong>HTTPS（SSL）の確認</strong>：URLが <code>https://</code> で始まっていること。GitHub PagesとVercelはどちらも自動でHTTPS対応します。</li>\n  <li><strong>スマートフォン表示の確認</strong>：実機か開発者ツールのエミュレーターでレスポンシブ表示を確認する。</li>\n  <li><strong>ページ速度の確認</strong>：Google PageSpeed Insightsでページのパフォーマンスをチェックする。</li>\n  <li><strong>リンク切れの確認</strong>：すべてのリンクと画像が正しく表示されているか確認する。</li>\n  <li><strong>OGP（SNSシェア用）の設定</strong>：SNSでシェアされたときにサムネイルと説明が表示されるようにmeta og:image・og:titleを設定する。</li>\n</ul>\n<pre><code>&lt;!-- OGP（Open Graph Protocol）の設定例 --&gt;\n&lt;head&gt;\n  &lt;meta property=\"og:title\" content=\"サイトのタイトル\"&gt;\n  &lt;meta property=\"og:description\" content=\"サイトの説明文\"&gt;\n  &lt;meta property=\"og:image\" content=\"https://yoursite.com/og-image.jpg\"&gt;\n  &lt;meta property=\"og:url\" content=\"https://yoursite.com\"&gt;\n  &lt;meta property=\"og:type\" content=\"website\"&gt;\n\n  &lt;!-- Twitterカード --&gt;\n  &lt;meta name=\"twitter:card\" content=\"summary_large_image\"&gt;\n  &lt;meta name=\"twitter:title\" content=\"サイトのタイトル\"&gt;\n  &lt;meta name=\"twitter:description\" content=\"サイトの説明文\"&gt;\n  &lt;meta name=\"twitter:image\" content=\"https://yoursite.com/og-image.jpg\"&gt;\n&lt;/head&gt;</code></pre>\n\n<h2>次のステップ：ここからどこへ進むか</h2>\n<p>このコースでHTML/CSSの基礎を学び、実際にWebサイトを公開するところまでたどり着きました。次のステップとして考えられる学習パスを紹介します。</p>\n<ul>\n  <li><strong>CSS Grid</strong>：Flexboxに続く2次元レイアウトシステム。より複雑なレイアウトを実現できます。</li>\n  <li><strong>JavaScript入門</strong>：ページに動きを加えるプログラミング言語。フォームのバリデーション・モーダル・スライダーなどを作れます。</li>\n  <li><strong>CSS設計（BEM/SMACSS）</strong>：大規模なサイトでCSSを管理するための設計手法。</li>\n  <li><strong>Tailwind CSS</strong>：ユーティリティクラスを組み合わせて効率的にスタイリングするフレームワーク。</li>\n  <li><strong>Git・GitHub</strong>：バージョン管理を学ぶことで、コードの管理と公開がさらにスムーズになります。</li>\n</ul>\n<p>web制作 入門として最初の12エピソードを完了したあなたには、次の段階への土台が確実に出来上がっています。継続的に手を動かし、自分のプロジェクトを作り続けることが最も大切な次のステップです。</p>\n\n<h2>まとめ：完成したサイトを公開しよう</h2>\n<p>WebサイトはGitHub PagesやVercelを使えば無料で公開できます。GitHub Pagesはリポジトリの設定から有効化するだけで公開でき、VercelはGitHubと連携すれば自動デプロイが設定できます。公開後はHTTPS・スマホ表示・ページ速度・OGP設定を確認しましょう。html css 初心者はまずGitHub Pagesで公開を体験し、慣れたらVercelやNetlifyなどのより高機能なサービスに移行するのが自然なステップアップです。</p>",
-  "conclusion": "GitHub PagesはGitHubリポジトリからSettings→Pagesで有効化するだけで無料公開できます。Vercelはgit pushのたびに自動でデプロイが更新される継続的デプロイが強みです。公開後はHTTPS・レスポンシブ表示・OGP設定を確認しましょう。このコースで学んだHTML/CSSの基礎を土台に、次はJavaScriptやCSS Gridへと学習を続けましょう。",
+  "summary": "GitHub PagesとVercelで静的サイトを無料公開する手順を解説。リポジトリ作成、push、公開URL確認、独自ドメイン設定の概要も紹介します。",
+  "body": "<h2>結論：GitHub PagesまたはVercelで静的サイトを無料公開できる</h2>\n<p>完成したHTML/CSSをGitリポジトリにpushし、<strong>GitHub Pages</strong>（Settings→Pages）または<strong>Vercel</strong>（GitHub連携）でホスティング。数分で <code>https://username.github.io/repo/</code> 形式の公開URLが得られます。</p>\n\n<h2>WebサイトをインターネットでPublishするとはどういうことか</h2>\n<p>前回のエピソードまでで、あなたはローカル（自分のパソコン）でHTMLとCSSを使ってWebページを作れるようになりました。しかし現状ではそのページはあなたのパソコンの中にしかなく、他の人はインターネット経由でアクセスできません。作ったWebサイトを世界中の誰でも見られるようにするには、<strong>Webサーバー</strong>にファイルをアップロードして公開する必要があります。</p>\n<p>この「ファイルをサーバーにアップロードして公開する」作業を<strong>デプロイ（deploy）</strong>と呼びます。かつてはサーバーレンタルやFTP操作が必要で、初心者には少し難しい作業でしたが、現代では無料で簡単にデプロイできるサービスがあります。</p>\n<p>html css 初心者が最初に使うべき無料の公開サービスは次の2つです。</p>\n<ul>\n  <li><strong>GitHub Pages</strong>：GitHubのリポジトリから直接Webサイトを公開できるサービス。HTMLとCSSだけのサイトに最適。</li>\n  <li><strong>Vercel</strong>：GitHubと連携してデプロイを自動化できるサービス。GitHub Pagesより高機能で、将来的なフレームワーク対応も良好。</li>\n</ul>\n\n<h2>GitHub Pagesの仕組みと準備</h2>\n<p>GitHub PagesはGitHubが提供する静的サイトホスティングサービスです。GitHubのリポジトリにHTMLファイルをプッシュするだけで、自動的に <code>https://ユーザー名.github.io/リポジトリ名</code> というURLでWebサイトが公開されます。</p>\n<p>GitHub Pagesを使うために必要なものは次の3つです。</p>\n<ul>\n  <li>GitHubのアカウント（無料）</li>\n  <li>Gitがインストールされたパソコン</li>\n  <li>公開したいHTMLファイル（前回作ったランディングページなど）</li>\n</ul>\n<p>GitHubのアカウントを持っていない場合は、<code>github.com</code> でサインアップしてください。メールアドレスがあれば無料で作れます。GitのインストールはGitコースの第2回でも解説していますが、<code>git.scm.com</code> からダウンロードできます。</p>\n\n<h2>GitHub Pagesで公開する手順（ステップバイステップ）</h2>\n<p>GitHubにリポジトリを作成してサイトを公開する手順を詳しく説明します。</p>\n<p><strong>ステップ1：GitHubでリポジトリを作成する</strong></p>\n<ul>\n  <li>GitHubにログインして「New repository」をクリック</li>\n  <li>Repository nameに「my-website」など好きな名前を入力</li>\n  <li>「Public」を選択（GitHub Pagesを無料で使うにはPublicが必要）</li>\n  <li>「Add a README file」にチェックを入れると初期化が簡単</li>\n  <li>「Create repository」をクリック</li>\n</ul>\n<p><strong>ステップ2：ローカルにクローンしてファイルを追加する</strong></p>\n<pre><code># ターミナル（PowerShellまたはコマンドプロンプト）で実行\n# リポジトリをクローン（GitHubからローカルにコピー）\ngit clone https://github.com/あなたのユーザー名/my-website.git\n\n# クローンしたフォルダに移動\ncd my-website\n\n# 作ったHTMLとCSSファイルをこのフォルダにコピーする\n# （index.htmlとstyle.cssをmy-websiteフォルダに配置）</code></pre>\n<p><strong>ステップ3：GitでファイルをコミットしてGitHubにプッシュする</strong></p>\n<pre><code># ファイルをGitの管理対象に追加\ngit add .\n\n# 変更を記録（コミット）\ngit commit -m \"最初のWebページを追加\"\n\n# GitHubにプッシュ（アップロード）\ngit push origin main</code></pre>\n<p><strong>ステップ4：GitHub Pagesを有効化する</strong></p>\n<ul>\n  <li>GitHubのリポジトリページを開く</li>\n  <li>「Settings」タブをクリック</li>\n  <li>左サイドバーの「Pages」をクリック</li>\n  <li>「Source」で「Deploy from a branch」を選択</li>\n  <li>「Branch」を「main」に設定して「Save」をクリック</li>\n  <li>しばらく待つと「Your site is published at https://...」と表示される</li>\n</ul>\n<pre><code>&lt;!-- 公開されるURLの形式 --&gt;\n&lt;!-- https://ユーザー名.github.io/リポジトリ名/ --&gt;\n\n&lt;!-- 例：GitHubユーザー名がtanako、リポジトリ名がmy-websiteの場合 --&gt;\n&lt;!-- https://tanako.github.io/my-website/ --&gt;</code></pre>\n\n<h2>Vercelを使った公開方法</h2>\n<p>Vercelはより高機能な無料ホスティングサービスです。GitHubリポジトリと連携することで、コードをpushするたびに自動的にデプロイが走る（継続的デプロイ）仕組みが簡単に設定できます。</p>\n<p><strong>Vercelでのデプロイ手順</strong></p>\n<ul>\n  <li><code>vercel.com</code> にアクセスして「Sign Up」をクリック</li>\n  <li>「Continue with GitHub」でGitHubアカウントと連携</li>\n  <li>「Add New...」→「Project」をクリック</li>\n  <li>先ほど作ったGitHubリポジトリを選んで「Import」</li>\n  <li>設定はデフォルトのまま「Deploy」をクリック</li>\n  <li>数十秒でデプロイ完了。ランダムな <code>https://プロジェクト名.vercel.app</code> というURLが発行される</li>\n</ul>\n<p>Vercelの最大の特徴は、GitHubにpushするたびに自動でデプロイが更新されることです。ファイルを修正してgit pushするだけで、数十秒後に公開サイトにも変更が反映されます。これは現代的なweb制作ワークフローの基本です。</p>\n\n<h2>GitHub PagesとVercelの比較</h2>\n<p>どちらを使えばいいか迷ったときの判断基準を整理します。</p>\n<pre><code>/*\n  GitHub Pages                     | Vercel\n  ─────────────────────────────────|──────────────────────────────\n  ✅ 完全無料                        | ✅ 無料プランあり\n  ✅ GitHubと一体化                  | ✅ 高速なCDN（世界中のサーバー）\n  ✅ 静的HTMLに最適                  | ✅ 自動デプロイ（pushで更新）\n  ✅ 設定が簡単                      | ✅ 独自ドメインの設定が容易\n  ❌ ビルドツールの対応が限定的       | ✅ ReactやNext.jsなどのフレームワーク対応\n  ❌ Publicリポジトリのみ無料で使える | ✅ Privateリポジトリも対応\n*/</code></pre>\n<p>html css 初心者がHTML/CSSだけのサイトを公開するならどちらでも問題ありません。将来的にReactやNext.jsを使いたいと思っているならVercelに慣れておくことをおすすめします。</p>\n\n<h2>独自ドメインの設定方法</h2>\n<p>GitHub PagesやVercelのデフォルトURLではなく、<code>https://yourname.com</code> のような独自ドメインを使いたい場合は、ドメインを購入してDNS設定を行う必要があります。</p>\n<ul>\n  <li>ドメイン取得サービス（お名前.com、Xserver Domain、Cloudflareなど）でドメインを購入</li>\n  <li>GitHub Pagesの場合：リポジトリのSettings→Pages→「Custom domain」にドメインを入力</li>\n  <li>Vercelの場合：プロジェクトのSettings→Domains→ドメインを追加</li>\n  <li>ドメイン取得サービスのDNS設定で、CNAMEレコードまたはAレコードを設定</li>\n</ul>\n<pre><code>&lt;!-- GitHub Pagesのカスタムドメイン設定後 --&gt;\n&lt;!-- リポジトリのルートにCNAMEファイルを作成（GitHub Pagesの場合） --&gt;\n&lt;!-- ファイル名：CNAME（拡張子なし） --&gt;\n&lt;!-- 内容：yourname.com（取得したドメイン） --&gt;</code></pre>\n<p>ドメインの設定はDNSの反映に最大48時間かかることがあります。設定後しばらく待ってからアクセスを確認しましょう。</p>\n\n<h2>公開後に確認すべきこと</h2>\n<p>サイトを公開したら必ず確認しておくべきポイントをまとめます。</p>\n<ul>\n  <li><strong>HTTPS（SSL）の確認</strong>：URLが <code>https://</code> で始まっていること。GitHub PagesとVercelはどちらも自動でHTTPS対応します。</li>\n  <li><strong>スマートフォン表示の確認</strong>：実機か開発者ツールのエミュレーターでレスポンシブ表示を確認する。</li>\n  <li><strong>ページ速度の確認</strong>：Google PageSpeed Insightsでページのパフォーマンスをチェックする。</li>\n  <li><strong>リンク切れの確認</strong>：すべてのリンクと画像が正しく表示されているか確認する。</li>\n  <li><strong>OGP（SNSシェア用）の設定</strong>：SNSでシェアされたときにサムネイルと説明が表示されるようにmeta og:image・og:titleを設定する。</li>\n</ul>\n<pre><code>&lt;!-- OGP（Open Graph Protocol）の設定例 --&gt;\n&lt;head&gt;\n  &lt;meta property=\"og:title\" content=\"サイトのタイトル\"&gt;\n  &lt;meta property=\"og:description\" content=\"サイトの説明文\"&gt;\n  &lt;meta property=\"og:image\" content=\"https://yoursite.com/og-image.jpg\"&gt;\n  &lt;meta property=\"og:url\" content=\"https://yoursite.com\"&gt;\n  &lt;meta property=\"og:type\" content=\"website\"&gt;\n\n  &lt;!-- Twitterカード --&gt;\n  &lt;meta name=\"twitter:card\" content=\"summary_large_image\"&gt;\n  &lt;meta name=\"twitter:title\" content=\"サイトのタイトル\"&gt;\n  &lt;meta name=\"twitter:description\" content=\"サイトの説明文\"&gt;\n  &lt;meta name=\"twitter:image\" content=\"https://yoursite.com/og-image.jpg\"&gt;\n&lt;/head&gt;</code></pre>\n\n<h2>次のステップ：ここからどこへ進むか</h2>\n<p>このコースでHTML/CSSの基礎を学び、実際にWebサイトを公開するところまでたどり着きました。次のステップとして考えられる学習パスを紹介します。</p>\n<ul>\n  <li><strong>CSS Grid</strong>：Flexboxに続く2次元レイアウトシステム。より複雑なレイアウトを実現できます。</li>\n  <li><strong>JavaScript入門</strong>：ページに動きを加えるプログラミング言語。フォームのバリデーション・モーダル・スライダーなどを作れます。</li>\n  <li><strong>CSS設計（BEM/SMACSS）</strong>：大規模なサイトでCSSを管理するための設計手法。</li>\n  <li><strong>Tailwind CSS</strong>：ユーティリティクラスを組み合わせて効率的にスタイリングするフレームワーク。</li>\n  <li><strong>Git・GitHub</strong>：バージョン管理を学ぶことで、コードの管理と公開がさらにスムーズになります。</li>\n</ul>\n<p>web制作 入門として最初の12エピソードを完了したあなたには、次の段階への土台が確実に出来上がっています。継続的に手を動かし、自分のプロジェクトを作り続けることが最も大切な次のステップです。</p>\n\n<h2>つまずきやすいポイント・失敗例</h2>\n<h3>失敗例：index.htmlがリポジトリ直下にない</h3>\n<p>GitHub Pagesは通常、公開ブランチのルートまたは /docs フォルダの index.html をトップに表示します。パスを確認しましょう。</p>\n<h3>失敗例：CSS/画像の相対パスが公開環境で壊れる</h3>\n<p>ローカルと同じ相対パス構造を維持するか、ルート相対パス（/css/style.css）を検討します。</p>\n\n<h2>まとめ：完成したサイトを公開しよう</h2>\n<p>WebサイトはGitHub PagesやVercelを使えば無料で公開できます。GitHub Pagesはリポジトリの設定から有効化するだけで公開でき、VercelはGitHubと連携すれば自動デプロイが設定できます。公開後はHTTPS・スマホ表示・ページ速度・OGP設定を確認しましょう。html css 初心者はまずGitHub Pagesで公開を体験し、慣れたらVercelやNetlifyなどのより高機能なサービスに移行するのが自然なステップアップです。</p>",
+  "conclusion": "静的HTMLサイトはGitHub PagesまたはVercelで無料公開できます。Gitでリポジトリにpushし、ホスティングサービスの設定で公開URLが発行されます。本コース修了後はJavaScript入門へ進むのがおすすめです。",
   "tags": [
     "GitHub Pages",
     "Vercel",
@@ -18,12 +18,12 @@
   "theme": "web - HTML/CSS Web制作入門",
   "status": "published",
   "createdAt": "2026-05-30T04:13:27.736Z",
-  "updatedAt": "2026-05-30T04:13:27.746Z",
+  "updatedAt": "2026-05-30T05:23:49.545Z",
   "publishedAt": "2026-05-30T04:13:27.736Z",
   "metaTitle": "WebサイトをGitHub Pages・Vercelで公開する方法【html css 初心者向け】 | StackSh…",
-  "metaDescription": "作ったWebサイトをGitHub PagesやVercelで無料公開する手順をhtml css 初心者向けに解説。Gitの基本操作からGitHub Pagesでの公開、Vercelへのデプロイまで丁寧に説明します。 図解・具体例つきで丁寧に解説します。",
+  "metaDescription": "GitHub PagesとVercelでWebサイトを無料公開する手順。Git pushから公開URL確認、独自ドメインの概要まで解説します。",
   "ogTitle": "WebサイトをGitHub Pages・Vercelで無料公開する方法",
-  "ogDescription": "【Web開発初心者向け】HTMLサイトをインターネットに公開する方法を解説。GitHub Pagesを使えば無料で誰でも見られるWebサイトを公開できます。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
+  "ogDescription": "作ったHTMLサイトをインターネットに公開する方法を手順付きで学べます。",
   "knowledge": {
     "topic": "web",
     "courseId": "web",
@@ -31,20 +31,24 @@
   },
   "faq": [
     {
-      "question": "GitHub Pagesは本当に完全無料ですか？",
-      "answer": "はい、Publicリポジトリを使えばGitHub Pagesは完全無料です。カスタムドメイン・HTTPS・帯域制限（月100GB）内であれば追加費用は一切かかりません。商用利用も可能です。ただしPrivateリポジトリでGitHub Pagesを使うにはGitHub Proの有料プランが必要です。"
+      "question": "GitHub PagesとVercelの違いは？",
+      "answer": "どちらも静的サイト向け無料ホスティング。Vercelはビルド付きプロジェクトや独自ドメイン設定が手軽な場合があります。"
     },
     {
-      "question": "Vercelの無料プランでできないことはありますか？",
-      "answer": "Vercelの無料プラン（Hobby）では、個人プロジェクトの商用利用は制限されています。商用サイトには有料のProプラン（月20ドル程度）が必要です。また、チームでの共同作業も有料プランの機能です。個人の学習・ポートフォリオ公開なら無料プランで十分です。"
+      "question": "公開にGitは必須？",
+      "answer": "GitHub Pages/VercelはGit連携が基本です。Netlify Drop等、ドラッグ＆ドロップ公開も選択肢です。"
     },
     {
-      "question": "git push後にGitHub Pagesが更新されないのはなぜですか？",
-      "answer": "GitHub Pagesのデプロイには通常1〜5分程度かかります。GitHubリポジトリのActionsタブでデプロイの進行状況を確認できます。5分以上経っても更新されない場合は、ブランチ設定やindex.htmlの場所が正しいか確認してください。"
+      "question": "更新はどう反映される？",
+      "answer": "Git push後、数秒〜数分で自動デプロイされます。キャッシュで古い表示の場合はハードリロード（Ctrl+Shift+R）を試します。"
     },
     {
-      "question": "Netlifyという選択肢もありますか？",
-      "answer": "はい、NetlifyもVercelと同様の無料ホスティングサービスです。GitHubと連携した自動デプロイ、カスタムドメイン、HTTPS対応など同様の機能を持っています。VercelとNetlifyはどちらも優れたサービスで、好みで選んで問題ありません。初心者にはどちらも同様に使いやすいです。"
+      "question": "独自ドメインは設定できる？",
+      "answer": "はい。DNSでCNAME/Aレコードを設定し、ホスティング側でドメインを追加します。"
+    },
+    {
+      "question": "HTML/CSSだけでWebサイトは作れますか？",
+      "answer": "静的サイトの公開まではHTML/CSSだけで完結します。"
     }
   ],
   "nextEpisodeHint": "このHTML/CSSコースはこれで完了です！次はJavaScript入門コースでWebページに動きを加える方法を学んでみましょう。また、GitコースでGitとGitHubの使い方を深く学ぶことでweb制作の効率が大幅に上がります。",
@@ -57,9 +61,9 @@
         "@context": "https://schema.org",
         "@type": "TechArticle",
         "headline": "WebサイトをGitHub Pages・Vercelで無料公開する方法【完全手順】",
-        "description": "作ったWebサイトをGitHub PagesやVercelで無料公開する手順をhtml css 初心者向けに解説。Gitの基本操作からGitHub Pagesでの公開、Vercelへのデプロイまで丁寧に説明します。 図解・具体例つきで丁寧に解説します。",
+        "description": "GitHub PagesとVercelでWebサイトを無料公開する手順。Git pushから公開URL確認、独自ドメインの概要まで解説します。",
         "datePublished": "2026-05-30T04:13:27.736Z",
-        "dateModified": "2026-05-30T04:13:27.746Z",
+        "dateModified": "2026-05-30T05:23:49.545Z",
         "author": {
           "@type": "Organization",
           "name": "StackShelf",
@@ -80,7 +84,7 @@
         },
         "image": "https://ai-site-iota-nine.vercel.app/og-default.svg",
         "inLanguage": "ja",
-        "wordCount": 4791,
+        "wordCount": 5144,
         "mainEntityOfPage": {
           "@type": "WebPage",
           "@id": "https://ai-site-iota-nine.vercel.app/article/web-publish-basics"
@@ -146,34 +150,42 @@
         "mainEntity": [
           {
             "@type": "Question",
-            "name": "GitHub Pagesは本当に完全無料ですか？",
+            "name": "GitHub PagesとVercelの違いは？",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "はい、Publicリポジトリを使えばGitHub Pagesは完全無料です。カスタムドメイン・HTTPS・帯域制限（月100GB）内であれば追加費用は一切かかりません。商用利用も可能です。ただしPrivateリポジトリでGitHub Pagesを使うにはGitHub Proの有料プランが必要です。"
+              "text": "どちらも静的サイト向け無料ホスティング。Vercelはビルド付きプロジェクトや独自ドメイン設定が手軽な場合があります。"
             }
           },
           {
             "@type": "Question",
-            "name": "Vercelの無料プランでできないことはありますか？",
+            "name": "公開にGitは必須？",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "Vercelの無料プラン（Hobby）では、個人プロジェクトの商用利用は制限されています。商用サイトには有料のProプラン（月20ドル程度）が必要です。また、チームでの共同作業も有料プランの機能です。個人の学習・ポートフォリオ公開なら無料プランで十分です。"
+              "text": "GitHub Pages/VercelはGit連携が基本です。Netlify Drop等、ドラッグ＆ドロップ公開も選択肢です。"
             }
           },
           {
             "@type": "Question",
-            "name": "git push後にGitHub Pagesが更新されないのはなぜですか？",
+            "name": "更新はどう反映される？",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "GitHub Pagesのデプロイには通常1〜5分程度かかります。GitHubリポジトリのActionsタブでデプロイの進行状況を確認できます。5分以上経っても更新されない場合は、ブランチ設定やindex.htmlの場所が正しいか確認してください。"
+              "text": "Git push後、数秒〜数分で自動デプロイされます。キャッシュで古い表示の場合はハードリロード（Ctrl+Shift+R）を試します。"
             }
           },
           {
             "@type": "Question",
-            "name": "Netlifyという選択肢もありますか？",
+            "name": "独自ドメインは設定できる？",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "はい、NetlifyもVercelと同様の無料ホスティングサービスです。GitHubと連携した自動デプロイ、カスタムドメイン、HTTPS対応など同様の機能を持っています。VercelとNetlifyはどちらも優れたサービスで、好みで選んで問題ありません。初心者にはどちらも同様に使いやすいです。"
+              "text": "はい。DNSでCNAME/Aレコードを設定し、ホスティング側でドメインを追加します。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "HTML/CSSだけでWebサイトは作れますか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "静的サイトの公開まではHTML/CSSだけで完結します。"
             }
           }
         ]
@@ -235,36 +247,72 @@
     "mainEntity": [
       {
         "@type": "Question",
-        "name": "GitHub Pagesは本当に完全無料ですか？",
+        "name": "GitHub PagesとVercelの違いは？",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "はい、Publicリポジトリを使えばGitHub Pagesは完全無料です。カスタムドメイン・HTTPS・帯域制限（月100GB）内であれば追加費用は一切かかりません。商用利用も可能です。ただしPrivateリポジトリでGitHub Pagesを使うにはGitHub Proの有料プランが必要です。"
+          "text": "どちらも静的サイト向け無料ホスティング。Vercelはビルド付きプロジェクトや独自ドメイン設定が手軽な場合があります。"
         }
       },
       {
         "@type": "Question",
-        "name": "Vercelの無料プランでできないことはありますか？",
+        "name": "公開にGitは必須？",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Vercelの無料プラン（Hobby）では、個人プロジェクトの商用利用は制限されています。商用サイトには有料のProプラン（月20ドル程度）が必要です。また、チームでの共同作業も有料プランの機能です。個人の学習・ポートフォリオ公開なら無料プランで十分です。"
+          "text": "GitHub Pages/VercelはGit連携が基本です。Netlify Drop等、ドラッグ＆ドロップ公開も選択肢です。"
         }
       },
       {
         "@type": "Question",
-        "name": "git push後にGitHub Pagesが更新されないのはなぜですか？",
+        "name": "更新はどう反映される？",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "GitHub Pagesのデプロイには通常1〜5分程度かかります。GitHubリポジトリのActionsタブでデプロイの進行状況を確認できます。5分以上経っても更新されない場合は、ブランチ設定やindex.htmlの場所が正しいか確認してください。"
+          "text": "Git push後、数秒〜数分で自動デプロイされます。キャッシュで古い表示の場合はハードリロード（Ctrl+Shift+R）を試します。"
         }
       },
       {
         "@type": "Question",
-        "name": "Netlifyという選択肢もありますか？",
+        "name": "独自ドメインは設定できる？",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "はい、NetlifyもVercelと同様の無料ホスティングサービスです。GitHubと連携した自動デプロイ、カスタムドメイン、HTTPS対応など同様の機能を持っています。VercelとNetlifyはどちらも優れたサービスで、好みで選んで問題ありません。初心者にはどちらも同様に使いやすいです。"
+          "text": "はい。DNSでCNAME/Aレコードを設定し、ホスティング側でドメインを追加します。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "HTML/CSSだけでWebサイトは作れますか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "静的サイトの公開まではHTML/CSSだけで完結します。"
         }
       }
     ]
-  }
+  },
+  "internalLinkCandidates": [
+    {
+      "slug": "web-css-practice",
+      "title": "ランディングページを実際に作ろう：HTML/CSS総合実践",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "web-forms",
+      "title": "HTMLフォームの作り方：form・input・label・buttonタグを徹底解説",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "web-lists-tables",
+      "title": "リストと表の作り方：ul・ol・li・tableタグをわかりやすく解説",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "web-links-images",
+      "title": "リンクと画像の書き方：aタグ・imgタグ・alt属性を初心者向けに解説",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "web-first-html",
+      "title": "最初のHTMLページを作ろう！DOCTYPE・head・bodyの基本構造を解説",
+      "reason": "同じ講座の関連回です"
+    }
+  ],
+  "nextAction": "GitHubにリポジトリを作成し、index.htmlをpush。Settings→Pagesでmainブランチを公開ソースに設定し、発行されたURLにアクセスして確認してください。"
 }

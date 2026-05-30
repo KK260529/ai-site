@@ -1,0 +1,291 @@
+{
+  "id": "art_errors_javascript-conflict-multiple-assets-emit-different-content-to-the-same-filename-1da561",
+  "slug": "javascript-conflict-multiple-assets-emit-different-content-to-the-same-filename-1da561",
+  "title": "Conflict: Multiple assets emit different content to the same filename の原因と解決法",
+  "summary": "Conflict: Multiple assets emit different content to the same filename の原因と具体的な解決手順をまとめました。",
+  "body": "<h2>エラーメッセージ（全文）</h2>\n<p>検索でヒットしやすいよう、実際のコンソール出力をそのまま掲載します。</p>\n<pre><code>Conflict: Multiple assets emit different content to the same filename</code></pre>\n\n<h2>このエラーとは</h2>\n<p>Conflict: Multiple assets emit different content to the same filename は JavaScript 開発でよく遭遇するエラーです。</p>\n<p><strong>想定環境:</strong> Windows / macOS / Linux</p>\n<p><strong>よく出る状況:</strong> webpack / Vite ビルド時</p>\n\n<h2>よくある原因</h2>\n<ul>\n<li>import パス誤り</li>\n<li>ローダー不足</li>\n<li>メモリ不足</li>\n</ul><h2>解決方法</h2><h3>方法1: alias 設定</h3><p>resolve.alias でパスを統一.</p>\n<h2>それでも直らないとき</h2>\n<p>バージョン情報（JavaScript のバージョン、OS、実行コマンド）を添えて、エラーメッセージ全文と直前に変更した点を確認してください。ログの数行上にも原因の手がかりが残っていることが多いです。</p>",
+  "conclusion": "「Conflict: Multiple assets emit different content to the same filename」は import パス誤り が原因のことが多いです。上記の手順で切り分けてください。",
+  "tags": [
+    "javascript",
+    "JavaScriptエラー",
+    "Conflict",
+    "webpack",
+    "Vite",
+    "Conflict: Multiple assets emit different"
+  ],
+  "category": "JavaScriptエラー",
+  "theme": "errors - JavaScript / Node.js エラー・トラブル集",
+  "articleType": "error",
+  "status": "published",
+  "createdAt": "2026-05-30T05:47:45.438Z",
+  "updatedAt": "2026-05-30T05:47:45.438Z",
+  "publishedAt": "2026-05-30T05:47:45.438Z",
+  "metaTitle": "Conflict: Multiple assets emit different content to the sam…",
+  "metaDescription": "Conflict: Multiple assets emit different content to the same filename が出たときの原因・確認手順・解決策を解説。webpack / Vite ビルド時。",
+  "ogTitle": "Conflict: Multiple assets emit different content to the same filename の原因と解決法",
+  "ogDescription": "Conflict: Multiple assets emit different content to the same filename が出たときの原因・確認手順・解決策を解説。webpack / Vite ビルド時。",
+  "knowledge": {
+    "topic": "errors",
+    "courseId": "javascript-errors",
+    "episode": 137
+  },
+  "faq": [
+    {
+      "question": "Conflict: Multiple assets emit different content to the same filename とは何ですか？",
+      "answer": "Conflict: Multiple assets emit different content to the same filename は JavaScript 実行時に表示されるエラーです。import パス誤り"
+    },
+    {
+      "question": "Conflict: Multiple assets emit different content to the same filename の原因は？",
+      "answer": "import パス誤り。ローダー不足。メモリ不足。"
+    },
+    {
+      "question": "Conflict: Multiple assets emit different content to the same filename の直し方は？",
+      "answer": "alias 設定：resolve.alias でパスを統一."
+    },
+    {
+      "question": "JavaScript で Conflict が出るのはなぜ？",
+      "answer": "webpack / Vite ビルド時"
+    },
+    {
+      "question": "Conflict: Multiple assets emit different content to the same filename を防ぐには？",
+      "answer": "。"
+    }
+  ],
+  "nextAction": "同じ JavaScript カテゴリの関連エラーもあわせて確認してください。",
+  "internalLinkCandidates": [],
+  "ogImage": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+  "canonical": "https://ai-site-iota-nine.vercel.app/article/javascript-conflict-multiple-assets-emit-different-content-to-the-same-filename-1da561",
+  "jsonLd": {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@context": "https://schema.org",
+        "@type": "TechArticle",
+        "headline": "Conflict: Multiple assets emit different content to the same filename の原因と解決法",
+        "description": "Conflict: Multiple assets emit different content to the same filename が出たときの原因・確認手順・解決策を解説。webpack / Vite ビルド時。",
+        "datePublished": "2026-05-30T05:47:45.438Z",
+        "dateModified": "2026-05-30T05:47:45.438Z",
+        "author": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
+        },
+        "image": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+        "inLanguage": "ja",
+        "wordCount": 416,
+        "mainEntityOfPage": {
+          "@type": "WebPage",
+          "@id": "https://ai-site-iota-nine.vercel.app/article/javascript-conflict-multiple-assets-emit-different-content-to-the-same-filename-1da561"
+        },
+        "keywords": "javascript, JavaScriptエラー, Conflict, webpack, Vite, Conflict: Multiple assets emit different",
+        "articleSection": "JavaScriptエラー",
+        "url": "https://ai-site-iota-nine.vercel.app/article/javascript-conflict-multiple-assets-emit-different-content-to-the-same-filename-1da561",
+        "learningResourceType": "tutorial",
+        "educationalLevel": "beginner"
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "ホーム",
+            "item": "https://ai-site-iota-nine.vercel.app/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "errors",
+            "item": "https://ai-site-iota-nine.vercel.app/knowledge/errors"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "JavaScript / Node.js エラー・トラブル集",
+            "item": "https://ai-site-iota-nine.vercel.app/course/errors/javascript-errors"
+          },
+          {
+            "@type": "ListItem",
+            "position": 4,
+            "name": "Conflict: Multiple assets emit different content to the same filename の原因と解決法",
+            "item": "https://ai-site-iota-nine.vercel.app/article/javascript-conflict-multiple-assets-emit-different-content-to-the-same-filename-1da561"
+          }
+        ]
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "Course",
+        "name": "JavaScript / Node.js エラー・トラブル集",
+        "description": "JavaScript / Node.js エラー・トラブル集",
+        "provider": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app"
+        },
+        "url": "https://ai-site-iota-nine.vercel.app/course/errors/javascript-errors",
+        "inLanguage": "ja",
+        "educationalLevel": "beginner",
+        "hasCourseInstance": {
+          "@type": "CourseInstance",
+          "courseMode": "online",
+          "courseWorkload": "PT1H"
+        }
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "Conflict: Multiple assets emit different content to the same filename とは何ですか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Conflict: Multiple assets emit different content to the same filename は JavaScript 実行時に表示されるエラーです。import パス誤り"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Conflict: Multiple assets emit different content to the same filename の原因は？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "import パス誤り。ローダー不足。メモリ不足。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Conflict: Multiple assets emit different content to the same filename の直し方は？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "alias 設定：resolve.alias でパスを統一."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "JavaScript で Conflict が出るのはなぜ？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "webpack / Vite ビルド時"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Conflict: Multiple assets emit different content to the same filename を防ぐには？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "。"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "breadcrumb": {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "ホーム",
+        "item": "https://ai-site-iota-nine.vercel.app/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "errors",
+        "item": "https://ai-site-iota-nine.vercel.app/knowledge/errors"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "JavaScript / Node.js エラー・トラブル集",
+        "item": "https://ai-site-iota-nine.vercel.app/course/errors/javascript-errors"
+      },
+      {
+        "@type": "ListItem",
+        "position": 4,
+        "name": "Conflict: Multiple assets emit different content to the same filename の原因と解決法",
+        "item": "https://ai-site-iota-nine.vercel.app/article/javascript-conflict-multiple-assets-emit-different-content-to-the-same-filename-1da561"
+      }
+    ]
+  },
+  "courseSchema": {
+    "@context": "https://schema.org",
+    "@type": "Course",
+    "name": "JavaScript / Node.js エラー・トラブル集",
+    "description": "JavaScript / Node.js エラー・トラブル集",
+    "provider": {
+      "@type": "Organization",
+      "name": "StackShelf",
+      "url": "https://ai-site-iota-nine.vercel.app"
+    },
+    "url": "https://ai-site-iota-nine.vercel.app/course/errors/javascript-errors",
+    "inLanguage": "ja",
+    "educationalLevel": "beginner",
+    "hasCourseInstance": {
+      "@type": "CourseInstance",
+      "courseMode": "online",
+      "courseWorkload": "PT1H"
+    }
+  },
+  "faqSchema": {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "Conflict: Multiple assets emit different content to the same filename とは何ですか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Conflict: Multiple assets emit different content to the same filename は JavaScript 実行時に表示されるエラーです。import パス誤り"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Conflict: Multiple assets emit different content to the same filename の原因は？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "import パス誤り。ローダー不足。メモリ不足。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Conflict: Multiple assets emit different content to the same filename の直し方は？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "alias 設定：resolve.alias でパスを統一."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "JavaScript で Conflict が出るのはなぜ？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "webpack / Vite ビルド時"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Conflict: Multiple assets emit different content to the same filename を防ぐには？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "。"
+        }
+      }
+    ]
+  }
+}

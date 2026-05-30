@@ -17,12 +17,12 @@
   "theme": "bash - Bashシェルスクリプト入門",
   "status": "published",
   "createdAt": "2026-05-30T05:14:49.791Z",
-  "updatedAt": "2026-05-30T05:14:49.794Z",
+  "updatedAt": "2026-05-30T05:15:42.679Z",
   "publishedAt": "2026-05-30T05:14:49.791Z",
   "metaTitle": "Bash for while ループ の書き方｜一括処理・シェルスクリプト",
-  "metaDescription": "【Bash初心者向け】Bashの for・while・until ループ、break/continue、seq と配列の走査を初心者向けに解説。複数ファイルの一括処理例も載せています。 図解・具体例つきで丁寧に解説します。",
+  "metaDescription": "Bashの for・while・until ループ、break/continue、seq と配列の走査を初心者向けに解説。複数ファイルの一括処理例も載せています。",
   "ogTitle": "Bashのfor・whileループ入門",
-  "ogDescription": "【Bash初心者向け】【Bash初心者向け】繰り返し処理でスクリプトを実用的にする for/while ループを解説します。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
+  "ogDescription": "繰り返し処理でスクリプトを実用的にする for/while ループを解説します。",
   "knowledge": {
     "topic": "bash",
     "courseId": "bash",
@@ -54,29 +54,29 @@
   "nextAction": "logs フォルダ内の .txt を for で走査し行数を合計する process.sh を書いて実行してください。seq 1 5 と brace expansion {1..5} も試してみましょう。",
   "internalLinkCandidates": [
     {
-      "slug": "linux-view-search",
-      "title": "ファイルの中身を表示・検索する（cat/less/grep/find）【Linux入門】",
-      "reason": "ループと組み合わせる find や grep の基礎です。"
+      "slug": "bash-pipes-scripts",
+      "title": "Bashのパイプとコマンド置換｜CLIを組み合わせるデータ処理【第6回】",
+      "reason": "同じ講座の関連回です"
     },
     {
-      "slug": "python-loops",
-      "title": "Pythonのfor/whileループをマスターする【入門第5回】",
-      "reason": "ループの考え方は Python と共通です。"
+      "slug": "bash-functions",
+      "title": "Bash関数の定義と使い方｜再利用可能なスクリプトを書く【第5回】",
+      "reason": "同じ講座の関連回です"
     },
     {
-      "slug": "linux-pipe-redirect",
-      "title": "パイプ（|）とリダイレクト（> >> 2>&1）の使い方【Linux中級】",
-      "reason": "while read とパイプの組み合わせで使います。"
+      "slug": "bash-conditionals",
+      "title": "Bashのifとtestによる条件分岐｜ファイル判定・文字列比較をマスター【第3回】",
+      "reason": "同じ講座の関連回です"
     },
     {
-      "slug": "docker-intro",
-      "title": "Dockerとは？仮想マシンとの違いをわかりやすく解説【初心者向け】",
-      "reason": "docker ps の出力を while で処理する例と関連します。"
+      "slug": "bash-variables",
+      "title": "Bashの変数・引数・終了コードをマスターする【シェルスクリプト入門第2回】",
+      "reason": "同じ講座の関連回です"
     },
     {
-      "slug": "git-intro",
-      "title": "Gitとは？バージョン管理を初めて学ぶ人のための完全入門",
-      "reason": "複数ファイルへの git add をループで自動化する場面があります。"
+      "slug": "bash-intro",
+      "title": "Bashシェルスクリプトとは？自動化の第一歩をわかりやすく解説【初心者向け】",
+      "reason": "同じ講座の関連回です"
     }
   ],
   "ogImage": "https://ai-site-iota-nine.vercel.app/og-default.svg",
@@ -90,7 +90,7 @@
         "headline": "Bashのfor・whileループ完全ガイド｜一括処理と対話入力【シェルスクリプト第4回】",
         "description": "【Bash初心者向け】Bashの for・while・until ループ、break/continue、seq と配列の走査を初心者向けに解説。複数ファイルの一括処理例も載せています。 図解・具体例つきで丁寧に解説します。",
         "datePublished": "2026-05-30T05:14:49.791Z",
-        "dateModified": "2026-05-30T05:14:49.794Z",
+        "dateModified": "2026-05-30T05:15:42.679Z",
         "author": {
           "@type": "Organization",
           "name": "StackShelf",

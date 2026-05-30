@@ -2,9 +2,9 @@
   "id": "art_web_web-flexbox",
   "slug": "web-flexbox",
   "title": "CSSフレックスボックス完全入門：display:flexとjustify-contentを使いこなそう",
-  "summary": "CSSのFlexboxをゼロから解説します。display:flex・justify-content・align-items・flex-wrapなど主要プロパティをhtml css 初心者向けにわかりやすく説明します。",
-  "body": "<h2>Flexboxとは：横並びレイアウトを簡単に実現する仕組み</h2>\n<p>かつてのCSSで横並びレイアウトを作るには <code>float</code> プロパティを使う必要があり、複雑なハックが必要でした。Flexbox（フレキシブルボックスレイアウト）は、この問題を解決するために登場した強力なレイアウトシステムです。</p>\n<p>Flexboxを使えば、次のようなレイアウトが数行のCSSで実現できます。</p>\n<ul>\n  <li>ナビゲーションメニューの横並び</li>\n  <li>カード一覧の均等配置</li>\n  <li>要素の縦横中央揃え</li>\n  <li>サイドバーとメインコンテンツの2カラムレイアウト</li>\n</ul>\n<p>Flexboxには「親要素（コンテナ）」に指定するプロパティと「子要素（アイテム）」に指定するプロパティの2種類があります。まずこの役割の違いを理解することが重要です。</p>\n\n<h2>display:flexで始めるFlexbox</h2>\n<p>Flexboxを使い始めるには、親要素に <code>display: flex;</code> を指定するだけです。</p>\n<pre><code>&lt;!-- HTML --&gt;\n&lt;div class=\"container\"&gt;\n  &lt;div class=\"item\"&gt;アイテム1&lt;/div&gt;\n  &lt;div class=\"item\"&gt;アイテム2&lt;/div&gt;\n  &lt;div class=\"item\"&gt;アイテム3&lt;/div&gt;\n&lt;/div&gt;</code></pre>\n<pre><code>/* CSS */\n.container {\n  display: flex;\n  background-color: #f1f5f9;\n  padding: 16px;\n  gap: 16px; /* アイテム間のスペース */\n}\n\n.item {\n  background-color: #3b82f6;\n  color: white;\n  padding: 20px 30px;\n  border-radius: 4px;\n}</code></pre>\n<p><code>display: flex;</code> を親要素に指定すると、直接の子要素がすべて横並びになります。これだけで基本的な横並びレイアウトが完成します。<code>gap</code> プロパティでアイテム間のスペースを一括指定できます（row-gap・column-gapでそれぞれ個別指定も可能）。</p>\n\n<h2>justify-content：主軸方向の配置を制御する</h2>\n<p><code>justify-content</code> は主軸方向（デフォルトでは水平方向）のアイテムの配置を制御します。</p>\n<pre><code>.container {\n  display: flex;\n  /* アイテムを左端に揃える（デフォルト） */\n  justify-content: flex-start;\n}\n\n.container {\n  /* アイテムを右端に揃える */\n  justify-content: flex-end;\n}\n\n.container {\n  /* アイテムを中央に揃える */\n  justify-content: center;\n}\n\n.container {\n  /* アイテムを均等に配置し、両端に余白 */\n  justify-content: space-around;\n}\n\n.container {\n  /* アイテムを均等に配置し、両端は余白なし */\n  justify-content: space-between;\n}\n\n.container {\n  /* すべてのアイテム間と両端に等しい余白 */\n  justify-content: space-evenly;\n}</code></pre>\n<p><code>space-between</code> はナビゲーションバーや商品カード一覧などでよく使われます。<code>center</code> は要素を画面の中央に置きたいときに便利です。</p>\n\n<h2>align-items：交差軸方向の配置を制御する</h2>\n<p><code>align-items</code> は交差軸方向（デフォルトでは垂直方向）のアイテムの配置を制御します。</p>\n<pre><code>.container {\n  display: flex;\n  height: 200px; /* 高さを指定することで効果がわかる */\n\n  /* アイテムを上端に揃える（デフォルト） */\n  align-items: flex-start;\n\n  /* アイテムを下端に揃える */\n  align-items: flex-end;\n\n  /* アイテムを縦方向中央に揃える */\n  align-items: center;\n\n  /* アイテムの高さをコンテナいっぱいに伸ばす（デフォルトはstretch） */\n  align-items: stretch;\n\n  /* アイテムのテキストのベースラインで揃える */\n  align-items: baseline;\n}</code></pre>\n<p>要素を縦横中央に配置したいときは <code>justify-content: center;</code> と <code>align-items: center;</code> を組み合わせます。これは現代のweb制作で最もよく使うCSSテクニックのひとつです。</p>\n<pre><code>/* 縦横中央揃えの定番コード */\n.center-box {\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  height: 400px;\n}</code></pre>\n\n<h2>flex-direction：並ぶ方向を変える</h2>\n<p><code>flex-direction</code> はアイテムが並ぶ主軸の方向を指定します。デフォルトは横方向（row）です。</p>\n<pre><code>.container {\n  display: flex;\n\n  /* 横方向（左→右）デフォルト */\n  flex-direction: row;\n\n  /* 横方向（右→左） */\n  flex-direction: row-reverse;\n\n  /* 縦方向（上→下） */\n  flex-direction: column;\n\n  /* 縦方向（下→上） */\n  flex-direction: column-reverse;\n}</code></pre>\n<p><code>flex-direction: column;</code> を使うと、ナビゲーションメニューを縦並びにしたり、カード内のコンテンツを縦方向に配置したりできます。<code>column</code> にするとjustify-contentが縦方向、align-itemsが横方向の制御になることに注意しましょう。</p>\n\n<h2>flex-wrap：アイテムの折り返し設定</h2>\n<p>デフォルトでは、Flexboxのアイテムは折り返さず1行に収まろうとします。<code>flex-wrap</code> で折り返し動作を制御できます。</p>\n<pre><code>.container {\n  display: flex;\n\n  /* 折り返しなし（デフォルト） */\n  flex-wrap: nowrap;\n\n  /* アイテムが溢れたら次の行に折り返す */\n  flex-wrap: wrap;\n\n  /* 折り返して逆順に */\n  flex-wrap: wrap-reverse;\n}</code></pre>\n<p><code>flex-wrap: wrap;</code> はレスポンシブデザインでよく使います。画面幅が狭いときはアイテムが折り返して縦に並び、広いときは横に並ぶという動作が自然に実現できます。</p>\n\n<h2>flex・flex-grow・flex-shrink：アイテムのサイズ制御</h2>\n<p>子要素（アイテム）側のプロパティで、アイテムが余白を伸びて埋めるか、縮小するかを制御できます。</p>\n<pre><code>/* flex-grow：余白を埋める割合（デフォルト:0） */\n.item {\n  flex-grow: 1; /* 余白を均等に分け合う */\n}\n\n.sidebar {\n  flex-grow: 1;   /* 残りスペースを1:3で分ける */\n  min-width: 200px;\n}\n\n.main {\n  flex-grow: 3;\n}\n\n/* flex-shrink：縮小する割合（デフォルト:1） */\n.fixed-item {\n  flex-shrink: 0; /* 縮小しない（固定サイズを保つ） */\n}\n\n/* flex-basis：アイテムの基本サイズ */\n.item {\n  flex-basis: 200px; /* 200pxを基本サイズにする */\n}\n\n/* flex shorthand（grow shrink basis） */\n.item {\n  flex: 1 1 200px; /* grow:1 shrink:1 basis:200px */\n  flex: 1;         /* 1 1 0% と同等（よく使う） */\n}</code></pre>\n<p><code>flex: 1;</code> は「利用可能なスペースを均等に分け合う」という指定で、カード一覧や横並びカラムレイアウトを作るときに非常によく使います。</p>\n\n<h2>Flexboxの実践例：ナビゲーションバーを作る</h2>\n<p>学んだプロパティを組み合わせて、実際のナビゲーションバーを作ってみましょう。</p>\n<pre><code>&lt;!-- HTML --&gt;\n&lt;header class=\"header\"&gt;\n  &lt;div class=\"logo\"&gt;MyBrand&lt;/div&gt;\n  &lt;nav&gt;\n    &lt;ul class=\"nav-list\"&gt;\n      &lt;li&gt;&lt;a href=\"#\"&gt;ホーム&lt;/a&gt;&lt;/li&gt;\n      &lt;li&gt;&lt;a href=\"#\"&gt;サービス&lt;/a&gt;&lt;/li&gt;\n      &lt;li&gt;&lt;a href=\"#\"&gt;会社情報&lt;/a&gt;&lt;/li&gt;\n      &lt;li&gt;&lt;a href=\"#\"&gt;お問い合わせ&lt;/a&gt;&lt;/li&gt;\n    &lt;/ul&gt;\n  &lt;/nav&gt;\n&lt;/header&gt;</code></pre>\n<pre><code>/* CSS */\n.header {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  padding: 16px 32px;\n  background-color: #1e293b;\n  color: white;\n}\n\n.logo {\n  font-size: 24px;\n  font-weight: bold;\n  color: #60a5fa;\n}\n\n.nav-list {\n  display: flex;\n  list-style: none;\n  gap: 24px;\n  margin: 0;\n  padding: 0;\n}\n\n.nav-list a {\n  color: #cbd5e1;\n  text-decoration: none;\n  font-size: 15px;\n  transition: color 0.2s;\n}\n\n.nav-list a:hover {\n  color: white;\n}</code></pre>\n<p>このコードで、ロゴが左端・メニューが右端に配置されたヘッダーが作れます。Flexboxを使うとこのような一般的なレイアウトが非常に少ないコードで実現できます。</p>\n\n<h2>まとめ：Flexboxの主要プロパティ一覧</h2>\n<p>Flexboxは <code>display: flex</code> を親要素に指定することで起動します。主要なプロパティを整理します。</p>\n<ul>\n  <li><strong>justify-content</strong>：主軸方向（横）の配置（flex-start / center / flex-end / space-between / space-around）</li>\n  <li><strong>align-items</strong>：交差軸方向（縦）の配置（flex-start / center / flex-end / stretch）</li>\n  <li><strong>flex-direction</strong>：並ぶ方向（row / column）</li>\n  <li><strong>flex-wrap</strong>：折り返し（wrap / nowrap）</li>\n  <li><strong>gap</strong>：アイテム間の余白</li>\n  <li><strong>flex（子要素）</strong>：サイズの伸縮割合</li>\n</ul>\n<p>これらを組み合わせることで、現代のほとんどのレイアウトをFloatやposition無しで実現できます。html css 初心者はまずjustify-contentとalign-itemsを集中的に練習しましょう。</p>",
-  "conclusion": "Flexboxは親要素にdisplay:flexを指定するだけで横並びレイアウトが実現できます。justify-content（横方向）とalign-items（縦方向）の組み合わせで要素の配置を自在に制御でき、gap・flex-wrap・flex-growを加えることで複雑なレイアウトも少ないコードで作れます。縦横中央揃えはjustify-content:centerとalign-items:centerの組み合わせが定番です。",
+  "summary": "display:flex、justify-content、align-items、flex-direction、flex-wrap、gapで横並びレイアウトを実現。ナビゲーションやカード配置の実例を解説します。",
+  "body": "<h2>結論：Flexboxはdisplay:flexで子要素の並びを自在に制御する</h2>\n<p><code>display: flex</code> の親に <code>justify-content</code>（主軸配置）、<code>align-items</code>（交差軸配置）、<code>flex-direction</code>（row/column）、<code>gap</code>（間隔）を指定。ナビゲーション・カード一覧・中央寄せの定番です。</p>\n\n<h2>Flexboxとは：横並びレイアウトを簡単に実現する仕組み</h2>\n<p>かつてのCSSで横並びレイアウトを作るには <code>float</code> プロパティを使う必要があり、複雑なハックが必要でした。Flexbox（フレキシブルボックスレイアウト）は、この問題を解決するために登場した強力なレイアウトシステムです。</p>\n<p>Flexboxを使えば、次のようなレイアウトが数行のCSSで実現できます。</p>\n<ul>\n  <li>ナビゲーションメニューの横並び</li>\n  <li>カード一覧の均等配置</li>\n  <li>要素の縦横中央揃え</li>\n  <li>サイドバーとメインコンテンツの2カラムレイアウト</li>\n</ul>\n<p>Flexboxには「親要素（コンテナ）」に指定するプロパティと「子要素（アイテム）」に指定するプロパティの2種類があります。まずこの役割の違いを理解することが重要です。</p>\n\n<h2>display:flexで始めるFlexbox</h2>\n<p>Flexboxを使い始めるには、親要素に <code>display: flex;</code> を指定するだけです。</p>\n<pre><code>&lt;!-- HTML --&gt;\n&lt;div class=\"container\"&gt;\n  &lt;div class=\"item\"&gt;アイテム1&lt;/div&gt;\n  &lt;div class=\"item\"&gt;アイテム2&lt;/div&gt;\n  &lt;div class=\"item\"&gt;アイテム3&lt;/div&gt;\n&lt;/div&gt;</code></pre>\n<pre><code>/* CSS */\n.container {\n  display: flex;\n  background-color: #f1f5f9;\n  padding: 16px;\n  gap: 16px; /* アイテム間のスペース */\n}\n\n.item {\n  background-color: #3b82f6;\n  color: white;\n  padding: 20px 30px;\n  border-radius: 4px;\n}</code></pre>\n<p><code>display: flex;</code> を親要素に指定すると、直接の子要素がすべて横並びになります。これだけで基本的な横並びレイアウトが完成します。<code>gap</code> プロパティでアイテム間のスペースを一括指定できます（row-gap・column-gapでそれぞれ個別指定も可能）。</p>\n\n<h2>justify-content：主軸方向の配置を制御する</h2>\n<p><code>justify-content</code> は主軸方向（デフォルトでは水平方向）のアイテムの配置を制御します。</p>\n<pre><code>.container {\n  display: flex;\n  /* アイテムを左端に揃える（デフォルト） */\n  justify-content: flex-start;\n}\n\n.container {\n  /* アイテムを右端に揃える */\n  justify-content: flex-end;\n}\n\n.container {\n  /* アイテムを中央に揃える */\n  justify-content: center;\n}\n\n.container {\n  /* アイテムを均等に配置し、両端に余白 */\n  justify-content: space-around;\n}\n\n.container {\n  /* アイテムを均等に配置し、両端は余白なし */\n  justify-content: space-between;\n}\n\n.container {\n  /* すべてのアイテム間と両端に等しい余白 */\n  justify-content: space-evenly;\n}</code></pre>\n<p><code>space-between</code> はナビゲーションバーや商品カード一覧などでよく使われます。<code>center</code> は要素を画面の中央に置きたいときに便利です。</p>\n\n<h2>align-items：交差軸方向の配置を制御する</h2>\n<p><code>align-items</code> は交差軸方向（デフォルトでは垂直方向）のアイテムの配置を制御します。</p>\n<pre><code>.container {\n  display: flex;\n  height: 200px; /* 高さを指定することで効果がわかる */\n\n  /* アイテムを上端に揃える（デフォルト） */\n  align-items: flex-start;\n\n  /* アイテムを下端に揃える */\n  align-items: flex-end;\n\n  /* アイテムを縦方向中央に揃える */\n  align-items: center;\n\n  /* アイテムの高さをコンテナいっぱいに伸ばす（デフォルトはstretch） */\n  align-items: stretch;\n\n  /* アイテムのテキストのベースラインで揃える */\n  align-items: baseline;\n}</code></pre>\n<p>要素を縦横中央に配置したいときは <code>justify-content: center;</code> と <code>align-items: center;</code> を組み合わせます。これは現代のweb制作で最もよく使うCSSテクニックのひとつです。</p>\n<pre><code>/* 縦横中央揃えの定番コード */\n.center-box {\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  height: 400px;\n}</code></pre>\n\n<h2>flex-direction：並ぶ方向を変える</h2>\n<p><code>flex-direction</code> はアイテムが並ぶ主軸の方向を指定します。デフォルトは横方向（row）です。</p>\n<pre><code>.container {\n  display: flex;\n\n  /* 横方向（左→右）デフォルト */\n  flex-direction: row;\n\n  /* 横方向（右→左） */\n  flex-direction: row-reverse;\n\n  /* 縦方向（上→下） */\n  flex-direction: column;\n\n  /* 縦方向（下→上） */\n  flex-direction: column-reverse;\n}</code></pre>\n<p><code>flex-direction: column;</code> を使うと、ナビゲーションメニューを縦並びにしたり、カード内のコンテンツを縦方向に配置したりできます。<code>column</code> にするとjustify-contentが縦方向、align-itemsが横方向の制御になることに注意しましょう。</p>\n\n<h2>flex-wrap：アイテムの折り返し設定</h2>\n<p>デフォルトでは、Flexboxのアイテムは折り返さず1行に収まろうとします。<code>flex-wrap</code> で折り返し動作を制御できます。</p>\n<pre><code>.container {\n  display: flex;\n\n  /* 折り返しなし（デフォルト） */\n  flex-wrap: nowrap;\n\n  /* アイテムが溢れたら次の行に折り返す */\n  flex-wrap: wrap;\n\n  /* 折り返して逆順に */\n  flex-wrap: wrap-reverse;\n}</code></pre>\n<p><code>flex-wrap: wrap;</code> はレスポンシブデザインでよく使います。画面幅が狭いときはアイテムが折り返して縦に並び、広いときは横に並ぶという動作が自然に実現できます。</p>\n\n<h2>flex・flex-grow・flex-shrink：アイテムのサイズ制御</h2>\n<p>子要素（アイテム）側のプロパティで、アイテムが余白を伸びて埋めるか、縮小するかを制御できます。</p>\n<pre><code>/* flex-grow：余白を埋める割合（デフォルト:0） */\n.item {\n  flex-grow: 1; /* 余白を均等に分け合う */\n}\n\n.sidebar {\n  flex-grow: 1;   /* 残りスペースを1:3で分ける */\n  min-width: 200px;\n}\n\n.main {\n  flex-grow: 3;\n}\n\n/* flex-shrink：縮小する割合（デフォルト:1） */\n.fixed-item {\n  flex-shrink: 0; /* 縮小しない（固定サイズを保つ） */\n}\n\n/* flex-basis：アイテムの基本サイズ */\n.item {\n  flex-basis: 200px; /* 200pxを基本サイズにする */\n}\n\n/* flex shorthand（grow shrink basis） */\n.item {\n  flex: 1 1 200px; /* grow:1 shrink:1 basis:200px */\n  flex: 1;         /* 1 1 0% と同等（よく使う） */\n}</code></pre>\n<p><code>flex: 1;</code> は「利用可能なスペースを均等に分け合う」という指定で、カード一覧や横並びカラムレイアウトを作るときに非常によく使います。</p>\n\n<h2>Flexboxの実践例：ナビゲーションバーを作る</h2>\n<p>学んだプロパティを組み合わせて、実際のナビゲーションバーを作ってみましょう。</p>\n<pre><code>&lt;!-- HTML --&gt;\n&lt;header class=\"header\"&gt;\n  &lt;div class=\"logo\"&gt;MyBrand&lt;/div&gt;\n  &lt;nav&gt;\n    &lt;ul class=\"nav-list\"&gt;\n      &lt;li&gt;&lt;a href=\"#\"&gt;ホーム&lt;/a&gt;&lt;/li&gt;\n      &lt;li&gt;&lt;a href=\"#\"&gt;サービス&lt;/a&gt;&lt;/li&gt;\n      &lt;li&gt;&lt;a href=\"#\"&gt;会社情報&lt;/a&gt;&lt;/li&gt;\n      &lt;li&gt;&lt;a href=\"#\"&gt;お問い合わせ&lt;/a&gt;&lt;/li&gt;\n    &lt;/ul&gt;\n  &lt;/nav&gt;\n&lt;/header&gt;</code></pre>\n<pre><code>/* CSS */\n.header {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  padding: 16px 32px;\n  background-color: #1e293b;\n  color: white;\n}\n\n.logo {\n  font-size: 24px;\n  font-weight: bold;\n  color: #60a5fa;\n}\n\n.nav-list {\n  display: flex;\n  list-style: none;\n  gap: 24px;\n  margin: 0;\n  padding: 0;\n}\n\n.nav-list a {\n  color: #cbd5e1;\n  text-decoration: none;\n  font-size: 15px;\n  transition: color 0.2s;\n}\n\n.nav-list a:hover {\n  color: white;\n}</code></pre>\n<p>このコードで、ロゴが左端・メニューが右端に配置されたヘッダーが作れます。Flexboxを使うとこのような一般的なレイアウトが非常に少ないコードで実現できます。</p>\n\n<h2>つまずきやすいポイント・失敗例</h2>\n<h3>失敗例：flexを子要素に指定する</h3>\n<p>Flexboxの親（コンテナ）に <code>display: flex</code> を指定します。子に指定しても意図通りになりません。</p>\n<h3>失敗例：justify-contentとalign-itemsの軸を混同</h3>\n<p>flex-direction:row（デフォルト）ではjustify-content=横、align-items=縦です。columnにすると逆になります。</p>\n\n<h2>まとめ：Flexboxの主要プロパティ一覧</h2>\n<p>Flexboxは <code>display: flex</code> を親要素に指定することで起動します。主要なプロパティを整理します。</p>\n<ul>\n  <li><strong>justify-content</strong>：主軸方向（横）の配置（flex-start / center / flex-end / space-between / space-around）</li>\n  <li><strong>align-items</strong>：交差軸方向（縦）の配置（flex-start / center / flex-end / stretch）</li>\n  <li><strong>flex-direction</strong>：並ぶ方向（row / column）</li>\n  <li><strong>flex-wrap</strong>：折り返し（wrap / nowrap）</li>\n  <li><strong>gap</strong>：アイテム間の余白</li>\n  <li><strong>flex（子要素）</strong>：サイズの伸縮割合</li>\n</ul>\n<p>これらを組み合わせることで、現代のほとんどのレイアウトをFloatやposition無しで実現できます。html css 初心者はまずjustify-contentとalign-itemsを集中的に練習しましょう。</p>",
+  "conclusion": "Flexboxはdisplay:flexで子要素を柔軟に配置します。justify-contentで主軸方向、align-itemsで交差軸方向の配置を制御。ナビバーやカード横並びの定番手法です。",
   "tags": [
     "CSS",
     "Flexbox",
@@ -18,12 +18,12 @@
   "theme": "web - HTML/CSS Web制作入門",
   "status": "published",
   "createdAt": "2026-05-30T04:13:23.862Z",
-  "updatedAt": "2026-05-30T04:13:23.868Z",
+  "updatedAt": "2026-05-30T05:23:49.072Z",
   "publishedAt": "2026-05-30T04:13:23.862Z",
   "metaTitle": "CSSフレックスボックス入門：display:flex・justify-content【html css 初心者】 |…",
-  "metaDescription": "CSSのFlexboxをhtml css 初心者向けに解説。display:flex・justify-content・align-items・flex-wrapの使い方を実例コードつきで説明。横並びレイアウトを簡単に実現しましょう。",
+  "metaDescription": "CSS Flexbox（display:flex、justify-content、align-items等）で横並びレイアウトを作る方法を初心者向けに解説します。",
   "ogTitle": "CSSフレックスボックス完全入門：display:flexとjustify-contentを使いこなそう",
-  "ogDescription": "【Web開発初心者向け】Flexboxで横並びレイアウトを簡単に作ろう。justify-content・align-items・flex-wrapを実例コードつきでわかりやすく解説します。 図解・具体例つきで丁寧に解説します。",
+  "ogDescription": "Flexboxの主要プロパティと実践的なレイアウト例を学べます。",
   "knowledge": {
     "topic": "web",
     "courseId": "web",
@@ -31,20 +31,24 @@
   },
   "faq": [
     {
-      "question": "FlexboxとCSS Gridはどう使い分けますか？",
-      "answer": "Flexboxは1次元（横一列または縦一列）のレイアウトに向いています。CSS Gridは2次元（行と列のグリッド）のレイアウトに向いています。ナビゲーションバーやカードの横並びはFlex、全体のページレイアウト（ヘッダー・サイドバー・メイン・フッター）はGridが適しています。"
+      "question": "FlexboxとGridの使い分けは？",
+      "answer": "1次元（横or縦の並び）→Flexbox、2次元（行と列）→Grid が目安です。"
     },
     {
-      "question": "flex-direction:columnにするとjustify-contentとalign-itemsの意味が変わりますか？",
-      "answer": "はい、変わります。flex-direction:columnにすると主軸が縦方向になるため、justify-contentが縦方向の配置を、align-itemsが横方向の配置を制御するようになります。これは最初は混乱しやすいポイントなので、実際にコードを動かして確認するのが理解の近道です。"
+      "question": "flex: 1; の意味は？",
+      "answer": "flex-grow:1, flex-shrink:1, flex-basis:0% の短縮形で、残りスペースを均等に分け合います。"
     },
     {
-      "question": "gapプロパティはすべてのブラウザで使えますか？",
-      "answer": "はい、現代のすべての主要ブラウザでサポートされています。以前はFlexboxでgapが使えず、marginで代替する必要がありましたが、2021年以降は全主要ブラウザでサポートされています。安心して使ってください。"
+      "question": "gapはどのブラウザで使える？",
+      "answer": "現行の主要ブラウザでサポートされています。古い環境ではmarginで代用します。"
     },
     {
-      "question": "Flexboxを使っても要素が中央揃えにならないのはなぜですか？",
-      "answer": "よくある原因は2つです。①コンテナに高さ（height）が指定されていないため縦方向の中央揃えが効かない、②対象要素がFlexコンテナの直接の子要素になっていない（孫要素にはFlexboxが直接効かない）。コンテナのheightを指定してから試してみましょう。"
+      "question": "space-betweenとspace-aroundの違いは？",
+      "answer": "space-betweenは両端余白なし、space-aroundは両端にも半分の余白があります。"
+    },
+    {
+      "question": "HTML/CSSだけでWebサイトは作れますか？",
+      "answer": "静的ページなら可能です。"
     }
   ],
   "nextEpisodeHint": "次回はレスポンシブデザインを学びます。viewportとメディアクエリを使って、スマートフォン・タブレット・PCすべてに対応したWebページを作る方法を解説します。",
@@ -57,9 +61,9 @@
         "@context": "https://schema.org",
         "@type": "TechArticle",
         "headline": "CSSフレックスボックス完全入門：display:flexとjustify-contentを使いこなそう",
-        "description": "CSSのFlexboxをhtml css 初心者向けに解説。display:flex・justify-content・align-items・flex-wrapの使い方を実例コードつきで説明。横並びレイアウトを簡単に実現しましょう。",
+        "description": "CSS Flexbox（display:flex、justify-content、align-items等）で横並びレイアウトを作る方法を初心者向けに解説します。",
         "datePublished": "2026-05-30T04:13:23.862Z",
-        "dateModified": "2026-05-30T04:13:23.868Z",
+        "dateModified": "2026-05-30T05:23:49.072Z",
         "author": {
           "@type": "Organization",
           "name": "StackShelf",
@@ -80,7 +84,7 @@
         },
         "image": "https://ai-site-iota-nine.vercel.app/og-default.svg",
         "inLanguage": "ja",
-        "wordCount": 4427,
+        "wordCount": 4782,
         "mainEntityOfPage": {
           "@type": "WebPage",
           "@id": "https://ai-site-iota-nine.vercel.app/article/web-flexbox"
@@ -146,34 +150,42 @@
         "mainEntity": [
           {
             "@type": "Question",
-            "name": "FlexboxとCSS Gridはどう使い分けますか？",
+            "name": "FlexboxとGridの使い分けは？",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "Flexboxは1次元（横一列または縦一列）のレイアウトに向いています。CSS Gridは2次元（行と列のグリッド）のレイアウトに向いています。ナビゲーションバーやカードの横並びはFlex、全体のページレイアウト（ヘッダー・サイドバー・メイン・フッター）はGridが適しています。"
+              "text": "1次元（横or縦の並び）→Flexbox、2次元（行と列）→Grid が目安です。"
             }
           },
           {
             "@type": "Question",
-            "name": "flex-direction:columnにするとjustify-contentとalign-itemsの意味が変わりますか？",
+            "name": "flex: 1; の意味は？",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "はい、変わります。flex-direction:columnにすると主軸が縦方向になるため、justify-contentが縦方向の配置を、align-itemsが横方向の配置を制御するようになります。これは最初は混乱しやすいポイントなので、実際にコードを動かして確認するのが理解の近道です。"
+              "text": "flex-grow:1, flex-shrink:1, flex-basis:0% の短縮形で、残りスペースを均等に分け合います。"
             }
           },
           {
             "@type": "Question",
-            "name": "gapプロパティはすべてのブラウザで使えますか？",
+            "name": "gapはどのブラウザで使える？",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "はい、現代のすべての主要ブラウザでサポートされています。以前はFlexboxでgapが使えず、marginで代替する必要がありましたが、2021年以降は全主要ブラウザでサポートされています。安心して使ってください。"
+              "text": "現行の主要ブラウザでサポートされています。古い環境ではmarginで代用します。"
             }
           },
           {
             "@type": "Question",
-            "name": "Flexboxを使っても要素が中央揃えにならないのはなぜですか？",
+            "name": "space-betweenとspace-aroundの違いは？",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "よくある原因は2つです。①コンテナに高さ（height）が指定されていないため縦方向の中央揃えが効かない、②対象要素がFlexコンテナの直接の子要素になっていない（孫要素にはFlexboxが直接効かない）。コンテナのheightを指定してから試してみましょう。"
+              "text": "space-betweenは両端余白なし、space-aroundは両端にも半分の余白があります。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "HTML/CSSだけでWebサイトは作れますか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "静的ページなら可能です。"
             }
           }
         ]
@@ -235,36 +247,72 @@
     "mainEntity": [
       {
         "@type": "Question",
-        "name": "FlexboxとCSS Gridはどう使い分けますか？",
+        "name": "FlexboxとGridの使い分けは？",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Flexboxは1次元（横一列または縦一列）のレイアウトに向いています。CSS Gridは2次元（行と列のグリッド）のレイアウトに向いています。ナビゲーションバーやカードの横並びはFlex、全体のページレイアウト（ヘッダー・サイドバー・メイン・フッター）はGridが適しています。"
+          "text": "1次元（横or縦の並び）→Flexbox、2次元（行と列）→Grid が目安です。"
         }
       },
       {
         "@type": "Question",
-        "name": "flex-direction:columnにするとjustify-contentとalign-itemsの意味が変わりますか？",
+        "name": "flex: 1; の意味は？",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "はい、変わります。flex-direction:columnにすると主軸が縦方向になるため、justify-contentが縦方向の配置を、align-itemsが横方向の配置を制御するようになります。これは最初は混乱しやすいポイントなので、実際にコードを動かして確認するのが理解の近道です。"
+          "text": "flex-grow:1, flex-shrink:1, flex-basis:0% の短縮形で、残りスペースを均等に分け合います。"
         }
       },
       {
         "@type": "Question",
-        "name": "gapプロパティはすべてのブラウザで使えますか？",
+        "name": "gapはどのブラウザで使える？",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "はい、現代のすべての主要ブラウザでサポートされています。以前はFlexboxでgapが使えず、marginで代替する必要がありましたが、2021年以降は全主要ブラウザでサポートされています。安心して使ってください。"
+          "text": "現行の主要ブラウザでサポートされています。古い環境ではmarginで代用します。"
         }
       },
       {
         "@type": "Question",
-        "name": "Flexboxを使っても要素が中央揃えにならないのはなぜですか？",
+        "name": "space-betweenとspace-aroundの違いは？",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "よくある原因は2つです。①コンテナに高さ（height）が指定されていないため縦方向の中央揃えが効かない、②対象要素がFlexコンテナの直接の子要素になっていない（孫要素にはFlexboxが直接効かない）。コンテナのheightを指定してから試してみましょう。"
+          "text": "space-betweenは両端余白なし、space-aroundは両端にも半分の余白があります。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "HTML/CSSだけでWebサイトは作れますか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "静的ページなら可能です。"
         }
       }
     ]
-  }
+  },
+  "internalLinkCandidates": [
+    {
+      "slug": "web-css-practice",
+      "title": "ランディングページを実際に作ろう：HTML/CSS総合実践",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "web-responsive",
+      "title": "レスポンシブデザイン入門：viewportとメディアクエリでスマホ対応を実現しよう",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "web-box-model",
+      "title": "CSSボックスモデル完全解説：margin・padding・borderの仕組みを理解しよう",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "web-css-basics",
+      "title": "CSSの基本：セレクタ・color・font-sizeをゼロから学ぼう",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "web-publish-basics",
+      "title": "WebサイトをGitHub Pages・Vercelで無料公開する方法【完全手順】",
+      "reason": "同じ講座の関連回です"
+    }
+  ],
+  "nextAction": ".container { display:flex; gap:16px; justify-content:center; } で3つのdivを横並び中央配置し、flex-direction:columnに変えて縦並びになることを確認してください。"
 }

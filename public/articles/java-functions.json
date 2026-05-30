@@ -1,10 +1,10 @@
 {
   "id": "art_1780054189760",
   "slug": "java-functions",
-  "title": "Javaの関数",
-  "summary": "Javaの関数は、プログラムの再利用性と可読性を向上させるために使用されます。関数を使用すると、同じコードを複数回書く必要がなくなり、プログラムのメンテナンスが容易になります。このエピソードでは、Javaの関数の基本について学びます。",
-  "body": "<h2>Javaの関数の基本</h2><p>Javaの関数は、メソッドと呼ばれます。メソッドは、クラス内に定義され、特定のタスクを実行します。メソッドを使用すると、同じコードを複数回書く必要がなくなり、プログラムのメンテナンスが容易になります。</p><h3>メソッドの定義</h3><p>メソッドを定義するには、メソッドの名前、戻り値の型、パラメーターのリストを指定する必要があります。次の例は、簡単なメソッドの定義です。</p><pre><code>public void greet(String name) {<br>    System.out.println(&quot;こんにちは、&quot; + name + &quot;さん&quot;);<br>}</code></pre><p>このメソッドは、名前をパラメーターとして受け取り、コンソールに挨拶のメッセージを表示します。</p><h3>メソッドの呼び出し</h3><p>メソッドを呼び出すには、メソッドの名前とパラメーターを指定する必要があります。次の例は、先ほど定義したメソッドの呼び出しです。</p><pre><code>greet(&quot;田中&quot;);</code></pre><p>このコードは、コンソールに「こんにちは、田中さん」と表示します。</p>",
-  "conclusion": "このエピソードでは、Javaの関数の基本について学びました。関数を使用すると、プログラムの再利用性と可読性を向上させることができます。次のエピソードでは、Javaの配列について学びます。",
+  "title": "Javaのメソッド（関数）｜引数・戻り値・オーバーロード",
+  "summary": "Javaのメソッド定義、引数、戻り値、void、オーバーロード、再帰の基本を学びます。戻り値忘れやシグネチャの誤解など失敗例も解説します。",
+  "body": "<h2>結論：Javaの「関数」はクラス内のメソッドとして定義し、引数と戻り値の型を明示する</h2>\n<p>Javaでは独立した関数はなく、<strong>メソッド</strong>としてクラスに属します。<code>修飾子 戻り値型 メソッド名(引数)</code> の形で定義します。処理の再利用と可読性向上が主な目的です。</p>\n\n<h2>基本的なメソッド</h2>\n<pre><code>public class MathUtil {\n    public static int add(int a, int b) {\n        return a + b;\n    }\n\n    public static void greet(String name) {\n        System.out.println(\"Hello, \" + name);\n    }\n}</code></pre>\n<p><code>void</code> は戻り値なし、<code>return</code> で呼び出し元に値を返します。</p>\n\n<h3>失敗例：非voidメソッドでreturn忘れ</h3>\n<pre><code>public static int doubleValue(int x) {\n    x * 2; // コンパイルエラー: missing return statement\n}</code></pre>\n<p>正しくは <code>return x * 2;</code> です。</p>\n\n<h2>オーバーロード</h2>\n<p>同名・異なる引数リストのメソッドを複数定義できます（戻り値だけの違いではオーバーロードになりません）。</p>\n<pre><code>public static int max(int a, int b) { return a > b ? a : b; }\npublic static double max(double a, double b) { return a > b ? a : b; }</code></pre>\n\n<h2>再帰</h2>\n<pre><code>public static int factorial(int n) {\n    if (n &lt;= 1) return 1;\n    return n * factorial(n - 1);\n}</code></pre>\n\n<h3>失敗例：再帰の終了条件忘れ</h3>\n<p>ベースケースがないと StackOverflowError になります。必ず停止条件を設計してください。</p>\n\n<h2>値渡し</h2>\n<p>Javaは<strong>値渡し</strong>です。プリミティブは値のコピー、参照型は参照のコピーが渡されます。参照先オブジェクトの中身を変えることは可能ですが、参照自体の差し替えは呼び出し元に反映されません。</p>\n\n<h2>まとめ</h2>\n<p>メソッドはstatic（クラスメソッド）とインスタンスメソッドに分かれます。return忘れ・オーバーロードの誤解・再帰の終了条件は要注意です。次回は配列で複数データをまとめて扱います。</p>",
+  "conclusion": "Javaのメソッドは戻り値型・名前・引数で定義し、オーバーロードで同名の異なる処理を提供できます。return忘れと再帰のベースケースはコンパイル・実行時エラーの典型です。ユーティリティメソッドを数個書いて呼び出し練習をしましょう。",
   "tags": [
     "Java",
     "関数",
@@ -14,12 +14,12 @@
   "theme": "java - Java",
   "status": "published",
   "createdAt": "2026-05-29T11:29:49.751Z",
-  "updatedAt": "2026-05-29T14:35:19.564Z",
+  "updatedAt": "2026-05-30T05:18:37.031Z",
   "publishedAt": "2026-05-29T11:29:49.751Z",
-  "metaTitle": "Javaの関数",
-  "metaDescription": "Javaの関数は、プログラムの再利用性と可読性を向上させるために使用されます。このエピソードでは、Javaの関数の基本について学びます。",
-  "ogTitle": "Javaの関数",
-  "ogDescription": "Javaの関数は、プログラムの再利用性と可読性を向上させるために使用されます。このエピソードでは、Javaの関数の基本について学びます。",
+  "metaTitle": "Javaメソッド入門｜引数・戻り値・オーバーロード | StackShelf",
+  "metaDescription": "Javaメソッドの定義、void、return、オーバーロード、再帰を具体例で解説。return忘れなど典型の失敗例も紹介します。",
+  "ogTitle": "Javaのメソッド（関数）",
+  "ogDescription": "引数・戻り値・オーバーロードと失敗例を押さえてメソッドを書けるようになります。",
   "knowledge": {
     "topic": "java",
     "courseId": "java",
@@ -27,42 +27,68 @@
   },
   "faq": [
     {
-      "question": "Javaの関数とは何ですか？",
-      "answer": "Javaの関数は、メソッドと呼ばれます。メソッドは、クラス内に定義され、特定のタスクを実行します。"
+      "question": "Javaに関数はありますか？",
+      "answer": "メソッドがそれに相当します。Java 8以降はラムダ式で関数型スタイルも書けます（後の回）。"
     },
     {
-      "question": "メソッドを定義するには何が必要ですか？",
-      "answer": "メソッドを定義するには、メソッドの名前、戻り値の型、パラメーターのリストを指定する必要があります。"
+      "question": "static メソッドとは？",
+      "answer": "インスタンスなしで呼べるメソッドです。mainやユーティリティ関数で使います。"
+    },
+    {
+      "question": "引数の数に上限は？",
+      "answer": "仕様上は65535付近ですが、可読性のため引数は少なく、オブジェクトにまとめるのが一般的です。"
+    },
+    {
+      "question": "可変長引数（varargs）とは？",
+      "answer": "int... nums のように書き、呼び出し側は max(1,2,3) のように渡せます。内部は配列として扱われます。"
+    },
+    {
+      "question": "メソッドチェーンは？",
+      "answer": "戻り値が自分自身（this）のメソッドを連続呼び出しします。StringBuilderやStreamでよく見ます。"
     }
   ],
-  "nextEpisodeHint": "次のエピソードでは、Javaの配列について学びます。",
+  "nextEpisodeHint": "次回は配列の宣言、初期化、要素アクセス、length、拡張forを学びます。",
   "canonical": "https://ai-site-iota-nine.vercel.app/article/java-functions",
   "jsonLd": {
     "@context": "https://schema.org",
     "@graph": [
       {
         "@context": "https://schema.org",
-        "@type": "BlogPosting",
-        "headline": "Javaの関数",
-        "description": "Javaの関数は、プログラムの再利用性と可読性を向上させるために使用されます。このエピソードでは、Javaの関数の基本について学びます。",
+        "@type": "TechArticle",
+        "headline": "Javaのメソッド（関数）｜引数・戻り値・オーバーロード",
+        "description": "Javaメソッドの定義、void、return、オーバーロード、再帰を具体例で解説。return忘れなど典型の失敗例も紹介します。",
         "datePublished": "2026-05-29T11:29:49.751Z",
-        "dateModified": "2026-05-29T14:35:19.564Z",
+        "dateModified": "2026-05-30T05:18:37.031Z",
         "author": {
           "@type": "Organization",
-          "name": "StackShelf"
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
         },
         "publisher": {
           "@type": "Organization",
           "name": "StackShelf",
-          "url": "https://ai-site-iota-nine.vercel.app"
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
         },
+        "image": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+        "inLanguage": "ja",
+        "wordCount": 884,
         "mainEntityOfPage": {
           "@type": "WebPage",
           "@id": "https://ai-site-iota-nine.vercel.app/article/java-functions"
         },
         "keywords": "Java, 関数, メソッド",
         "articleSection": "Java",
-        "url": "https://ai-site-iota-nine.vercel.app/article/java-functions"
+        "url": "https://ai-site-iota-nine.vercel.app/article/java-functions",
+        "learningResourceType": "tutorial",
+        "educationalLevel": "beginner"
       },
       {
         "@context": "https://schema.org",
@@ -72,7 +98,7 @@
             "@type": "ListItem",
             "position": 1,
             "name": "ホーム",
-            "item": "https://ai-site-iota-nine.vercel.app"
+            "item": "https://ai-site-iota-nine.vercel.app/"
           },
           {
             "@type": "ListItem",
@@ -89,7 +115,7 @@
           {
             "@type": "ListItem",
             "position": 4,
-            "name": "Javaの関数",
+            "name": "Javaのメソッド（関数）｜引数・戻り値・オーバーロード",
             "item": "https://ai-site-iota-nine.vercel.app/article/java-functions"
           }
         ]
@@ -101,7 +127,16 @@
         "description": "Javaプログラミング言語の基礎から応用までを学習する講座です。初心者向けにJavaの基本構文、オブジェクト指向、データ構造、アルゴリズムなどを解説します。",
         "provider": {
           "@type": "Organization",
-          "name": "StackShelf"
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app"
+        },
+        "url": "https://ai-site-iota-nine.vercel.app/course/java/java",
+        "inLanguage": "ja",
+        "educationalLevel": "beginner",
+        "hasCourseInstance": {
+          "@type": "CourseInstance",
+          "courseMode": "online",
+          "courseWorkload": "PT1H"
         }
       },
       {
@@ -110,18 +145,42 @@
         "mainEntity": [
           {
             "@type": "Question",
-            "name": "Javaの関数とは何ですか？",
+            "name": "Javaに関数はありますか？",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "Javaの関数は、メソッドと呼ばれます。メソッドは、クラス内に定義され、特定のタスクを実行します。"
+              "text": "メソッドがそれに相当します。Java 8以降はラムダ式で関数型スタイルも書けます（後の回）。"
             }
           },
           {
             "@type": "Question",
-            "name": "メソッドを定義するには何が必要ですか？",
+            "name": "static メソッドとは？",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "メソッドを定義するには、メソッドの名前、戻り値の型、パラメーターのリストを指定する必要があります。"
+              "text": "インスタンスなしで呼べるメソッドです。mainやユーティリティ関数で使います。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "引数の数に上限は？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "仕様上は65535付近ですが、可読性のため引数は少なく、オブジェクトにまとめるのが一般的です。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "可変長引数（varargs）とは？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "int... nums のように書き、呼び出し側は max(1,2,3) のように渡せます。内部は配列として扱われます。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "メソッドチェーンは？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "戻り値が自分自身（this）のメソッドを連続呼び出しします。StringBuilderやStreamでよく見ます。"
             }
           }
         ]
@@ -136,7 +195,7 @@
         "@type": "ListItem",
         "position": 1,
         "name": "ホーム",
-        "item": "https://ai-site-iota-nine.vercel.app"
+        "item": "https://ai-site-iota-nine.vercel.app/"
       },
       {
         "@type": "ListItem",
@@ -153,7 +212,7 @@
       {
         "@type": "ListItem",
         "position": 4,
-        "name": "Javaの関数",
+        "name": "Javaのメソッド（関数）｜引数・戻り値・オーバーロード",
         "item": "https://ai-site-iota-nine.vercel.app/article/java-functions"
       }
     ]
@@ -165,7 +224,16 @@
     "description": "Javaプログラミング言語の基礎から応用までを学習する講座です。初心者向けにJavaの基本構文、オブジェクト指向、データ構造、アルゴリズムなどを解説します。",
     "provider": {
       "@type": "Organization",
-      "name": "StackShelf"
+      "name": "StackShelf",
+      "url": "https://ai-site-iota-nine.vercel.app"
+    },
+    "url": "https://ai-site-iota-nine.vercel.app/course/java/java",
+    "inLanguage": "ja",
+    "educationalLevel": "beginner",
+    "hasCourseInstance": {
+      "@type": "CourseInstance",
+      "courseMode": "online",
+      "courseWorkload": "PT1H"
     }
   },
   "faqSchema": {
@@ -174,20 +242,73 @@
     "mainEntity": [
       {
         "@type": "Question",
-        "name": "Javaの関数とは何ですか？",
+        "name": "Javaに関数はありますか？",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Javaの関数は、メソッドと呼ばれます。メソッドは、クラス内に定義され、特定のタスクを実行します。"
+          "text": "メソッドがそれに相当します。Java 8以降はラムダ式で関数型スタイルも書けます（後の回）。"
         }
       },
       {
         "@type": "Question",
-        "name": "メソッドを定義するには何が必要ですか？",
+        "name": "static メソッドとは？",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "メソッドを定義するには、メソッドの名前、戻り値の型、パラメーターのリストを指定する必要があります。"
+          "text": "インスタンスなしで呼べるメソッドです。mainやユーティリティ関数で使います。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "引数の数に上限は？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "仕様上は65535付近ですが、可読性のため引数は少なく、オブジェクトにまとめるのが一般的です。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "可変長引数（varargs）とは？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "int... nums のように書き、呼び出し側は max(1,2,3) のように渡せます。内部は配列として扱われます。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "メソッドチェーンは？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "戻り値が自分自身（this）のメソッドを連続呼び出しします。StringBuilderやStreamでよく見ます。"
         }
       }
     ]
-  }
+  },
+  "nextAction": "add/sub/mul/div を持つ Calculator クラスをstaticメソッドで作り、mainから呼び出して結果を表示してください。",
+  "internalLinkCandidates": [
+    {
+      "slug": "java-control-structures",
+      "title": "Java制御構文の基礎",
+      "reason": "メソッド内で分岐・ループ"
+    },
+    {
+      "slug": "java-arrays",
+      "title": "Javaの配列",
+      "reason": "同じ講座の次の回"
+    },
+    {
+      "slug": "java-classes",
+      "title": "Javaのクラスとオブジェクト",
+      "reason": "インスタンスメソッドへ"
+    },
+    {
+      "slug": "java-lambda-expression",
+      "title": "Javaのラムダ式",
+      "reason": "関数型スタイル"
+    },
+    {
+      "slug": "java-best-practices",
+      "title": "Javaプログラミングのベストプラクティス",
+      "reason": "メソッド設計"
+    }
+  ],
+  "ogImage": "https://ai-site-iota-nine.vercel.app/og-default.svg"
 }

@@ -555,9 +555,11 @@ function renderArticle(article, seriesNav = null) {
   const bodyWithAds = injectAds(bodyWithIds);
 
   const episodeBadge =
-    article.knowledge?.episode != null
-      ? `<span class="article-page__episode">第${article.knowledge.episode}回</span>`
-      : "";
+    article.knowledge?.topic === "errors"
+      ? `<span class="article-page__episode article-page__episode--error">エラー解決</span>`
+      : article.knowledge?.episode != null
+        ? `<span class="article-page__episode">第${article.knowledge.episode}回</span>`
+        : "";
 
   const faqHtml =
     article.faq?.length > 0

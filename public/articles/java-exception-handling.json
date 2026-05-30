@@ -1,10 +1,10 @@
 {
   "id": "art_1780054202680",
   "slug": "java-exception-handling",
-  "title": "Javaの例外処理",
-  "summary": "Javaにおける例外処理の基礎を理解する。例外が発生したときにプログラムが異常終了しないようにする方法を学ぶ。try-catch-finally文やthrowsキーワードの使い方を実践する。",
-  "body": "<h2>例外処理の基礎</h2><p>Javaでは、プログラムの実行中に予期せぬエラーが発生することがあります。このようなエラーを例外と呼びます。例外が発生したときに、プログラムが異常終了することを防ぐために、例外処理を行います。</p><h3>try-catch-finally文</h3><p>try-catch-finally文は、例外が発生したときに、例外を捕捉して処理するために使用します。tryブロック内で例外が発生した場合、catchブロックで例外を捕捉し、finallyブロックで必要な後処理を行います。</p><pre><code>try {<br>    // 例外が発生する可能性のあるコード<br>} catch (Exception e) {<br>    // 例外を捕捉して処理するコード<br>} finally {<br>    // 必要な後処理を行うコード<br>}</code></pre><h3>throwsキーワード</h3><p>throwsキーワードは、メソッドが例外を投げる可能性があることを示します。throwsキーワードを使用して、メソッドが投げる例外を宣言することができます。</p><pre><code>public void exampleMethod() throws Exception {<br>    // 例外を投げる可能性のあるコード<br>}</code></pre>",
-  "conclusion": "このエピソードでは、Javaにおける例外処理の基礎を学びました。try-catch-finally文やthrowsキーワードの使い方を理解することで、プログラムが異常終了することを防ぐことができます。次回は、Javaのベストプラクティスについて学びます。",
+  "title": "Javaの例外処理｜try-catch-finallyとthrows",
+  "summary": "チェック例外と非チェック例外、try-catch-finally、try-with-resources、throws、カスタム例外の書き方と失敗例を学びます。",
+  "body": "<h2>結論：例外は「正常フローから外れた事象」で、try-catchで捕捉するかthrowsで呼び出し元に委ねる</h2>\n<p>Javaの例外は <code>Throwable</code> 以下の <code>Error</code>（回復困難）と <code>Exception</code>（回復可能）に分かれます。実務では <code>IOException</code> や <code>IllegalArgumentException</code> などを扱います。</p>\n\n<h2>try-catch-finally</h2>\n<pre><code>try {\n    int n = Integer.parseInt(input);\n    System.out.println(100 / n);\n} catch (NumberFormatException e) {\n    System.out.println(\"数値ではありません: \" + e.getMessage());\n} catch (ArithmeticException e) {\n    System.out.println(\"0除算です\");\n} finally {\n    System.out.println(\"後片付け（必ず実行）\");\n}</code></pre>\n\n<h2>try-with-resources</h2>\n<pre><code>try (var reader = new BufferedReader(new FileReader(\"data.txt\"))) {\n    String line = reader.readLine();\n} // 自動で close()</code></pre>\n\n<h2>throws と throw</h2>\n<pre><code>public void load(String path) throws IOException {\n    if (path == null) throw new IllegalArgumentException(\"path is null\");\n    // ...\n}</code></pre>\n\n<h3>失敗例：空のcatchブロック</h3>\n<pre><code>try { risky(); } catch (Exception e) { }</code></pre>\n<p>例外を握りつぶすと原因調査が困難になります。最低限ログを残すか、再throwを検討してください。</p>\n\n<h3>失敗例：catch の順序</h3>\n<p>サブクラスよりスーパークラスを先に書くとコンパイルエラーです。具体的な例外を先に書きます。</p>\n\n<h2>カスタム例外</h2>\n<pre><code>public class AppException extends Exception {\n    public AppException(String message) { super(message); }\n}</code></pre>\n\n<h2>まとめ</h2>\n<p>例外処理は正常系と異常系を分離し、リソースはtry-with-resourcesで確実に解放します。空catchとprintStackTrace放置は避けましょう。次回はファイル入出力でIOExceptionを実践します。</p>",
+  "conclusion": "Javaの例外処理はtry-catch-finally、try-with-resources、throwsで構成します。空catch、catch順序の誤り、リソース未解放は典型の失敗です。parseIntとファイル読み込みで意図的に例外を起こし、メッセージを読む練習をしましょう。",
   "tags": [
     "Java",
     "例外処理",
@@ -15,12 +15,12 @@
   "theme": "java - Java",
   "status": "published",
   "createdAt": "2026-05-29T11:30:02.657Z",
-  "updatedAt": "2026-05-29T14:35:20.071Z",
+  "updatedAt": "2026-05-30T05:18:37.057Z",
   "publishedAt": "2026-05-29T11:30:02.657Z",
-  "metaTitle": "Javaの例外処理",
-  "metaDescription": "Javaにおける例外処理の基礎を理解する。try-catch-finally文やthrowsキーワードの使い方を学ぶ。",
+  "metaTitle": "Java例外処理入門｜try-catch・throws | StackShelf",
+  "metaDescription": "Javaのtry-catch-finally、try-with-resources、throws、カスタム例外と空catchなど失敗例を解説します。",
   "ogTitle": "Javaの例外処理",
-  "ogDescription": "Javaにおける例外処理の基礎を理解する。try-catch-finally文やthrowsキーワードの使い方を学ぶ。",
+  "ogDescription": "チェック/非チェック例外と安全なcatchの書き方を学べます。",
   "knowledge": {
     "topic": "java",
     "courseId": "java",
@@ -28,38 +28,68 @@
   },
   "faq": [
     {
-      "question": "例外処理の目的は何ですか？",
-      "answer": "例外処理の目的は、プログラムが異常終了することを防ぐことです。"
+      "question": "チェック例外と非チェック例外の違いは？",
+      "answer": "チェック例外（IOException等）はthrows/try必須、RuntimeException系は任意です。"
+    },
+    {
+      "question": "finally は必ず実行されますか？",
+      "answer": "通常はyes。System.exit()やJVMクラッシュ時は除きます。"
+    },
+    {
+      "question": "例外で制御フローを組んでよい？",
+      "answer": "ループ終了などの通常フローに例外を使うのは非推奨。本当の異常事態に限定しましょう。"
+    },
+    {
+      "question": "getMessage と printStackTrace？",
+      "answer": "getMessageは短文、printStackTraceはスタックトレース全体。本番はロガー（SLF4J等）を使います。"
+    },
+    {
+      "question": "Optional で例外を減らせますか？",
+      "answer": "戻り値が無い可能性がある場合に有効です。ただし全てをOptional化する必要はありません。"
     }
   ],
-  "nextEpisodeHint": "次回は、Javaのベストプラクティスについて学びます。",
+  "nextEpisodeHint": "次回はFiles/Pathを使ったファイル読み書きとtry-with-resourcesを実践します。",
   "canonical": "https://ai-site-iota-nine.vercel.app/article/java-exception-handling",
   "jsonLd": {
     "@context": "https://schema.org",
     "@graph": [
       {
         "@context": "https://schema.org",
-        "@type": "BlogPosting",
-        "headline": "Javaの例外処理",
-        "description": "Javaにおける例外処理の基礎を理解する。try-catch-finally文やthrowsキーワードの使い方を学ぶ。",
+        "@type": "TechArticle",
+        "headline": "Javaの例外処理｜try-catch-finallyとthrows",
+        "description": "Javaのtry-catch-finally、try-with-resources、throws、カスタム例外と空catchなど失敗例を解説します。",
         "datePublished": "2026-05-29T11:30:02.657Z",
-        "dateModified": "2026-05-29T14:35:20.071Z",
+        "dateModified": "2026-05-30T05:18:37.057Z",
         "author": {
           "@type": "Organization",
-          "name": "StackShelf"
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
         },
         "publisher": {
           "@type": "Organization",
           "name": "StackShelf",
-          "url": "https://ai-site-iota-nine.vercel.app"
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
         },
+        "image": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+        "inLanguage": "ja",
+        "wordCount": 1016,
         "mainEntityOfPage": {
           "@type": "WebPage",
           "@id": "https://ai-site-iota-nine.vercel.app/article/java-exception-handling"
         },
         "keywords": "Java, 例外処理, try-catch-finally, throws",
         "articleSection": "Java",
-        "url": "https://ai-site-iota-nine.vercel.app/article/java-exception-handling"
+        "url": "https://ai-site-iota-nine.vercel.app/article/java-exception-handling",
+        "learningResourceType": "tutorial",
+        "educationalLevel": "beginner"
       },
       {
         "@context": "https://schema.org",
@@ -69,7 +99,7 @@
             "@type": "ListItem",
             "position": 1,
             "name": "ホーム",
-            "item": "https://ai-site-iota-nine.vercel.app"
+            "item": "https://ai-site-iota-nine.vercel.app/"
           },
           {
             "@type": "ListItem",
@@ -86,7 +116,7 @@
           {
             "@type": "ListItem",
             "position": 4,
-            "name": "Javaの例外処理",
+            "name": "Javaの例外処理｜try-catch-finallyとthrows",
             "item": "https://ai-site-iota-nine.vercel.app/article/java-exception-handling"
           }
         ]
@@ -98,7 +128,16 @@
         "description": "Javaプログラミング言語の基礎から応用までを学習する講座です。初心者向けにJavaの基本構文、オブジェクト指向、データ構造、アルゴリズムなどを解説します。",
         "provider": {
           "@type": "Organization",
-          "name": "StackShelf"
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app"
+        },
+        "url": "https://ai-site-iota-nine.vercel.app/course/java/java",
+        "inLanguage": "ja",
+        "educationalLevel": "beginner",
+        "hasCourseInstance": {
+          "@type": "CourseInstance",
+          "courseMode": "online",
+          "courseWorkload": "PT1H"
         }
       },
       {
@@ -107,10 +146,42 @@
         "mainEntity": [
           {
             "@type": "Question",
-            "name": "例外処理の目的は何ですか？",
+            "name": "チェック例外と非チェック例外の違いは？",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "例外処理の目的は、プログラムが異常終了することを防ぐことです。"
+              "text": "チェック例外（IOException等）はthrows/try必須、RuntimeException系は任意です。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "finally は必ず実行されますか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "通常はyes。System.exit()やJVMクラッシュ時は除きます。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "例外で制御フローを組んでよい？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "ループ終了などの通常フローに例外を使うのは非推奨。本当の異常事態に限定しましょう。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "getMessage と printStackTrace？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "getMessageは短文、printStackTraceはスタックトレース全体。本番はロガー（SLF4J等）を使います。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Optional で例外を減らせますか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "戻り値が無い可能性がある場合に有効です。ただし全てをOptional化する必要はありません。"
             }
           }
         ]
@@ -125,7 +196,7 @@
         "@type": "ListItem",
         "position": 1,
         "name": "ホーム",
-        "item": "https://ai-site-iota-nine.vercel.app"
+        "item": "https://ai-site-iota-nine.vercel.app/"
       },
       {
         "@type": "ListItem",
@@ -142,7 +213,7 @@
       {
         "@type": "ListItem",
         "position": 4,
-        "name": "Javaの例外処理",
+        "name": "Javaの例外処理｜try-catch-finallyとthrows",
         "item": "https://ai-site-iota-nine.vercel.app/article/java-exception-handling"
       }
     ]
@@ -154,7 +225,16 @@
     "description": "Javaプログラミング言語の基礎から応用までを学習する講座です。初心者向けにJavaの基本構文、オブジェクト指向、データ構造、アルゴリズムなどを解説します。",
     "provider": {
       "@type": "Organization",
-      "name": "StackShelf"
+      "name": "StackShelf",
+      "url": "https://ai-site-iota-nine.vercel.app"
+    },
+    "url": "https://ai-site-iota-nine.vercel.app/course/java/java",
+    "inLanguage": "ja",
+    "educationalLevel": "beginner",
+    "hasCourseInstance": {
+      "@type": "CourseInstance",
+      "courseMode": "online",
+      "courseWorkload": "PT1H"
     }
   },
   "faqSchema": {
@@ -163,12 +243,73 @@
     "mainEntity": [
       {
         "@type": "Question",
-        "name": "例外処理の目的は何ですか？",
+        "name": "チェック例外と非チェック例外の違いは？",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "例外処理の目的は、プログラムが異常終了することを防ぐことです。"
+          "text": "チェック例外（IOException等）はthrows/try必須、RuntimeException系は任意です。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "finally は必ず実行されますか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "通常はyes。System.exit()やJVMクラッシュ時は除きます。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "例外で制御フローを組んでよい？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "ループ終了などの通常フローに例外を使うのは非推奨。本当の異常事態に限定しましょう。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "getMessage と printStackTrace？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "getMessageは短文、printStackTraceはスタックトレース全体。本番はロガー（SLF4J等）を使います。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Optional で例外を減らせますか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "戻り値が無い可能性がある場合に有効です。ただし全てをOptional化する必要はありません。"
         }
       }
     ]
-  }
+  },
+  "nextAction": "ユーザー入力をparseIntし、NumberFormatExceptionとArithmeticExceptionを別catchで処理するCLIを書いてください。",
+  "internalLinkCandidates": [
+    {
+      "slug": "java-polymorphism",
+      "title": "Javaの多態性",
+      "reason": "前の回"
+    },
+    {
+      "slug": "java-file-input-output",
+      "title": "Javaのファイル入出力",
+      "reason": "IOExceptionの実践"
+    },
+    {
+      "slug": "java-best-practices",
+      "title": "Javaプログラミングのベストプラクティス",
+      "reason": "例外設計"
+    },
+    {
+      "slug": "java-network-programming",
+      "title": "Javaのネットワークプログラミング",
+      "reason": "ソケット例外"
+    },
+    {
+      "slug": "java-thread-programming",
+      "title": "Javaのスレッドプログラミング",
+      "reason": "InterruptedException"
+    }
+  ],
+  "ogImage": "https://ai-site-iota-nine.vercel.app/og-default.svg"
 }

@@ -2,9 +2,9 @@
   "id": "art_docker_docker-volumes",
   "slug": "docker-volumes",
   "title": "Dockerボリューム完全ガイド：データ永続化・バインドマウント・名前付きボリューム",
-  "summary": "Dockerのデータ永続化手段であるボリューム（-v）を徹底解説。名前付きボリューム、バインドマウント、tmpfsマウントの違いと使い分けを実践的に学びます。",
-  "body": "<h2>なぜDockerのデータ永続化が必要か</h2>\n<p>Dockerコンテナは本質的に<strong>使い捨て（ephemeral）</strong>です。コンテナを削除すると、コンテナ内に書き込まれたデータはすべて消えてしまいます。例えば、MySQLコンテナを起動してデータを登録し、コンテナを削除して再作成すると、テーブルもレコードも消えて初期状態に戻ります。</p>\n<p>これでは実際のアプリで使えません。データを永続化するためにDockerが提供する仕組みが<strong>ボリューム（Volume）</strong>と<strong>バインドマウント（Bind Mount）</strong>です。どちらもコンテナ外部の場所にデータを保存することで、コンテナを削除してもデータを残せます。</p>\n<pre><code># ボリュームなしでMySQLを起動（データは消える）\ndocker run -d --name mysql-novolume -e MYSQL_ROOT_PASSWORD=pass mysql:8.0\ndocker rm -f mysql-novolume  # 削除するとデータが消える\n\n# ボリュームありでMySQLを起動（データが永続化される）\ndocker run -d   --name mysql-withvolume   -e MYSQL_ROOT_PASSWORD=pass   -v mysql_data:/var/lib/mysql   mysql:8.0</code></pre>\n\n<h2>Dockerのマウント3種類を理解する</h2>\n<p>Dockerにはデータをコンテナ外に保存する3つの方法があります。それぞれの特徴と用途を理解しましょう。</p>\n<p><strong>1. 名前付きボリューム（Named Volume）：</strong>Dockerが管理する独自のストレージ領域です。ホストOSのどこに保存されるかを意識せずに使えます。データの永続化に最適で、特に本番環境や開発環境のDBデータに向いています。</p>\n<p><strong>2. バインドマウント（Bind Mount）：</strong>ホストマシンの特定のディレクトリをコンテナにマウントします。ホスト側でファイルを編集するとコンテナ内に即座に反映されるため、開発中のソースコードのマウントに向いています。</p>\n<p><strong>3. tmpfsマウント：</strong>メモリ上に一時的なストレージを作ります。高速で、コンテナ停止時に消えます。機密データの一時保存などに使います。</p>\n<pre><code># 名前付きボリューム（-v ボリューム名:コンテナパス）\ndocker run -v mysql_data:/var/lib/mysql mysql:8.0\n\n# バインドマウント（-v ホストパス:コンテナパス）\ndocker run -v /home/user/myapp:/app my-app\n\n# バインドマウント（--mountオプション：より明示的）\ndocker run --mount type=bind,source=/home/user/myapp,target=/app my-app\n\n# tmpfsマウント\ndocker run --tmpfs /tmp my-app</code></pre>\n\n<h2>名前付きボリュームの操作</h2>\n<p>名前付きボリュームはDockerが管理するため、ホストのどこに保存されるか意識せずに使えます。ボリュームの作成・一覧・削除などの操作を学びましょう。</p>\n<pre><code># ボリュームを明示的に作成\ndocker volume create my_data\n\n# ボリュームの一覧を表示\ndocker volume ls\n# 出力例:\n# DRIVER    VOLUME NAME\n# local     mysql_data\n# local     my_data\n# local     redis_data\n\n# ボリュームの詳細情報を確認\ndocker volume inspect mysql_data\n# 出力例（Mountpointでホスト上の保存場所がわかる）:\n# [\n#   {\n#     \"Name\": \"mysql_data\",\n#     \"Driver\": \"local\",\n#     \"Mountpoint\": \"/var/lib/docker/volumes/mysql_data/_data\",\n#     ...\n#   }\n# ]\n\n# ボリュームを削除（コンテナが使用中は削除できない）\ndocker volume rm my_data\n\n# 使われていないボリュームを一括削除\ndocker volume prune\n\n# ボリュームの内容を確認（busyboxコンテナ経由）\ndocker run --rm -v mysql_data:/data alpine ls /data</code></pre>\n\n<h2>バインドマウントの実践：ホットリロード開発環境</h2>\n<p>バインドマウントの最大の活用場面は、開発中のソースコードをコンテナにマウントすることです。ホスト側でコードを編集すると、コンテナ内にリアルタイムで反映されるため、コンテナを再起動せずに変更を確認できます。</p>\n<pre><code># Node.jsアプリをバインドマウントで開発\ndocker run -d   --name node-dev   -p 3000:3000   -v $(pwd):/app               # カレントディレクトリをコンテナの/appにマウント\n  -v /app/node_modules         # node_modulesはコンテナ側のを使う\n  -e NODE_ENV=development   node:20-alpine   sh -c \"npm install && npm run dev\"\n\n# Windowsの場合（PowerShell）\ndocker run -d   --name node-dev   -p 3000:3000   -v ${PWD}:/app   -v /app/node_modules   node:20-alpine   sh -c \"npm install && npm run dev\"</code></pre>\n<p><code>-v /app/node_modules</code> という記述に注目してください。これはホスト側にマッピングしない「匿名ボリューム」として <code>node_modules</code> をコンテナ側で独立して管理する指定です。ホストの <code>node_modules</code>（Windows/Mac用バイナリ）がコンテナ（Linux）に上書きされるのを防ぎます。</p>\n<pre><code># バインドマウントの読み取り専用設定（コンテナからの書き込みを禁止）\ndocker run -v $(pwd)/config:/app/config:ro my-app\n# :ro = read-only（読み取り専用）\n\n# バインドマウントの詳細オプション（--mountを使う場合）\ndocker run --mount   type=bind,  source=$(pwd),  target=/app,  readonly   my-app</code></pre>\n\n<h2>Docker Composeでのボリューム設定</h2>\n<p>実際の開発では Docker Compose と組み合わせてボリュームを使うことがほとんどです。</p>\n<pre><code># docker-compose.ymlでのボリューム設定例\nservices:\n  app:\n    build: .\n    ports:\n      - \"3000:3000\"\n    volumes:\n      # バインドマウント（開発用：ソースコード同期）\n      - .:/app\n      # 匿名ボリューム（node_modulesをコンテナ側で管理）\n      - /app/node_modules\n    environment:\n      - NODE_ENV=development\n\n  db:\n    image: postgres:16-alpine\n    volumes:\n      # 名前付きボリューム（データ永続化）\n      - postgres_data:/var/lib/postgresql/data\n      # バインドマウント（初期化SQLをコンテナにマウント）\n      - ./docker/init.sql:/docker-entrypoint-initdb.d/init.sql:ro\n    environment:\n      - POSTGRES_PASSWORD=password\n\n  redis:\n    image: redis:7-alpine\n    volumes:\n      - redis_data:/data\n    command: redis-server --appendonly yes  # AOF永続化を有効に\n\n# 名前付きボリュームはトップレベルで定義\nvolumes:\n  postgres_data:\n  redis_data:</code></pre>\n\n<h2>ボリュームのバックアップとリストア</h2>\n<p>本番環境では定期的なボリュームのバックアップが重要です。Dockerを使ったバックアップ・リストアの方法を学びましょう。</p>\n<pre><code># ボリュームのバックアップ（tar.gzに圧縮）\ndocker run --rm   -v mysql_data:/data   -v $(pwd):/backup   alpine   tar czf /backup/mysql_data_backup.tar.gz -C /data .\n\n# バックアップファイルの作成確認\nls -lh mysql_data_backup.tar.gz\n\n# ボリュームへのリストア\ndocker run --rm   -v mysql_data_new:/data   -v $(pwd):/backup   alpine   tar xzf /backup/mysql_data_backup.tar.gz -C /data\n\n# ボリューム間でデータをコピー\ndocker run --rm   -v source_volume:/from   -v dest_volume:/to   alpine   cp -av /from/. /to/</code></pre>\n<p>このバックアップ手法は「一時的なalpineコンテナをボリュームにマウントし、tarでアーカイブしてホストに保存する」という考え方です。Dockerさえあればどこでも実行できる汎用的な手法です。</p>\n\n<h2>ボリュームの使い分けまとめ</h2>\n<p>どのマウント方式を使うべきか、判断基準をまとめます。</p>\n<pre><code># ===== ボリューム使い分けチートシート =====\n\n# 【名前付きボリューム】を使う場面\n# ・DBのデータ（MySQL, PostgreSQL等）の永続化\n# ・アプリのアップロードファイルの保存\n# ・本番環境でのデータ永続化\n# 例:\ndocker run -v postgres_data:/var/lib/postgresql/data postgres\n\n# 【バインドマウント】を使う場面\n# ・開発中のソースコードの同期（ホットリロード）\n# ・設定ファイルをコンテナに渡す\n# ・コンテナの出力ファイルをホストで確認\n# 例:\ndocker run -v $(pwd):/app -v $(pwd)/config.yml:/app/config.yml:ro my-app\n\n# 【tmpfsマウント】を使う場面\n# ・機密データの一時保存（秘密鍵など）\n# ・パフォーマンスが重要な一時ファイル\n# 例:\ndocker run --tmpfs /tmp:rw,noexec,nosuid,size=100m my-app</code></pre>\n<p>一般的なルールとして、「アプリが生成・保存するデータ（DBデータ等）は名前付きボリューム、開発者が編集するファイル（ソースコード等）はバインドマウント」と覚えておきましょう。</p>",
-  "conclusion": "Dockerのデータ永続化には名前付きボリュームとバインドマウントの2つが主要な手段です。DBデータなど永続化したいデータには名前付きボリューム（-v ボリューム名:パス）、開発中のソースコード同期にはバインドマウント（-v ホストパス:コンテナパス）を使い分けましょう。",
+  "summary": "Dockerのデータ永続化。名前付きボリュームとバインドマウントの違い、操作コマンド、Composeでの設定、バックアップまで。コンテナ再起動でデータが消える問題を防ぐ方法を解説します。",
+  "body": "<h2>結論：コンテナ削除後もデータを残すにはボリュームかバインドマウントが必要</h2>\n<p>コンテナ内のファイルは削除とともに消えます。<strong>DBデータや設定を残すには名前付きボリューム（<code>-v ボリューム名:/path</code>）かバインドマウント（ホストのディレクトリを直結）</strong>を使います。本番DBは名前付きボリューム、開発時のホットリロードはバインドマウントが定番の使い分けです。</p>\n\n<h2>なぜDockerのデータ永続化が必要か</h2>\n<p>Dockerコンテナは本質的に<strong>使い捨て（ephemeral）</strong>です。コンテナを削除すると、コンテナ内に書き込まれたデータはすべて消えてしまいます。例えば、MySQLコンテナを起動してデータを登録し、コンテナを削除して再作成すると、テーブルもレコードも消えて初期状態に戻ります。</p>\n<p>これでは実際のアプリで使えません。データを永続化するためにDockerが提供する仕組みが<strong>ボリューム（Volume）</strong>と<strong>バインドマウント（Bind Mount）</strong>です。どちらもコンテナ外部の場所にデータを保存することで、コンテナを削除してもデータを残せます。</p>\n<pre><code># ボリュームなしでMySQLを起動（データは消える）\ndocker run -d --name mysql-novolume -e MYSQL_ROOT_PASSWORD=pass mysql:8.0\ndocker rm -f mysql-novolume  # 削除するとデータが消える\n\n# ボリュームありでMySQLを起動（データが永続化される）\ndocker run -d   --name mysql-withvolume   -e MYSQL_ROOT_PASSWORD=pass   -v mysql_data:/var/lib/mysql   mysql:8.0</code></pre>\n\n<h2>Dockerのマウント3種類を理解する</h2>\n<p>Dockerにはデータをコンテナ外に保存する3つの方法があります。それぞれの特徴と用途を理解しましょう。</p>\n<p><strong>1. 名前付きボリューム（Named Volume）：</strong>Dockerが管理する独自のストレージ領域です。ホストOSのどこに保存されるかを意識せずに使えます。データの永続化に最適で、特に本番環境や開発環境のDBデータに向いています。</p>\n<p><strong>2. バインドマウント（Bind Mount）：</strong>ホストマシンの特定のディレクトリをコンテナにマウントします。ホスト側でファイルを編集するとコンテナ内に即座に反映されるため、開発中のソースコードのマウントに向いています。</p>\n<p><strong>3. tmpfsマウント：</strong>メモリ上に一時的なストレージを作ります。高速で、コンテナ停止時に消えます。機密データの一時保存などに使います。</p>\n<pre><code># 名前付きボリューム（-v ボリューム名:コンテナパス）\ndocker run -v mysql_data:/var/lib/mysql mysql:8.0\n\n# バインドマウント（-v ホストパス:コンテナパス）\ndocker run -v /home/user/myapp:/app my-app\n\n# バインドマウント（--mountオプション：より明示的）\ndocker run --mount type=bind,source=/home/user/myapp,target=/app my-app\n\n# tmpfsマウント\ndocker run --tmpfs /tmp my-app</code></pre>\n\n<h2>名前付きボリュームの操作</h2>\n<p>名前付きボリュームはDockerが管理するため、ホストのどこに保存されるか意識せずに使えます。ボリュームの作成・一覧・削除などの操作を学びましょう。</p>\n<pre><code># ボリュームを明示的に作成\ndocker volume create my_data\n\n# ボリュームの一覧を表示\ndocker volume ls\n# 出力例:\n# DRIVER    VOLUME NAME\n# local     mysql_data\n# local     my_data\n# local     redis_data\n\n# ボリュームの詳細情報を確認\ndocker volume inspect mysql_data\n# 出力例（Mountpointでホスト上の保存場所がわかる）:\n# [\n#   {\n#     \"Name\": \"mysql_data\",\n#     \"Driver\": \"local\",\n#     \"Mountpoint\": \"/var/lib/docker/volumes/mysql_data/_data\",\n#     ...\n#   }\n# ]\n\n# ボリュームを削除（コンテナが使用中は削除できない）\ndocker volume rm my_data\n\n# 使われていないボリュームを一括削除\ndocker volume prune\n\n# ボリュームの内容を確認（busyboxコンテナ経由）\ndocker run --rm -v mysql_data:/data alpine ls /data</code></pre>\n\n<h2>バインドマウントの実践：ホットリロード開発環境</h2>\n<p>バインドマウントの最大の活用場面は、開発中のソースコードをコンテナにマウントすることです。ホスト側でコードを編集すると、コンテナ内にリアルタイムで反映されるため、コンテナを再起動せずに変更を確認できます。</p>\n<pre><code># Node.jsアプリをバインドマウントで開発\ndocker run -d   --name node-dev   -p 3000:3000   -v $(pwd):/app               # カレントディレクトリをコンテナの/appにマウント\n  -v /app/node_modules         # node_modulesはコンテナ側のを使う\n  -e NODE_ENV=development   node:20-alpine   sh -c \"npm install && npm run dev\"\n\n# Windowsの場合（PowerShell）\ndocker run -d   --name node-dev   -p 3000:3000   -v ${PWD}:/app   -v /app/node_modules   node:20-alpine   sh -c \"npm install && npm run dev\"</code></pre>\n<p><code>-v /app/node_modules</code> という記述に注目してください。これはホスト側にマッピングしない「匿名ボリューム」として <code>node_modules</code> をコンテナ側で独立して管理する指定です。ホストの <code>node_modules</code>（Windows/Mac用バイナリ）がコンテナ（Linux）に上書きされるのを防ぎます。</p>\n<pre><code># バインドマウントの読み取り専用設定（コンテナからの書き込みを禁止）\ndocker run -v $(pwd)/config:/app/config:ro my-app\n# :ro = read-only（読み取り専用）\n\n# バインドマウントの詳細オプション（--mountを使う場合）\ndocker run --mount   type=bind,  source=$(pwd),  target=/app,  readonly   my-app</code></pre>\n\n<h2>Docker Composeでのボリューム設定</h2>\n<p>実際の開発では Docker Compose と組み合わせてボリュームを使うことがほとんどです。</p>\n<pre><code># docker-compose.ymlでのボリューム設定例\nservices:\n  app:\n    build: .\n    ports:\n      - \"3000:3000\"\n    volumes:\n      # バインドマウント（開発用：ソースコード同期）\n      - .:/app\n      # 匿名ボリューム（node_modulesをコンテナ側で管理）\n      - /app/node_modules\n    environment:\n      - NODE_ENV=development\n\n  db:\n    image: postgres:16-alpine\n    volumes:\n      # 名前付きボリューム（データ永続化）\n      - postgres_data:/var/lib/postgresql/data\n      # バインドマウント（初期化SQLをコンテナにマウント）\n      - ./docker/init.sql:/docker-entrypoint-initdb.d/init.sql:ro\n    environment:\n      - POSTGRES_PASSWORD=password\n\n  redis:\n    image: redis:7-alpine\n    volumes:\n      - redis_data:/data\n    command: redis-server --appendonly yes  # AOF永続化を有効に\n\n# 名前付きボリュームはトップレベルで定義\nvolumes:\n  postgres_data:\n  redis_data:</code></pre>\n\n<h2>ボリュームのバックアップとリストア</h2>\n<p>本番環境では定期的なボリュームのバックアップが重要です。Dockerを使ったバックアップ・リストアの方法を学びましょう。</p>\n<pre><code># ボリュームのバックアップ（tar.gzに圧縮）\ndocker run --rm   -v mysql_data:/data   -v $(pwd):/backup   alpine   tar czf /backup/mysql_data_backup.tar.gz -C /data .\n\n# バックアップファイルの作成確認\nls -lh mysql_data_backup.tar.gz\n\n# ボリュームへのリストア\ndocker run --rm   -v mysql_data_new:/data   -v $(pwd):/backup   alpine   tar xzf /backup/mysql_data_backup.tar.gz -C /data\n\n# ボリューム間でデータをコピー\ndocker run --rm   -v source_volume:/from   -v dest_volume:/to   alpine   cp -av /from/. /to/</code></pre>\n<p>このバックアップ手法は「一時的なalpineコンテナをボリュームにマウントし、tarでアーカイブしてホストに保存する」という考え方です。Dockerさえあればどこでも実行できる汎用的な手法です。</p>\n\n<h2>よくあるつまずきと失敗例</h2>\n<h3>ボリューム設定で起きやすいミス</h3>\n<ul>\n<li><strong>匿名ボリュームの行き先がわからなくなる</strong>：名前を付けずにマウントすると <code>docker volume ls</code> で長いハッシュ名になり、管理が困難です。用途が決まっているなら名前付きボリュームを使いましょう。</li>\n<li><strong>バインドマウントで権限エラー</strong>：Linuxホストではコンテナ内ユーザーとUIDが合わず書き込めないことがあります。docker-compose.ymlで user を指定するか、ホスト側の権限を調整します。</li>\n<li><strong>ボリュームを消さずに docker compose down -v する</strong>：<code>-v</code> 付きdownはボリュームも削除します。本番データを消す前に必ずバックアップを取ってください。</li>\n</ul>\n\n<h2>ボリュームの使い分けまとめ</h2>\n<p>どのマウント方式を使うべきか、判断基準をまとめます。</p>\n<pre><code># ===== ボリューム使い分けチートシート =====\n\n# 【名前付きボリューム】を使う場面\n# ・DBのデータ（MySQL, PostgreSQL等）の永続化\n# ・アプリのアップロードファイルの保存\n# ・本番環境でのデータ永続化\n# 例:\ndocker run -v postgres_data:/var/lib/postgresql/data postgres\n\n# 【バインドマウント】を使う場面\n# ・開発中のソースコードの同期（ホットリロード）\n# ・設定ファイルをコンテナに渡す\n# ・コンテナの出力ファイルをホストで確認\n# 例:\ndocker run -v $(pwd):/app -v $(pwd)/config.yml:/app/config.yml:ro my-app\n\n# 【tmpfsマウント】を使う場面\n# ・機密データの一時保存（秘密鍵など）\n# ・パフォーマンスが重要な一時ファイル\n# 例:\ndocker run --tmpfs /tmp:rw,noexec,nosuid,size=100m my-app</code></pre>\n<p>一般的なルールとして、「アプリが生成・保存するデータ（DBデータ等）は名前付きボリューム、開発者が編集するファイル（ソースコード等）はバインドマウント」と覚えておきましょう。</p>",
+  "conclusion": "DBなど永続データは名前付きボリューム、開発時のソース同期はバインドマウントが基本です。Composeのvolumesセクションで宣言し、本番前にバックアップ手順も決めておきましょう。",
   "tags": [
     "Docker",
     "Docker Volume",
@@ -17,12 +17,12 @@
   "theme": "docker - Docker 入門",
   "status": "published",
   "createdAt": "2026-05-30T04:13:34.394Z",
-  "updatedAt": "2026-05-30T04:13:34.404Z",
+  "updatedAt": "2026-05-30T05:17:44.258Z",
   "publishedAt": "2026-05-30T04:13:34.394Z",
   "metaTitle": "Dockerボリュームの使い方：データ永続化・-v・バインドマウント完全解説【docker 使い方】 | StackS…",
-  "metaDescription": "Dockerのボリューム（-v）によるデータ永続化を初心者向けに解説。名前付きボリュームとバインドマウントの違い、Docker Composeでの設定方法を丁寧に説明します。docker 初心者向け。 図解・具体例つきで丁寧に解説します。",
+  "metaDescription": "Dockerボリュームとバインドマウントの使い分け。データ永続化、Compose設定、権限エラーとバックアップ。コンテナ削除後もデータを残したい人向け。",
   "ogTitle": "Dockerボリューム完全ガイド：データ永続化を理解する",
-  "ogDescription": "【Docker初心者向け】【Docker初心者向け】名前付きボリュームとバインドマウントの違いと使い分けをゼロから解説。DBデータ永続化の実践例も紹介します。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
+  "ogDescription": "Dockerボリュームとバインドマウントの使い分け。データ永続化、Compose設定、権限エラーとバックアップ。コンテナ削除後もデータを残したい人向け。",
   "knowledge": {
     "topic": "docker",
     "courseId": "docker",
@@ -44,6 +44,10 @@
     {
       "question": "docker volume pruneを実行したら大切なデータが消えてしまいました。",
       "answer": "docker volume pruneは「どのコンテナにも接続されていないボリューム」を削除します。コンテナが停止中でもアタッチされているボリュームは削除されません。重要なデータは定期的にバックアップし、ボリューム名を意味のある名前にして管理しましょう。"
+    },
+    {
+      "question": "つまずいたときはどうすればいいですか？",
+      "answer": "エラーメッセージをそのまま検索し、公式ドキュメントを当たってください。小さなステップに分けて再現・確認すると原因を特定しやすくなります。"
     }
   ],
   "nextEpisodeHint": "次回は学習の集大成として、実際のNode.jsまたはPython WebアプリをDockerでコンテナ化する実践演習を行います。Dockerfile作成からDocker Composeでの起動まで一通り体験しましょう。",
@@ -56,9 +60,9 @@
         "@context": "https://schema.org",
         "@type": "TechArticle",
         "headline": "Dockerボリューム完全ガイド：データ永続化・バインドマウント・名前付きボリューム",
-        "description": "Dockerのボリューム（-v）によるデータ永続化を初心者向けに解説。名前付きボリュームとバインドマウントの違い、Docker Composeでの設定方法を丁寧に説明します。docker 初心者向け。 図解・具体例つきで丁寧に解説します。",
+        "description": "Dockerボリュームとバインドマウントの使い分け。データ永続化、Compose設定、権限エラーとバックアップ。コンテナ削除後もデータを残したい人向け。",
         "datePublished": "2026-05-30T04:13:34.394Z",
-        "dateModified": "2026-05-30T04:13:34.404Z",
+        "dateModified": "2026-05-30T05:17:44.258Z",
         "author": {
           "@type": "Organization",
           "name": "StackShelf",
@@ -79,7 +83,7 @@
         },
         "image": "https://ai-site-iota-nine.vercel.app/og-default.svg",
         "inLanguage": "ja",
-        "wordCount": 4235,
+        "wordCount": 4710,
         "mainEntityOfPage": {
           "@type": "WebPage",
           "@id": "https://ai-site-iota-nine.vercel.app/article/docker-volumes"
@@ -174,6 +178,14 @@
               "@type": "Answer",
               "text": "docker volume pruneは「どのコンテナにも接続されていないボリューム」を削除します。コンテナが停止中でもアタッチされているボリュームは削除されません。重要なデータは定期的にバックアップし、ボリューム名を意味のある名前にして管理しましょう。"
             }
+          },
+          {
+            "@type": "Question",
+            "name": "つまずいたときはどうすればいいですか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "エラーメッセージをそのまま検索し、公式ドキュメントを当たってください。小さなステップに分けて再現・確認すると原因を特定しやすくなります。"
+            }
           }
         ]
       }
@@ -263,7 +275,43 @@
           "@type": "Answer",
           "text": "docker volume pruneは「どのコンテナにも接続されていないボリューム」を削除します。コンテナが停止中でもアタッチされているボリュームは削除されません。重要なデータは定期的にバックアップし、ボリューム名を意味のある名前にして管理しましょう。"
         }
+      },
+      {
+        "@type": "Question",
+        "name": "つまずいたときはどうすればいいですか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "エラーメッセージをそのまま検索し、公式ドキュメントを当たってください。小さなステップに分けて再現・確認すると原因を特定しやすくなります。"
+        }
       }
     ]
-  }
+  },
+  "internalLinkCandidates": [
+    {
+      "slug": "docker-webapp-practice",
+      "title": "Node.js・Python WebアプリをDockerコンテナ化する実践ガイド",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "docker-compose",
+      "title": "Docker Compose入門：docker-compose.ymlでマルチコンテナを管理する",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "docker-dockerfile",
+      "title": "Dockerfileの書き方完全ガイド：FROM・RUN・COPY・CMDをマスターする",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "docker-image-container",
+      "title": "Dockerイメージとコンテナを理解する：images・ps・exec完全解説",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "docker-first-container",
+      "title": "Dockerで初めてのコンテナを動かす：hello-world・nginx実践入門",
+      "reason": "同じ講座の関連回です"
+    }
+  ],
+  "nextAction": "次は学習の集大成として、実際のNode.jsまたはPython WebアプリをDockerでコンテナ化する実践演習を行います。Dockerfile作成からDocker Composeでの起動まで一通り体験しましょう。"
 }

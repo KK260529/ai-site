@@ -1,0 +1,291 @@
+{
+  "id": "art_errors_docker-network-errors-175-declared-as-external-but-could-not-be-found-bf976b",
+  "slug": "docker-network-errors-175-declared-as-external-but-could-not-be-found-bf976b",
+  "title": "network errors-175 declared as external, but could not be found の原因と解決法",
+  "summary": "network errors-175 declared as external, but could not be found の原因と具体的な解決手順をまとめました。",
+  "body": "<h2>エラーメッセージ（全文）</h2>\n<p>検索でヒットしやすいよう、実際のコンソール出力をそのまま掲載します。</p>\n<pre><code>network errors-175 declared as external, but could not be found</code></pre>\n\n<h2>このエラーとは</h2>\n<p>network errors-175 declared as external, but could not be found は Docker 開発でよく遭遇するエラーです。</p>\n<p><strong>想定環境:</strong> Windows / macOS / Linux</p>\n<p><strong>よく出る状況:</strong> Docker / Compose</p>\n\n<h2>よくある原因</h2>\n<ul>\n<li>リソース</li>\n<li>設定</li>\n<li>イメージ</li>\n</ul><h2>解決方法</h2><h3>方法1: docker logs</h3><p>docker logs app-175 --tail 100</p>\n<h2>それでも直らないとき</h2>\n<p>バージョン情報（Docker のバージョン、OS、実行コマンド）を添えて、エラーメッセージ全文と直前に変更した点を確認してください。ログの数行上にも原因の手がかりが残っていることが多いです。</p>",
+  "conclusion": "「network errors-175 declared as external, but could not be found」は リソース が原因のことが多いです。上記の手順で切り分けてください。",
+  "tags": [
+    "docker",
+    "Dockerエラー",
+    "network errors-175 declared as external, but could not be found",
+    "Docker",
+    "alpine",
+    "network errors-175 declared as external,"
+  ],
+  "category": "Dockerエラー",
+  "theme": "errors - Docker エラー・トラブル集",
+  "articleType": "error",
+  "status": "published",
+  "createdAt": "2026-05-30T05:48:13.390Z",
+  "updatedAt": "2026-05-30T05:48:13.390Z",
+  "publishedAt": "2026-05-30T05:48:13.390Z",
+  "metaTitle": "network errors-175 declared as external, but could not be f…",
+  "metaDescription": "network errors-175 declared as external, but could not be found が出たときの原因・確認手順・解決策を解説。Docker / Compose。",
+  "ogTitle": "network errors-175 declared as external, but could not be found の原因と解決法",
+  "ogDescription": "network errors-175 declared as external, but could not be found が出たときの原因・確認手順・解決策を解説。Docker / Compose。",
+  "knowledge": {
+    "topic": "errors",
+    "courseId": "docker-errors",
+    "episode": 289
+  },
+  "faq": [
+    {
+      "question": "network errors-175 declared as external, but could not be found とは何ですか？",
+      "answer": "network errors-175 declared as external, but could not be found は Docker 実行時に表示されるエラーです。リソース"
+    },
+    {
+      "question": "network errors-175 declared as external, but could not be found の原因は？",
+      "answer": "リソース。設定。イメージ。"
+    },
+    {
+      "question": "network errors-175 declared as external, but could not be found の直し方は？",
+      "answer": "docker logs：docker logs app-175 --tail 100"
+    },
+    {
+      "question": "Docker で network errors-175 declared as external, but could not be found が出るのはなぜ？",
+      "answer": "Docker / Compose"
+    },
+    {
+      "question": "network errors-175 declared as external, but could not be found を防ぐには？",
+      "answer": "。"
+    }
+  ],
+  "nextAction": "同じ Docker カテゴリの関連エラーもあわせて確認してください。",
+  "internalLinkCandidates": [],
+  "ogImage": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+  "canonical": "https://ai-site-iota-nine.vercel.app/article/docker-network-errors-175-declared-as-external-but-could-not-be-found-bf976b",
+  "jsonLd": {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@context": "https://schema.org",
+        "@type": "TechArticle",
+        "headline": "network errors-175 declared as external, but could not be found の原因と解決法",
+        "description": "network errors-175 declared as external, but could not be found が出たときの原因・確認手順・解決策を解説。Docker / Compose。",
+        "datePublished": "2026-05-30T05:48:13.390Z",
+        "dateModified": "2026-05-30T05:48:13.390Z",
+        "author": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
+        },
+        "image": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+        "inLanguage": "ja",
+        "wordCount": 392,
+        "mainEntityOfPage": {
+          "@type": "WebPage",
+          "@id": "https://ai-site-iota-nine.vercel.app/article/docker-network-errors-175-declared-as-external-but-could-not-be-found-bf976b"
+        },
+        "keywords": "docker, Dockerエラー, network errors-175 declared as external, but could not be found, Docker, alpine, network errors-175 declared as external,",
+        "articleSection": "Dockerエラー",
+        "url": "https://ai-site-iota-nine.vercel.app/article/docker-network-errors-175-declared-as-external-but-could-not-be-found-bf976b",
+        "learningResourceType": "tutorial",
+        "educationalLevel": "beginner"
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "ホーム",
+            "item": "https://ai-site-iota-nine.vercel.app/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "errors",
+            "item": "https://ai-site-iota-nine.vercel.app/knowledge/errors"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "Docker エラー・トラブル集",
+            "item": "https://ai-site-iota-nine.vercel.app/course/errors/docker-errors"
+          },
+          {
+            "@type": "ListItem",
+            "position": 4,
+            "name": "network errors-175 declared as external, but could not be found の原因と解決法",
+            "item": "https://ai-site-iota-nine.vercel.app/article/docker-network-errors-175-declared-as-external-but-could-not-be-found-bf976b"
+          }
+        ]
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "Course",
+        "name": "Docker エラー・トラブル集",
+        "description": "Docker エラー・トラブル集",
+        "provider": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app"
+        },
+        "url": "https://ai-site-iota-nine.vercel.app/course/errors/docker-errors",
+        "inLanguage": "ja",
+        "educationalLevel": "beginner",
+        "hasCourseInstance": {
+          "@type": "CourseInstance",
+          "courseMode": "online",
+          "courseWorkload": "PT1H"
+        }
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "network errors-175 declared as external, but could not be found とは何ですか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "network errors-175 declared as external, but could not be found は Docker 実行時に表示されるエラーです。リソース"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "network errors-175 declared as external, but could not be found の原因は？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "リソース。設定。イメージ。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "network errors-175 declared as external, but could not be found の直し方は？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "docker logs：docker logs app-175 --tail 100"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Docker で network errors-175 declared as external, but could not be found が出るのはなぜ？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Docker / Compose"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "network errors-175 declared as external, but could not be found を防ぐには？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "。"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "breadcrumb": {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "ホーム",
+        "item": "https://ai-site-iota-nine.vercel.app/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "errors",
+        "item": "https://ai-site-iota-nine.vercel.app/knowledge/errors"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "Docker エラー・トラブル集",
+        "item": "https://ai-site-iota-nine.vercel.app/course/errors/docker-errors"
+      },
+      {
+        "@type": "ListItem",
+        "position": 4,
+        "name": "network errors-175 declared as external, but could not be found の原因と解決法",
+        "item": "https://ai-site-iota-nine.vercel.app/article/docker-network-errors-175-declared-as-external-but-could-not-be-found-bf976b"
+      }
+    ]
+  },
+  "courseSchema": {
+    "@context": "https://schema.org",
+    "@type": "Course",
+    "name": "Docker エラー・トラブル集",
+    "description": "Docker エラー・トラブル集",
+    "provider": {
+      "@type": "Organization",
+      "name": "StackShelf",
+      "url": "https://ai-site-iota-nine.vercel.app"
+    },
+    "url": "https://ai-site-iota-nine.vercel.app/course/errors/docker-errors",
+    "inLanguage": "ja",
+    "educationalLevel": "beginner",
+    "hasCourseInstance": {
+      "@type": "CourseInstance",
+      "courseMode": "online",
+      "courseWorkload": "PT1H"
+    }
+  },
+  "faqSchema": {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "network errors-175 declared as external, but could not be found とは何ですか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "network errors-175 declared as external, but could not be found は Docker 実行時に表示されるエラーです。リソース"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "network errors-175 declared as external, but could not be found の原因は？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "リソース。設定。イメージ。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "network errors-175 declared as external, but could not be found の直し方は？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "docker logs：docker logs app-175 --tail 100"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Docker で network errors-175 declared as external, but could not be found が出るのはなぜ？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Docker / Compose"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "network errors-175 declared as external, but could not be found を防ぐには？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "。"
+        }
+      }
+    ]
+  }
+}

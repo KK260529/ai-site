@@ -2,9 +2,9 @@
   "id": "art_git_github-pull-request",
   "slug": "github-pull-request",
   "title": "Pull Requestと協業の流れ",
-  "summary": "Pull Request（PR）の作成・レビュー・マージの一連の流れを解説。フォーク、ブランチ戦略、コードレビューの進め方など、チーム開発で必要な GitHub の協業機能を実践的に学ぶ。",
-  "body": "<h2>Pull Request とは何か</h2>\n<p>\n  <strong>Pull Request（PR）</strong>とは、自分のブランチへの変更をメインブランチへ取り込んでほしいと\n  チームメンバーに依頼する機能です。\n  単なるコードの統合依頼だけでなく、変更内容のレビュー・議論・承認のプロセスを\n  GitHub 上で一元管理できます。\n</p>\n<p>\n  Pull Request を使うことで、バグを含んだコードが直接 main ブランチに入るリスクを減らし、\n  チームのコード品質を維持できます。\n  個人開発でも「過去の自分へのレビュー」として PR を活用する開発者も多くいます。\n</p>\n\n<h2>Pull Request を作るまでの基本フロー</h2>\n<p>\n  Pull Request を作成するまでの一般的な手順は次の通りです。\n</p>\n<ol>\n  <li>作業用ブランチを作成する</li>\n  <li>変更をコミットする</li>\n  <li>リモートブランチへプッシュする</li>\n  <li>GitHub 上で Pull Request を作成する</li>\n  <li>レビューを受けて修正する</li>\n  <li>承認後にマージする</li>\n</ol>\n<pre><code># 1. 作業用ブランチを作成\ngit checkout -b feature/add-contact-form\n\n# 2. ファイルを編集してコミット\ngit add contact.html\ngit commit -m \"feat: お問い合わせフォームを追加\"\n\n# 3. リモートへプッシュ\ngit push -u origin feature/add-contact-form</code></pre>\n<p>\n  プッシュ後に GitHub のリポジトリページを開くと、\n  「Compare &amp; pull request」ボタンが表示されます。\n  クリックして PR の説明を記入し「Create pull request」を押せば完了です。\n</p>\n\n<h3>PR の説明文を丁寧に書く</h3>\n<p>\n  Pull Request の説明文（本文）は、レビュワーが変更内容を理解するための重要な情報源です。\n  以下の要素を含めると伝わりやすくなります。\n</p>\n<ul>\n  <li><strong>変更の目的・背景</strong>：なぜこの変更が必要なのか</li>\n  <li><strong>変更の概要</strong>：何を変更したのか</li>\n  <li><strong>テスト方法</strong>：レビュワーが動作確認する手順</li>\n  <li><strong>スクリーンショット</strong>：UI 変更の場合は前後の比較画像</li>\n  <li><strong>関連 Issue</strong>：<code>Closes #12</code> のように記載するとマージ時に自動クローズされる</li>\n</ul>\n\n<h2>コードレビューの進め方</h2>\n<p>\n  Pull Request を受け取ったレビュワーは「Files changed」タブで変更内容を確認します。\n  気になる行の横にある「＋」ボタンをクリックするとコメントを追加でき、\n  修正を提案したり質問したりできます。\n</p>\n<p>\n  レビューの最終判断には3種類あります。\n</p>\n<ul>\n  <li><strong>Comment</strong>：コメントのみ（承認も拒否もしない）</li>\n  <li><strong>Approve</strong>：変更を承認する</li>\n  <li><strong>Request changes</strong>：修正を要求する（承認しない）</li>\n</ul>\n\n<h3>レビューコメントへの対応</h3>\n<p>\n  「Request changes」を受けたら、指摘に対応してコミットしリプッシュします。\n  PR は自動的に更新されます。\n</p>\n<pre><code># レビュー指摘を修正してコミット\ngit add contact.html\ngit commit -m \"fix: バリデーションメッセージを修正\"\ngit push</code></pre>\n<p>\n  対応が完了したら GitHub 上でコメントに返信し、\n  「Resolve conversation」ボタンで解決済みにしましょう。\n</p>\n\n<h2>Pull Request をマージする</h2>\n<p>\n  承認を得たら PR をマージします。GitHub にはマージ方法が3種類あります。\n</p>\n<ul>\n  <li>\n    <strong>Merge commit</strong>：マージコミットを作成して統合。履歴がすべて残る。デフォルト。\n  </li>\n  <li>\n    <strong>Squash and merge</strong>：PR 内のコミットを1つにまとめてマージ。\n    細かいコミットを整理したいときに便利。\n  </li>\n  <li>\n    <strong>Rebase and merge</strong>：コミットを一直線に並べてマージ。\n    マージコミットを作りたくないときに使う。\n  </li>\n</ul>\n<p>\n  初めのうちは「Merge commit」を使えば安全です。\n  マージ後はブランチを削除するボタンが表示されるので、不要になったブランチはクリーンアップしましょう。\n</p>\n\n<h2>フォーク（Fork）を使った OSS への貢献</h2>\n<p>\n  自分が管理していないリポジトリへ変更を提案したいときは\n  <strong>フォーク（Fork）</strong>を使います。\n  フォークとはリポジトリを自分のアカウントにコピーする操作です。\n</p>\n<pre><code># フォーク後、自分のリポジトリをクローン\ngit clone https://github.com/yourname/forked-project.git\ncd forked-project\n\n# 元のリポジトリ（upstream）を登録\ngit remote add upstream https://github.com/original-owner/forked-project.git\n\n# upstream の最新状態を取り込む\ngit fetch upstream\ngit merge upstream/main</code></pre>\n<p>\n  変更をコミットしてフォーク先にプッシュした後、\n  GitHub 上で「Contribute → Open pull request」から PR を作成します。\n  元のリポジトリのオーナーがレビューして取り込んでくれます。\n</p>\n\n<h3>upstream を常に最新に保つ</h3>\n<p>\n  フォーク元のリポジトリが更新されたら定期的に同期しましょう。\n  GitHub には「Sync fork」ボタンが用意されており、クリックするだけで同期できます。\n  コマンドラインの場合は次の通りです。\n</p>\n<pre><code>git fetch upstream\ngit checkout main\ngit merge upstream/main\ngit push origin main</code></pre>\n\n<h2>ブランチ保護ルールを設定する</h2>\n<p>\n  チームリポジトリでは <code>main</code> ブランチへの直接プッシュを禁止する\n  <strong>ブランチ保護ルール（Branch protection rules）</strong>を設定するのがベストプラクティスです。\n  GitHub の「Settings → Branches → Add rule」から設定できます。\n</p>\n<ul>\n  <li><strong>Require a pull request before merging</strong>：PR 経由でないとマージできない</li>\n  <li><strong>Require approvals</strong>：承認者数を設定（例：1名以上の承認が必要）</li>\n  <li><strong>Require status checks to pass</strong>：CI が通らないとマージできない</li>\n</ul>\n<p>\n  これらのルールにより、コードレビューなしのマージや、テストが失敗したままのマージを防げます。\n</p>\n\n<h2>Draft PR を活用する</h2>\n<p>\n  まだ完成していない変更をレビュワーに早めに共有して意見をもらいたいときは\n  <strong>Draft PR（下書きPR）</strong>が便利です。\n  Draft PR はマージできない状態で作成でき、作業中であることをチームに伝えられます。\n  完成したら「Ready for review」ボタンを押して通常の PR に変換します。\n</p>",
-  "conclusion": "このエピソードでは Pull Request の作成・レビュー・マージの一連の流れと、フォークを使った OSS 貢献の方法を学びました。PR はチームでのコード品質を守るための重要な仕組みです。丁寧な説明文とレビュー対応を心がけることが、チームへの良い貢献につながります。次のエピソードでは実務で使われる Git ワークフローを学びます。",
+  "summary": "Pull Request の作成・レビュー・マージの流れ、Fork を使った OSS 貢献、ブランチ保護と Draft PR を解説。チーム開発の協業フローを押さえたい人向け。",
+  "body": "<h2>結論：Pull Request（PR）で変更をレビューしてから main に統合する</h2>\n<p>チーム開発の標準フローは<strong>ブランチで作業 → push → PR作成 → レビュー → マージ</strong>です。PRは変更内容の説明と議論の場であり、main への直接 push を防ぐブランチ保護と組み合わせると品質が上がります。OSS への貢献は Fork → PR が基本パターンです。</p>\n\n<h2>Pull Request とは何か</h2>\n<p>\n  <strong>Pull Request（PR）</strong>とは、自分のブランチへの変更をメインブランチへ取り込んでほしいと\n  チームメンバーに依頼する機能です。\n  単なるコードの統合依頼だけでなく、変更内容のレビュー・議論・承認のプロセスを\n  GitHub 上で一元管理できます。\n</p>\n<p>\n  Pull Request を使うことで、バグを含んだコードが直接 main ブランチに入るリスクを減らし、\n  チームのコード品質を維持できます。\n  個人開発でも「過去の自分へのレビュー」として PR を活用する開発者も多くいます。\n</p>\n\n<h2>Pull Request を作るまでの基本フロー</h2>\n<p>\n  Pull Request を作成するまでの一般的な手順は次の通りです。\n</p>\n<ol>\n  <li>作業用ブランチを作成する</li>\n  <li>変更をコミットする</li>\n  <li>リモートブランチへプッシュする</li>\n  <li>GitHub 上で Pull Request を作成する</li>\n  <li>レビューを受けて修正する</li>\n  <li>承認後にマージする</li>\n</ol>\n<pre><code># 1. 作業用ブランチを作成\ngit checkout -b feature/add-contact-form\n\n# 2. ファイルを編集してコミット\ngit add contact.html\ngit commit -m \"feat: お問い合わせフォームを追加\"\n\n# 3. リモートへプッシュ\ngit push -u origin feature/add-contact-form</code></pre>\n<p>\n  プッシュ後に GitHub のリポジトリページを開くと、\n  「Compare &amp; pull request」ボタンが表示されます。\n  クリックして PR の説明を記入し「Create pull request」を押せば完了です。\n</p>\n\n<h3>PR の説明文を丁寧に書く</h3>\n<p>\n  Pull Request の説明文（本文）は、レビュワーが変更内容を理解するための重要な情報源です。\n  以下の要素を含めると伝わりやすくなります。\n</p>\n<ul>\n  <li><strong>変更の目的・背景</strong>：なぜこの変更が必要なのか</li>\n  <li><strong>変更の概要</strong>：何を変更したのか</li>\n  <li><strong>テスト方法</strong>：レビュワーが動作確認する手順</li>\n  <li><strong>スクリーンショット</strong>：UI 変更の場合は前後の比較画像</li>\n  <li><strong>関連 Issue</strong>：<code>Closes #12</code> のように記載するとマージ時に自動クローズされる</li>\n</ul>\n\n<h2>コードレビューの進め方</h2>\n<p>\n  Pull Request を受け取ったレビュワーは「Files changed」タブで変更内容を確認します。\n  気になる行の横にある「＋」ボタンをクリックするとコメントを追加でき、\n  修正を提案したり質問したりできます。\n</p>\n<p>\n  レビューの最終判断には3種類あります。\n</p>\n<ul>\n  <li><strong>Comment</strong>：コメントのみ（承認も拒否もしない）</li>\n  <li><strong>Approve</strong>：変更を承認する</li>\n  <li><strong>Request changes</strong>：修正を要求する（承認しない）</li>\n</ul>\n\n<h3>レビューコメントへの対応</h3>\n<p>\n  「Request changes」を受けたら、指摘に対応してコミットしリプッシュします。\n  PR は自動的に更新されます。\n</p>\n<pre><code># レビュー指摘を修正してコミット\ngit add contact.html\ngit commit -m \"fix: バリデーションメッセージを修正\"\ngit push</code></pre>\n<p>\n  対応が完了したら GitHub 上でコメントに返信し、\n  「Resolve conversation」ボタンで解決済みにしましょう。\n</p>\n\n<h2>Pull Request をマージする</h2>\n<p>\n  承認を得たら PR をマージします。GitHub にはマージ方法が3種類あります。\n</p>\n<ul>\n  <li>\n    <strong>Merge commit</strong>：マージコミットを作成して統合。履歴がすべて残る。デフォルト。\n  </li>\n  <li>\n    <strong>Squash and merge</strong>：PR 内のコミットを1つにまとめてマージ。\n    細かいコミットを整理したいときに便利。\n  </li>\n  <li>\n    <strong>Rebase and merge</strong>：コミットを一直線に並べてマージ。\n    マージコミットを作りたくないときに使う。\n  </li>\n</ul>\n<p>\n  初めのうちは「Merge commit」を使えば安全です。\n  マージ後はブランチを削除するボタンが表示されるので、不要になったブランチはクリーンアップしましょう。\n</p>\n\n<h2>フォーク（Fork）を使った OSS への貢献</h2>\n<p>\n  自分が管理していないリポジトリへ変更を提案したいときは\n  <strong>フォーク（Fork）</strong>を使います。\n  フォークとはリポジトリを自分のアカウントにコピーする操作です。\n</p>\n<pre><code># フォーク後、自分のリポジトリをクローン\ngit clone https://github.com/yourname/forked-project.git\ncd forked-project\n\n# 元のリポジトリ（upstream）を登録\ngit remote add upstream https://github.com/original-owner/forked-project.git\n\n# upstream の最新状態を取り込む\ngit fetch upstream\ngit merge upstream/main</code></pre>\n<p>\n  変更をコミットしてフォーク先にプッシュした後、\n  GitHub 上で「Contribute → Open pull request」から PR を作成します。\n  元のリポジトリのオーナーがレビューして取り込んでくれます。\n</p>\n\n<h3>upstream を常に最新に保つ</h3>\n<p>\n  フォーク元のリポジトリが更新されたら定期的に同期しましょう。\n  GitHub には「Sync fork」ボタンが用意されており、クリックするだけで同期できます。\n  コマンドラインの場合は次の通りです。\n</p>\n<pre><code>git fetch upstream\ngit checkout main\ngit merge upstream/main\ngit push origin main</code></pre>\n\n<h2>ブランチ保護ルールを設定する</h2>\n<p>\n  チームリポジトリでは <code>main</code> ブランチへの直接プッシュを禁止する\n  <strong>ブランチ保護ルール（Branch protection rules）</strong>を設定するのがベストプラクティスです。\n  GitHub の「Settings → Branches → Add rule」から設定できます。\n</p>\n<ul>\n  <li><strong>Require a pull request before merging</strong>：PR 経由でないとマージできない</li>\n  <li><strong>Require approvals</strong>：承認者数を設定（例：1名以上の承認が必要）</li>\n  <li><strong>Require status checks to pass</strong>：CI が通らないとマージできない</li>\n</ul>\n<p>\n  これらのルールにより、コードレビューなしのマージや、テストが失敗したままのマージを防げます。\n</p>\n\n<h2>よくあるつまずきと失敗例</h2>\n<h3>Pull Request でつまずく典型例</h3>\n<ul>\n<li><strong>巨大なPRを一度に出す</strong>：数百行の変更はレビューが困難です。機能単位で小さくPRを分けましょう。</li>\n<li><strong>説明が空</strong>：「何を・なぜ・どう確認したか」を書かないとレビュアーが困ります。テンプレートを活用してください。</li>\n<li><strong>コンフリクトを放置</strong>：PR画面に conflict と出たら、ローカルで main を取り込んで解決してから push し直します。</li>\n</ul>\n\n<h2>Draft PR を活用する</h2>\n<p>\n  まだ完成していない変更をレビュワーに早めに共有して意見をもらいたいときは\n  <strong>Draft PR（下書きPR）</strong>が便利です。\n  Draft PR はマージできない状態で作成でき、作業中であることをチームに伝えられます。\n  完成したら「Ready for review」ボタンを押して通常の PR に変換します。\n</p>",
+  "conclusion": "PRは変更をレビューしてから統合する仕組みです。小さく出し、説明を書き、コンフリクトは早めに解消。Fork 経由で OSS にも貢献できます。実務フローは次のワークフロー記事で整理しましょう。",
   "tags": [
     "pull request",
     "GitHub 協業",
@@ -16,12 +16,12 @@
   "theme": "git - Git & GitHub 入門",
   "status": "published",
   "createdAt": "2026-05-30T03:49:59.936Z",
-  "updatedAt": "2026-05-30T03:49:59.945Z",
+  "updatedAt": "2026-05-30T05:17:45.589Z",
   "publishedAt": "2026-05-30T03:49:59.936Z",
   "metaTitle": "GitHub Pull Request の使い方【チーム開発の協業フロー完全解説】｜Git入門 | StackShelf",
-  "metaDescription": "【Git初心者向け】GitHub の Pull Request（PR）の作り方・レビュー・マージ方法を初心者向けに解説。フォーク、ブランチ戦略、コードレビューのコメント方法まで実践的に説明します。 図解・具体例つきで丁寧に解説します。",
+  "metaDescription": "Pull Requestの作り方とレビュー・マージの流れ。Fork貢献、Draft PR、ブランチ保護、よくあるミス。チーム開発の協業を学びたい人向け。",
   "ogTitle": "GitHub Pull Request 完全ガイド｜協業の流れを解説",
-  "ogDescription": "【Git初心者向け】Pull Request の作成からコードレビュー・マージまで。チームで安全にコードを共有するための GitHub 協業フローを初心者向けに丁寧に解説します。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
+  "ogDescription": "Pull Requestの作り方とレビュー・マージの流れ。Fork貢献、Draft PR、ブランチ保護、よくあるミス。チーム開発の協業を学びたい人向け。",
   "knowledge": {
     "topic": "git",
     "courseId": "git",
@@ -43,6 +43,10 @@
     {
       "question": "レビュワーを指定しないと PR はマージできないのですか？",
       "answer": "ブランチ保護ルールで承認を必須にしていなければ、レビュワー指定なしでもマージできます。ただしチーム開発では必ずレビューを通すことを強くおすすめします。"
+    },
+    {
+      "question": "つまずいたときはどうすればいいですか？",
+      "answer": "エラーメッセージをそのまま検索し、公式ドキュメントを当たってください。小さなステップに分けて再現・確認すると原因を特定しやすくなります。"
     }
   ],
   "nextEpisodeHint": "次のエピソードでは、実務で広く使われる Git Flow・GitHub Flow などのブランチ戦略と、git stash・git cherry-pick など実践的なコマンドを学びます。",
@@ -55,9 +59,9 @@
         "@context": "https://schema.org",
         "@type": "TechArticle",
         "headline": "Pull Requestと協業の流れ",
-        "description": "【Git初心者向け】GitHub の Pull Request（PR）の作り方・レビュー・マージ方法を初心者向けに解説。フォーク、ブランチ戦略、コードレビューのコメント方法まで実践的に説明します。 図解・具体例つきで丁寧に解説します。",
+        "description": "Pull Requestの作り方とレビュー・マージの流れ。Fork貢献、Draft PR、ブランチ保護、よくあるミス。チーム開発の協業を学びたい人向け。",
         "datePublished": "2026-05-30T03:49:59.936Z",
-        "dateModified": "2026-05-30T03:49:59.945Z",
+        "dateModified": "2026-05-30T05:17:45.589Z",
         "author": {
           "@type": "Organization",
           "name": "StackShelf",
@@ -78,7 +82,7 @@
         },
         "image": "https://ai-site-iota-nine.vercel.app/og-default.svg",
         "inLanguage": "ja",
-        "wordCount": 2607,
+        "wordCount": 2959,
         "mainEntityOfPage": {
           "@type": "WebPage",
           "@id": "https://ai-site-iota-nine.vercel.app/article/github-pull-request"
@@ -173,6 +177,14 @@
               "@type": "Answer",
               "text": "ブランチ保護ルールで承認を必須にしていなければ、レビュワー指定なしでもマージできます。ただしチーム開発では必ずレビューを通すことを強くおすすめします。"
             }
+          },
+          {
+            "@type": "Question",
+            "name": "つまずいたときはどうすればいいですか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "エラーメッセージをそのまま検索し、公式ドキュメントを当たってください。小さなステップに分けて再現・確認すると原因を特定しやすくなります。"
+            }
           }
         ]
       }
@@ -262,7 +274,43 @@
           "@type": "Answer",
           "text": "ブランチ保護ルールで承認を必須にしていなければ、レビュワー指定なしでもマージできます。ただしチーム開発では必ずレビューを通すことを強くおすすめします。"
         }
+      },
+      {
+        "@type": "Question",
+        "name": "つまずいたときはどうすればいいですか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "エラーメッセージをそのまま検索し、公式ドキュメントを当たってください。小さなステップに分けて再現・確認すると原因を特定しやすくなります。"
+        }
       }
     ]
-  }
+  },
+  "internalLinkCandidates": [
+    {
+      "slug": "git-workflow-practice",
+      "title": "実務で使うGitワークフロー",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "github-basics",
+      "title": "GitHub入門：アカウントとリポジトリ",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "git-remote-push-pull",
+      "title": "push・pull・remote でリモート連携",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "git-merge-conflict",
+      "title": "マージとコンフリクトの解決",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "git-branch-basics",
+      "title": "Gitブランチの作り方と切り替え：git branch・checkout・switchの基本",
+      "reason": "同じ講座の関連回です"
+    }
+  ],
+  "nextAction": "次のエピソードでは、実務で広く使われる Git Flow・GitHub Flow などのブランチ戦略と、git stash・git cherry-pick など実践的なコマンドを学びます。"
 }

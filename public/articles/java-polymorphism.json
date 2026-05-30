@@ -1,10 +1,10 @@
 {
   "id": "art_1780054200699",
   "slug": "java-polymorphism",
-  "title": "Javaの多態性",
-  "summary": "Javaの多態性は、オブジェクト指向プログラミングの重要な概念の一つです。多態性を使用すると、同じメソッド名で異なる動作を実行することができます。この記事では、多態性の基本とその使用方法について説明します。",
-  "body": "<h2>多態性とは</h2><p>多態性は、オブジェクト指向プログラミングの重要な概念の一つです。多態性を使用すると、同じメソッド名で異なる動作を実行することができます。</p><h3>多態性の種類</h3><p>Javaでは、多態性には2種類あります。1つは、オーバーロードと呼ばれるもので、同じメソッド名で異なる引数を取ることができます。もう1つは、オーバーライドと呼ばれるもので、親クラスと子クラスで同じメソッド名を使用します。</p><h3>多態性の使用方法</h3><p>多態性を使用するには、まず親クラスと子クラスを定義します。次に、親クラスにメソッドを定義し、子クラスでそのメソッドをオーバーライドします。最後に、子クラスのインスタンスを生成し、オーバーライドされたメソッドを呼び出します。</p><pre><code>public class Animal {<br>    public void sound() {<br>        System.out.println(\"動物が音を出す\");<br>    }<br>}<br><br>public class Dog extends Animal {<br>    @Override<br>    public void sound() {<br>        System.out.println(\"犬が吠える\");<br>    }<br>}<br><br>public class Main {<br>    public static void main(String[] args) {<br>        Animal animal = new Dog();<br>        animal.sound();<br>    }<br>}<br></code></pre>",
-  "conclusion": "この記事では、Javaの多態性について説明しました。多態性は、オブジェクト指向プログラミングの重要な概念の一つであり、同じメソッド名で異なる動作を実行することができます。多態性を使用するには、親クラスと子クラスを定義し、メソッドをオーバーライドする必要があります。次回は、例外処理について説明します。",
+  "title": "Javaの多態性｜アップキャストと動的ディスパッチ",
+  "summary": "多態性（ポリモーフィズム）、アップキャスト、動的メソッドディスパッチ、instanceofの使い方と設計上の注意、失敗例を学びます。",
+  "body": "<h2>結論：多態性は「親型の参照で子オブジェクトを扱い、実行時に適切なメソッドが選ばれる」仕組み</h2>\n<p>同じ型（例：<code>Animal</code>）の参照変数に、<code>Dog</code> や <code>Cat</code> のインスタンスを代入できます。メソッド呼び出しは<strong>実際のオブジェクトの型</strong>に基づいて決まります（動的ディスパッチ）。</p>\n\n<h2>アップキャスト</h2>\n<pre><code>Animal a = new Dog(\"Pochi\");\na.speak(); // Dog の speak が呼ばれる\n\nAnimal[] zoo = { new Dog(\"A\"), new Cat(\"B\") };\nfor (Animal x : zoo) {\n    x.speak(); // それぞれの実装\n}</code></pre>\n\n<h2>ダウンキャストと instanceof</h2>\n<pre><code>if (a instanceof Dog d) {\n    d.fetch(); // Pattern matching for instanceof (Java 16+)\n}</code></pre>\n\n<h3>失敗例：確認なしのダウンキャスト</h3>\n<pre><code>Cat c = (Cat) a; // a が Dog なら ClassCastException</code></pre>\n<p>必ず instanceof で確認するか、多態性で共通インターフェースに処理を寄せます。</p>\n\n<h2>多態性のメリット</h2>\n<ul>\n  <li>新しい子クラス追加が既存コードへの影響を最小化</li>\n  <li>テストでモック実装に差し替えやすい</li>\n  <li>条件分岐（if type == Dog）を減らせる</li>\n</ul>\n\n<h2>まとめ</h2>\n<p>多態性はOOPの核心で、拡張性の高い設計につながります。不適切なキャストは ClassCastException の原因です。次回は例外処理で実行時エラーに備えます。</p>",
+  "conclusion": "Javaの多態性は親型参照で子オブジェクトを扱い、実行時にオーバーライドされたメソッドが呼ばれます。instanceofなしのダウンキャストはClassCastExceptionの典型です。動物や図形の配列でspeak/areaをループ呼び出しして体験しましょう。",
   "tags": [
     "Java",
     "多態性",
@@ -14,12 +14,12 @@
   "theme": "java - Java",
   "status": "published",
   "createdAt": "2026-05-29T11:30:00.683Z",
-  "updatedAt": "2026-05-29T14:35:19.990Z",
+  "updatedAt": "2026-05-30T05:18:37.054Z",
   "publishedAt": "2026-05-29T11:30:00.683Z",
-  "metaTitle": "Javaの多態性",
-  "metaDescription": "Javaの多態性は、オブジェクト指向プログラミングの重要な概念の一つです。この記事では、多態性の基本とその使用方法について説明します。",
+  "metaTitle": "Java多態性入門｜ポリモーフィズムとキャスト | StackShelf",
+  "metaDescription": "Javaの多態性、アップキャスト、instanceof、ClassCastExceptionの失敗例を具体例で解説します。",
   "ogTitle": "Javaの多態性",
-  "ogDescription": "Javaの多態性は、オブジェクト指向プログラミングの重要な概念の一つです。この記事では、多態性の基本とその使用方法について説明します。",
+  "ogDescription": "動的ディスパッチと安全なキャストを失敗例つきで学べます。",
   "knowledge": {
     "topic": "java",
     "courseId": "java",
@@ -27,46 +27,68 @@
   },
   "faq": [
     {
-      "question": "多態性とは何ですか？",
-      "answer": "多態性は、同じメソッド名で異なる動作を実行することができるオブジェクト指向プログラミングの概念です。"
+      "question": "オーバーロードとオーバーライドの違いは？",
+      "answer": "オーバーロードは同名・異なる引数（コンパイル時決定）、オーバーライドは子が親メソッドを再定義（実行時決定）です。"
     },
     {
-      "question": "多態性には何種類ありますか？",
-      "answer": "多態性には、オーバーロードとオーバーライドの2種類があります。"
+      "question": "static メソッドはオーバーライド？",
+      "answer": "いいえ、隠蔽（hide）です。多態性の対象はインスタンスメソッドです。"
     },
     {
-      "question": "多態性を使用するには何をする必要がありますか？",
-      "answer": "多態性を使用するには、親クラスと子クラスを定義し、メソッドをオーバーライドする必要があります。"
+      "question": "private メソッドは？",
+      "answer": "オーバーライド不可。子クラス固有のprivateメソッドは別物です。"
+    },
+    {
+      "question": "多態性なしで書けますか？",
+      "answer": "可能ですがif-else地獄になりがちです。共通の抽象（interface/abstract class）を検討しましょう。"
+    },
+    {
+      "question": "record と多態性は？",
+      "answer": "recordは主にデータ保持。interface実装で多態性に組み込めます。"
     }
   ],
-  "nextEpisodeHint": "次回は、例外処理について説明します。",
+  "nextEpisodeHint": "次回はtry-catch-finally、throws、カスタム例外で実行時エラーを扱います。",
   "canonical": "https://ai-site-iota-nine.vercel.app/article/java-polymorphism",
   "jsonLd": {
     "@context": "https://schema.org",
     "@graph": [
       {
         "@context": "https://schema.org",
-        "@type": "BlogPosting",
-        "headline": "Javaの多態性",
-        "description": "Javaの多態性は、オブジェクト指向プログラミングの重要な概念の一つです。この記事では、多態性の基本とその使用方法について説明します。",
+        "@type": "TechArticle",
+        "headline": "Javaの多態性｜アップキャストと動的ディスパッチ",
+        "description": "Javaの多態性、アップキャスト、instanceof、ClassCastExceptionの失敗例を具体例で解説します。",
         "datePublished": "2026-05-29T11:30:00.683Z",
-        "dateModified": "2026-05-29T14:35:19.990Z",
+        "dateModified": "2026-05-30T05:18:37.054Z",
         "author": {
           "@type": "Organization",
-          "name": "StackShelf"
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
         },
         "publisher": {
           "@type": "Organization",
           "name": "StackShelf",
-          "url": "https://ai-site-iota-nine.vercel.app"
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
         },
+        "image": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+        "inLanguage": "ja",
+        "wordCount": 599,
         "mainEntityOfPage": {
           "@type": "WebPage",
           "@id": "https://ai-site-iota-nine.vercel.app/article/java-polymorphism"
         },
         "keywords": "Java, 多態性, オブジェクト指向プログラミング",
         "articleSection": "Java",
-        "url": "https://ai-site-iota-nine.vercel.app/article/java-polymorphism"
+        "url": "https://ai-site-iota-nine.vercel.app/article/java-polymorphism",
+        "learningResourceType": "tutorial",
+        "educationalLevel": "beginner"
       },
       {
         "@context": "https://schema.org",
@@ -76,7 +98,7 @@
             "@type": "ListItem",
             "position": 1,
             "name": "ホーム",
-            "item": "https://ai-site-iota-nine.vercel.app"
+            "item": "https://ai-site-iota-nine.vercel.app/"
           },
           {
             "@type": "ListItem",
@@ -93,7 +115,7 @@
           {
             "@type": "ListItem",
             "position": 4,
-            "name": "Javaの多態性",
+            "name": "Javaの多態性｜アップキャストと動的ディスパッチ",
             "item": "https://ai-site-iota-nine.vercel.app/article/java-polymorphism"
           }
         ]
@@ -105,7 +127,16 @@
         "description": "Javaプログラミング言語の基礎から応用までを学習する講座です。初心者向けにJavaの基本構文、オブジェクト指向、データ構造、アルゴリズムなどを解説します。",
         "provider": {
           "@type": "Organization",
-          "name": "StackShelf"
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app"
+        },
+        "url": "https://ai-site-iota-nine.vercel.app/course/java/java",
+        "inLanguage": "ja",
+        "educationalLevel": "beginner",
+        "hasCourseInstance": {
+          "@type": "CourseInstance",
+          "courseMode": "online",
+          "courseWorkload": "PT1H"
         }
       },
       {
@@ -114,26 +145,42 @@
         "mainEntity": [
           {
             "@type": "Question",
-            "name": "多態性とは何ですか？",
+            "name": "オーバーロードとオーバーライドの違いは？",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "多態性は、同じメソッド名で異なる動作を実行することができるオブジェクト指向プログラミングの概念です。"
+              "text": "オーバーロードは同名・異なる引数（コンパイル時決定）、オーバーライドは子が親メソッドを再定義（実行時決定）です。"
             }
           },
           {
             "@type": "Question",
-            "name": "多態性には何種類ありますか？",
+            "name": "static メソッドはオーバーライド？",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "多態性には、オーバーロードとオーバーライドの2種類があります。"
+              "text": "いいえ、隠蔽（hide）です。多態性の対象はインスタンスメソッドです。"
             }
           },
           {
             "@type": "Question",
-            "name": "多態性を使用するには何をする必要がありますか？",
+            "name": "private メソッドは？",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "多態性を使用するには、親クラスと子クラスを定義し、メソッドをオーバーライドする必要があります。"
+              "text": "オーバーライド不可。子クラス固有のprivateメソッドは別物です。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "多態性なしで書けますか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "可能ですがif-else地獄になりがちです。共通の抽象（interface/abstract class）を検討しましょう。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "record と多態性は？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "recordは主にデータ保持。interface実装で多態性に組み込めます。"
             }
           }
         ]
@@ -148,7 +195,7 @@
         "@type": "ListItem",
         "position": 1,
         "name": "ホーム",
-        "item": "https://ai-site-iota-nine.vercel.app"
+        "item": "https://ai-site-iota-nine.vercel.app/"
       },
       {
         "@type": "ListItem",
@@ -165,7 +212,7 @@
       {
         "@type": "ListItem",
         "position": 4,
-        "name": "Javaの多態性",
+        "name": "Javaの多態性｜アップキャストと動的ディスパッチ",
         "item": "https://ai-site-iota-nine.vercel.app/article/java-polymorphism"
       }
     ]
@@ -177,7 +224,16 @@
     "description": "Javaプログラミング言語の基礎から応用までを学習する講座です。初心者向けにJavaの基本構文、オブジェクト指向、データ構造、アルゴリズムなどを解説します。",
     "provider": {
       "@type": "Organization",
-      "name": "StackShelf"
+      "name": "StackShelf",
+      "url": "https://ai-site-iota-nine.vercel.app"
+    },
+    "url": "https://ai-site-iota-nine.vercel.app/course/java/java",
+    "inLanguage": "ja",
+    "educationalLevel": "beginner",
+    "hasCourseInstance": {
+      "@type": "CourseInstance",
+      "courseMode": "online",
+      "courseWorkload": "PT1H"
     }
   },
   "faqSchema": {
@@ -186,28 +242,73 @@
     "mainEntity": [
       {
         "@type": "Question",
-        "name": "多態性とは何ですか？",
+        "name": "オーバーロードとオーバーライドの違いは？",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "多態性は、同じメソッド名で異なる動作を実行することができるオブジェクト指向プログラミングの概念です。"
+          "text": "オーバーロードは同名・異なる引数（コンパイル時決定）、オーバーライドは子が親メソッドを再定義（実行時決定）です。"
         }
       },
       {
         "@type": "Question",
-        "name": "多態性には何種類ありますか？",
+        "name": "static メソッドはオーバーライド？",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "多態性には、オーバーロードとオーバーライドの2種類があります。"
+          "text": "いいえ、隠蔽（hide）です。多態性の対象はインスタンスメソッドです。"
         }
       },
       {
         "@type": "Question",
-        "name": "多態性を使用するには何をする必要がありますか？",
+        "name": "private メソッドは？",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "多態性を使用するには、親クラスと子クラスを定義し、メソッドをオーバーライドする必要があります。"
+          "text": "オーバーライド不可。子クラス固有のprivateメソッドは別物です。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "多態性なしで書けますか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "可能ですがif-else地獄になりがちです。共通の抽象（interface/abstract class）を検討しましょう。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "record と多態性は？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "recordは主にデータ保持。interface実装で多態性に組み込めます。"
         }
       }
     ]
-  }
+  },
+  "nextAction": "Paymentインターフェース（または抽象クラス）とCredit/Wallet実装を作り、Listに混在させてpay()をループ実行してください。",
+  "internalLinkCandidates": [
+    {
+      "slug": "java-inheritance",
+      "title": "Javaの継承",
+      "reason": "オーバーライドの前提"
+    },
+    {
+      "slug": "java-exception-handling",
+      "title": "Javaの例外処理",
+      "reason": "同じ講座の次の回"
+    },
+    {
+      "slug": "java-classes",
+      "title": "Javaのクラスとオブジェクト",
+      "reason": "メソッド設計"
+    },
+    {
+      "slug": "java-functional-programming",
+      "title": "Javaの関数型プログラミング",
+      "reason": "interfaceと関数型"
+    },
+    {
+      "slug": "java-best-practices",
+      "title": "Javaプログラミングのベストプラクティス",
+      "reason": "設計パターン"
+    }
+  ],
+  "ogImage": "https://ai-site-iota-nine.vercel.app/og-default.svg"
 }

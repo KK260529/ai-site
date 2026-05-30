@@ -1,0 +1,291 @@
+{
+  "id": "art_errors_java-java-lang-illegalargumentexception-invalid-uuid-string-id-79-190725",
+  "slug": "java-java-lang-illegalargumentexception-invalid-uuid-string-id-79-190725",
+  "title": "java.lang.IllegalArgumentException: Invalid UUID string: id-79 の原因と解決法",
+  "summary": "java.lang.IllegalArgumentException: Invalid UUID string: id-79 の原因と具体的な解決手順をまとめました。",
+  "body": "<h2>エラーメッセージ（全文）</h2>\n<p>検索でヒットしやすいよう、実際のコンソール出力をそのまま掲載します。</p>\n<pre><code>java.lang.IllegalArgumentException: Invalid UUID string: id-79</code></pre>\n\n<h2>このエラーとは</h2>\n<p>java.lang.IllegalArgumentException: Invalid UUID string: id-79 は Java 開発でよく遭遇するエラーです。</p>\n<p><strong>想定環境:</strong> Windows / macOS / Linux</p>\n<p><strong>よく出る状況:</strong> Spring / Hibernate / 非同期処理</p>\n\n<h2>よくある原因</h2>\n<ul>\n<li>バージョン不一致</li>\n<li>トランザクション境界</li>\n<li>SSL/ネットワーク</li>\n</ul><h2>解決方法</h2><h3>方法1: Caused by を辿る</h3><p>スタックトレースの根本原因を確認.</p>\n<h2>それでも直らないとき</h2>\n<p>バージョン情報（Java のバージョン、OS、実行コマンド）を添えて、エラーメッセージ全文と直前に変更した点を確認してください。ログの数行上にも原因の手がかりが残っていることが多いです。</p>",
+  "conclusion": "「java.lang.IllegalArgumentException: Invalid UUID string: id-79」は バージョン不一致 が原因のことが多いです。上記の手順で切り分けてください。",
+  "tags": [
+    "java",
+    "Javaエラー",
+    "java.lang.IllegalArgumentException",
+    "Java",
+    "DataRepository",
+    "java.lang.IllegalArgumentException: Inva"
+  ],
+  "category": "Javaエラー",
+  "theme": "errors - Java エラー・トラブル集",
+  "articleType": "error",
+  "status": "published",
+  "createdAt": "2026-05-30T05:47:38.827Z",
+  "updatedAt": "2026-05-30T05:47:38.827Z",
+  "publishedAt": "2026-05-30T05:47:38.827Z",
+  "metaTitle": "java.lang.IllegalArgumentException: Invalid UUID string: id…",
+  "metaDescription": "java.lang.IllegalArgumentException: Invalid UUID string: id-79 が出たときの原因・確認手順・解決策を解説。Spring / Hibernate / 非同期処理。",
+  "ogTitle": "java.lang.IllegalArgumentException: Invalid UUID string: id-79 の原因と解決法",
+  "ogDescription": "java.lang.IllegalArgumentException: Invalid UUID string: id-79 が出たときの原因・確認手順・解決策を解説。Spring / Hibernate / 非同期処理。",
+  "knowledge": {
+    "topic": "errors",
+    "courseId": "java-errors",
+    "episode": 165
+  },
+  "faq": [
+    {
+      "question": "java.lang.IllegalArgumentException: Invalid UUID string: id-79 とは何ですか？",
+      "answer": "java.lang.IllegalArgumentException: Invalid UUID string: id-79 は Java 実行時に表示されるエラーです。バージョン不一致"
+    },
+    {
+      "question": "java.lang.IllegalArgumentException: Invalid UUID string: id-79 の原因は？",
+      "answer": "バージョン不一致。トランザクション境界。SSL/ネットワーク。"
+    },
+    {
+      "question": "java.lang.IllegalArgumentException: Invalid UUID string: id-79 の直し方は？",
+      "answer": "Caused by を辿る：スタックトレースの根本原因を確認."
+    },
+    {
+      "question": "Java で java.lang.IllegalArgumentException が出るのはなぜ？",
+      "answer": "Spring / Hibernate / 非同期処理"
+    },
+    {
+      "question": "java.lang.IllegalArgumentException: Invalid UUID string: id-79 を防ぐには？",
+      "answer": "。"
+    }
+  ],
+  "nextAction": "同じ Java カテゴリの関連エラーもあわせて確認してください。",
+  "internalLinkCandidates": [],
+  "ogImage": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+  "canonical": "https://ai-site-iota-nine.vercel.app/article/java-java-lang-illegalargumentexception-invalid-uuid-string-id-79-190725",
+  "jsonLd": {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@context": "https://schema.org",
+        "@type": "TechArticle",
+        "headline": "java.lang.IllegalArgumentException: Invalid UUID string: id-79 の原因と解決法",
+        "description": "java.lang.IllegalArgumentException: Invalid UUID string: id-79 が出たときの原因・確認手順・解決策を解説。Spring / Hibernate / 非同期処理。",
+        "datePublished": "2026-05-30T05:47:38.827Z",
+        "dateModified": "2026-05-30T05:47:38.827Z",
+        "author": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
+        },
+        "image": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+        "inLanguage": "ja",
+        "wordCount": 414,
+        "mainEntityOfPage": {
+          "@type": "WebPage",
+          "@id": "https://ai-site-iota-nine.vercel.app/article/java-java-lang-illegalargumentexception-invalid-uuid-string-id-79-190725"
+        },
+        "keywords": "java, Javaエラー, java.lang.IllegalArgumentException, Java, DataRepository, java.lang.IllegalArgumentException: Inva",
+        "articleSection": "Javaエラー",
+        "url": "https://ai-site-iota-nine.vercel.app/article/java-java-lang-illegalargumentexception-invalid-uuid-string-id-79-190725",
+        "learningResourceType": "tutorial",
+        "educationalLevel": "beginner"
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "ホーム",
+            "item": "https://ai-site-iota-nine.vercel.app/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "errors",
+            "item": "https://ai-site-iota-nine.vercel.app/knowledge/errors"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "Java エラー・トラブル集",
+            "item": "https://ai-site-iota-nine.vercel.app/course/errors/java-errors"
+          },
+          {
+            "@type": "ListItem",
+            "position": 4,
+            "name": "java.lang.IllegalArgumentException: Invalid UUID string: id-79 の原因と解決法",
+            "item": "https://ai-site-iota-nine.vercel.app/article/java-java-lang-illegalargumentexception-invalid-uuid-string-id-79-190725"
+          }
+        ]
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "Course",
+        "name": "Java エラー・トラブル集",
+        "description": "Java エラー・トラブル集",
+        "provider": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app"
+        },
+        "url": "https://ai-site-iota-nine.vercel.app/course/errors/java-errors",
+        "inLanguage": "ja",
+        "educationalLevel": "beginner",
+        "hasCourseInstance": {
+          "@type": "CourseInstance",
+          "courseMode": "online",
+          "courseWorkload": "PT1H"
+        }
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "java.lang.IllegalArgumentException: Invalid UUID string: id-79 とは何ですか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "java.lang.IllegalArgumentException: Invalid UUID string: id-79 は Java 実行時に表示されるエラーです。バージョン不一致"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "java.lang.IllegalArgumentException: Invalid UUID string: id-79 の原因は？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "バージョン不一致。トランザクション境界。SSL/ネットワーク。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "java.lang.IllegalArgumentException: Invalid UUID string: id-79 の直し方は？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Caused by を辿る：スタックトレースの根本原因を確認."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Java で java.lang.IllegalArgumentException が出るのはなぜ？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Spring / Hibernate / 非同期処理"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "java.lang.IllegalArgumentException: Invalid UUID string: id-79 を防ぐには？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "。"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "breadcrumb": {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "ホーム",
+        "item": "https://ai-site-iota-nine.vercel.app/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "errors",
+        "item": "https://ai-site-iota-nine.vercel.app/knowledge/errors"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "Java エラー・トラブル集",
+        "item": "https://ai-site-iota-nine.vercel.app/course/errors/java-errors"
+      },
+      {
+        "@type": "ListItem",
+        "position": 4,
+        "name": "java.lang.IllegalArgumentException: Invalid UUID string: id-79 の原因と解決法",
+        "item": "https://ai-site-iota-nine.vercel.app/article/java-java-lang-illegalargumentexception-invalid-uuid-string-id-79-190725"
+      }
+    ]
+  },
+  "courseSchema": {
+    "@context": "https://schema.org",
+    "@type": "Course",
+    "name": "Java エラー・トラブル集",
+    "description": "Java エラー・トラブル集",
+    "provider": {
+      "@type": "Organization",
+      "name": "StackShelf",
+      "url": "https://ai-site-iota-nine.vercel.app"
+    },
+    "url": "https://ai-site-iota-nine.vercel.app/course/errors/java-errors",
+    "inLanguage": "ja",
+    "educationalLevel": "beginner",
+    "hasCourseInstance": {
+      "@type": "CourseInstance",
+      "courseMode": "online",
+      "courseWorkload": "PT1H"
+    }
+  },
+  "faqSchema": {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "java.lang.IllegalArgumentException: Invalid UUID string: id-79 とは何ですか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "java.lang.IllegalArgumentException: Invalid UUID string: id-79 は Java 実行時に表示されるエラーです。バージョン不一致"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "java.lang.IllegalArgumentException: Invalid UUID string: id-79 の原因は？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "バージョン不一致。トランザクション境界。SSL/ネットワーク。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "java.lang.IllegalArgumentException: Invalid UUID string: id-79 の直し方は？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Caused by を辿る：スタックトレースの根本原因を確認."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Java で java.lang.IllegalArgumentException が出るのはなぜ？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Spring / Hibernate / 非同期処理"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "java.lang.IllegalArgumentException: Invalid UUID string: id-79 を防ぐには？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "。"
+        }
+      }
+    ]
+  }
+}

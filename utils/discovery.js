@@ -83,6 +83,17 @@ function getFeaturedArticles(limit = 6) {
 function getLearningPaths() {
   return [
     {
+      title: "エラー解決コース",
+      description: "開発・運用で遭遇する具体的なエラーメッセージから解決法を検索",
+      steps: [
+        { label: "Python エラー", href: "/course/errors/python-errors" },
+        { label: "JavaScript エラー", href: "/course/errors/javascript-errors" },
+        { label: "Docker エラー", href: "/course/errors/docker-errors" },
+        { label: "Git エラー", href: "/course/errors/git-errors" },
+        { label: "全エラー集", href: "/knowledge/errors" },
+      ],
+    },
+    {
       title: "インフラ・ドキュメントコース",
       description: "Markdown → HTTP → nginx → Bash → 正規表現",
       steps: [

@@ -17,12 +17,12 @@
   "theme": "nginx - nginx入門",
   "status": "published",
   "createdAt": "2026-05-30T05:15:05.735Z",
-  "updatedAt": "2026-05-30T05:15:05.738Z",
+  "updatedAt": "2026-05-30T05:15:41.049Z",
   "publishedAt": "2026-05-30T05:15:05.735Z",
   "metaTitle": "nginx location設定：ルーティングと優先順位を初心者向け解説｜nginx入門 | StackShelf",
-  "metaDescription": "【nginx初心者向け】nginxのlocationブロックのマッチングルール（=, ^~, ~, 通常）とURLルーティング設計を初心者向けに解説。alias/rootの違いも設定例つき。 図解・具体例つきで丁寧に解説します。",
+  "metaDescription": "nginxのlocationブロックのマッチングルール（=, ^~, ~, 通常）とURLルーティング設計を初心者向けに解説。alias/rootの違いも設定例つき。",
   "ogTitle": "nginxのlocationとルーティング",
-  "ogDescription": "【nginx初心者向け】【nginx初心者向け】locationブロックの優先順位とURLルーティング設計を初心者向けに解説。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
+  "ogDescription": "locationブロックの優先順位とURLルーティング設計を初心者向けに解説。",
   "knowledge": {
     "topic": "nginx",
     "courseId": "nginx",
@@ -51,37 +51,32 @@
     }
   ],
   "nextEpisodeHint": "次回は、Let's Encryptとcertbotを使ったSSL/TLS（HTTPS）設定と、HTTPからHTTPSへのリダイレクトを実践します。",
-  "nextAction": "",
+  "nextAction": "次はLet's Encryptとcertbotを使ったSSL/TLS（HTTPS）設定と、HTTPからHTTPSへのリダイレクトを実践します。",
   "internalLinkCandidates": [
     {
-      "slug": "http-intro",
-      "title": "HTTPとは？Webの通信の仕組み",
-      "reason": "URLパスとHTTPリクエストの関係"
-    },
-    {
-      "slug": "http-https-tls",
-      "title": "HTTPSとTLSの仕組み",
-      "reason": "次回のSSL設定の理論的背景"
-    },
-    {
-      "slug": "nginx-reverse-proxy",
-      "title": "nginxリバースプロキシの設定方法【proxy_pass入門】",
-      "reason": "同じ講座の前回：proxy_passの基礎"
-    },
-    {
-      "slug": "web-intro",
-      "title": "Webサイトの仕組みとは？HTML・CSS・JavaScriptをゼロから理解する",
-      "reason": "URL設計とWebサイト構造の理解"
-    },
-    {
-      "slug": "bash-intro",
-      "title": "シェルスクリプトとは？",
-      "reason": "設定テストやcurlでのルーティング確認"
+      "slug": "nginx-logging",
+      "title": "nginxのログとトラブルシューティング入門【502/504エラー対処】",
+      "reason": "同じ講座の関連回です"
     },
     {
       "slug": "nginx-ssl",
-      "title": "nginxでSSL/TLS（HTTPS）を設定する方法",
-      "reason": "同じ講座の次回：HTTPS化"
+      "title": "nginxでSSL/TLS（HTTPS）を設定する方法【Let's Encrypt入門】",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "nginx-reverse-proxy",
+      "title": "nginxリバースプロキシの設定方法【proxy_pass入門・初心者向け】",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "nginx-static-site",
+      "title": "nginxで静的サイトを公開する方法【HTML/CSS配信・初心者向け】",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "nginx-install",
+      "title": "nginxのインストールと基本設定【Ubuntu/WSL2対応・初心者向け】",
+      "reason": "同じ講座の関連回です"
     }
   ],
   "ogImage": "https://ai-site-iota-nine.vercel.app/og-default.svg",
@@ -95,7 +90,7 @@
         "headline": "nginxのlocationとルーティング【マッチング優先順位入門】",
         "description": "【nginx初心者向け】nginxのlocationブロックのマッチングルール（=, ^~, ~, 通常）とURLルーティング設計を初心者向けに解説。alias/rootの違いも設定例つき。 図解・具体例つきで丁寧に解説します。",
         "datePublished": "2026-05-30T05:15:05.735Z",
-        "dateModified": "2026-05-30T05:15:05.738Z",
+        "dateModified": "2026-05-30T05:15:41.049Z",
         "author": {
           "@type": "Organization",
           "name": "StackShelf",

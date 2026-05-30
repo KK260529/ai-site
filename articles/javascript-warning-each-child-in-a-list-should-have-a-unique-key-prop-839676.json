@@ -1,0 +1,290 @@
+{
+  "id": "art_errors_javascript-warning-each-child-in-a-list-should-have-a-unique-key-prop-839676",
+  "slug": "javascript-warning-each-child-in-a-list-should-have-a-unique-key-prop-839676",
+  "title": "Warning: Each child in a list should have a unique \"key\" prop の原因と解決法",
+  "summary": "Warning: Each child in a list should have a unique \"key\" prop の原因と具体的な解決手順をまとめました。",
+  "body": "<h2>エラーメッセージ（全文）</h2>\n<p>検索でヒットしやすいよう、実際のコンソール出力をそのまま掲載します。</p>\n<pre><code>Warning: Each child in a list should have a unique &quot;key&quot; prop</code></pre>\n\n<h2>このエラーとは</h2>\n<p>Warning: Each child in a list should have a unique &quot;key&quot; prop は JavaScript 開発でよく遭遇するエラーです。</p>\n<p><strong>想定環境:</strong> Windows / macOS / Linux</p>\n<p><strong>よく出る状況:</strong> React / Next.js 開発時</p>\n\n<h2>よくある原因</h2>\n<ul>\n<li>Hooks ルール違反</li>\n<li>SSR/CSR 不一致</li>\n<li>無限 setState</li>\n</ul><h2>解決方法</h2><h3>方法1: 開発ビルドで詳細表示</h3><p>本番 minify 前のメッセージを確認.</p>\n<h2>それでも直らないとき</h2>\n<p>バージョン情報（JavaScript のバージョン、OS、実行コマンド）を添えて、エラーメッセージ全文と直前に変更した点を確認してください。ログの数行上にも原因の手がかりが残っていることが多いです。</p>",
+  "conclusion": "「Warning: Each child in a list should have a unique \"key\" prop」は Hooks ルール違反 が原因のことが多いです。上記の手順で切り分けてください。",
+  "tags": [
+    "javascript",
+    "JavaScriptエラー",
+    "Warning",
+    "React",
+    "Warning: Each child in a list should hav"
+  ],
+  "category": "JavaScriptエラー",
+  "theme": "errors - JavaScript / Node.js エラー・トラブル集",
+  "articleType": "error",
+  "status": "published",
+  "createdAt": "2026-05-30T05:47:45.171Z",
+  "updatedAt": "2026-05-30T05:47:45.171Z",
+  "publishedAt": "2026-05-30T05:47:45.171Z",
+  "metaTitle": "Warning: Each child in a list should have a unique \"key\" pr…",
+  "metaDescription": "Warning: Each child in a list should have a unique \"key\" prop が出たときの原因・確認手順・解決策を解説。React / Next.js 開発時。",
+  "ogTitle": "Warning: Each child in a list should have a unique \"key\" prop の原因と解決法",
+  "ogDescription": "Warning: Each child in a list should have a unique \"key\" prop が出たときの原因・確認手順・解決策を解説。React / Next.js 開発時。",
+  "knowledge": {
+    "topic": "errors",
+    "courseId": "javascript-errors",
+    "episode": 123
+  },
+  "faq": [
+    {
+      "question": "Warning: Each child in a list should have a unique \"key\" prop とは何ですか？",
+      "answer": "Warning: Each child in a list should have a unique \"key\" prop は JavaScript 実行時に表示されるエラーです。Hooks ルール違反"
+    },
+    {
+      "question": "Warning: Each child in a list should have a unique \"key\" prop の原因は？",
+      "answer": "Hooks ルール違反。SSR/CSR 不一致。無限 setState。"
+    },
+    {
+      "question": "Warning: Each child in a list should have a unique \"key\" prop の直し方は？",
+      "answer": "開発ビルドで詳細表示：本番 minify 前のメッセージを確認."
+    },
+    {
+      "question": "JavaScript で Warning が出るのはなぜ？",
+      "answer": "React / Next.js 開発時"
+    },
+    {
+      "question": "Warning: Each child in a list should have a unique \"key\" prop を防ぐには？",
+      "answer": "。"
+    }
+  ],
+  "nextAction": "同じ JavaScript カテゴリの関連エラーもあわせて確認してください。",
+  "internalLinkCandidates": [],
+  "ogImage": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+  "canonical": "https://ai-site-iota-nine.vercel.app/article/javascript-warning-each-child-in-a-list-should-have-a-unique-key-prop-839676",
+  "jsonLd": {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@context": "https://schema.org",
+        "@type": "TechArticle",
+        "headline": "Warning: Each child in a list should have a unique \"key\" prop の原因と解決法",
+        "description": "Warning: Each child in a list should have a unique \"key\" prop が出たときの原因・確認手順・解決策を解説。React / Next.js 開発時。",
+        "datePublished": "2026-05-30T05:47:45.171Z",
+        "dateModified": "2026-05-30T05:47:45.171Z",
+        "author": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
+        },
+        "image": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+        "inLanguage": "ja",
+        "wordCount": 427,
+        "mainEntityOfPage": {
+          "@type": "WebPage",
+          "@id": "https://ai-site-iota-nine.vercel.app/article/javascript-warning-each-child-in-a-list-should-have-a-unique-key-prop-839676"
+        },
+        "keywords": "javascript, JavaScriptエラー, Warning, React, Warning: Each child in a list should hav",
+        "articleSection": "JavaScriptエラー",
+        "url": "https://ai-site-iota-nine.vercel.app/article/javascript-warning-each-child-in-a-list-should-have-a-unique-key-prop-839676",
+        "learningResourceType": "tutorial",
+        "educationalLevel": "beginner"
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "ホーム",
+            "item": "https://ai-site-iota-nine.vercel.app/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "errors",
+            "item": "https://ai-site-iota-nine.vercel.app/knowledge/errors"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "JavaScript / Node.js エラー・トラブル集",
+            "item": "https://ai-site-iota-nine.vercel.app/course/errors/javascript-errors"
+          },
+          {
+            "@type": "ListItem",
+            "position": 4,
+            "name": "Warning: Each child in a list should have a unique \"key\" prop の原因と解決法",
+            "item": "https://ai-site-iota-nine.vercel.app/article/javascript-warning-each-child-in-a-list-should-have-a-unique-key-prop-839676"
+          }
+        ]
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "Course",
+        "name": "JavaScript / Node.js エラー・トラブル集",
+        "description": "JavaScript / Node.js エラー・トラブル集",
+        "provider": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app"
+        },
+        "url": "https://ai-site-iota-nine.vercel.app/course/errors/javascript-errors",
+        "inLanguage": "ja",
+        "educationalLevel": "beginner",
+        "hasCourseInstance": {
+          "@type": "CourseInstance",
+          "courseMode": "online",
+          "courseWorkload": "PT1H"
+        }
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "Warning: Each child in a list should have a unique \"key\" prop とは何ですか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Warning: Each child in a list should have a unique \"key\" prop は JavaScript 実行時に表示されるエラーです。Hooks ルール違反"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Warning: Each child in a list should have a unique \"key\" prop の原因は？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Hooks ルール違反。SSR/CSR 不一致。無限 setState。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Warning: Each child in a list should have a unique \"key\" prop の直し方は？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "開発ビルドで詳細表示：本番 minify 前のメッセージを確認."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "JavaScript で Warning が出るのはなぜ？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "React / Next.js 開発時"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Warning: Each child in a list should have a unique \"key\" prop を防ぐには？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "。"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "breadcrumb": {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "ホーム",
+        "item": "https://ai-site-iota-nine.vercel.app/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "errors",
+        "item": "https://ai-site-iota-nine.vercel.app/knowledge/errors"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "JavaScript / Node.js エラー・トラブル集",
+        "item": "https://ai-site-iota-nine.vercel.app/course/errors/javascript-errors"
+      },
+      {
+        "@type": "ListItem",
+        "position": 4,
+        "name": "Warning: Each child in a list should have a unique \"key\" prop の原因と解決法",
+        "item": "https://ai-site-iota-nine.vercel.app/article/javascript-warning-each-child-in-a-list-should-have-a-unique-key-prop-839676"
+      }
+    ]
+  },
+  "courseSchema": {
+    "@context": "https://schema.org",
+    "@type": "Course",
+    "name": "JavaScript / Node.js エラー・トラブル集",
+    "description": "JavaScript / Node.js エラー・トラブル集",
+    "provider": {
+      "@type": "Organization",
+      "name": "StackShelf",
+      "url": "https://ai-site-iota-nine.vercel.app"
+    },
+    "url": "https://ai-site-iota-nine.vercel.app/course/errors/javascript-errors",
+    "inLanguage": "ja",
+    "educationalLevel": "beginner",
+    "hasCourseInstance": {
+      "@type": "CourseInstance",
+      "courseMode": "online",
+      "courseWorkload": "PT1H"
+    }
+  },
+  "faqSchema": {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "Warning: Each child in a list should have a unique \"key\" prop とは何ですか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Warning: Each child in a list should have a unique \"key\" prop は JavaScript 実行時に表示されるエラーです。Hooks ルール違反"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Warning: Each child in a list should have a unique \"key\" prop の原因は？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Hooks ルール違反。SSR/CSR 不一致。無限 setState。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Warning: Each child in a list should have a unique \"key\" prop の直し方は？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "開発ビルドで詳細表示：本番 minify 前のメッセージを確認."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "JavaScript で Warning が出るのはなぜ？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "React / Next.js 開発時"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Warning: Each child in a list should have a unique \"key\" prop を防ぐには？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "。"
+        }
+      }
+    ]
+  }
+}

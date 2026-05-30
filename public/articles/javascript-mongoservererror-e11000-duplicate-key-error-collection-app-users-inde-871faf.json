@@ -1,0 +1,290 @@
+{
+  "id": "art_errors_javascript-mongoservererror-e11000-duplicate-key-error-collection-app-users-inde-871faf",
+  "slug": "javascript-mongoservererror-e11000-duplicate-key-error-collection-app-users-inde-871faf",
+  "title": "MongoServerError: E11000 duplicate key error collection: app.users index: email_148 の原因と解決法",
+  "summary": "MongoServerError: E11000 duplicate key error collection: app.users index: email_148 の原因と具体的な解決手順をまとめました。",
+  "body": "<h2>エラーメッセージ（全文）</h2>\n<p>検索でヒットしやすいよう、実際のコンソール出力をそのまま掲載します。</p>\n<pre><code>MongoServerError: E11000 duplicate key error collection: app.users index: email_148</code></pre>\n\n<h2>このエラーとは</h2>\n<p>MongoServerError: E11000 duplicate key error collection: app.users index: email_148 は JavaScript 開発でよく遭遇するエラーです。</p>\n<p><strong>想定環境:</strong> Windows / macOS / Linux</p>\n<p><strong>よく出る状況:</strong> Node / フロントエンド / ORM</p>\n\n<h2>よくある原因</h2>\n<ul>\n<li>非同期</li>\n<li>import パス</li>\n<li>DB 制約</li>\n</ul><h2>解決方法</h2><h3>方法1: DevTools / ターミナルログ</h3><p>再現手順を最小化.</p>\n<h2>それでも直らないとき</h2>\n<p>バージョン情報（JavaScript のバージョン、OS、実行コマンド）を添えて、エラーメッセージ全文と直前に変更した点を確認してください。ログの数行上にも原因の手がかりが残っていることが多いです。</p>",
+  "conclusion": "「MongoServerError: E11000 duplicate key error collection: app.users index: email_148」は 非同期 が原因のことが多いです。上記の手順で切り分けてください。",
+  "tags": [
+    "javascript",
+    "JavaScriptエラー",
+    "MongoServerError",
+    "JavaScript",
+    "MongoServerError: E11000 duplicate key e"
+  ],
+  "category": "JavaScriptエラー",
+  "theme": "errors - JavaScript / Node.js エラー・トラブル集",
+  "articleType": "error",
+  "status": "published",
+  "createdAt": "2026-05-30T05:47:49.691Z",
+  "updatedAt": "2026-05-30T05:47:49.691Z",
+  "publishedAt": "2026-05-30T05:47:49.691Z",
+  "metaTitle": "MongoServerError: E11000 duplicate key error collection: ap…",
+  "metaDescription": "MongoServerError: E11000 duplicate key error collection: app.users index: email_148 が出たときの原因・確認手順・解決策を解説。Node / フロントエンド / ORM。",
+  "ogTitle": "MongoServerError: E11000 duplicate key error collection: app.users index: email_148 の原因と解決法",
+  "ogDescription": "MongoServerError: E11000 duplicate key error collection: app.users index: email_148 が出たときの原因・確認手順・解決策を解説。Node / フロントエンド / ORM。",
+  "knowledge": {
+    "topic": "errors",
+    "courseId": "javascript-errors",
+    "episode": 357
+  },
+  "faq": [
+    {
+      "question": "MongoServerError: E11000 duplicate key error collection: app.users index: ema… とは何ですか？",
+      "answer": "MongoServerError: E11000 duplicate key error collection: app.users index: email_148 は JavaScript 実行時に表示されるエラーです。非同期"
+    },
+    {
+      "question": "MongoServerError: E11000 duplicate key error collection: app.users index: ema… の原因は？",
+      "answer": "非同期。import パス。DB 制約。"
+    },
+    {
+      "question": "MongoServerError: E11000 duplicate key error collection: app.users index: ema… の直し方は？",
+      "answer": "DevTools / ターミナルログ：再現手順を最小化."
+    },
+    {
+      "question": "JavaScript で MongoServerError が出るのはなぜ？",
+      "answer": "Node / フロントエンド / ORM"
+    },
+    {
+      "question": "MongoServerError: E11000 duplicate key error collection: app.users index: ema… を防ぐには？",
+      "answer": "。"
+    }
+  ],
+  "nextAction": "同じ JavaScript カテゴリの関連エラーもあわせて確認してください。",
+  "internalLinkCandidates": [],
+  "ogImage": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+  "canonical": "https://ai-site-iota-nine.vercel.app/article/javascript-mongoservererror-e11000-duplicate-key-error-collection-app-users-inde-871faf",
+  "jsonLd": {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@context": "https://schema.org",
+        "@type": "TechArticle",
+        "headline": "MongoServerError: E11000 duplicate key error collection: app.users index: email_148 の原因と解決法",
+        "description": "MongoServerError: E11000 duplicate key error collection: app.users index: email_148 が出たときの原因・確認手順・解決策を解説。Node / フロントエンド / ORM。",
+        "datePublished": "2026-05-30T05:47:49.691Z",
+        "dateModified": "2026-05-30T05:47:49.691Z",
+        "author": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
+        },
+        "image": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+        "inLanguage": "ja",
+        "wordCount": 438,
+        "mainEntityOfPage": {
+          "@type": "WebPage",
+          "@id": "https://ai-site-iota-nine.vercel.app/article/javascript-mongoservererror-e11000-duplicate-key-error-collection-app-users-inde-871faf"
+        },
+        "keywords": "javascript, JavaScriptエラー, MongoServerError, JavaScript, MongoServerError: E11000 duplicate key e",
+        "articleSection": "JavaScriptエラー",
+        "url": "https://ai-site-iota-nine.vercel.app/article/javascript-mongoservererror-e11000-duplicate-key-error-collection-app-users-inde-871faf",
+        "learningResourceType": "tutorial",
+        "educationalLevel": "beginner"
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "ホーム",
+            "item": "https://ai-site-iota-nine.vercel.app/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "errors",
+            "item": "https://ai-site-iota-nine.vercel.app/knowledge/errors"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "JavaScript / Node.js エラー・トラブル集",
+            "item": "https://ai-site-iota-nine.vercel.app/course/errors/javascript-errors"
+          },
+          {
+            "@type": "ListItem",
+            "position": 4,
+            "name": "MongoServerError: E11000 duplicate key error collection: app.users index: email_148 の原因と解決法",
+            "item": "https://ai-site-iota-nine.vercel.app/article/javascript-mongoservererror-e11000-duplicate-key-error-collection-app-users-inde-871faf"
+          }
+        ]
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "Course",
+        "name": "JavaScript / Node.js エラー・トラブル集",
+        "description": "JavaScript / Node.js エラー・トラブル集",
+        "provider": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app"
+        },
+        "url": "https://ai-site-iota-nine.vercel.app/course/errors/javascript-errors",
+        "inLanguage": "ja",
+        "educationalLevel": "beginner",
+        "hasCourseInstance": {
+          "@type": "CourseInstance",
+          "courseMode": "online",
+          "courseWorkload": "PT1H"
+        }
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "MongoServerError: E11000 duplicate key error collection: app.users index: ema… とは何ですか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "MongoServerError: E11000 duplicate key error collection: app.users index: email_148 は JavaScript 実行時に表示されるエラーです。非同期"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "MongoServerError: E11000 duplicate key error collection: app.users index: ema… の原因は？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "非同期。import パス。DB 制約。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "MongoServerError: E11000 duplicate key error collection: app.users index: ema… の直し方は？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "DevTools / ターミナルログ：再現手順を最小化."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "JavaScript で MongoServerError が出るのはなぜ？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Node / フロントエンド / ORM"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "MongoServerError: E11000 duplicate key error collection: app.users index: ema… を防ぐには？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "。"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "breadcrumb": {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "ホーム",
+        "item": "https://ai-site-iota-nine.vercel.app/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "errors",
+        "item": "https://ai-site-iota-nine.vercel.app/knowledge/errors"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "JavaScript / Node.js エラー・トラブル集",
+        "item": "https://ai-site-iota-nine.vercel.app/course/errors/javascript-errors"
+      },
+      {
+        "@type": "ListItem",
+        "position": 4,
+        "name": "MongoServerError: E11000 duplicate key error collection: app.users index: email_148 の原因と解決法",
+        "item": "https://ai-site-iota-nine.vercel.app/article/javascript-mongoservererror-e11000-duplicate-key-error-collection-app-users-inde-871faf"
+      }
+    ]
+  },
+  "courseSchema": {
+    "@context": "https://schema.org",
+    "@type": "Course",
+    "name": "JavaScript / Node.js エラー・トラブル集",
+    "description": "JavaScript / Node.js エラー・トラブル集",
+    "provider": {
+      "@type": "Organization",
+      "name": "StackShelf",
+      "url": "https://ai-site-iota-nine.vercel.app"
+    },
+    "url": "https://ai-site-iota-nine.vercel.app/course/errors/javascript-errors",
+    "inLanguage": "ja",
+    "educationalLevel": "beginner",
+    "hasCourseInstance": {
+      "@type": "CourseInstance",
+      "courseMode": "online",
+      "courseWorkload": "PT1H"
+    }
+  },
+  "faqSchema": {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "MongoServerError: E11000 duplicate key error collection: app.users index: ema… とは何ですか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "MongoServerError: E11000 duplicate key error collection: app.users index: email_148 は JavaScript 実行時に表示されるエラーです。非同期"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "MongoServerError: E11000 duplicate key error collection: app.users index: ema… の原因は？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "非同期。import パス。DB 制約。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "MongoServerError: E11000 duplicate key error collection: app.users index: ema… の直し方は？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "DevTools / ターミナルログ：再現手順を最小化."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "JavaScript で MongoServerError が出るのはなぜ？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Node / フロントエンド / ORM"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "MongoServerError: E11000 duplicate key error collection: app.users index: ema… を防ぐには？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "。"
+        }
+      }
+    ]
+  }
+}

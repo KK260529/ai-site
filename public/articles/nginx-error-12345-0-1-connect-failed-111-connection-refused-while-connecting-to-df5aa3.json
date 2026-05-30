@@ -1,0 +1,290 @@
+{
+  "id": "art_errors_nginx-error-12345-0-1-connect-failed-111-connection-refused-while-connecting-to-df5aa3",
+  "slug": "nginx-error-12345-0-1-connect-failed-111-connection-refused-while-connecting-to-df5aa3",
+  "title": "[error] 12345#0: *1 connect() failed (111: Connection refused) while connecting to upstream, client: 1.2.3.4, server: example.com, request: \"GET /api HTTP/1.1\", upstream: \"http://127.0.0.1:3000/api\" の原因と解決法",
+  "summary": "[error] 12345#0: *1 connect() failed (111: Connection refused) while connecting to upstream, client: 1.2.3.4, server: example.com, request: \"GET /api HTTP/1.1\", upstream: \"http://127.0.0.1:3000/api\" の原因と具体的な解決手順をまとめました。",
+  "body": "<h2>エラーメッセージ（全文）</h2>\n<p>検索でヒットしやすいよう、実際のコンソール出力をそのまま掲載します。</p>\n<pre><code>[error] 12345#0: *1 connect() failed (111: Connection refused) while connecting to upstream, client: 1.2.3.4, server: example.com, request: &quot;GET /api HTTP/1.1&quot;, upstream: &quot;http://127.0.0.1:3000/api&quot;</code></pre>\n\n<h2>このエラーとは</h2>\n<p>[error] 12345#0: *1 connect() failed (111: Connection refused) while connecting to upstream, client: 1.2.3.4, server: example.com, request: &quot;GET /api HTTP/1.1&quot;, upstream: &quot;http://127.0.0.1:3000/api&quot; は nginx 開発でよく遭遇するエラーです。</p>\n<p><strong>想定環境:</strong> Windows / macOS / Linux</p>\n<p><strong>よく出る状況:</strong> nginx error.log</p>\n\n<h2>よくある原因</h2>\n<ul>\n<li>バックエンドダウン</li>\n<li>タイムアウト</li>\n<li>静的ファイル欠落</li>\n<li>SSL 検証失敗</li>\n</ul><h2>解決方法</h2><h3>方法1: upstream 確認</h3><p>curl 127.0.0.1:バックエンドポート.</p>\n<h2>それでも直らないとき</h2>\n<p>バージョン情報（nginx のバージョン、OS、実行コマンド）を添えて、エラーメッセージ全文と直前に変更した点を確認してください。ログの数行上にも原因の手がかりが残っていることが多いです。</p>",
+  "conclusion": "「[error] 12345#0: *1 connect() failed (111: Connection refused) while connecting to upstream, client: 1.2.3.4, server: example.com, request: \"GET /api HTTP/1.1\", upstream: \"http://127.0.0.1:3000/api\"」は バックエンドダウン が原因のことが多いです。上記の手順で切り分けてください。",
+  "tags": [
+    "nginx",
+    "nginxエラー",
+    "[error] 12345#0",
+    "error.log",
+    "[error] 12345#0: *1 connect() failed (11"
+  ],
+  "category": "nginxエラー",
+  "theme": "errors - nginx エラー・トラブル集",
+  "articleType": "error",
+  "status": "published",
+  "createdAt": "2026-05-30T05:48:35.452Z",
+  "updatedAt": "2026-05-30T05:48:35.452Z",
+  "publishedAt": "2026-05-30T05:48:35.452Z",
+  "metaTitle": "[error] 12345#0: *1 connect() failed (111: Connection refus…",
+  "metaDescription": "[error] 12345#0: *1 connect() failed (111: Connection refused) while connecting to upstream, client: 1.2.3.4, server: example.com, request: \"GET /api HTTP…",
+  "ogTitle": "[error] 12345#0: *1 connect() failed (111: Connection refused) while connecting to upstream, client: 1.2.3.4, server: example.com, request: \"GET /api HTTP/1.1\", upstream: \"http://127.0.0.1:3000/api\" の原因と解決法",
+  "ogDescription": "[error] 12345#0: *1 connect() failed (111: Connection refused) while connecting to upstream, client: 1.2.3.4, server: example.com, request: \"GET /api HTTP…",
+  "knowledge": {
+    "topic": "errors",
+    "courseId": "nginx-errors",
+    "episode": 19
+  },
+  "faq": [
+    {
+      "question": "[error] 12345#0: *1 connect() failed (111: Connection refused) while connecti… とは何ですか？",
+      "answer": "[error] 12345#0: *1 connect() failed (111: Connection refused) while connecting to upstream, client: 1.2.3.4, server: example.com, request: \"GET /api HTTP/1.1\", upstream: \"http://127.0.0.1:3000/api\" は nginx 実行時に表示されるエラーです。バックエンドダウン"
+    },
+    {
+      "question": "[error] 12345#0: *1 connect() failed (111: Connection refused) while connecti… の原因は？",
+      "answer": "バックエンドダウン。タイムアウト。静的ファイル欠落。"
+    },
+    {
+      "question": "[error] 12345#0: *1 connect() failed (111: Connection refused) while connecti… の直し方は？",
+      "answer": "upstream 確認：curl 127.0.0.1:バックエンドポート."
+    },
+    {
+      "question": "nginx で [error] 12345#0 が出るのはなぜ？",
+      "answer": "nginx error.log"
+    },
+    {
+      "question": "[error] 12345#0: *1 connect() failed (111: Connection refused) while connecti… を防ぐには？",
+      "answer": "。"
+    }
+  ],
+  "nextAction": "同じ nginx カテゴリの関連エラーもあわせて確認してください。",
+  "internalLinkCandidates": [],
+  "ogImage": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+  "canonical": "https://ai-site-iota-nine.vercel.app/article/nginx-error-12345-0-1-connect-failed-111-connection-refused-while-connecting-to-df5aa3",
+  "jsonLd": {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@context": "https://schema.org",
+        "@type": "TechArticle",
+        "headline": "[error] 12345#0: *1 connect() failed (111: Connection refused) while connecting to upstream, client: 1.2.3.4, server: example.com, request: \"GET /api HTTP/1.1\", upstream: \"http://127.0.0.1:3000/api\" の原因と解決法",
+        "description": "[error] 12345#0: *1 connect() failed (111: Connection refused) while connecting to upstream, client: 1.2.3.4, server: example.com, request: \"GET /api HTTP…",
+        "datePublished": "2026-05-30T05:48:35.452Z",
+        "dateModified": "2026-05-30T05:48:35.452Z",
+        "author": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
+        },
+        "image": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+        "inLanguage": "ja",
+        "wordCount": 694,
+        "mainEntityOfPage": {
+          "@type": "WebPage",
+          "@id": "https://ai-site-iota-nine.vercel.app/article/nginx-error-12345-0-1-connect-failed-111-connection-refused-while-connecting-to-df5aa3"
+        },
+        "keywords": "nginx, nginxエラー, [error] 12345#0, error.log, [error] 12345#0: *1 connect() failed (11",
+        "articleSection": "nginxエラー",
+        "url": "https://ai-site-iota-nine.vercel.app/article/nginx-error-12345-0-1-connect-failed-111-connection-refused-while-connecting-to-df5aa3",
+        "learningResourceType": "tutorial",
+        "educationalLevel": "beginner"
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "ホーム",
+            "item": "https://ai-site-iota-nine.vercel.app/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "errors",
+            "item": "https://ai-site-iota-nine.vercel.app/knowledge/errors"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "nginx エラー・トラブル集",
+            "item": "https://ai-site-iota-nine.vercel.app/course/errors/nginx-errors"
+          },
+          {
+            "@type": "ListItem",
+            "position": 4,
+            "name": "[error] 12345#0: *1 connect() failed (111: Connection refused) while connecting to upstream, client: 1.2.3.4, server: example.com, request: \"GET /api HTTP/1.1\", upstream: \"http://127.0.0.1:3000/api\" の原因と解決法",
+            "item": "https://ai-site-iota-nine.vercel.app/article/nginx-error-12345-0-1-connect-failed-111-connection-refused-while-connecting-to-df5aa3"
+          }
+        ]
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "Course",
+        "name": "nginx エラー・トラブル集",
+        "description": "nginx エラー・トラブル集",
+        "provider": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app"
+        },
+        "url": "https://ai-site-iota-nine.vercel.app/course/errors/nginx-errors",
+        "inLanguage": "ja",
+        "educationalLevel": "beginner",
+        "hasCourseInstance": {
+          "@type": "CourseInstance",
+          "courseMode": "online",
+          "courseWorkload": "PT1H"
+        }
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "[error] 12345#0: *1 connect() failed (111: Connection refused) while connecti… とは何ですか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "[error] 12345#0: *1 connect() failed (111: Connection refused) while connecting to upstream, client: 1.2.3.4, server: example.com, request: \"GET /api HTTP/1.1\", upstream: \"http://127.0.0.1:3000/api\" は nginx 実行時に表示されるエラーです。バックエンドダウン"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "[error] 12345#0: *1 connect() failed (111: Connection refused) while connecti… の原因は？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "バックエンドダウン。タイムアウト。静的ファイル欠落。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "[error] 12345#0: *1 connect() failed (111: Connection refused) while connecti… の直し方は？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "upstream 確認：curl 127.0.0.1:バックエンドポート."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "nginx で [error] 12345#0 が出るのはなぜ？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "nginx error.log"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "[error] 12345#0: *1 connect() failed (111: Connection refused) while connecti… を防ぐには？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "。"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "breadcrumb": {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "ホーム",
+        "item": "https://ai-site-iota-nine.vercel.app/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "errors",
+        "item": "https://ai-site-iota-nine.vercel.app/knowledge/errors"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "nginx エラー・トラブル集",
+        "item": "https://ai-site-iota-nine.vercel.app/course/errors/nginx-errors"
+      },
+      {
+        "@type": "ListItem",
+        "position": 4,
+        "name": "[error] 12345#0: *1 connect() failed (111: Connection refused) while connecting to upstream, client: 1.2.3.4, server: example.com, request: \"GET /api HTTP/1.1\", upstream: \"http://127.0.0.1:3000/api\" の原因と解決法",
+        "item": "https://ai-site-iota-nine.vercel.app/article/nginx-error-12345-0-1-connect-failed-111-connection-refused-while-connecting-to-df5aa3"
+      }
+    ]
+  },
+  "courseSchema": {
+    "@context": "https://schema.org",
+    "@type": "Course",
+    "name": "nginx エラー・トラブル集",
+    "description": "nginx エラー・トラブル集",
+    "provider": {
+      "@type": "Organization",
+      "name": "StackShelf",
+      "url": "https://ai-site-iota-nine.vercel.app"
+    },
+    "url": "https://ai-site-iota-nine.vercel.app/course/errors/nginx-errors",
+    "inLanguage": "ja",
+    "educationalLevel": "beginner",
+    "hasCourseInstance": {
+      "@type": "CourseInstance",
+      "courseMode": "online",
+      "courseWorkload": "PT1H"
+    }
+  },
+  "faqSchema": {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "[error] 12345#0: *1 connect() failed (111: Connection refused) while connecti… とは何ですか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "[error] 12345#0: *1 connect() failed (111: Connection refused) while connecting to upstream, client: 1.2.3.4, server: example.com, request: \"GET /api HTTP/1.1\", upstream: \"http://127.0.0.1:3000/api\" は nginx 実行時に表示されるエラーです。バックエンドダウン"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "[error] 12345#0: *1 connect() failed (111: Connection refused) while connecti… の原因は？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "バックエンドダウン。タイムアウト。静的ファイル欠落。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "[error] 12345#0: *1 connect() failed (111: Connection refused) while connecti… の直し方は？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "upstream 確認：curl 127.0.0.1:バックエンドポート."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "nginx で [error] 12345#0 が出るのはなぜ？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "nginx error.log"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "[error] 12345#0: *1 connect() failed (111: Connection refused) while connecti… を防ぐには？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "。"
+        }
+      }
+    ]
+  }
+}

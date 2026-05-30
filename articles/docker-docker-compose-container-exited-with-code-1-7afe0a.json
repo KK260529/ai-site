@@ -1,0 +1,289 @@
+{
+  "id": "art_errors_docker-docker-compose-container-exited-with-code-1-7afe0a",
+  "slug": "docker-docker-compose-container-exited-with-code-1-7afe0a",
+  "title": "docker compose: Container exited with code 1 の原因と解決法",
+  "summary": "docker compose: Container exited with code 1 の原因と具体的な解決手順をまとめました。",
+  "body": "<h2>エラーメッセージ（全文）</h2>\n<p>検索でヒットしやすいよう、実際のコンソール出力をそのまま掲載します。</p>\n<pre><code>docker compose: Container exited with code 1</code></pre>\n\n<h2>このエラーとは</h2>\n<p>docker compose: Container exited with code 1 は Docker 開発でよく遭遇するエラーです。</p>\n<p><strong>想定環境:</strong> Windows / macOS / Linux</p>\n<p><strong>よく出る状況:</strong> docker compose up 時</p>\n\n<h2>よくある原因</h2>\n<ul>\n<li>depends_on  typo</li>\n<li>.env 未設定</li>\n<li>YAML 文法エラー</li>\n</ul><h2>解決方法</h2><h3>方法1: compose config</h3><p>docker compose config で検証.</p>\n<h2>それでも直らないとき</h2>\n<p>バージョン情報（Docker のバージョン、OS、実行コマンド）を添えて、エラーメッセージ全文と直前に変更した点を確認してください。ログの数行上にも原因の手がかりが残っていることが多いです。</p>",
+  "conclusion": "「docker compose: Container exited with code 1」は depends_on  typo が原因のことが多いです。上記の手順で切り分けてください。",
+  "tags": [
+    "docker",
+    "Dockerエラー",
+    "docker compose",
+    "docker compose: Container exited with co"
+  ],
+  "category": "Dockerエラー",
+  "theme": "errors - Docker エラー・トラブル集",
+  "articleType": "error",
+  "status": "published",
+  "createdAt": "2026-05-30T05:48:09.610Z",
+  "updatedAt": "2026-05-30T05:48:09.610Z",
+  "publishedAt": "2026-05-30T05:48:09.610Z",
+  "metaTitle": "docker compose: Container exited with code 1 の原因と解決法 | Dock…",
+  "metaDescription": "docker compose: Container exited with code 1 が出たときの原因・確認手順・解決策を解説。docker compose up 時。",
+  "ogTitle": "docker compose: Container exited with code 1 の原因と解決法",
+  "ogDescription": "docker compose: Container exited with code 1 が出たときの原因・確認手順・解決策を解説。docker compose up 時。",
+  "knowledge": {
+    "topic": "errors",
+    "courseId": "docker-errors",
+    "episode": 38
+  },
+  "faq": [
+    {
+      "question": "docker compose: Container exited with code 1 とは何ですか？",
+      "answer": "docker compose: Container exited with code 1 は Docker 実行時に表示されるエラーです。depends_on  typo"
+    },
+    {
+      "question": "docker compose: Container exited with code 1 の原因は？",
+      "answer": "depends_on  typo。.env 未設定。YAML 文法エラー。"
+    },
+    {
+      "question": "docker compose: Container exited with code 1 の直し方は？",
+      "answer": "compose config：docker compose config で検証."
+    },
+    {
+      "question": "Docker で docker compose が出るのはなぜ？",
+      "answer": "docker compose up 時"
+    },
+    {
+      "question": "docker compose: Container exited with code 1 を防ぐには？",
+      "answer": "。"
+    }
+  ],
+  "nextAction": "同じ Docker カテゴリの関連エラーもあわせて確認してください。",
+  "internalLinkCandidates": [],
+  "ogImage": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+  "canonical": "https://ai-site-iota-nine.vercel.app/article/docker-docker-compose-container-exited-with-code-1-7afe0a",
+  "jsonLd": {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@context": "https://schema.org",
+        "@type": "TechArticle",
+        "headline": "docker compose: Container exited with code 1 の原因と解決法",
+        "description": "docker compose: Container exited with code 1 が出たときの原因・確認手順・解決策を解説。docker compose up 時。",
+        "datePublished": "2026-05-30T05:48:09.610Z",
+        "dateModified": "2026-05-30T05:48:09.610Z",
+        "author": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
+        },
+        "image": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+        "inLanguage": "ja",
+        "wordCount": 382,
+        "mainEntityOfPage": {
+          "@type": "WebPage",
+          "@id": "https://ai-site-iota-nine.vercel.app/article/docker-docker-compose-container-exited-with-code-1-7afe0a"
+        },
+        "keywords": "docker, Dockerエラー, docker compose, docker compose: Container exited with co",
+        "articleSection": "Dockerエラー",
+        "url": "https://ai-site-iota-nine.vercel.app/article/docker-docker-compose-container-exited-with-code-1-7afe0a",
+        "learningResourceType": "tutorial",
+        "educationalLevel": "beginner"
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "ホーム",
+            "item": "https://ai-site-iota-nine.vercel.app/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "errors",
+            "item": "https://ai-site-iota-nine.vercel.app/knowledge/errors"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "Docker エラー・トラブル集",
+            "item": "https://ai-site-iota-nine.vercel.app/course/errors/docker-errors"
+          },
+          {
+            "@type": "ListItem",
+            "position": 4,
+            "name": "docker compose: Container exited with code 1 の原因と解決法",
+            "item": "https://ai-site-iota-nine.vercel.app/article/docker-docker-compose-container-exited-with-code-1-7afe0a"
+          }
+        ]
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "Course",
+        "name": "Docker エラー・トラブル集",
+        "description": "Docker エラー・トラブル集",
+        "provider": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app"
+        },
+        "url": "https://ai-site-iota-nine.vercel.app/course/errors/docker-errors",
+        "inLanguage": "ja",
+        "educationalLevel": "beginner",
+        "hasCourseInstance": {
+          "@type": "CourseInstance",
+          "courseMode": "online",
+          "courseWorkload": "PT1H"
+        }
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "docker compose: Container exited with code 1 とは何ですか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "docker compose: Container exited with code 1 は Docker 実行時に表示されるエラーです。depends_on  typo"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "docker compose: Container exited with code 1 の原因は？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "depends_on  typo。.env 未設定。YAML 文法エラー。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "docker compose: Container exited with code 1 の直し方は？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "compose config：docker compose config で検証."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Docker で docker compose が出るのはなぜ？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "docker compose up 時"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "docker compose: Container exited with code 1 を防ぐには？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "。"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "breadcrumb": {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "ホーム",
+        "item": "https://ai-site-iota-nine.vercel.app/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "errors",
+        "item": "https://ai-site-iota-nine.vercel.app/knowledge/errors"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "Docker エラー・トラブル集",
+        "item": "https://ai-site-iota-nine.vercel.app/course/errors/docker-errors"
+      },
+      {
+        "@type": "ListItem",
+        "position": 4,
+        "name": "docker compose: Container exited with code 1 の原因と解決法",
+        "item": "https://ai-site-iota-nine.vercel.app/article/docker-docker-compose-container-exited-with-code-1-7afe0a"
+      }
+    ]
+  },
+  "courseSchema": {
+    "@context": "https://schema.org",
+    "@type": "Course",
+    "name": "Docker エラー・トラブル集",
+    "description": "Docker エラー・トラブル集",
+    "provider": {
+      "@type": "Organization",
+      "name": "StackShelf",
+      "url": "https://ai-site-iota-nine.vercel.app"
+    },
+    "url": "https://ai-site-iota-nine.vercel.app/course/errors/docker-errors",
+    "inLanguage": "ja",
+    "educationalLevel": "beginner",
+    "hasCourseInstance": {
+      "@type": "CourseInstance",
+      "courseMode": "online",
+      "courseWorkload": "PT1H"
+    }
+  },
+  "faqSchema": {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "docker compose: Container exited with code 1 とは何ですか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "docker compose: Container exited with code 1 は Docker 実行時に表示されるエラーです。depends_on  typo"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "docker compose: Container exited with code 1 の原因は？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "depends_on  typo。.env 未設定。YAML 文法エラー。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "docker compose: Container exited with code 1 の直し方は？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "compose config：docker compose config で検証."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Docker で docker compose が出るのはなぜ？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "docker compose up 時"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "docker compose: Container exited with code 1 を防ぐには？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "。"
+        }
+      }
+    ]
+  }
+}

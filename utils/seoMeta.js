@@ -25,20 +25,27 @@ function estimateReadingMinutes(html) {
   return Math.max(1, Math.ceil(chars / 500));
 }
 
-function optimizeSerpTitle(title, { category, siteName = config.siteName } = {}) {
+function optimizeSerpTitle(title, { category, siteName = config.siteName, articleType } = {}) {
   let base = String(title || "").trim();
   if (!base) return siteName;
   if (!base.includes("|") && !base.includes("｜")) {
-    if (category && base.length < 42) {
+    if (articleType === "error") {
+      base = `${base} | ${siteName}`;
+    } else if (category && base.length < 42) {
       base = `${base}｜${category}入門`;
+      base = `${base} | ${siteName}`;
+    } else {
+      base = `${base} | ${siteName}`;
     }
-    base = `${base} | ${siteName}`;
   }
   return clipText(base, 60);
 }
 
-function optimizeSerpDescription(description, summary, { category } = {}) {
+function optimizeSerpDescription(description, summary, { category, articleType } = {}) {
   let text = String(description || summary || "").trim();
+  if (articleType === "error") {
+    return clipText(text, 155);
+  }
   if (text.length < 90) {
     const lead = category ? `【${category}初心者向け】` : "【初心者向け】";
     text = `${lead}${text}`;

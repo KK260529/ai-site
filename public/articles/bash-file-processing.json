@@ -17,12 +17,12 @@
   "theme": "bash - Bashシェルスクリプト入門",
   "status": "published",
   "createdAt": "2026-05-30T05:14:53.436Z",
-  "updatedAt": "2026-05-30T05:14:53.440Z",
+  "updatedAt": "2026-05-30T05:15:42.376Z",
   "publishedAt": "2026-05-30T05:14:53.436Z",
   "metaTitle": "Bash grep sed awk 入門｜ログ解析・テキスト処理",
-  "metaDescription": "【Bash初心者向け】Bashスクリプトでの grep・sed・awk の使い方を初心者向けに解説。ログからの ERROR 抽出、一括置換、列集計の具体例付き。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
+  "metaDescription": "Bashスクリプトでの grep・sed・awk の使い方を初心者向けに解説。ログからの ERROR 抽出、一括置換、列集計の具体例付き。",
   "ogTitle": "Bashでgrep・sed・awk入門",
-  "ogDescription": "【Bash初心者向け】【Bash初心者向け】シェルスクリプトにテキスト処理の三種の神器を組み込む方法を解説します。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
+  "ogDescription": "シェルスクリプトにテキスト処理の三種の神器を組み込む方法を解説します。",
   "knowledge": {
     "topic": "bash",
     "courseId": "bash",
@@ -54,29 +54,29 @@
   "nextAction": "サンプルログファイルを作り、grep ERROR | awk で件数集計、sed でタイムスタンプ部分を削除するパイプラインをスクリプトに書いて実行してみてください。",
   "internalLinkCandidates": [
     {
-      "slug": "regex-intro",
-      "title": "正規表現とは？いつ使うのか",
-      "reason": "grep/sed のパターン指定の基礎になります。"
+      "slug": "bash-practice",
+      "title": "【実践】Bashでバックアップスクリプトを作る｜運用自動化の総仕上げ【第10回】",
+      "reason": "同じ講座の関連回です"
     },
     {
-      "slug": "linux-view-search",
-      "title": "ファイルの中身を表示・検索する（cat/less/grep/find）【Linux入門】",
-      "reason": "grep の Linux 入門での初出と連動します。"
+      "slug": "bash-error-handling",
+      "title": "Bashの set -e とエラーハンドリング｜安全なスクリプトを書く【第9回】",
+      "reason": "同じ講座の関連回です"
     },
     {
-      "slug": "linux-pipe-redirect",
-      "title": "パイプ（|）とリダイレクト（> >> 2>&1）の使い方【Linux中級】",
-      "reason": "三兄弟はパイプ前提で使います。"
+      "slug": "bash-cron",
+      "title": "cronとcrontabでBashスクリプトを定期実行する【シェルスクリプト第8回】",
+      "reason": "同じ講座の関連回です"
     },
     {
-      "slug": "python-file-io",
-      "title": "Pythonのファイル入出力（open/read/write）【入門第8回】",
-      "reason": "複雑なCSV/JSONは Python に委譲する選択肢もあります。"
+      "slug": "bash-pipes-scripts",
+      "title": "Bashのパイプとコマンド置換｜CLIを組み合わせるデータ処理【第6回】",
+      "reason": "同じ講座の関連回です"
     },
     {
-      "slug": "nginx-intro",
-      "title": "nginxとは？Apacheとの違い",
-      "reason": "nginx アクセスログの awk 集計例と関連します。"
+      "slug": "bash-functions",
+      "title": "Bash関数の定義と使い方｜再利用可能なスクリプトを書く【第5回】",
+      "reason": "同じ講座の関連回です"
     }
   ],
   "ogImage": "https://ai-site-iota-nine.vercel.app/og-default.svg",
@@ -90,7 +90,7 @@
         "headline": "Bashでgrep・sed・awk入門｜ログ解析とテキスト加工【第7回】",
         "description": "【Bash初心者向け】Bashスクリプトでの grep・sed・awk の使い方を初心者向けに解説。ログからの ERROR 抽出、一括置換、列集計の具体例付き。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
         "datePublished": "2026-05-30T05:14:53.436Z",
-        "dateModified": "2026-05-30T05:14:53.440Z",
+        "dateModified": "2026-05-30T05:15:42.376Z",
         "author": {
           "@type": "Organization",
           "name": "StackShelf",

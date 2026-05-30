@@ -1,10 +1,10 @@
 {
   "id": "art_1780054198949",
   "slug": "java-inheritance",
-  "title": "Javaの継承",
-  "summary": "Javaの継承は、既存のクラスから新しいクラスを作成する方法です。継承を使用すると、コードの再利用性を高め、プログラミングの効率を向上させることができます。この記事では、Javaの継承の基本概念と使い方を解説します。",
-  "body": "<h2>Javaの継承とは</h2><p>Javaの継承は、既存のクラスから新しいクラスを作成する方法です。継承を使用すると、コードの再利用性を高め、プログラミングの効率を向上させることができます。</p><h3>継承の基本概念</h3><p>継承では、親クラス（スーパークラス）と子クラス（サブクラス）が存在します。子クラスは、親クラスのすべてのフィールドとメソッドを継承します。また、子クラスは、新しいフィールドとメソッドを追加したり、親クラスのメソッドをオーバーライドしたりすることができます。</p><h3>継承の使い方</h3><p>継承を使用するには、子クラスでextendsキーワードを使用して親クラスを指定します。例として、次のコードを見てみましょう。</p><pre><code>public class Animal {<br>    public void sound() {<br>        System.out.println(\"動物が音を出す\");<br>    }<br>}<br><br>public class Dog extends Animal {<br>    public void sound() {<br>        System.out.println(\"犬が吠える\");<br>    }<br>}<br></code></pre><p>この例では、DogクラスはAnimalクラスを継承しています。Dogクラスは、Animalクラスのsound()メソッドをオーバーライドしています。</p>",
-  "conclusion": "Javaの継承は、コードの再利用性を高め、プログラミングの効率を向上させる強力なツールです。継承を使用することで、コードの重複を減らし、プログラムのメンテナンスが容易になります。次回のエピソードでは、Javaの多態性について解説します。",
+  "title": "Javaの継承｜extends・super・オーバーライド",
+  "summary": "extendsによるクラス継承、superキーワード、メソッドオーバーライド、@Override、継承の設計上の注意点と失敗例を学びます。",
+  "body": "<h2>結論：継承は「is-a関係」のときに使い、既存クラスの属性と振る舞いを拡張する</h2>\n<p><code>extends</code> で親クラス（スーパークラス）の機能を引き継ぎ、子クラス（サブクラス）で追加・変更します。Javaは<strong>単一継承</strong>（クラスは1つの親のみ）です。</p>\n\n<h2>基本的な継承</h2>\n<pre><code>public class Animal {\n    protected String name;\n    public void speak() {\n        System.out.println(\"...\");\n    }\n}\n\npublic class Dog extends Animal {\n    public Dog(String name) {\n        this.name = name;\n    }\n    @Override\n    public void speak() {\n        System.out.println(name + \": ワン!\");\n    }\n}</code></pre>\n\n<h2>super キーワード</h2>\n<pre><code>public class Employee extends Person {\n    public Employee(String name, int id) {\n        super(name); // 親コンストラクタ\n        this.id = id;\n    }\n}</code></pre>\n<p>子クラスのコンストラクタで、親コンストラクタは<strong>先頭</strong>で呼ぶ必要があります。</p>\n\n<h3>失敗例：super() の位置が不正</h3>\n<pre><code>public Child() {\n    doSomething();\n    super(); // コンパイルエラー: super must be first statement\n}</code></pre>\n\n<h2>設計上の注意</h2>\n<p>継承は強い結合です。「has-a（持っている）」関係なら<strong>コンポジション</strong>（フィールドに持つ）を検討しましょう。深い継承階層は保守が難しくなります。</p>\n\n<h3>失敗例：継承の乱用</h3>\n<p>「Stack extends ArrayList」のように内部実装を継承で公開すると、意図しない操作（add anywhere）が可能になります。</p>\n\n<h2>まとめ</h2>\n<p>継承はコード再利用と多態性の基盤ですが、is-a関係に限定して使います。次回は親型の参照で子クラスの振る舞いを使う多態性を学びます。</p>",
+  "conclusion": "Javaの継承はextendsで実装し、superで親のコンストラクタやメソッドを呼びます。@Overrideで意図を明示し、is-a関係以外ではコンポジションを検討しましょう。Animal/Dog/Catの小さな階層を作ってspeakをオーバーライドしてください。",
   "tags": [
     "Java",
     "継承",
@@ -14,12 +14,12 @@
   "theme": "java - Java",
   "status": "published",
   "createdAt": "2026-05-29T11:29:58.933Z",
-  "updatedAt": "2026-05-29T14:35:19.905Z",
+  "updatedAt": "2026-05-30T05:18:37.052Z",
   "publishedAt": "2026-05-29T11:29:58.933Z",
-  "metaTitle": "Javaの継承",
-  "metaDescription": "Javaの継承の基本概念と使い方を解説します。継承を使用すると、コードの再利用性を高め、プログラミングの効率を向上させることができます。",
+  "metaTitle": "Java継承入門｜extends・super・オーバーライド | StackShelf",
+  "metaDescription": "Javaのextends、super、@Override、単一継承のルールと設計上の失敗例（継承乱用）を具体例で解説します。",
   "ogTitle": "Javaの継承",
-  "ogDescription": "Javaの継承の基本概念と使い方を解説します。継承を使用すると、コードの再利用性を高め、プログラミングの効率を向上させることができます。",
+  "ogDescription": "extendsとsuperの使い方、典型ミスを失敗例つきで学べます。",
   "knowledge": {
     "topic": "java",
     "courseId": "java",
@@ -27,42 +27,68 @@
   },
   "faq": [
     {
-      "question": "Javaの継承の目的は何ですか？",
-      "answer": "Javaの継承の目的は、コードの再利用性を高め、プログラミングの効率を向上させることです。"
+      "question": "Javaは多重継承できますか？",
+      "answer": "クラスの多重継承は不可です。interfaceは複数実装できます（後の学習）。"
     },
     {
-      "question": "継承の基本概念は何ですか？",
-      "answer": "継承の基本概念は、親クラスと子クラスが存在し、子クラスが親クラスのすべてのフィールドとメソッドを継承することです。"
+      "question": "private メンバーは継承されますか？",
+      "answer": "子からは直接アクセス不可ですが、親のpublic/protectedメソッド経由では利用できます。"
+    },
+    {
+      "question": "final クラスは？",
+      "answer": "継承禁止です。StringやIntegerなど不変・安全のためfinalにされています。"
+    },
+    {
+      "question": "@Override は必須？",
+      "answer": "コンパイル時チェックのため付けるのが推奨。スペルミスしたメソッド名を検出できます。"
+    },
+    {
+      "question": "継承とinterfaceの違いは？",
+      "answer": "継承は実装の引き継ぎ、interfaceは契約（メソッドシグネチャ）の共有です。"
     }
   ],
-  "nextEpisodeHint": "次回のエピソードでは、Javaの多態性について解説します。",
+  "nextEpisodeHint": "次回は多態性（ポリモーフィズム）とアップキャスト、動的ディスパッチを学びます。",
   "canonical": "https://ai-site-iota-nine.vercel.app/article/java-inheritance",
   "jsonLd": {
     "@context": "https://schema.org",
     "@graph": [
       {
         "@context": "https://schema.org",
-        "@type": "BlogPosting",
-        "headline": "Javaの継承",
-        "description": "Javaの継承の基本概念と使い方を解説します。継承を使用すると、コードの再利用性を高め、プログラミングの効率を向上させることができます。",
+        "@type": "TechArticle",
+        "headline": "Javaの継承｜extends・super・オーバーライド",
+        "description": "Javaのextends、super、@Override、単一継承のルールと設計上の失敗例（継承乱用）を具体例で解説します。",
         "datePublished": "2026-05-29T11:29:58.933Z",
-        "dateModified": "2026-05-29T14:35:19.905Z",
+        "dateModified": "2026-05-30T05:18:37.052Z",
         "author": {
           "@type": "Organization",
-          "name": "StackShelf"
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
         },
         "publisher": {
           "@type": "Organization",
           "name": "StackShelf",
-          "url": "https://ai-site-iota-nine.vercel.app"
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
         },
+        "image": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+        "inLanguage": "ja",
+        "wordCount": 794,
         "mainEntityOfPage": {
           "@type": "WebPage",
           "@id": "https://ai-site-iota-nine.vercel.app/article/java-inheritance"
         },
         "keywords": "Java, 継承, オブジェクト指向",
         "articleSection": "Java",
-        "url": "https://ai-site-iota-nine.vercel.app/article/java-inheritance"
+        "url": "https://ai-site-iota-nine.vercel.app/article/java-inheritance",
+        "learningResourceType": "tutorial",
+        "educationalLevel": "beginner"
       },
       {
         "@context": "https://schema.org",
@@ -72,7 +98,7 @@
             "@type": "ListItem",
             "position": 1,
             "name": "ホーム",
-            "item": "https://ai-site-iota-nine.vercel.app"
+            "item": "https://ai-site-iota-nine.vercel.app/"
           },
           {
             "@type": "ListItem",
@@ -89,7 +115,7 @@
           {
             "@type": "ListItem",
             "position": 4,
-            "name": "Javaの継承",
+            "name": "Javaの継承｜extends・super・オーバーライド",
             "item": "https://ai-site-iota-nine.vercel.app/article/java-inheritance"
           }
         ]
@@ -101,7 +127,16 @@
         "description": "Javaプログラミング言語の基礎から応用までを学習する講座です。初心者向けにJavaの基本構文、オブジェクト指向、データ構造、アルゴリズムなどを解説します。",
         "provider": {
           "@type": "Organization",
-          "name": "StackShelf"
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app"
+        },
+        "url": "https://ai-site-iota-nine.vercel.app/course/java/java",
+        "inLanguage": "ja",
+        "educationalLevel": "beginner",
+        "hasCourseInstance": {
+          "@type": "CourseInstance",
+          "courseMode": "online",
+          "courseWorkload": "PT1H"
         }
       },
       {
@@ -110,18 +145,42 @@
         "mainEntity": [
           {
             "@type": "Question",
-            "name": "Javaの継承の目的は何ですか？",
+            "name": "Javaは多重継承できますか？",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "Javaの継承の目的は、コードの再利用性を高め、プログラミングの効率を向上させることです。"
+              "text": "クラスの多重継承は不可です。interfaceは複数実装できます（後の学習）。"
             }
           },
           {
             "@type": "Question",
-            "name": "継承の基本概念は何ですか？",
+            "name": "private メンバーは継承されますか？",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "継承の基本概念は、親クラスと子クラスが存在し、子クラスが親クラスのすべてのフィールドとメソッドを継承することです。"
+              "text": "子からは直接アクセス不可ですが、親のpublic/protectedメソッド経由では利用できます。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "final クラスは？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "継承禁止です。StringやIntegerなど不変・安全のためfinalにされています。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "@Override は必須？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "コンパイル時チェックのため付けるのが推奨。スペルミスしたメソッド名を検出できます。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "継承とinterfaceの違いは？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "継承は実装の引き継ぎ、interfaceは契約（メソッドシグネチャ）の共有です。"
             }
           }
         ]
@@ -136,7 +195,7 @@
         "@type": "ListItem",
         "position": 1,
         "name": "ホーム",
-        "item": "https://ai-site-iota-nine.vercel.app"
+        "item": "https://ai-site-iota-nine.vercel.app/"
       },
       {
         "@type": "ListItem",
@@ -153,7 +212,7 @@
       {
         "@type": "ListItem",
         "position": 4,
-        "name": "Javaの継承",
+        "name": "Javaの継承｜extends・super・オーバーライド",
         "item": "https://ai-site-iota-nine.vercel.app/article/java-inheritance"
       }
     ]
@@ -165,7 +224,16 @@
     "description": "Javaプログラミング言語の基礎から応用までを学習する講座です。初心者向けにJavaの基本構文、オブジェクト指向、データ構造、アルゴリズムなどを解説します。",
     "provider": {
       "@type": "Organization",
-      "name": "StackShelf"
+      "name": "StackShelf",
+      "url": "https://ai-site-iota-nine.vercel.app"
+    },
+    "url": "https://ai-site-iota-nine.vercel.app/course/java/java",
+    "inLanguage": "ja",
+    "educationalLevel": "beginner",
+    "hasCourseInstance": {
+      "@type": "CourseInstance",
+      "courseMode": "online",
+      "courseWorkload": "PT1H"
     }
   },
   "faqSchema": {
@@ -174,20 +242,73 @@
     "mainEntity": [
       {
         "@type": "Question",
-        "name": "Javaの継承の目的は何ですか？",
+        "name": "Javaは多重継承できますか？",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Javaの継承の目的は、コードの再利用性を高め、プログラミングの効率を向上させることです。"
+          "text": "クラスの多重継承は不可です。interfaceは複数実装できます（後の学習）。"
         }
       },
       {
         "@type": "Question",
-        "name": "継承の基本概念は何ですか？",
+        "name": "private メンバーは継承されますか？",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "継承の基本概念は、親クラスと子クラスが存在し、子クラスが親クラスのすべてのフィールドとメソッドを継承することです。"
+          "text": "子からは直接アクセス不可ですが、親のpublic/protectedメソッド経由では利用できます。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "final クラスは？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "継承禁止です。StringやIntegerなど不変・安全のためfinalにされています。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "@Override は必須？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "コンパイル時チェックのため付けるのが推奨。スペルミスしたメソッド名を検出できます。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "継承とinterfaceの違いは？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "継承は実装の引き継ぎ、interfaceは契約（メソッドシグネチャ）の共有です。"
         }
       }
     ]
-  }
+  },
+  "nextAction": "Shape親クラスとCircle/Rectangle子クラスを作り、area()をオーバーライドしてmainで配列に入れて合計面積を計算してください。",
+  "internalLinkCandidates": [
+    {
+      "slug": "java-classes",
+      "title": "Javaのクラスとオブジェクト",
+      "reason": "継承の前提"
+    },
+    {
+      "slug": "java-polymorphism",
+      "title": "Javaの多態性",
+      "reason": "同じ講座の次の回"
+    },
+    {
+      "slug": "java-objects",
+      "title": "Javaのオブジェクト指向プログラミング",
+      "reason": "OOP全体像"
+    },
+    {
+      "slug": "java-exception-handling",
+      "title": "Javaの例外処理",
+      "reason": "カスタム例外の継承"
+    },
+    {
+      "slug": "java-best-practices",
+      "title": "Javaプログラミングのベストプラクティス",
+      "reason": "継承 vs コンポジション"
+    }
+  ],
+  "ogImage": "https://ai-site-iota-nine.vercel.app/og-default.svg"
 }

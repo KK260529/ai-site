@@ -17,12 +17,12 @@
   "theme": "regex - 正規表現入門",
   "status": "published",
   "createdAt": "2026-05-30T05:14:21.512Z",
-  "updatedAt": "2026-05-30T05:14:21.523Z",
+  "updatedAt": "2026-05-30T05:15:44.957Z",
   "publishedAt": "2026-05-30T05:14:21.512Z",
   "metaTitle": "正規表現とは？使い道と基本を初心者向けに解説 | 正規表現入門",
-  "metaDescription": "【正規表現初心者向け】正規表現入門の第一歩。正規表現とは何か、ログ解析・バリデーション・検索置換での使い道をゼロから丁寧に説明。regex 初心者必読。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
+  "metaDescription": "正規表現入門の第一歩。正規表現とは何か、ログ解析・バリデーション・検索置換での使い道をゼロから丁寧に説明。regex 初心者必読。",
   "ogTitle": "正規表現とは？いつ使うのかをわかりやすく解説",
-  "ogDescription": "【正規表現初心者向け】【正規表現初心者向け】正規表現の基本と使い道を初心者向けに解説。テキスト検索・置換・フォーム検証での活用法を学びます。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
+  "ogDescription": "正規表現の基本と使い道を初心者向けに解説。テキスト検索・置換・フォーム検証での活用法を学びます。",
   "knowledge": {
     "topic": "regex",
     "courseId": "regex",
@@ -51,37 +51,32 @@
     }
   ],
   "nextEpisodeHint": "次回は、リテラル（そのままの文字）とメタ文字（. \\ * など）の違いを学びます。エスケープのルールを理解すると、記号を文字として扱うかパターンとして扱うかがはっきりします。",
-  "nextAction": "",
+  "nextAction": "次はリテラル（そのままの文字）とメタ文字（. \\ * など）の違いを学びます。エスケープのルールを理解すると、記号を文字として扱うかパターンとして扱うかがはっきりします。",
   "internalLinkCandidates": [
     {
-      "slug": "python-intro",
-      "title": "Pythonとは？プログラミングの第一歩",
-      "reason": "Pythonのreモジュールで正規表現を使う前提知識としておすすめ"
+      "slug": "regex-practice",
+      "title": "実践：ログとフォーム検証｜正規表現コース総まとめ【入門】",
+      "reason": "同じ講座の関連回です"
     },
     {
-      "slug": "linux-intro",
-      "title": "Linuxとは？オープンソースOSの基本",
-      "reason": "grepやsedで正規表現を使うためのコマンドライン基礎"
+      "slug": "regex-javascript",
+      "title": "JavaScriptでの正規表現｜RegExp・test・match・replace【入門】",
+      "reason": "同じ講座の関連回です"
     },
     {
-      "slug": "bash-intro",
-      "title": "シェルスクリプトとは？",
-      "reason": "シェル上でパターンマッチや置換を行う際の土台になる"
+      "slug": "regex-groups",
+      "title": "グループとキャプチャ｜正規表現の ( ) と置換【入門】",
+      "reason": "同じ講座の関連回です"
     },
     {
-      "slug": "git-intro",
-      "title": "Gitとは？バージョン管理の基本",
-      "reason": "ログやdiffのテキストを扱う開発フローと相性が良い"
+      "slug": "regex-anchors",
+      "title": "アンカー ^ $ と単語境界｜正規表現で位置を指定する【入門】",
+      "reason": "同じ講座の関連回です"
     },
     {
-      "slug": "web-intro",
-      "title": "Web開発とは？HTML/CSSの世界",
-      "reason": "ブラウザでのフォーム検証やJavaScript連携の文脈で役立つ"
-    },
-    {
-      "slug": "linux-view-search",
-      "title": "ファイルの表示と検索（cat, grep）",
-      "reason": "grepと正規表現の組み合わせを学ぶ前のステップ"
+      "slug": "regex-quantifiers",
+      "title": "量詞 * + ? {n,m}｜正規表現の繰り返しをマスター【入門】",
+      "reason": "同じ講座の関連回です"
     }
   ],
   "ogImage": "https://ai-site-iota-nine.vercel.app/og-default.svg",
@@ -95,7 +90,7 @@
         "headline": "正規表現とは？いつ使うのかを初心者向けに解説【正規表現入門】",
         "description": "【正規表現初心者向け】正規表現入門の第一歩。正規表現とは何か、ログ解析・バリデーション・検索置換での使い道をゼロから丁寧に説明。regex 初心者必読。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
         "datePublished": "2026-05-30T05:14:21.512Z",
-        "dateModified": "2026-05-30T05:14:21.523Z",
+        "dateModified": "2026-05-30T05:15:44.957Z",
         "author": {
           "@type": "Organization",
           "name": "StackShelf",

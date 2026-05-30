@@ -2,9 +2,9 @@
   "id": "art_git_git-remote-push-pull",
   "slug": "git-remote-push-pull",
   "title": "push・pull・remote でリモート連携",
-  "summary": "git remote・git push・git pull の仕組みを基礎から解説。ローカルリポジトリとリモートリポジトリを連携させ、チームで安全にコードを共有するための具体的な手順を学ぶ。",
-  "body": "<h2>リモートリポジトリとは</h2>\n<p>\n  これまで学んできた Git の操作はすべてローカル（自分のパソコン）上の話でした。\n  チームで開発するには、コードをインターネット上のサーバーで共有する必要があります。\n  その共有場所が<strong>リモートリポジトリ</strong>です。\n  GitHub、GitLab、Bitbucket などのサービスがリモートリポジトリのホスティング先として広く使われています。\n</p>\n<p>\n  ローカルリポジトリとリモートリポジトリは独立して存在し、\n  <code>git push</code> や <code>git pull</code> といったコマンドで変更をやり取りします。\n  この仕組みを理解することで、チーム開発の基本的な流れが見えてきます。\n</p>\n\n<h2>git remote でリモートを登録する</h2>\n<p>\n  リモートリポジトリをローカルに認識させるコマンドが <code>git remote</code> です。\n  GitHub でリポジトリを作成した後、次のコマンドでリモートを登録します。\n</p>\n<pre><code># リモートリポジトリを \"origin\" という名前で登録\ngit remote add origin https://github.com/yourname/my-project.git\n\n# 登録済みのリモート一覧を確認\ngit remote -v</code></pre>\n<p>\n  <code>origin</code> はリモートリポジトリのデフォルトの別名です。\n  1つのリポジトリに複数のリモートを登録することもできますが、\n  最初のうちは <code>origin</code> 1つだけを使うのが一般的です。\n</p>\n\n<h3>既存リポジトリをクローンした場合</h3>\n<p>\n  <code>git clone</code> でリポジトリを取得した場合、\n  自動的に <code>origin</code> が登録されます。\n  手動で <code>git remote add</code> する必要はありません。\n</p>\n<pre><code>git clone https://github.com/yourname/my-project.git\ncd my-project\ngit remote -v\n# origin  https://github.com/yourname/my-project.git (fetch)\n# origin  https://github.com/yourname/my-project.git (push)</code></pre>\n\n<h2>git push でリモートへ送信する</h2>\n<p>\n  ローカルのコミットをリモートリポジトリへ送信するコマンドが <code>git push</code> です。\n  最初にプッシュするときは <code>-u</code>（<code>--set-upstream</code>）オプションを付けて、\n  ローカルブランチとリモートブランチを紐付けます。\n</p>\n<pre><code># 初回プッシュ（ブランチのトラッキングを設定）\ngit push -u origin main\n\n# 2回目以降は短縮形で OK\ngit push</code></pre>\n<p>\n  <code>-u</code> を一度使うと、以降は <code>git push</code> だけで\n  <code>origin main</code> への送信が実行されるようになります。\n</p>\n\n<h3>新しいブランチをリモートへ送信する</h3>\n<p>\n  ローカルで作成したブランチをリモートへ初めてプッシュするときも <code>-u</code> を使います。\n</p>\n<pre><code># feature/signup ブランチを作成してプッシュ\ngit checkout -b feature/signup\ngit push -u origin feature/signup</code></pre>\n\n<h2>git pull でリモートの変更を取り込む</h2>\n<p>\n  チームメンバーがリモートへプッシュした変更をローカルに取り込むコマンドが <code>git pull</code> です。\n  <code>git pull</code> は内部的に <code>git fetch</code>（取得）と <code>git merge</code>（統合）を\n  連続して実行します。\n</p>\n<pre><code># リモートの最新変更をローカルへ取り込む\ngit pull origin main\n\n# トラッキングブランチが設定済みなら短縮形で OK\ngit pull</code></pre>\n<p>\n  プルする前にコミットし忘れたローカルの変更があるとコンフリクトが起きやすくなります。\n  作業前後に <code>git pull</code> を習慣にすることで差分を小さく保てます。\n</p>\n\n<h3>git fetch と git pull の違い</h3>\n<p>\n  <code>git fetch</code> はリモートの変更を取得するだけで、\n  ローカルの作業ブランチには反映されません。\n  取得後に <code>git diff origin/main</code> で差分を確認してから手動でマージできるため、\n  安全に内容を確認したい場面で便利です。\n</p>\n<pre><code># リモートの変更を取得（ローカルブランチは変わらない）\ngit fetch origin\n\n# リモートとの差分を確認\ngit diff main origin/main\n\n# 問題なければマージ\ngit merge origin/main</code></pre>\n\n<h2>プッシュが拒否されたときの対処法</h2>\n<p>\n  リモートに自分よりも新しいコミットがある場合、プッシュが拒否されることがあります。\n  このときはまず <code>git pull</code> でリモートの変更を取り込み、\n  コンフリクトがあれば解決してから再度プッシュします。\n</p>\n<pre><code># エラー例\n# ! [rejected] main -> main (fetch first)\n\n# 解決手順\ngit pull origin main      # リモートの変更を取り込む\n# コンフリクトがあれば解決 → git add → git commit\ngit push origin main      # 再プッシュ</code></pre>\n<p>\n  <code>git push --force</code> は他の人のコミットを消してしまう危険があるため、\n  共有ブランチでは絶対に使わないようにしましょう。\n</p>\n\n<h2>リモートブランチの削除</h2>\n<p>\n  機能開発が完了してブランチが不要になったら、\n  リモートブランチも削除してリポジトリをすっきりさせましょう。\n</p>\n<pre><code># リモートの feature/signup ブランチを削除\ngit push origin --delete feature/signup\n\n# ローカルブランチの削除\ngit branch -d feature/signup</code></pre>\n\n<h2>よくあるトラブルと解決策</h2>\n<ul>\n  <li>\n    <strong>認証エラーが出る</strong>：GitHub では2021年以降、パスワード認証が廃止されました。\n    Personal Access Token（PAT）または SSH キーを使って認証します。\n  </li>\n  <li>\n    <strong>Updates were rejected（更新が拒否される）</strong>：リモートに自分より新しいコミットがあります。\n    <code>git pull</code> で取り込んでからプッシュします。\n  </li>\n  <li>\n    <strong>リモートの URL を変更したい</strong>：\n    <code>git remote set-url origin &lt;新しいURL&gt;</code> で変更できます。\n  </li>\n</ul>\n<pre><code># リモート URL の変更\ngit remote set-url origin git@github.com:yourname/my-project.git\n\n# 確認\ngit remote -v</code></pre>",
-  "conclusion": "このエピソードでは git remote・git push・git pull・git fetch の使い方を学びました。ローカルとリモートのやり取りはチーム開発の中心となる操作です。プッシュ前に pull を忘れずに行う習慣をつけることで、不要なコンフリクトを減らせます。次のエピソードでは GitHub のアカウント作成とリポジトリの基本操作を学びます。",
+  "summary": "git remote・push・pull の使い方を解説。origin の意味、push 拒否時の対処、fetch との違い、認証設定まで。ローカルと GitHub を初めて連携する人向け。",
+  "body": "<h2>結論：git push で送信、git pull で取り込み、git remote で接続先を管理する</h2>\n<p>リモート連携の基本は<strong><code>git remote add origin URL</code> で接続先を登録し、<code>git push origin main</code> で送信、<code>git pull</code> で最新を取り込む</strong>ことです。push が拒否されたら、ほぼ「リモートに自分の知らない変更がある」サインなので、pull してから再度 push します。</p>\n\n<h2>リモートリポジトリとは</h2>\n<p>\n  これまで学んできた Git の操作はすべてローカル（自分のパソコン）上の話でした。\n  チームで開発するには、コードをインターネット上のサーバーで共有する必要があります。\n  その共有場所が<strong>リモートリポジトリ</strong>です。\n  GitHub、GitLab、Bitbucket などのサービスがリモートリポジトリのホスティング先として広く使われています。\n</p>\n<p>\n  ローカルリポジトリとリモートリポジトリは独立して存在し、\n  <code>git push</code> や <code>git pull</code> といったコマンドで変更をやり取りします。\n  この仕組みを理解することで、チーム開発の基本的な流れが見えてきます。\n</p>\n\n<h2>git remote でリモートを登録する</h2>\n<p>\n  リモートリポジトリをローカルに認識させるコマンドが <code>git remote</code> です。\n  GitHub でリポジトリを作成した後、次のコマンドでリモートを登録します。\n</p>\n<pre><code># リモートリポジトリを \"origin\" という名前で登録\ngit remote add origin https://github.com/yourname/my-project.git\n\n# 登録済みのリモート一覧を確認\ngit remote -v</code></pre>\n<p>\n  <code>origin</code> はリモートリポジトリのデフォルトの別名です。\n  1つのリポジトリに複数のリモートを登録することもできますが、\n  最初のうちは <code>origin</code> 1つだけを使うのが一般的です。\n</p>\n\n<h3>既存リポジトリをクローンした場合</h3>\n<p>\n  <code>git clone</code> でリポジトリを取得した場合、\n  自動的に <code>origin</code> が登録されます。\n  手動で <code>git remote add</code> する必要はありません。\n</p>\n<pre><code>git clone https://github.com/yourname/my-project.git\ncd my-project\ngit remote -v\n# origin  https://github.com/yourname/my-project.git (fetch)\n# origin  https://github.com/yourname/my-project.git (push)</code></pre>\n\n<h2>git push でリモートへ送信する</h2>\n<p>\n  ローカルのコミットをリモートリポジトリへ送信するコマンドが <code>git push</code> です。\n  最初にプッシュするときは <code>-u</code>（<code>--set-upstream</code>）オプションを付けて、\n  ローカルブランチとリモートブランチを紐付けます。\n</p>\n<pre><code># 初回プッシュ（ブランチのトラッキングを設定）\ngit push -u origin main\n\n# 2回目以降は短縮形で OK\ngit push</code></pre>\n<p>\n  <code>-u</code> を一度使うと、以降は <code>git push</code> だけで\n  <code>origin main</code> への送信が実行されるようになります。\n</p>\n\n<h3>新しいブランチをリモートへ送信する</h3>\n<p>\n  ローカルで作成したブランチをリモートへ初めてプッシュするときも <code>-u</code> を使います。\n</p>\n<pre><code># feature/signup ブランチを作成してプッシュ\ngit checkout -b feature/signup\ngit push -u origin feature/signup</code></pre>\n\n<h2>git pull でリモートの変更を取り込む</h2>\n<p>\n  チームメンバーがリモートへプッシュした変更をローカルに取り込むコマンドが <code>git pull</code> です。\n  <code>git pull</code> は内部的に <code>git fetch</code>（取得）と <code>git merge</code>（統合）を\n  連続して実行します。\n</p>\n<pre><code># リモートの最新変更をローカルへ取り込む\ngit pull origin main\n\n# トラッキングブランチが設定済みなら短縮形で OK\ngit pull</code></pre>\n<p>\n  プルする前にコミットし忘れたローカルの変更があるとコンフリクトが起きやすくなります。\n  作業前後に <code>git pull</code> を習慣にすることで差分を小さく保てます。\n</p>\n\n<h3>git fetch と git pull の違い</h3>\n<p>\n  <code>git fetch</code> はリモートの変更を取得するだけで、\n  ローカルの作業ブランチには反映されません。\n  取得後に <code>git diff origin/main</code> で差分を確認してから手動でマージできるため、\n  安全に内容を確認したい場面で便利です。\n</p>\n<pre><code># リモートの変更を取得（ローカルブランチは変わらない）\ngit fetch origin\n\n# リモートとの差分を確認\ngit diff main origin/main\n\n# 問題なければマージ\ngit merge origin/main</code></pre>\n\n<h2>プッシュが拒否されたときの対処法</h2>\n<p>\n  リモートに自分よりも新しいコミットがある場合、プッシュが拒否されることがあります。\n  このときはまず <code>git pull</code> でリモートの変更を取り込み、\n  コンフリクトがあれば解決してから再度プッシュします。\n</p>\n<pre><code># エラー例\n# ! [rejected] main -> main (fetch first)\n\n# 解決手順\ngit pull origin main      # リモートの変更を取り込む\n# コンフリクトがあれば解決 → git add → git commit\ngit push origin main      # 再プッシュ</code></pre>\n<p>\n  <code>git push --force</code> は他の人のコミットを消してしまう危険があるため、\n  共有ブランチでは絶対に使わないようにしましょう。\n</p>\n\n<h2>リモートブランチの削除</h2>\n<p>\n  機能開発が完了してブランチが不要になったら、\n  リモートブランチも削除してリポジトリをすっきりさせましょう。\n</p>\n<pre><code># リモートの feature/signup ブランチを削除\ngit push origin --delete feature/signup\n\n# ローカルブランチの削除\ngit branch -d feature/signup</code></pre>\n\n<h2>よくあるつまずきと失敗例</h2>\n<h3>push/pullでよくあるトラブル</h3>\n<ul>\n<li><strong>rejected (non-fast-forward)</strong>：先に <code>git pull origin main</code>（または rebase）してリモートの変更を取り込んでから push します。</li>\n<li><strong>認証エラー（HTTPS）</strong>：GitHubはパスワード認証廃止済みです。Personal Access Token または SSH 鍵を設定してください。</li>\n<li><strong>upstream 未設定で毎回 origin main を書く</strong>：<code>git push -u origin main</code> を一度実行すれば、以降は <code>git push</code> だけで済みます。</li>\n<li><strong>pull と fetch の違いを知らない</strong>：fetch は取り込みのみ（マージしない）、pull は fetch + merge です。確認だけなら fetch が安全です。</li>\n</ul>\n\n<h2>よくあるトラブルと解決策</h2>\n<ul>\n  <li>\n    <strong>認証エラーが出る</strong>：GitHub では2021年以降、パスワード認証が廃止されました。\n    Personal Access Token（PAT）または SSH キーを使って認証します。\n  </li>\n  <li>\n    <strong>Updates were rejected（更新が拒否される）</strong>：リモートに自分より新しいコミットがあります。\n    <code>git pull</code> で取り込んでからプッシュします。\n  </li>\n  <li>\n    <strong>リモートの URL を変更したい</strong>：\n    <code>git remote set-url origin &lt;新しいURL&gt;</code> で変更できます。\n  </li>\n</ul>\n<pre><code># リモート URL の変更\ngit remote set-url origin git@github.com:yourname/my-project.git\n\n# 確認\ngit remote -v</code></pre>",
+  "conclusion": "remote で接続先を登録し、push で送信、pull で取り込みます。拒否されたら先に pull、認証は Token か SSH を設定。連携ができたら GitHub 上でのリポジトリ運用へ進みましょう。",
   "tags": [
     "git push",
     "git pull",
@@ -16,12 +16,12 @@
   "theme": "git - Git & GitHub 入門",
   "status": "published",
   "createdAt": "2026-05-30T03:49:58.928Z",
-  "updatedAt": "2026-05-30T03:49:58.934Z",
+  "updatedAt": "2026-05-30T05:17:45.337Z",
   "publishedAt": "2026-05-30T03:49:58.928Z",
   "metaTitle": "git push・git pull・git remote の使い方【初心者向け完全ガイド】 | StackShelf",
-  "metaDescription": "git push でリモートへ送信、git pull でローカルへ取り込む方法を解説。git remote の設定から origin の意味、fetch との違いまで初心者向けに丁寧に説明します。 図解・具体例つきで丁寧に解説します。",
+  "metaDescription": "git push・pull・remote の使い方。push 拒否の対処、fetch との違い、GitHub 認証（Token/SSH）。リモート連携を初めて設定する人向け。",
   "ogTitle": "git push・pull・remote の使い方 完全ガイド",
-  "ogDescription": "【Git初心者向け】ローカルとリモートのリポジトリ連携を git remote・git push・git pull で行う方法を、コマンド例とともにわかりやすく解説します。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
+  "ogDescription": "git push・pull・remote の使い方。push 拒否の対処、fetch との違い、GitHub 認証（Token/SSH）。リモート連携を初めて設定する人向け。",
   "knowledge": {
     "topic": "git",
     "courseId": "git",
@@ -43,6 +43,10 @@
     {
       "question": "git push -u の -u オプションは何をしていますか？",
       "answer": "ローカルブランチとリモートブランチを紐付け（トラッキング設定）します。一度 -u を付けてプッシュすれば、次回から git push だけで同じリモートブランチへ送信できるようになります。"
+    },
+    {
+      "question": "つまずいたときはどうすればいいですか？",
+      "answer": "エラーメッセージをそのまま検索し、公式ドキュメントを当たってください。小さなステップに分けて再現・確認すると原因を特定しやすくなります。"
     }
   ],
   "nextEpisodeHint": "次のエピソードでは GitHub のアカウント作成、リポジトリの作成・設定、README の書き方など GitHub 入門の基本を学びます。",
@@ -55,9 +59,9 @@
         "@context": "https://schema.org",
         "@type": "TechArticle",
         "headline": "push・pull・remote でリモート連携",
-        "description": "git push でリモートへ送信、git pull でローカルへ取り込む方法を解説。git remote の設定から origin の意味、fetch との違いまで初心者向けに丁寧に説明します。 図解・具体例つきで丁寧に解説します。",
+        "description": "git push・pull・remote の使い方。push 拒否の対処、fetch との違い、GitHub 認証（Token/SSH）。リモート連携を初めて設定する人向け。",
         "datePublished": "2026-05-30T03:49:58.928Z",
-        "dateModified": "2026-05-30T03:49:58.934Z",
+        "dateModified": "2026-05-30T05:17:45.337Z",
         "author": {
           "@type": "Organization",
           "name": "StackShelf",
@@ -78,7 +82,7 @@
         },
         "image": "https://ai-site-iota-nine.vercel.app/og-default.svg",
         "inLanguage": "ja",
-        "wordCount": 2461,
+        "wordCount": 2977,
         "mainEntityOfPage": {
           "@type": "WebPage",
           "@id": "https://ai-site-iota-nine.vercel.app/article/git-remote-push-pull"
@@ -173,6 +177,14 @@
               "@type": "Answer",
               "text": "ローカルブランチとリモートブランチを紐付け（トラッキング設定）します。一度 -u を付けてプッシュすれば、次回から git push だけで同じリモートブランチへ送信できるようになります。"
             }
+          },
+          {
+            "@type": "Question",
+            "name": "つまずいたときはどうすればいいですか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "エラーメッセージをそのまま検索し、公式ドキュメントを当たってください。小さなステップに分けて再現・確認すると原因を特定しやすくなります。"
+            }
           }
         ]
       }
@@ -262,7 +274,43 @@
           "@type": "Answer",
           "text": "ローカルブランチとリモートブランチを紐付け（トラッキング設定）します。一度 -u を付けてプッシュすれば、次回から git push だけで同じリモートブランチへ送信できるようになります。"
         }
+      },
+      {
+        "@type": "Question",
+        "name": "つまずいたときはどうすればいいですか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "エラーメッセージをそのまま検索し、公式ドキュメントを当たってください。小さなステップに分けて再現・確認すると原因を特定しやすくなります。"
+        }
       }
     ]
-  }
+  },
+  "internalLinkCandidates": [
+    {
+      "slug": "git-workflow-practice",
+      "title": "実務で使うGitワークフロー",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "github-pull-request",
+      "title": "Pull Requestと協業の流れ",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "github-basics",
+      "title": "GitHub入門：アカウントとリポジトリ",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "git-merge-conflict",
+      "title": "マージとコンフリクトの解決",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "git-branch-basics",
+      "title": "Gitブランチの作り方と切り替え：git branch・checkout・switchの基本",
+      "reason": "同じ講座の関連回です"
+    }
+  ],
+  "nextAction": "次のエピソードでは GitHub のアカウント作成、リポジトリの作成・設定、README の書き方など GitHub 入門の基本を学びます。"
 }

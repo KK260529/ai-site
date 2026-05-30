@@ -1,0 +1,38 @@
+{
+  "terms": {
+    "エラーメッセージ": {
+      "aliases": [
+        "error message",
+        "例外"
+      ],
+      "description": "実行時に表示される問題の説明"
+    },
+    "スタックトレース": {
+      "aliases": [
+        "stack trace",
+        "traceback"
+      ],
+      "description": "エラー発生箇所の呼び出し履歴"
+    },
+    "トラブルシューティング": {
+      "aliases": [
+        "障害対応",
+        "デバッグ"
+      ],
+      "description": "原因を切り分けて修正する作業"
+    },
+    "exit code": {
+      "aliases": [
+        "終了コード",
+        "ステータスコード"
+      ],
+      "description": "プロセス終了時の数値"
+    },
+    "CORS": {
+      "aliases": [
+        "Cross-Origin"
+      ],
+      "description": "ブラウザのオリジン間通信制限"
+    }
+  }
+}

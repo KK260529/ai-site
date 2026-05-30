@@ -1,0 +1,290 @@
+{
+  "id": "art_errors_http-fetch-failed-400-webhook-callback-418-rate-limited-740739",
+  "slug": "http-fetch-failed-400-webhook-callback-418-rate-limited-740739",
+  "title": "fetch failed: 400 /webhook/callback-418 - Rate limited の原因と解決法",
+  "summary": "fetch failed: 400 /webhook/callback-418 - Rate limited の原因と具体的な解決手順をまとめました。",
+  "body": "<h2>エラーメッセージ（全文）</h2>\n<p>検索でヒットしやすいよう、実際のコンソール出力をそのまま掲載します。</p>\n<pre><code>fetch failed: 400 /webhook/callback-418 - Rate limited</code></pre>\n\n<h2>このエラーとは</h2>\n<p>fetch failed: 400 /webhook/callback-418 - Rate limited は HTTP 開発でよく遭遇するエラーです。</p>\n<p><strong>想定環境:</strong> Windows / macOS / Linux</p>\n<p><strong>よく出る状況:</strong> REST / GraphQL / WebSocket</p>\n\n<h2>よくある原因</h2>\n<ul>\n<li>認証</li>\n<li>レート制限</li>\n<li>upstream</li>\n</ul><h2>解決方法</h2><h3>方法1: curl -v</h3><p>リクエスト/レスポンスヘッダを確認.</p>\n<h2>それでも直らないとき</h2>\n<p>バージョン情報（HTTP のバージョン、OS、実行コマンド）を添えて、エラーメッセージ全文と直前に変更した点を確認してください。ログの数行上にも原因の手がかりが残っていることが多いです。</p>",
+  "conclusion": "「fetch failed: 400 /webhook/callback-418 - Rate limited」は 認証 が原因のことが多いです。上記の手順で切り分けてください。",
+  "tags": [
+    "http",
+    "HTTPエラー",
+    "fetch failed",
+    "HTTP 400",
+    "fetch failed: 400 /webhook/callback-418 "
+  ],
+  "category": "HTTPエラー",
+  "theme": "errors - HTTP / Web API エラー・トラブル集",
+  "articleType": "error",
+  "status": "published",
+  "createdAt": "2026-05-30T05:48:34.780Z",
+  "updatedAt": "2026-05-30T05:48:34.780Z",
+  "publishedAt": "2026-05-30T05:48:34.780Z",
+  "metaTitle": "fetch failed: 400 /webhook/callback-418 - Rate limited の原因と…",
+  "metaDescription": "fetch failed: 400 /webhook/callback-418 - Rate limited が出たときの原因・確認手順・解決策を解説。REST / GraphQL / WebSocket。",
+  "ogTitle": "fetch failed: 400 /webhook/callback-418 - Rate limited の原因と解決法",
+  "ogDescription": "fetch failed: 400 /webhook/callback-418 - Rate limited が出たときの原因・確認手順・解決策を解説。REST / GraphQL / WebSocket。",
+  "knowledge": {
+    "topic": "errors",
+    "courseId": "http-errors",
+    "episode": 486
+  },
+  "faq": [
+    {
+      "question": "fetch failed: 400 /webhook/callback-418 - Rate limited とは何ですか？",
+      "answer": "fetch failed: 400 /webhook/callback-418 - Rate limited は HTTP 実行時に表示されるエラーです。認証"
+    },
+    {
+      "question": "fetch failed: 400 /webhook/callback-418 - Rate limited の原因は？",
+      "answer": "認証。レート制限。upstream。"
+    },
+    {
+      "question": "fetch failed: 400 /webhook/callback-418 - Rate limited の直し方は？",
+      "answer": "curl -v：リクエスト/レスポンスヘッダを確認."
+    },
+    {
+      "question": "HTTP で fetch failed が出るのはなぜ？",
+      "answer": "REST / GraphQL / WebSocket"
+    },
+    {
+      "question": "fetch failed: 400 /webhook/callback-418 - Rate limited を防ぐには？",
+      "answer": "。"
+    }
+  ],
+  "nextAction": "同じ HTTP カテゴリの関連エラーもあわせて確認してください。",
+  "internalLinkCandidates": [],
+  "ogImage": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+  "canonical": "https://ai-site-iota-nine.vercel.app/article/http-fetch-failed-400-webhook-callback-418-rate-limited-740739",
+  "jsonLd": {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@context": "https://schema.org",
+        "@type": "TechArticle",
+        "headline": "fetch failed: 400 /webhook/callback-418 - Rate limited の原因と解決法",
+        "description": "fetch failed: 400 /webhook/callback-418 - Rate limited が出たときの原因・確認手順・解決策を解説。REST / GraphQL / WebSocket。",
+        "datePublished": "2026-05-30T05:48:34.780Z",
+        "dateModified": "2026-05-30T05:48:34.780Z",
+        "author": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
+        },
+        "image": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+        "inLanguage": "ja",
+        "wordCount": 377,
+        "mainEntityOfPage": {
+          "@type": "WebPage",
+          "@id": "https://ai-site-iota-nine.vercel.app/article/http-fetch-failed-400-webhook-callback-418-rate-limited-740739"
+        },
+        "keywords": "http, HTTPエラー, fetch failed, HTTP 400, fetch failed: 400 /webhook/callback-418 ",
+        "articleSection": "HTTPエラー",
+        "url": "https://ai-site-iota-nine.vercel.app/article/http-fetch-failed-400-webhook-callback-418-rate-limited-740739",
+        "learningResourceType": "tutorial",
+        "educationalLevel": "beginner"
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "ホーム",
+            "item": "https://ai-site-iota-nine.vercel.app/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "errors",
+            "item": "https://ai-site-iota-nine.vercel.app/knowledge/errors"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "HTTP / Web API エラー・トラブル集",
+            "item": "https://ai-site-iota-nine.vercel.app/course/errors/http-errors"
+          },
+          {
+            "@type": "ListItem",
+            "position": 4,
+            "name": "fetch failed: 400 /webhook/callback-418 - Rate limited の原因と解決法",
+            "item": "https://ai-site-iota-nine.vercel.app/article/http-fetch-failed-400-webhook-callback-418-rate-limited-740739"
+          }
+        ]
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "Course",
+        "name": "HTTP / Web API エラー・トラブル集",
+        "description": "HTTP / Web API エラー・トラブル集",
+        "provider": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app"
+        },
+        "url": "https://ai-site-iota-nine.vercel.app/course/errors/http-errors",
+        "inLanguage": "ja",
+        "educationalLevel": "beginner",
+        "hasCourseInstance": {
+          "@type": "CourseInstance",
+          "courseMode": "online",
+          "courseWorkload": "PT1H"
+        }
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "fetch failed: 400 /webhook/callback-418 - Rate limited とは何ですか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "fetch failed: 400 /webhook/callback-418 - Rate limited は HTTP 実行時に表示されるエラーです。認証"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "fetch failed: 400 /webhook/callback-418 - Rate limited の原因は？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "認証。レート制限。upstream。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "fetch failed: 400 /webhook/callback-418 - Rate limited の直し方は？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "curl -v：リクエスト/レスポンスヘッダを確認."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "HTTP で fetch failed が出るのはなぜ？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "REST / GraphQL / WebSocket"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "fetch failed: 400 /webhook/callback-418 - Rate limited を防ぐには？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "。"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "breadcrumb": {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "ホーム",
+        "item": "https://ai-site-iota-nine.vercel.app/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "errors",
+        "item": "https://ai-site-iota-nine.vercel.app/knowledge/errors"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "HTTP / Web API エラー・トラブル集",
+        "item": "https://ai-site-iota-nine.vercel.app/course/errors/http-errors"
+      },
+      {
+        "@type": "ListItem",
+        "position": 4,
+        "name": "fetch failed: 400 /webhook/callback-418 - Rate limited の原因と解決法",
+        "item": "https://ai-site-iota-nine.vercel.app/article/http-fetch-failed-400-webhook-callback-418-rate-limited-740739"
+      }
+    ]
+  },
+  "courseSchema": {
+    "@context": "https://schema.org",
+    "@type": "Course",
+    "name": "HTTP / Web API エラー・トラブル集",
+    "description": "HTTP / Web API エラー・トラブル集",
+    "provider": {
+      "@type": "Organization",
+      "name": "StackShelf",
+      "url": "https://ai-site-iota-nine.vercel.app"
+    },
+    "url": "https://ai-site-iota-nine.vercel.app/course/errors/http-errors",
+    "inLanguage": "ja",
+    "educationalLevel": "beginner",
+    "hasCourseInstance": {
+      "@type": "CourseInstance",
+      "courseMode": "online",
+      "courseWorkload": "PT1H"
+    }
+  },
+  "faqSchema": {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "fetch failed: 400 /webhook/callback-418 - Rate limited とは何ですか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "fetch failed: 400 /webhook/callback-418 - Rate limited は HTTP 実行時に表示されるエラーです。認証"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "fetch failed: 400 /webhook/callback-418 - Rate limited の原因は？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "認証。レート制限。upstream。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "fetch failed: 400 /webhook/callback-418 - Rate limited の直し方は？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "curl -v：リクエスト/レスポンスヘッダを確認."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "HTTP で fetch failed が出るのはなぜ？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "REST / GraphQL / WebSocket"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "fetch failed: 400 /webhook/callback-418 - Rate limited を防ぐには？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "。"
+        }
+      }
+    ]
+  }
+}

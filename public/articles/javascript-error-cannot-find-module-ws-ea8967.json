@@ -1,0 +1,292 @@
+{
+  "id": "art_errors_javascript-error-cannot-find-module-ws-ea8967",
+  "slug": "javascript-error-cannot-find-module-ws-ea8967",
+  "title": "Error: Cannot find module 'ws' の原因と解決法",
+  "summary": "Error: Cannot find module 'ws' の原因と具体的な解決手順をまとめました。",
+  "body": "<h2>エラーメッセージ（全文）</h2>\n<p>検索でヒットしやすいよう、実際のコンソール出力をそのまま掲載します。</p>\n<pre><code>Error: Cannot find module 'ws'</code></pre>\n\n<h2>このエラーとは</h2>\n<p>Error: Cannot find module 'ws' は JavaScript 開発でよく遭遇するエラーです。</p>\n<p><strong>想定環境:</strong> Windows / macOS / Linux</p>\n<p><strong>よく出る状況:</strong> node 実行・npm install 前</p>\n\n<h2>よくある原因</h2>\n<ul>\n<li>node_modules 未作成</li>\n<li>package.json に未記載</li>\n<li>モノレポのワークスペース取り違え</li>\n</ul><h2>解決方法</h2><h3>方法1: インストール</h3><p>プロジェクトルートで npm install.</p><pre><code>npm install ws</code></pre><h3>方法2: package.json 確認</h3><p>dependencies に存在するか確認.</p>\n<h2>それでも直らないとき</h2>\n<p>バージョン情報（JavaScript のバージョン、OS、実行コマンド）を添えて、エラーメッセージ全文と直前に変更した点を確認してください。ログの数行上にも原因の手がかりが残っていることが多いです。</p>",
+  "conclusion": "「Error: Cannot find module 'ws'」は node_modules 未作成 が原因のことが多いです。上記の手順で切り分けてください。",
+  "tags": [
+    "javascript",
+    "JavaScriptエラー",
+    "Error",
+    "Cannot find module",
+    "ws",
+    "npm",
+    "Error: Cannot find module 'ws'"
+  ],
+  "category": "JavaScriptエラー",
+  "theme": "errors - JavaScript / Node.js エラー・トラブル集",
+  "articleType": "error",
+  "status": "published",
+  "createdAt": "2026-05-30T05:47:44.023Z",
+  "updatedAt": "2026-05-30T05:47:44.023Z",
+  "publishedAt": "2026-05-30T05:47:44.023Z",
+  "metaTitle": "Error: Cannot find module 'ws' の原因と解決法 | JavaScriptエラー",
+  "metaDescription": "Error: Cannot find module 'ws' が出たときの原因・確認手順・解決策を解説。node 実行・npm install 前。",
+  "ogTitle": "Error: Cannot find module 'ws' の原因と解決法",
+  "ogDescription": "Error: Cannot find module 'ws' が出たときの原因・確認手順・解決策を解説。node 実行・npm install 前。",
+  "knowledge": {
+    "topic": "errors",
+    "courseId": "javascript-errors",
+    "episode": 34
+  },
+  "faq": [
+    {
+      "question": "Error: Cannot find module 'ws' とは何ですか？",
+      "answer": "Error: Cannot find module 'ws' は JavaScript 実行時に表示されるエラーです。node_modules 未作成"
+    },
+    {
+      "question": "Error: Cannot find module 'ws' の原因は？",
+      "answer": "node_modules 未作成。package.json に未記載。モノレポのワークスペース取り違え。"
+    },
+    {
+      "question": "Error: Cannot find module 'ws' の直し方は？",
+      "answer": "インストール：プロジェクトルートで npm install. package.json 確認：dependencies に存在するか確認."
+    },
+    {
+      "question": "JavaScript で Error が出るのはなぜ？",
+      "answer": "node 実行・npm install 前"
+    },
+    {
+      "question": "Error: Cannot find module 'ws' を防ぐには？",
+      "answer": "。"
+    }
+  ],
+  "nextAction": "同じ JavaScript カテゴリの関連エラーもあわせて確認してください。",
+  "internalLinkCandidates": [],
+  "ogImage": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+  "canonical": "https://ai-site-iota-nine.vercel.app/article/javascript-error-cannot-find-module-ws-ea8967",
+  "jsonLd": {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@context": "https://schema.org",
+        "@type": "TechArticle",
+        "headline": "Error: Cannot find module 'ws' の原因と解決法",
+        "description": "Error: Cannot find module 'ws' が出たときの原因・確認手順・解決策を解説。node 実行・npm install 前。",
+        "datePublished": "2026-05-30T05:47:44.023Z",
+        "dateModified": "2026-05-30T05:47:44.023Z",
+        "author": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
+        },
+        "image": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+        "inLanguage": "ja",
+        "wordCount": 427,
+        "mainEntityOfPage": {
+          "@type": "WebPage",
+          "@id": "https://ai-site-iota-nine.vercel.app/article/javascript-error-cannot-find-module-ws-ea8967"
+        },
+        "keywords": "javascript, JavaScriptエラー, Error, Cannot find module, ws, npm, Error: Cannot find module 'ws'",
+        "articleSection": "JavaScriptエラー",
+        "url": "https://ai-site-iota-nine.vercel.app/article/javascript-error-cannot-find-module-ws-ea8967",
+        "learningResourceType": "tutorial",
+        "educationalLevel": "beginner"
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "ホーム",
+            "item": "https://ai-site-iota-nine.vercel.app/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "errors",
+            "item": "https://ai-site-iota-nine.vercel.app/knowledge/errors"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "JavaScript / Node.js エラー・トラブル集",
+            "item": "https://ai-site-iota-nine.vercel.app/course/errors/javascript-errors"
+          },
+          {
+            "@type": "ListItem",
+            "position": 4,
+            "name": "Error: Cannot find module 'ws' の原因と解決法",
+            "item": "https://ai-site-iota-nine.vercel.app/article/javascript-error-cannot-find-module-ws-ea8967"
+          }
+        ]
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "Course",
+        "name": "JavaScript / Node.js エラー・トラブル集",
+        "description": "JavaScript / Node.js エラー・トラブル集",
+        "provider": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app"
+        },
+        "url": "https://ai-site-iota-nine.vercel.app/course/errors/javascript-errors",
+        "inLanguage": "ja",
+        "educationalLevel": "beginner",
+        "hasCourseInstance": {
+          "@type": "CourseInstance",
+          "courseMode": "online",
+          "courseWorkload": "PT1H"
+        }
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "Error: Cannot find module 'ws' とは何ですか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Error: Cannot find module 'ws' は JavaScript 実行時に表示されるエラーです。node_modules 未作成"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Error: Cannot find module 'ws' の原因は？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "node_modules 未作成。package.json に未記載。モノレポのワークスペース取り違え。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Error: Cannot find module 'ws' の直し方は？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "インストール：プロジェクトルートで npm install. package.json 確認：dependencies に存在するか確認."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "JavaScript で Error が出るのはなぜ？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "node 実行・npm install 前"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Error: Cannot find module 'ws' を防ぐには？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "。"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "breadcrumb": {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "ホーム",
+        "item": "https://ai-site-iota-nine.vercel.app/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "errors",
+        "item": "https://ai-site-iota-nine.vercel.app/knowledge/errors"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "JavaScript / Node.js エラー・トラブル集",
+        "item": "https://ai-site-iota-nine.vercel.app/course/errors/javascript-errors"
+      },
+      {
+        "@type": "ListItem",
+        "position": 4,
+        "name": "Error: Cannot find module 'ws' の原因と解決法",
+        "item": "https://ai-site-iota-nine.vercel.app/article/javascript-error-cannot-find-module-ws-ea8967"
+      }
+    ]
+  },
+  "courseSchema": {
+    "@context": "https://schema.org",
+    "@type": "Course",
+    "name": "JavaScript / Node.js エラー・トラブル集",
+    "description": "JavaScript / Node.js エラー・トラブル集",
+    "provider": {
+      "@type": "Organization",
+      "name": "StackShelf",
+      "url": "https://ai-site-iota-nine.vercel.app"
+    },
+    "url": "https://ai-site-iota-nine.vercel.app/course/errors/javascript-errors",
+    "inLanguage": "ja",
+    "educationalLevel": "beginner",
+    "hasCourseInstance": {
+      "@type": "CourseInstance",
+      "courseMode": "online",
+      "courseWorkload": "PT1H"
+    }
+  },
+  "faqSchema": {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "Error: Cannot find module 'ws' とは何ですか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Error: Cannot find module 'ws' は JavaScript 実行時に表示されるエラーです。node_modules 未作成"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Error: Cannot find module 'ws' の原因は？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "node_modules 未作成。package.json に未記載。モノレポのワークスペース取り違え。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Error: Cannot find module 'ws' の直し方は？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "インストール：プロジェクトルートで npm install. package.json 確認：dependencies に存在するか確認."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "JavaScript で Error が出るのはなぜ？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "node 実行・npm install 前"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Error: Cannot find module 'ws' を防ぐには？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "。"
+        }
+      }
+    ]
+  }
+}

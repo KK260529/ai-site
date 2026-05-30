@@ -2,9 +2,9 @@
   "id": "art_git_github-basics",
   "slug": "github-basics",
   "title": "GitHub入門：アカウントとリポジトリ",
-  "summary": "GitHub のアカウント作成からリポジトリの作成・設定、README の書き方、.gitignore の使い方まで、GitHub を使い始めるための基礎知識を実践的に解説する。",
-  "body": "<h2>GitHub とは何か</h2>\n<p>\n  <strong>GitHub</strong> は Git リポジトリをインターネット上でホスティングするサービスです。\n  単なるコード保存場所ではなく、Pull Request によるコードレビュー、\n  Issues によるタスク管理、GitHub Actions による自動デプロイなど、\n  開発に必要な機能が一つにまとまったプラットフォームです。\n  世界中の開発者が利用しており、オープンソースプロジェクトの中心地でもあります。\n</p>\n<p>\n  個人開発から大規模なチーム開発まで、現代のソフトウェア開発において\n  GitHub は事実上の標準ツールとなっています。\n  エンジニアとして活動するうえで GitHub の基本操作は必須のスキルです。\n</p>\n\n<h2>アカウントを作成する</h2>\n<p>\n  GitHub のアカウントは <code>https://github.com</code> から無料で作成できます。\n  メールアドレス、ユーザー名、パスワードを登録するだけで始められます。\n  ユーザー名はプロフィールの URL になるため、\n  本名や仕事で使いやすいわかりやすい名前を選びましょう。\n</p>\n<p>\n  アカウント作成後は二要素認証（2FA）を設定することを強くおすすめします。\n  セキュリティを高め、アカウントの乗っ取りを防ぐことができます。\n</p>\n\n<h3>SSH キーの設定</h3>\n<p>\n  コマンドラインから GitHub を操作するには、SSH キーを登録しておくと便利です。\n  毎回パスワード（PAT）を入力しなくてよくなり、作業効率が上がります。\n</p>\n<pre><code># SSH キーを生成する（メールアドレスは自分のものを使用）\nssh-keygen -t ed25519 -C \"your_email@example.com\"\n\n# 公開鍵を表示してコピーする\ncat ~/.ssh/id_ed25519.pub</code></pre>\n<p>\n  表示された公開鍵をコピーし、GitHub の\n  「Settings → SSH and GPG keys → New SSH key」から登録します。\n  登録後、次のコマンドで接続を確認できます。\n</p>\n<pre><code>ssh -T git@github.com\n# Hi yourname! You've successfully authenticated...</code></pre>\n\n<h2>リポジトリを作成する</h2>\n<p>\n  GitHub 上でリポジトリを新規作成するには、\n  画面右上の「＋」ボタンから「New repository」を選択します。\n  設定項目のポイントを以下で説明します。\n</p>\n<ul>\n  <li><strong>Repository name</strong>：プロジェクトの内容がわかる名前（例：<code>my-portfolio</code>）</li>\n  <li><strong>Public / Private</strong>：Public は誰でも閲覧可能、Private は自分（とチーム）のみ</li>\n  <li><strong>Initialize this repository with a README</strong>：チェックを入れると README.md が自動作成される</li>\n  <li><strong>Add .gitignore</strong>：使用言語・フレームワークを選ぶと適切な .gitignore が自動生成される</li>\n</ul>\n<p>\n  作成後、ローカルリポジトリと連携させます。\n</p>\n<pre><code># ローカルリポジトリがある場合\ngit remote add origin git@github.com:yourname/my-portfolio.git\ngit branch -M main\ngit push -u origin main</code></pre>\n\n<h2>README.md を書く</h2>\n<p>\n  <strong>README.md</strong> はリポジトリのトップページに表示される説明文です。\n  プロジェクトの目的・使い方・インストール手順などを Markdown 形式で記述します。\n  丁寧な README を書くと、チームメンバーや OSS ユーザーがスムーズに理解できます。\n</p>\n<pre><code># プロジェクト名\n\n## 概要\nこのプロジェクトは〇〇を行うための Web アプリです。\n\n## インストール方法\n```bash\ngit clone https://github.com/yourname/my-portfolio.git\ncd my-portfolio\nnpm install\nnpm start\n```\n\n## 使い方\n1. ブラウザで http://localhost:3000 を開く\n2. ...\n\n## ライセンス\nMIT</code></pre>\n<p>\n  最低でも「概要」「インストール手順」「使い方」の3項目を書くだけで\n  ぐっとプロらしいリポジトリになります。\n</p>\n\n<h3>Markdown の基本記法</h3>\n<p>\n  README を書く際によく使う Markdown 記法を覚えておきましょう。\n</p>\n<ul>\n  <li><code># 見出し1</code>、<code>## 見出し2</code>：見出しを作る</li>\n  <li><code>**太字**</code>：テキストを太字にする</li>\n  <li><code>- 項目</code>：箇条書きを作る</li>\n  <li><code>`コード`</code>：インラインコードを表示する</li>\n  <li><code>```bash ... ```</code>：コードブロックを作る</li>\n</ul>\n\n<h2>.gitignore の使い方</h2>\n<p>\n  <strong>.gitignore</strong> は Git の管理から除外したいファイルやディレクトリを指定するファイルです。\n  パスワードや API キーが入った設定ファイル、ビルド生成物、\n  依存パッケージ（<code>node_modules</code>）などは Git で管理する必要がなく、\n  むしろ誤って公開してしまうと重大なセキュリティ事故につながります。\n</p>\n<pre><code># .gitignore の例\nnode_modules/\ndist/\n.env\n.env.local\n*.log\n.DS_Store\nThumbs.db</code></pre>\n<p>\n  <code>.gitignore</code> はリポジトリのルートディレクトリに配置します。\n  <code>#</code> で始まる行はコメントです。\n  ワイルドカード（<code>*</code>）でパターンマッチが使えます。\n</p>\n\n<h3>すでに追跡されているファイルを除外する</h3>\n<p>\n  .gitignore に追加する前にすでに Git が追跡してしまっているファイルは、\n  <code>.gitignore</code> を追記しただけでは除外されません。\n  次のコマンドでキャッシュを削除してから再コミットします。\n</p>\n<pre><code># キャッシュから削除（ファイル自体は残る）\ngit rm --cached .env\n\n# .gitignore に .env を追記してコミット\ngit add .gitignore\ngit commit -m \"chore: .env を追跡対象から除外\"</code></pre>\n\n<h2>Issues でタスクを管理する</h2>\n<p>\n  GitHub の <strong>Issues</strong> は、バグ報告・機能要望・タスク管理に使える掲示板機能です。\n  個人開発でも自分の TODO リストとして活用できます。\n  Issues にラベル（<code>bug</code>、<code>enhancement</code>、<code>documentation</code>など）を付けると\n  整理しやすくなります。\n</p>\n<p>\n  コミットメッセージに <code>Fixes #3</code> のように Issue 番号を記載すると、\n  そのコミットがマージされた際に対応する Issue が自動的にクローズされます。\n</p>\n<pre><code>git commit -m \"feat: ログイン機能を追加 Fixes #3\"</code></pre>\n\n<h2>GitHub の便利機能を活用する</h2>\n<ul>\n  <li>\n    <strong>Pinned repositories</strong>：プロフィールページに最大6つのリポジトリを固定表示できます。\n    ポートフォリオとして活用しましょう。\n  </li>\n  <li>\n    <strong>GitHub Pages</strong>：静的サイトを無料でホスティングできます。\n    HTML/CSS/JavaScript で作ったサイトをすぐに公開できます。\n  </li>\n  <li>\n    <strong>Insights → Contributors</strong>：リポジトリへの貢献履歴が可視化されます。\n    チームの活動量を把握するのに便利です。\n  </li>\n</ul>",
-  "conclusion": "このエピソードでは GitHub のアカウント作成から、リポジトリ作成、README.md の書き方、.gitignore の設定方法まで学びました。特に .gitignore で機密情報を管理対象外にすることは、セキュリティ上非常に重要です。次のエピソードでは Pull Request を使った協業の流れを学びます。",
+  "summary": "GitHubのアカウント作成、リポジトリ作成、README.md と .gitignore の書き方、Issues の活用を解説。Git と組み合わせたクラウド運用の入口を押さえます。",
+  "body": "<h2>結論：GitHubはGitリポジトリをクラウドで共有・公開するサービス</h2>\n<p>GitHubでは<strong>アカウント作成 → リポジトリ作成 → README と .gitignore を整備 → Issues でタスク管理</strong>が基本フローです。ローカルの git push と組み合わせることで、バックアップ・共同編集・履歴の可視化が一度に実現します。</p>\n\n<h2>GitHub とは何か</h2>\n<p>\n  <strong>GitHub</strong> は Git リポジトリをインターネット上でホスティングするサービスです。\n  単なるコード保存場所ではなく、Pull Request によるコードレビュー、\n  Issues によるタスク管理、GitHub Actions による自動デプロイなど、\n  開発に必要な機能が一つにまとまったプラットフォームです。\n  世界中の開発者が利用しており、オープンソースプロジェクトの中心地でもあります。\n</p>\n<p>\n  個人開発から大規模なチーム開発まで、現代のソフトウェア開発において\n  GitHub は事実上の標準ツールとなっています。\n  エンジニアとして活動するうえで GitHub の基本操作は必須のスキルです。\n</p>\n\n<h2>アカウントを作成する</h2>\n<p>\n  GitHub のアカウントは <code>https://github.com</code> から無料で作成できます。\n  メールアドレス、ユーザー名、パスワードを登録するだけで始められます。\n  ユーザー名はプロフィールの URL になるため、\n  本名や仕事で使いやすいわかりやすい名前を選びましょう。\n</p>\n<p>\n  アカウント作成後は二要素認証（2FA）を設定することを強くおすすめします。\n  セキュリティを高め、アカウントの乗っ取りを防ぐことができます。\n</p>\n\n<h3>SSH キーの設定</h3>\n<p>\n  コマンドラインから GitHub を操作するには、SSH キーを登録しておくと便利です。\n  毎回パスワード（PAT）を入力しなくてよくなり、作業効率が上がります。\n</p>\n<pre><code># SSH キーを生成する（メールアドレスは自分のものを使用）\nssh-keygen -t ed25519 -C \"your_email@example.com\"\n\n# 公開鍵を表示してコピーする\ncat ~/.ssh/id_ed25519.pub</code></pre>\n<p>\n  表示された公開鍵をコピーし、GitHub の\n  「Settings → SSH and GPG keys → New SSH key」から登録します。\n  登録後、次のコマンドで接続を確認できます。\n</p>\n<pre><code>ssh -T git@github.com\n# Hi yourname! You've successfully authenticated...</code></pre>\n\n<h2>リポジトリを作成する</h2>\n<p>\n  GitHub 上でリポジトリを新規作成するには、\n  画面右上の「＋」ボタンから「New repository」を選択します。\n  設定項目のポイントを以下で説明します。\n</p>\n<ul>\n  <li><strong>Repository name</strong>：プロジェクトの内容がわかる名前（例：<code>my-portfolio</code>）</li>\n  <li><strong>Public / Private</strong>：Public は誰でも閲覧可能、Private は自分（とチーム）のみ</li>\n  <li><strong>Initialize this repository with a README</strong>：チェックを入れると README.md が自動作成される</li>\n  <li><strong>Add .gitignore</strong>：使用言語・フレームワークを選ぶと適切な .gitignore が自動生成される</li>\n</ul>\n<p>\n  作成後、ローカルリポジトリと連携させます。\n</p>\n<pre><code># ローカルリポジトリがある場合\ngit remote add origin git@github.com:yourname/my-portfolio.git\ngit branch -M main\ngit push -u origin main</code></pre>\n\n<h2>README.md を書く</h2>\n<p>\n  <strong>README.md</strong> はリポジトリのトップページに表示される説明文です。\n  プロジェクトの目的・使い方・インストール手順などを Markdown 形式で記述します。\n  丁寧な README を書くと、チームメンバーや OSS ユーザーがスムーズに理解できます。\n</p>\n<pre><code># プロジェクト名\n\n## 概要\nこのプロジェクトは〇〇を行うための Web アプリです。\n\n## インストール方法\n```bash\ngit clone https://github.com/yourname/my-portfolio.git\ncd my-portfolio\nnpm install\nnpm start\n```\n\n## 使い方\n1. ブラウザで http://localhost:3000 を開く\n2. ...\n\n## ライセンス\nMIT</code></pre>\n<p>\n  最低でも「概要」「インストール手順」「使い方」の3項目を書くだけで\n  ぐっとプロらしいリポジトリになります。\n</p>\n\n<h3>Markdown の基本記法</h3>\n<p>\n  README を書く際によく使う Markdown 記法を覚えておきましょう。\n</p>\n<ul>\n  <li><code># 見出し1</code>、<code>## 見出し2</code>：見出しを作る</li>\n  <li><code>**太字**</code>：テキストを太字にする</li>\n  <li><code>- 項目</code>：箇条書きを作る</li>\n  <li><code>`コード`</code>：インラインコードを表示する</li>\n  <li><code>```bash ... ```</code>：コードブロックを作る</li>\n</ul>\n\n<h2>.gitignore の使い方</h2>\n<p>\n  <strong>.gitignore</strong> は Git の管理から除外したいファイルやディレクトリを指定するファイルです。\n  パスワードや API キーが入った設定ファイル、ビルド生成物、\n  依存パッケージ（<code>node_modules</code>）などは Git で管理する必要がなく、\n  むしろ誤って公開してしまうと重大なセキュリティ事故につながります。\n</p>\n<pre><code># .gitignore の例\nnode_modules/\ndist/\n.env\n.env.local\n*.log\n.DS_Store\nThumbs.db</code></pre>\n<p>\n  <code>.gitignore</code> はリポジトリのルートディレクトリに配置します。\n  <code>#</code> で始まる行はコメントです。\n  ワイルドカード（<code>*</code>）でパターンマッチが使えます。\n</p>\n\n<h3>すでに追跡されているファイルを除外する</h3>\n<p>\n  .gitignore に追加する前にすでに Git が追跡してしまっているファイルは、\n  <code>.gitignore</code> を追記しただけでは除外されません。\n  次のコマンドでキャッシュを削除してから再コミットします。\n</p>\n<pre><code># キャッシュから削除（ファイル自体は残る）\ngit rm --cached .env\n\n# .gitignore に .env を追記してコミット\ngit add .gitignore\ngit commit -m \"chore: .env を追跡対象から除外\"</code></pre>\n\n<h2>Issues でタスクを管理する</h2>\n<p>\n  GitHub の <strong>Issues</strong> は、バグ報告・機能要望・タスク管理に使える掲示板機能です。\n  個人開発でも自分の TODO リストとして活用できます。\n  Issues にラベル（<code>bug</code>、<code>enhancement</code>、<code>documentation</code>など）を付けると\n  整理しやすくなります。\n</p>\n<p>\n  コミットメッセージに <code>Fixes #3</code> のように Issue 番号を記載すると、\n  そのコミットがマージされた際に対応する Issue が自動的にクローズされます。\n</p>\n<pre><code>git commit -m \"feat: ログイン機能を追加 Fixes #3\"</code></pre>\n\n<h2>よくあるつまずきと失敗例</h2>\n<h3>GitHub初心者が陥りやすい点</h3>\n<ul>\n<li><strong>Public/Private を間違える</strong>：APIキーや個人情報を含むリポジトリは必ず Private に。公開後に secret を消しても履歴に残ります。</li>\n<li><strong>.gitignore なしで node_modules を push</strong>：巨大な依存フォルダがリポジトリを圧迫します。GitHub のテンプレートから .gitignore を選びましょう。</li>\n<li><strong>README が空のまま</strong>：プロジェクトの目的・セットアップ手順がないと、他人（未来の自分も）が使えません。clone 後に何をすればよいかを書いておきましょう。</li>\n</ul>\n\n<h2>GitHub の便利機能を活用する</h2>\n<ul>\n  <li>\n    <strong>Pinned repositories</strong>：プロフィールページに最大6つのリポジトリを固定表示できます。\n    ポートフォリオとして活用しましょう。\n  </li>\n  <li>\n    <strong>GitHub Pages</strong>：静的サイトを無料でホスティングできます。\n    HTML/CSS/JavaScript で作ったサイトをすぐに公開できます。\n  </li>\n  <li>\n    <strong>Insights → Contributors</strong>：リポジトリへの貢献履歴が可視化されます。\n    チームの活動量を把握するのに便利です。\n  </li>\n</ul>",
+  "conclusion": "GitHubはGitのリモートホスティングです。Public/Private を適切に選び、README と .gitignore を整え、Issues でタスクを管理しましょう。次は Pull Request でレビュー付きマージを学びます。",
   "tags": [
     "github 使い方",
     "gitignore",
@@ -16,12 +16,12 @@
   "theme": "git - Git & GitHub 入門",
   "status": "published",
   "createdAt": "2026-05-30T03:49:59.391Z",
-  "updatedAt": "2026-05-30T03:49:59.396Z",
+  "updatedAt": "2026-05-30T05:17:45.456Z",
   "publishedAt": "2026-05-30T03:49:59.391Z",
   "metaTitle": "GitHub 入門｜アカウント作成からリポジトリ操作まで【初心者向け】",
-  "metaDescription": "【Git初心者向け】GitHub の使い方を初心者向けに解説。アカウント作成、リポジトリ作成、README.md の書き方、.gitignore の設定方法をステップバイステップで説明します。 図解・具体例つきで丁寧に解説します。",
+  "metaDescription": "GitHub入門。アカウント・リポジトリ作成、README/.gitignore、Issues活用、Public/Privateの注意点。GitHubを初めて使う人向け。",
   "ogTitle": "GitHub 入門｜アカウントとリポジトリの基本操作",
-  "ogDescription": "【Git初心者向け】GitHub アカウントの作成からリポジトリの作成・管理まで。README や .gitignore など実務で欠かせない基礎を初心者向けに丁寧に解説します。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
+  "ogDescription": "GitHub入門。アカウント・リポジトリ作成、README/.gitignore、Issues活用、Public/Privateの注意点。GitHubを初めて使う人向け。",
   "knowledge": {
     "topic": "git",
     "courseId": "git",
@@ -43,6 +43,10 @@
     {
       "question": "README.md は必ず書かなければなりませんか？",
       "answer": "必須ではありませんが、書くことを強くおすすめします。README があるとリポジトリの目的がすぐわかり、チームメンバーや将来の自分が助かります。最低限「概要」と「使い方」だけでも書いておきましょう。"
+    },
+    {
+      "question": "つまずいたときはどうすればいいですか？",
+      "answer": "エラーメッセージをそのまま検索し、公式ドキュメントを当たってください。小さなステップに分けて再現・確認すると原因を特定しやすくなります。"
     }
   ],
   "nextEpisodeHint": "次のエピソードでは、チームで協力して開発するために欠かせない Pull Request の作成・レビュー・マージの流れを学びます。",
@@ -55,9 +59,9 @@
         "@context": "https://schema.org",
         "@type": "TechArticle",
         "headline": "GitHub入門：アカウントとリポジトリ",
-        "description": "【Git初心者向け】GitHub の使い方を初心者向けに解説。アカウント作成、リポジトリ作成、README.md の書き方、.gitignore の設定方法をステップバイステップで説明します。 図解・具体例つきで丁寧に解説します。",
+        "description": "GitHub入門。アカウント・リポジトリ作成、README/.gitignore、Issues活用、Public/Privateの注意点。GitHubを初めて使う人向け。",
         "datePublished": "2026-05-30T03:49:59.391Z",
-        "dateModified": "2026-05-30T03:49:59.396Z",
+        "dateModified": "2026-05-30T05:17:45.456Z",
         "author": {
           "@type": "Organization",
           "name": "StackShelf",
@@ -78,7 +82,7 @@
         },
         "image": "https://ai-site-iota-nine.vercel.app/og-default.svg",
         "inLanguage": "ja",
-        "wordCount": 2759,
+        "wordCount": 3176,
         "mainEntityOfPage": {
           "@type": "WebPage",
           "@id": "https://ai-site-iota-nine.vercel.app/article/github-basics"
@@ -173,6 +177,14 @@
               "@type": "Answer",
               "text": "必須ではありませんが、書くことを強くおすすめします。README があるとリポジトリの目的がすぐわかり、チームメンバーや将来の自分が助かります。最低限「概要」と「使い方」だけでも書いておきましょう。"
             }
+          },
+          {
+            "@type": "Question",
+            "name": "つまずいたときはどうすればいいですか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "エラーメッセージをそのまま検索し、公式ドキュメントを当たってください。小さなステップに分けて再現・確認すると原因を特定しやすくなります。"
+            }
           }
         ]
       }
@@ -262,7 +274,43 @@
           "@type": "Answer",
           "text": "必須ではありませんが、書くことを強くおすすめします。README があるとリポジトリの目的がすぐわかり、チームメンバーや将来の自分が助かります。最低限「概要」と「使い方」だけでも書いておきましょう。"
         }
+      },
+      {
+        "@type": "Question",
+        "name": "つまずいたときはどうすればいいですか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "エラーメッセージをそのまま検索し、公式ドキュメントを当たってください。小さなステップに分けて再現・確認すると原因を特定しやすくなります。"
+        }
       }
     ]
-  }
+  },
+  "internalLinkCandidates": [
+    {
+      "slug": "git-workflow-practice",
+      "title": "実務で使うGitワークフロー",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "github-pull-request",
+      "title": "Pull Requestと協業の流れ",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "git-remote-push-pull",
+      "title": "push・pull・remote でリモート連携",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "git-merge-conflict",
+      "title": "マージとコンフリクトの解決",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "git-branch-basics",
+      "title": "Gitブランチの作り方と切り替え：git branch・checkout・switchの基本",
+      "reason": "同じ講座の関連回です"
+    }
+  ],
+  "nextAction": "次のエピソードでは、チームで協力して開発するために欠かせない Pull Request の作成・レビュー・マージの流れを学びます。"
 }

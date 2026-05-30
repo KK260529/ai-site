@@ -1,0 +1,290 @@
+{
+  "id": "art_errors_sql-error-1064-42000-you-have-an-error-in-your-sql-syntax-near-selec-at-line-4-2065fd",
+  "slug": "sql-error-1064-42000-you-have-an-error-in-your-sql-syntax-near-selec-at-line-4-2065fd",
+  "title": "ERROR 1064 (42000): You have an error in your SQL syntax near 'SELEC' at line 4 の原因と解決法",
+  "summary": "ERROR 1064 (42000): You have an error in your SQL syntax near 'SELEC' at line 4 の原因と具体的な解決手順をまとめました。",
+  "body": "<h2>エラーメッセージ（全文）</h2>\n<p>検索でヒットしやすいよう、実際のコンソール出力をそのまま掲載します。</p>\n<pre><code>ERROR 1064 (42000): You have an error in your SQL syntax near 'SELEC' at line 4</code></pre>\n\n<h2>このエラーとは</h2>\n<p>ERROR 1064 (42000): You have an error in your SQL syntax near 'SELEC' at line 4 は SQL 開発でよく遭遇するエラーです。</p>\n<p><strong>想定環境:</strong> Windows / macOS / Linux</p>\n<p><strong>よく出る状況:</strong> SQL 手入力・ORM 生成クエリ</p>\n\n<h2>よくある原因</h2>\n<ul>\n<li>typo</li>\n<li>予約語</li>\n<li>クォート不足</li>\n</ul><h2>解決方法</h2><h3>方法1: 構文チェック</h3><p>キーワード綴りとカンマ位置を確認.</p>\n<h2>それでも直らないとき</h2>\n<p>バージョン情報（SQL のバージョン、OS、実行コマンド）を添えて、エラーメッセージ全文と直前に変更した点を確認してください。ログの数行上にも原因の手がかりが残っていることが多いです。</p>",
+  "conclusion": "「ERROR 1064 (42000): You have an error in your SQL syntax near 'SELEC' at line 4」は typo が原因のことが多いです。上記の手順で切り分けてください。",
+  "tags": [
+    "sql",
+    "SQLエラー",
+    "ERROR 1064",
+    "syntax",
+    "ERROR 1064 (42000): You have an error in"
+  ],
+  "category": "SQLエラー",
+  "theme": "errors - SQL / データベース エラー・トラブル集",
+  "articleType": "error",
+  "status": "published",
+  "createdAt": "2026-05-30T05:48:02.440Z",
+  "updatedAt": "2026-05-30T05:48:02.440Z",
+  "publishedAt": "2026-05-30T05:48:02.440Z",
+  "metaTitle": "ERROR 1064 (42000): You have an error in your SQL syntax ne…",
+  "metaDescription": "ERROR 1064 (42000): You have an error in your SQL syntax near 'SELEC' at line 4 が出たときの原因・確認手順・解決策を解説。SQL 手入力・ORM 生成クエリ。",
+  "ogTitle": "ERROR 1064 (42000): You have an error in your SQL syntax near 'SELEC' at line 4 の原因と解決法",
+  "ogDescription": "ERROR 1064 (42000): You have an error in your SQL syntax near 'SELEC' at line 4 が出たときの原因・確認手順・解決策を解説。SQL 手入力・ORM 生成クエリ。",
+  "knowledge": {
+    "topic": "errors",
+    "courseId": "sql-errors",
+    "episode": 42
+  },
+  "faq": [
+    {
+      "question": "ERROR 1064 (42000): You have an error in your SQL syntax near 'SELEC' at line 4 とは何ですか？",
+      "answer": "ERROR 1064 (42000): You have an error in your SQL syntax near 'SELEC' at line 4 は SQL 実行時に表示されるエラーです。typo"
+    },
+    {
+      "question": "ERROR 1064 (42000): You have an error in your SQL syntax near 'SELEC' at line 4 の原因は？",
+      "answer": "typo。予約語。クォート不足。"
+    },
+    {
+      "question": "ERROR 1064 (42000): You have an error in your SQL syntax near 'SELEC' at line 4 の直し方は？",
+      "answer": "構文チェック：キーワード綴りとカンマ位置を確認."
+    },
+    {
+      "question": "SQL で ERROR 1064 が出るのはなぜ？",
+      "answer": "SQL 手入力・ORM 生成クエリ"
+    },
+    {
+      "question": "ERROR 1064 (42000): You have an error in your SQL syntax near 'SELEC' at line 4 を防ぐには？",
+      "answer": "。"
+    }
+  ],
+  "nextAction": "同じ SQL カテゴリの関連エラーもあわせて確認してください。",
+  "internalLinkCandidates": [],
+  "ogImage": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+  "canonical": "https://ai-site-iota-nine.vercel.app/article/sql-error-1064-42000-you-have-an-error-in-your-sql-syntax-near-selec-at-line-4-2065fd",
+  "jsonLd": {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@context": "https://schema.org",
+        "@type": "TechArticle",
+        "headline": "ERROR 1064 (42000): You have an error in your SQL syntax near 'SELEC' at line 4 の原因と解決法",
+        "description": "ERROR 1064 (42000): You have an error in your SQL syntax near 'SELEC' at line 4 が出たときの原因・確認手順・解決策を解説。SQL 手入力・ORM 生成クエリ。",
+        "datePublished": "2026-05-30T05:48:02.440Z",
+        "dateModified": "2026-05-30T05:48:02.440Z",
+        "author": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
+        },
+        "image": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+        "inLanguage": "ja",
+        "wordCount": 397,
+        "mainEntityOfPage": {
+          "@type": "WebPage",
+          "@id": "https://ai-site-iota-nine.vercel.app/article/sql-error-1064-42000-you-have-an-error-in-your-sql-syntax-near-selec-at-line-4-2065fd"
+        },
+        "keywords": "sql, SQLエラー, ERROR 1064, syntax, ERROR 1064 (42000): You have an error in",
+        "articleSection": "SQLエラー",
+        "url": "https://ai-site-iota-nine.vercel.app/article/sql-error-1064-42000-you-have-an-error-in-your-sql-syntax-near-selec-at-line-4-2065fd",
+        "learningResourceType": "tutorial",
+        "educationalLevel": "beginner"
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "ホーム",
+            "item": "https://ai-site-iota-nine.vercel.app/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "errors",
+            "item": "https://ai-site-iota-nine.vercel.app/knowledge/errors"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "SQL / データベース エラー・トラブル集",
+            "item": "https://ai-site-iota-nine.vercel.app/course/errors/sql-errors"
+          },
+          {
+            "@type": "ListItem",
+            "position": 4,
+            "name": "ERROR 1064 (42000): You have an error in your SQL syntax near 'SELEC' at line 4 の原因と解決法",
+            "item": "https://ai-site-iota-nine.vercel.app/article/sql-error-1064-42000-you-have-an-error-in-your-sql-syntax-near-selec-at-line-4-2065fd"
+          }
+        ]
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "Course",
+        "name": "SQL / データベース エラー・トラブル集",
+        "description": "SQL / データベース エラー・トラブル集",
+        "provider": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app"
+        },
+        "url": "https://ai-site-iota-nine.vercel.app/course/errors/sql-errors",
+        "inLanguage": "ja",
+        "educationalLevel": "beginner",
+        "hasCourseInstance": {
+          "@type": "CourseInstance",
+          "courseMode": "online",
+          "courseWorkload": "PT1H"
+        }
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "ERROR 1064 (42000): You have an error in your SQL syntax near 'SELEC' at line 4 とは何ですか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "ERROR 1064 (42000): You have an error in your SQL syntax near 'SELEC' at line 4 は SQL 実行時に表示されるエラーです。typo"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "ERROR 1064 (42000): You have an error in your SQL syntax near 'SELEC' at line 4 の原因は？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "typo。予約語。クォート不足。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "ERROR 1064 (42000): You have an error in your SQL syntax near 'SELEC' at line 4 の直し方は？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "構文チェック：キーワード綴りとカンマ位置を確認."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "SQL で ERROR 1064 が出るのはなぜ？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "SQL 手入力・ORM 生成クエリ"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "ERROR 1064 (42000): You have an error in your SQL syntax near 'SELEC' at line 4 を防ぐには？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "。"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "breadcrumb": {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "ホーム",
+        "item": "https://ai-site-iota-nine.vercel.app/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "errors",
+        "item": "https://ai-site-iota-nine.vercel.app/knowledge/errors"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "SQL / データベース エラー・トラブル集",
+        "item": "https://ai-site-iota-nine.vercel.app/course/errors/sql-errors"
+      },
+      {
+        "@type": "ListItem",
+        "position": 4,
+        "name": "ERROR 1064 (42000): You have an error in your SQL syntax near 'SELEC' at line 4 の原因と解決法",
+        "item": "https://ai-site-iota-nine.vercel.app/article/sql-error-1064-42000-you-have-an-error-in-your-sql-syntax-near-selec-at-line-4-2065fd"
+      }
+    ]
+  },
+  "courseSchema": {
+    "@context": "https://schema.org",
+    "@type": "Course",
+    "name": "SQL / データベース エラー・トラブル集",
+    "description": "SQL / データベース エラー・トラブル集",
+    "provider": {
+      "@type": "Organization",
+      "name": "StackShelf",
+      "url": "https://ai-site-iota-nine.vercel.app"
+    },
+    "url": "https://ai-site-iota-nine.vercel.app/course/errors/sql-errors",
+    "inLanguage": "ja",
+    "educationalLevel": "beginner",
+    "hasCourseInstance": {
+      "@type": "CourseInstance",
+      "courseMode": "online",
+      "courseWorkload": "PT1H"
+    }
+  },
+  "faqSchema": {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "ERROR 1064 (42000): You have an error in your SQL syntax near 'SELEC' at line 4 とは何ですか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "ERROR 1064 (42000): You have an error in your SQL syntax near 'SELEC' at line 4 は SQL 実行時に表示されるエラーです。typo"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "ERROR 1064 (42000): You have an error in your SQL syntax near 'SELEC' at line 4 の原因は？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "typo。予約語。クォート不足。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "ERROR 1064 (42000): You have an error in your SQL syntax near 'SELEC' at line 4 の直し方は？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "構文チェック：キーワード綴りとカンマ位置を確認."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "SQL で ERROR 1064 が出るのはなぜ？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "SQL 手入力・ORM 生成クエリ"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "ERROR 1064 (42000): You have an error in your SQL syntax near 'SELEC' at line 4 を防ぐには？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "。"
+        }
+      }
+    ]
+  }
+}

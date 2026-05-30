@@ -18,12 +18,12 @@
   "theme": "nginx - nginx入門",
   "status": "published",
   "createdAt": "2026-05-30T05:15:03.094Z",
-  "updatedAt": "2026-05-30T05:15:03.099Z",
+  "updatedAt": "2026-05-30T05:15:41.349Z",
   "publishedAt": "2026-05-30T05:15:03.094Z",
   "metaTitle": "nginx静的サイト公開：HTML/CSS配信とキャッシュ設定【nginx 入門】｜nginx入門 | StackSh…",
-  "metaDescription": "【nginx初心者向け】nginxで静的Webサイト（HTML/CSS/画像）を公開する方法を初心者向けに解説。root設定、gzip圧縮、キャッシュヘッダー、セキュリティ設定まで設定例つき。 図解・具体例つきで丁寧に解説します。",
+  "metaDescription": "nginxで静的Webサイト（HTML/CSS/画像）を公開する方法を初心者向けに解説。root設定、gzip圧縮、キャッシュヘッダー、セキュリティ設定まで設定例つき。",
   "ogTitle": "nginxで静的サイトを公開する方法",
-  "ogDescription": "【nginx初心者向け】【nginx初心者向け】HTML/CSS/画像の静的サイトをnginxで配信する設定を初心者向けに解説。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
+  "ogDescription": "HTML/CSS/画像の静的サイトをnginxで配信する設定を初心者向けに解説。",
   "knowledge": {
     "topic": "nginx",
     "courseId": "nginx",
@@ -52,37 +52,32 @@
     }
   ],
   "nextEpisodeHint": "次回は、Node.jsやPythonアプリの前段にnginxを置くリバースプロキシ設定を、proxy_pass を使って実践的に学びます。",
-  "nextAction": "",
+  "nextAction": "次はNode.jsやPythonアプリの前段にnginxを置くリバースプロキシ設定を、proxy_pass を使って実践的に学びます。",
   "internalLinkCandidates": [
     {
-      "slug": "web-intro",
-      "title": "Webサイトの仕組みとは？HTML・CSS・JavaScriptをゼロから理解する",
-      "reason": "公開するHTML/CSSの基礎知識"
+      "slug": "nginx-logging",
+      "title": "nginxのログとトラブルシューティング入門【502/504エラー対処】",
+      "reason": "同じ講座の関連回です"
     },
     {
-      "slug": "web-first-html",
-      "title": "初めてのHTML：Webページの骨組みを作ろう",
-      "reason": "静的サイトのHTML作成スキル"
+      "slug": "nginx-ssl",
+      "title": "nginxでSSL/TLS（HTTPS）を設定する方法【Let's Encrypt入門】",
+      "reason": "同じ講座の関連回です"
     },
     {
-      "slug": "http-intro",
-      "title": "HTTPとは？Webの通信の仕組み",
-      "reason": "Cache-Control等HTTPヘッダーの理解"
-    },
-    {
-      "slug": "linux-intro",
-      "title": "Linuxとは？コマンドラインの世界へようこそ【初心者向け完全入門】",
-      "reason": "ファイル配置と権限設定"
-    },
-    {
-      "slug": "docker-intro",
-      "title": "Dockerとは？仮想マシンとの違いをわかりやすく解説【初心者向け】",
-      "reason": "nginxコンテナで静的ファイルを配信する応用"
+      "slug": "nginx-location",
+      "title": "nginxのlocationとルーティング【マッチング優先順位入門】",
+      "reason": "同じ講座の関連回です"
     },
     {
       "slug": "nginx-reverse-proxy",
-      "title": "nginxリバースプロキシの設定方法【proxy_pass入門】",
-      "reason": "同じ講座の次回：動的アプリとの連携"
+      "title": "nginxリバースプロキシの設定方法【proxy_pass入門・初心者向け】",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "nginx-install",
+      "title": "nginxのインストールと基本設定【Ubuntu/WSL2対応・初心者向け】",
+      "reason": "同じ講座の関連回です"
     }
   ],
   "ogImage": "https://ai-site-iota-nine.vercel.app/og-default.svg",
@@ -96,7 +91,7 @@
         "headline": "nginxで静的サイトを公開する方法【HTML/CSS配信・初心者向け】",
         "description": "【nginx初心者向け】nginxで静的Webサイト（HTML/CSS/画像）を公開する方法を初心者向けに解説。root設定、gzip圧縮、キャッシュヘッダー、セキュリティ設定まで設定例つき。 図解・具体例つきで丁寧に解説します。",
         "datePublished": "2026-05-30T05:15:03.094Z",
-        "dateModified": "2026-05-30T05:15:03.099Z",
+        "dateModified": "2026-05-30T05:15:41.349Z",
         "author": {
           "@type": "Organization",
           "name": "StackShelf",

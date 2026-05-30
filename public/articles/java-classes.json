@@ -1,10 +1,10 @@
 {
   "id": "art_1780054197023",
   "slug": "java-classes",
-  "title": "Javaのクラスとオブジェクト",
-  "summary": "Javaのクラスとオブジェクトについて学びます。クラスはオブジェクトの設計図であり、オブジェクトはクラスから生成されるインスタンスです。このエピソードでは、クラスとオブジェクトの基本概念を理解し、Javaでクラスとオブジェクトを定義して使用する方法を学びます。",
-  "body": "<h2>クラスとオブジェクトの基礎</h2><p>Javaはオブジェクト指向プログラミング言語であり、クラスとオブジェクトはその基礎的な概念です。クラスはオブジェクトの設計図であり、オブジェクトはクラスから生成されるインスタンスです。</p><h3>クラスの定義</h3><p>クラスは、<code>class</code> キーワードを使用して定義します。クラスには、フィールド（データ）とメソッド（関数）が含まれます。</p><pre><code>public class Person {<br>  // フィールド<br>  private String name;<br>  private int age;<br><br>  // メソッド<br>  public void sayHello() {<br>    System.out.println(\"Hello, my name is \" + name + \".\");<br>  }<br>}</code></pre><h3>オブジェクトの生成</h3><p>クラスからオブジェクトを生成するには、<code)new</code> キーワードを使用します。</p><pre><code>Person person = new Person();</code></pre><h3>オブジェクトの使用</h3><p>オブジェクトのフィールドとメソッドにアクセスするには、ドット（<code>.</code>）を使用します。</p><pre><code>person.name = \"John\";<br>person.age = 30;<br>person.sayHello();</code></pre>",
-  "conclusion": "このエピソードでは、Javaのクラスとオブジェクトについて学びました。クラスはオブジェクトの設計図であり、オブジェクトはクラスから生成されるインスタンスです。クラスとオブジェクトを定義して使用する方法を理解することで、オブジェクト指向プログラミングの基礎を固めることができます。次回のエピソードでは、継承について学びます。",
+  "title": "Javaのクラス設計｜コンストラクタとgetter/setter",
+  "summary": "クラス定義、コンストラクタ、フィールド初期化、getter/setter、toString、equalsの基本を学びます。コンストラクタ忘れや可視性の誤りなど失敗例も解説。",
+  "body": "<h2>結論：クラスは「コンストラクタで初期状態を決め、getter/setterで安全にアクセスする」単位</h2>\n<p>実務的なJavaクラスは、<strong>コンストラクタ</strong>で必須フィールドを初期化し、<strong>アクセサ</strong>（getter/setter）で外部からの操作を制御します。<code>toString()</code> はデバッグ用、<code>equals()</code> は値の等価性判定に使います。</p>\n\n<h2>コンストラクタ</h2>\n<pre><code>public class User {\n    private final String id;\n    private String name;\n\n    public User(String id, String name) {\n        this.id = id;\n        this.name = name;\n    }\n\n    public String getName() { return name; }\n    public void setName(String name) { this.name = name; }\n}</code></pre>\n<p>コンストラクタ名はクラス名と同じで、戻り値型はありません。定義しない場合、引数なしのデフォルトコンストラクタが自動生成されます（他コンストラクタを書くと消えます）。</p>\n\n<h3>失敗例：必要なコンストラクタがない</h3>\n<pre><code>public User(String id, String name) { ... }\nUser u = new User(); // コンパイルエラー: 引数なしコンストラクタが存在しない</code></pre>\n\n<h2>toString と equals</h2>\n<pre><code>@Override\npublic String toString() {\n    return \"User{id='\" + id + \"', name='\" + name + \"'}\";\n}</code></pre>\n<p>オブジェクト比較では == ではなく equals をオーバーライドします（hashCode もセットが原則）。</p>\n\n<h3>失敗例：equals だけオーバーライド</h3>\n<p>HashMap のキーに使う場合、equals と hashCode の両方を一貫して実装しないと検索に失敗します。</p>\n\n<h2>まとめ</h2>\n<p>クラス設計の基本は不変条件をコンストラクタで保証し、必要な操作だけを公開することです。次回は継承で既存クラスを拡張します。</p>",
+  "conclusion": "Javaクラスはコンストラクタで初期化し、getter/setterでカプセル化を完成させます。デフォルトコンストラクタの消失とequals/hashCodeのセット忘れは実務でもよくあるミスです。UserやProductクラスを設計してみましょう。",
   "tags": [
     "Java",
     "クラス",
@@ -15,12 +15,12 @@
   "theme": "java - Java",
   "status": "published",
   "createdAt": "2026-05-29T11:29:57.009Z",
-  "updatedAt": "2026-05-29T14:35:19.833Z",
+  "updatedAt": "2026-05-30T05:18:37.049Z",
   "publishedAt": "2026-05-29T11:29:57.009Z",
-  "metaTitle": "Javaのクラスとオブジェクト",
-  "metaDescription": "Javaのクラスとオブジェクトについて学びます。クラスはオブジェクトの設計図であり、オブジェクトはクラスから生成されるインスタンスです。",
+  "metaTitle": "Javaクラス設計｜コンストラクタ・getter/setter | StackShelf",
+  "metaDescription": "Javaクラスのコンストラクタ、フィールド、getter/setter、toString/equalsの書き方と典型の失敗例を解説します。",
   "ogTitle": "Javaのクラスとオブジェクト",
-  "ogDescription": "Javaのクラスとオブジェクトについて学びます。クラスはオブジェクトの設計図であり、オブジェクトはクラスから生成されるインスタンスです。",
+  "ogDescription": "コンストラクタとカプセル化の実践を失敗例つきで学べます。",
   "knowledge": {
     "topic": "java",
     "courseId": "java",
@@ -28,42 +28,68 @@
   },
   "faq": [
     {
-      "question": "クラスとオブジェクトの違いは何ですか。",
-      "answer": "クラスはオブジェクトの設計図であり、オブジェクトはクラスから生成されるインスタンスです。"
+      "question": "getter/setterは必須ですか？",
+      "answer": "IDE生成が多いですが、不変オブジェクトならgetterのみ、record（Java 16+）なら自動生成も検討できます。"
     },
     {
-      "question": "クラスを定義するにはどのようなキーワードを使用しますか。",
-      "answer": "クラスを定義するには、<code>class</code> キーワードを使用します。"
+      "question": "final フィールドとは？",
+      "answer": "一度代入したら再代入不可。コンストラクタで必ず初期化する必要があります。"
+    },
+    {
+      "question": "コンストラクタのオーバーロードは？",
+      "answer": "引数リストが異なれば複数定義できます。this(...) で別コンストラクタを呼べます。"
+    },
+    {
+      "question": "static 初期化ブロックは？",
+      "answer": "クラスロード時に1回実行されます。複雑なstaticフィールド初期化に使います。"
+    },
+    {
+      "question": "Lombokは使うべき？",
+      "answer": "@Getter @Builder 等でボイラープレートを減らせますが、初学者は手書きで構造を理解してから導入がおすすめです。"
     }
   ],
-  "nextEpisodeHint": "次回のエピソードでは、継承について学びます。",
+  "nextEpisodeHint": "次回はextendsによる継承、super、メソッドオーバーライドを学びます。",
   "canonical": "https://ai-site-iota-nine.vercel.app/article/java-classes",
   "jsonLd": {
     "@context": "https://schema.org",
     "@graph": [
       {
         "@context": "https://schema.org",
-        "@type": "BlogPosting",
-        "headline": "Javaのクラスとオブジェクト",
-        "description": "Javaのクラスとオブジェクトについて学びます。クラスはオブジェクトの設計図であり、オブジェクトはクラスから生成されるインスタンスです。",
+        "@type": "TechArticle",
+        "headline": "Javaのクラス設計｜コンストラクタとgetter/setter",
+        "description": "Javaクラスのコンストラクタ、フィールド、getter/setter、toString/equalsの書き方と典型の失敗例を解説します。",
         "datePublished": "2026-05-29T11:29:57.009Z",
-        "dateModified": "2026-05-29T14:35:19.833Z",
+        "dateModified": "2026-05-30T05:18:37.049Z",
         "author": {
           "@type": "Organization",
-          "name": "StackShelf"
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
         },
         "publisher": {
           "@type": "Organization",
           "name": "StackShelf",
-          "url": "https://ai-site-iota-nine.vercel.app"
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
         },
+        "image": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+        "inLanguage": "ja",
+        "wordCount": 816,
         "mainEntityOfPage": {
           "@type": "WebPage",
           "@id": "https://ai-site-iota-nine.vercel.app/article/java-classes"
         },
         "keywords": "Java, クラス, オブジェクト, オブジェクト指向プログラミング",
         "articleSection": "Java",
-        "url": "https://ai-site-iota-nine.vercel.app/article/java-classes"
+        "url": "https://ai-site-iota-nine.vercel.app/article/java-classes",
+        "learningResourceType": "tutorial",
+        "educationalLevel": "beginner"
       },
       {
         "@context": "https://schema.org",
@@ -73,7 +99,7 @@
             "@type": "ListItem",
             "position": 1,
             "name": "ホーム",
-            "item": "https://ai-site-iota-nine.vercel.app"
+            "item": "https://ai-site-iota-nine.vercel.app/"
           },
           {
             "@type": "ListItem",
@@ -90,7 +116,7 @@
           {
             "@type": "ListItem",
             "position": 4,
-            "name": "Javaのクラスとオブジェクト",
+            "name": "Javaのクラス設計｜コンストラクタとgetter/setter",
             "item": "https://ai-site-iota-nine.vercel.app/article/java-classes"
           }
         ]
@@ -102,7 +128,16 @@
         "description": "Javaプログラミング言語の基礎から応用までを学習する講座です。初心者向けにJavaの基本構文、オブジェクト指向、データ構造、アルゴリズムなどを解説します。",
         "provider": {
           "@type": "Organization",
-          "name": "StackShelf"
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app"
+        },
+        "url": "https://ai-site-iota-nine.vercel.app/course/java/java",
+        "inLanguage": "ja",
+        "educationalLevel": "beginner",
+        "hasCourseInstance": {
+          "@type": "CourseInstance",
+          "courseMode": "online",
+          "courseWorkload": "PT1H"
         }
       },
       {
@@ -111,18 +146,42 @@
         "mainEntity": [
           {
             "@type": "Question",
-            "name": "クラスとオブジェクトの違いは何ですか。",
+            "name": "getter/setterは必須ですか？",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "クラスはオブジェクトの設計図であり、オブジェクトはクラスから生成されるインスタンスです。"
+              "text": "IDE生成が多いですが、不変オブジェクトならgetterのみ、record（Java 16+）なら自動生成も検討できます。"
             }
           },
           {
             "@type": "Question",
-            "name": "クラスを定義するにはどのようなキーワードを使用しますか。",
+            "name": "final フィールドとは？",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "クラスを定義するには、<code>class</code> キーワードを使用します。"
+              "text": "一度代入したら再代入不可。コンストラクタで必ず初期化する必要があります。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "コンストラクタのオーバーロードは？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "引数リストが異なれば複数定義できます。this(...) で別コンストラクタを呼べます。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "static 初期化ブロックは？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "クラスロード時に1回実行されます。複雑なstaticフィールド初期化に使います。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Lombokは使うべき？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "@Getter @Builder 等でボイラープレートを減らせますが、初学者は手書きで構造を理解してから導入がおすすめです。"
             }
           }
         ]
@@ -137,7 +196,7 @@
         "@type": "ListItem",
         "position": 1,
         "name": "ホーム",
-        "item": "https://ai-site-iota-nine.vercel.app"
+        "item": "https://ai-site-iota-nine.vercel.app/"
       },
       {
         "@type": "ListItem",
@@ -154,7 +213,7 @@
       {
         "@type": "ListItem",
         "position": 4,
-        "name": "Javaのクラスとオブジェクト",
+        "name": "Javaのクラス設計｜コンストラクタとgetter/setter",
         "item": "https://ai-site-iota-nine.vercel.app/article/java-classes"
       }
     ]
@@ -166,7 +225,16 @@
     "description": "Javaプログラミング言語の基礎から応用までを学習する講座です。初心者向けにJavaの基本構文、オブジェクト指向、データ構造、アルゴリズムなどを解説します。",
     "provider": {
       "@type": "Organization",
-      "name": "StackShelf"
+      "name": "StackShelf",
+      "url": "https://ai-site-iota-nine.vercel.app"
+    },
+    "url": "https://ai-site-iota-nine.vercel.app/course/java/java",
+    "inLanguage": "ja",
+    "educationalLevel": "beginner",
+    "hasCourseInstance": {
+      "@type": "CourseInstance",
+      "courseMode": "online",
+      "courseWorkload": "PT1H"
     }
   },
   "faqSchema": {
@@ -175,20 +243,73 @@
     "mainEntity": [
       {
         "@type": "Question",
-        "name": "クラスとオブジェクトの違いは何ですか。",
+        "name": "getter/setterは必須ですか？",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "クラスはオブジェクトの設計図であり、オブジェクトはクラスから生成されるインスタンスです。"
+          "text": "IDE生成が多いですが、不変オブジェクトならgetterのみ、record（Java 16+）なら自動生成も検討できます。"
         }
       },
       {
         "@type": "Question",
-        "name": "クラスを定義するにはどのようなキーワードを使用しますか。",
+        "name": "final フィールドとは？",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "クラスを定義するには、<code>class</code> キーワードを使用します。"
+          "text": "一度代入したら再代入不可。コンストラクタで必ず初期化する必要があります。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "コンストラクタのオーバーロードは？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "引数リストが異なれば複数定義できます。this(...) で別コンストラクタを呼べます。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "static 初期化ブロックは？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "クラスロード時に1回実行されます。複雑なstaticフィールド初期化に使います。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Lombokは使うべき？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "@Getter @Builder 等でボイラープレートを減らせますが、初学者は手書きで構造を理解してから導入がおすすめです。"
         }
       }
     ]
-  }
+  },
+  "nextAction": "id(final)とnameを持つUserクラスにコンストラクタ、toString、equals/hashCodeを実装し、2つの同内容Userがequalsでtrueになるか確認してください。",
+  "internalLinkCandidates": [
+    {
+      "slug": "java-objects",
+      "title": "Javaのオブジェクト指向プログラミング",
+      "reason": "前の回"
+    },
+    {
+      "slug": "java-inheritance",
+      "title": "Javaの継承",
+      "reason": "同じ講座の次の回"
+    },
+    {
+      "slug": "java-polymorphism",
+      "title": "Javaの多態性",
+      "reason": "オーバーライドの応用"
+    },
+    {
+      "slug": "java-exception-handling",
+      "title": "Javaの例外処理",
+      "reason": "コンストラクタでの検証"
+    },
+    {
+      "slug": "java-best-practices",
+      "title": "Javaプログラミングのベストプラクティス",
+      "reason": "クラス設計"
+    }
+  ],
+  "ogImage": "https://ai-site-iota-nine.vercel.app/og-default.svg"
 }

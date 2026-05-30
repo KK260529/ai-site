@@ -17,12 +17,12 @@
   "theme": "regex - 正規表現入門",
   "status": "published",
   "createdAt": "2026-05-30T05:14:22.879Z",
-  "updatedAt": "2026-05-30T05:14:22.883Z",
+  "updatedAt": "2026-05-30T05:15:44.821Z",
   "publishedAt": "2026-05-30T05:14:22.879Z",
   "metaTitle": "正規表現 リテラルとメタ文字 | . とエスケープの基本",
-  "metaDescription": "【正規表現初心者向け】正規表現のリテラルとメタ文字を初心者向けに解説。. 任意の1文字、\\ エスケープ、よくある間違いと対処法を具体例で学びます。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
+  "metaDescription": "正規表現のリテラルとメタ文字を初心者向けに解説。. 任意の1文字、\\ エスケープ、よくある間違いと対処法を具体例で学びます。",
   "ogTitle": "リテラルとメタ文字の基本｜正規表現入門",
-  "ogDescription": "【正規表現初心者向け】【正規表現初心者向け】正規表現のリテラルとメタ文字、エスケープのルールをわかりやすく解説します。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
+  "ogDescription": "正規表現のリテラルとメタ文字、エスケープのルールをわかりやすく解説します。",
   "knowledge": {
     "topic": "regex",
     "courseId": "regex",
@@ -51,37 +51,32 @@
     }
   ],
   "nextEpisodeHint": "次回は文字クラス [ ] を学びます。[0-9] や [^abc] のように「この中から1文字」を指定する方法で、. より安全にパターンを書けるようになります。",
-  "nextAction": "",
+  "nextAction": "次は文字クラス [ ] を学びます。[0-9] や [^abc] のように「この中から1文字」を指定する方法で、. より安全にパターンを書けるようになります。",
   "internalLinkCandidates": [
     {
-      "slug": "regex-intro",
-      "title": "正規表現とは？いつ使うのか",
-      "reason": "正規表現の全体像と使い道の復習"
+      "slug": "regex-javascript",
+      "title": "JavaScriptでの正規表現｜RegExp・test・match・replace【入門】",
+      "reason": "同じ講座の関連回です"
     },
     {
-      "slug": "python-variables",
-      "title": "変数とデータ型",
-      "reason": "プログラム内の文字列を扱う基礎"
+      "slug": "regex-groups",
+      "title": "グループとキャプチャ｜正規表現の ( ) と置換【入門】",
+      "reason": "同じ講座の関連回です"
     },
     {
-      "slug": "linux-view-search",
-      "title": "ファイルの表示と検索",
-      "reason": "grepでリテラル検索から始めるのに便利"
+      "slug": "regex-anchors",
+      "title": "アンカー ^ $ と単語境界｜正規表現で位置を指定する【入門】",
+      "reason": "同じ講座の関連回です"
     },
     {
-      "slug": "web-first-html",
-      "title": "最初のHTMLページ",
-      "reason": "テキストエディタでの検索・置換の練習場"
+      "slug": "regex-quantifiers",
+      "title": "量詞 * + ? {n,m}｜正規表現の繰り返しをマスター【入門】",
+      "reason": "同じ講座の関連回です"
     },
     {
-      "slug": "git-basic-commands",
-      "title": "Gitの基本コマンド",
-      "reason": "diffやログテキストを扱う実務とつながる"
-    },
-    {
-      "slug": "bash-intro",
-      "title": "シェルスクリプトとは？",
-      "reason": "シェル文字列とパターンの関係を学ぶ土台"
+      "slug": "regex-character-classes",
+      "title": "文字クラス [] と否定｜正規表現で使える文字の範囲指定【入門】",
+      "reason": "同じ講座の関連回です"
     }
   ],
   "ogImage": "https://ai-site-iota-nine.vercel.app/og-default.svg",
@@ -95,7 +90,7 @@
         "headline": "リテラルとメタ文字の基本｜正規表現の . とエスケープ【初心者向け】",
         "description": "【正規表現初心者向け】正規表現のリテラルとメタ文字を初心者向けに解説。. 任意の1文字、\\ エスケープ、よくある間違いと対処法を具体例で学びます。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
         "datePublished": "2026-05-30T05:14:22.879Z",
-        "dateModified": "2026-05-30T05:14:22.883Z",
+        "dateModified": "2026-05-30T05:15:44.821Z",
         "author": {
           "@type": "Organization",
           "name": "StackShelf",

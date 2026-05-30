@@ -1,0 +1,17 @@
+{
+  "topic": "errors",
+  "title": "エラー・トラブル集",
+  "description": "プログラミング言語・インフラ技術ごとのエラーメッセージと解決法を検索しやすくまとめたトラブルシューティング集。実際のコンソール出力をそのまま掲載し、原因・確認手順・解決策を解説します。",
+  "beginnerPath": [
+    "python-errors-hub",
+    "java-errors-hub",
+    "javascript-errors-hub",
+    "linux-errors-hub",
+    "sql-errors-hub",
+    "docker-errors-hub",
+    "git-errors-hub",
+    "http-errors-hub",
+    "nginx-errors-hub",
+    "bash-errors-hub"
+  ]
+}

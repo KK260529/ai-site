@@ -17,12 +17,12 @@
   "theme": "regex - 正規表現入門",
   "status": "published",
   "createdAt": "2026-05-30T05:14:29.232Z",
-  "updatedAt": "2026-05-30T05:14:29.236Z",
+  "updatedAt": "2026-05-30T05:15:44.344Z",
   "publishedAt": "2026-05-30T05:14:29.232Z",
   "metaTitle": "JavaScript 正規表現 | RegExp test match replace",
-  "metaDescription": "【正規表現初心者向け】JavaScriptでの正規表現を初心者向けに解説。/pattern/flags、test、match、replace、フラグ g i m とエスケープの注意点を学べます。 図解・具体例つきで丁寧に解説します。",
+  "metaDescription": "JavaScriptでの正規表現を初心者向けに解説。/pattern/flags、test、match、replace、フラグ g i m とエスケープの注意点を学べます。",
   "ogTitle": "JavaScriptでの正規表現",
-  "ogDescription": "【正規表現初心者向け】【正規表現初心者向け】JavaScriptのRegExpとtest/match/replaceをわかりやすく解説します。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
+  "ogDescription": "JavaScriptのRegExpとtest/match/replaceをわかりやすく解説します。",
   "knowledge": {
     "topic": "regex",
     "courseId": "regex",
@@ -51,37 +51,32 @@
     }
   ],
   "nextEpisodeHint": "次回は grep、ripgrep、VS Code の検索など、コマンドラインとエディタでの正規表現活用法を学びます。",
-  "nextAction": "",
+  "nextAction": "次は grep、ripgrep、VS Code の検索など、コマンドラインとエディタでの正規表現活用法を学びます。",
   "internalLinkCandidates": [
     {
-      "slug": "web-intro",
-      "title": "Web開発とは？",
-      "reason": "ブラウザとJavaScriptの文脈"
+      "slug": "regex-groups",
+      "title": "グループとキャプチャ｜正規表現の ( ) と置換【入門】",
+      "reason": "同じ講座の関連回です"
     },
     {
-      "slug": "web-forms",
-      "title": "HTMLフォーム",
-      "reason": "input pattern によるクライアント検証"
+      "slug": "regex-anchors",
+      "title": "アンカー ^ $ と単語境界｜正規表現で位置を指定する【入門】",
+      "reason": "同じ講座の関連回です"
     },
     {
-      "slug": "web-css-practice",
-      "title": "CSS実践",
-      "reason": "フロントエンド開発の続き"
+      "slug": "regex-quantifiers",
+      "title": "量詞 * + ? {n,m}｜正規表現の繰り返しをマスター【入門】",
+      "reason": "同じ講座の関連回です"
     },
     {
-      "slug": "python-functions",
-      "title": "Pythonの関数",
-      "reason": "他言語との比較・サーバー側検証"
+      "slug": "regex-character-classes",
+      "title": "文字クラス [] と否定｜正規表現で使える文字の範囲指定【入門】",
+      "reason": "同じ講座の関連回です"
     },
     {
-      "slug": "regex-lookahead",
-      "title": "先読み・後読み",
-      "reason": "JSで使う応用パターンの復習"
-    },
-    {
-      "slug": "docker-intro",
-      "title": "Dockerとは？",
-      "reason": "Nodeアプリをコンテナで動かす際のログ検証"
+      "slug": "regex-literals",
+      "title": "リテラルとメタ文字の基本｜正規表現の . とエスケープ【初心者向け】",
+      "reason": "同じ講座の関連回です"
     }
   ],
   "ogImage": "https://ai-site-iota-nine.vercel.app/og-default.svg",
@@ -95,7 +90,7 @@
         "headline": "JavaScriptでの正規表現｜RegExp・test・match・replace【入門】",
         "description": "【正規表現初心者向け】JavaScriptでの正規表現を初心者向けに解説。/pattern/flags、test、match、replace、フラグ g i m とエスケープの注意点を学べます。 図解・具体例つきで丁寧に解説します。",
         "datePublished": "2026-05-30T05:14:29.232Z",
-        "dateModified": "2026-05-30T05:14:29.236Z",
+        "dateModified": "2026-05-30T05:15:44.344Z",
         "author": {
           "@type": "Organization",
           "name": "StackShelf",

@@ -18,12 +18,12 @@
   "theme": "nginx - nginx入門",
   "status": "published",
   "createdAt": "2026-05-30T05:15:08.495Z",
-  "updatedAt": "2026-05-30T05:15:08.499Z",
+  "updatedAt": "2026-05-30T05:15:40.879Z",
   "publishedAt": "2026-05-30T05:15:08.495Z",
   "metaTitle": "nginxログとトラブルシュート：502/504エラー対処【nginx 入門】｜nginx入門 | StackShelf",
-  "metaDescription": "【nginx初心者向け】nginxのアクセスログ・エラーログの見方と502/504/403エラーの対処法を初心者向けに解説。log_format、tail、grepを使った調査手法まで。 図解・具体例つきで丁寧に解説します。",
+  "metaDescription": "nginxのアクセスログ・エラーログの見方と502/504/403エラーの対処法を初心者向けに解説。log_format、tail、grepを使った調査手法まで。",
   "ogTitle": "nginxのログとトラブルシューティング",
-  "ogDescription": "【nginx初心者向け】【nginx初心者向け】nginxログの読み方と502/504等のエラー調査手法を初心者向けに解説。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
+  "ogDescription": "nginxログの読み方と502/504等のエラー調査手法を初心者向けに解説。",
   "knowledge": {
     "topic": "nginx",
     "courseId": "nginx",
@@ -52,37 +52,32 @@
     }
   ],
   "nextEpisodeHint": "最終回は、Node.jsアプリの前段にnginxを構築する実践演習。静的ファイル配信、APIプロキシ、HTTPS、ログ設定を組み合わせた本番に近い構成を作ります。",
-  "nextAction": "",
+  "nextAction": "最終回は、Node.jsアプリの前段にnginxを構築する実践演習。静的ファイル配信、APIプロキシ、HTTPS、ログ設定を組み合わせた本番に近い構成を作ります。",
   "internalLinkCandidates": [
     {
-      "slug": "linux-view-search",
-      "title": "Linuxファイル検索：grep・find・lessでログを調べよう",
-      "reason": "grep/tail/lessでのログ調査スキル"
+      "slug": "nginx-ssl",
+      "title": "nginxでSSL/TLS（HTTPS）を設定する方法【Let's Encrypt入門】",
+      "reason": "同じ講座の関連回です"
     },
     {
-      "slug": "bash-intro",
-      "title": "シェルスクリプトとは？",
-      "reason": "ログ集計スクリプトの基礎"
-    },
-    {
-      "slug": "bash-file-processing",
-      "title": "bashファイル処理：grep・sed・awk入門",
-      "reason": "ログのgrep/awk集計"
-    },
-    {
-      "slug": "http-methods-status",
-      "title": "HTTPメソッドとステータスコードの完全ガイド",
-      "reason": "502/504等ステータスコードの理解"
+      "slug": "nginx-location",
+      "title": "nginxのlocationとルーティング【マッチング優先順位入門】",
+      "reason": "同じ講座の関連回です"
     },
     {
       "slug": "nginx-reverse-proxy",
-      "title": "nginxリバースプロキシの設定方法【proxy_pass入門】",
-      "reason": "502/504の原因となるプロキシ設定"
+      "title": "nginxリバースプロキシの設定方法【proxy_pass入門・初心者向け】",
+      "reason": "同じ講座の関連回です"
     },
     {
-      "slug": "nginx-practice",
-      "title": "実践：Node.jsアプリの前段にnginxを構築する",
-      "reason": "同じ講座の最終回：総合演習"
+      "slug": "nginx-static-site",
+      "title": "nginxで静的サイトを公開する方法【HTML/CSS配信・初心者向け】",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "nginx-install",
+      "title": "nginxのインストールと基本設定【Ubuntu/WSL2対応・初心者向け】",
+      "reason": "同じ講座の関連回です"
     }
   ],
   "ogImage": "https://ai-site-iota-nine.vercel.app/og-default.svg",
@@ -96,7 +91,7 @@
         "headline": "nginxのログとトラブルシューティング入門【502/504エラー対処】",
         "description": "【nginx初心者向け】nginxのアクセスログ・エラーログの見方と502/504/403エラーの対処法を初心者向けに解説。log_format、tail、grepを使った調査手法まで。 図解・具体例つきで丁寧に解説します。",
         "datePublished": "2026-05-30T05:15:08.495Z",
-        "dateModified": "2026-05-30T05:15:08.499Z",
+        "dateModified": "2026-05-30T05:15:40.879Z",
         "author": {
           "@type": "Organization",
           "name": "StackShelf",

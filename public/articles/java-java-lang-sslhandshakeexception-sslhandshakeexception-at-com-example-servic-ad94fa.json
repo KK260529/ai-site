@@ -1,0 +1,290 @@
+{
+  "id": "art_errors_java-java-lang-sslhandshakeexception-sslhandshakeexception-at-com-example-servic-ad94fa",
+  "slug": "java-java-lang-sslhandshakeexception-sslhandshakeexception-at-com-example-servic-ad94fa",
+  "title": "java.lang.SSLHandshakeException: SSLHandshakeException at com.example.service.TaskService.run(TaskService.java:49) の原因と解決法",
+  "summary": "java.lang.SSLHandshakeException: SSLHandshakeException at com.example.service.TaskService.run(TaskService.java:49) の原因と具体的な解決手順をまとめました。",
+  "body": "<h2>エラーメッセージ（全文）</h2>\n<p>検索でヒットしやすいよう、実際のコンソール出力をそのまま掲載します。</p>\n<pre><code>java.lang.SSLHandshakeException: SSLHandshakeException at com.example.service.TaskService.run(TaskService.java:49)</code></pre>\n\n<h2>このエラーとは</h2>\n<p>java.lang.SSLHandshakeException: SSLHandshakeException at com.example.service.TaskService.run(TaskService.java:49) は Java 開発でよく遭遇するエラーです。</p>\n<p><strong>想定環境:</strong> Windows / macOS / Linux</p>\n<p><strong>よく出る状況:</strong> アプリケーション実行中</p>\n\n<h2>よくある原因</h2>\n<ul>\n<li>I/O 失敗</li>\n<li>外部 API タイムアウト</li>\n<li>不正な入力データ</li>\n</ul><h2>解決方法</h2><h3>方法1: 例外ハンドリング</h3><p>try-catch でログ出力し、リトライまたはフォールバック.</p>\n<h2>それでも直らないとき</h2>\n<p>バージョン情報（Java のバージョン、OS、実行コマンド）を添えて、エラーメッセージ全文と直前に変更した点を確認してください。ログの数行上にも原因の手がかりが残っていることが多いです。</p>",
+  "conclusion": "「java.lang.SSLHandshakeException: SSLHandshakeException at com.example.service.TaskService.run(TaskService.java:49)」は I/O 失敗 が原因のことが多いです。上記の手順で切り分けてください。",
+  "tags": [
+    "java",
+    "Javaエラー",
+    "java.lang.SSLHandshakeException",
+    "SSLHandshakeException",
+    "java.lang.SSLHandshakeException: SSLHand"
+  ],
+  "category": "Javaエラー",
+  "theme": "errors - Java エラー・トラブル集",
+  "articleType": "error",
+  "status": "published",
+  "createdAt": "2026-05-30T05:47:36.740Z",
+  "updatedAt": "2026-05-30T05:47:36.740Z",
+  "publishedAt": "2026-05-30T05:47:36.740Z",
+  "metaTitle": "java.lang.SSLHandshakeException: SSLHandshakeException at c…",
+  "metaDescription": "java.lang.SSLHandshakeException: SSLHandshakeException at com.example.service.TaskService.run(TaskService.java:49) が出たときの原因・確認手順・解決策を解説。アプリケーション実行中。",
+  "ogTitle": "java.lang.SSLHandshakeException: SSLHandshakeException at com.example.service.TaskService.run(TaskService.java:49) の原因と解決法",
+  "ogDescription": "java.lang.SSLHandshakeException: SSLHandshakeException at com.example.service.TaskService.run(TaskService.java:49) が出たときの原因・確認手順・解決策を解説。アプリケーション実行中。",
+  "knowledge": {
+    "topic": "errors",
+    "courseId": "java-errors",
+    "episode": 70
+  },
+  "faq": [
+    {
+      "question": "java.lang.SSLHandshakeException: SSLHandshakeException at com.example.service… とは何ですか？",
+      "answer": "java.lang.SSLHandshakeException: SSLHandshakeException at com.example.service.TaskService.run(TaskService.java:49) は Java 実行時に表示されるエラーです。I/O 失敗"
+    },
+    {
+      "question": "java.lang.SSLHandshakeException: SSLHandshakeException at com.example.service… の原因は？",
+      "answer": "I/O 失敗。外部 API タイムアウト。不正な入力データ。"
+    },
+    {
+      "question": "java.lang.SSLHandshakeException: SSLHandshakeException at com.example.service… の直し方は？",
+      "answer": "例外ハンドリング：try-catch でログ出力し、リトライまたはフォールバック."
+    },
+    {
+      "question": "Java で java.lang.SSLHandshakeException が出るのはなぜ？",
+      "answer": "アプリケーション実行中"
+    },
+    {
+      "question": "java.lang.SSLHandshakeException: SSLHandshakeException at com.example.service… を防ぐには？",
+      "answer": "。"
+    }
+  ],
+  "nextAction": "同じ Java カテゴリの関連エラーもあわせて確認してください。",
+  "internalLinkCandidates": [],
+  "ogImage": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+  "canonical": "https://ai-site-iota-nine.vercel.app/article/java-java-lang-sslhandshakeexception-sslhandshakeexception-at-com-example-servic-ad94fa",
+  "jsonLd": {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@context": "https://schema.org",
+        "@type": "TechArticle",
+        "headline": "java.lang.SSLHandshakeException: SSLHandshakeException at com.example.service.TaskService.run(TaskService.java:49) の原因と解決法",
+        "description": "java.lang.SSLHandshakeException: SSLHandshakeException at com.example.service.TaskService.run(TaskService.java:49) が出たときの原因・確認手順・解決策を解説。アプリケーション実行中。",
+        "datePublished": "2026-05-30T05:47:36.740Z",
+        "dateModified": "2026-05-30T05:47:36.740Z",
+        "author": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
+        },
+        "image": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+        "inLanguage": "ja",
+        "wordCount": 516,
+        "mainEntityOfPage": {
+          "@type": "WebPage",
+          "@id": "https://ai-site-iota-nine.vercel.app/article/java-java-lang-sslhandshakeexception-sslhandshakeexception-at-com-example-servic-ad94fa"
+        },
+        "keywords": "java, Javaエラー, java.lang.SSLHandshakeException, SSLHandshakeException, java.lang.SSLHandshakeException: SSLHand",
+        "articleSection": "Javaエラー",
+        "url": "https://ai-site-iota-nine.vercel.app/article/java-java-lang-sslhandshakeexception-sslhandshakeexception-at-com-example-servic-ad94fa",
+        "learningResourceType": "tutorial",
+        "educationalLevel": "beginner"
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "ホーム",
+            "item": "https://ai-site-iota-nine.vercel.app/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "errors",
+            "item": "https://ai-site-iota-nine.vercel.app/knowledge/errors"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "Java エラー・トラブル集",
+            "item": "https://ai-site-iota-nine.vercel.app/course/errors/java-errors"
+          },
+          {
+            "@type": "ListItem",
+            "position": 4,
+            "name": "java.lang.SSLHandshakeException: SSLHandshakeException at com.example.service.TaskService.run(TaskService.java:49) の原因と解決法",
+            "item": "https://ai-site-iota-nine.vercel.app/article/java-java-lang-sslhandshakeexception-sslhandshakeexception-at-com-example-servic-ad94fa"
+          }
+        ]
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "Course",
+        "name": "Java エラー・トラブル集",
+        "description": "Java エラー・トラブル集",
+        "provider": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app"
+        },
+        "url": "https://ai-site-iota-nine.vercel.app/course/errors/java-errors",
+        "inLanguage": "ja",
+        "educationalLevel": "beginner",
+        "hasCourseInstance": {
+          "@type": "CourseInstance",
+          "courseMode": "online",
+          "courseWorkload": "PT1H"
+        }
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "java.lang.SSLHandshakeException: SSLHandshakeException at com.example.service… とは何ですか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "java.lang.SSLHandshakeException: SSLHandshakeException at com.example.service.TaskService.run(TaskService.java:49) は Java 実行時に表示されるエラーです。I/O 失敗"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "java.lang.SSLHandshakeException: SSLHandshakeException at com.example.service… の原因は？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "I/O 失敗。外部 API タイムアウト。不正な入力データ。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "java.lang.SSLHandshakeException: SSLHandshakeException at com.example.service… の直し方は？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "例外ハンドリング：try-catch でログ出力し、リトライまたはフォールバック."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Java で java.lang.SSLHandshakeException が出るのはなぜ？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "アプリケーション実行中"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "java.lang.SSLHandshakeException: SSLHandshakeException at com.example.service… を防ぐには？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "。"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "breadcrumb": {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "ホーム",
+        "item": "https://ai-site-iota-nine.vercel.app/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "errors",
+        "item": "https://ai-site-iota-nine.vercel.app/knowledge/errors"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "Java エラー・トラブル集",
+        "item": "https://ai-site-iota-nine.vercel.app/course/errors/java-errors"
+      },
+      {
+        "@type": "ListItem",
+        "position": 4,
+        "name": "java.lang.SSLHandshakeException: SSLHandshakeException at com.example.service.TaskService.run(TaskService.java:49) の原因と解決法",
+        "item": "https://ai-site-iota-nine.vercel.app/article/java-java-lang-sslhandshakeexception-sslhandshakeexception-at-com-example-servic-ad94fa"
+      }
+    ]
+  },
+  "courseSchema": {
+    "@context": "https://schema.org",
+    "@type": "Course",
+    "name": "Java エラー・トラブル集",
+    "description": "Java エラー・トラブル集",
+    "provider": {
+      "@type": "Organization",
+      "name": "StackShelf",
+      "url": "https://ai-site-iota-nine.vercel.app"
+    },
+    "url": "https://ai-site-iota-nine.vercel.app/course/errors/java-errors",
+    "inLanguage": "ja",
+    "educationalLevel": "beginner",
+    "hasCourseInstance": {
+      "@type": "CourseInstance",
+      "courseMode": "online",
+      "courseWorkload": "PT1H"
+    }
+  },
+  "faqSchema": {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "java.lang.SSLHandshakeException: SSLHandshakeException at com.example.service… とは何ですか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "java.lang.SSLHandshakeException: SSLHandshakeException at com.example.service.TaskService.run(TaskService.java:49) は Java 実行時に表示されるエラーです。I/O 失敗"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "java.lang.SSLHandshakeException: SSLHandshakeException at com.example.service… の原因は？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "I/O 失敗。外部 API タイムアウト。不正な入力データ。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "java.lang.SSLHandshakeException: SSLHandshakeException at com.example.service… の直し方は？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "例外ハンドリング：try-catch でログ出力し、リトライまたはフォールバック."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Java で java.lang.SSLHandshakeException が出るのはなぜ？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "アプリケーション実行中"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "java.lang.SSLHandshakeException: SSLHandshakeException at com.example.service… を防ぐには？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "。"
+        }
+      }
+    ]
+  }
+}

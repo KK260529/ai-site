@@ -1,0 +1,290 @@
+{
+  "id": "art_errors_java-java-lang-nullpointerexception-cannot-invoke-com-example-user-getid-because-c40375",
+  "slug": "java-java-lang-nullpointerexception-cannot-invoke-com-example-user-getid-because-c40375",
+  "title": "java.lang.NullPointerException: Cannot invoke \"com.example.User.getId()\" because \"user\" is null の原因と解決法",
+  "summary": "java.lang.NullPointerException: Cannot invoke \"com.example.User.getId()\" because \"user\" is null の原因と具体的な解決手順をまとめました。",
+  "body": "<h2>エラーメッセージ（全文）</h2>\n<p>検索でヒットしやすいよう、実際のコンソール出力をそのまま掲載します。</p>\n<pre><code>java.lang.NullPointerException: Cannot invoke &quot;com.example.User.getId()&quot; because &quot;user&quot; is null</code></pre>\n\n<h2>このエラーとは</h2>\n<p>java.lang.NullPointerException: Cannot invoke &quot;com.example.User.getId()&quot; because &quot;user&quot; is null は Java 開発でよく遭遇するエラーです。</p>\n<p><strong>想定環境:</strong> Windows / macOS / Linux</p>\n<p><strong>よく出る状況:</strong> null 参照</p>\n\n<h2>よくある原因</h2>\n<ul>\n<li>DB/API が null を返した</li>\n<li>初期化前にアクセス</li>\n<li>Optional 未使用</li>\n</ul><h2>解決方法</h2><h3>方法1: null チェック</h3><p>Objects.requireNonNull や Optional を使います.</p><pre><code>if (user == null) throw new IllegalArgumentException(&quot;user is null&quot;);</code></pre>\n<h2>それでも直らないとき</h2>\n<p>バージョン情報（Java のバージョン、OS、実行コマンド）を添えて、エラーメッセージ全文と直前に変更した点を確認してください。ログの数行上にも原因の手がかりが残っていることが多いです。</p>",
+  "conclusion": "「java.lang.NullPointerException: Cannot invoke \"com.example.User.getId()\" because \"user\" is null」は DB/API が null を返した が原因のことが多いです。上記の手順で切り分けてください。",
+  "tags": [
+    "java",
+    "Javaエラー",
+    "java.lang.NullPointerException",
+    "NullPointerException",
+    "java.lang.NullPointerException: Cannot i"
+  ],
+  "category": "Javaエラー",
+  "theme": "errors - Java エラー・トラブル集",
+  "articleType": "error",
+  "status": "published",
+  "createdAt": "2026-05-30T05:47:35.288Z",
+  "updatedAt": "2026-05-30T05:47:35.288Z",
+  "publishedAt": "2026-05-30T05:47:35.288Z",
+  "metaTitle": "java.lang.NullPointerException: Cannot invoke \"com.example.…",
+  "metaDescription": "java.lang.NullPointerException: Cannot invoke \"com.example.User.getId()\" because \"user\" is null が出たときの原因・確認手順・解決策を解説。null 参照。",
+  "ogTitle": "java.lang.NullPointerException: Cannot invoke \"com.example.User.getId()\" because \"user\" is null の原因と解決法",
+  "ogDescription": "java.lang.NullPointerException: Cannot invoke \"com.example.User.getId()\" because \"user\" is null が出たときの原因・確認手順・解決策を解説。null 参照。",
+  "knowledge": {
+    "topic": "errors",
+    "courseId": "java-errors",
+    "episode": 19
+  },
+  "faq": [
+    {
+      "question": "java.lang.NullPointerException: Cannot invoke \"com.example.User.getId()\" beca… とは何ですか？",
+      "answer": "java.lang.NullPointerException: Cannot invoke \"com.example.User.getId()\" because \"user\" is null は Java 実行時に表示されるエラーです。DB/API が null を返した"
+    },
+    {
+      "question": "java.lang.NullPointerException: Cannot invoke \"com.example.User.getId()\" beca… の原因は？",
+      "answer": "DB/API が null を返した。初期化前にアクセス。Optional 未使用。"
+    },
+    {
+      "question": "java.lang.NullPointerException: Cannot invoke \"com.example.User.getId()\" beca… の直し方は？",
+      "answer": "null チェック：Objects.requireNonNull や Optional を使います."
+    },
+    {
+      "question": "Java で java.lang.NullPointerException が出るのはなぜ？",
+      "answer": "null 参照"
+    },
+    {
+      "question": "java.lang.NullPointerException: Cannot invoke \"com.example.User.getId()\" beca… を防ぐには？",
+      "answer": "。"
+    }
+  ],
+  "nextAction": "同じ Java カテゴリの関連エラーもあわせて確認してください。",
+  "internalLinkCandidates": [],
+  "ogImage": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+  "canonical": "https://ai-site-iota-nine.vercel.app/article/java-java-lang-nullpointerexception-cannot-invoke-com-example-user-getid-because-c40375",
+  "jsonLd": {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@context": "https://schema.org",
+        "@type": "TechArticle",
+        "headline": "java.lang.NullPointerException: Cannot invoke \"com.example.User.getId()\" because \"user\" is null の原因と解決法",
+        "description": "java.lang.NullPointerException: Cannot invoke \"com.example.User.getId()\" because \"user\" is null が出たときの原因・確認手順・解決策を解説。null 参照。",
+        "datePublished": "2026-05-30T05:47:35.288Z",
+        "dateModified": "2026-05-30T05:47:35.288Z",
+        "author": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
+        },
+        "image": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+        "inLanguage": "ja",
+        "wordCount": 593,
+        "mainEntityOfPage": {
+          "@type": "WebPage",
+          "@id": "https://ai-site-iota-nine.vercel.app/article/java-java-lang-nullpointerexception-cannot-invoke-com-example-user-getid-because-c40375"
+        },
+        "keywords": "java, Javaエラー, java.lang.NullPointerException, NullPointerException, java.lang.NullPointerException: Cannot i",
+        "articleSection": "Javaエラー",
+        "url": "https://ai-site-iota-nine.vercel.app/article/java-java-lang-nullpointerexception-cannot-invoke-com-example-user-getid-because-c40375",
+        "learningResourceType": "tutorial",
+        "educationalLevel": "beginner"
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "ホーム",
+            "item": "https://ai-site-iota-nine.vercel.app/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "errors",
+            "item": "https://ai-site-iota-nine.vercel.app/knowledge/errors"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "Java エラー・トラブル集",
+            "item": "https://ai-site-iota-nine.vercel.app/course/errors/java-errors"
+          },
+          {
+            "@type": "ListItem",
+            "position": 4,
+            "name": "java.lang.NullPointerException: Cannot invoke \"com.example.User.getId()\" because \"user\" is null の原因と解決法",
+            "item": "https://ai-site-iota-nine.vercel.app/article/java-java-lang-nullpointerexception-cannot-invoke-com-example-user-getid-because-c40375"
+          }
+        ]
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "Course",
+        "name": "Java エラー・トラブル集",
+        "description": "Java エラー・トラブル集",
+        "provider": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app"
+        },
+        "url": "https://ai-site-iota-nine.vercel.app/course/errors/java-errors",
+        "inLanguage": "ja",
+        "educationalLevel": "beginner",
+        "hasCourseInstance": {
+          "@type": "CourseInstance",
+          "courseMode": "online",
+          "courseWorkload": "PT1H"
+        }
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "java.lang.NullPointerException: Cannot invoke \"com.example.User.getId()\" beca… とは何ですか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "java.lang.NullPointerException: Cannot invoke \"com.example.User.getId()\" because \"user\" is null は Java 実行時に表示されるエラーです。DB/API が null を返した"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "java.lang.NullPointerException: Cannot invoke \"com.example.User.getId()\" beca… の原因は？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "DB/API が null を返した。初期化前にアクセス。Optional 未使用。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "java.lang.NullPointerException: Cannot invoke \"com.example.User.getId()\" beca… の直し方は？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "null チェック：Objects.requireNonNull や Optional を使います."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Java で java.lang.NullPointerException が出るのはなぜ？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "null 参照"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "java.lang.NullPointerException: Cannot invoke \"com.example.User.getId()\" beca… を防ぐには？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "。"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "breadcrumb": {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "ホーム",
+        "item": "https://ai-site-iota-nine.vercel.app/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "errors",
+        "item": "https://ai-site-iota-nine.vercel.app/knowledge/errors"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "Java エラー・トラブル集",
+        "item": "https://ai-site-iota-nine.vercel.app/course/errors/java-errors"
+      },
+      {
+        "@type": "ListItem",
+        "position": 4,
+        "name": "java.lang.NullPointerException: Cannot invoke \"com.example.User.getId()\" because \"user\" is null の原因と解決法",
+        "item": "https://ai-site-iota-nine.vercel.app/article/java-java-lang-nullpointerexception-cannot-invoke-com-example-user-getid-because-c40375"
+      }
+    ]
+  },
+  "courseSchema": {
+    "@context": "https://schema.org",
+    "@type": "Course",
+    "name": "Java エラー・トラブル集",
+    "description": "Java エラー・トラブル集",
+    "provider": {
+      "@type": "Organization",
+      "name": "StackShelf",
+      "url": "https://ai-site-iota-nine.vercel.app"
+    },
+    "url": "https://ai-site-iota-nine.vercel.app/course/errors/java-errors",
+    "inLanguage": "ja",
+    "educationalLevel": "beginner",
+    "hasCourseInstance": {
+      "@type": "CourseInstance",
+      "courseMode": "online",
+      "courseWorkload": "PT1H"
+    }
+  },
+  "faqSchema": {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "java.lang.NullPointerException: Cannot invoke \"com.example.User.getId()\" beca… とは何ですか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "java.lang.NullPointerException: Cannot invoke \"com.example.User.getId()\" because \"user\" is null は Java 実行時に表示されるエラーです。DB/API が null を返した"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "java.lang.NullPointerException: Cannot invoke \"com.example.User.getId()\" beca… の原因は？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "DB/API が null を返した。初期化前にアクセス。Optional 未使用。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "java.lang.NullPointerException: Cannot invoke \"com.example.User.getId()\" beca… の直し方は？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "null チェック：Objects.requireNonNull や Optional を使います."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Java で java.lang.NullPointerException が出るのはなぜ？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "null 参照"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "java.lang.NullPointerException: Cannot invoke \"com.example.User.getId()\" beca… を防ぐには？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "。"
+        }
+      }
+    ]
+  }
+}

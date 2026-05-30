@@ -1,0 +1,292 @@
+{
+  "id": "art_errors_python-modulenotfounderror-no-module-named-conda-cbe1a7",
+  "slug": "python-modulenotfounderror-no-module-named-conda-cbe1a7",
+  "title": "ModuleNotFoundError: No module named 'conda' の原因と解決法",
+  "summary": "ModuleNotFoundError: No module named 'conda' の原因と具体的な解決手順をまとめました。",
+  "body": "<h2>エラーメッセージ（全文）</h2>\n<p>検索でヒットしやすいよう、実際のコンソール出力をそのまま掲載します。</p>\n<pre><code>ModuleNotFoundError: No module named 'conda'</code></pre>\n\n<h2>このエラーとは</h2>\n<p>ModuleNotFoundError: No module named 'conda' は Python 開発でよく遭遇するエラーです。</p>\n<p><strong>想定環境:</strong> Windows / macOS / Linux</p>\n<p><strong>よく出る状況:</strong> pip install 前、venv 未有効化、パッケージ名 typo</p>\n\n<h2>よくある原因</h2>\n<ul>\n<li>パッケージ 'conda' がインストールされていない</li>\n<li>仮想環境が有効化されておらず別の Python を使っている</li>\n<li>pip install 時のパッケージ名が異なる（PyPI 名と import 名の不一致）</li>\n</ul>\n<h2>確認手順（切り分け）</h2>\n<ol>\n<li>python -c &quot;import sys; print(sys.executable)&quot; で使用中の Python を確認</li>\n<li>pip list | findstr /i conda（Windows）または pip list | grep -i conda</li>\n<li>仮想環境なら source venv/bin/activate または .\\venv\\Scripts\\activate</li>\n</ol><h2>解決方法</h2><h3>方法1: パッケージをインストール</h3><p>使用中の Python に対して pip でインストールします。</p><pre><code>pip install conda\n# または\npython -m pip install conda</code></pre><h3>方法2: 仮想環境を有効化してから再インストール</h3><p>グローバルと venv の取り違えが最も多い原因です。</p><pre><code>python -m venv venv\n# Windows\nvenv\\Scripts\\activate\n# macOS/Linux\nsource venv/bin/activate\npip install conda</code></pre>\n<h2>再発防止</h2>\n<ul>\n<li>requirements.txt に依存関係を固定</li>\n<li>CI でも同じ venv 手順を使う</li>\n</ul>\n<h2>それでも直らないとき</h2>\n<p>バージョン情報（Python のバージョン、OS、実行コマンド）を添えて、エラーメッセージ全文と直前に変更した点を確認してください。ログの数行上にも原因の手がかりが残っていることが多いです。</p>",
+  "conclusion": "「ModuleNotFoundError: No module named 'conda'」は パッケージ 'conda' がインストールされていない が原因のことが多いです。上記の手順で切り分けてください。",
+  "tags": [
+    "python",
+    "Pythonエラー",
+    "ModuleNotFoundError",
+    "conda",
+    "pip",
+    "venv",
+    "ModuleNotFoundError: No module named 'co"
+  ],
+  "category": "Pythonエラー",
+  "theme": "errors - Python エラー・トラブル集",
+  "articleType": "error",
+  "status": "published",
+  "createdAt": "2026-05-30T05:47:29.708Z",
+  "updatedAt": "2026-05-30T05:47:29.708Z",
+  "publishedAt": "2026-05-30T05:47:29.708Z",
+  "metaTitle": "ModuleNotFoundError: No module named 'conda' の原因と解決法 | Pyth…",
+  "metaDescription": "ModuleNotFoundError: No module named 'conda' が出たときの原因・確認手順・解決策を解説。pip install 前、venv 未有効化、パッケージ名 typo。",
+  "ogTitle": "ModuleNotFoundError: No module named 'conda' の原因と解決法",
+  "ogDescription": "ModuleNotFoundError: No module named 'conda' が出たときの原因・確認手順・解決策を解説。pip install 前、venv 未有効化、パッケージ名 typo。",
+  "knowledge": {
+    "topic": "errors",
+    "courseId": "python-errors",
+    "episode": 212
+  },
+  "faq": [
+    {
+      "question": "ModuleNotFoundError: No module named 'conda' とは何ですか？",
+      "answer": "ModuleNotFoundError: No module named 'conda' は Python 実行時に表示されるエラーです。パッケージ 'conda' がインストールされていない"
+    },
+    {
+      "question": "ModuleNotFoundError: No module named 'conda' の原因は？",
+      "answer": "パッケージ 'conda' がインストールされていない。仮想環境が有効化されておらず別の Python を使っている。pip install 時のパッケージ名が異なる（PyPI 名と import 名の不一致）。"
+    },
+    {
+      "question": "ModuleNotFoundError: No module named 'conda' の直し方は？",
+      "answer": "パッケージをインストール：使用中の Python に対して pip でインストールします。 仮想環境を有効化してから再インストール：グローバルと venv の取り違えが最も多い原因です。"
+    },
+    {
+      "question": "Python で ModuleNotFoundError が出るのはなぜ？",
+      "answer": "pip install 前、venv 未有効化、パッケージ名 typo"
+    },
+    {
+      "question": "ModuleNotFoundError: No module named 'conda' を防ぐには？",
+      "answer": "requirements.txt に依存関係を固定。CI でも同じ venv 手順を使う。"
+    }
+  ],
+  "nextAction": "同じ Python カテゴリの関連エラーもあわせて確認してください。",
+  "internalLinkCandidates": [],
+  "ogImage": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+  "canonical": "https://ai-site-iota-nine.vercel.app/article/python-modulenotfounderror-no-module-named-conda-cbe1a7",
+  "jsonLd": {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@context": "https://schema.org",
+        "@type": "TechArticle",
+        "headline": "ModuleNotFoundError: No module named 'conda' の原因と解決法",
+        "description": "ModuleNotFoundError: No module named 'conda' が出たときの原因・確認手順・解決策を解説。pip install 前、venv 未有効化、パッケージ名 typo。",
+        "datePublished": "2026-05-30T05:47:29.708Z",
+        "dateModified": "2026-05-30T05:47:29.708Z",
+        "author": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
+        },
+        "image": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+        "inLanguage": "ja",
+        "wordCount": 880,
+        "mainEntityOfPage": {
+          "@type": "WebPage",
+          "@id": "https://ai-site-iota-nine.vercel.app/article/python-modulenotfounderror-no-module-named-conda-cbe1a7"
+        },
+        "keywords": "python, Pythonエラー, ModuleNotFoundError, conda, pip, venv, ModuleNotFoundError: No module named 'co",
+        "articleSection": "Pythonエラー",
+        "url": "https://ai-site-iota-nine.vercel.app/article/python-modulenotfounderror-no-module-named-conda-cbe1a7",
+        "learningResourceType": "tutorial",
+        "educationalLevel": "beginner"
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "ホーム",
+            "item": "https://ai-site-iota-nine.vercel.app/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "errors",
+            "item": "https://ai-site-iota-nine.vercel.app/knowledge/errors"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "Python エラー・トラブル集",
+            "item": "https://ai-site-iota-nine.vercel.app/course/errors/python-errors"
+          },
+          {
+            "@type": "ListItem",
+            "position": 4,
+            "name": "ModuleNotFoundError: No module named 'conda' の原因と解決法",
+            "item": "https://ai-site-iota-nine.vercel.app/article/python-modulenotfounderror-no-module-named-conda-cbe1a7"
+          }
+        ]
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "Course",
+        "name": "Python エラー・トラブル集",
+        "description": "Python エラー・トラブル集",
+        "provider": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app"
+        },
+        "url": "https://ai-site-iota-nine.vercel.app/course/errors/python-errors",
+        "inLanguage": "ja",
+        "educationalLevel": "beginner",
+        "hasCourseInstance": {
+          "@type": "CourseInstance",
+          "courseMode": "online",
+          "courseWorkload": "PT1H"
+        }
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "ModuleNotFoundError: No module named 'conda' とは何ですか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "ModuleNotFoundError: No module named 'conda' は Python 実行時に表示されるエラーです。パッケージ 'conda' がインストールされていない"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "ModuleNotFoundError: No module named 'conda' の原因は？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "パッケージ 'conda' がインストールされていない。仮想環境が有効化されておらず別の Python を使っている。pip install 時のパッケージ名が異なる（PyPI 名と import 名の不一致）。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "ModuleNotFoundError: No module named 'conda' の直し方は？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "パッケージをインストール：使用中の Python に対して pip でインストールします。 仮想環境を有効化してから再インストール：グローバルと venv の取り違えが最も多い原因です。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Python で ModuleNotFoundError が出るのはなぜ？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "pip install 前、venv 未有効化、パッケージ名 typo"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "ModuleNotFoundError: No module named 'conda' を防ぐには？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "requirements.txt に依存関係を固定。CI でも同じ venv 手順を使う。"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "breadcrumb": {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "ホーム",
+        "item": "https://ai-site-iota-nine.vercel.app/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "errors",
+        "item": "https://ai-site-iota-nine.vercel.app/knowledge/errors"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "Python エラー・トラブル集",
+        "item": "https://ai-site-iota-nine.vercel.app/course/errors/python-errors"
+      },
+      {
+        "@type": "ListItem",
+        "position": 4,
+        "name": "ModuleNotFoundError: No module named 'conda' の原因と解決法",
+        "item": "https://ai-site-iota-nine.vercel.app/article/python-modulenotfounderror-no-module-named-conda-cbe1a7"
+      }
+    ]
+  },
+  "courseSchema": {
+    "@context": "https://schema.org",
+    "@type": "Course",
+    "name": "Python エラー・トラブル集",
+    "description": "Python エラー・トラブル集",
+    "provider": {
+      "@type": "Organization",
+      "name": "StackShelf",
+      "url": "https://ai-site-iota-nine.vercel.app"
+    },
+    "url": "https://ai-site-iota-nine.vercel.app/course/errors/python-errors",
+    "inLanguage": "ja",
+    "educationalLevel": "beginner",
+    "hasCourseInstance": {
+      "@type": "CourseInstance",
+      "courseMode": "online",
+      "courseWorkload": "PT1H"
+    }
+  },
+  "faqSchema": {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "ModuleNotFoundError: No module named 'conda' とは何ですか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "ModuleNotFoundError: No module named 'conda' は Python 実行時に表示されるエラーです。パッケージ 'conda' がインストールされていない"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "ModuleNotFoundError: No module named 'conda' の原因は？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "パッケージ 'conda' がインストールされていない。仮想環境が有効化されておらず別の Python を使っている。pip install 時のパッケージ名が異なる（PyPI 名と import 名の不一致）。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "ModuleNotFoundError: No module named 'conda' の直し方は？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "パッケージをインストール：使用中の Python に対して pip でインストールします。 仮想環境を有効化してから再インストール：グローバルと venv の取り違えが最も多い原因です。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Python で ModuleNotFoundError が出るのはなぜ？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "pip install 前、venv 未有効化、パッケージ名 typo"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "ModuleNotFoundError: No module named 'conda' を防ぐには？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "requirements.txt に依存関係を固定。CI でも同じ venv 手順を使う。"
+        }
+      }
+    ]
+  }
+}

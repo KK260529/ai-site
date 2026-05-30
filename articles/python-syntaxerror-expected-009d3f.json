@@ -1,0 +1,289 @@
+{
+  "id": "art_errors_python-syntaxerror-expected-009d3f",
+  "slug": "python-syntaxerror-expected-009d3f",
+  "title": "SyntaxError: expected ':' の原因と解決法",
+  "summary": "SyntaxError: expected ':' の原因と具体的な解決手順をまとめました。",
+  "body": "<h2>エラーメッセージ（全文）</h2>\n<p>検索でヒットしやすいよう、実際のコンソール出力をそのまま掲載します。</p>\n<pre><code>SyntaxError: expected ':'</code></pre>\n\n<h2>このエラーとは</h2>\n<p>SyntaxError: expected ':' は Python 開発でよく遭遇するエラーです。</p>\n<p><strong>想定環境:</strong> Windows / macOS / Linux</p>\n<p><strong>よく出る状況:</strong> コピペ、全角文字、括弧・インデントのミス</p>\n\n<h2>よくある原因</h2>\n<ul>\n<li>全角コロン・括弧の混入</li>\n<li>括弧/引用符の閉じ忘れ</li>\n<li>try ブロック後の except 欠落</li>\n</ul><h2>解決方法</h2><h3>方法1: 該当行付近を確認</h3><p>エラー行番号の ±3 行を見直します。</p><h3>方法2: 全角→半角</h3><p>エディタで全角記号を検索置換します。</p>\n<h2>それでも直らないとき</h2>\n<p>バージョン情報（Python のバージョン、OS、実行コマンド）を添えて、エラーメッセージ全文と直前に変更した点を確認してください。ログの数行上にも原因の手がかりが残っていることが多いです。</p>",
+  "conclusion": "「SyntaxError: expected ':'」は 全角コロン・括弧の混入 が原因のことが多いです。上記の手順で切り分けてください。",
+  "tags": [
+    "python",
+    "Pythonエラー",
+    "SyntaxError",
+    "SyntaxError: expected ':'"
+  ],
+  "category": "Pythonエラー",
+  "theme": "errors - Python エラー・トラブル集",
+  "articleType": "error",
+  "status": "published",
+  "createdAt": "2026-05-30T05:47:31.102Z",
+  "updatedAt": "2026-05-30T05:47:31.102Z",
+  "publishedAt": "2026-05-30T05:47:31.102Z",
+  "metaTitle": "SyntaxError: expected ':' の原因と解決法 | Pythonエラー",
+  "metaDescription": "SyntaxError: expected ':' が出たときの原因・確認手順・解決策を解説。コピペ、全角文字、括弧・インデントのミス。",
+  "ogTitle": "SyntaxError: expected ':' の原因と解決法",
+  "ogDescription": "SyntaxError: expected ':' が出たときの原因・確認手順・解決策を解説。コピペ、全角文字、括弧・インデントのミス。",
+  "knowledge": {
+    "topic": "errors",
+    "courseId": "python-errors",
+    "episode": 261
+  },
+  "faq": [
+    {
+      "question": "SyntaxError: expected ':' とは何ですか？",
+      "answer": "SyntaxError: expected ':' は Python 実行時に表示されるエラーです。全角コロン・括弧の混入"
+    },
+    {
+      "question": "SyntaxError: expected ':' の原因は？",
+      "answer": "全角コロン・括弧の混入。括弧/引用符の閉じ忘れ。try ブロック後の except 欠落。"
+    },
+    {
+      "question": "SyntaxError: expected ':' の直し方は？",
+      "answer": "該当行付近を確認：エラー行番号の ±3 行を見直します。 全角→半角：エディタで全角記号を検索置換します。"
+    },
+    {
+      "question": "Python で SyntaxError が出るのはなぜ？",
+      "answer": "コピペ、全角文字、括弧・インデントのミス"
+    },
+    {
+      "question": "SyntaxError: expected ':' を防ぐには？",
+      "answer": "。"
+    }
+  ],
+  "nextAction": "同じ Python カテゴリの関連エラーもあわせて確認してください。",
+  "internalLinkCandidates": [],
+  "ogImage": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+  "canonical": "https://ai-site-iota-nine.vercel.app/article/python-syntaxerror-expected-009d3f",
+  "jsonLd": {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@context": "https://schema.org",
+        "@type": "TechArticle",
+        "headline": "SyntaxError: expected ':' の原因と解決法",
+        "description": "SyntaxError: expected ':' が出たときの原因・確認手順・解決策を解説。コピペ、全角文字、括弧・インデントのミス。",
+        "datePublished": "2026-05-30T05:47:31.102Z",
+        "dateModified": "2026-05-30T05:47:31.102Z",
+        "author": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
+        },
+        "image": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+        "inLanguage": "ja",
+        "wordCount": 381,
+        "mainEntityOfPage": {
+          "@type": "WebPage",
+          "@id": "https://ai-site-iota-nine.vercel.app/article/python-syntaxerror-expected-009d3f"
+        },
+        "keywords": "python, Pythonエラー, SyntaxError, SyntaxError: expected ':'",
+        "articleSection": "Pythonエラー",
+        "url": "https://ai-site-iota-nine.vercel.app/article/python-syntaxerror-expected-009d3f",
+        "learningResourceType": "tutorial",
+        "educationalLevel": "beginner"
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "ホーム",
+            "item": "https://ai-site-iota-nine.vercel.app/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "errors",
+            "item": "https://ai-site-iota-nine.vercel.app/knowledge/errors"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "Python エラー・トラブル集",
+            "item": "https://ai-site-iota-nine.vercel.app/course/errors/python-errors"
+          },
+          {
+            "@type": "ListItem",
+            "position": 4,
+            "name": "SyntaxError: expected ':' の原因と解決法",
+            "item": "https://ai-site-iota-nine.vercel.app/article/python-syntaxerror-expected-009d3f"
+          }
+        ]
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "Course",
+        "name": "Python エラー・トラブル集",
+        "description": "Python エラー・トラブル集",
+        "provider": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app"
+        },
+        "url": "https://ai-site-iota-nine.vercel.app/course/errors/python-errors",
+        "inLanguage": "ja",
+        "educationalLevel": "beginner",
+        "hasCourseInstance": {
+          "@type": "CourseInstance",
+          "courseMode": "online",
+          "courseWorkload": "PT1H"
+        }
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "SyntaxError: expected ':' とは何ですか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "SyntaxError: expected ':' は Python 実行時に表示されるエラーです。全角コロン・括弧の混入"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "SyntaxError: expected ':' の原因は？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "全角コロン・括弧の混入。括弧/引用符の閉じ忘れ。try ブロック後の except 欠落。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "SyntaxError: expected ':' の直し方は？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "該当行付近を確認：エラー行番号の ±3 行を見直します。 全角→半角：エディタで全角記号を検索置換します。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Python で SyntaxError が出るのはなぜ？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "コピペ、全角文字、括弧・インデントのミス"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "SyntaxError: expected ':' を防ぐには？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "。"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "breadcrumb": {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "ホーム",
+        "item": "https://ai-site-iota-nine.vercel.app/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "errors",
+        "item": "https://ai-site-iota-nine.vercel.app/knowledge/errors"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "Python エラー・トラブル集",
+        "item": "https://ai-site-iota-nine.vercel.app/course/errors/python-errors"
+      },
+      {
+        "@type": "ListItem",
+        "position": 4,
+        "name": "SyntaxError: expected ':' の原因と解決法",
+        "item": "https://ai-site-iota-nine.vercel.app/article/python-syntaxerror-expected-009d3f"
+      }
+    ]
+  },
+  "courseSchema": {
+    "@context": "https://schema.org",
+    "@type": "Course",
+    "name": "Python エラー・トラブル集",
+    "description": "Python エラー・トラブル集",
+    "provider": {
+      "@type": "Organization",
+      "name": "StackShelf",
+      "url": "https://ai-site-iota-nine.vercel.app"
+    },
+    "url": "https://ai-site-iota-nine.vercel.app/course/errors/python-errors",
+    "inLanguage": "ja",
+    "educationalLevel": "beginner",
+    "hasCourseInstance": {
+      "@type": "CourseInstance",
+      "courseMode": "online",
+      "courseWorkload": "PT1H"
+    }
+  },
+  "faqSchema": {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "SyntaxError: expected ':' とは何ですか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "SyntaxError: expected ':' は Python 実行時に表示されるエラーです。全角コロン・括弧の混入"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "SyntaxError: expected ':' の原因は？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "全角コロン・括弧の混入。括弧/引用符の閉じ忘れ。try ブロック後の except 欠落。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "SyntaxError: expected ':' の直し方は？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "該当行付近を確認：エラー行番号の ±3 行を見直します。 全角→半角：エディタで全角記号を検索置換します。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Python で SyntaxError が出るのはなぜ？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "コピペ、全角文字、括弧・インデントのミス"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "SyntaxError: expected ':' を防ぐには？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "。"
+        }
+      }
+    ]
+  }
+}

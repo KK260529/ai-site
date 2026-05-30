@@ -1,0 +1,14 @@
+{
+  "concepts": [
+    {
+      "id": "error-lookup",
+      "title": "エラー検索",
+      "description": "メッセージ全文で検索して該当記事を見つける"
+    },
+    {
+      "id": "root-cause",
+      "title": "根本原因",
+      "description": "表面のエラーではなく発生条件を特定する"
+    }
+  ]
+}

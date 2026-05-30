@@ -17,12 +17,12 @@
   "theme": "bash - Bashシェルスクリプト入門",
   "status": "published",
   "createdAt": "2026-05-30T05:14:50.854Z",
-  "updatedAt": "2026-05-30T05:14:50.859Z",
+  "updatedAt": "2026-05-30T05:15:42.579Z",
   "publishedAt": "2026-05-30T05:14:50.854Z",
   "metaTitle": "Bash 関数 の書き方｜local・return・source 入門",
-  "metaDescription": "【Bash初心者向け】Bashスクリプトの関数定義、引数、local変数、return、ライブラリファイルの source 読み込みを初心者向けに解説します。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
+  "metaDescription": "Bashスクリプトの関数定義、引数、local変数、return、ライブラリファイルの source 読み込みを初心者向けに解説します。",
   "ogTitle": "Bash関数の定義と使い方",
-  "ogDescription": "【Bash初心者向け】【Bash初心者向け】スクリプトを関数でモジュール化し、保守しやすくする方法を解説します。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
+  "ogDescription": "スクリプトを関数でモジュール化し、保守しやすくする方法を解説します。",
   "knowledge": {
     "topic": "bash",
     "courseId": "bash",
@@ -54,29 +54,29 @@
   "nextAction": "lib/log.sh に log_info/log_error を定義し、main.sh から source してバックアップ処理を関数 do_backup に分離して実行してみてください。",
   "internalLinkCandidates": [
     {
-      "slug": "python-functions",
-      "title": "Pythonの関数（def）をマスターする【入門第6回】",
-      "reason": "関数による処理の再利用という考え方は Python と共通です。"
+      "slug": "bash-pipes-scripts",
+      "title": "Bashのパイプとコマンド置換｜CLIを組み合わせるデータ処理【第6回】",
+      "reason": "同じ講座の関連回です"
     },
     {
-      "slug": "linux-environment",
-      "title": "環境変数・.bashrc・PATHの仕組みを理解する【Linux設定入門】",
-      "reason": ".bashrc でも関数定義がよく使われます。"
+      "slug": "bash-loops",
+      "title": "Bashのfor・whileループ完全ガイド｜一括処理と対話入力【シェルスクリプト第4回】",
+      "reason": "同じ講座の関連回です"
     },
     {
-      "slug": "git-intro",
-      "title": "Gitとは？バージョン管理を初めて学ぶ人のための完全入門",
-      "reason": "共通シェル関数をリポジトリで共有する運用と相性が良いです。"
+      "slug": "bash-conditionals",
+      "title": "Bashのifとtestによる条件分岐｜ファイル判定・文字列比較をマスター【第3回】",
+      "reason": "同じ講座の関連回です"
     },
     {
-      "slug": "docker-intro",
-      "title": "Dockerとは？仮想マシンとの違いをわかりやすく解説【初心者向け】",
-      "reason": "entrypoint スクリプトも関数で整理することが多いです。"
+      "slug": "bash-variables",
+      "title": "Bashの変数・引数・終了コードをマスターする【シェルスクリプト入門第2回】",
+      "reason": "同じ講座の関連回です"
     },
     {
-      "slug": "regex-intro",
-      "title": "正規表現とは？いつ使うのか",
-      "reason": "関数内でのパターンマッチ検証に正規表現を使います。"
+      "slug": "bash-intro",
+      "title": "Bashシェルスクリプトとは？自動化の第一歩をわかりやすく解説【初心者向け】",
+      "reason": "同じ講座の関連回です"
     }
   ],
   "ogImage": "https://ai-site-iota-nine.vercel.app/og-default.svg",
@@ -90,7 +90,7 @@
         "headline": "Bash関数の定義と使い方｜再利用可能なスクリプトを書く【第5回】",
         "description": "【Bash初心者向け】Bashスクリプトの関数定義、引数、local変数、return、ライブラリファイルの source 読み込みを初心者向けに解説します。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
         "datePublished": "2026-05-30T05:14:50.854Z",
-        "dateModified": "2026-05-30T05:14:50.859Z",
+        "dateModified": "2026-05-30T05:15:42.579Z",
         "author": {
           "@type": "Organization",
           "name": "StackShelf",

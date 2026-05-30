@@ -1,10 +1,10 @@
 {
   "id": "art_1780054187631",
   "slug": "java-control-structures",
-  "title": "Java制御構文の基礎",
-  "summary": "Javaの制御構文は、プログラムの流れを制御するために使用されます。if文、switch文、for文、while文などの種類があります。このエピソードでは、Javaの制御構文の基礎を学びます。",
-  "body": "<h2>制御構文の概要</h2><p>Javaの制御構文は、プログラムの流れを制御するために使用されます。条件に応じて、プログラムの実行を分岐したり、繰り返し実行したりすることができます。</p><h3>if文</h3><p>if文は、条件に応じて、プログラムの実行を分岐するために使用されます。例えば、次のコードでは、xが5より大きい場合にのみ、コンソールに「xは5より大きい」と表示されます。</p><pre><code>int x = 10;\nif (x > 5) {\n    System.out.println(\"xは5より大きい\");\n}</code></pre><h3>switch文</h3><p>switch文は、複数の条件に応じて、プログラムの実行を分岐するために使用されます。例えば、次のコードでは、xの値に応じて、コンソールに「xは1」、「xは2」、「xは3」などと表示されます。</p><pre><code>int x = 2;\nswitch (x) {\n    case 1:\n        System.out.println(\"xは1\");\n        break;\n    case 2:\n        System.out.println(\"xは2\");\n        break;\n    case 3:\n        System.out.println(\"xは3\");\n        break;\n    default:\n        System.out.println(\"xは1、2、3以外\");\n        break;\n}</code></pre><h3>for文</h3><p>for文は、指定された回数、繰り返し実行するために使用されます。例えば、次のコードでは、コンソールに「1」、「2」、「3」、「4」、「5」と表示されます。</p><pre><code>for (int i = 1; i <= 5; i++) {\n    System.out.println(i);\n}</code></pre><h3>while文</h3><p>while文は、条件が真である限り、繰り返し実行するために使用されます。例えば、次のコードでは、コンソールに「1」、「2」、「3」、「4」、「5」と表示されます。</p><pre><code>int i = 1;\nwhile (i <= 5) {\n    System.out.println(i);\n    i++;\n}</code></pre>",
-  "conclusion": "Javaの制御構文は、プログラムの流れを制御するために使用されます。if文、switch文、for文、while文などの種類があります。このエピソードでは、Javaの制御構文の基礎を学びました。次のエピソードでは、Javaの関数について学びます。",
+  "title": "Java制御構文｜if・switch・for・while",
+  "summary": "if/else、switch、for、while、break/continueの書き方と使い分けを学びます。条件式の型、無限ループ、switchのfall-throughなど失敗例も解説します。",
+  "body": "<h2>結論：制御構文は「条件で分岐」と「条件で繰り返し」の2種類でプログラムの流れを変える</h2>\n<p>Javaでは<strong>if / else if / else</strong>で分岐、<strong>for / while / do-while</strong>で繰り返しを実現します。条件式は必ず <code>boolean</code> 型（<code>true</code> か <code>false</code>）である必要があり、C言語のように数値を条件に使うことはできません。</p>\n\n<h2>if 文</h2>\n<pre><code>int score = 85;\nif (score >= 90) {\n    System.out.println(\"A\");\n} else if (score >= 80) {\n    System.out.println(\"B\");\n} else {\n    System.out.println(\"C以下\");\n}</code></pre>\n\n<h3>失敗例：= と == の取り違え</h3>\n<pre><code>if (score = 90) { } // コンパイルエラー: int を boolean に変換できない</code></pre>\n<p>代入 <code>=</code> と比較 <code>==</code> を混同すると意図しない動作やエラーになります。</p>\n\n<h2>switch 文（Java 14+）</h2>\n<pre><code>String day = \"MON\";\nswitch (day) {\n    case \"MON\", \"TUE\", \"WED\", \"THU\", \"FRI\" -> System.out.println(\"平日\");\n    case \"SAT\", \"SUN\" -> System.out.println(\"休日\");\n    default -> System.out.println(\"不明\");\n}</code></pre>\n<p>矢印構文（->）では fall-through しません。従来の <code>case:</code> + <code>break;</code> では break 忘れに注意です。</p>\n\n<h3>失敗例：break 忘れ（従来構文）</h3>\n<pre><code>switch (n) {\n    case 1:\n        System.out.println(\"one\");\n    case 2:\n        System.out.println(\"two\"); // case 1 でも実行される\n        break;\n}</code></pre>\n\n<h2>for ループ</h2>\n<pre><code>for (int i = 0; i &lt; 5; i++) {\n    System.out.println(i);\n}\n// 拡張for（配列・コレクション）\nint[] nums = {1, 2, 3};\nfor (int n : nums) {\n    System.out.println(n);\n}</code></pre>\n\n<h2>while / do-while</h2>\n<pre><code>int i = 0;\nwhile (i &lt; 3) {\n    System.out.println(i++);\n}\n\nint j = 0;\ndo {\n    System.out.println(j++);\n} while (j &lt; 3);</code></pre>\n\n<h3>失敗例：無限ループ</h3>\n<pre><code>int i = 0;\nwhile (i &lt; 5) {\n    System.out.println(i);\n    // i++ を忘れると永遠に 0 が出力される\n}</code></pre>\n\n<h2>break と continue</h2>\n<p><code>break</code> はループを抜け、<code>continue</code> は次の反復へ進みます。ネストが深い場合はラベル付き break も使えますが、可読性のためメソッド分割を検討しましょう。</p>\n\n<h2>まとめ</h2>\n<p>制御構文は boolean 条件が基本で、switch は break（または ->）に注意、ループは更新処理忘れで無限ループになります。次回はメソッド（関数）で処理を再利用可能な単位に分割します。</p>",
+  "conclusion": "Javaの制御構文はifで分岐、for/whileで繰り返しを実現します。==と=の混同、switchのbreak忘れ、ループ変数の更新忘れは典型のバグです。FizzBuzzや九九表を書いて、各構文を手で試しましょう。",
   "tags": [
     "Java",
     "制御構文",
@@ -17,12 +17,12 @@
   "theme": "java - Java",
   "status": "published",
   "createdAt": "2026-05-29T11:29:47.621Z",
-  "updatedAt": "2026-05-29T14:35:19.470Z",
+  "updatedAt": "2026-05-30T05:18:37.025Z",
   "publishedAt": "2026-05-29T11:29:47.621Z",
-  "metaTitle": "Java制御構文の基礎",
-  "metaDescription": "Javaの制御構文は、プログラムの流れを制御するために使用されます。if文、switch文、for文、while文などの種類があります。",
+  "metaTitle": "Java制御構文｜if・for・whileを初心者向け解説 | StackShelf",
+  "metaDescription": "Javaのif、switch、for、while、break/continueの書き方と失敗例（無限ループ・break忘れ）を具体例で解説します。",
   "ogTitle": "Java制御構文の基礎",
-  "ogDescription": "Javaの制御構文は、プログラムの流れを制御するために使用されます。if文、switch文、for文、while文などの種類があります。",
+  "ogDescription": "分岐と繰り返しの書き方と典型バグを失敗例つきで学べます。",
   "knowledge": {
     "topic": "java",
     "courseId": "java",
@@ -30,42 +30,68 @@
   },
   "faq": [
     {
-      "question": "Javaの制御構文は何ですか？",
-      "answer": "Javaの制御構文は、プログラムの流れを制御するために使用されます。if文、switch文、for文、while文などの種類があります。"
+      "question": "ifの条件に数値は使えますか？",
+      "answer": "Javaでは不可です。0/非0ではなく、明示的に boolean または比較式を書きます。"
     },
     {
-      "question": "if文の使い方は何ですか？",
-      "answer": "if文は、条件に応じて、プログラムの実行を分岐するために使用されます。例えば、xが5より大きい場合にのみ、コンソールに「xは5より大きい」と表示されます。"
+      "question": "forとwhileはどう使い分けますか？",
+      "answer": "回数が決まっているならfor、条件次第ならwhileが読みやすいことが多いです。"
+    },
+    {
+      "question": "switchはStringに使えますか？",
+      "answer": "Java 7以降、Stringと一部のenumが使えます。nullを渡すとNullPointerExceptionになります。"
+    },
+    {
+      "question": "三項演算子はいつ使いますか？",
+      "answer": "単純な2択の代入（例：max = a > b ? a : b）に限り使うと簡潔です。ネストは避けましょう。"
+    },
+    {
+      "question": "拡張forでインデックスが欲しいときは？",
+      "answer": "通常のfor (int i=0; ...) を使うか、IntStream.range を後の回で学びます。"
     }
   ],
-  "nextEpisodeHint": "次のエピソードでは、Javaの関数について学びます。",
+  "nextEpisodeHint": "次回はメソッド（関数）の定義、引数、戻り値、オーバーロードを学びます。",
   "canonical": "https://ai-site-iota-nine.vercel.app/article/java-control-structures",
   "jsonLd": {
     "@context": "https://schema.org",
     "@graph": [
       {
         "@context": "https://schema.org",
-        "@type": "BlogPosting",
-        "headline": "Java制御構文の基礎",
-        "description": "Javaの制御構文は、プログラムの流れを制御するために使用されます。if文、switch文、for文、while文などの種類があります。",
+        "@type": "TechArticle",
+        "headline": "Java制御構文｜if・switch・for・while",
+        "description": "Javaのif、switch、for、while、break/continueの書き方と失敗例（無限ループ・break忘れ）を具体例で解説します。",
         "datePublished": "2026-05-29T11:29:47.621Z",
-        "dateModified": "2026-05-29T14:35:19.470Z",
+        "dateModified": "2026-05-30T05:18:37.025Z",
         "author": {
           "@type": "Organization",
-          "name": "StackShelf"
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
         },
         "publisher": {
           "@type": "Organization",
           "name": "StackShelf",
-          "url": "https://ai-site-iota-nine.vercel.app"
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
         },
+        "image": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+        "inLanguage": "ja",
+        "wordCount": 1219,
         "mainEntityOfPage": {
           "@type": "WebPage",
           "@id": "https://ai-site-iota-nine.vercel.app/article/java-control-structures"
         },
         "keywords": "Java, 制御構文, if文, switch文, for文, while文",
         "articleSection": "Java",
-        "url": "https://ai-site-iota-nine.vercel.app/article/java-control-structures"
+        "url": "https://ai-site-iota-nine.vercel.app/article/java-control-structures",
+        "learningResourceType": "tutorial",
+        "educationalLevel": "beginner"
       },
       {
         "@context": "https://schema.org",
@@ -75,7 +101,7 @@
             "@type": "ListItem",
             "position": 1,
             "name": "ホーム",
-            "item": "https://ai-site-iota-nine.vercel.app"
+            "item": "https://ai-site-iota-nine.vercel.app/"
           },
           {
             "@type": "ListItem",
@@ -92,7 +118,7 @@
           {
             "@type": "ListItem",
             "position": 4,
-            "name": "Java制御構文の基礎",
+            "name": "Java制御構文｜if・switch・for・while",
             "item": "https://ai-site-iota-nine.vercel.app/article/java-control-structures"
           }
         ]
@@ -104,7 +130,16 @@
         "description": "Javaプログラミング言語の基礎から応用までを学習する講座です。初心者向けにJavaの基本構文、オブジェクト指向、データ構造、アルゴリズムなどを解説します。",
         "provider": {
           "@type": "Organization",
-          "name": "StackShelf"
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app"
+        },
+        "url": "https://ai-site-iota-nine.vercel.app/course/java/java",
+        "inLanguage": "ja",
+        "educationalLevel": "beginner",
+        "hasCourseInstance": {
+          "@type": "CourseInstance",
+          "courseMode": "online",
+          "courseWorkload": "PT1H"
         }
       },
       {
@@ -113,18 +148,42 @@
         "mainEntity": [
           {
             "@type": "Question",
-            "name": "Javaの制御構文は何ですか？",
+            "name": "ifの条件に数値は使えますか？",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "Javaの制御構文は、プログラムの流れを制御するために使用されます。if文、switch文、for文、while文などの種類があります。"
+              "text": "Javaでは不可です。0/非0ではなく、明示的に boolean または比較式を書きます。"
             }
           },
           {
             "@type": "Question",
-            "name": "if文の使い方は何ですか？",
+            "name": "forとwhileはどう使い分けますか？",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "if文は、条件に応じて、プログラムの実行を分岐するために使用されます。例えば、xが5より大きい場合にのみ、コンソールに「xは5より大きい」と表示されます。"
+              "text": "回数が決まっているならfor、条件次第ならwhileが読みやすいことが多いです。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "switchはStringに使えますか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Java 7以降、Stringと一部のenumが使えます。nullを渡すとNullPointerExceptionになります。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "三項演算子はいつ使いますか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "単純な2択の代入（例：max = a > b ? a : b）に限り使うと簡潔です。ネストは避けましょう。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "拡張forでインデックスが欲しいときは？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "通常のfor (int i=0; ...) を使うか、IntStream.range を後の回で学びます。"
             }
           }
         ]
@@ -139,7 +198,7 @@
         "@type": "ListItem",
         "position": 1,
         "name": "ホーム",
-        "item": "https://ai-site-iota-nine.vercel.app"
+        "item": "https://ai-site-iota-nine.vercel.app/"
       },
       {
         "@type": "ListItem",
@@ -156,7 +215,7 @@
       {
         "@type": "ListItem",
         "position": 4,
-        "name": "Java制御構文の基礎",
+        "name": "Java制御構文｜if・switch・for・while",
         "item": "https://ai-site-iota-nine.vercel.app/article/java-control-structures"
       }
     ]
@@ -168,7 +227,16 @@
     "description": "Javaプログラミング言語の基礎から応用までを学習する講座です。初心者向けにJavaの基本構文、オブジェクト指向、データ構造、アルゴリズムなどを解説します。",
     "provider": {
       "@type": "Organization",
-      "name": "StackShelf"
+      "name": "StackShelf",
+      "url": "https://ai-site-iota-nine.vercel.app"
+    },
+    "url": "https://ai-site-iota-nine.vercel.app/course/java/java",
+    "inLanguage": "ja",
+    "educationalLevel": "beginner",
+    "hasCourseInstance": {
+      "@type": "CourseInstance",
+      "courseMode": "online",
+      "courseWorkload": "PT1H"
     }
   },
   "faqSchema": {
@@ -177,20 +245,73 @@
     "mainEntity": [
       {
         "@type": "Question",
-        "name": "Javaの制御構文は何ですか？",
+        "name": "ifの条件に数値は使えますか？",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Javaの制御構文は、プログラムの流れを制御するために使用されます。if文、switch文、for文、while文などの種類があります。"
+          "text": "Javaでは不可です。0/非0ではなく、明示的に boolean または比較式を書きます。"
         }
       },
       {
         "@type": "Question",
-        "name": "if文の使い方は何ですか？",
+        "name": "forとwhileはどう使い分けますか？",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "if文は、条件に応じて、プログラムの実行を分岐するために使用されます。例えば、xが5より大きい場合にのみ、コンソールに「xは5より大きい」と表示されます。"
+          "text": "回数が決まっているならfor、条件次第ならwhileが読みやすいことが多いです。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "switchはStringに使えますか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Java 7以降、Stringと一部のenumが使えます。nullを渡すとNullPointerExceptionになります。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "三項演算子はいつ使いますか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "単純な2択の代入（例：max = a > b ? a : b）に限り使うと簡潔です。ネストは避けましょう。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "拡張forでインデックスが欲しいときは？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "通常のfor (int i=0; ...) を使うか、IntStream.range を後の回で学びます。"
         }
       }
     ]
-  }
+  },
+  "nextAction": "1〜100で3の倍数ならFizz、5の倍数ならBuzzを出力するプログラムをforとifで書いて実行してください。",
+  "internalLinkCandidates": [
+    {
+      "slug": "java-variables",
+      "title": "Javaの変数とデータ型",
+      "reason": "条件式の前提"
+    },
+    {
+      "slug": "java-functions",
+      "title": "Javaの関数",
+      "reason": "同じ講座の次の回"
+    },
+    {
+      "slug": "java-arrays",
+      "title": "Javaの配列",
+      "reason": "拡張forで配列を走査"
+    },
+    {
+      "slug": "java-syntax",
+      "title": "Javaの基礎構文",
+      "reason": "文の基本"
+    },
+    {
+      "slug": "java-exception-handling",
+      "title": "Javaの例外処理",
+      "reason": "想定外入力への対処"
+    }
+  ],
+  "ogImage": "https://ai-site-iota-nine.vercel.app/og-default.svg"
 }

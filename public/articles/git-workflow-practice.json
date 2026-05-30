@@ -2,9 +2,9 @@
   "id": "art_git_git-workflow-practice",
   "slug": "git-workflow-practice",
   "title": "実務で使うGitワークフロー",
-  "summary": "Git Flow・GitHub Flow などのブランチ戦略を解説し、git stash・git cherry-pick・git tag などの実務で頻出するコマンドを紹介。チームで安全・効率的に開発するための総まとめ。",
-  "body": "<h2>ブランチ戦略の重要性</h2>\n<p>\n  チームで Git を使って開発するとき、「どのブランチで何をするか」のルールを決めておかないと\n  コードが混乱してしまいます。\n  この取り決めを<strong>ブランチ戦略（ブランチモデル）</strong>と呼びます。\n  代表的なブランチ戦略として <strong>Git Flow</strong> と <strong>GitHub Flow</strong> があります。\n  プロジェクトの規模やリリース頻度によって使い分けるのが一般的です。\n</p>\n\n<h2>GitHub Flow：シンプルな戦略</h2>\n<p>\n  <strong>GitHub Flow</strong> は、<code>main</code> ブランチを常にデプロイ可能な状態に保ち、\n  機能追加や修正はすべてフィーチャーブランチで行う、シンプルなワークフローです。\n  Web サービスのように継続的にリリースするプロジェクトに向いています。\n</p>\n<pre><code># 1. main から作業ブランチを切る\ngit checkout main\ngit pull\ngit checkout -b feature/user-profile\n\n# 2. 開発してコミット\ngit add .\ngit commit -m \"feat: ユーザープロフィール画面を追加\"\n\n# 3. プッシュして Pull Request を作成\ngit push -u origin feature/user-profile\n\n# 4. レビューを受けてマージ → 即デプロイ</code></pre>\n<p>\n  GitHub Flow のルールはたった6つです。\n</p>\n<ol>\n  <li><code>main</code> ブランチは常にデプロイ可能な状態を保つ</li>\n  <li>新しい作業は説明的な名前のブランチで行う</li>\n  <li>定期的にリモートへプッシュする</li>\n  <li>フィードバックや助けが必要なときは Pull Request を使う</li>\n  <li>レビューで承認されたらマージする</li>\n  <li>マージしたら即デプロイする</li>\n</ol>\n\n<h3>ブランチ命名規則の例</h3>\n<p>\n  チームで統一したブランチ命名規則を決めておくと管理しやすくなります。\n</p>\n<ul>\n  <li><code>feature/機能名</code>：新機能の追加（例：<code>feature/user-auth</code>）</li>\n  <li><code>fix/バグ内容</code>：バグ修正（例：<code>fix/login-error</code>）</li>\n  <li><code>hotfix/緊急修正</code>：本番の緊急バグ修正</li>\n  <li><code>chore/作業内容</code>：設定変更・依存更新など（例：<code>chore/update-deps</code>）</li>\n  <li><code>docs/内容</code>：ドキュメント更新（例：<code>docs/readme-update</code>）</li>\n</ul>\n\n<h2>Git Flow：複数バージョン管理向けの戦略</h2>\n<p>\n  <strong>Git Flow</strong> は、リリースサイクルが明確なプロジェクト（スマホアプリ、パッケージソフトなど）向けの\n  ブランチ戦略です。次の5種類のブランチを使い分けます。\n</p>\n<ul>\n  <li><strong>main</strong>：本番リリース済みのコードのみ置く</li>\n  <li><strong>develop</strong>：次のリリースに向けた統合ブランチ</li>\n  <li><strong>feature/*</strong>：機能開発用（develop から分岐・develop へマージ）</li>\n  <li><strong>release/*</strong>：リリース準備用（develop から分岐・main と develop へマージ）</li>\n  <li><strong>hotfix/*</strong>：本番の緊急修正用（main から分岐・main と develop へマージ）</li>\n</ul>\n<pre><code># Git Flow の初期化（git-flow ツールを使う場合）\ngit flow init\n\n# フィーチャーブランチの開始\ngit flow feature start user-profile\n\n# フィーチャーブランチを develop にマージして終了\ngit flow feature finish user-profile</code></pre>\n\n<h2>git stash：作業を一時退避する</h2>\n<p>\n  開発中に別のブランチへ切り替えなければならない場面があります。\n  コミットするほどでもない途中状態を一時的に退避するのが <code>git stash</code> です。\n</p>\n<pre><code># 作業を退避する\ngit stash\n\n# 退避した一覧を確認\ngit stash list\n# stash@{0}: WIP on feature/login: abc1234 feat: ログイン画面を追加\n\n# 退避した作業を元に戻す（最新の stash を適用）\ngit stash pop\n\n# 特定の stash を適用\ngit stash apply stash@{1}\n\n# 不要な stash を削除\ngit stash drop stash@{0}</code></pre>\n<p>\n  <code>git stash pop</code> は適用後に stash を削除します。\n  <code>git stash apply</code> は stash を残したまま適用します。\n  メモを付けて退避したいときは <code>git stash push -m \"コメント\"</code> が便利です。\n</p>\n\n<h3>git stash の活用シーン</h3>\n<ul>\n  <li>急なバグ修正依頼が来て、今の作業を中断しなければならないとき</li>\n  <li>間違ったブランチで作業してしまい、正しいブランチへ移動したいとき</li>\n  <li><code>git pull</code> の前にコミットせずに変更が溜まっているとき</li>\n</ul>\n\n<h2>git cherry-pick：特定のコミットだけ取り込む</h2>\n<p>\n  別のブランチの特定のコミットだけを現在のブランチに取り込みたいときに使うコマンドが\n  <code>git cherry-pick</code> です。\n  ブランチ全体をマージするのではなく、1つのコミットだけを「つまみ食い」できます。\n</p>\n<pre><code># コミットハッシュを確認\ngit log --oneline feature/payment\n# a3b4c5d feat: 決済ロジックを修正\n# ...\n\n# そのコミットだけを現在のブランチへ取り込む\ngit cherry-pick a3b4c5d\n\n# 複数のコミットを取り込む\ngit cherry-pick a3b4c5d e6f7g8h</code></pre>\n<p>\n  cherry-pick はコンフリクトが発生することもあります。\n  その場合は通常のコンフリクト解決（編集 → <code>git add</code> → <code>git cherry-pick --continue</code>）を行います。\n</p>\n\n<h2>git tag：バージョンに印をつける</h2>\n<p>\n  リリースしたバージョンに印をつけるのが <code>git tag</code> です。\n  タグを使うことで「v1.0.0 の時点のコード」に素早くアクセスできます。\n</p>\n<pre><code># 軽量タグを作成\ngit tag v1.0.0\n\n# 注釈付きタグを作成（メッセージあり・推奨）\ngit tag -a v1.0.0 -m \"バージョン 1.0.0 正式リリース\"\n\n# タグをリモートへ送信\ngit push origin v1.0.0\n\n# すべてのタグをリモートへ送信\ngit push origin --tags\n\n# タグ一覧を確認\ngit tag</code></pre>\n\n<h2>コミットメッセージのベストプラクティス</h2>\n<p>\n  良いコミットメッセージは、後からコードの変更履歴を追う際に非常に役立ちます。\n  <strong>Conventional Commits</strong> という規約を使うと、メッセージが統一されてわかりやすくなります。\n</p>\n<pre><code># Conventional Commits の形式\n# &lt;type&gt;: &lt;短い説明&gt;\n#\n# type の例:\n# feat     - 新機能\n# fix      - バグ修正\n# docs     - ドキュメント変更\n# style    - コードフォーマット（動作変化なし）\n# refactor - リファクタリング\n# test     - テスト追加・修正\n# chore    - ビルド・設定の変更\n\ngit commit -m \"feat: ユーザー登録メールを送信する機能を追加\"\ngit commit -m \"fix: ログイン時のセッション切れエラーを修正\"\ngit commit -m \"docs: README にインストール手順を追記\"</code></pre>\n\n<h2>git bisect：バグが混入したコミットを特定する</h2>\n<p>\n  「いつからバグが起きているかわからない」という場面で役立つのが <code>git bisect</code> です。\n  二分探索を使って、バグを混入させたコミットを効率的に特定できます。\n</p>\n<pre><code># bisect を開始\ngit bisect start\n\n# 現在のコミットはバグあり（bad）\ngit bisect bad\n\n# バグがなかったことが確認済みのコミットを指定（good）\ngit bisect good v1.0.0\n\n# Git が中間のコミットへ自動的に移動する\n# → バグの有無を確認して bad / good を入力し続ける\ngit bisect bad   # バグあり\ngit bisect good  # バグなし\n\n# 特定完了後、通常の状態に戻す\ngit bisect reset</code></pre>\n\n<h2>実務での Git 習慣まとめ</h2>\n<ul>\n  <li><strong>こまめにコミット</strong>：1コミット1変更を心がけ、後で変更を追いやすくする</li>\n  <li><strong>プッシュ前に pull</strong>：コンフリクトを最小限に抑える</li>\n  <li><strong>main への直接プッシュは禁止</strong>：必ず PR 経由でマージする</li>\n  <li><strong>.gitignore を最初に設定</strong>：機密情報の漏洩を防ぐ</li>\n  <li><strong>わかりやすいコミットメッセージ</strong>：Conventional Commits に従う</li>\n  <li><strong>ブランチは短命に</strong>：長期間放置したブランチはコンフリクトの温床になる</li>\n</ul>",
-  "conclusion": "このエピソードでは GitHub Flow・Git Flow のブランチ戦略、git stash・git cherry-pick・git tag・git bisect など実務で頻出するコマンドを学びました。Git のコマンドは多岐にわたりますが、まず GitHub Flow と基本コマンドをマスターするだけで、日々の開発が格段にスムーズになります。Git/GitHub 入門コースはこれで完了です。お疲れさまでした！",
+  "summary": "GitHub Flow・Git Flow の比較、git stash・cherry-pick・tag・bisect の実務用法、コミットメッセージのコツを解説。現場でそのまま使える Git 習慣をまとめます。",
+  "body": "<h2>結論：実務では GitHub Flow（main + 機能ブランチ）が最もシンプルで覚えやすい</h2>\n<p>小〜中規模チームなら<strong>main からブランチ → PR → マージ → デプロイ</strong>の GitHub Flow で十分です。git stash（作業退避）、cherry-pick（特定コミットだけ取り込み）、tag（リリース印）を合わせて使うと、日常の Git 操作が実務レベルに近づきます。</p>\n\n<h2>ブランチ戦略の重要性</h2>\n<p>\n  チームで Git を使って開発するとき、「どのブランチで何をするか」のルールを決めておかないと\n  コードが混乱してしまいます。\n  この取り決めを<strong>ブランチ戦略（ブランチモデル）</strong>と呼びます。\n  代表的なブランチ戦略として <strong>Git Flow</strong> と <strong>GitHub Flow</strong> があります。\n  プロジェクトの規模やリリース頻度によって使い分けるのが一般的です。\n</p>\n\n<h2>GitHub Flow：シンプルな戦略</h2>\n<p>\n  <strong>GitHub Flow</strong> は、<code>main</code> ブランチを常にデプロイ可能な状態に保ち、\n  機能追加や修正はすべてフィーチャーブランチで行う、シンプルなワークフローです。\n  Web サービスのように継続的にリリースするプロジェクトに向いています。\n</p>\n<pre><code># 1. main から作業ブランチを切る\ngit checkout main\ngit pull\ngit checkout -b feature/user-profile\n\n# 2. 開発してコミット\ngit add .\ngit commit -m \"feat: ユーザープロフィール画面を追加\"\n\n# 3. プッシュして Pull Request を作成\ngit push -u origin feature/user-profile\n\n# 4. レビューを受けてマージ → 即デプロイ</code></pre>\n<p>\n  GitHub Flow のルールはたった6つです。\n</p>\n<ol>\n  <li><code>main</code> ブランチは常にデプロイ可能な状態を保つ</li>\n  <li>新しい作業は説明的な名前のブランチで行う</li>\n  <li>定期的にリモートへプッシュする</li>\n  <li>フィードバックや助けが必要なときは Pull Request を使う</li>\n  <li>レビューで承認されたらマージする</li>\n  <li>マージしたら即デプロイする</li>\n</ol>\n\n<h3>ブランチ命名規則の例</h3>\n<p>\n  チームで統一したブランチ命名規則を決めておくと管理しやすくなります。\n</p>\n<ul>\n  <li><code>feature/機能名</code>：新機能の追加（例：<code>feature/user-auth</code>）</li>\n  <li><code>fix/バグ内容</code>：バグ修正（例：<code>fix/login-error</code>）</li>\n  <li><code>hotfix/緊急修正</code>：本番の緊急バグ修正</li>\n  <li><code>chore/作業内容</code>：設定変更・依存更新など（例：<code>chore/update-deps</code>）</li>\n  <li><code>docs/内容</code>：ドキュメント更新（例：<code>docs/readme-update</code>）</li>\n</ul>\n\n<h2>Git Flow：複数バージョン管理向けの戦略</h2>\n<p>\n  <strong>Git Flow</strong> は、リリースサイクルが明確なプロジェクト（スマホアプリ、パッケージソフトなど）向けの\n  ブランチ戦略です。次の5種類のブランチを使い分けます。\n</p>\n<ul>\n  <li><strong>main</strong>：本番リリース済みのコードのみ置く</li>\n  <li><strong>develop</strong>：次のリリースに向けた統合ブランチ</li>\n  <li><strong>feature/*</strong>：機能開発用（develop から分岐・develop へマージ）</li>\n  <li><strong>release/*</strong>：リリース準備用（develop から分岐・main と develop へマージ）</li>\n  <li><strong>hotfix/*</strong>：本番の緊急修正用（main から分岐・main と develop へマージ）</li>\n</ul>\n<pre><code># Git Flow の初期化（git-flow ツールを使う場合）\ngit flow init\n\n# フィーチャーブランチの開始\ngit flow feature start user-profile\n\n# フィーチャーブランチを develop にマージして終了\ngit flow feature finish user-profile</code></pre>\n\n<h2>git stash：作業を一時退避する</h2>\n<p>\n  開発中に別のブランチへ切り替えなければならない場面があります。\n  コミットするほどでもない途中状態を一時的に退避するのが <code>git stash</code> です。\n</p>\n<pre><code># 作業を退避する\ngit stash\n\n# 退避した一覧を確認\ngit stash list\n# stash@{0}: WIP on feature/login: abc1234 feat: ログイン画面を追加\n\n# 退避した作業を元に戻す（最新の stash を適用）\ngit stash pop\n\n# 特定の stash を適用\ngit stash apply stash@{1}\n\n# 不要な stash を削除\ngit stash drop stash@{0}</code></pre>\n<p>\n  <code>git stash pop</code> は適用後に stash を削除します。\n  <code>git stash apply</code> は stash を残したまま適用します。\n  メモを付けて退避したいときは <code>git stash push -m \"コメント\"</code> が便利です。\n</p>\n\n<h3>git stash の活用シーン</h3>\n<ul>\n  <li>急なバグ修正依頼が来て、今の作業を中断しなければならないとき</li>\n  <li>間違ったブランチで作業してしまい、正しいブランチへ移動したいとき</li>\n  <li><code>git pull</code> の前にコミットせずに変更が溜まっているとき</li>\n</ul>\n\n<h2>git cherry-pick：特定のコミットだけ取り込む</h2>\n<p>\n  別のブランチの特定のコミットだけを現在のブランチに取り込みたいときに使うコマンドが\n  <code>git cherry-pick</code> です。\n  ブランチ全体をマージするのではなく、1つのコミットだけを「つまみ食い」できます。\n</p>\n<pre><code># コミットハッシュを確認\ngit log --oneline feature/payment\n# a3b4c5d feat: 決済ロジックを修正\n# ...\n\n# そのコミットだけを現在のブランチへ取り込む\ngit cherry-pick a3b4c5d\n\n# 複数のコミットを取り込む\ngit cherry-pick a3b4c5d e6f7g8h</code></pre>\n<p>\n  cherry-pick はコンフリクトが発生することもあります。\n  その場合は通常のコンフリクト解決（編集 → <code>git add</code> → <code>git cherry-pick --continue</code>）を行います。\n</p>\n\n<h2>git tag：バージョンに印をつける</h2>\n<p>\n  リリースしたバージョンに印をつけるのが <code>git tag</code> です。\n  タグを使うことで「v1.0.0 の時点のコード」に素早くアクセスできます。\n</p>\n<pre><code># 軽量タグを作成\ngit tag v1.0.0\n\n# 注釈付きタグを作成（メッセージあり・推奨）\ngit tag -a v1.0.0 -m \"バージョン 1.0.0 正式リリース\"\n\n# タグをリモートへ送信\ngit push origin v1.0.0\n\n# すべてのタグをリモートへ送信\ngit push origin --tags\n\n# タグ一覧を確認\ngit tag</code></pre>\n\n<h2>コミットメッセージのベストプラクティス</h2>\n<p>\n  良いコミットメッセージは、後からコードの変更履歴を追う際に非常に役立ちます。\n  <strong>Conventional Commits</strong> という規約を使うと、メッセージが統一されてわかりやすくなります。\n</p>\n<pre><code># Conventional Commits の形式\n# &lt;type&gt;: &lt;短い説明&gt;\n#\n# type の例:\n# feat     - 新機能\n# fix      - バグ修正\n# docs     - ドキュメント変更\n# style    - コードフォーマット（動作変化なし）\n# refactor - リファクタリング\n# test     - テスト追加・修正\n# chore    - ビルド・設定の変更\n\ngit commit -m \"feat: ユーザー登録メールを送信する機能を追加\"\ngit commit -m \"fix: ログイン時のセッション切れエラーを修正\"\ngit commit -m \"docs: README にインストール手順を追記\"</code></pre>\n\n<h2>git bisect：バグが混入したコミットを特定する</h2>\n<p>\n  「いつからバグが起きているかわからない」という場面で役立つのが <code>git bisect</code> です。\n  二分探索を使って、バグを混入させたコミットを効率的に特定できます。\n</p>\n<pre><code># bisect を開始\ngit bisect start\n\n# 現在のコミットはバグあり（bad）\ngit bisect bad\n\n# バグがなかったことが確認済みのコミットを指定（good）\ngit bisect good v1.0.0\n\n# Git が中間のコミットへ自動的に移動する\n# → バグの有無を確認して bad / good を入力し続ける\ngit bisect bad   # バグあり\ngit bisect good  # バグなし\n\n# 特定完了後、通常の状態に戻す\ngit bisect reset</code></pre>\n\n<h2>よくあるつまずきと失敗例</h2>\n<h3>実務Gitで起きやすい問題</h3>\n<ul>\n<li><strong>stash を溜めっぱなし</strong>：<code>git stash list</code> が増え続けたら、不要な stash は <code>git stash drop</code> で整理します。中身を忘れると復元時に混乱します。</li>\n<li><strong>cherry-pick で依存コミットを無視</strong>：1コミットだけ取り込むと、前提となる変更が欠けてビルドが壊れることがあります。関連コミットをセットで取り込むか、merge/rebase を検討します。</li>\n<li><strong>コミットメッセージがバラバラ</strong>：「fix」「update」だけでは bisect や changelog 作成が困難です。「feat: ログイン画面を追加」のように prefix を揃えると後が楽です。</li>\n</ul>\n\n<h2>実務での Git 習慣まとめ</h2>\n<ul>\n  <li><strong>こまめにコミット</strong>：1コミット1変更を心がけ、後で変更を追いやすくする</li>\n  <li><strong>プッシュ前に pull</strong>：コンフリクトを最小限に抑える</li>\n  <li><strong>main への直接プッシュは禁止</strong>：必ず PR 経由でマージする</li>\n  <li><strong>.gitignore を最初に設定</strong>：機密情報の漏洩を防ぐ</li>\n  <li><strong>わかりやすいコミットメッセージ</strong>：Conventional Commits に従う</li>\n  <li><strong>ブランチは短命に</strong>：長期間放置したブランチはコンフリクトの温床になる</li>\n</ul>",
+  "conclusion": "GitHub Flow は main + 機能ブランチ + PR が基本です。stash で作業を退避し、tag でリリースを記録、メッセージを統一すれば実務で困りにくくなります。Git 入門コースの総仕上げとして、手元のプロジェクトで一連の流れを試しましょう。",
   "tags": [
     "git stash",
     "git flow",
@@ -17,12 +17,12 @@
   "theme": "git - Git & GitHub 入門",
   "status": "published",
   "createdAt": "2026-05-30T03:50:00.389Z",
-  "updatedAt": "2026-05-30T03:50:00.394Z",
+  "updatedAt": "2026-05-30T05:17:45.820Z",
   "publishedAt": "2026-05-30T03:50:00.389Z",
   "metaTitle": "実務で使う Git ワークフロー｜Git Flow・GitHub Flow・git stash 解説",
-  "metaDescription": "Git Flow と GitHub Flow の違い、git stash・git cherry-pick・git tag・git bisect の使い方を解説。実務のチーム開発で役立つ Git ワークフローを初心者向けにわかりやすく紹介します。",
+  "metaDescription": "実務Gitワークフロー。GitHub Flow、stash・cherry-pick・tag・bisect、コミットメッセージのコツ。チーム開発の習慣を身につけたい人向け。",
   "ogTitle": "実務で使う Git ワークフロー完全ガイド",
-  "ogDescription": "Git Flow・GitHub Flow のブランチ戦略から、git stash・cherry-pick・tag など実務コマンドまで。チーム開発で即使えるベストプラクティスを解説します。 図解・具体例つきで丁寧に解説します。",
+  "ogDescription": "実務Gitワークフロー。GitHub Flow、stash・cherry-pick・tag・bisect、コミットメッセージのコツ。チーム開発の習慣を身につけたい人向け。",
   "knowledge": {
     "topic": "git",
     "courseId": "git",
@@ -44,6 +44,10 @@
     {
       "question": "バージョンタグの命名規則はありますか？",
       "answer": "セマンティックバージョニング（Semantic Versioning）が広く使われています。v<メジャー>.<マイナー>.<パッチ> の形式（例：v1.2.3）です。破壊的変更はメジャー、後方互換の機能追加はマイナー、バグ修正はパッチを上げます。"
+    },
+    {
+      "question": "つまずいたときはどうすればいいですか？",
+      "answer": "エラーメッセージをそのまま検索し、公式ドキュメントを当たってください。小さなステップに分けて再現・確認すると原因を特定しやすくなります。"
     }
   ],
   "nextEpisodeHint": "Git/GitHub 入門コースの全エピソードが完了しました。次は GitHub Actions を使った CI/CD 自動化や、より高度な Git 操作に挑戦してみましょう。",
@@ -56,9 +60,9 @@
         "@context": "https://schema.org",
         "@type": "TechArticle",
         "headline": "実務で使うGitワークフロー",
-        "description": "Git Flow と GitHub Flow の違い、git stash・git cherry-pick・git tag・git bisect の使い方を解説。実務のチーム開発で役立つ Git ワークフローを初心者向けにわかりやすく紹介します。",
+        "description": "実務Gitワークフロー。GitHub Flow、stash・cherry-pick・tag・bisect、コミットメッセージのコツ。チーム開発の習慣を身につけたい人向け。",
         "datePublished": "2026-05-30T03:50:00.389Z",
-        "dateModified": "2026-05-30T03:50:00.394Z",
+        "dateModified": "2026-05-30T05:17:45.820Z",
         "author": {
           "@type": "Organization",
           "name": "StackShelf",
@@ -79,7 +83,7 @@
         },
         "image": "https://ai-site-iota-nine.vercel.app/og-default.svg",
         "inLanguage": "ja",
-        "wordCount": 3251,
+        "wordCount": 3717,
         "mainEntityOfPage": {
           "@type": "WebPage",
           "@id": "https://ai-site-iota-nine.vercel.app/article/git-workflow-practice"
@@ -174,6 +178,14 @@
               "@type": "Answer",
               "text": "セマンティックバージョニング（Semantic Versioning）が広く使われています。v<メジャー>.<マイナー>.<パッチ> の形式（例：v1.2.3）です。破壊的変更はメジャー、後方互換の機能追加はマイナー、バグ修正はパッチを上げます。"
             }
+          },
+          {
+            "@type": "Question",
+            "name": "つまずいたときはどうすればいいですか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "エラーメッセージをそのまま検索し、公式ドキュメントを当たってください。小さなステップに分けて再現・確認すると原因を特定しやすくなります。"
+            }
           }
         ]
       }
@@ -263,7 +275,43 @@
           "@type": "Answer",
           "text": "セマンティックバージョニング（Semantic Versioning）が広く使われています。v<メジャー>.<マイナー>.<パッチ> の形式（例：v1.2.3）です。破壊的変更はメジャー、後方互換の機能追加はマイナー、バグ修正はパッチを上げます。"
         }
+      },
+      {
+        "@type": "Question",
+        "name": "つまずいたときはどうすればいいですか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "エラーメッセージをそのまま検索し、公式ドキュメントを当たってください。小さなステップに分けて再現・確認すると原因を特定しやすくなります。"
+        }
       }
     ]
-  }
+  },
+  "internalLinkCandidates": [
+    {
+      "slug": "github-pull-request",
+      "title": "Pull Requestと協業の流れ",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "github-basics",
+      "title": "GitHub入門：アカウントとリポジトリ",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "git-remote-push-pull",
+      "title": "push・pull・remote でリモート連携",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "git-merge-conflict",
+      "title": "マージとコンフリクトの解決",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "git-branch-basics",
+      "title": "Gitブランチの作り方と切り替え：git branch・checkout・switchの基本",
+      "reason": "同じ講座の関連回です"
+    }
+  ],
+  "nextAction": "Git/GitHub 入門コースの全エピソードが完了しました。次は GitHub Actions を使った CI/CD 自動化や、より高度な Git 操作に挑戦してみましょう。"
 }

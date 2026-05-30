@@ -1,0 +1,290 @@
+{
+  "id": "art_errors_http-http-415-unsupported-media-type-dae4c4",
+  "slug": "http-http-415-unsupported-media-type-dae4c4",
+  "title": "HTTP 415 Unsupported Media Type の原因と解決法",
+  "summary": "HTTP 415 Unsupported Media Type の原因と具体的な解決手順をまとめました。",
+  "body": "<h2>エラーメッセージ（全文）</h2>\n<p>検索でヒットしやすいよう、実際のコンソール出力をそのまま掲載します。</p>\n<pre><code>HTTP 415 Unsupported Media Type</code></pre>\n\n<h2>このエラーとは</h2>\n<p>HTTP 415 Unsupported Media Type は HTTP 開発でよく遭遇するエラーです。</p>\n<p><strong>想定環境:</strong> Windows / macOS / Linux</p>\n<p><strong>よく出る状況:</strong> REST API / ブラウザ通信</p>\n\n<h2>よくある原因</h2>\n<ul>\n<li>クライアントリクエスト不正</li>\n<li>認証・認可</li>\n<li>サーバー/upstream 障害</li>\n</ul><h2>解決方法</h2><h3>方法1: レスポンス body 確認</h3><p>curl -i でヘッダと JSON エラーを確認.</p><pre><code>curl -i https://api.example.com/endpoint</code></pre>\n<h2>それでも直らないとき</h2>\n<p>バージョン情報（HTTP のバージョン、OS、実行コマンド）を添えて、エラーメッセージ全文と直前に変更した点を確認してください。ログの数行上にも原因の手がかりが残っていることが多いです。</p>",
+  "conclusion": "「HTTP 415 Unsupported Media Type」は クライアントリクエスト不正 が原因のことが多いです。上記の手順で切り分けてください。",
+  "tags": [
+    "http",
+    "HTTPエラー",
+    "HTTP 415 Unsupported Media Type",
+    "HTTP 415",
+    "API"
+  ],
+  "category": "HTTPエラー",
+  "theme": "errors - HTTP / Web API エラー・トラブル集",
+  "articleType": "error",
+  "status": "published",
+  "createdAt": "2026-05-30T05:48:27.330Z",
+  "updatedAt": "2026-05-30T05:48:27.330Z",
+  "publishedAt": "2026-05-30T05:48:27.330Z",
+  "metaTitle": "HTTP 415 Unsupported Media Type の原因と解決法 | HTTPエラー",
+  "metaDescription": "HTTP 415 Unsupported Media Type が出たときの原因・確認手順・解決策を解説。REST API / ブラウザ通信。",
+  "ogTitle": "HTTP 415 Unsupported Media Type の原因と解決法",
+  "ogDescription": "HTTP 415 Unsupported Media Type が出たときの原因・確認手順・解決策を解説。REST API / ブラウザ通信。",
+  "knowledge": {
+    "topic": "errors",
+    "courseId": "http-errors",
+    "episode": 20
+  },
+  "faq": [
+    {
+      "question": "HTTP 415 Unsupported Media Type とは何ですか？",
+      "answer": "HTTP 415 Unsupported Media Type は HTTP 実行時に表示されるエラーです。クライアントリクエスト不正"
+    },
+    {
+      "question": "HTTP 415 Unsupported Media Type の原因は？",
+      "answer": "クライアントリクエスト不正。認証・認可。サーバー/upstream 障害。"
+    },
+    {
+      "question": "HTTP 415 Unsupported Media Type の直し方は？",
+      "answer": "レスポンス body 確認：curl -i でヘッダと JSON エラーを確認."
+    },
+    {
+      "question": "HTTP で HTTP 415 Unsupported Media Type が出るのはなぜ？",
+      "answer": "REST API / ブラウザ通信"
+    },
+    {
+      "question": "HTTP 415 Unsupported Media Type を防ぐには？",
+      "answer": "。"
+    }
+  ],
+  "nextAction": "同じ HTTP カテゴリの関連エラーもあわせて確認してください。",
+  "internalLinkCandidates": [],
+  "ogImage": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+  "canonical": "https://ai-site-iota-nine.vercel.app/article/http-http-415-unsupported-media-type-dae4c4",
+  "jsonLd": {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@context": "https://schema.org",
+        "@type": "TechArticle",
+        "headline": "HTTP 415 Unsupported Media Type の原因と解決法",
+        "description": "HTTP 415 Unsupported Media Type が出たときの原因・確認手順・解決策を解説。REST API / ブラウザ通信。",
+        "datePublished": "2026-05-30T05:48:27.330Z",
+        "dateModified": "2026-05-30T05:48:27.330Z",
+        "author": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
+        },
+        "image": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+        "inLanguage": "ja",
+        "wordCount": 392,
+        "mainEntityOfPage": {
+          "@type": "WebPage",
+          "@id": "https://ai-site-iota-nine.vercel.app/article/http-http-415-unsupported-media-type-dae4c4"
+        },
+        "keywords": "http, HTTPエラー, HTTP 415 Unsupported Media Type, HTTP 415, API",
+        "articleSection": "HTTPエラー",
+        "url": "https://ai-site-iota-nine.vercel.app/article/http-http-415-unsupported-media-type-dae4c4",
+        "learningResourceType": "tutorial",
+        "educationalLevel": "beginner"
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "ホーム",
+            "item": "https://ai-site-iota-nine.vercel.app/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "errors",
+            "item": "https://ai-site-iota-nine.vercel.app/knowledge/errors"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "HTTP / Web API エラー・トラブル集",
+            "item": "https://ai-site-iota-nine.vercel.app/course/errors/http-errors"
+          },
+          {
+            "@type": "ListItem",
+            "position": 4,
+            "name": "HTTP 415 Unsupported Media Type の原因と解決法",
+            "item": "https://ai-site-iota-nine.vercel.app/article/http-http-415-unsupported-media-type-dae4c4"
+          }
+        ]
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "Course",
+        "name": "HTTP / Web API エラー・トラブル集",
+        "description": "HTTP / Web API エラー・トラブル集",
+        "provider": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app"
+        },
+        "url": "https://ai-site-iota-nine.vercel.app/course/errors/http-errors",
+        "inLanguage": "ja",
+        "educationalLevel": "beginner",
+        "hasCourseInstance": {
+          "@type": "CourseInstance",
+          "courseMode": "online",
+          "courseWorkload": "PT1H"
+        }
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "HTTP 415 Unsupported Media Type とは何ですか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "HTTP 415 Unsupported Media Type は HTTP 実行時に表示されるエラーです。クライアントリクエスト不正"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "HTTP 415 Unsupported Media Type の原因は？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "クライアントリクエスト不正。認証・認可。サーバー/upstream 障害。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "HTTP 415 Unsupported Media Type の直し方は？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "レスポンス body 確認：curl -i でヘッダと JSON エラーを確認."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "HTTP で HTTP 415 Unsupported Media Type が出るのはなぜ？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "REST API / ブラウザ通信"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "HTTP 415 Unsupported Media Type を防ぐには？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "。"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "breadcrumb": {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "ホーム",
+        "item": "https://ai-site-iota-nine.vercel.app/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "errors",
+        "item": "https://ai-site-iota-nine.vercel.app/knowledge/errors"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "HTTP / Web API エラー・トラブル集",
+        "item": "https://ai-site-iota-nine.vercel.app/course/errors/http-errors"
+      },
+      {
+        "@type": "ListItem",
+        "position": 4,
+        "name": "HTTP 415 Unsupported Media Type の原因と解決法",
+        "item": "https://ai-site-iota-nine.vercel.app/article/http-http-415-unsupported-media-type-dae4c4"
+      }
+    ]
+  },
+  "courseSchema": {
+    "@context": "https://schema.org",
+    "@type": "Course",
+    "name": "HTTP / Web API エラー・トラブル集",
+    "description": "HTTP / Web API エラー・トラブル集",
+    "provider": {
+      "@type": "Organization",
+      "name": "StackShelf",
+      "url": "https://ai-site-iota-nine.vercel.app"
+    },
+    "url": "https://ai-site-iota-nine.vercel.app/course/errors/http-errors",
+    "inLanguage": "ja",
+    "educationalLevel": "beginner",
+    "hasCourseInstance": {
+      "@type": "CourseInstance",
+      "courseMode": "online",
+      "courseWorkload": "PT1H"
+    }
+  },
+  "faqSchema": {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "HTTP 415 Unsupported Media Type とは何ですか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "HTTP 415 Unsupported Media Type は HTTP 実行時に表示されるエラーです。クライアントリクエスト不正"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "HTTP 415 Unsupported Media Type の原因は？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "クライアントリクエスト不正。認証・認可。サーバー/upstream 障害。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "HTTP 415 Unsupported Media Type の直し方は？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "レスポンス body 確認：curl -i でヘッダと JSON エラーを確認."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "HTTP で HTTP 415 Unsupported Media Type が出るのはなぜ？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "REST API / ブラウザ通信"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "HTTP 415 Unsupported Media Type を防ぐには？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "。"
+        }
+      }
+    ]
+  }
+}

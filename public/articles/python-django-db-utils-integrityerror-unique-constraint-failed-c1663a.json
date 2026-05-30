@@ -1,0 +1,290 @@
+{
+  "id": "art_errors_python-django-db-utils-integrityerror-unique-constraint-failed-c1663a",
+  "slug": "python-django-db-utils-integrityerror-unique-constraint-failed-c1663a",
+  "title": "django.db.utils.IntegrityError: UNIQUE constraint failed の原因と解決法",
+  "summary": "django.db.utils.IntegrityError: UNIQUE constraint failed の原因と具体的な解決手順をまとめました。",
+  "body": "<h2>エラーメッセージ（全文）</h2>\n<p>検索でヒットしやすいよう、実際のコンソール出力をそのまま掲載します。</p>\n<pre><code>django.db.utils.IntegrityError: UNIQUE constraint failed</code></pre>\n\n<h2>このエラーとは</h2>\n<p>django.db.utils.IntegrityError: UNIQUE constraint failed は Python 開発でよく遭遇するエラーです。</p>\n<p><strong>想定環境:</strong> Windows / macOS / Linux</p>\n<p><strong>よく出る状況:</strong> Django プロジェクト実行時</p>\n\n<h2>よくある原因</h2>\n<ul>\n<li>settings.py 未設定</li>\n<li>migrate 未実行</li>\n<li>URL name の typo</li>\n</ul><h2>解決方法</h2><h3>方法1: migrate 実行</h3><p>DB テーブルを作成します.</p><pre><code>python manage.py migrate</code></pre><h3>方法2: settings 確認</h3><p>DJANGO_SETTINGS_MODULE と INSTALLED_APPS を確認.</p>\n<h2>それでも直らないとき</h2>\n<p>バージョン情報（Python のバージョン、OS、実行コマンド）を添えて、エラーメッセージ全文と直前に変更した点を確認してください。ログの数行上にも原因の手がかりが残っていることが多いです。</p>",
+  "conclusion": "「django.db.utils.IntegrityError: UNIQUE constraint failed」は settings.py 未設定 が原因のことが多いです。上記の手順で切り分けてください。",
+  "tags": [
+    "python",
+    "Pythonエラー",
+    "django.db.utils.IntegrityError",
+    "Django",
+    "django.db.utils.IntegrityError: UNIQUE c"
+  ],
+  "category": "Pythonエラー",
+  "theme": "errors - Python エラー・トラブル集",
+  "articleType": "error",
+  "status": "published",
+  "createdAt": "2026-05-30T05:47:31.181Z",
+  "updatedAt": "2026-05-30T05:47:31.181Z",
+  "publishedAt": "2026-05-30T05:47:31.181Z",
+  "metaTitle": "django.db.utils.IntegrityError: UNIQUE constraint failed の原…",
+  "metaDescription": "django.db.utils.IntegrityError: UNIQUE constraint failed が出たときの原因・確認手順・解決策を解説。Django プロジェクト実行時。",
+  "ogTitle": "django.db.utils.IntegrityError: UNIQUE constraint failed の原因と解決法",
+  "ogDescription": "django.db.utils.IntegrityError: UNIQUE constraint failed が出たときの原因・確認手順・解決策を解説。Django プロジェクト実行時。",
+  "knowledge": {
+    "topic": "errors",
+    "courseId": "python-errors",
+    "episode": 276
+  },
+  "faq": [
+    {
+      "question": "django.db.utils.IntegrityError: UNIQUE constraint failed とは何ですか？",
+      "answer": "django.db.utils.IntegrityError: UNIQUE constraint failed は Python 実行時に表示されるエラーです。settings.py 未設定"
+    },
+    {
+      "question": "django.db.utils.IntegrityError: UNIQUE constraint failed の原因は？",
+      "answer": "settings.py 未設定。migrate 未実行。URL name の typo。"
+    },
+    {
+      "question": "django.db.utils.IntegrityError: UNIQUE constraint failed の直し方は？",
+      "answer": "migrate 実行：DB テーブルを作成します. settings 確認：DJANGO_SETTINGS_MODULE と INSTALLED_APPS を確認."
+    },
+    {
+      "question": "Python で django.db.utils.IntegrityError が出るのはなぜ？",
+      "answer": "Django プロジェクト実行時"
+    },
+    {
+      "question": "django.db.utils.IntegrityError: UNIQUE constraint failed を防ぐには？",
+      "answer": "。"
+    }
+  ],
+  "nextAction": "同じ Python カテゴリの関連エラーもあわせて確認してください。",
+  "internalLinkCandidates": [],
+  "ogImage": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+  "canonical": "https://ai-site-iota-nine.vercel.app/article/python-django-db-utils-integrityerror-unique-constraint-failed-c1663a",
+  "jsonLd": {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@context": "https://schema.org",
+        "@type": "TechArticle",
+        "headline": "django.db.utils.IntegrityError: UNIQUE constraint failed の原因と解決法",
+        "description": "django.db.utils.IntegrityError: UNIQUE constraint failed が出たときの原因・確認手順・解決策を解説。Django プロジェクト実行時。",
+        "datePublished": "2026-05-30T05:47:31.181Z",
+        "dateModified": "2026-05-30T05:47:31.181Z",
+        "author": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
+        },
+        "image": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+        "inLanguage": "ja",
+        "wordCount": 480,
+        "mainEntityOfPage": {
+          "@type": "WebPage",
+          "@id": "https://ai-site-iota-nine.vercel.app/article/python-django-db-utils-integrityerror-unique-constraint-failed-c1663a"
+        },
+        "keywords": "python, Pythonエラー, django.db.utils.IntegrityError, Django, django.db.utils.IntegrityError: UNIQUE c",
+        "articleSection": "Pythonエラー",
+        "url": "https://ai-site-iota-nine.vercel.app/article/python-django-db-utils-integrityerror-unique-constraint-failed-c1663a",
+        "learningResourceType": "tutorial",
+        "educationalLevel": "beginner"
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "ホーム",
+            "item": "https://ai-site-iota-nine.vercel.app/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "errors",
+            "item": "https://ai-site-iota-nine.vercel.app/knowledge/errors"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "Python エラー・トラブル集",
+            "item": "https://ai-site-iota-nine.vercel.app/course/errors/python-errors"
+          },
+          {
+            "@type": "ListItem",
+            "position": 4,
+            "name": "django.db.utils.IntegrityError: UNIQUE constraint failed の原因と解決法",
+            "item": "https://ai-site-iota-nine.vercel.app/article/python-django-db-utils-integrityerror-unique-constraint-failed-c1663a"
+          }
+        ]
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "Course",
+        "name": "Python エラー・トラブル集",
+        "description": "Python エラー・トラブル集",
+        "provider": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app"
+        },
+        "url": "https://ai-site-iota-nine.vercel.app/course/errors/python-errors",
+        "inLanguage": "ja",
+        "educationalLevel": "beginner",
+        "hasCourseInstance": {
+          "@type": "CourseInstance",
+          "courseMode": "online",
+          "courseWorkload": "PT1H"
+        }
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "django.db.utils.IntegrityError: UNIQUE constraint failed とは何ですか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "django.db.utils.IntegrityError: UNIQUE constraint failed は Python 実行時に表示されるエラーです。settings.py 未設定"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "django.db.utils.IntegrityError: UNIQUE constraint failed の原因は？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "settings.py 未設定。migrate 未実行。URL name の typo。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "django.db.utils.IntegrityError: UNIQUE constraint failed の直し方は？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "migrate 実行：DB テーブルを作成します. settings 確認：DJANGO_SETTINGS_MODULE と INSTALLED_APPS を確認."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Python で django.db.utils.IntegrityError が出るのはなぜ？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Django プロジェクト実行時"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "django.db.utils.IntegrityError: UNIQUE constraint failed を防ぐには？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "。"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "breadcrumb": {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "ホーム",
+        "item": "https://ai-site-iota-nine.vercel.app/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "errors",
+        "item": "https://ai-site-iota-nine.vercel.app/knowledge/errors"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "Python エラー・トラブル集",
+        "item": "https://ai-site-iota-nine.vercel.app/course/errors/python-errors"
+      },
+      {
+        "@type": "ListItem",
+        "position": 4,
+        "name": "django.db.utils.IntegrityError: UNIQUE constraint failed の原因と解決法",
+        "item": "https://ai-site-iota-nine.vercel.app/article/python-django-db-utils-integrityerror-unique-constraint-failed-c1663a"
+      }
+    ]
+  },
+  "courseSchema": {
+    "@context": "https://schema.org",
+    "@type": "Course",
+    "name": "Python エラー・トラブル集",
+    "description": "Python エラー・トラブル集",
+    "provider": {
+      "@type": "Organization",
+      "name": "StackShelf",
+      "url": "https://ai-site-iota-nine.vercel.app"
+    },
+    "url": "https://ai-site-iota-nine.vercel.app/course/errors/python-errors",
+    "inLanguage": "ja",
+    "educationalLevel": "beginner",
+    "hasCourseInstance": {
+      "@type": "CourseInstance",
+      "courseMode": "online",
+      "courseWorkload": "PT1H"
+    }
+  },
+  "faqSchema": {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "django.db.utils.IntegrityError: UNIQUE constraint failed とは何ですか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "django.db.utils.IntegrityError: UNIQUE constraint failed は Python 実行時に表示されるエラーです。settings.py 未設定"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "django.db.utils.IntegrityError: UNIQUE constraint failed の原因は？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "settings.py 未設定。migrate 未実行。URL name の typo。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "django.db.utils.IntegrityError: UNIQUE constraint failed の直し方は？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "migrate 実行：DB テーブルを作成します. settings 確認：DJANGO_SETTINGS_MODULE と INSTALLED_APPS を確認."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Python で django.db.utils.IntegrityError が出るのはなぜ？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Django プロジェクト実行時"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "django.db.utils.IntegrityError: UNIQUE constraint failed を防ぐには？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "。"
+        }
+      }
+    ]
+  }
+}

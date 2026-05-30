@@ -1,0 +1,291 @@
+{
+  "id": "art_errors_docker-docker-build-failed-at-step-9-run-apt-get-update-returned-non-zero-code-1-92b051",
+  "slug": "docker-docker-build-failed-at-step-9-run-apt-get-update-returned-non-zero-code-1-92b051",
+  "title": "docker build failed at step 9: RUN apt-get update returned non-zero code: 129 の原因と解決法",
+  "summary": "docker build failed at step 9: RUN apt-get update returned non-zero code: 129 の原因と具体的な解決手順をまとめました。",
+  "body": "<h2>エラーメッセージ（全文）</h2>\n<p>検索でヒットしやすいよう、実際のコンソール出力をそのまま掲載します。</p>\n<pre><code>docker build failed at step 9: RUN apt-get update returned non-zero code: 129</code></pre>\n\n<h2>このエラーとは</h2>\n<p>docker build failed at step 9: RUN apt-get update returned non-zero code: 129 は Docker 開発でよく遭遇するエラーです。</p>\n<p><strong>想定環境:</strong> Windows / macOS / Linux</p>\n<p><strong>よく出る状況:</strong> Dockerfile ビルド</p>\n\n<h2>よくある原因</h2>\n<ul>\n<li>パッケージ名誤り</li>\n<li>ネットワーク</li>\n<li>ベースイメージの変更</li>\n</ul><h2>解決方法</h2><h3>方法1: 該当 RUN を単体実行</h3><p>docker run -it ベースイメージで手動実行.</p>\n<h2>それでも直らないとき</h2>\n<p>バージョン情報（Docker のバージョン、OS、実行コマンド）を添えて、エラーメッセージ全文と直前に変更した点を確認してください。ログの数行上にも原因の手がかりが残っていることが多いです。</p>",
+  "conclusion": "「docker build failed at step 9: RUN apt-get update returned non-zero code: 129」は パッケージ名誤り が原因のことが多いです。上記の手順で切り分けてください。",
+  "tags": [
+    "docker",
+    "Dockerエラー",
+    "docker build failed at step 9",
+    "Dockerfile",
+    "build",
+    "docker build failed at step 9: RUN apt-g"
+  ],
+  "category": "Dockerエラー",
+  "theme": "errors - Docker エラー・トラブル集",
+  "articleType": "error",
+  "status": "published",
+  "createdAt": "2026-05-30T05:48:10.187Z",
+  "updatedAt": "2026-05-30T05:48:10.187Z",
+  "publishedAt": "2026-05-30T05:48:10.187Z",
+  "metaTitle": "docker build failed at step 9: RUN apt-get update returned…",
+  "metaDescription": "docker build failed at step 9: RUN apt-get update returned non-zero code: 129 が出たときの原因・確認手順・解決策を解説。Dockerfile ビルド。",
+  "ogTitle": "docker build failed at step 9: RUN apt-get update returned non-zero code: 129 の原因と解決法",
+  "ogDescription": "docker build failed at step 9: RUN apt-get update returned non-zero code: 129 が出たときの原因・確認手順・解決策を解説。Dockerfile ビルド。",
+  "knowledge": {
+    "topic": "errors",
+    "courseId": "docker-errors",
+    "episode": 70
+  },
+  "faq": [
+    {
+      "question": "docker build failed at step 9: RUN apt-get update returned non-zero code: 129 とは何ですか？",
+      "answer": "docker build failed at step 9: RUN apt-get update returned non-zero code: 129 は Docker 実行時に表示されるエラーです。パッケージ名誤り"
+    },
+    {
+      "question": "docker build failed at step 9: RUN apt-get update returned non-zero code: 129 の原因は？",
+      "answer": "パッケージ名誤り。ネットワーク。ベースイメージの変更。"
+    },
+    {
+      "question": "docker build failed at step 9: RUN apt-get update returned non-zero code: 129 の直し方は？",
+      "answer": "該当 RUN を単体実行：docker run -it ベースイメージで手動実行."
+    },
+    {
+      "question": "Docker で docker build failed at step 9 が出るのはなぜ？",
+      "answer": "Dockerfile ビルド"
+    },
+    {
+      "question": "docker build failed at step 9: RUN apt-get update returned non-zero code: 129 を防ぐには？",
+      "answer": "。"
+    }
+  ],
+  "nextAction": "同じ Docker カテゴリの関連エラーもあわせて確認してください。",
+  "internalLinkCandidates": [],
+  "ogImage": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+  "canonical": "https://ai-site-iota-nine.vercel.app/article/docker-docker-build-failed-at-step-9-run-apt-get-update-returned-non-zero-code-1-92b051",
+  "jsonLd": {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@context": "https://schema.org",
+        "@type": "TechArticle",
+        "headline": "docker build failed at step 9: RUN apt-get update returned non-zero code: 129 の原因と解決法",
+        "description": "docker build failed at step 9: RUN apt-get update returned non-zero code: 129 が出たときの原因・確認手順・解決策を解説。Dockerfile ビルド。",
+        "datePublished": "2026-05-30T05:48:10.187Z",
+        "dateModified": "2026-05-30T05:48:10.187Z",
+        "author": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
+        },
+        "image": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+        "inLanguage": "ja",
+        "wordCount": 426,
+        "mainEntityOfPage": {
+          "@type": "WebPage",
+          "@id": "https://ai-site-iota-nine.vercel.app/article/docker-docker-build-failed-at-step-9-run-apt-get-update-returned-non-zero-code-1-92b051"
+        },
+        "keywords": "docker, Dockerエラー, docker build failed at step 9, Dockerfile, build, docker build failed at step 9: RUN apt-g",
+        "articleSection": "Dockerエラー",
+        "url": "https://ai-site-iota-nine.vercel.app/article/docker-docker-build-failed-at-step-9-run-apt-get-update-returned-non-zero-code-1-92b051",
+        "learningResourceType": "tutorial",
+        "educationalLevel": "beginner"
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "ホーム",
+            "item": "https://ai-site-iota-nine.vercel.app/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "errors",
+            "item": "https://ai-site-iota-nine.vercel.app/knowledge/errors"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "Docker エラー・トラブル集",
+            "item": "https://ai-site-iota-nine.vercel.app/course/errors/docker-errors"
+          },
+          {
+            "@type": "ListItem",
+            "position": 4,
+            "name": "docker build failed at step 9: RUN apt-get update returned non-zero code: 129 の原因と解決法",
+            "item": "https://ai-site-iota-nine.vercel.app/article/docker-docker-build-failed-at-step-9-run-apt-get-update-returned-non-zero-code-1-92b051"
+          }
+        ]
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "Course",
+        "name": "Docker エラー・トラブル集",
+        "description": "Docker エラー・トラブル集",
+        "provider": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app"
+        },
+        "url": "https://ai-site-iota-nine.vercel.app/course/errors/docker-errors",
+        "inLanguage": "ja",
+        "educationalLevel": "beginner",
+        "hasCourseInstance": {
+          "@type": "CourseInstance",
+          "courseMode": "online",
+          "courseWorkload": "PT1H"
+        }
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "docker build failed at step 9: RUN apt-get update returned non-zero code: 129 とは何ですか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "docker build failed at step 9: RUN apt-get update returned non-zero code: 129 は Docker 実行時に表示されるエラーです。パッケージ名誤り"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "docker build failed at step 9: RUN apt-get update returned non-zero code: 129 の原因は？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "パッケージ名誤り。ネットワーク。ベースイメージの変更。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "docker build failed at step 9: RUN apt-get update returned non-zero code: 129 の直し方は？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "該当 RUN を単体実行：docker run -it ベースイメージで手動実行."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Docker で docker build failed at step 9 が出るのはなぜ？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Dockerfile ビルド"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "docker build failed at step 9: RUN apt-get update returned non-zero code: 129 を防ぐには？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "。"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "breadcrumb": {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "ホーム",
+        "item": "https://ai-site-iota-nine.vercel.app/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "errors",
+        "item": "https://ai-site-iota-nine.vercel.app/knowledge/errors"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "Docker エラー・トラブル集",
+        "item": "https://ai-site-iota-nine.vercel.app/course/errors/docker-errors"
+      },
+      {
+        "@type": "ListItem",
+        "position": 4,
+        "name": "docker build failed at step 9: RUN apt-get update returned non-zero code: 129 の原因と解決法",
+        "item": "https://ai-site-iota-nine.vercel.app/article/docker-docker-build-failed-at-step-9-run-apt-get-update-returned-non-zero-code-1-92b051"
+      }
+    ]
+  },
+  "courseSchema": {
+    "@context": "https://schema.org",
+    "@type": "Course",
+    "name": "Docker エラー・トラブル集",
+    "description": "Docker エラー・トラブル集",
+    "provider": {
+      "@type": "Organization",
+      "name": "StackShelf",
+      "url": "https://ai-site-iota-nine.vercel.app"
+    },
+    "url": "https://ai-site-iota-nine.vercel.app/course/errors/docker-errors",
+    "inLanguage": "ja",
+    "educationalLevel": "beginner",
+    "hasCourseInstance": {
+      "@type": "CourseInstance",
+      "courseMode": "online",
+      "courseWorkload": "PT1H"
+    }
+  },
+  "faqSchema": {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "docker build failed at step 9: RUN apt-get update returned non-zero code: 129 とは何ですか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "docker build failed at step 9: RUN apt-get update returned non-zero code: 129 は Docker 実行時に表示されるエラーです。パッケージ名誤り"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "docker build failed at step 9: RUN apt-get update returned non-zero code: 129 の原因は？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "パッケージ名誤り。ネットワーク。ベースイメージの変更。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "docker build failed at step 9: RUN apt-get update returned non-zero code: 129 の直し方は？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "該当 RUN を単体実行：docker run -it ベースイメージで手動実行."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Docker で docker build failed at step 9 が出るのはなぜ？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Dockerfile ビルド"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "docker build failed at step 9: RUN apt-get update returned non-zero code: 129 を防ぐには？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "。"
+        }
+      }
+    ]
+  }
+}

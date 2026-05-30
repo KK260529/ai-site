@@ -152,6 +152,15 @@ async function publishArticle(article) {
   const publicFiles = regeneratePublicFiles();
   errors.push(...publicFiles.errors);
 
+  if (canWriteToDisk()) {
+    try {
+      const { buildArticleIndex } = require("../../scripts/build-article-index");
+      buildArticleIndex();
+    } catch (e) {
+      errors.push({ step: "articleIndex", message: e.message });
+    }
+  }
+
   const publicUrl = `${config.siteUrl}/article/${published.slug}`;
   const logEntry = {
     slug: published.slug,

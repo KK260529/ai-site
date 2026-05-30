@@ -58,7 +58,7 @@ async function runAutoDeploy(meta = {}) {
   try {
     regenerateAll();
 
-    const { buildArticleIndex } = require("../scripts/build-article-index");
+    const { buildArticleIndex } = require("../../scripts/build-article-index");
     buildArticleIndex();
 
     const articleStore = require("../articleStore");

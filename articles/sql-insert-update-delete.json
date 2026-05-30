@@ -1,0 +1,269 @@
+{
+  "id": "art_sql_sql-insert-update-delete",
+  "slug": "sql-insert-update-delete",
+  "title": "INSERT/UPDATE/DELETE｜SQLデータ追加・更新・削除の完全ガイド",
+  "summary": "SQLのデータ操作命令であるINSERT（追加）・UPDATE（更新）・DELETE（削除）を徹底解説。WHEREとの組み合わせや安全な操作手順など実践的なsql 使い方を習得しましょう。",
+  "body": "<h2>データ操作命令（DML）とは</h2>\n<p>SQLには「データを取得する」SELECT文の他に、「データを変更する」命令があります。これらをDML（Data Manipulation Language：データ操作言語）と呼び、<strong>INSERT（挿入）・UPDATE（更新）・DELETE（削除）</strong>の3つが基本です。</p>\n<p>これらの命令はデータベースの状態を実際に変更するため、SELECT文と比べて慎重に使う必要があります。特にUPDATEとDELETEはWHERE句を付け忘れると<strong>テーブル全件が更新・削除</strong>されるという致命的なミスにつながります。このエピソードでは安全な操作方法も合わせて学びます。</p>\n\n<h2>INSERT：データを追加する</h2>\n<p>テーブルに新しいレコードを追加するには <code>INSERT INTO</code> 文を使います。</p>\n<pre><code>-- 基本構文（カラム名と値を対応させる）\nINSERT INTO テーブル名 (カラム1, カラム2, ...) VALUES (値1, 値2, ...);\n\n-- 1件追加する例\nINSERT INTO products (name, price, category, stock)\nVALUES ('いちご', 300, '果物', 40);\n\n-- 確認\nSELECT * FROM products WHERE name = 'いちご';\n-- id | name   | price | category | stock\n-- ---+--------+-------+----------+------\n-- 11 | いちご |   300 | 果物     |    40\n\n-- カラム名を省略する場合（すべてのカラムを順番通りに指定する必要あり）\n-- AUTOINCREMENTのidはNULLを指定\nINSERT INTO products VALUES (NULL, 'ぶどう', 400, '果物', 25);\n\n-- 複数件を一度に追加（VALUES句を複数に）\nINSERT INTO products (name, price, category, stock) VALUES\n  ('キウイ',      250, '果物',   35),\n  ('レタス',       80, '野菜',   90),\n  ('バター',      450, '乳製品', 20);</code></pre>\n\n<h3>INSERT OR REPLACE / INSERT OR IGNORE</h3>\n<p>SQLiteには、一意制約に違反した場合の動作を指定する便利な構文があります。</p>\n<pre><code>-- PRIMARY KEYが重複した場合に置き換える\nINSERT OR REPLACE INTO products (id, name, price, category, stock)\nVALUES (1, 'りんご（有機）', 200, '果物', 80);\n\n-- 一意制約に違反した場合は無視してスキップ\nINSERT OR IGNORE INTO products (name, price, category, stock)\nVALUES ('りんご', 150, '果物', 100);\n\n-- UPSERT（INSERT、既存なら UPDATE）：SQLite 3.24.0以降\nINSERT INTO products (id, name, price, category, stock)\nVALUES (1, 'りんご', 160, '果物', 90)\nON CONFLICT(id) DO UPDATE SET\n  price = excluded.price,\n  stock = excluded.stock;</code></pre>\n\n<h2>UPDATE：データを更新する</h2>\n<p>既存のレコードを変更するには <code>UPDATE</code> 文を使います。<strong>必ずWHERE句を付ける</strong>のが鉄則です。</p>\n<pre><code>-- 基本構文\nUPDATE テーブル名 SET カラム1 = 値1, カラム2 = 値2 WHERE 条件式;\n\n-- りんごの価格を160円に変更\nUPDATE products SET price = 160 WHERE name = 'りんご';\n\n-- 複数カラムを同時に更新\nUPDATE products\nSET price = 90, stock = 180\nWHERE name = 'バナナ';\n\n-- 計算を使った更新（在庫を10%増やす）\nUPDATE products\nSET stock = stock * 1.1\nWHERE category = '果物';\n\n-- 更新前に確認（SELECTで対象を先に確認する習慣）\nSELECT * FROM products WHERE category = '野菜' AND stock < 100;\n-- 確認後に更新\nUPDATE products SET stock = stock + 50\nWHERE category = '野菜' AND stock < 100;\n\n-- WHERE句なしは全件更新！（危険）\n-- UPDATE products SET price = 0;  ← 絶対に実行しないこと</code></pre>\n\n<h3>UPDATE時の注意点と安全な手順</h3>\n<p>本番データベースでUPDATEを実行するときは、次の手順を踏むと安全です。</p>\n<pre><code>-- ステップ1：まずSELECTで対象を確認\nSELECT * FROM products WHERE id = 5;\n-- id | name       | price | category | stock\n-- ---+------------+-------+----------+------\n--  5 | じゃがいも |    60 | 野菜     |   300\n\n-- ステップ2：WHEREの条件をSELECTで使った条件と同じにしてUPDATE\nUPDATE products SET price = 70 WHERE id = 5;\n\n-- ステップ3：更新後に再度SELECTで確認\nSELECT * FROM products WHERE id = 5;\n-- id | name       | price | category | stock\n-- ---+------------+-------+----------+------\n--  5 | じゃがいも |    70 | 野菜     |   300</code></pre>\n\n<h2>DELETE：データを削除する</h2>\n<p>レコードを削除するには <code>DELETE FROM</code> 文を使います。これも<strong>WHERE句を必ず付ける</strong>ことが最重要です。削除したデータは通常元に戻せません。</p>\n<pre><code>-- 基本構文\nDELETE FROM テーブル名 WHERE 条件式;\n\n-- 特定のレコードを削除（idで指定するのが最も安全）\nDELETE FROM products WHERE id = 11;\n\n-- 条件に合う複数レコードを削除\nDELETE FROM products WHERE stock = 0;\n\n-- 削除前に必ずSELECTで確認\nSELECT * FROM products WHERE category = 'パン';\n-- 確認後に削除\nDELETE FROM products WHERE category = 'パン';\n\n-- WHERE句なしは全件削除！（絶対に実行しない）\n-- DELETE FROM products;  ← 全データが消える\n\n-- テーブルのすべてのデータを削除したい場合はTRUNCATEライクな方法\n-- SQLiteにはTRUNCATEがないためDELETE + SEQUENCEリセットを使う\nDELETE FROM products;\nDELETE FROM sqlite_sequence WHERE name = 'products';  -- AUTOINCREMENTをリセット</code></pre>\n\n<h2>トランザクション：操作をまとめて安全に実行する</h2>\n<p>複数のデータ操作を「まとめて成功させるか、まとめて失敗させるか」を制御する仕組みが<strong>トランザクション</strong>です。例えば銀行の送金処理では「口座Aから引き落とし→口座Bへ入金」の両方が成功しないといけません。どちらか一方だけ成功するのは許容できません。</p>\n<pre><code>-- トランザクションの基本構文\nBEGIN;         -- トランザクション開始\n  -- ここにSQLを書く\nCOMMIT;        -- すべて成功 → 確定\n-- または\nROLLBACK;      -- 失敗 → すべて取り消し\n\n-- 実際の使用例：在庫移動（商品Aの在庫を減らし商品Bの在庫を増やす）\nBEGIN;\n  UPDATE products SET stock = stock - 10 WHERE id = 1;  -- りんごを10減らす\n  UPDATE products SET stock = stock + 10 WHERE id = 2;  -- バナナを10増やす\nCOMMIT;\n\n-- エラーが発生した場合はROLLBACKで元に戻す\nBEGIN;\n  DELETE FROM products WHERE id = 5;\n  -- ここで何らかのエラー発生を想定\nROLLBACK;  -- 削除をなかったことにする\n\n-- SAVEPOINTで中間地点を設定できる\nBEGIN;\n  INSERT INTO products (name, price, category) VALUES ('A', 100, '野菜');\n  SAVEPOINT sp1;\n  INSERT INTO products (name, price, category) VALUES ('B', 200, '野菜');\n  ROLLBACK TO sp1;  -- sp1まで戻る（Bの挿入は取り消し）\nCOMMIT;  -- Aの挿入だけ確定</code></pre>\n\n<h2>実践：TODOアプリのデータ操作</h2>\n<p>前回作成したTODOテーブルを使って実際のアプリ操作を練習しましょう。</p>\n<pre><code>-- TODOを追加する\nINSERT INTO todos (title, priority, due_date)\nVALUES ('プロジェクト提案書を書く', 'high', '2024-02-15');\n\nINSERT INTO todos (title, priority, due_date)\nVALUES ('買い物リストを作成する', 'low', '2024-02-10');\n\n-- TODOを完了にする（done = 1 に更新）\nUPDATE todos SET done = 1 WHERE id = 1;\n\n-- 期限切れのTODOを確認\nSELECT * FROM todos\nWHERE done = 0\n  AND due_date < date('now')\nORDER BY due_date ASC;\n\n-- 完了済みTODOをすべて削除\nDELETE FROM todos WHERE done = 1;\n\n-- タイトルと優先度を更新\nUPDATE todos\nSET title = 'プロジェクト提案書を最終確認する',\n    priority = 'high',\n    due_date = '2024-02-20'\nWHERE id = 2;</code></pre>",
+  "conclusion": "INSERT・UPDATE・DELETEはSQLのデータ操作命令（DML）で、それぞれデータの追加・更新・削除を行います。最重要の注意点はUPDATEとDELETEには必ずWHERE句を付けることで、付け忘れると全件が対象になります。安全な手順は「SELECTで対象を確認→操作実行→SELECTで結果確認」です。複数の操作をアトミックに実行するにはトランザクション（BEGIN/COMMIT/ROLLBACK）を使います。",
+  "tags": [
+    "SQL",
+    "INSERT",
+    "UPDATE",
+    "DELETE",
+    "SQLite",
+    "sql 使い方"
+  ],
+  "category": "SQL",
+  "theme": "sql - SQL・データベース入門",
+  "status": "published",
+  "createdAt": "2026-05-30T04:13:10.304Z",
+  "updatedAt": "2026-05-30T04:13:10.311Z",
+  "publishedAt": "2026-05-30T04:13:10.304Z",
+  "metaTitle": "INSERT UPDATE DELETE｜sql 初心者向けデータ操作完全ガイド",
+  "metaDescription": "INSERT・UPDATE・DELETEをsql 初心者向けに徹底解説。WHERE句との組み合わせ、トランザクション、データ操作の安全手順などsql 使い方の実践スキルをSQLiteサンプルで習得できます。 図解・具体例つきで丁寧に解説します。",
+  "ogTitle": "INSERT/UPDATE/DELETE｜SQLデータ操作完全ガイド",
+  "ogDescription": "【SQL初心者向け】【SQL初心者向け】SQLのデータ追加・更新・削除をゼロから解説。安全な操作手順とトランザクションまで学べます。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
+  "knowledge": {
+    "topic": "sql",
+    "courseId": "sql",
+    "episode": 5
+  },
+  "faq": [
+    {
+      "question": "UPDATEでWHEREを忘れるとどうなりますか？",
+      "answer": "テーブルの全レコードが更新されてしまいます。例えば「UPDATE users SET password = 'hacked'」と書くと全ユーザーのパスワードが変わります。本番環境ではこれが大きな事故につながります。UPDATEを実行する前には必ず同じWHERE条件でSELECTを実行し、対象レコードを確認する習慣をつけましょう。"
+    },
+    {
+      "question": "削除したデータは復元できますか？",
+      "answer": "通常のDELETE文で削除したデータは元に戻せません。ただし、トランザクションのROLLBACKでCOMMIT前なら取り消せます。また定期的なバックアップを取っていれば復元可能です。本番環境では物理削除（DELETE）よりも論理削除（deleted_atカラムにタイムスタンプを設定）が推奨されることが多いです。"
+    },
+    {
+      "question": "複数のテーブルを同時にUPDATEするには？",
+      "answer": "SQLの標準的なUPDATE文は1テーブルのみを対象にします。複数テーブルを同時に更新したい場合は、トランザクション内で複数のUPDATE文を順番に実行します。これにより「全部成功か全部失敗か」を保証できます。"
+    },
+    {
+      "question": "INSERT時にNOT NULL違反が起きたらどうなりますか？",
+      "answer": "SQLiteはエラーを返し、レコードは挿入されません。エラーメッセージは「NOT NULL constraint failed: テーブル名.カラム名」と表示されます。DEFAULT値を設定していないNOT NULLカラムにはINSERT時に必ず値を指定する必要があります。"
+    }
+  ],
+  "nextEpisodeHint": "次回は複数のテーブルを結合して扱うJOIN構文を学びます。INNER JOINとLEFT JOINの違いを理解して、複数テーブルをまたいだデータ取得をマスターしましょう。",
+  "ogImage": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+  "canonical": "https://ai-site-iota-nine.vercel.app/article/sql-insert-update-delete",
+  "jsonLd": {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@context": "https://schema.org",
+        "@type": "TechArticle",
+        "headline": "INSERT/UPDATE/DELETE｜SQLデータ追加・更新・削除の完全ガイド",
+        "description": "INSERT・UPDATE・DELETEをsql 初心者向けに徹底解説。WHERE句との組み合わせ、トランザクション、データ操作の安全手順などsql 使い方の実践スキルをSQLiteサンプルで習得できます。 図解・具体例つきで丁寧に解説します。",
+        "datePublished": "2026-05-30T04:13:10.304Z",
+        "dateModified": "2026-05-30T04:13:10.311Z",
+        "author": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
+        },
+        "image": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+        "inLanguage": "ja",
+        "wordCount": 3681,
+        "mainEntityOfPage": {
+          "@type": "WebPage",
+          "@id": "https://ai-site-iota-nine.vercel.app/article/sql-insert-update-delete"
+        },
+        "keywords": "SQL, INSERT, UPDATE, DELETE, SQLite, sql 使い方",
+        "articleSection": "SQL",
+        "url": "https://ai-site-iota-nine.vercel.app/article/sql-insert-update-delete",
+        "learningResourceType": "tutorial",
+        "educationalLevel": "beginner"
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "ホーム",
+            "item": "https://ai-site-iota-nine.vercel.app/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "sql",
+            "item": "https://ai-site-iota-nine.vercel.app/knowledge/sql"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "SQL・データベース入門",
+            "item": "https://ai-site-iota-nine.vercel.app/course/sql/sql"
+          },
+          {
+            "@type": "ListItem",
+            "position": 4,
+            "name": "INSERT/UPDATE/DELETE｜SQLデータ追加・更新・削除の完全ガイド",
+            "item": "https://ai-site-iota-nine.vercel.app/article/sql-insert-update-delete"
+          }
+        ]
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "Course",
+        "name": "SQL・データベース入門",
+        "description": "データベースとSQLの基礎を10ステップで習得。SELECT/INSERT/JOIN/集計関数まで、SQLiteを使った具体例でWebアプリ開発に必要なDBスキルを身につけます。",
+        "provider": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app"
+        },
+        "url": "https://ai-site-iota-nine.vercel.app/course/sql/sql",
+        "inLanguage": "ja",
+        "educationalLevel": "beginner",
+        "hasCourseInstance": {
+          "@type": "CourseInstance",
+          "courseMode": "online",
+          "courseWorkload": "PT1H"
+        }
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "UPDATEでWHEREを忘れるとどうなりますか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "テーブルの全レコードが更新されてしまいます。例えば「UPDATE users SET password = 'hacked'」と書くと全ユーザーのパスワードが変わります。本番環境ではこれが大きな事故につながります。UPDATEを実行する前には必ず同じWHERE条件でSELECTを実行し、対象レコードを確認する習慣をつけましょう。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "削除したデータは復元できますか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "通常のDELETE文で削除したデータは元に戻せません。ただし、トランザクションのROLLBACKでCOMMIT前なら取り消せます。また定期的なバックアップを取っていれば復元可能です。本番環境では物理削除（DELETE）よりも論理削除（deleted_atカラムにタイムスタンプを設定）が推奨されることが多いです。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "複数のテーブルを同時にUPDATEするには？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "SQLの標準的なUPDATE文は1テーブルのみを対象にします。複数テーブルを同時に更新したい場合は、トランザクション内で複数のUPDATE文を順番に実行します。これにより「全部成功か全部失敗か」を保証できます。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "INSERT時にNOT NULL違反が起きたらどうなりますか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "SQLiteはエラーを返し、レコードは挿入されません。エラーメッセージは「NOT NULL constraint failed: テーブル名.カラム名」と表示されます。DEFAULT値を設定していないNOT NULLカラムにはINSERT時に必ず値を指定する必要があります。"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "breadcrumb": {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "ホーム",
+        "item": "https://ai-site-iota-nine.vercel.app/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "sql",
+        "item": "https://ai-site-iota-nine.vercel.app/knowledge/sql"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "SQL・データベース入門",
+        "item": "https://ai-site-iota-nine.vercel.app/course/sql/sql"
+      },
+      {
+        "@type": "ListItem",
+        "position": 4,
+        "name": "INSERT/UPDATE/DELETE｜SQLデータ追加・更新・削除の完全ガイド",
+        "item": "https://ai-site-iota-nine.vercel.app/article/sql-insert-update-delete"
+      }
+    ]
+  },
+  "courseSchema": {
+    "@context": "https://schema.org",
+    "@type": "Course",
+    "name": "SQL・データベース入門",
+    "description": "データベースとSQLの基礎を10ステップで習得。SELECT/INSERT/JOIN/集計関数まで、SQLiteを使った具体例でWebアプリ開発に必要なDBスキルを身につけます。",
+    "provider": {
+      "@type": "Organization",
+      "name": "StackShelf",
+      "url": "https://ai-site-iota-nine.vercel.app"
+    },
+    "url": "https://ai-site-iota-nine.vercel.app/course/sql/sql",
+    "inLanguage": "ja",
+    "educationalLevel": "beginner",
+    "hasCourseInstance": {
+      "@type": "CourseInstance",
+      "courseMode": "online",
+      "courseWorkload": "PT1H"
+    }
+  },
+  "faqSchema": {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "UPDATEでWHEREを忘れるとどうなりますか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "テーブルの全レコードが更新されてしまいます。例えば「UPDATE users SET password = 'hacked'」と書くと全ユーザーのパスワードが変わります。本番環境ではこれが大きな事故につながります。UPDATEを実行する前には必ず同じWHERE条件でSELECTを実行し、対象レコードを確認する習慣をつけましょう。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "削除したデータは復元できますか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "通常のDELETE文で削除したデータは元に戻せません。ただし、トランザクションのROLLBACKでCOMMIT前なら取り消せます。また定期的なバックアップを取っていれば復元可能です。本番環境では物理削除（DELETE）よりも論理削除（deleted_atカラムにタイムスタンプを設定）が推奨されることが多いです。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "複数のテーブルを同時にUPDATEするには？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "SQLの標準的なUPDATE文は1テーブルのみを対象にします。複数テーブルを同時に更新したい場合は、トランザクション内で複数のUPDATE文を順番に実行します。これにより「全部成功か全部失敗か」を保証できます。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "INSERT時にNOT NULL違反が起きたらどうなりますか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "SQLiteはエラーを返し、レコードは挿入されません。エラーメッセージは「NOT NULL constraint failed: テーブル名.カラム名」と表示されます。DEFAULT値を設定していないNOT NULLカラムにはINSERT時に必ず値を指定する必要があります。"
+        }
+      }
+    ]
+  }
+}

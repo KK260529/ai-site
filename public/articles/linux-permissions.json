@@ -1,0 +1,269 @@
+{
+  "id": "art_linux_linux-permissions",
+  "slug": "linux-permissions",
+  "title": "chmod/chown でLinuxのファイル権限を管理する【rwxの仕組みを解説】",
+  "summary": "Linuxのファイル権限（パーミッション）の仕組み、chmod によるrwx設定の変更方法、chown による所有者変更、sudo の基本を初心者向けに解説します。",
+  "body": "<h2>Linuxのファイル権限（パーミッション）とは</h2>\n<p>Linuxは複数のユーザーが同じシステムを使う<strong>マルチユーザーOS</strong>です。そのため、どのユーザーがどのファイルを「読める・書ける・実行できる」かを制御する<strong>権限（パーミッション）システム</strong>があります。この仕組みを理解することで、セキュリティを守りながらファイルを管理できます。</p>\n<pre><code># ファイルの権限を確認する\nls -l sample.txt\n# 出力例:\n# -rw-r--r-- 1 ubuntu ubuntu 1234 May 30 10:00 sample.txt</code></pre>\n<p>この出力の最初の10文字がファイルの権限情報です。</p>\n\n<h2>rwx の読み方</h2>\n<p>権限の10文字は次の構造になっています。</p>\n<pre><code>-  rw-  r--  r--\n^  ^^^  ^^^  ^^^\n|   |    |    └── その他（other）の権限\n|   |    └─────── グループ（group）の権限\n|   └──────────── 所有者（owner/user）の権限\n└──────────────── ファイルタイプ（-=ファイル、d=ディレクトリ）</code></pre>\n<p>各3文字はそれぞれ以下の意味を持ちます。</p>\n<ul>\n  <li><strong>r</strong>（read）：読み取り権限。ファイルを読める、ディレクトリの中身を一覧できる</li>\n  <li><strong>w</strong>（write）：書き込み権限。ファイルを編集できる、ディレクトリにファイルを作成・削除できる</li>\n  <li><strong>x</strong>（execute）：実行権限。ファイルをプログラムとして実行できる、ディレクトリに入れる（cdできる）</li>\n  <li><strong>-</strong>：その権限がないことを示す</li>\n</ul>\n\n<h3>権限の数値表記（8進数）</h3>\n<p>chmod では権限を数値でも指定できます。各権限に対応する数値を合計します。</p>\n<ul>\n  <li>r = 4</li>\n  <li>w = 2</li>\n  <li>x = 1</li>\n  <li>- = 0</li>\n</ul>\n<pre><code># 権限と数値の対応例\n# rwx = 4+2+1 = 7\n# rw- = 4+2+0 = 6\n# r-- = 4+0+0 = 4\n# r-x = 4+0+1 = 5\n# --- = 0+0+0 = 0\n\n# よく使う3桁の組み合わせ\n# 755 = rwxr-xr-x（所有者:全権限、グループ・その他:読み取りと実行）\n# 644 = rw-r--r--（所有者:読み書き、グループ・その他:読み取りのみ）\n# 700 = rwx------（所有者のみ全権限、他は一切不可）\n# 600 = rw-------（所有者のみ読み書き可）</code></pre>\n\n<h2>chmod：ファイルの権限を変更する</h2>\n<p><code>chmod</code>（CHange MODe）はファイルやディレクトリの権限を変更するコマンドです。数値表記とシンボル表記の2種類があります。</p>\n\n<h3>数値表記での chmod</h3>\n<pre><code># 755 に設定（スクリプトによく使う）\nchmod 755 script.sh\n\n# 644 に設定（通常のファイル）\nchmod 644 document.txt\n\n# 600 に設定（秘密鍵などプライベートなファイル）\nchmod 600 ~/.ssh/id_rsa\n\n# ディレクトリを再帰的に権限変更\nchmod -R 755 /var/www/html/</code></pre>\n\n<h3>シンボル表記での chmod</h3>\n<pre><code># 対象: u=所有者, g=グループ, o=その他, a=全員\n# 操作: +=追加, -=削除, ==設定\n\n# 所有者に実行権限を追加\nchmod u+x script.sh\n\n# その他ユーザーから書き込み権限を削除\nchmod o-w secret.txt\n\n# 全員に読み取り権限を追加\nchmod a+r public.txt\n\n# グループの権限を rw- に設定\nchmod g=rw team_file.txt\n\n# 実行可能なスクリプトを作成する一般的な手順\ntouch deploy.sh\nnano deploy.sh       # スクリプトを編集\nchmod +x deploy.sh   # 実行権限を付与\n./deploy.sh          # 実行</code></pre>\n\n<h2>chown：ファイルの所有者を変更する</h2>\n<p><code>chown</code>（CHange OWNer）はファイルやディレクトリの所有者やグループを変更するコマンドです。通常は <code>sudo</code> が必要です。</p>\n<pre><code># 所有者を ubuntu に変更\nsudo chown ubuntu file.txt\n\n# 所有者とグループを同時に変更（ユーザー:グループ）\nsudo chown ubuntu:www-data /var/www/html/index.html\n\n# グループのみ変更\nsudo chown :developers project/\n\n# ディレクトリを再帰的に変更\nsudo chown -R ubuntu:ubuntu /home/ubuntu/projects/\n\n# 現在の所有者を確認\nls -l file.txt\nstat file.txt</code></pre>\n\n<h3>chgrp：グループのみを変更する</h3>\n<pre><code># ファイルのグループを変更\nchgrp developers project.txt\n\n# 現在のユーザーとグループを確認\nid\n# 出力例: uid=1000(ubuntu) gid=1000(ubuntu) groups=1000(ubuntu),4(adm),27(sudo)</code></pre>\n\n<h2>sudo：管理者権限でコマンドを実行する</h2>\n<p><code>sudo</code>（Substitute User DO）は管理者（root）権限でコマンドを実行するための仕組みです。システムファイルの変更やソフトウェアのインストールには sudo が必要です。</p>\n<pre><code># sudo でコマンドを実行（パスワードを求められる）\nsudo apt update\n\n# root ユーザーとしてシェルを起動（注意して使うこと）\nsudo -i\n\n# 特定のユーザーとしてコマンドを実行\nsudo -u www-data ls /var/www/\n\n# sudo の権限設定を確認\nsudo -l</code></pre>\n<p><strong>注意</strong>：sudo を使うと強力な権限でコマンドが実行されます。特に <code>rm</code> や <code>chmod</code> と組み合わせる際は、コマンドの内容をよく確認してから実行してください。</p>\n\n<h2>権限設定のベストプラクティス</h2>\n<p>実際の運用でよく使われる権限設定のパターンをまとめます。</p>\n<pre><code># Webサーバーの公開ディレクトリ（nginx/apache）\nsudo chmod -R 755 /var/www/html/\nsudo chown -R www-data:www-data /var/www/html/\n\n# SSH秘密鍵（外部に見せてはいけない）\nchmod 600 ~/.ssh/id_rsa\nchmod 644 ~/.ssh/id_rsa.pub\n\n# シェルスクリプトに実行権限を付与\nchmod +x deploy.sh\n\n# 設定ファイル（読み書きは所有者のみ）\nchmod 600 .env\nchmod 600 config/database.yml\n\n# ディレクトリのパーミッション確認\nstat -c \"%a %n\" /var/www/html</code></pre>\n\n<h2>まとめ：権限管理のポイント</h2>\n<p>Linuxの権限システムを理解することはセキュリティの基本です。</p>\n<ul>\n  <li><code>ls -l</code> で権限を確認し、<code>chmod</code> で変更する</li>\n  <li>よく使う数値：755（実行可能スクリプト・ディレクトリ）、644（一般ファイル）、600（秘密ファイル）</li>\n  <li><code>chown ユーザー:グループ</code> で所有者を変更できる（通常 sudo 必要）</li>\n  <li>必要最低限の権限だけを与える「最小権限の原則」を意識する</li>\n  <li>本番環境では 777（全員に全権限）は避ける</li>\n</ul>",
+  "conclusion": "Linuxのrwx権限システムはセキュリティの根幹です。数値表記（755、644、600）を覚えておくとchmodをスムーズに使えます。chownで所有者を変更し、sudoで管理者権限が必要な操作を行います。最小権限の原則を意識して、必要な権限だけを付与する習慣をつけることが重要です。",
+  "tags": [
+    "Linux",
+    "chmod",
+    "chown",
+    "パーミッション",
+    "rwx",
+    "sudo"
+  ],
+  "category": "Linux",
+  "theme": "linux - Linux コマンドライン入門",
+  "status": "published",
+  "createdAt": "2026-05-30T04:13:04.488Z",
+  "updatedAt": "2026-05-30T04:13:04.493Z",
+  "publishedAt": "2026-05-30T04:13:04.488Z",
+  "metaTitle": "chmod chown の使い方｜Linux ファイル権限 rwx パーミッション解説",
+  "metaDescription": "【Linux初心者向け】chmod chown コマンドの使い方をわかりやすく解説。linux コマンドでのファイル権限（rwx）設定、所有者変更、sudoの基本をマスターしましょう。 図解・具体例つきで丁寧に解説します。",
+  "ogTitle": "chmod/chown でLinuxのファイル権限を理解する",
+  "ogDescription": "【Linux初心者向け】【Linux初心者向け】Linuxのrwx権限システムとchmod・chownコマンドを初心者向けに丁寧に解説。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
+  "knowledge": {
+    "topic": "linux",
+    "courseId": "linux",
+    "episode": 6
+  },
+  "faq": [
+    {
+      "question": "chmod 777 を設定するのはなぜ良くないのですか？",
+      "answer": "777 は全員（所有者・グループ・その他）に読み書き実行の全権限を与えます。悪意あるユーザーやプログラムがファイルを改ざん・実行できるためセキュリティ上危険です。Webサーバー上の777は特に問題で、攻撃者にサーバー乗っ取りの糸口を与えかねません。"
+    },
+    {
+      "question": "chmod と chown を一般ユーザーで実行できないのはなぜですか？",
+      "answer": "自分が所有するファイルのchmodは一般ユーザーでも実行できます。他のユーザーのファイルや所有者の変更（chown）にはroot権限が必要なため sudo を使います。システム保護のための設計です。"
+    },
+    {
+      "question": "umask とは何ですか？",
+      "answer": "umask はファイルやディレクトリを新規作成する際のデフォルト権限を制御する設定値です。通常は 022 が設定されており、新規ファイルは 644（666から022を引く）、新規ディレクトリは 755（777から022を引く）になります。"
+    },
+    {
+      "question": "実行権限（x）がないスクリプトを実行しようとするとどうなりますか？",
+      "answer": "「Permission denied」エラーが出て実行できません。chmod +x script.sh で実行権限を付与してから実行するか、bash script.sh のようにシェルを明示的に指定して実行することができます。"
+    }
+  ],
+  "nextEpisodeHint": "次回は、Linuxのプロセス管理を学びます。ps、top、kill、jobs コマンドを使って実行中のプロセスを監視・制御する方法を解説します。",
+  "ogImage": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+  "canonical": "https://ai-site-iota-nine.vercel.app/article/linux-permissions",
+  "jsonLd": {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@context": "https://schema.org",
+        "@type": "TechArticle",
+        "headline": "chmod/chown でLinuxのファイル権限を管理する【rwxの仕組みを解説】",
+        "description": "【Linux初心者向け】chmod chown コマンドの使い方をわかりやすく解説。linux コマンドでのファイル権限（rwx）設定、所有者変更、sudoの基本をマスターしましょう。 図解・具体例つきで丁寧に解説します。",
+        "datePublished": "2026-05-30T04:13:04.488Z",
+        "dateModified": "2026-05-30T04:13:04.493Z",
+        "author": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
+        },
+        "image": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+        "inLanguage": "ja",
+        "wordCount": 2753,
+        "mainEntityOfPage": {
+          "@type": "WebPage",
+          "@id": "https://ai-site-iota-nine.vercel.app/article/linux-permissions"
+        },
+        "keywords": "Linux, chmod, chown, パーミッション, rwx, sudo",
+        "articleSection": "Linux",
+        "url": "https://ai-site-iota-nine.vercel.app/article/linux-permissions",
+        "learningResourceType": "tutorial",
+        "educationalLevel": "beginner"
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "ホーム",
+            "item": "https://ai-site-iota-nine.vercel.app/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "linux",
+            "item": "https://ai-site-iota-nine.vercel.app/knowledge/linux"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "Linux コマンドライン入門",
+            "item": "https://ai-site-iota-nine.vercel.app/course/linux/linux"
+          },
+          {
+            "@type": "ListItem",
+            "position": 4,
+            "name": "chmod/chown でLinuxのファイル権限を管理する【rwxの仕組みを解説】",
+            "item": "https://ai-site-iota-nine.vercel.app/article/linux-permissions"
+          }
+        ]
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "Course",
+        "name": "Linux コマンドライン入門",
+        "description": "エンジニア必須のLinuxターミナル操作を10ステップで習得。ファイル操作・権限・プロセス・パイプまで、具体コマンド例付きで丁寧に解説します。",
+        "provider": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app"
+        },
+        "url": "https://ai-site-iota-nine.vercel.app/course/linux/linux",
+        "inLanguage": "ja",
+        "educationalLevel": "beginner",
+        "hasCourseInstance": {
+          "@type": "CourseInstance",
+          "courseMode": "online",
+          "courseWorkload": "PT1H"
+        }
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "chmod 777 を設定するのはなぜ良くないのですか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "777 は全員（所有者・グループ・その他）に読み書き実行の全権限を与えます。悪意あるユーザーやプログラムがファイルを改ざん・実行できるためセキュリティ上危険です。Webサーバー上の777は特に問題で、攻撃者にサーバー乗っ取りの糸口を与えかねません。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "chmod と chown を一般ユーザーで実行できないのはなぜですか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "自分が所有するファイルのchmodは一般ユーザーでも実行できます。他のユーザーのファイルや所有者の変更（chown）にはroot権限が必要なため sudo を使います。システム保護のための設計です。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "umask とは何ですか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "umask はファイルやディレクトリを新規作成する際のデフォルト権限を制御する設定値です。通常は 022 が設定されており、新規ファイルは 644（666から022を引く）、新規ディレクトリは 755（777から022を引く）になります。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "実行権限（x）がないスクリプトを実行しようとするとどうなりますか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "「Permission denied」エラーが出て実行できません。chmod +x script.sh で実行権限を付与してから実行するか、bash script.sh のようにシェルを明示的に指定して実行することができます。"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "breadcrumb": {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "ホーム",
+        "item": "https://ai-site-iota-nine.vercel.app/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "linux",
+        "item": "https://ai-site-iota-nine.vercel.app/knowledge/linux"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "Linux コマンドライン入門",
+        "item": "https://ai-site-iota-nine.vercel.app/course/linux/linux"
+      },
+      {
+        "@type": "ListItem",
+        "position": 4,
+        "name": "chmod/chown でLinuxのファイル権限を管理する【rwxの仕組みを解説】",
+        "item": "https://ai-site-iota-nine.vercel.app/article/linux-permissions"
+      }
+    ]
+  },
+  "courseSchema": {
+    "@context": "https://schema.org",
+    "@type": "Course",
+    "name": "Linux コマンドライン入門",
+    "description": "エンジニア必須のLinuxターミナル操作を10ステップで習得。ファイル操作・権限・プロセス・パイプまで、具体コマンド例付きで丁寧に解説します。",
+    "provider": {
+      "@type": "Organization",
+      "name": "StackShelf",
+      "url": "https://ai-site-iota-nine.vercel.app"
+    },
+    "url": "https://ai-site-iota-nine.vercel.app/course/linux/linux",
+    "inLanguage": "ja",
+    "educationalLevel": "beginner",
+    "hasCourseInstance": {
+      "@type": "CourseInstance",
+      "courseMode": "online",
+      "courseWorkload": "PT1H"
+    }
+  },
+  "faqSchema": {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "chmod 777 を設定するのはなぜ良くないのですか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "777 は全員（所有者・グループ・その他）に読み書き実行の全権限を与えます。悪意あるユーザーやプログラムがファイルを改ざん・実行できるためセキュリティ上危険です。Webサーバー上の777は特に問題で、攻撃者にサーバー乗っ取りの糸口を与えかねません。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "chmod と chown を一般ユーザーで実行できないのはなぜですか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "自分が所有するファイルのchmodは一般ユーザーでも実行できます。他のユーザーのファイルや所有者の変更（chown）にはroot権限が必要なため sudo を使います。システム保護のための設計です。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "umask とは何ですか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "umask はファイルやディレクトリを新規作成する際のデフォルト権限を制御する設定値です。通常は 022 が設定されており、新規ファイルは 644（666から022を引く）、新規ディレクトリは 755（777から022を引く）になります。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "実行権限（x）がないスクリプトを実行しようとするとどうなりますか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "「Permission denied」エラーが出て実行できません。chmod +x script.sh で実行権限を付与してから実行するか、bash script.sh のようにシェルを明示的に指定して実行することができます。"
+        }
+      }
+    ]
+  }
+}

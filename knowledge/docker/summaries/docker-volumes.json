@@ -1,0 +1,13 @@
+{
+  "slug": "docker-volumes",
+  "courseId": "docker",
+  "episode": 7,
+  "summaryMemory": [
+    "コンテナ削除でデータが消えるのを防ぐために名前付きボリュームまたはバインドマウントを使う",
+    "名前付きボリュームはDBデータなど永続化データ、バインドマウントは開発時のソースコード同期に向いている",
+    "-v /app/node_modules のような匿名ボリュームでコンテナ側のディレクトリをホストに上書きされないようにできる",
+    "バックアップはalpineコンテナをマウントしてtarコマンドで実行するのが汎用的な方法"
+  ],
+  "nextEpisodeHint": "次回は学習の集大成として、実際のNode.jsまたはPython WebアプリをDockerでコンテナ化する実践演習を行います。Dockerfile作成からDocker Composeでの起動まで一通り体験しましょう。",
+  "updatedAt": "2026-05-30T04:13:34.394Z"
+}

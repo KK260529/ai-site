@@ -1,0 +1,14 @@
+{
+  "slug": "linux-pipe-redirect",
+  "courseId": "linux",
+  "episode": 8,
+  "summaryMemory": [
+    "stdin(0)=入力、stdout(1)=通常出力、stderr(2)=エラー出力",
+    "> で上書き、>> で追記、2> でエラー保存、2>&1 でstderrをstdoutにマージ",
+    "| でコマンドを繋いでデータを流す（前のstdoutが次のstdinへ）",
+    "tee で画面表示とファイル保存を同時に行う",
+    "/dev/null は出力を捨てるブラックホール"
+  ],
+  "nextEpisodeHint": "次回は、Linuxの環境変数（env、export）、.bashrcの設定方法、PATHの仕組みを学びます。シェルの設定をカスタマイズして作業環境を整えましょう。",
+  "updatedAt": "2026-05-30T04:13:05.762Z"
+}

@@ -1,0 +1,10 @@
+{
+  "topic": "web",
+  "title": "HTML/CSS Web制作入門",
+  "description": "プログラミング学習者向けのWeb制作入門。HTML/CSSからレスポンシブまで12ステップ。",
+  "beginnerPath": [
+    "web-intro", "web-first-html", "web-text-headings", "web-links-images",
+    "web-lists-tables", "web-css-basics", "web-box-model", "web-flexbox",
+    "web-responsive", "web-forms", "web-css-practice", "web-publish-basics"
+  ]
+}

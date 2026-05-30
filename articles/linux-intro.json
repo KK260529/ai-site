@@ -1,0 +1,268 @@
+{
+  "id": "art_linux_linux-intro",
+  "slug": "linux-intro",
+  "title": "Linuxとは？コマンドラインの世界へようこそ【初心者向け完全入門】",
+  "summary": "Linuxとは何か、なぜエンジニアに必要なのかをわかりやすく解説。コマンドラインの基本概念とLinuxが使われている場面をゼロから学びます。",
+  "body": "<h2>Linuxとは何か？</h2>\n<p>Linux（リナックス）とは、1991年にフィンランドの学生だったLinus Torvalds（リーナス・トーバルズ）が開発した<strong>オープンソースのオペレーティングシステム（OS）</strong>です。WindowsやmacOSと同じく、コンピュータのハードウェアとソフトウェアを管理するためのOSですが、Linuxは無料で公開されており、誰でも自由に改変・配布することができます。</p>\n<p>現在、世界中のWebサーバーの90%以上がLinuxで動いており、AndroidのベースとなるカーネルもLinuxです。つまり、あなたが毎日使っているスマートフォンにもLinuxの技術が使われているのです。エンジニアとしてキャリアを積む上で、Linuxの基礎知識は事実上の必須スキルと言えます。</p>\n\n<h2>コマンドラインとは何か？</h2>\n<p>LinuxといえばCLI（Command Line Interface、コマンドラインインターフェース）が特徴的です。CLIとは、マウスではなく<strong>キーボードで文字を打ち込んでコンピュータを操作する仕組み</strong>です。Windowsのエクスプローラーのようなグラフィカルな操作（GUI）とは対照的に、コマンドラインは文字だけで完結します。</p>\n<p>最初は「難しそう」と感じるかもしれませんが、実際にはコマンドを覚えてしまえばGUIよりも素早く正確に作業できます。たとえば、1000個のファイル名を一括変換したいとき、GUIでは1つずつクリックしなければなりませんが、コマンドなら1行で済みます。</p>\n\n<h3>シェルとターミナルの違い</h3>\n<p><strong>ターミナル</strong>（端末）はコマンドを入力するウィンドウのことです。<strong>シェル</strong>はそのコマンドを解釈してOSに伝えるプログラムです。よく使われるシェルには <code>bash</code>（Bourne Again SHell）や <code>zsh</code>（Z Shell）があります。ターミナルを開くと自動的にシェルが起動し、コマンド入力を受け付ける状態になります。</p>\n\n<h3>プロンプトの読み方</h3>\n<p>ターミナルを開くと次のような文字列が表示されます。</p>\n<pre><code>username@hostname:~$</code></pre>\n<p>これを<strong>プロンプト</strong>と呼び、「コマンドを入力してください」というサインです。<code>~</code> は現在いるフォルダがホームディレクトリであることを示します。<code>$</code> は一般ユーザーとして操作中を意味し、<code>#</code> は管理者（root）での操作を意味します。</p>\n\n<h2>Linuxが使われる場面</h2>\n<p>Linuxは特にサーバーやインフラの世界で広く使われています。具体的にどのような場面で活躍するか見てみましょう。</p>\n<ul>\n  <li><strong>Webサーバー</strong>：Apache、Nginxなどが動くサーバーOSとして世界シェアNo.1</li>\n  <li><strong>クラウド</strong>：AWS、Google Cloud、Azureの仮想マシンのほとんどがLinux</li>\n  <li><strong>開発環境</strong>：DockerコンテナのベースOSはLinuxが標準</li>\n  <li><strong>組み込みシステム</strong>：ルーターやIoT機器にも採用</li>\n  <li><strong>スーパーコンピュータ</strong>：世界トップ500のスパコンはほぼ全てLinux</li>\n</ul>\n\n<h2>主要なLinuxディストリビューション</h2>\n<p>Linuxは「カーネル」と呼ばれる中核部分だけを指しており、実際に使うにはカーネルに各種ソフトウェアを組み合わせた<strong>ディストリビューション（distro）</strong>を選びます。主要なものを紹介します。</p>\n\n<h3>Ubuntu（ウブントゥ）</h3>\n<p>初心者に最もおすすめのディストリビューションです。GUIも充実しており、日本語対応も良好です。WSL（Windows Subsystem for Linux）でWindowsにインストールできるため、手軽に試せます。サーバー版もあり、クラウドのデフォルトOSとして採用されることも多いです。</p>\n\n<h3>CentOS / Rocky Linux</h3>\n<p>企業のサーバーで長年使われてきた安定重視のディストリビューションです。CentOSは2021年にサポート方針が変わったため、現在はRocky LinuxやAlmaLinuxへの移行が進んでいます。</p>\n\n<h3>Debian</h3>\n<p>Ubuntuの元になったディストリビューションで、安定性と軽さが特徴です。サーバー用途で人気があります。</p>\n\n<h2>コマンドラインを学ぶメリット</h2>\n<p>「なぜGUIではなくCLIを学ぶ必要があるのか」と思う方も多いでしょう。以下の理由から、エンジニアにとってCLIの習得は重要です。</p>\n<ul>\n  <li><strong>速さ</strong>：慣れると操作がGUIより格段に速くなる</li>\n  <li><strong>自動化</strong>：複数のコマンドをスクリプトにまとめて自動実行できる</li>\n  <li><strong>リモート操作</strong>：SSH経由でサーバーに接続する際はCLI一択</li>\n  <li><strong>再現性</strong>：コマンドをテキストで残せるため、手順の共有が簡単</li>\n  <li><strong>軽量</strong>：GUIが使えない低スペック環境でも動作する</li>\n</ul>\n\n<pre><code># シェルの種類を確認するコマンド\necho $SHELL\n# 出力例: /bin/bash\n\n# 現在のユーザー名を確認\nwhoami\n# 出力例: ubuntu\n\n# ホスト名を確認\nhostname\n# 出力例: my-server</code></pre>\n\n<h2>WindowsユーザーのためのLinux環境構築</h2>\n<p>WindowsユーザーがLinuxを試す最も手軽な方法は<strong>WSL（Windows Subsystem for Linux）</strong>を使うことです。PowerShellを管理者権限で開き、以下のコマンドを実行するだけでUbuntuをインストールできます。</p>\n<pre><code># PowerShellで実行（管理者権限）\nwsl --install\n\n# インストール後、Ubuntuを起動して確認\nwsl --list --verbose</code></pre>\n<p>macOSユーザーはデフォルトでzshが使えるため、ターミナルアプリを開くだけですぐにLinuxコマンドを試せます。実際のLinux環境を使いたい場合はVirtualBoxなどの仮想化ソフトも選択肢です。</p>\n\n<h2>まとめ：Linuxコマンドラインの第一歩</h2>\n<p>Linuxはサーバーやクラウドの世界を支える重要なOSです。コマンドラインは最初こそ慣れが必要ですが、一度習得すれば開発の速度と幅が大きく広がります。このコースではLinuxコマンドをひとつずつ丁寧に学んでいきます。まずは環境を整えて、次回からターミナル操作を実践していきましょう。</p>",
+  "conclusion": "Linuxは世界中のサーバーやクラウドを支えるオープンソースOSで、エンジニアにとって必須の知識です。コマンドライン（CLI）は最初こそ慣れが必要ですが、速さ・自動化・リモート操作の面でGUIを大きく上回ります。Windowsユーザーも WSL を使えばすぐにLinux環境を手に入れられます。このコースでは基本コマンドから実践的なスキルまで順番に学んでいきます。",
+  "tags": [
+    "Linux",
+    "コマンドライン",
+    "CLI",
+    "ターミナル",
+    "初心者"
+  ],
+  "category": "Linux",
+  "theme": "linux - Linux コマンドライン入門",
+  "status": "published",
+  "createdAt": "2026-05-30T04:13:01.092Z",
+  "updatedAt": "2026-05-30T04:13:01.103Z",
+  "publishedAt": "2026-05-30T04:13:01.092Z",
+  "metaTitle": "Linuxとは？コマンドラインの基本をわかりやすく解説【初心者向け】｜Linux入門 | StackShelf",
+  "metaDescription": "【Linux初心者向け】Linuxとは何かを初心者向けにわかりやすく解説。linux コマンドの基礎、ターミナル 使い方、Linuxが使われる理由まで丁寧に説明します。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
+  "ogTitle": "Linuxとは？コマンドラインの世界への入門",
+  "ogDescription": "【Linux初心者向け】【Linux初心者向け】LinuxとCLIの基本概念をゼロからわかりやすく解説します。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
+  "knowledge": {
+    "topic": "linux",
+    "courseId": "linux",
+    "episode": 1
+  },
+  "faq": [
+    {
+      "question": "LinuxとWindowsはどちらが良いですか？",
+      "answer": "用途によって異なります。デスクトップPC向けの使い勝手はWindowsが優れていますが、サーバー・開発環境・クラウドではLinuxが圧倒的に多く使われています。エンジニアを目指すなら両方を使えることが理想です。"
+    },
+    {
+      "question": "Linuxは無料で使えますか？",
+      "answer": "はい、Linuxのカーネルはオープンソースで無料です。UbuntuやDebianなどのディストリビューションも基本的に無料で使えます。企業向けのサポート付きLinux（Red Hat Enterprise Linuxなど）は有料のものもあります。"
+    },
+    {
+      "question": "コマンドラインを覚えるのにどのくらいかかりますか？",
+      "answer": "基本的なファイル操作コマンド（ls、cd、cp、mv、rm）は1週間程度で使えるようになります。日常的な作業に不自由しないレベルには1〜2ヶ月で到達できます。毎日少しずつ使うことが上達の近道です。"
+    },
+    {
+      "question": "WindowsでLinuxコマンドは使えますか？",
+      "answer": "はい、WSL（Windows Subsystem for Linux）を使えばWindows上でLinuxコマンドを実行できます。Git Bashでも基本的なLinuxコマンドが使えます。PowerShellにも一部互換コマンドがあります。"
+    }
+  ],
+  "nextEpisodeHint": "次回は、ターミナルの開き方とカーソル移動・履歴呼び出しなどの基本操作を学びます。コマンド入力を快適にするショートカットキーも紹介します。",
+  "ogImage": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+  "canonical": "https://ai-site-iota-nine.vercel.app/article/linux-intro",
+  "jsonLd": {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@context": "https://schema.org",
+        "@type": "TechArticle",
+        "headline": "Linuxとは？コマンドラインの世界へようこそ【初心者向け完全入門】",
+        "description": "【Linux初心者向け】Linuxとは何かを初心者向けにわかりやすく解説。linux コマンドの基礎、ターミナル 使い方、Linuxが使われる理由まで丁寧に説明します。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
+        "datePublished": "2026-05-30T04:13:01.092Z",
+        "dateModified": "2026-05-30T04:13:01.103Z",
+        "author": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
+        },
+        "image": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+        "inLanguage": "ja",
+        "wordCount": 2427,
+        "mainEntityOfPage": {
+          "@type": "WebPage",
+          "@id": "https://ai-site-iota-nine.vercel.app/article/linux-intro"
+        },
+        "keywords": "Linux, コマンドライン, CLI, ターミナル, 初心者",
+        "articleSection": "Linux",
+        "url": "https://ai-site-iota-nine.vercel.app/article/linux-intro",
+        "learningResourceType": "tutorial",
+        "educationalLevel": "beginner"
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "ホーム",
+            "item": "https://ai-site-iota-nine.vercel.app/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "linux",
+            "item": "https://ai-site-iota-nine.vercel.app/knowledge/linux"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "Linux コマンドライン入門",
+            "item": "https://ai-site-iota-nine.vercel.app/course/linux/linux"
+          },
+          {
+            "@type": "ListItem",
+            "position": 4,
+            "name": "Linuxとは？コマンドラインの世界へようこそ【初心者向け完全入門】",
+            "item": "https://ai-site-iota-nine.vercel.app/article/linux-intro"
+          }
+        ]
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "Course",
+        "name": "Linux コマンドライン入門",
+        "description": "エンジニア必須のLinuxターミナル操作を10ステップで習得。ファイル操作・権限・プロセス・パイプまで、具体コマンド例付きで丁寧に解説します。",
+        "provider": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app"
+        },
+        "url": "https://ai-site-iota-nine.vercel.app/course/linux/linux",
+        "inLanguage": "ja",
+        "educationalLevel": "beginner",
+        "hasCourseInstance": {
+          "@type": "CourseInstance",
+          "courseMode": "online",
+          "courseWorkload": "PT1H"
+        }
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "LinuxとWindowsはどちらが良いですか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "用途によって異なります。デスクトップPC向けの使い勝手はWindowsが優れていますが、サーバー・開発環境・クラウドではLinuxが圧倒的に多く使われています。エンジニアを目指すなら両方を使えることが理想です。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Linuxは無料で使えますか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "はい、Linuxのカーネルはオープンソースで無料です。UbuntuやDebianなどのディストリビューションも基本的に無料で使えます。企業向けのサポート付きLinux（Red Hat Enterprise Linuxなど）は有料のものもあります。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "コマンドラインを覚えるのにどのくらいかかりますか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "基本的なファイル操作コマンド（ls、cd、cp、mv、rm）は1週間程度で使えるようになります。日常的な作業に不自由しないレベルには1〜2ヶ月で到達できます。毎日少しずつ使うことが上達の近道です。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "WindowsでLinuxコマンドは使えますか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "はい、WSL（Windows Subsystem for Linux）を使えばWindows上でLinuxコマンドを実行できます。Git Bashでも基本的なLinuxコマンドが使えます。PowerShellにも一部互換コマンドがあります。"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "breadcrumb": {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "ホーム",
+        "item": "https://ai-site-iota-nine.vercel.app/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "linux",
+        "item": "https://ai-site-iota-nine.vercel.app/knowledge/linux"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "Linux コマンドライン入門",
+        "item": "https://ai-site-iota-nine.vercel.app/course/linux/linux"
+      },
+      {
+        "@type": "ListItem",
+        "position": 4,
+        "name": "Linuxとは？コマンドラインの世界へようこそ【初心者向け完全入門】",
+        "item": "https://ai-site-iota-nine.vercel.app/article/linux-intro"
+      }
+    ]
+  },
+  "courseSchema": {
+    "@context": "https://schema.org",
+    "@type": "Course",
+    "name": "Linux コマンドライン入門",
+    "description": "エンジニア必須のLinuxターミナル操作を10ステップで習得。ファイル操作・権限・プロセス・パイプまで、具体コマンド例付きで丁寧に解説します。",
+    "provider": {
+      "@type": "Organization",
+      "name": "StackShelf",
+      "url": "https://ai-site-iota-nine.vercel.app"
+    },
+    "url": "https://ai-site-iota-nine.vercel.app/course/linux/linux",
+    "inLanguage": "ja",
+    "educationalLevel": "beginner",
+    "hasCourseInstance": {
+      "@type": "CourseInstance",
+      "courseMode": "online",
+      "courseWorkload": "PT1H"
+    }
+  },
+  "faqSchema": {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "LinuxとWindowsはどちらが良いですか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "用途によって異なります。デスクトップPC向けの使い勝手はWindowsが優れていますが、サーバー・開発環境・クラウドではLinuxが圧倒的に多く使われています。エンジニアを目指すなら両方を使えることが理想です。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Linuxは無料で使えますか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "はい、Linuxのカーネルはオープンソースで無料です。UbuntuやDebianなどのディストリビューションも基本的に無料で使えます。企業向けのサポート付きLinux（Red Hat Enterprise Linuxなど）は有料のものもあります。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "コマンドラインを覚えるのにどのくらいかかりますか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "基本的なファイル操作コマンド（ls、cd、cp、mv、rm）は1週間程度で使えるようになります。日常的な作業に不自由しないレベルには1〜2ヶ月で到達できます。毎日少しずつ使うことが上達の近道です。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "WindowsでLinuxコマンドは使えますか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "はい、WSL（Windows Subsystem for Linux）を使えばWindows上でLinuxコマンドを実行できます。Git Bashでも基本的なLinuxコマンドが使えます。PowerShellにも一部互換コマンドがあります。"
+        }
+      }
+    ]
+  }
+}

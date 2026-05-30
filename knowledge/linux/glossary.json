@@ -1,0 +1,7 @@
+{
+  "Linux": { "definition": "オープンソースのOS。サーバー・開発環境で広く使われる", "aliases": ["リナックス"], "related": ["ターミナル", "bash", "シェル"] },
+  "ターミナル": { "definition": "文字命令でコンピュータを操作する画面", "aliases": ["CLI", "コマンドライン"], "related": ["bash", "Linux"] },
+  "bash": { "definition": "Linux/Macで標準的なシェル（コマンド解釈プログラム）", "aliases": ["Bourne Again Shell"], "related": ["ターミナル", "シェル"] },
+  "chmod": { "definition": "ファイルの読み書き実行権限を変更するコマンド", "aliases": [], "related": ["権限", "Linux"] },
+  "grep": { "definition": "テキストファイルからパターンに一致する行を検索するコマンド", "aliases": [], "related": ["パイプ", "Linux"] }
+}

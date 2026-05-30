@@ -1,0 +1,7 @@
+{
+  "Docker": { "definition": "アプリと実行環境をコンテナとしてパッケージ化するプラットフォーム", "aliases": ["ドッカー"], "related": ["コンテナ", "イメージ", "Dockerfile"] },
+  "コンテナ": { "definition": "アプリが動く軽量な独立環境", "aliases": ["container"], "related": ["Docker", "イメージ"] },
+  "イメージ": { "definition": "コンテナの設計図・テンプレート", "aliases": ["image"], "related": ["Dockerfile", "コンテナ"] },
+  "Dockerfile": { "definition": "Dockerイメージの作り方を記述するファイル", "aliases": [], "related": ["イメージ", "docker build"] },
+  "docker compose": { "definition": "複数コンテナをまとめて管理するツール", "aliases": ["Compose"], "related": ["Docker", "YAML"] }
+}

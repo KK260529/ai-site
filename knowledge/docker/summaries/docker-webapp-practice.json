@@ -1,0 +1,13 @@
+{
+  "slug": "docker-webapp-practice",
+  "courseId": "docker",
+  "episode": 8,
+  "summaryMemory": [
+    "コンテナ化の手順はDockerfile作成→docker build→動作確認→docker-compose.ymlでまとめる",
+    "package.jsonやrequirements.txtを先にCOPYしてインストールするとキャッシュが効いてビルドが速い",
+    "本番ではrestart: always・非rootユーザー・ヘルスチェック・DBポートの非公開が重要",
+    "トラブル時はdocker compose logs・docker inspect・docker exec -it で内部調査する"
+  ],
+  "nextEpisodeHint": "Dockerの基礎を習得したら、次はKubernetesやCI/CDパイプラインへの統合、AWS ECSやGoogle Cloud Runへのデプロイに挑戦してみましょう。",
+  "updatedAt": "2026-05-30T04:13:35.289Z"
+}

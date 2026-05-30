@@ -1,0 +1,269 @@
+{
+  "id": "art_sql_sql-index-basics",
+  "slug": "sql-index-basics",
+  "title": "CREATE INDEX, EXPLAIN｜SQLインデックス基礎とパフォーマンス改善",
+  "summary": "SQLiteのインデックス（CREATE INDEX）でクエリを高速化する方法と、EXPLAINコマンドで実行計画を確認する方法を解説。パフォーマンスを意識したsql 使い方を習得しましょう。",
+  "body": "<h2>インデックスとは？SQLを高速化する仕組み</h2>\n<p>インデックス（Index）とは、データベースの検索を高速化するための「索引」です。本の巻末にある索引と同じ考え方で、「○○というデータは△△ページにある」という情報を別途管理することで、テーブル全体を先頭からスキャンしなくても目的のデータを素早く見つけられます。</p>\n<p>インデックスがない場合、SQLはWHERE条件に合うデータを見つけるために<strong>フルスキャン（Full Table Scan）</strong>を行います。つまり全行を順番に確認します。1万件なら許容範囲ですが、100万件・1000万件になると致命的に遅くなります。インデックスを適切に設定すると、フルスキャンを避けた<strong>インデックススキャン</strong>が行われ、劇的にパフォーマンスが向上します。</p>\n\n<h2>インデックスが効果的な場面</h2>\n<p>インデックスが効果を発揮するのは次の場面です。</p>\n<ul>\n  <li><strong>WHERE句でよく使われるカラム</strong>：<code>WHERE email = '...'</code> など頻繁に検索されるカラム</li>\n  <li><strong>JOIN条件に使われるカラム</strong>：外部キー（<code>user_id</code>・<code>category_id</code>など）</li>\n  <li><strong>ORDER BYのカラム</strong>：ソートが頻繁に発生するカラム</li>\n  <li><strong>UNIQUE制約のカラム</strong>：UNIQUEを付けると自動的にインデックスが作成される</li>\n</ul>\n<p>逆に、インデックスが効果的でない（またはデメリットの方が大きい）場面もあります。</p>\n<ul>\n  <li>更新（INSERT・UPDATE・DELETE）が非常に多いテーブル：インデックスのメンテナンスでオーバーヘッドが増える</li>\n  <li>テーブルが小さい（数百件程度）：フルスキャンの方が速い場合もある</li>\n  <li>カーディナリティ（値の種類）が低いカラム：性別（男/女）など2値しかないカラム</li>\n</ul>\n\n<h2>CREATE INDEXでインデックスを作成する</h2>\n<p>インデックスを作成するには <code>CREATE INDEX</code> 文を使います。</p>\n<pre><code>-- 基本構文\nCREATE INDEX インデックス名 ON テーブル名 (カラム名);\n\n-- usersテーブルのemailカラムにインデックスを作成\nCREATE INDEX idx_users_email ON users (email);\n\n-- UNIQUE INDEXで一意なインデックス（重複禁止）\nCREATE UNIQUE INDEX idx_users_email_unique ON users (email);\n\n-- 複数カラムに対する複合インデックス\n-- category_id と price の組み合わせで検索する場合\nCREATE INDEX idx_products_category_price ON products (category_id, price);\n\n-- 既にインデックスがある場合にスキップ\nCREATE INDEX IF NOT EXISTS idx_sales_date ON sales (sale_date);\n\n-- 作成されたインデックスを確認（SQLite）\n.indexes products\n-- または\nPRAGMA index_list(products);\n\n-- インデックスの詳細を確認\nPRAGMA index_info(idx_products_category_price);</code></pre>\n\n<h2>PRIMARY KEYとUNIQUEは自動でインデックスが作成される</h2>\n<p>SQLiteでは、<code>PRIMARY KEY</code> と <code>UNIQUE</code> 制約を設定したカラムには自動的にインデックスが作成されます。手動で追加するインデックスはその他のカラムに対して設定します。</p>\n<pre><code>-- テーブル作成時に自動インデックスが作成されるケース\nCREATE TABLE users (\n  id    INTEGER PRIMARY KEY,  -- 自動でインデックス作成\n  email TEXT UNIQUE,          -- 自動でインデックス作成\n  name  TEXT NOT NULL,        -- インデックスなし（必要なら手動で作成）\n  age   INTEGER               -- インデックスなし\n);\n\n-- nameカラムで検索が多い場合は手動でインデックスを追加\nCREATE INDEX idx_users_name ON users (name);\n\n-- インデックス一覧を確認\nPRAGMA index_list(users);\n-- seq | name                | unique\n-- ----+---------------------+-------\n--   0 | sqlite_autoindex... |      1  （emailのUNIQUEインデックス）</code></pre>\n\n<h2>EXPLAINとEXPLAIN QUERY PLANで実行計画を確認する</h2>\n<p>SQLiteには、クエリがどのように実行されるかを確認するための <code>EXPLAIN QUERY PLAN</code> コマンドがあります。インデックスが使われているかどうかを確認するのに非常に役立ちます。</p>\n<pre><code>-- EXPLAIN QUERY PLANで実行計画を確認\nEXPLAIN QUERY PLAN\nSELECT * FROM products WHERE category_id = 1;\n\n-- インデックスなしの場合の出力例:\n-- QUERY PLAN\n-- --SELECT * FROM products WHERE category_id = 1\n-- `--SCAN products  ← フルスキャン（遅い）\n\n-- インデックス作成後\nCREATE INDEX idx_products_category ON products (category_id);\n\n-- 再確認\nEXPLAIN QUERY PLAN\nSELECT * FROM products WHERE category_id = 1;\n\n-- インデックスありの場合の出力例:\n-- QUERY PLAN\n-- --SELECT * FROM products WHERE category_id = 1\n-- `--SEARCH products USING INDEX idx_products_category (category_id=?)\n--                                 ↑ インデックスを使用（速い）\n\n-- JOINクエリの実行計画\nEXPLAIN QUERY PLAN\nSELECT p.name, c.name AS category\nFROM products AS p\nINNER JOIN categories AS c ON p.category_id = c.id\nWHERE c.name = '果物';\n\n-- EXPLAINコマンド（バイトコードレベルの詳細）\nEXPLAIN\nSELECT * FROM products WHERE id = 1;</code></pre>\n\n<h2>インデックスを削除する</h2>\n<p>不要になったインデックスは <code>DROP INDEX</code> で削除できます。</p>\n<pre><code>-- インデックスを削除\nDROP INDEX idx_products_category;\n\n-- 存在する場合のみ削除（エラー防止）\nDROP INDEX IF EXISTS idx_products_category;\n\n-- 注意：PRIMARY KEYやUNIQUEで自動作成されたインデックスは\n-- ALTER TABLE で制約を変更しないと削除できない\n\n-- インデックスの再構築（断片化の解消）\nREINDEX products;  -- テーブルの全インデックスを再構築\nREINDEX idx_users_email;  -- 特定インデックスのみ再構築</code></pre>\n\n<h2>複合インデックスの設計：カラムの順序が重要</h2>\n<p>複数カラムの複合インデックスでは、<strong>カラムの順序が検索パフォーマンスに大きく影響します</strong>。左端のカラムから順番に使われるという「左端プレフィックスルール」があります。</p>\n<pre><code>-- 複合インデックスの例\nCREATE INDEX idx_orders_user_date ON orders (user_id, order_date);\n\n-- インデックスが使われるクエリパターン\nEXPLAIN QUERY PLAN SELECT * FROM orders WHERE user_id = 1;\n-- → idx_orders_user_date が使われる（先頭カラムのuser_idのみ条件）\n\nEXPLAIN QUERY PLAN SELECT * FROM orders WHERE user_id = 1 AND order_date = '2024-01-01';\n-- → idx_orders_user_date が使われる（先頭から順に条件指定）\n\n-- インデックスが使われないクエリパターン（左端を飛ばすとNG）\nEXPLAIN QUERY PLAN SELECT * FROM orders WHERE order_date = '2024-01-01';\n-- → フルスキャンになる（user_idを飛ばしてorder_dateのみ条件）\n\n-- 設計の原則：最もよく使う条件カラムを左に置く\n-- カーディナリティ（値の種類）が高いカラムを左に置くと効果的\nCREATE INDEX idx_products_catprice ON products (category_id, price);\n-- category_idで絞り込んだ後さらにpriceで絞り込む検索に有効</code></pre>\n\n<h2>インデックス設計の実践チェックリスト</h2>\n<p>インデックスを設計するときの実践的なガイドラインをまとめます。</p>\n<pre><code>-- 良いインデックス設計のチェックポイント\n\n-- 1. 外部キーカラムには必ずインデックスを張る\n--    → JOINのパフォーマンス向上に直結\nCREATE INDEX idx_orders_product_id ON orders (product_id);\nCREATE INDEX idx_orders_user_id    ON orders (user_id);\n\n-- 2. 検索条件（WHERE）に頻繁に使うカラム\nCREATE INDEX idx_users_status ON users (status);\n\n-- 3. ORDER BYに使うカラム（特にページネーションがある場合）\nCREATE INDEX idx_articles_published_at ON articles (published_at DESC);\n\n-- 4. テキスト検索のLIKEはインデックスが効かない場合あり\n--    前方一致（'abc%'）はインデックスが使われる\n--    後方一致（'%abc'）・中間一致（'%abc%'）は使われない\nEXPLAIN QUERY PLAN SELECT * FROM users WHERE name LIKE '田中%';\n-- → インデックス使用（前方一致）\n\nEXPLAIN QUERY PLAN SELECT * FROM users WHERE name LIKE '%太郎';\n-- → フルスキャン（後方一致はインデックス不使用）</code></pre>",
+  "conclusion": "インデックスはSQLクエリを劇的に高速化する仕組みで、本の索引のようにデータの場所を記録します。CREATE INDEXでインデックスを作成し、EXPLAIN QUERY PLANで実行計画を確認してインデックスが使われているか検証しましょう。外部キーカラム・WHERE条件・ORDER BYカラムには積極的にインデックスを設定します。複合インデックスは左端プレフィックスルールを理解して設計することが重要です。ただし、更新が多いテーブルではインデックスのオーバーヘッドも考慮が必要です。",
+  "tags": [
+    "SQL",
+    "CREATE INDEX",
+    "EXPLAIN",
+    "パフォーマンス",
+    "SQLite",
+    "sql 使い方"
+  ],
+  "category": "SQL",
+  "theme": "sql - SQL・データベース入門",
+  "status": "published",
+  "createdAt": "2026-05-30T04:13:13.396Z",
+  "updatedAt": "2026-05-30T04:13:13.400Z",
+  "publishedAt": "2026-05-30T04:13:13.396Z",
+  "metaTitle": "CREATE INDEX EXPLAIN｜sql 初心者向けインデックス基礎とパフォーマンス改善",
+  "metaDescription": "SQLのCREATE INDEXによるクエリ高速化とEXPLAIN実行計画確認をsql 初心者向けに解説。インデックスの仕組み・設計方法・注意点などsql 使い方の応用を学べます。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
+  "ogTitle": "CREATE INDEX, EXPLAIN｜SQLインデックス基礎ガイド",
+  "ogDescription": "【SQL初心者向け】【SQL初心者向け】インデックスでSQLを高速化。CREATE INDEXの使い方とEXPLAINで実行計画を確認しましょう。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
+  "knowledge": {
+    "topic": "sql",
+    "courseId": "sql",
+    "episode": 9
+  },
+  "faq": [
+    {
+      "question": "インデックスを付けすぎるとどうなりますか？",
+      "answer": "インデックスが多すぎると、INSERT・UPDATE・DELETE時にすべてのインデックスを更新するため書き込みが遅くなります。また、ストレージ消費量も増えます。インデックスは「読み取りを速くするために書き込みを少し遅くするトレードオフ」です。読み取りが多く（Read Heavy）、特定カラムへの検索が頻繁なテーブルにのみ、必要なカラムにインデックスを設定しましょう。"
+    },
+    {
+      "question": "EXPLAIN QUERY PLANのSCANとSEARCHの違いは何ですか？",
+      "answer": "SCANはフルテーブルスキャン（全行を確認する遅い方法）で、SEARCHはインデックスを使ったスキャン（効率的な方法）です。EXPLAIN QUERY PLANの結果を見てSCANが表示されているカラムに頻繁にWHERE条件がかかる場合は、インデックスの追加を検討しましょう。"
+    },
+    {
+      "question": "インデックスはいつ作成するのが適切ですか？",
+      "answer": "開発段階では主要なカラム（外部キー・ユニークカラム）に必要最低限のインデックスを設定します。その後、実際の使用パターンとEXPLAIN QUERY PLANの結果を見ながら追加するのが現実的です。最初からすべてのカラムにインデックスを貼るのは避けましょう。パフォーマンスの問題が発生してから対処するアプローチも一般的です。"
+    },
+    {
+      "question": "SQLiteでインデックスの効果を実際に確認する方法はありますか？",
+      "answer": "EXPLAIN QUERY PLANでSCANとSEARCHの違いを確認する方法が基本です。より定量的に確認したい場合は「.timer on」コマンドで実行時間を表示できます。大量データ（数十万件以上）でテストすると差が顕著になります。本番環境ではSQLiteのSQL実行ログを有効化してスロークエリを検出する方法もあります。"
+    }
+  ],
+  "nextEpisodeHint": "最終回は、これまで学んだすべての知識を使って、TODOアプリのデータベースを実際に設計・実装します。テーブル設計・正規化・インデックス設計を実践で体験しましょう。",
+  "ogImage": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+  "canonical": "https://ai-site-iota-nine.vercel.app/article/sql-index-basics",
+  "jsonLd": {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@context": "https://schema.org",
+        "@type": "TechArticle",
+        "headline": "CREATE INDEX, EXPLAIN｜SQLインデックス基礎とパフォーマンス改善",
+        "description": "SQLのCREATE INDEXによるクエリ高速化とEXPLAIN実行計画確認をsql 初心者向けに解説。インデックスの仕組み・設計方法・注意点などsql 使い方の応用を学べます。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
+        "datePublished": "2026-05-30T04:13:13.396Z",
+        "dateModified": "2026-05-30T04:13:13.400Z",
+        "author": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
+        },
+        "image": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+        "inLanguage": "ja",
+        "wordCount": 4132,
+        "mainEntityOfPage": {
+          "@type": "WebPage",
+          "@id": "https://ai-site-iota-nine.vercel.app/article/sql-index-basics"
+        },
+        "keywords": "SQL, CREATE INDEX, EXPLAIN, パフォーマンス, SQLite, sql 使い方",
+        "articleSection": "SQL",
+        "url": "https://ai-site-iota-nine.vercel.app/article/sql-index-basics",
+        "learningResourceType": "tutorial",
+        "educationalLevel": "beginner"
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "ホーム",
+            "item": "https://ai-site-iota-nine.vercel.app/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "sql",
+            "item": "https://ai-site-iota-nine.vercel.app/knowledge/sql"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "SQL・データベース入門",
+            "item": "https://ai-site-iota-nine.vercel.app/course/sql/sql"
+          },
+          {
+            "@type": "ListItem",
+            "position": 4,
+            "name": "CREATE INDEX, EXPLAIN｜SQLインデックス基礎とパフォーマンス改善",
+            "item": "https://ai-site-iota-nine.vercel.app/article/sql-index-basics"
+          }
+        ]
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "Course",
+        "name": "SQL・データベース入門",
+        "description": "データベースとSQLの基礎を10ステップで習得。SELECT/INSERT/JOIN/集計関数まで、SQLiteを使った具体例でWebアプリ開発に必要なDBスキルを身につけます。",
+        "provider": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app"
+        },
+        "url": "https://ai-site-iota-nine.vercel.app/course/sql/sql",
+        "inLanguage": "ja",
+        "educationalLevel": "beginner",
+        "hasCourseInstance": {
+          "@type": "CourseInstance",
+          "courseMode": "online",
+          "courseWorkload": "PT1H"
+        }
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "インデックスを付けすぎるとどうなりますか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "インデックスが多すぎると、INSERT・UPDATE・DELETE時にすべてのインデックスを更新するため書き込みが遅くなります。また、ストレージ消費量も増えます。インデックスは「読み取りを速くするために書き込みを少し遅くするトレードオフ」です。読み取りが多く（Read Heavy）、特定カラムへの検索が頻繁なテーブルにのみ、必要なカラムにインデックスを設定しましょう。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "EXPLAIN QUERY PLANのSCANとSEARCHの違いは何ですか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "SCANはフルテーブルスキャン（全行を確認する遅い方法）で、SEARCHはインデックスを使ったスキャン（効率的な方法）です。EXPLAIN QUERY PLANの結果を見てSCANが表示されているカラムに頻繁にWHERE条件がかかる場合は、インデックスの追加を検討しましょう。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "インデックスはいつ作成するのが適切ですか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "開発段階では主要なカラム（外部キー・ユニークカラム）に必要最低限のインデックスを設定します。その後、実際の使用パターンとEXPLAIN QUERY PLANの結果を見ながら追加するのが現実的です。最初からすべてのカラムにインデックスを貼るのは避けましょう。パフォーマンスの問題が発生してから対処するアプローチも一般的です。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "SQLiteでインデックスの効果を実際に確認する方法はありますか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "EXPLAIN QUERY PLANでSCANとSEARCHの違いを確認する方法が基本です。より定量的に確認したい場合は「.timer on」コマンドで実行時間を表示できます。大量データ（数十万件以上）でテストすると差が顕著になります。本番環境ではSQLiteのSQL実行ログを有効化してスロークエリを検出する方法もあります。"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "breadcrumb": {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "ホーム",
+        "item": "https://ai-site-iota-nine.vercel.app/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "sql",
+        "item": "https://ai-site-iota-nine.vercel.app/knowledge/sql"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "SQL・データベース入門",
+        "item": "https://ai-site-iota-nine.vercel.app/course/sql/sql"
+      },
+      {
+        "@type": "ListItem",
+        "position": 4,
+        "name": "CREATE INDEX, EXPLAIN｜SQLインデックス基礎とパフォーマンス改善",
+        "item": "https://ai-site-iota-nine.vercel.app/article/sql-index-basics"
+      }
+    ]
+  },
+  "courseSchema": {
+    "@context": "https://schema.org",
+    "@type": "Course",
+    "name": "SQL・データベース入門",
+    "description": "データベースとSQLの基礎を10ステップで習得。SELECT/INSERT/JOIN/集計関数まで、SQLiteを使った具体例でWebアプリ開発に必要なDBスキルを身につけます。",
+    "provider": {
+      "@type": "Organization",
+      "name": "StackShelf",
+      "url": "https://ai-site-iota-nine.vercel.app"
+    },
+    "url": "https://ai-site-iota-nine.vercel.app/course/sql/sql",
+    "inLanguage": "ja",
+    "educationalLevel": "beginner",
+    "hasCourseInstance": {
+      "@type": "CourseInstance",
+      "courseMode": "online",
+      "courseWorkload": "PT1H"
+    }
+  },
+  "faqSchema": {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "インデックスを付けすぎるとどうなりますか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "インデックスが多すぎると、INSERT・UPDATE・DELETE時にすべてのインデックスを更新するため書き込みが遅くなります。また、ストレージ消費量も増えます。インデックスは「読み取りを速くするために書き込みを少し遅くするトレードオフ」です。読み取りが多く（Read Heavy）、特定カラムへの検索が頻繁なテーブルにのみ、必要なカラムにインデックスを設定しましょう。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "EXPLAIN QUERY PLANのSCANとSEARCHの違いは何ですか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "SCANはフルテーブルスキャン（全行を確認する遅い方法）で、SEARCHはインデックスを使ったスキャン（効率的な方法）です。EXPLAIN QUERY PLANの結果を見てSCANが表示されているカラムに頻繁にWHERE条件がかかる場合は、インデックスの追加を検討しましょう。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "インデックスはいつ作成するのが適切ですか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "開発段階では主要なカラム（外部キー・ユニークカラム）に必要最低限のインデックスを設定します。その後、実際の使用パターンとEXPLAIN QUERY PLANの結果を見ながら追加するのが現実的です。最初からすべてのカラムにインデックスを貼るのは避けましょう。パフォーマンスの問題が発生してから対処するアプローチも一般的です。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "SQLiteでインデックスの効果を実際に確認する方法はありますか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "EXPLAIN QUERY PLANでSCANとSEARCHの違いを確認する方法が基本です。より定量的に確認したい場合は「.timer on」コマンドで実行時間を表示できます。大量データ（数十万件以上）でテストすると差が顕著になります。本番環境ではSQLiteのSQL実行ログを有効化してスロークエリを検出する方法もあります。"
+        }
+      }
+    ]
+  }
+}

@@ -1,0 +1,268 @@
+{
+  "id": "art_linux_linux-terminal-basics",
+  "slug": "linux-terminal-basics",
+  "title": "ターミナルの開き方と基本操作【Linuxコマンド入門】",
+  "summary": "Linuxターミナルの開き方、カーソル移動、コマンド履歴の呼び出し、タブ補完など、コマンドライン作業を快適にする基本操作を解説します。",
+  "body": "<h2>ターミナルを開く方法</h2>\n<p>ターミナル（端末）はLinuxコマンドを入力するためのウィンドウです。OS・環境によって開き方が異なります。</p>\n<ul>\n  <li><strong>Ubuntu（デスクトップ版）</strong>：アプリ一覧から「Terminal」を検索、または <kbd>Ctrl</kbd>+<kbd>Alt</kbd>+<kbd>T</kbd></li>\n  <li><strong>WSL（Windows）</strong>：スタートメニューから「Ubuntu」を起動</li>\n  <li><strong>macOS</strong>：Spotlight（⌘+Space）で「ターミナル」と検索</li>\n  <li><strong>VS Code</strong>：メニューの「ターミナル」→「新しいターミナル」または <kbd>Ctrl</kbd>+<kbd>`</kbd></li>\n</ul>\n<p>ターミナルを開くと、シェルが起動してプロンプトが表示されます。</p>\n<pre><code>username@hostname:~$</code></pre>\n<p><code>~</code> はホームディレクトリ（現在地）、<code>$</code> は一般ユーザーであることを示します。ここにコマンドを打ち込んで <kbd>Enter</kbd> を押すと実行されます。</p>\n\n<h2>最初に試すコマンド</h2>\n<p>ターミナルを開いたらまず以下のコマンドを試してみましょう。</p>\n<pre><code># 現在のユーザー名を表示\nwhoami\n\n# 今日の日付と時刻を表示\ndate\n\n# カレンダーを表示\ncal\n\n# 簡単な計算（整数のみ）\necho $((3 + 5))\n\n# テキストを表示\necho \"Hello, Linux!\"</code></pre>\n<p>これらのコマンドはすぐに結果が返ってきます。エラーが出なければ環境は正しく動作しています。</p>\n\n<h2>カーソル移動ショートカット（超重要）</h2>\n<p>ターミナルでの作業効率を大きく左右するのがカーソル移動のショートカットです。マウスは使えないため、キーボードだけで素早く移動できるように覚えておきましょう。</p>\n\n<h3>行内カーソル移動</h3>\n<p>以下のショートカットは bash/zsh 両方で使えます。</p>\n<ul>\n  <li><kbd>Ctrl</kbd>+<kbd>A</kbd>：行の先頭へ移動</li>\n  <li><kbd>Ctrl</kbd>+<kbd>E</kbd>：行の末尾へ移動</li>\n  <li><kbd>Ctrl</kbd>+<kbd>F</kbd>：1文字右へ（→キーと同じ）</li>\n  <li><kbd>Ctrl</kbd>+<kbd>B</kbd>：1文字左へ（←キーと同じ）</li>\n  <li><kbd>Alt</kbd>+<kbd>F</kbd>：1単語分右へ</li>\n  <li><kbd>Alt</kbd>+<kbd>B</kbd>：1単語分左へ</li>\n</ul>\n\n<h3>行の編集ショートカット</h3>\n<ul>\n  <li><kbd>Ctrl</kbd>+<kbd>U</kbd>：カーソルより左を全削除（行頭まで削除）</li>\n  <li><kbd>Ctrl</kbd>+<kbd>K</kbd>：カーソルより右を全削除（行末まで削除）</li>\n  <li><kbd>Ctrl</kbd>+<kbd>W</kbd>：カーソル左の単語を1つ削除</li>\n  <li><kbd>Ctrl</kbd>+<kbd>Y</kbd>：直前に削除した内容を貼り付け（ヤンク）</li>\n  <li><kbd>Ctrl</kbd>+<kbd>L</kbd>：画面クリア（<code>clear</code> コマンドと同じ）</li>\n</ul>\n<pre><code># ターミナルの画面をクリアする\nclear\n\n# または Ctrl+L を押す</code></pre>\n\n<h2>コマンド履歴の活用</h2>\n<p>ターミナルは過去に入力したコマンドを記憶しています。同じコマンドを繰り返すときや少し変えて再実行するときに非常に便利です。</p>\n\n<h3>履歴の基本操作</h3>\n<ul>\n  <li><kbd>↑</kbd>：1つ前のコマンドを呼び出す</li>\n  <li><kbd>↓</kbd>：1つ後のコマンドを呼び出す</li>\n  <li><kbd>Ctrl</kbd>+<kbd>R</kbd>：コマンド履歴をインクリメンタル検索</li>\n</ul>\n<pre><code># 過去のコマンド履歴を一覧表示\nhistory\n\n# 最新の10件だけ表示\nhistory 10\n\n# 履歴から特定の番号のコマンドを実行（例：番号42）\n!42\n\n# 最後に実行したコマンドを再実行\n!!</code></pre>\n<p><kbd>Ctrl</kbd>+<kbd>R</kbd> を押すと <code>(reverse-i-search)</code> プロンプトが表示されます。検索したいコマンドの一部を入力すると、マッチするコマンドが表示されます。<kbd>Enter</kbd> で実行、<kbd>Ctrl</kbd>+<kbd>R</kbd> でさらに古い履歴へ遡ることができます。</p>\n\n<h2>タブ補完を使いこなす</h2>\n<p>タブ補完はターミナル作業の中で最も重要なテクニックの一つです。コマンドやファイル名の途中で <kbd>Tab</kbd> キーを押すと、自動的に補完してくれます。</p>\n<pre><code># 「doc」と入力して Tab を押すと...\ndoc[Tab]\n# → Documents/ など候補があれば補完される\n\n# 候補が複数ある場合は Tab を2回押すと一覧表示\ndoc[Tab][Tab]\n# Documents/  docker  dotfiles/\n\n# コマンド名も補完できる\ngit sta[Tab]\n# → git status</code></pre>\n<p>タブ補完はスペルミスも防いでくれます。長いファイル名もタブ補完を使えば素早く正確に入力できます。積極的に活用しましょう。</p>\n\n<h2>コマンドの中断・終了</h2>\n<p>コマンドの実行を途中で止めたいときや、プログラムを終了したいときのショートカットです。</p>\n<ul>\n  <li><kbd>Ctrl</kbd>+<kbd>C</kbd>：実行中のコマンドを強制終了（SIGINT送信）</li>\n  <li><kbd>Ctrl</kbd>+<kbd>Z</kbd>：コマンドを一時停止（バックグラウンドへ）</li>\n  <li><kbd>Ctrl</kbd>+<kbd>D</kbd>：シェルのセッションを終了（exitと同じ）</li>\n  <li><code>exit</code>：ターミナルセッションを終了</li>\n</ul>\n<pre><code># 無限ループするプログラムを止めたいとき\n# Ctrl+C で強制終了\n\n# pingコマンドを実行して途中で止める例\nping google.com\n# Ctrl+C を押すと停止し、統計が表示される</code></pre>\n\n<h2>マニュアルを調べる方法</h2>\n<p>コマンドの使い方を忘れたときや詳細なオプションを調べるときは <code>man</code>（manual）コマンドが役立ちます。</p>\n<pre><code># lsコマンドのマニュアルを表示\nman ls\n\n# manページ内の操作：\n# スペース / PageDown：次のページ\n# b / PageUp：前のページ\n# /キーワード：キーワード検索\n# q：manページを終了\n\n# 簡易ヘルプを表示（--help オプション）\nls --help\n\n# コマンドの場所を確認\nwhich ls\n# 出力例: /bin/ls</code></pre>\n<p><code>man</code> コマンドが使えない環境では <code>コマンド名 --help</code> で簡単なヘルプが表示されます。また、インターネットで「コマンド名 使い方」と検索するのも有効です。</p>\n\n<h2>まとめ：ターミナルを快適に使うために</h2>\n<p>ターミナルを快適に使うためのポイントをまとめます。</p>\n<ul>\n  <li>カーソル移動ショートカット（Ctrl+A、Ctrl+E）を積極的に使う</li>\n  <li>コマンド履歴（↑↓ キー、Ctrl+R）を活用して入力を省力化</li>\n  <li>タブ補完でスペルミスを防ぎつつ速く入力する</li>\n  <li>わからないコマンドは <code>man</code> や <code>--help</code> で調べる</li>\n  <li>困ったら <code>Ctrl+C</code> でコマンドを止められることを覚えておく</li>\n</ul>",
+  "conclusion": "ターミナルは最初こそ不慣れですが、ショートカットとタブ補完を使いこなすことで驚くほど快適な作業環境になります。Ctrl+A/E のカーソル移動、Ctrl+R の履歴検索、Tabキーの補完の3つを意識して使うだけで、ターミナル作業の速度が大幅に上がります。次はいよいよファイルとディレクトリ操作の基本コマンドを学んでいきます。",
+  "tags": [
+    "Linux",
+    "ターミナル",
+    "コマンドライン",
+    "bash",
+    "初心者"
+  ],
+  "category": "Linux",
+  "theme": "linux - Linux コマンドライン入門",
+  "status": "published",
+  "createdAt": "2026-05-30T04:13:01.674Z",
+  "updatedAt": "2026-05-30T04:13:01.683Z",
+  "publishedAt": "2026-05-30T04:13:01.674Z",
+  "metaTitle": "ターミナルの開き方と基本操作｜linux コマンド ターミナル 使い方",
+  "metaDescription": "【Linux初心者向け】ターミナルの開き方からカーソル移動・コマンド履歴・タブ補完まで、ターミナル 使い方の基本を初心者向けにわかりやすく解説します。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
+  "ogTitle": "ターミナルの開き方と基本操作【Linux入門】",
+  "ogDescription": "【Linux初心者向け】【Linux初心者向け】ターミナルを使いこなすための基本ショートカットと操作方法を丁寧に解説。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
+  "knowledge": {
+    "topic": "linux",
+    "courseId": "linux",
+    "episode": 2
+  },
+  "faq": [
+    {
+      "question": "bashとzshはどちらを使えばいいですか？",
+      "answer": "どちらも基本的なコマンドは同じです。Ubuntu 20.04以降のデフォルトはbash、macOS Catalinaからはzshがデフォルトです。初心者のうちはどちらでも問題ありません。zshはタブ補完や見た目のカスタマイズが優れているため、慣れたらzshに移行する人も多いです。"
+    },
+    {
+      "question": "Ctrl+Cでプログラムが止まらないことがありますか？",
+      "answer": "はい、Ctrl+Cを無視するプログラムもあります。その場合は Ctrl+Z で一時停止してから kill コマンドで強制終了するか、別のターミナルウィンドウから kill -9 でプロセスを終了します。"
+    },
+    {
+      "question": "コマンド履歴はどこに保存されていますか？",
+      "answer": "bashの場合はホームディレクトリの .bash_history ファイルに保存されます（cat ~/.bash_history で確認できます）。zshは .zsh_history です。デフォルトで500〜1000件程度保存されます。"
+    },
+    {
+      "question": "ターミナルを複数タブで使えますか？",
+      "answer": "はい、多くのターミナルアプリは複数タブをサポートしています。VS Code のターミナルも複数タブが使えます。また、tmux や screen というツールを使うと、1つのターミナルで複数のウィンドウを管理できます。"
+    }
+  ],
+  "nextEpisodeHint": "次回は、ファイルとディレクトリを操作する基本コマンド ls、cd、pwd、mkdir を学びます。Linux のディレクトリ構造も理解していきましょう。",
+  "ogImage": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+  "canonical": "https://ai-site-iota-nine.vercel.app/article/linux-terminal-basics",
+  "jsonLd": {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@context": "https://schema.org",
+        "@type": "TechArticle",
+        "headline": "ターミナルの開き方と基本操作【Linuxコマンド入門】",
+        "description": "【Linux初心者向け】ターミナルの開き方からカーソル移動・コマンド履歴・タブ補完まで、ターミナル 使い方の基本を初心者向けにわかりやすく解説します。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
+        "datePublished": "2026-05-30T04:13:01.674Z",
+        "dateModified": "2026-05-30T04:13:01.683Z",
+        "author": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
+        },
+        "image": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+        "inLanguage": "ja",
+        "wordCount": 2249,
+        "mainEntityOfPage": {
+          "@type": "WebPage",
+          "@id": "https://ai-site-iota-nine.vercel.app/article/linux-terminal-basics"
+        },
+        "keywords": "Linux, ターミナル, コマンドライン, bash, 初心者",
+        "articleSection": "Linux",
+        "url": "https://ai-site-iota-nine.vercel.app/article/linux-terminal-basics",
+        "learningResourceType": "tutorial",
+        "educationalLevel": "beginner"
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "ホーム",
+            "item": "https://ai-site-iota-nine.vercel.app/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "linux",
+            "item": "https://ai-site-iota-nine.vercel.app/knowledge/linux"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "Linux コマンドライン入門",
+            "item": "https://ai-site-iota-nine.vercel.app/course/linux/linux"
+          },
+          {
+            "@type": "ListItem",
+            "position": 4,
+            "name": "ターミナルの開き方と基本操作【Linuxコマンド入門】",
+            "item": "https://ai-site-iota-nine.vercel.app/article/linux-terminal-basics"
+          }
+        ]
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "Course",
+        "name": "Linux コマンドライン入門",
+        "description": "エンジニア必須のLinuxターミナル操作を10ステップで習得。ファイル操作・権限・プロセス・パイプまで、具体コマンド例付きで丁寧に解説します。",
+        "provider": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app"
+        },
+        "url": "https://ai-site-iota-nine.vercel.app/course/linux/linux",
+        "inLanguage": "ja",
+        "educationalLevel": "beginner",
+        "hasCourseInstance": {
+          "@type": "CourseInstance",
+          "courseMode": "online",
+          "courseWorkload": "PT1H"
+        }
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "bashとzshはどちらを使えばいいですか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "どちらも基本的なコマンドは同じです。Ubuntu 20.04以降のデフォルトはbash、macOS Catalinaからはzshがデフォルトです。初心者のうちはどちらでも問題ありません。zshはタブ補完や見た目のカスタマイズが優れているため、慣れたらzshに移行する人も多いです。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Ctrl+Cでプログラムが止まらないことがありますか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "はい、Ctrl+Cを無視するプログラムもあります。その場合は Ctrl+Z で一時停止してから kill コマンドで強制終了するか、別のターミナルウィンドウから kill -9 でプロセスを終了します。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "コマンド履歴はどこに保存されていますか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "bashの場合はホームディレクトリの .bash_history ファイルに保存されます（cat ~/.bash_history で確認できます）。zshは .zsh_history です。デフォルトで500〜1000件程度保存されます。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "ターミナルを複数タブで使えますか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "はい、多くのターミナルアプリは複数タブをサポートしています。VS Code のターミナルも複数タブが使えます。また、tmux や screen というツールを使うと、1つのターミナルで複数のウィンドウを管理できます。"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "breadcrumb": {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "ホーム",
+        "item": "https://ai-site-iota-nine.vercel.app/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "linux",
+        "item": "https://ai-site-iota-nine.vercel.app/knowledge/linux"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "Linux コマンドライン入門",
+        "item": "https://ai-site-iota-nine.vercel.app/course/linux/linux"
+      },
+      {
+        "@type": "ListItem",
+        "position": 4,
+        "name": "ターミナルの開き方と基本操作【Linuxコマンド入門】",
+        "item": "https://ai-site-iota-nine.vercel.app/article/linux-terminal-basics"
+      }
+    ]
+  },
+  "courseSchema": {
+    "@context": "https://schema.org",
+    "@type": "Course",
+    "name": "Linux コマンドライン入門",
+    "description": "エンジニア必須のLinuxターミナル操作を10ステップで習得。ファイル操作・権限・プロセス・パイプまで、具体コマンド例付きで丁寧に解説します。",
+    "provider": {
+      "@type": "Organization",
+      "name": "StackShelf",
+      "url": "https://ai-site-iota-nine.vercel.app"
+    },
+    "url": "https://ai-site-iota-nine.vercel.app/course/linux/linux",
+    "inLanguage": "ja",
+    "educationalLevel": "beginner",
+    "hasCourseInstance": {
+      "@type": "CourseInstance",
+      "courseMode": "online",
+      "courseWorkload": "PT1H"
+    }
+  },
+  "faqSchema": {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "bashとzshはどちらを使えばいいですか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "どちらも基本的なコマンドは同じです。Ubuntu 20.04以降のデフォルトはbash、macOS Catalinaからはzshがデフォルトです。初心者のうちはどちらでも問題ありません。zshはタブ補完や見た目のカスタマイズが優れているため、慣れたらzshに移行する人も多いです。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Ctrl+Cでプログラムが止まらないことがありますか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "はい、Ctrl+Cを無視するプログラムもあります。その場合は Ctrl+Z で一時停止してから kill コマンドで強制終了するか、別のターミナルウィンドウから kill -9 でプロセスを終了します。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "コマンド履歴はどこに保存されていますか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "bashの場合はホームディレクトリの .bash_history ファイルに保存されます（cat ~/.bash_history で確認できます）。zshは .zsh_history です。デフォルトで500〜1000件程度保存されます。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "ターミナルを複数タブで使えますか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "はい、多くのターミナルアプリは複数タブをサポートしています。VS Code のターミナルも複数タブが使えます。また、tmux や screen というツールを使うと、1つのターミナルで複数のウィンドウを管理できます。"
+        }
+      }
+    ]
+  }
+}

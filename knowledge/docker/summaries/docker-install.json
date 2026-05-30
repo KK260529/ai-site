@@ -1,0 +1,13 @@
+{
+  "slug": "docker-install",
+  "courseId": "docker",
+  "episode": 2,
+  "summaryMemory": [
+    "WindowsはWSL2を先に有効化してからDocker Desktopをインストールする",
+    "MacはAppleシリコンとIntelで別のインストーラーを使う",
+    "LinuxはDocker Engineをaptでインストールし、dockerグループに追加してsudoなしで使う",
+    "docker run hello-worldで「Hello from Docker!」が表示されれば動作確認OK"
+  ],
+  "nextEpisodeHint": "次回は、実際に `docker run hello-world` や `docker run nginx` などのコマンドを使って、初めてのコンテナを動かす体験をしていきます。",
+  "updatedAt": "2026-05-30T04:13:29.605Z"
+}

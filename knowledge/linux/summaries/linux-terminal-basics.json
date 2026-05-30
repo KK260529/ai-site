@@ -1,0 +1,14 @@
+{
+  "slug": "linux-terminal-basics",
+  "courseId": "linux",
+  "episode": 2,
+  "summaryMemory": [
+    "ターミナルを開くショートカット：Ubuntu=Ctrl+Alt+T、VSCode=Ctrl+`",
+    "Ctrl+A/E で行頭・行末移動、Ctrl+R で履歴インクリメンタル検索",
+    "Tabキーでコマンド・ファイル名の補完（2回押しで候補一覧）",
+    "Ctrl+C でコマンド強制終了、Ctrl+D でセッション終了",
+    "man コマンドまたは --help でマニュアルを参照できる"
+  ],
+  "nextEpisodeHint": "次回は、ファイルとディレクトリを操作する基本コマンド ls、cd、pwd、mkdir を学びます。Linux のディレクトリ構造も理解していきましょう。",
+  "updatedAt": "2026-05-30T04:13:01.674Z"
+}

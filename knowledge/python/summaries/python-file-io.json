@@ -1,0 +1,13 @@
+{
+  "slug": "python-file-io",
+  "courseId": "python",
+  "episode": 8,
+  "summaryMemory": [
+    "open(ファイル名, モード, encoding='utf-8')でファイルを開く。with文で自動クローズ",
+    "モード：r（読み取り）、w（書き込み・上書き）、a（追記）",
+    "read()/readline()/readlines()/forループで読み込み。write()/writelines()で書き込み",
+    "csvモジュールでCSVファイルを読み書き。Excel用はencoding='utf-8-sig'"
+  ],
+  "nextEpisodeHint": "次回はモジュールとパッケージを学びます。import文で標準ライブラリを使う方法と、pipコマンドでサードパーティライブラリをインストールする方法を解説します。",
+  "updatedAt": "2026-05-30T04:12:58.119Z"
+}

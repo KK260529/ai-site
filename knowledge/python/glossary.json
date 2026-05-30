@@ -1,1 +1,8 @@
-{}
+{
+  "Python": { "definition": "読みやすさと汎用性を兼ね備えたプログラミング言語", "aliases": ["パイソン"], "related": ["pip", "リスト", "辞書"] },
+  "pip": { "definition": "Pythonのパッケージ管理ツール", "aliases": [], "related": ["Python", "モジュール"] },
+  "リスト": { "definition": "複数の値を順序付きで格納するPythonのデータ型", "aliases": ["list"], "related": ["辞書", "for文"] },
+  "辞書": { "definition": "キーと値のペアでデータを格納するPythonのデータ型", "aliases": ["dict"], "related": ["リスト", "JSON"] },
+  "関数": { "definition": "処理をまとめて名前を付け、何度でも呼び出せる仕組み", "aliases": ["function", "def"], "related": ["Python", "引数"] },
+  "例外": { "definition": "プログラム実行中に発生するエラー。try/exceptで処理できる", "aliases": ["exception"], "related": ["try/except", "エラーハンドリング"] }
+}

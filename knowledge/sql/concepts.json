@@ -1,0 +1,7 @@
+{
+  "concepts": [
+    { "id": "rdbms", "title": "リレーショナルDB", "description": "表同士を関連付けて管理するデータベース方式" },
+    { "id": "primary-key", "title": "主キー", "description": "各行を一意に識別する列" },
+    { "id": "normalization", "title": "正規化", "description": "データの重複を減らし、整合性を保つ設計手法" }
+  ]
+}

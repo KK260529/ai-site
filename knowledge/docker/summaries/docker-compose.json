@@ -1,0 +1,13 @@
+{
+  "slug": "docker-compose",
+  "courseId": "docker",
+  "episode": 6,
+  "summaryMemory": [
+    "Docker Composeはdocker-compose.ymlに複数サービスを定義してdocker compose up -dで一括起動するツール",
+    "同じdocker-compose.yml内のサービスはサービス名でホスト名として通信できる",
+    "depends_on + healthcheckで起動順序と準備完了待機を制御できる",
+    ".envファイルで機密情報を外部化し.gitignoreに追加するのがセキュリティのベストプラクティス"
+  ],
+  "nextEpisodeHint": "次回は Docker Volume（ボリューム）について詳しく解説します。データの永続化、名前付きボリューム、バインドマウントの違いと使い分けを学びます。",
+  "updatedAt": "2026-05-30T04:13:33.333Z"
+}

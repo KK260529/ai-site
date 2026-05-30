@@ -1,0 +1,13 @@
+{
+  "slug": "sql-group-by",
+  "courseId": "sql",
+  "episode": 8,
+  "summaryMemory": [
+    "GROUP BYでカラムの値が同じ行をグループ化し集計関数を適用",
+    "HAVINGは集計後の条件絞り込み、WHEREは集計前の行絞り込み",
+    "SQLの実行順序：FROM→WHERE→GROUP BY→HAVING→SELECT→ORDER BY→LIMIT",
+    "SELECT句にはGROUP BYに指定したカラムか集計関数のみ書ける"
+  ],
+  "nextEpisodeHint": "次回はインデックス（CREATE INDEX）を使ってSQLクエリを高速化する方法と、EXPLAINコマンドでクエリの実行計画を確認する方法を学びます。",
+  "updatedAt": "2026-05-30T04:13:12.554Z"
+}

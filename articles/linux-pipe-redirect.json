@@ -1,0 +1,269 @@
+{
+  "id": "art_linux_linux-pipe-redirect",
+  "slug": "linux-pipe-redirect",
+  "title": "パイプ（|）とリダイレクト（> >> 2>&1）の使い方【Linux中級】",
+  "summary": "Linuxのパイプ（|）でコマンドを連結する方法、リダイレクト（>、>>）でファイルに出力する方法、標準エラー出力（2>&1）の使い方を解説します。",
+  "body": "<h2>標準入出力の仕組みを理解する</h2>\n<p>Linuxのコマンドには3つの標準的なデータの流れ（ストリーム）があります。この概念を理解することがパイプとリダイレクトの鍵です。</p>\n<ul>\n  <li><strong>標準入力（stdin、0）</strong>：コマンドへのデータ入力（デフォルトはキーボード）</li>\n  <li><strong>標準出力（stdout、1）</strong>：コマンドの正常な出力結果（デフォルトはターミナル画面）</li>\n  <li><strong>標準エラー出力（stderr、2）</strong>：エラーメッセージの出力（デフォルトはターミナル画面）</li>\n</ul>\n<p>パイプとリダイレクトは、これらのストリームの「行き先」を変更する仕組みです。</p>\n<pre><code># 通常のコマンド実行：stdoutとstderrはどちらも画面に表示される\nls /tmp\nls /nonexistent  # エラーが stderr に出力される</code></pre>\n\n<h2>リダイレクト：出力をファイルに保存する</h2>\n<p>リダイレクトは、コマンドの出力をターミナル画面ではなくファイルに書き込む機能です。</p>\n\n<h3>出力リダイレクト（> と >>）</h3>\n<pre><code># コマンドの出力をファイルに保存（上書き）\necho \"Hello, World!\" > output.txt\n\n# ls の結果をファイルに保存\nls -la > file_list.txt\n\n# 確認\ncat file_list.txt\n\n# ファイルに追記（上書きせずに末尾に追加）\necho \"Line 1\" > log.txt\necho \"Line 2\" >> log.txt\necho \"Line 3\" >> log.txt\ncat log.txt\n# 出力:\n# Line 1\n# Line 2\n# Line 3\n\n# > と >> の違い\necho \"New content\" > file.txt   # ファイルを上書き（既存内容は消える）\necho \"Added content\" >> file.txt # 末尾に追記（既存内容を保持）</code></pre>\n\n<h3>入力リダイレクト（<）</h3>\n<pre><code># ファイルの内容をコマンドの入力として使う\nsort < names.txt\n\n# wc コマンドでファイルの行数を数える\nwc -l < sample.txt</code></pre>\n\n<h2>標準エラー出力のリダイレクト</h2>\n<p>エラーメッセージは stderr（2）に出力されます。通常の <code>></code> では stderr はキャプチャされません。</p>\n<pre><code># stderr を別のファイルにリダイレクト\nls /nonexistent 2> error.log\n\n# stdout を output.txt に、stderr を error.log に保存\nsome_command > output.txt 2> error.log\n\n# stdout と stderr を同じファイルに保存（2>&1 が重要）\nsome_command > all_output.txt 2>&1\n\n# 新しい書き方（bash 4.0 以降）\nsome_command &> all_output.txt\n\n# エラーメッセージを捨てる（/dev/null に送る）\nnoisy_command 2> /dev/null\n\n# 出力を全部捨てる（stdout も stderr も）\nsome_command > /dev/null 2>&1</code></pre>\n\n<h3>2>&1 の意味</h3>\n<p><code>2>&1</code> は「stderr（2）をstdout（1）と同じ場所に送る」という意味です。順序が重要で、<code>> file 2>&1</code> と書く必要があります（逆順だと意図通りに動作しません）。</p>\n\n<h2>パイプ：コマンドを連結する</h2>\n<p>パイプ（<code>|</code>）は、前のコマンドのstdoutを次のコマンドのstdinに渡す機能です。複数のコマンドを組み合わせることで、複雑なデータ処理が1行で実現できます。</p>\n<pre><code># ls の出力を grep でフィルタリング\nls -la | grep \".txt\"\n\n# プロセス一覧から nginx を検索\nps aux | grep nginx\n\n# ログからエラー行を抽出して less で閲覧\ncat /var/log/syslog | grep \"error\" | less\n\n# ファイル数を数える（ls + wc の組み合わせ）\nls | wc -l\n\n# 重複を除いた行を抽出（sort + uniq）\ncat names.txt | sort | uniq\n\n# 最もCPUを使っているプロセスTop5\nps aux --sort=-%cpu | head -6</code></pre>\n\n<h3>パイプを使った実践的な例</h3>\n<pre><code># アクセスログからIPアドレスを集計する\ncat access.log | awk '{print $1}' | sort | uniq -c | sort -rn | head -10\n\n# 特定の拡張子のファイルを検索してファイル数を数える\nfind . -name \"*.js\" | wc -l\n\n# ログからエラー数を日付ごとに集計\ngrep \"ERROR\" app.log | awk '{print $1}' | sort | uniq -c\n\n# ディスク使用量が多いディレクトリTop5\ndu -sh */ | sort -rh | head -5\n\n# 特定ポートで通信しているプロセスを確認\nss -tulnp | grep :80</code></pre>\n\n<h2>tee：画面表示とファイル保存を同時に行う</h2>\n<p><code>tee</code> コマンドはパイプと組み合わせて、出力を画面に表示しながらファイルにも保存するときに便利です。</p>\n<pre><code># 画面に表示しながらファイルにも保存\nls -la | tee file_list.txt\n\n# 追記モードで tee を使う\necho \"new log entry\" | tee -a logfile.txt\n\n# sudo が必要なファイルに書き込む場合\necho \"nameserver 8.8.8.8\" | sudo tee /etc/resolv.conf</code></pre>\n\n<h2>よく使うパイプの組み合わせパターン</h2>\n<pre><code># パターン1：絞り込んでカウント\ngrep \"ERROR\" app.log | wc -l\n\n# パターン2：並び替えて重複除去\ncat items.txt | sort | uniq\n\n# パターン3：特定の列を抽出（cut）\ncat /etc/passwd | cut -d: -f1  # コロン区切りの1列目（ユーザー名）\n\n# パターン4：ランダムサンプリング\ncat large_file.txt | shuf | head -10\n\n# パターン5：複数コマンドの実行結果を結合\n{ ls dir1/; ls dir2/; } | sort | uniq\n\n# パターン6：コマンド置換（$()）でパイプ結果を変数に格納\nERROR_COUNT=$(grep \"ERROR\" app.log | wc -l)\necho \"エラー数: $ERROR_COUNT\"</code></pre>\n\n<h2>まとめ：パイプとリダイレクトの使い方一覧</h2>\n<ul>\n  <li><code>&gt;</code>：stdoutをファイルに上書き保存</li>\n  <li><code>&gt;&gt;</code>：stdoutをファイルに追記</li>\n  <li><code>2&gt;</code>：stderrをファイルに保存</li>\n  <li><code>2&gt;&amp;1</code>：stderrをstdoutにマージ</li>\n  <li><code>&gt;/dev/null</code>：出力を捨てる（サイレント実行）</li>\n  <li><code>|</code>：前のコマンドのstdoutを次のコマンドのstdinに渡す</li>\n  <li><code>tee</code>：パイプ内で出力を分岐してファイルにも保存</li>\n</ul>",
+  "conclusion": "パイプ（|）とリダイレクト（>、>>、2>&1）はLinuxコマンドラインの真髄です。単純なコマンドをパイプで繋ぐことで、複雑なデータ処理が1行で実現できます。標準出力・標準エラー出力・標準入力の3ストリームを意識して、出力をファイルに保存したりコマンドに渡したりする方法をマスターしましょう。",
+  "tags": [
+    "Linux",
+    "パイプ",
+    "リダイレクト",
+    "シェル",
+    "コマンド",
+    "stdout"
+  ],
+  "category": "Linux",
+  "theme": "linux - Linux コマンドライン入門",
+  "status": "published",
+  "createdAt": "2026-05-30T04:13:05.762Z",
+  "updatedAt": "2026-05-30T04:13:05.768Z",
+  "publishedAt": "2026-05-30T04:13:05.762Z",
+  "metaTitle": "パイプ リダイレクト の使い方｜Linux | > >> 2>&1 コマンド解説",
+  "metaDescription": "【Linux初心者向け】linux コマンドのパイプ（|）とリダイレクト（> >> 2>&1）の使い方をわかりやすく解説。コマンドを組み合わせて強力なデータ処理をマスターしましょう。 図解・具体例つきで丁寧に解説します。",
+  "ogTitle": "パイプ（|）とリダイレクトでLinuxコマンドを強化する",
+  "ogDescription": "【Linux初心者向け】【Linux初心者向け】Linuxのパイプとリダイレクトを使ったコマンドの連結・出力管理を初心者向けに解説。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
+  "knowledge": {
+    "topic": "linux",
+    "courseId": "linux",
+    "episode": 8
+  },
+  "faq": [
+    {
+      "question": "> と >> の違いは何ですか？",
+      "answer": "> はファイルを新規作成または上書きします（既存の内容は消えます）。>> はファイルが存在すれば末尾に追記し、なければ新規作成します。ログファイルへの追記には >> を使います。"
+    },
+    {
+      "question": "パイプでエラーメッセージも次のコマンドに渡せますか？",
+      "answer": "通常のパイプ（|）はstdoutのみを渡します。stderrも渡したい場合は「command 2>&1 | next_command」のように2>&1でstderrをstdoutにマージしてからパイプします。"
+    },
+    {
+      "question": "/dev/null とは何ですか？",
+      "answer": "/dev/null はLinuxの特殊なファイルで、ここに書き込まれたデータは全て捨てられます。「ブラックホール」とも呼ばれます。不要な出力を抑制したいとき（> /dev/null 2>&1）に使います。"
+    },
+    {
+      "question": "パイプで繋いだコマンドが途中でエラーになったらどうなりますか？",
+      "answer": "デフォルトではパイプの途中でエラーが起きても後続のコマンドは実行されます。スクリプトで途中エラーを検知したい場合は「set -o pipefail」を設定すると、パイプ中のいずれかのコマンドが失敗した際にパイプ全体が失敗として扱われます。"
+    }
+  ],
+  "nextEpisodeHint": "次回は、Linuxの環境変数（env、export）、.bashrcの設定方法、PATHの仕組みを学びます。シェルの設定をカスタマイズして作業環境を整えましょう。",
+  "ogImage": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+  "canonical": "https://ai-site-iota-nine.vercel.app/article/linux-pipe-redirect",
+  "jsonLd": {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@context": "https://schema.org",
+        "@type": "TechArticle",
+        "headline": "パイプ（|）とリダイレクト（> >> 2>&1）の使い方【Linux中級】",
+        "description": "【Linux初心者向け】linux コマンドのパイプ（|）とリダイレクト（> >> 2>&1）の使い方をわかりやすく解説。コマンドを組み合わせて強力なデータ処理をマスターしましょう。 図解・具体例つきで丁寧に解説します。",
+        "datePublished": "2026-05-30T04:13:05.762Z",
+        "dateModified": "2026-05-30T04:13:05.768Z",
+        "author": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
+        },
+        "image": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+        "inLanguage": "ja",
+        "wordCount": 2593,
+        "mainEntityOfPage": {
+          "@type": "WebPage",
+          "@id": "https://ai-site-iota-nine.vercel.app/article/linux-pipe-redirect"
+        },
+        "keywords": "Linux, パイプ, リダイレクト, シェル, コマンド, stdout",
+        "articleSection": "Linux",
+        "url": "https://ai-site-iota-nine.vercel.app/article/linux-pipe-redirect",
+        "learningResourceType": "tutorial",
+        "educationalLevel": "beginner"
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "ホーム",
+            "item": "https://ai-site-iota-nine.vercel.app/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "linux",
+            "item": "https://ai-site-iota-nine.vercel.app/knowledge/linux"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "Linux コマンドライン入門",
+            "item": "https://ai-site-iota-nine.vercel.app/course/linux/linux"
+          },
+          {
+            "@type": "ListItem",
+            "position": 4,
+            "name": "パイプ（|）とリダイレクト（> >> 2>&1）の使い方【Linux中級】",
+            "item": "https://ai-site-iota-nine.vercel.app/article/linux-pipe-redirect"
+          }
+        ]
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "Course",
+        "name": "Linux コマンドライン入門",
+        "description": "エンジニア必須のLinuxターミナル操作を10ステップで習得。ファイル操作・権限・プロセス・パイプまで、具体コマンド例付きで丁寧に解説します。",
+        "provider": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app"
+        },
+        "url": "https://ai-site-iota-nine.vercel.app/course/linux/linux",
+        "inLanguage": "ja",
+        "educationalLevel": "beginner",
+        "hasCourseInstance": {
+          "@type": "CourseInstance",
+          "courseMode": "online",
+          "courseWorkload": "PT1H"
+        }
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "> と >> の違いは何ですか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "> はファイルを新規作成または上書きします（既存の内容は消えます）。>> はファイルが存在すれば末尾に追記し、なければ新規作成します。ログファイルへの追記には >> を使います。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "パイプでエラーメッセージも次のコマンドに渡せますか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "通常のパイプ（|）はstdoutのみを渡します。stderrも渡したい場合は「command 2>&1 | next_command」のように2>&1でstderrをstdoutにマージしてからパイプします。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "/dev/null とは何ですか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "/dev/null はLinuxの特殊なファイルで、ここに書き込まれたデータは全て捨てられます。「ブラックホール」とも呼ばれます。不要な出力を抑制したいとき（> /dev/null 2>&1）に使います。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "パイプで繋いだコマンドが途中でエラーになったらどうなりますか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "デフォルトではパイプの途中でエラーが起きても後続のコマンドは実行されます。スクリプトで途中エラーを検知したい場合は「set -o pipefail」を設定すると、パイプ中のいずれかのコマンドが失敗した際にパイプ全体が失敗として扱われます。"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "breadcrumb": {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "ホーム",
+        "item": "https://ai-site-iota-nine.vercel.app/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "linux",
+        "item": "https://ai-site-iota-nine.vercel.app/knowledge/linux"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "Linux コマンドライン入門",
+        "item": "https://ai-site-iota-nine.vercel.app/course/linux/linux"
+      },
+      {
+        "@type": "ListItem",
+        "position": 4,
+        "name": "パイプ（|）とリダイレクト（> >> 2>&1）の使い方【Linux中級】",
+        "item": "https://ai-site-iota-nine.vercel.app/article/linux-pipe-redirect"
+      }
+    ]
+  },
+  "courseSchema": {
+    "@context": "https://schema.org",
+    "@type": "Course",
+    "name": "Linux コマンドライン入門",
+    "description": "エンジニア必須のLinuxターミナル操作を10ステップで習得。ファイル操作・権限・プロセス・パイプまで、具体コマンド例付きで丁寧に解説します。",
+    "provider": {
+      "@type": "Organization",
+      "name": "StackShelf",
+      "url": "https://ai-site-iota-nine.vercel.app"
+    },
+    "url": "https://ai-site-iota-nine.vercel.app/course/linux/linux",
+    "inLanguage": "ja",
+    "educationalLevel": "beginner",
+    "hasCourseInstance": {
+      "@type": "CourseInstance",
+      "courseMode": "online",
+      "courseWorkload": "PT1H"
+    }
+  },
+  "faqSchema": {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "> と >> の違いは何ですか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "> はファイルを新規作成または上書きします（既存の内容は消えます）。>> はファイルが存在すれば末尾に追記し、なければ新規作成します。ログファイルへの追記には >> を使います。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "パイプでエラーメッセージも次のコマンドに渡せますか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "通常のパイプ（|）はstdoutのみを渡します。stderrも渡したい場合は「command 2>&1 | next_command」のように2>&1でstderrをstdoutにマージしてからパイプします。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "/dev/null とは何ですか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "/dev/null はLinuxの特殊なファイルで、ここに書き込まれたデータは全て捨てられます。「ブラックホール」とも呼ばれます。不要な出力を抑制したいとき（> /dev/null 2>&1）に使います。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "パイプで繋いだコマンドが途中でエラーになったらどうなりますか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "デフォルトではパイプの途中でエラーが起きても後続のコマンドは実行されます。スクリプトで途中エラーを検知したい場合は「set -o pipefail」を設定すると、パイプ中のいずれかのコマンドが失敗した際にパイプ全体が失敗として扱われます。"
+        }
+      }
+    ]
+  }
+}

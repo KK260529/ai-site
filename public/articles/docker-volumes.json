@@ -1,0 +1,269 @@
+{
+  "id": "art_docker_docker-volumes",
+  "slug": "docker-volumes",
+  "title": "Dockerボリューム完全ガイド：データ永続化・バインドマウント・名前付きボリューム",
+  "summary": "Dockerのデータ永続化手段であるボリューム（-v）を徹底解説。名前付きボリューム、バインドマウント、tmpfsマウントの違いと使い分けを実践的に学びます。",
+  "body": "<h2>なぜDockerのデータ永続化が必要か</h2>\n<p>Dockerコンテナは本質的に<strong>使い捨て（ephemeral）</strong>です。コンテナを削除すると、コンテナ内に書き込まれたデータはすべて消えてしまいます。例えば、MySQLコンテナを起動してデータを登録し、コンテナを削除して再作成すると、テーブルもレコードも消えて初期状態に戻ります。</p>\n<p>これでは実際のアプリで使えません。データを永続化するためにDockerが提供する仕組みが<strong>ボリューム（Volume）</strong>と<strong>バインドマウント（Bind Mount）</strong>です。どちらもコンテナ外部の場所にデータを保存することで、コンテナを削除してもデータを残せます。</p>\n<pre><code># ボリュームなしでMySQLを起動（データは消える）\ndocker run -d --name mysql-novolume -e MYSQL_ROOT_PASSWORD=pass mysql:8.0\ndocker rm -f mysql-novolume  # 削除するとデータが消える\n\n# ボリュームありでMySQLを起動（データが永続化される）\ndocker run -d   --name mysql-withvolume   -e MYSQL_ROOT_PASSWORD=pass   -v mysql_data:/var/lib/mysql   mysql:8.0</code></pre>\n\n<h2>Dockerのマウント3種類を理解する</h2>\n<p>Dockerにはデータをコンテナ外に保存する3つの方法があります。それぞれの特徴と用途を理解しましょう。</p>\n<p><strong>1. 名前付きボリューム（Named Volume）：</strong>Dockerが管理する独自のストレージ領域です。ホストOSのどこに保存されるかを意識せずに使えます。データの永続化に最適で、特に本番環境や開発環境のDBデータに向いています。</p>\n<p><strong>2. バインドマウント（Bind Mount）：</strong>ホストマシンの特定のディレクトリをコンテナにマウントします。ホスト側でファイルを編集するとコンテナ内に即座に反映されるため、開発中のソースコードのマウントに向いています。</p>\n<p><strong>3. tmpfsマウント：</strong>メモリ上に一時的なストレージを作ります。高速で、コンテナ停止時に消えます。機密データの一時保存などに使います。</p>\n<pre><code># 名前付きボリューム（-v ボリューム名:コンテナパス）\ndocker run -v mysql_data:/var/lib/mysql mysql:8.0\n\n# バインドマウント（-v ホストパス:コンテナパス）\ndocker run -v /home/user/myapp:/app my-app\n\n# バインドマウント（--mountオプション：より明示的）\ndocker run --mount type=bind,source=/home/user/myapp,target=/app my-app\n\n# tmpfsマウント\ndocker run --tmpfs /tmp my-app</code></pre>\n\n<h2>名前付きボリュームの操作</h2>\n<p>名前付きボリュームはDockerが管理するため、ホストのどこに保存されるか意識せずに使えます。ボリュームの作成・一覧・削除などの操作を学びましょう。</p>\n<pre><code># ボリュームを明示的に作成\ndocker volume create my_data\n\n# ボリュームの一覧を表示\ndocker volume ls\n# 出力例:\n# DRIVER    VOLUME NAME\n# local     mysql_data\n# local     my_data\n# local     redis_data\n\n# ボリュームの詳細情報を確認\ndocker volume inspect mysql_data\n# 出力例（Mountpointでホスト上の保存場所がわかる）:\n# [\n#   {\n#     \"Name\": \"mysql_data\",\n#     \"Driver\": \"local\",\n#     \"Mountpoint\": \"/var/lib/docker/volumes/mysql_data/_data\",\n#     ...\n#   }\n# ]\n\n# ボリュームを削除（コンテナが使用中は削除できない）\ndocker volume rm my_data\n\n# 使われていないボリュームを一括削除\ndocker volume prune\n\n# ボリュームの内容を確認（busyboxコンテナ経由）\ndocker run --rm -v mysql_data:/data alpine ls /data</code></pre>\n\n<h2>バインドマウントの実践：ホットリロード開発環境</h2>\n<p>バインドマウントの最大の活用場面は、開発中のソースコードをコンテナにマウントすることです。ホスト側でコードを編集すると、コンテナ内にリアルタイムで反映されるため、コンテナを再起動せずに変更を確認できます。</p>\n<pre><code># Node.jsアプリをバインドマウントで開発\ndocker run -d   --name node-dev   -p 3000:3000   -v $(pwd):/app               # カレントディレクトリをコンテナの/appにマウント\n  -v /app/node_modules         # node_modulesはコンテナ側のを使う\n  -e NODE_ENV=development   node:20-alpine   sh -c \"npm install && npm run dev\"\n\n# Windowsの場合（PowerShell）\ndocker run -d   --name node-dev   -p 3000:3000   -v ${PWD}:/app   -v /app/node_modules   node:20-alpine   sh -c \"npm install && npm run dev\"</code></pre>\n<p><code>-v /app/node_modules</code> という記述に注目してください。これはホスト側にマッピングしない「匿名ボリューム」として <code>node_modules</code> をコンテナ側で独立して管理する指定です。ホストの <code>node_modules</code>（Windows/Mac用バイナリ）がコンテナ（Linux）に上書きされるのを防ぎます。</p>\n<pre><code># バインドマウントの読み取り専用設定（コンテナからの書き込みを禁止）\ndocker run -v $(pwd)/config:/app/config:ro my-app\n# :ro = read-only（読み取り専用）\n\n# バインドマウントの詳細オプション（--mountを使う場合）\ndocker run --mount   type=bind,  source=$(pwd),  target=/app,  readonly   my-app</code></pre>\n\n<h2>Docker Composeでのボリューム設定</h2>\n<p>実際の開発では Docker Compose と組み合わせてボリュームを使うことがほとんどです。</p>\n<pre><code># docker-compose.ymlでのボリューム設定例\nservices:\n  app:\n    build: .\n    ports:\n      - \"3000:3000\"\n    volumes:\n      # バインドマウント（開発用：ソースコード同期）\n      - .:/app\n      # 匿名ボリューム（node_modulesをコンテナ側で管理）\n      - /app/node_modules\n    environment:\n      - NODE_ENV=development\n\n  db:\n    image: postgres:16-alpine\n    volumes:\n      # 名前付きボリューム（データ永続化）\n      - postgres_data:/var/lib/postgresql/data\n      # バインドマウント（初期化SQLをコンテナにマウント）\n      - ./docker/init.sql:/docker-entrypoint-initdb.d/init.sql:ro\n    environment:\n      - POSTGRES_PASSWORD=password\n\n  redis:\n    image: redis:7-alpine\n    volumes:\n      - redis_data:/data\n    command: redis-server --appendonly yes  # AOF永続化を有効に\n\n# 名前付きボリュームはトップレベルで定義\nvolumes:\n  postgres_data:\n  redis_data:</code></pre>\n\n<h2>ボリュームのバックアップとリストア</h2>\n<p>本番環境では定期的なボリュームのバックアップが重要です。Dockerを使ったバックアップ・リストアの方法を学びましょう。</p>\n<pre><code># ボリュームのバックアップ（tar.gzに圧縮）\ndocker run --rm   -v mysql_data:/data   -v $(pwd):/backup   alpine   tar czf /backup/mysql_data_backup.tar.gz -C /data .\n\n# バックアップファイルの作成確認\nls -lh mysql_data_backup.tar.gz\n\n# ボリュームへのリストア\ndocker run --rm   -v mysql_data_new:/data   -v $(pwd):/backup   alpine   tar xzf /backup/mysql_data_backup.tar.gz -C /data\n\n# ボリューム間でデータをコピー\ndocker run --rm   -v source_volume:/from   -v dest_volume:/to   alpine   cp -av /from/. /to/</code></pre>\n<p>このバックアップ手法は「一時的なalpineコンテナをボリュームにマウントし、tarでアーカイブしてホストに保存する」という考え方です。Dockerさえあればどこでも実行できる汎用的な手法です。</p>\n\n<h2>ボリュームの使い分けまとめ</h2>\n<p>どのマウント方式を使うべきか、判断基準をまとめます。</p>\n<pre><code># ===== ボリューム使い分けチートシート =====\n\n# 【名前付きボリューム】を使う場面\n# ・DBのデータ（MySQL, PostgreSQL等）の永続化\n# ・アプリのアップロードファイルの保存\n# ・本番環境でのデータ永続化\n# 例:\ndocker run -v postgres_data:/var/lib/postgresql/data postgres\n\n# 【バインドマウント】を使う場面\n# ・開発中のソースコードの同期（ホットリロード）\n# ・設定ファイルをコンテナに渡す\n# ・コンテナの出力ファイルをホストで確認\n# 例:\ndocker run -v $(pwd):/app -v $(pwd)/config.yml:/app/config.yml:ro my-app\n\n# 【tmpfsマウント】を使う場面\n# ・機密データの一時保存（秘密鍵など）\n# ・パフォーマンスが重要な一時ファイル\n# 例:\ndocker run --tmpfs /tmp:rw,noexec,nosuid,size=100m my-app</code></pre>\n<p>一般的なルールとして、「アプリが生成・保存するデータ（DBデータ等）は名前付きボリューム、開発者が編集するファイル（ソースコード等）はバインドマウント」と覚えておきましょう。</p>",
+  "conclusion": "Dockerのデータ永続化には名前付きボリュームとバインドマウントの2つが主要な手段です。DBデータなど永続化したいデータには名前付きボリューム（-v ボリューム名:パス）、開発中のソースコード同期にはバインドマウント（-v ホストパス:コンテナパス）を使い分けましょう。",
+  "tags": [
+    "Docker",
+    "Docker Volume",
+    "バインドマウント",
+    "データ永続化",
+    "-v",
+    "docker 使い方"
+  ],
+  "category": "Docker",
+  "theme": "docker - Docker 入門",
+  "status": "published",
+  "createdAt": "2026-05-30T04:13:34.394Z",
+  "updatedAt": "2026-05-30T04:13:34.404Z",
+  "publishedAt": "2026-05-30T04:13:34.394Z",
+  "metaTitle": "Dockerボリュームの使い方：データ永続化・-v・バインドマウント完全解説【docker 使い方】 | StackS…",
+  "metaDescription": "Dockerのボリューム（-v）によるデータ永続化を初心者向けに解説。名前付きボリュームとバインドマウントの違い、Docker Composeでの設定方法を丁寧に説明します。docker 初心者向け。 図解・具体例つきで丁寧に解説します。",
+  "ogTitle": "Dockerボリューム完全ガイド：データ永続化を理解する",
+  "ogDescription": "【Docker初心者向け】【Docker初心者向け】名前付きボリュームとバインドマウントの違いと使い分けをゼロから解説。DBデータ永続化の実践例も紹介します。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
+  "knowledge": {
+    "topic": "docker",
+    "courseId": "docker",
+    "episode": 7
+  },
+  "faq": [
+    {
+      "question": "コンテナを削除してもデータが残るのはなぜですか？",
+      "answer": "名前付きボリュームはコンテナとは独立して管理されます。コンテナを削除（docker rm）してもボリュームは削除されません。ボリュームも削除するにはdocker volume rmを使うか、docker compose down -vを実行します。"
+    },
+    {
+      "question": "-vオプションと--mountオプションの違いは何ですか？",
+      "answer": "-vは短縮形で簡潔に書けますが、記法が複雑です。--mountはkey=value形式でより明示的に書けます。Docker公式はより読みやすい--mountの使用を推奨していますが、どちらでも同じ機能を実現できます。"
+    },
+    {
+      "question": "バインドマウントを使うとコンテナのパフォーマンスが遅いです。",
+      "answer": "MacやWindowsのDocker DesktopはWSL2やVM経由でLinuxカーネルを動かすため、バインドマウントはネイティブLinuxより遅くなります。開発ではnode_modulesなど大量ファイルを匿名ボリュームに分離すること、本番では名前付きボリュームを使うことが対策です。"
+    },
+    {
+      "question": "docker volume pruneを実行したら大切なデータが消えてしまいました。",
+      "answer": "docker volume pruneは「どのコンテナにも接続されていないボリューム」を削除します。コンテナが停止中でもアタッチされているボリュームは削除されません。重要なデータは定期的にバックアップし、ボリューム名を意味のある名前にして管理しましょう。"
+    }
+  ],
+  "nextEpisodeHint": "次回は学習の集大成として、実際のNode.jsまたはPython WebアプリをDockerでコンテナ化する実践演習を行います。Dockerfile作成からDocker Composeでの起動まで一通り体験しましょう。",
+  "ogImage": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+  "canonical": "https://ai-site-iota-nine.vercel.app/article/docker-volumes",
+  "jsonLd": {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@context": "https://schema.org",
+        "@type": "TechArticle",
+        "headline": "Dockerボリューム完全ガイド：データ永続化・バインドマウント・名前付きボリューム",
+        "description": "Dockerのボリューム（-v）によるデータ永続化を初心者向けに解説。名前付きボリュームとバインドマウントの違い、Docker Composeでの設定方法を丁寧に説明します。docker 初心者向け。 図解・具体例つきで丁寧に解説します。",
+        "datePublished": "2026-05-30T04:13:34.394Z",
+        "dateModified": "2026-05-30T04:13:34.404Z",
+        "author": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
+        },
+        "image": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+        "inLanguage": "ja",
+        "wordCount": 4235,
+        "mainEntityOfPage": {
+          "@type": "WebPage",
+          "@id": "https://ai-site-iota-nine.vercel.app/article/docker-volumes"
+        },
+        "keywords": "Docker, Docker Volume, バインドマウント, データ永続化, -v, docker 使い方",
+        "articleSection": "Docker",
+        "url": "https://ai-site-iota-nine.vercel.app/article/docker-volumes",
+        "learningResourceType": "tutorial",
+        "educationalLevel": "beginner"
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "ホーム",
+            "item": "https://ai-site-iota-nine.vercel.app/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "docker",
+            "item": "https://ai-site-iota-nine.vercel.app/knowledge/docker"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "Docker 入門",
+            "item": "https://ai-site-iota-nine.vercel.app/course/docker/docker"
+          },
+          {
+            "@type": "ListItem",
+            "position": 4,
+            "name": "Dockerボリューム完全ガイド：データ永続化・バインドマウント・名前付きボリューム",
+            "item": "https://ai-site-iota-nine.vercel.app/article/docker-volumes"
+          }
+        ]
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "Course",
+        "name": "Docker 入門",
+        "description": "コンテナ技術Dockerを8ステップで習得。インストールからDockerfile・docker compose・ボリュームまで、開発環境構築に必須のスキルを具体例で学びます。",
+        "provider": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app"
+        },
+        "url": "https://ai-site-iota-nine.vercel.app/course/docker/docker",
+        "inLanguage": "ja",
+        "educationalLevel": "beginner",
+        "hasCourseInstance": {
+          "@type": "CourseInstance",
+          "courseMode": "online",
+          "courseWorkload": "PT1H"
+        }
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "コンテナを削除してもデータが残るのはなぜですか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "名前付きボリュームはコンテナとは独立して管理されます。コンテナを削除（docker rm）してもボリュームは削除されません。ボリュームも削除するにはdocker volume rmを使うか、docker compose down -vを実行します。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "-vオプションと--mountオプションの違いは何ですか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "-vは短縮形で簡潔に書けますが、記法が複雑です。--mountはkey=value形式でより明示的に書けます。Docker公式はより読みやすい--mountの使用を推奨していますが、どちらでも同じ機能を実現できます。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "バインドマウントを使うとコンテナのパフォーマンスが遅いです。",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "MacやWindowsのDocker DesktopはWSL2やVM経由でLinuxカーネルを動かすため、バインドマウントはネイティブLinuxより遅くなります。開発ではnode_modulesなど大量ファイルを匿名ボリュームに分離すること、本番では名前付きボリュームを使うことが対策です。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "docker volume pruneを実行したら大切なデータが消えてしまいました。",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "docker volume pruneは「どのコンテナにも接続されていないボリューム」を削除します。コンテナが停止中でもアタッチされているボリュームは削除されません。重要なデータは定期的にバックアップし、ボリューム名を意味のある名前にして管理しましょう。"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "breadcrumb": {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "ホーム",
+        "item": "https://ai-site-iota-nine.vercel.app/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "docker",
+        "item": "https://ai-site-iota-nine.vercel.app/knowledge/docker"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "Docker 入門",
+        "item": "https://ai-site-iota-nine.vercel.app/course/docker/docker"
+      },
+      {
+        "@type": "ListItem",
+        "position": 4,
+        "name": "Dockerボリューム完全ガイド：データ永続化・バインドマウント・名前付きボリューム",
+        "item": "https://ai-site-iota-nine.vercel.app/article/docker-volumes"
+      }
+    ]
+  },
+  "courseSchema": {
+    "@context": "https://schema.org",
+    "@type": "Course",
+    "name": "Docker 入門",
+    "description": "コンテナ技術Dockerを8ステップで習得。インストールからDockerfile・docker compose・ボリュームまで、開発環境構築に必須のスキルを具体例で学びます。",
+    "provider": {
+      "@type": "Organization",
+      "name": "StackShelf",
+      "url": "https://ai-site-iota-nine.vercel.app"
+    },
+    "url": "https://ai-site-iota-nine.vercel.app/course/docker/docker",
+    "inLanguage": "ja",
+    "educationalLevel": "beginner",
+    "hasCourseInstance": {
+      "@type": "CourseInstance",
+      "courseMode": "online",
+      "courseWorkload": "PT1H"
+    }
+  },
+  "faqSchema": {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "コンテナを削除してもデータが残るのはなぜですか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "名前付きボリュームはコンテナとは独立して管理されます。コンテナを削除（docker rm）してもボリュームは削除されません。ボリュームも削除するにはdocker volume rmを使うか、docker compose down -vを実行します。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "-vオプションと--mountオプションの違いは何ですか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "-vは短縮形で簡潔に書けますが、記法が複雑です。--mountはkey=value形式でより明示的に書けます。Docker公式はより読みやすい--mountの使用を推奨していますが、どちらでも同じ機能を実現できます。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "バインドマウントを使うとコンテナのパフォーマンスが遅いです。",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "MacやWindowsのDocker DesktopはWSL2やVM経由でLinuxカーネルを動かすため、バインドマウントはネイティブLinuxより遅くなります。開発ではnode_modulesなど大量ファイルを匿名ボリュームに分離すること、本番では名前付きボリュームを使うことが対策です。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "docker volume pruneを実行したら大切なデータが消えてしまいました。",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "docker volume pruneは「どのコンテナにも接続されていないボリューム」を削除します。コンテナが停止中でもアタッチされているボリュームは削除されません。重要なデータは定期的にバックアップし、ボリューム名を意味のある名前にして管理しましょう。"
+        }
+      }
+    ]
+  }
+}

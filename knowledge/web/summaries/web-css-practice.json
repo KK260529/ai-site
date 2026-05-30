@@ -1,0 +1,13 @@
+{
+  "slug": "web-css-practice",
+  "courseId": "web",
+  "episode": 11,
+  "summaryMemory": [
+    "HTML構造はheader・main(section×複数)・footerのセマンティック構成で作る",
+    "CSSはリセット→ベース→コンテナ→コンポーネント→セクション→レスポンシブの順で書く",
+    "コンテナパターン（max-width:1200px + margin:0 auto）でコンテンツ幅を制御",
+    "ヘッダーはposition:stickyで固定、カードにはhoverでtransformアニメーション"
+  ],
+  "nextEpisodeHint": "最終エピソードでは作ったWebサイトをインターネット上に公開する方法を学びます。GitHub Pagesを使えば無料でサイトを公開できます。GitとGitHubの基本も合わせて解説します。",
+  "updatedAt": "2026-05-30T04:13:26.587Z"
+}

@@ -1,0 +1,13 @@
+{
+  "slug": "python-exceptions",
+  "courseId": "python",
+  "episode": 10,
+  "summaryMemory": [
+    "try/exceptで例外をキャッチ。例外クラスは具体的に指定する（ZeroDivisionError等）",
+    "else節：try成功時のみ実行。finally節：例外有無にかかわらず必ず実行",
+    "raise文で意図的に例外を発生させる。バリデーション処理に使う",
+    "Exception継承でカスタム例外クラスを定義するとアプリ独自のエラーが表現できる"
+  ],
+  "nextEpisodeHint": "次回はクラスとオブジェクト指向プログラミングを学びます。classキーワードで設計図を作り、__init__コンストラクタ・メソッド・継承の基本を解説します。",
+  "updatedAt": "2026-05-30T04:12:59.174Z"
+}

@@ -1,0 +1,13 @@
+{
+  "slug": "python-modules",
+  "courseId": "python",
+  "episode": 9,
+  "summaryMemory": [
+    "import モジュール名 / from モジュール名 import 関数名 の2通りのインポート方法",
+    "標準ライブラリ：os（ファイル操作）、datetime（日付）、random（乱数）、json（JSON変換）",
+    "pip install ライブラリ名 でサードパーティライブラリをインストール",
+    "python -m venv myenv で仮想環境作成。プロジェクトごとに環境を分けるのがベストプラクティス"
+  ],
+  "nextEpisodeHint": "次回はエラー処理（try/except）を学びます。プログラムが予期せずクラッシュしないよう、例外を適切にキャッチして処理する方法を解説します。",
+  "updatedAt": "2026-05-30T04:12:58.656Z"
+}

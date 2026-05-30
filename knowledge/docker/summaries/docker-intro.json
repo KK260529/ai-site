@@ -1,0 +1,13 @@
+{
+  "slug": "docker-intro",
+  "courseId": "docker",
+  "episode": 1,
+  "summaryMemory": [
+    "Dockerはアプリをコンテナという独立した箱に封じ込めて実行するプラットフォーム",
+    "VMはゲストOSを丸ごと持つが、コンテナはホストOSのカーネルを共有するため軽量・高速",
+    "イメージ（設計図）からコンテナ（実行インスタンス）を起動するのが基本的な流れ",
+    "「自分のPCでは動く」問題を解消できることがDockerの最大の価値"
+  ],
+  "nextEpisodeHint": "次回は、Docker DesktopをWindows・Mac・Linuxにインストールし、実際にコマンドが使える状態にするまでの手順を丁寧に解説します。",
+  "updatedAt": "2026-05-30T04:13:28.570Z"
+}

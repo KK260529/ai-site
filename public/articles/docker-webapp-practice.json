@@ -1,0 +1,271 @@
+{
+  "id": "art_docker_docker-webapp-practice",
+  "slug": "docker-webapp-practice",
+  "title": "Node.js・Python WebアプリをDockerコンテナ化する実践ガイド",
+  "summary": "Node.jsとPythonのWebアプリを実際にDockerコンテナ化する実践演習。Dockerfile作成からDocker Composeでのマルチコンテナ起動まで、docker 使い方の総まとめを学びます。",
+  "body": "<h2>WebアプリのDocker化：全体の流れ</h2>\n<p>このエピソードは「docker 使い方」を学ぶDockerコースの集大成です。Node.jsアプリとPython（Flask）アプリのDockerコンテナ化を実践的に学びます。アプリのコンテナ化には一定のパターンがあり、一度習得すれば様々な言語・フレームワークに応用できます。</p>\n<p>コンテナ化の基本的な手順は次の通りです。</p>\n<ol>\n  <li>アプリのコードと依存関係を確認する</li>\n  <li>適切なベースイメージを選択する</li>\n  <li>Dockerfileを作成してイメージをビルドする</li>\n  <li>コンテナを起動して動作確認する</li>\n  <li>必要であればdocker-compose.ymlで複数サービスをまとめる</li>\n</ol>\n<pre><code># プロジェクト構造の例\nmy-app/\n├── Dockerfile\n├── docker-compose.yml\n├── .dockerignore\n├── .env\n├── src/\n│   └── app.js\n└── package.json</code></pre>\n\n<h2>Node.jsアプリのDocker化</h2>\n<p>Express.jsを使ったシンプルなNode.js APIをDockerコンテナ化します。まずアプリのコードを用意します。</p>\n<pre><code># package.json\n{\n  \"name\": \"my-node-app\",\n  \"version\": \"1.0.0\",\n  \"scripts\": {\n    \"start\": \"node src/app.js\",\n    \"dev\": \"nodemon src/app.js\"\n  },\n  \"dependencies\": {\n    \"express\": \"^4.19.2\"\n  },\n  \"devDependencies\": {\n    \"nodemon\": \"^3.1.0\"\n  }\n}</code></pre>\n<pre><code>// src/app.js\nconst express = require('express');\nconst app = express();\nconst PORT = process.env.PORT || 3000;\n\napp.use(express.json());\n\napp.get('/', (req, res) => {\n  res.json({ message: 'Hello from Docker!', env: process.env.NODE_ENV });\n});\n\napp.get('/health', (req, res) => {\n  res.json({ status: 'ok' });\n});\n\napp.listen(PORT, '0.0.0.0', () => {\n  console.log(`Server running on port ${PORT}`);\n});</code></pre>\n<p>次に本番用のDockerfileを作成します。</p>\n<pre><code># Dockerfile（本番用・マルチステージビルド）\nFROM node:20-alpine AS base\nWORKDIR /app\nCOPY package*.json ./\n\n# 依存関係インストール（本番のみ）\nFROM base AS production\nRUN npm ci --only=production\nCOPY src/ ./src/\nEXPOSE 3000\nUSER node\nCMD [\"node\", \"src/app.js\"]\n\n# 開発用\nFROM base AS development\nRUN npm ci\nCOPY . .\nEXPOSE 3000\nCMD [\"npm\", \"run\", \"dev\"]</code></pre>\n<pre><code># .dockerignore\nnode_modules\nnpm-debug.log\n.git\n.env\n.env.local\ncoverage/\n*.test.js</code></pre>\n<pre><code># ビルドと実行\ndocker build --target production -t my-node-app:prod .\ndocker build --target development -t my-node-app:dev .\n\n# 本番イメージで実行\ndocker run -d -p 3000:3000 --name node-app my-node-app:prod\n\n# 動作確認\ncurl http://localhost:3000\ncurl http://localhost:3000/health</code></pre>\n\n<h2>Python（Flask）アプリのDocker化</h2>\n<p>PythonのFlaskフレームワークを使ったWebアプリをコンテナ化します。</p>\n<pre><code># requirements.txt\nflask==3.0.3\ngunicorn==22.0.0\npsycopg2-binary==2.9.9</code></pre>\n<pre><code># app.py\nfrom flask import Flask, jsonify\nimport os\n\napp = Flask(__name__)\n\n@app.route('/')\ndef index():\n    return jsonify({\n        'message': 'Hello from Flask in Docker!',\n        'env': os.getenv('FLASK_ENV', 'production')\n    })\n\n@app.route('/health')\ndef health():\n    return jsonify({'status': 'ok'})\n\nif __name__ == '__main__':\n    port = int(os.getenv('PORT', 5000))\n    app.run(host='0.0.0.0', port=port, debug=os.getenv('FLASK_DEBUG', 'false').lower() == 'true')</code></pre>\n<p>PythonのDockerfileを作成します。</p>\n<pre><code># Dockerfile（Python/Flask用）\nFROM python:3.12-slim\n\n# セキュリティ：非rootユーザーを作成\nRUN groupadd -r appuser && useradd -r -g appuser appuser\n\nWORKDIR /app\n\n# 依存関係を先にコピー（キャッシュ最適化）\nCOPY requirements.txt .\nRUN pip install --no-cache-dir -r requirements.txt\n\n# アプリのコードをコピー\nCOPY . .\n\n# 非rootユーザーに切り替え\nRUN chown -R appuser:appuser /app\nUSER appuser\n\nEXPOSE 5000\n\n# 本番ではgunicornを使う\nCMD [\"gunicorn\", \"--bind\", \"0.0.0.0:5000\", \"--workers\", \"4\", \"app:app\"]</code></pre>\n<pre><code># .dockerignore（Python用）\n__pycache__\n*.pyc\n*.pyo\n.git\n.env\nvenv/\n.venv/\n*.egg-info/\ndist/\nbuild/</code></pre>\n<pre><code># ビルドと実行\ndocker build -t my-flask-app .\ndocker run -d -p 5000:5000 --name flask-app my-flask-app\n\n# 動作確認\ncurl http://localhost:5000\ncurl http://localhost:5000/health</code></pre>\n\n<h2>Node.js + PostgreSQL + Redis のフルスタック構成</h2>\n<p>実際の開発で使う、アプリ・DB・キャッシュを組み合わせたdocker-compose.ymlを作成します。</p>\n<pre><code># docker-compose.yml（フルスタック開発環境）\nservices:\n  app:\n    build:\n      context: .\n      target: development      # 開発用ステージを指定\n    ports:\n      - \"3000:3000\"\n    environment:\n      - NODE_ENV=development\n      - PORT=3000\n      - DATABASE_URL=postgresql://appuser:apppassword@postgres:5432/myappdb\n      - REDIS_URL=redis://redis:6379\n    volumes:\n      - .:/app                 # ソースコードをマウント（ホットリロード）\n      - /app/node_modules      # node_modulesはコンテナ側を使う\n    depends_on:\n      postgres:\n        condition: service_healthy\n      redis:\n        condition: service_started\n    restart: unless-stopped\n\n  postgres:\n    image: postgres:16-alpine\n    environment:\n      - POSTGRES_USER=appuser\n      - POSTGRES_PASSWORD=apppassword\n      - POSTGRES_DB=myappdb\n    volumes:\n      - postgres_data:/var/lib/postgresql/data\n      - ./docker/init.sql:/docker-entrypoint-initdb.d/01-init.sql:ro\n    ports:\n      - \"5432:5432\"           # 開発時にDBeaver等で接続するため開放\n    healthcheck:\n      test: [\"CMD-SHELL\", \"pg_isready -U appuser -d myappdb\"]\n      interval: 10s\n      timeout: 5s\n      retries: 5\n\n  redis:\n    image: redis:7-alpine\n    volumes:\n      - redis_data:/data\n    ports:\n      - \"6379:6379\"\n    command: redis-server --appendonly yes\n\nvolumes:\n  postgres_data:\n  redis_data:</code></pre>\n<pre><code># .envファイル（機密情報を分離）\nPOSTGRES_USER=appuser\nPOSTGRES_PASSWORD=apppassword\nPOSTGRES_DB=myappdb</code></pre>\n<pre><code># docker-compose.yml改訂版：.envを参照する\nservices:\n  postgres:\n    image: postgres:16-alpine\n    env_file:\n      - .env                   # .envファイルを自動読み込み</code></pre>\n\n<h2>本番環境向けの最適化ポイント</h2>\n<p>開発環境で動作確認ができたら、本番環境向けに最適化を行いましょう。</p>\n<pre><code># docker-compose.prod.yml（本番用の上書き設定）\nservices:\n  app:\n    build:\n      context: .\n      target: production       # 本番用ステージでビルド\n    environment:\n      - NODE_ENV=production\n    restart: always            # 常に自動再起動\n    deploy:\n      resources:\n        limits:\n          cpus: '1.0'\n          memory: 512M\n    # 開発用のバインドマウントは不要（削除）\n    volumes: []\n\n  postgres:\n    restart: always\n    # 本番では外部からポートを閉じる（コメントアウト）\n    # ports:\n    #   - \"5432:5432\"</code></pre>\n<pre><code># 本番環境での起動\ndocker compose -f docker-compose.yml -f docker-compose.prod.yml up -d\n\n# ヘルスチェック確認\ndocker compose ps\n\n# ログ確認\ndocker compose logs -f app\n\n# 本番イメージのサイズ確認\ndocker images my-node-app</code></pre>\n<p>本番環境の重要なポイント：<code>restart: always</code> でコンテナが落ちたときに自動再起動、DBのポートは外部に公開しない、<code>USER node</code> などで非rootユーザー実行、ヘルスチェックを必ず設定することです。</p>\n\n<h2>デバッグとトラブルシューティング</h2>\n<p>コンテナ化したアプリで問題が発生したときのデバッグ手順を覚えておきましょう。</p>\n<pre><code># コンテナが起動しない場合：ログを確認\ndocker compose logs app\ndocker compose logs --tail=50 app\n\n# コンテナの状態確認\ndocker compose ps\ndocker inspect コンテナ名\n\n# コンテナ内部に入って調査\ndocker compose exec app sh\n# または\ndocker compose exec app bash\n\n# コンテナ内でネットワーク疎通確認\ndocker compose exec app ping postgres\ndocker compose exec app curl http://postgres:5432\n\n# 環境変数が正しく設定されているか確認\ndocker compose exec app env | grep -i db\n\n# ポートが正しくマッピングされているか確認\ndocker compose port app 3000\n\n# コンテナのリソース使用状況\ndocker stats\n\n# コンテナのファイルシステムの変更を確認\ndocker diff コンテナ名</code></pre>\n<pre><code># よくある問題と対処法\n\n# 問題1: コンテナが「Exited (1)」で即終了する\n# → docker logs コンテナ名 でエラーメッセージを確認\n\n# 問題2: DBに接続できない\n# → depends_on + healthcheckを設定\n# → DB_HOSTがサービス名（例: postgres）になっているか確認\n\n# 問題3: ポートがすでに使用中\ndocker run -p 3001:3000 my-app  # 別のポートにマッピング\n\n# 問題4: パーミッションエラー\n# → バインドマウントしたファイルの権限を確認\n# → USER命令で非rootユーザーに切り替えている場合は要注意</code></pre>\n\n<h2>次のステップ：Dockerをさらに活用するために</h2>\n<p>このコースでDockerの基礎から実践まで一通り学びました。次のステップとして取り組みたいテーマを紹介します。</p>\n<p><strong>Docker Hubへのイメージのプッシュ：</strong>作成したイメージをDocker HubやGitHub Container Registryに登録することで、チームで共有したり、クラウドにデプロイしたりできます。</p>\n<pre><code># Docker HubへのPush手順\ndocker login\ndocker tag my-node-app:prod yourusername/my-node-app:latest\ndocker push yourusername/my-node-app:latest\n\n# GitHub Container RegistryへのPush\ndocker tag my-node-app:prod ghcr.io/yourusername/my-node-app:latest\ndocker push ghcr.io/yourusername/my-node-app:latest</code></pre>\n<p><strong>CI/CDパイプラインへの統合：</strong>GitHub ActionsやCircleCIでDockerを使ったビルド・テスト・デプロイを自動化できます。DockerイメージをビルドしてレジストリにPushし、本番サーバーでPullして起動するパイプラインが一般的です。</p>\n<p><strong>クラウドへのデプロイ：</strong>AWS ECS・Google Cloud Run・Azure Container Appsなど、Dockerイメージを直接デプロイできるクラウドサービスが充実しています。docker-compose.ymlの知識はAWS ECSのタスク定義の理解にも活かせます。</p>\n<p><strong>Kubernetesへの移行：</strong>大規模なコンテナ管理にはKubernetes（K8s）が使われます。DockerのイメージとComposeの知識はKubernetesを学ぶ上での土台になります。</p>\n<pre><code># docker 使い方：このコースで学んだ主要コマンドの総まとめ\ndocker pull イメージ名           # イメージのダウンロード\ndocker build -t 名前:タグ .      # イメージのビルド\ndocker run -d -p 外:内 --name 名前 イメージ  # コンテナ起動\ndocker ps / docker ps -a         # コンテナ一覧\ndocker stop / docker start 名前  # コンテナ停止/起動\ndocker rm 名前                   # コンテナ削除\ndocker exec -it 名前 sh          # コンテナ内部に入る\ndocker logs -f 名前              # ログ確認\ndocker images                    # イメージ一覧\ndocker rmi イメージ名             # イメージ削除\ndocker volume ls/rm/prune        # ボリューム管理\ndocker system prune              # 不要リソース一括削除\ndocker compose up -d             # 複数サービス起動\ndocker compose down              # 複数サービス停止・削除\ndocker compose logs -f           # ログ確認</code></pre>",
+  "conclusion": "Node.jsとPythonアプリのDockerコンテナ化を通じて、Dockerfile作成→docker buildビルド→docker compose upでの起動という一連のワークフローを習得しました。本番環境では非rootユーザー実行・restartポリシー・ヘルスチェックを設定し、.envで機密情報を管理することがベストプラクティスです。次はDocker HubへのPushやCI/CDパイプラインへの統合に挑戦しましょう。",
+  "tags": [
+    "Docker",
+    "Node.js",
+    "Python",
+    "Flask",
+    "コンテナ化",
+    "docker 使い方",
+    "docker-compose",
+    "実践"
+  ],
+  "category": "Docker",
+  "theme": "docker - Docker 入門",
+  "status": "published",
+  "createdAt": "2026-05-30T04:13:35.289Z",
+  "updatedAt": "2026-05-30T04:13:35.292Z",
+  "publishedAt": "2026-05-30T04:13:35.289Z",
+  "metaTitle": "Node.js・Python WebアプリをDockerコンテナ化する実践【docker 使い方 初心者総まとめ】 |…",
+  "metaDescription": "Node.jsとPython（Flask）のWebアプリをDockerコンテナ化する実践ガイド。Dockerfile・docker-compose.yml作成からデプロイまでdocker 使い方の総まとめ。docker 初心者の集大成。",
+  "ogTitle": "Node.js・Python WebアプリをDockerコンテナ化する実践ガイド",
+  "ogDescription": "【Docker初心者向け】Node.jsとPythonのWebアプリをDockerでコンテナ化する実践演習。DockerfileからDocker Composeまで総まとめ。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
+  "knowledge": {
+    "topic": "docker",
+    "courseId": "docker",
+    "episode": 8
+  },
+  "faq": [
+    {
+      "question": "アプリをDockerコンテナ化するメリットは何ですか？",
+      "answer": "「自分のPCでは動くのに本番で動かない」問題の解消、チームメンバー全員が同じ環境で開発できること、docker compose up一発で全サービスが起動する開発体験の向上、クラウドへのデプロイが容易になることが主なメリットです。"
+    },
+    {
+      "question": "本番環境でもDocker Composeを使ってよいですか？",
+      "answer": "単一サーバーへのデプロイであればDocker Composeで問題ありません。ただし、複数サーバーへのスケールアウトや高可用性が必要な場合はKubernetesやAWS ECSなどのオーケストレーションツールが向いています。"
+    },
+    {
+      "question": "Dockerイメージのサイズを小さくするベストプラクティスは？",
+      "answer": "alpine系の軽量ベースイメージを使う、マルチステージビルドでビルドツールを最終イメージに含めない、RUN命令を&&でまとめてレイヤー数を減らす、.dockerignoreで不要ファイルを除外することが主なテクニックです。"
+    },
+    {
+      "question": "docker compose up後にアプリが起動してすぐ終了します。",
+      "answer": "docker compose logs アプリ名 でエラーログを確認してください。DBへの接続失敗が原因のことが多いです。depends_onにhealthcheckとcondition: service_healthyを設定して、DBが完全に起動してからアプリが起動するよう設定しましょう。"
+    }
+  ],
+  "nextEpisodeHint": "Dockerの基礎を習得したら、次はKubernetesやCI/CDパイプラインへの統合、AWS ECSやGoogle Cloud Runへのデプロイに挑戦してみましょう。",
+  "ogImage": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+  "canonical": "https://ai-site-iota-nine.vercel.app/article/docker-webapp-practice",
+  "jsonLd": {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@context": "https://schema.org",
+        "@type": "TechArticle",
+        "headline": "Node.js・Python WebアプリをDockerコンテナ化する実践ガイド",
+        "description": "Node.jsとPython（Flask）のWebアプリをDockerコンテナ化する実践ガイド。Dockerfile・docker-compose.yml作成からデプロイまでdocker 使い方の総まとめ。docker 初心者の集大成。",
+        "datePublished": "2026-05-30T04:13:35.289Z",
+        "dateModified": "2026-05-30T04:13:35.292Z",
+        "author": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
+        },
+        "image": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+        "inLanguage": "ja",
+        "wordCount": 6509,
+        "mainEntityOfPage": {
+          "@type": "WebPage",
+          "@id": "https://ai-site-iota-nine.vercel.app/article/docker-webapp-practice"
+        },
+        "keywords": "Docker, Node.js, Python, Flask, コンテナ化, docker 使い方, docker-compose, 実践",
+        "articleSection": "Docker",
+        "url": "https://ai-site-iota-nine.vercel.app/article/docker-webapp-practice",
+        "learningResourceType": "tutorial",
+        "educationalLevel": "beginner"
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "ホーム",
+            "item": "https://ai-site-iota-nine.vercel.app/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "docker",
+            "item": "https://ai-site-iota-nine.vercel.app/knowledge/docker"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "Docker 入門",
+            "item": "https://ai-site-iota-nine.vercel.app/course/docker/docker"
+          },
+          {
+            "@type": "ListItem",
+            "position": 4,
+            "name": "Node.js・Python WebアプリをDockerコンテナ化する実践ガイド",
+            "item": "https://ai-site-iota-nine.vercel.app/article/docker-webapp-practice"
+          }
+        ]
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "Course",
+        "name": "Docker 入門",
+        "description": "コンテナ技術Dockerを8ステップで習得。インストールからDockerfile・docker compose・ボリュームまで、開発環境構築に必須のスキルを具体例で学びます。",
+        "provider": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app"
+        },
+        "url": "https://ai-site-iota-nine.vercel.app/course/docker/docker",
+        "inLanguage": "ja",
+        "educationalLevel": "beginner",
+        "hasCourseInstance": {
+          "@type": "CourseInstance",
+          "courseMode": "online",
+          "courseWorkload": "PT1H"
+        }
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "アプリをDockerコンテナ化するメリットは何ですか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "「自分のPCでは動くのに本番で動かない」問題の解消、チームメンバー全員が同じ環境で開発できること、docker compose up一発で全サービスが起動する開発体験の向上、クラウドへのデプロイが容易になることが主なメリットです。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "本番環境でもDocker Composeを使ってよいですか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "単一サーバーへのデプロイであればDocker Composeで問題ありません。ただし、複数サーバーへのスケールアウトや高可用性が必要な場合はKubernetesやAWS ECSなどのオーケストレーションツールが向いています。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Dockerイメージのサイズを小さくするベストプラクティスは？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "alpine系の軽量ベースイメージを使う、マルチステージビルドでビルドツールを最終イメージに含めない、RUN命令を&&でまとめてレイヤー数を減らす、.dockerignoreで不要ファイルを除外することが主なテクニックです。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "docker compose up後にアプリが起動してすぐ終了します。",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "docker compose logs アプリ名 でエラーログを確認してください。DBへの接続失敗が原因のことが多いです。depends_onにhealthcheckとcondition: service_healthyを設定して、DBが完全に起動してからアプリが起動するよう設定しましょう。"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "breadcrumb": {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "ホーム",
+        "item": "https://ai-site-iota-nine.vercel.app/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "docker",
+        "item": "https://ai-site-iota-nine.vercel.app/knowledge/docker"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "Docker 入門",
+        "item": "https://ai-site-iota-nine.vercel.app/course/docker/docker"
+      },
+      {
+        "@type": "ListItem",
+        "position": 4,
+        "name": "Node.js・Python WebアプリをDockerコンテナ化する実践ガイド",
+        "item": "https://ai-site-iota-nine.vercel.app/article/docker-webapp-practice"
+      }
+    ]
+  },
+  "courseSchema": {
+    "@context": "https://schema.org",
+    "@type": "Course",
+    "name": "Docker 入門",
+    "description": "コンテナ技術Dockerを8ステップで習得。インストールからDockerfile・docker compose・ボリュームまで、開発環境構築に必須のスキルを具体例で学びます。",
+    "provider": {
+      "@type": "Organization",
+      "name": "StackShelf",
+      "url": "https://ai-site-iota-nine.vercel.app"
+    },
+    "url": "https://ai-site-iota-nine.vercel.app/course/docker/docker",
+    "inLanguage": "ja",
+    "educationalLevel": "beginner",
+    "hasCourseInstance": {
+      "@type": "CourseInstance",
+      "courseMode": "online",
+      "courseWorkload": "PT1H"
+    }
+  },
+  "faqSchema": {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "アプリをDockerコンテナ化するメリットは何ですか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "「自分のPCでは動くのに本番で動かない」問題の解消、チームメンバー全員が同じ環境で開発できること、docker compose up一発で全サービスが起動する開発体験の向上、クラウドへのデプロイが容易になることが主なメリットです。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "本番環境でもDocker Composeを使ってよいですか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "単一サーバーへのデプロイであればDocker Composeで問題ありません。ただし、複数サーバーへのスケールアウトや高可用性が必要な場合はKubernetesやAWS ECSなどのオーケストレーションツールが向いています。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Dockerイメージのサイズを小さくするベストプラクティスは？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "alpine系の軽量ベースイメージを使う、マルチステージビルドでビルドツールを最終イメージに含めない、RUN命令を&&でまとめてレイヤー数を減らす、.dockerignoreで不要ファイルを除外することが主なテクニックです。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "docker compose up後にアプリが起動してすぐ終了します。",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "docker compose logs アプリ名 でエラーログを確認してください。DBへの接続失敗が原因のことが多いです。depends_onにhealthcheckとcondition: service_healthyを設定して、DBが完全に起動してからアプリが起動するよう設定しましょう。"
+        }
+      }
+    ]
+  }
+}

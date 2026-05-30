@@ -1,0 +1,13 @@
+{
+  "slug": "web-flexbox",
+  "courseId": "web",
+  "episode": 8,
+  "summaryMemory": [
+    "display:flexを親要素に指定するだけで横並びFlexboxレイアウトが起動",
+    "justify-content（主軸=横）とalign-items（交差軸=縦）で配置を制御",
+    "flex:1を子要素に指定すると残りスペースを均等に分け合う",
+    "縦横中央揃えはjustify-content:center + align-items:centerの組み合わせが定番"
+  ],
+  "nextEpisodeHint": "次回はレスポンシブデザインを学びます。viewportとメディアクエリを使って、スマートフォン・タブレット・PCすべてに対応したWebページを作る方法を解説します。",
+  "updatedAt": "2026-05-30T04:13:23.862Z"
+}

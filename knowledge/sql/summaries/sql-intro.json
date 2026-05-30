@@ -1,0 +1,13 @@
+{
+  "slug": "sql-intro",
+  "courseId": "sql",
+  "episode": 1,
+  "summaryMemory": [
+    "SQLはデータベースを操作する専門言語（Structured Query Language）",
+    "RDBはデータをテーブル（行と列の表）形式で管理する",
+    "基本操作はCRUD（CREATE/READ/UPDATE/DELETE）の4種類",
+    "このコースはSQLiteを使って実際に手を動かしながら学ぶ"
+  ],
+  "nextEpisodeHint": "次回は、SQLiteをインストールして実際に動かせる環境を作り、最初のテーブルをCREATE TABLE文で作成します。コマンドラインからSQLを打ち込む体験をしましょう。",
+  "updatedAt": "2026-05-30T04:13:07.574Z"
+}

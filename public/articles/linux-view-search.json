@@ -1,0 +1,269 @@
+{
+  "id": "art_linux_linux-view-search",
+  "slug": "linux-view-search",
+  "title": "cat/less/head/tail/grep でファイルを表示・検索する【Linux入門】",
+  "summary": "Linuxでファイルの内容を表示するcat、less、head、tail と、テキストを検索するgrepコマンドの使い方を解説します。ログ確認や文字列検索に必須のスキルです。",
+  "body": "<h2>cat：ファイルの内容を表示する</h2>\n<p><code>cat</code>（conCATenate）はファイルの内容をターミナルに出力するコマンドです。短いファイルの内容を確認するときに最も手軽です。</p>\n<pre><code># ファイルの内容を表示\ncat sample.txt\n\n# 行番号を付けて表示\ncat -n sample.txt\n\n# 複数のファイルを連結して表示\ncat file1.txt file2.txt\n\n# ファイルを連結して新しいファイルに書き込む\ncat file1.txt file2.txt > combined.txt\n\n# 空行を圧縮して表示（連続する空行を1行にまとめる）\ncat -s sample.txt</code></pre>\n<p><strong>注意</strong>：大きなファイルを <code>cat</code> で表示すると画面がテキストで溢れます。大きなファイルには後述の <code>less</code> を使いましょう。</p>\n\n<h2>less：ページ単位でファイルを表示する</h2>\n<p><code>less</code> はファイルをページ単位でスクロールして閲覧できるコマンドです。大きなログファイルやマニュアルを読むときに非常に便利です。<code>more</code> コマンドの改良版で、前後にスクロールできます。</p>\n<pre><code># ファイルをページ表示\nless /var/log/syslog\n\n# 行番号を表示しながら開く\nless -N sample.txt</code></pre>\n\n<h3>less の操作方法</h3>\n<ul>\n  <li><kbd>スペース</kbd> / <kbd>PageDown</kbd>：次のページへ</li>\n  <li><kbd>b</kbd> / <kbd>PageUp</kbd>：前のページへ</li>\n  <li><kbd>↑</kbd> / <kbd>↓</kbd>：1行ずつスクロール</li>\n  <li><kbd>g</kbd>：ファイルの先頭へ</li>\n  <li><kbd>G</kbd>：ファイルの末尾へ</li>\n  <li><kbd>/</kbd>キーワード：順方向に検索。<kbd>n</kbd> で次の一致箇所へ</li>\n  <li><kbd>?</kbd>キーワード：逆方向に検索</li>\n  <li><kbd>q</kbd>：lessを終了</li>\n</ul>\n<pre><code># less でのキーワード検索例\nless /var/log/auth.log\n# /error と入力してEnterを押すと \"error\" を含む行を検索</code></pre>\n\n<h2>head と tail：ファイルの一部を表示する</h2>\n<p>大きなファイルの最初の数行や最後の数行だけを確認したいときに使います。ログファイルの最新エントリを確認するのに特に便利です。</p>\n\n<h3>head：ファイルの先頭を表示</h3>\n<pre><code># デフォルトで先頭10行を表示\nhead sample.txt\n\n# 先頭5行を表示\nhead -n 5 sample.txt\n# または\nhead -5 sample.txt\n\n# 複数ファイルの先頭をまとめて確認\nhead -n 3 file1.txt file2.txt</code></pre>\n\n<h3>tail：ファイルの末尾を表示</h3>\n<pre><code># デフォルトで末尾10行を表示\ntail sample.txt\n\n# 末尾20行を表示\ntail -n 20 /var/log/syslog\n\n# ファイルの更新をリアルタイムで監視（ログ監視に最適！）\ntail -f /var/log/nginx/access.log\n\n# tail -f を複数ファイルで使う\ntail -f /var/log/syslog /var/log/auth.log\n\n# 監視を止めるには Ctrl+C</code></pre>\n<p><code>tail -f</code> はログファイルのリアルタイム監視に非常に役立ちます。Webサーバーのアクセスログやアプリケーションエラーログを確認するとき、開発現場でよく使われるテクニックです。</p>\n\n<h2>grep：テキストを検索する</h2>\n<p><code>grep</code>（Global Regular Expression Print）は、ファイルや標準入力から特定のパターンにマッチする行を検索するコマンドです。Linuxコマンドの中でも特に使用頻度が高い重要なツールです。</p>\n<pre><code># ファイル内でキーワードを検索\ngrep \"error\" /var/log/syslog\n\n# 大文字小文字を区別しない検索\ngrep -i \"Error\" sample.txt\n\n# マッチした行の行番号も表示\ngrep -n \"TODO\" script.py\n\n# マッチしない行を表示（反転検索）\ngrep -v \"debug\" app.log\n\n# 再帰的にディレクトリ内の全ファイルを検索\ngrep -r \"function\" ./src/\n\n# マッチしたファイル名のみ表示\ngrep -l \"password\" /etc/*.conf\n\n# マッチした前後3行も表示（コンテキスト表示）\ngrep -C 3 \"ERROR\" app.log\n\n# マッチした後2行を表示\ngrep -A 2 \"Exception\" app.log\n\n# マッチした前2行を表示\ngrep -B 2 \"Exception\" app.log</code></pre>\n\n<h3>grep と正規表現</h3>\n<p><code>grep</code> は正規表現（Regular Expression）をサポートしています。より柔軟な検索が可能です。</p>\n<pre><code># 行頭にマッチ（^）\ngrep \"^root\" /etc/passwd\n\n# 行末にマッチ（$）\ngrep \".txt$\" filelist.txt\n\n# 数字を含む行を検索\ngrep \"[0-9]\" sample.txt\n\n# 拡張正規表現を使う（egrep または grep -E）\ngrep -E \"error|warning\" app.log\n\n# 単語境界でマッチ（-w）\ngrep -w \"log\" sample.txt\n# \"log\" にはマッチするが \"login\" にはマッチしない</code></pre>\n\n<h3>grep の便利な活用例</h3>\n<pre><code># ログからエラーだけ抽出して表示\ngrep -i \"error\" /var/log/syslog | tail -20\n\n# 特定ユーザーのSSHログイン履歴を確認\ngrep \"Accepted\" /var/log/auth.log | grep \"ubuntu\"\n\n# プロセス一覧から特定のプロセスを検索\nps aux | grep nginx\n\n# ファイル内のコメント行以外を表示\ngrep -v \"^#\" /etc/hosts</code></pre>\n\n<h2>実践：ログファイルの分析</h2>\n<p>これまで学んだコマンドを組み合わせてログファイルを分析する実践例を見てみましょう。</p>\n<pre><code># ログファイルの行数を確認\nwc -l /var/log/syslog\n\n# 最新20行を表示\ntail -20 /var/log/syslog\n\n# エラーメッセージだけ抽出して行番号付きで表示\ngrep -n \"error|Error|ERROR\" /var/log/syslog\n\n# 今日のエラー数を数える\ngrep \"error\" /var/log/syslog | wc -l\n\n# エラーを含む行をファイルに保存\ngrep \"error\" /var/log/syslog > error_report.txt\n\n# ファイルの内容を確認\nless error_report.txt</code></pre>\n\n<h2>まとめ：ファイル表示・検索コマンドの使い分け</h2>\n<ul>\n  <li><code>cat</code>：短いファイルを素早く表示。複数ファイルの連結にも使える</li>\n  <li><code>less</code>：大きなファイルをページ単位で閲覧。検索機能も内蔵</li>\n  <li><code>head</code>：ファイルの先頭数行を確認</li>\n  <li><code>tail -f</code>：ログをリアルタイムで監視する定番コマンド</li>\n  <li><code>grep</code>：特定のキーワードを含む行を抽出。パイプとの組み合わせが強力</li>\n</ul>\n<p>これらのコマンドは単体でも強力ですが、パイプ（<code>|</code>）と組み合わせることでさらに威力を発揮します。パイプについては後のエピソードで詳しく解説します。</p>",
+  "conclusion": "cat、less、head、tail、grep は Linux でのファイル確認と情報抽出に欠かせないコマンドです。特に tail -f によるリアルタイムログ監視と、grep -r による再帰検索はサーバー管理・開発現場で毎日使うテクニックです。これらをパイプで組み合わせることで強力なデータ処理ができるようになります。",
+  "tags": [
+    "Linux",
+    "cat",
+    "grep",
+    "less",
+    "テキスト検索",
+    "コマンド"
+  ],
+  "category": "Linux",
+  "theme": "linux - Linux コマンドライン入門",
+  "status": "published",
+  "createdAt": "2026-05-30T04:13:03.908Z",
+  "updatedAt": "2026-05-30T04:13:03.921Z",
+  "publishedAt": "2026-05-30T04:13:03.908Z",
+  "metaTitle": "cat less head tail grep の使い方｜Linux ファイル表示・検索コマンド",
+  "metaDescription": "【Linux初心者向け】cat less head tail grep コマンドの使い方をわかりやすく解説。linux コマンドでファイルの表示・検索をマスターしましょう。ログ確認にも役立ちます。 図解・具体例つきで丁寧に解説します。",
+  "ogTitle": "cat/less/head/tail/grep でファイル表示・検索をマスター",
+  "ogDescription": "【Linux初心者向け】【Linux初心者向け】Linuxでファイル内容の確認とテキスト検索をする必須コマンドを初心者向けに解説。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
+  "knowledge": {
+    "topic": "linux",
+    "courseId": "linux",
+    "episode": 5
+  },
+  "faq": [
+    {
+      "question": "cat と less はどう使い分ければいいですか？",
+      "answer": "短いファイル（数十行以下）はcatで素早く確認し、大きなファイル（数百行以上）や検索しながら読みたい場合はlessを使います。ログファイルはほぼ必ずlessかtailを使います。"
+    },
+    {
+      "question": "grep で複数のキーワードを検索するにはどうすればいいですか？",
+      "answer": "grep -E \"keyword1|keyword2\" でOR検索できます。AND検索（両方含む）はパイプを使って「grep key1 file | grep key2」のように繋ぎます。"
+    },
+    {
+      "question": "tail -f でファイルを監視しながら grep で絞り込めますか？",
+      "answer": "はい、「tail -f app.log | grep error」のようにパイプで繋ぐとリアルタイムにエラーだけを表示できます。開発現場でよく使われるテクニックです。"
+    },
+    {
+      "question": "grep でバイナリファイルを検索するとどうなりますか？",
+      "answer": "バイナリファイルに対してgrepを実行すると「Binary file matches」と表示されます。テキストとして強制検索したい場合は grep -a オプションを使います。"
+    }
+  ],
+  "nextEpisodeHint": "次回は、Linuxのファイル権限システム chmod と chown を学びます。rwx の意味と数値表記での権限設定を理解しましょう。",
+  "ogImage": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+  "canonical": "https://ai-site-iota-nine.vercel.app/article/linux-view-search",
+  "jsonLd": {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@context": "https://schema.org",
+        "@type": "TechArticle",
+        "headline": "cat/less/head/tail/grep でファイルを表示・検索する【Linux入門】",
+        "description": "【Linux初心者向け】cat less head tail grep コマンドの使い方をわかりやすく解説。linux コマンドでファイルの表示・検索をマスターしましょう。ログ確認にも役立ちます。 図解・具体例つきで丁寧に解説します。",
+        "datePublished": "2026-05-30T04:13:03.908Z",
+        "dateModified": "2026-05-30T04:13:03.921Z",
+        "author": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
+        },
+        "image": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+        "inLanguage": "ja",
+        "wordCount": 2679,
+        "mainEntityOfPage": {
+          "@type": "WebPage",
+          "@id": "https://ai-site-iota-nine.vercel.app/article/linux-view-search"
+        },
+        "keywords": "Linux, cat, grep, less, テキスト検索, コマンド",
+        "articleSection": "Linux",
+        "url": "https://ai-site-iota-nine.vercel.app/article/linux-view-search",
+        "learningResourceType": "tutorial",
+        "educationalLevel": "beginner"
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "ホーム",
+            "item": "https://ai-site-iota-nine.vercel.app/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "linux",
+            "item": "https://ai-site-iota-nine.vercel.app/knowledge/linux"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "Linux コマンドライン入門",
+            "item": "https://ai-site-iota-nine.vercel.app/course/linux/linux"
+          },
+          {
+            "@type": "ListItem",
+            "position": 4,
+            "name": "cat/less/head/tail/grep でファイルを表示・検索する【Linux入門】",
+            "item": "https://ai-site-iota-nine.vercel.app/article/linux-view-search"
+          }
+        ]
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "Course",
+        "name": "Linux コマンドライン入門",
+        "description": "エンジニア必須のLinuxターミナル操作を10ステップで習得。ファイル操作・権限・プロセス・パイプまで、具体コマンド例付きで丁寧に解説します。",
+        "provider": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app"
+        },
+        "url": "https://ai-site-iota-nine.vercel.app/course/linux/linux",
+        "inLanguage": "ja",
+        "educationalLevel": "beginner",
+        "hasCourseInstance": {
+          "@type": "CourseInstance",
+          "courseMode": "online",
+          "courseWorkload": "PT1H"
+        }
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "cat と less はどう使い分ければいいですか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "短いファイル（数十行以下）はcatで素早く確認し、大きなファイル（数百行以上）や検索しながら読みたい場合はlessを使います。ログファイルはほぼ必ずlessかtailを使います。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "grep で複数のキーワードを検索するにはどうすればいいですか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "grep -E \"keyword1|keyword2\" でOR検索できます。AND検索（両方含む）はパイプを使って「grep key1 file | grep key2」のように繋ぎます。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "tail -f でファイルを監視しながら grep で絞り込めますか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "はい、「tail -f app.log | grep error」のようにパイプで繋ぐとリアルタイムにエラーだけを表示できます。開発現場でよく使われるテクニックです。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "grep でバイナリファイルを検索するとどうなりますか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "バイナリファイルに対してgrepを実行すると「Binary file matches」と表示されます。テキストとして強制検索したい場合は grep -a オプションを使います。"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "breadcrumb": {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "ホーム",
+        "item": "https://ai-site-iota-nine.vercel.app/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "linux",
+        "item": "https://ai-site-iota-nine.vercel.app/knowledge/linux"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "Linux コマンドライン入門",
+        "item": "https://ai-site-iota-nine.vercel.app/course/linux/linux"
+      },
+      {
+        "@type": "ListItem",
+        "position": 4,
+        "name": "cat/less/head/tail/grep でファイルを表示・検索する【Linux入門】",
+        "item": "https://ai-site-iota-nine.vercel.app/article/linux-view-search"
+      }
+    ]
+  },
+  "courseSchema": {
+    "@context": "https://schema.org",
+    "@type": "Course",
+    "name": "Linux コマンドライン入門",
+    "description": "エンジニア必須のLinuxターミナル操作を10ステップで習得。ファイル操作・権限・プロセス・パイプまで、具体コマンド例付きで丁寧に解説します。",
+    "provider": {
+      "@type": "Organization",
+      "name": "StackShelf",
+      "url": "https://ai-site-iota-nine.vercel.app"
+    },
+    "url": "https://ai-site-iota-nine.vercel.app/course/linux/linux",
+    "inLanguage": "ja",
+    "educationalLevel": "beginner",
+    "hasCourseInstance": {
+      "@type": "CourseInstance",
+      "courseMode": "online",
+      "courseWorkload": "PT1H"
+    }
+  },
+  "faqSchema": {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "cat と less はどう使い分ければいいですか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "短いファイル（数十行以下）はcatで素早く確認し、大きなファイル（数百行以上）や検索しながら読みたい場合はlessを使います。ログファイルはほぼ必ずlessかtailを使います。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "grep で複数のキーワードを検索するにはどうすればいいですか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "grep -E \"keyword1|keyword2\" でOR検索できます。AND検索（両方含む）はパイプを使って「grep key1 file | grep key2」のように繋ぎます。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "tail -f でファイルを監視しながら grep で絞り込めますか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "はい、「tail -f app.log | grep error」のようにパイプで繋ぐとリアルタイムにエラーだけを表示できます。開発現場でよく使われるテクニックです。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "grep でバイナリファイルを検索するとどうなりますか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "バイナリファイルに対してgrepを実行すると「Binary file matches」と表示されます。テキストとして強制検索したい場合は grep -a オプションを使います。"
+        }
+      }
+    ]
+  }
+}

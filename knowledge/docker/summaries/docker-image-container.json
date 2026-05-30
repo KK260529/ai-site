@@ -1,0 +1,13 @@
+{
+  "slug": "docker-image-container",
+  "courseId": "docker",
+  "episode": 4,
+  "summaryMemory": [
+    "イメージはクラス（設計図）、コンテナはインスタンス（実体）。一つのイメージから複数コンテナを起動できる",
+    "イメージはレイヤー構造でキャッシュが効くため、共通レイヤーは再ダウンロードされない",
+    "docker inspect --format でJSONから特定のフィールドを抽出できる",
+    "docker system pruneで不要なコンテナ・イメージ・ネットワークを一括削除できる"
+  ],
+  "nextEpisodeHint": "次回は、Dockerfileの書き方を学び、自分のアプリを含んだカスタムDockerイメージをビルドする方法を解説します。FROM・RUN・COPY・CMDなどの主要命令を丁寧に説明します。",
+  "updatedAt": "2026-05-30T04:13:31.502Z"
+}

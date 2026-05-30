@@ -1,0 +1,249 @@
+{
+  "id": "art_python_python-modules",
+  "slug": "python-modules",
+  "title": "モジュールとパッケージ（import, pip install）",
+  "summary": "Pythonのimport文の使い方と、pipコマンドでサードパーティライブラリをインストールする方法を解説します。標準ライブラリの活用と仮想環境の作り方も学びましょう。",
+  "body": "\n<h2>モジュールとは？</h2>\n<p>モジュールとは、Python コードをまとめたファイル（.pyファイル）のことです。自分でよく使う関数をモジュールにまとめておくと、他のプログラムから呼び出して再利用できます。Pythonには最初から使える「標準ライブラリ」として多数のモジュールが付属しており、インターネット上には世界中の開発者が公開した「サードパーティライブラリ」も豊富に存在します。</p>\n<p>パッケージはモジュールをフォルダにまとめたものです。大きなライブラリは複数のモジュールをパッケージとして配布しています。</p>\n\n<h2>import文の基本</h2>\n<p>モジュールを使うには <code>import</code> 文でインポートします。</p>\n<pre><code># モジュール全体をインポート\nimport math\n\nprint(math.pi)           # 3.141592653589793\nprint(math.sqrt(16))     # 4.0（平方根）\nprint(math.ceil(3.2))    # 4（切り上げ）\nprint(math.floor(3.9))   # 3（切り捨て）\nprint(math.log(100, 10)) # 2.0（対数）</code></pre>\n\n<h3>fromでの選択インポート</h3>\n<pre><code># 特定の関数だけをインポート（math.をつけなくて済む）\nfrom math import sqrt, pi\n\nprint(sqrt(25))  # 5.0\nprint(pi)        # 3.141592653589793\n\n# すべてをインポート（*）※推奨されない\nfrom math import *  # 名前の衝突が起きやすいので避けること</code></pre>\n\n<h3>エイリアス（別名）をつけてインポート</h3>\n<pre><code># asで別名をつける\nimport math as m\nimport datetime as dt\n\nprint(m.pi)  # 3.14...\n\nfrom math import square_root as sqrt_func  # 存在しないが例として\n# よく使うパターン\nimport numpy as np        # データ分析（サードパーティ）\nimport pandas as pd       # データ分析（サードパーティ）\nimport matplotlib.pyplot as plt  # グラフ描画（サードパーティ）</code></pre>\n\n<h2>よく使う標準ライブラリ</h2>\n<p>インストール不要ですぐに使える主な標準ライブラリを紹介します。</p>\n\n<h3>os：OS操作</h3>\n<pre><code>import os\n\n# カレントディレクトリの取得\nprint(os.getcwd())\n\n# ディレクトリの内容一覧\nfiles = os.listdir(\".\")\nprint(files)\n\n# 環境変数の取得\npath = os.environ.get(\"PATH\", \"未設定\")\n\n# パスの結合（OSに応じた区切り文字を使う）\nfull_path = os.path.join(\"data\", \"files\", \"sample.txt\")\nprint(full_path)  # Windows: data\filessample.txt\n\n# ファイル名と拡張子を分割\nname, ext = os.path.splitext(\"document.pdf\")\nprint(name, ext)  # document .pdf</code></pre>\n\n<h3>sys：Pythonインタープリタ情報</h3>\n<pre><code>import sys\n\nprint(sys.version)   # Pythonのバージョン\nprint(sys.platform)  # OS（win32, linux, darwin）\n\n# コマンドライン引数の取得\n# python script.py arg1 arg2 と実行した場合\nprint(sys.argv)  # ['script.py', 'arg1', 'arg2']</code></pre>\n\n<h3>datetime：日付と時刻</h3>\n<pre><code>from datetime import datetime, date, timedelta\n\n# 現在日時\nnow = datetime.now()\nprint(now)  # 2026-05-30 12:34:56.789012\n\n# 日付のフォーマット\nprint(now.strftime(\"%Y年%m月%d日 %H時%M分\"))\n# 2026年05月30日 12時34分\n\n# 文字列から日時を解析\nd = datetime.strptime(\"2026-01-15\", \"%Y-%m-%d\")\nprint(d)  # 2026-01-15 00:00:00\n\n# 日付の計算\ntoday = date.today()\none_week_later = today + timedelta(days=7)\nprint(f\"1週間後: {one_week_later}\")</code></pre>\n\n<h3>random：乱数生成</h3>\n<pre><code>import random\n\n# 整数乱数（1〜6のダイスロール）\ndice = random.randint(1, 6)\nprint(f\"サイコロ: {dice}\")\n\n# リストからランダムに1つ選ぶ\nfruits = [\"apple\", \"banana\", \"cherry\", \"date\"]\npick = random.choice(fruits)\nprint(f\"選ばれた果物: {pick}\")\n\n# リストをシャッフル\nrandom.shuffle(fruits)\nprint(fruits)\n\n# 0.0〜1.0の小数乱数\nprint(random.random())\n\n# 指定範囲の小数乱数\nprint(random.uniform(0.0, 10.0))</code></pre>\n\n<h3>json：JSONデータの操作</h3>\n<pre><code>import json\n\n# PythonオブジェクトをJSON文字列に変換\ndata = {\n    \"name\": \"田中太郎\",\n    \"age\": 25,\n    \"hobbies\": [\"読書\", \"ゲーム\"]\n}\njson_str = json.dumps(data, ensure_ascii=False, indent=2)\nprint(json_str)\n\n# JSON文字列をPythonオブジェクトに変換\nparsed = json.loads(json_str)\nprint(parsed[\"name\"])  # 田中太郎\n\n# JSONファイルの読み書き\nwith open(\"data.json\", \"w\", encoding=\"utf-8\") as f:\n    json.dump(data, f, ensure_ascii=False, indent=2)\n\nwith open(\"data.json\", \"r\", encoding=\"utf-8\") as f:\n    loaded = json.load(f)\nprint(loaded)</code></pre>\n\n<h2>pip：サードパーティライブラリのインストール</h2>\n<p><code>pip</code> はPythonのパッケージ管理ツールです。コマンドプロンプト（ターミナル）から実行します。</p>\n<pre><code># ライブラリをインストール\npip install requests\n\n# バージョンを指定してインストール\npip install requests==2.28.0\n\n# 複数ライブラリを一度にインストール\npip install numpy pandas matplotlib\n\n# インストール済みのライブラリ一覧を表示\npip list\n\n# ライブラリを更新\npip install --upgrade requests\n\n# ライブラリをアンインストール\npip uninstall requests\n\n# requirements.txtからまとめてインストール\npip install -r requirements.txt</code></pre>\n\n<h3>requestsライブラリの例（HTTP通信）</h3>\n<pre><code>import requests\n\nresponse = requests.get(\"https://api.github.com\")\nprint(response.status_code)  # 200\ndata = response.json()\nprint(data[\"current_user_url\"])</code></pre>\n\n<h2>仮想環境（venv）</h2>\n<p>プロジェクトごとに異なるバージョンのライブラリを管理するために「仮想環境」を使います。仮想環境を使うことで、プロジェクト間のライブラリの競合を防げます。</p>\n<pre><code># 仮想環境を作成\npython -m venv myenv\n\n# 仮想環境を有効化（Windows）\nmyenvScriptsactivate\n\n# 仮想環境を有効化（Mac/Linux）\nsource myenv/bin/activate\n\n# 仮想環境が有効なときのプロンプト（先頭に(myenv)が表示）\n# (myenv) C:Users...\n\n# ライブラリをインストール（仮想環境内にインストールされる）\npip install requests\n\n# 使用ライブラリをrequirements.txtに書き出す\npip freeze > requirements.txt\n\n# 仮想環境を無効化\ndeactivate</code></pre>\n\n<h2>自分でモジュールを作る</h2>\n<p>自分でモジュールを作って他のファイルから使うこともできます。</p>\n<pre><code># myutils.py（自作モジュール）\ndef greet(name):\n    return f\"こんにちは、{name}さん！\"\n\ndef add(a, b):\n    return a + b\n\nPI = 3.14159</code></pre>\n<pre><code># main.py（別のファイルからインポート）\nimport myutils\n\nprint(myutils.greet(\"田中\"))   # こんにちは、田中さん！\nprint(myutils.add(3, 5))       # 8\nprint(myutils.PI)              # 3.14159\n\n# 特定の関数だけ\nfrom myutils import greet\nprint(greet(\"鈴木\"))</code></pre>\n<p>2つのファイルが同じフォルダにある場合、<code>import myutils</code> でインポートできます。</p>\n",
+  "conclusion": "モジュールとpipを使いこなせるようになると、Pythonの巨大なエコシステムが活用できます。標準ライブラリだけでも非常に多くのことができますし、pipで追加するサードパーティライブラリを使えば可能性はさらに広がります。仮想環境を使う習慣もぜひ身につけてください。次のエピソードではエラー処理（try/except）を学びます。",
+  "tags": [
+    "python",
+    "python入門",
+    "python import",
+    "python pip",
+    "pythonモジュール",
+    "python初心者"
+  ],
+  "category": "Python",
+  "theme": "python - Python 入門",
+  "status": "published",
+  "createdAt": "2026-05-30T04:12:58.655Z",
+  "updatedAt": "2026-05-30T04:12:58.678Z",
+  "publishedAt": "2026-05-30T04:12:58.655Z",
+  "metaTitle": "Python モジュール import pip インストール入門 | Python入門",
+  "metaDescription": "Python入門：import文の使い方・標準ライブラリ・pipでのライブラリインストール・仮想環境を初心者向けに解説。os・sys・datetime・randomなど便利モジュールの使い方も紹介します。 図解・具体例つきで丁寧に解説します。",
+  "ogTitle": "Python モジュール・import・pip | Python入門",
+  "ogDescription": "【Python初心者向け】Pythonのimport文とpip installを初心者向けに解説。標準ライブラリの活用から仮想環境まで丁寧に説明します。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
+  "knowledge": {
+    "topic": "python",
+    "courseId": "python",
+    "episode": 9
+  },
+  "faq": [
+    {
+      "question": "pipとpip3の違いは何ですか？",
+      "answer": "Macや一部のLinuxでは、pip がPython 2に、pip3 がPython 3に対応していることがあります。Python 3だけがインストールされているWindowsではどちらも同じです。確認するには pip --version でPythonのバージョンを確認してください。"
+    },
+    {
+      "question": "requirements.txtはどのように使いますか？",
+      "answer": "pip freeze > requirements.txt でインストール済みライブラリを書き出し、他のパソコンで pip install -r requirements.txt と実行すると同じ環境を再現できます。チーム開発や本番環境へのデプロイに欠かせないファイルです。"
+    },
+    {
+      "question": "仮想環境はすべてのプロジェクトで使うべきですか？",
+      "answer": "はい、プロジェクトごとに仮想環境を作ることを強く推奨します。グローバルな環境にライブラリをどんどん入れていくとバージョン競合が起きやすくなります。venv は標準ライブラリなので追加インストール不要です。"
+    }
+  ],
+  "nextEpisodeHint": "次回はエラー処理（try/except）を学びます。プログラムが予期せずクラッシュしないよう、例外を適切にキャッチして処理する方法を解説します。",
+  "ogImage": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+  "canonical": "https://ai-site-iota-nine.vercel.app/article/python-modules",
+  "jsonLd": {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@context": "https://schema.org",
+        "@type": "TechArticle",
+        "headline": "モジュールとパッケージ（import, pip install）",
+        "description": "Python入門：import文の使い方・標準ライブラリ・pipでのライブラリインストール・仮想環境を初心者向けに解説。os・sys・datetime・randomなど便利モジュールの使い方も紹介します。 図解・具体例つきで丁寧に解説します。",
+        "datePublished": "2026-05-30T04:12:58.655Z",
+        "dateModified": "2026-05-30T04:12:58.678Z",
+        "author": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
+        },
+        "image": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+        "inLanguage": "ja",
+        "wordCount": 3741,
+        "mainEntityOfPage": {
+          "@type": "WebPage",
+          "@id": "https://ai-site-iota-nine.vercel.app/article/python-modules"
+        },
+        "keywords": "python, python入門, python import, python pip, pythonモジュール, python初心者",
+        "articleSection": "Python",
+        "url": "https://ai-site-iota-nine.vercel.app/article/python-modules",
+        "learningResourceType": "tutorial",
+        "educationalLevel": "beginner"
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "ホーム",
+            "item": "https://ai-site-iota-nine.vercel.app/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "python",
+            "item": "https://ai-site-iota-nine.vercel.app/knowledge/python"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "Python 入門",
+            "item": "https://ai-site-iota-nine.vercel.app/course/python/python"
+          },
+          {
+            "@type": "ListItem",
+            "position": 4,
+            "name": "モジュールとパッケージ（import, pip install）",
+            "item": "https://ai-site-iota-nine.vercel.app/article/python-modules"
+          }
+        ]
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "Course",
+        "name": "Python 入門",
+        "description": "プログラミング初心者向けのPython完全入門。インストールから変数・関数・クラスまで、具体例と演習つきで12ステップ。AI・Web・自動化の土台になる言語をゼロから学べます。",
+        "provider": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app"
+        },
+        "url": "https://ai-site-iota-nine.vercel.app/course/python/python",
+        "inLanguage": "ja",
+        "educationalLevel": "beginner",
+        "hasCourseInstance": {
+          "@type": "CourseInstance",
+          "courseMode": "online",
+          "courseWorkload": "PT1H"
+        }
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "pipとpip3の違いは何ですか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Macや一部のLinuxでは、pip がPython 2に、pip3 がPython 3に対応していることがあります。Python 3だけがインストールされているWindowsではどちらも同じです。確認するには pip --version でPythonのバージョンを確認してください。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "requirements.txtはどのように使いますか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "pip freeze > requirements.txt でインストール済みライブラリを書き出し、他のパソコンで pip install -r requirements.txt と実行すると同じ環境を再現できます。チーム開発や本番環境へのデプロイに欠かせないファイルです。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "仮想環境はすべてのプロジェクトで使うべきですか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "はい、プロジェクトごとに仮想環境を作ることを強く推奨します。グローバルな環境にライブラリをどんどん入れていくとバージョン競合が起きやすくなります。venv は標準ライブラリなので追加インストール不要です。"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "breadcrumb": {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "ホーム",
+        "item": "https://ai-site-iota-nine.vercel.app/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "python",
+        "item": "https://ai-site-iota-nine.vercel.app/knowledge/python"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "Python 入門",
+        "item": "https://ai-site-iota-nine.vercel.app/course/python/python"
+      },
+      {
+        "@type": "ListItem",
+        "position": 4,
+        "name": "モジュールとパッケージ（import, pip install）",
+        "item": "https://ai-site-iota-nine.vercel.app/article/python-modules"
+      }
+    ]
+  },
+  "courseSchema": {
+    "@context": "https://schema.org",
+    "@type": "Course",
+    "name": "Python 入門",
+    "description": "プログラミング初心者向けのPython完全入門。インストールから変数・関数・クラスまで、具体例と演習つきで12ステップ。AI・Web・自動化の土台になる言語をゼロから学べます。",
+    "provider": {
+      "@type": "Organization",
+      "name": "StackShelf",
+      "url": "https://ai-site-iota-nine.vercel.app"
+    },
+    "url": "https://ai-site-iota-nine.vercel.app/course/python/python",
+    "inLanguage": "ja",
+    "educationalLevel": "beginner",
+    "hasCourseInstance": {
+      "@type": "CourseInstance",
+      "courseMode": "online",
+      "courseWorkload": "PT1H"
+    }
+  },
+  "faqSchema": {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "pipとpip3の違いは何ですか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Macや一部のLinuxでは、pip がPython 2に、pip3 がPython 3に対応していることがあります。Python 3だけがインストールされているWindowsではどちらも同じです。確認するには pip --version でPythonのバージョンを確認してください。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "requirements.txtはどのように使いますか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "pip freeze > requirements.txt でインストール済みライブラリを書き出し、他のパソコンで pip install -r requirements.txt と実行すると同じ環境を再現できます。チーム開発や本番環境へのデプロイに欠かせないファイルです。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "仮想環境はすべてのプロジェクトで使うべきですか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "はい、プロジェクトごとに仮想環境を作ることを強く推奨します。グローバルな環境にライブラリをどんどん入れていくとバージョン競合が起きやすくなります。venv は標準ライブラリなので追加インストール不要です。"
+        }
+      }
+    ]
+  }
+}

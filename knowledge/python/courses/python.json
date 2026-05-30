@@ -1,0 +1,21 @@
+{
+  "courseId": "python",
+  "title": "Python 入門",
+  "description": "プログラミング初心者向けのPython完全入門。インストールから変数・関数・クラスまで、具体例と演習つきで12ステップ。AI・Web・自動化の土台になる言語をゼロから学べます。",
+  "target": "プログラミング完全初心者",
+  "topic": "python",
+  "episodes": [
+    { "episode": 1, "title": "Pythonとは？プログラミングの第一歩", "slug": "python-intro" },
+    { "episode": 2, "title": "Pythonのインストールと動作確認", "slug": "python-install" },
+    { "episode": 3, "title": "変数とデータ型", "slug": "python-variables" },
+    { "episode": 4, "title": "条件分岐（if/elif/else）", "slug": "python-conditions" },
+    { "episode": 5, "title": "ループ（for/while）", "slug": "python-loops" },
+    { "episode": 6, "title": "関数の書き方", "slug": "python-functions" },
+    { "episode": 7, "title": "リストと辞書", "slug": "python-list-dict" },
+    { "episode": 8, "title": "ファイルの読み書き", "slug": "python-file-io" },
+    { "episode": 9, "title": "モジュールとpip", "slug": "python-modules" },
+    { "episode": 10, "title": "例外処理（try/except）", "slug": "python-exceptions" },
+    { "episode": 11, "title": "クラスの基礎", "slug": "python-classes" },
+    { "episode": 12, "title": "実践：CLIツールを作る", "slug": "python-mini-project" }
+  ]
+}

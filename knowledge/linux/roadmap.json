@@ -1,0 +1,10 @@
+{
+  "topic": "linux",
+  "title": "Linux コマンドライン入門",
+  "description": "サーバー開発・クラウド・Dockerの前提となるLinuxコマンドを10ステップで学ぶ。",
+  "beginnerPath": [
+    "linux-intro", "linux-terminal-basics", "linux-files-directories", "linux-file-operations",
+    "linux-view-search", "linux-permissions", "linux-processes", "linux-pipe-redirect",
+    "linux-environment", "linux-commands-practice"
+  ]
+}

@@ -1,0 +1,271 @@
+{
+  "id": "art_docker_docker-dockerfile",
+  "slug": "docker-dockerfile",
+  "title": "Dockerfileの書き方完全ガイド：FROM・RUN・COPY・CMDをマスターする",
+  "summary": "Dockerfileの基本命令（FROM・RUN・COPY・CMD・EXPOSE）を丁寧に解説。自分のアプリをDockerイメージとしてビルドするための知識をゼロから身につけます。",
+  "body": "<h2>Dockerfileとは何か</h2>\n<p>Dockerfile（ドッカーファイル）とは、Dockerイメージを作るための<strong>設計書ファイル</strong>です。テキスト形式で、「どのOSをベースにするか」「どのソフトウェアをインストールするか」「どのファイルをコピーするか」「どのコマンドで起動するか」などの手順を記述します。</p>\n<p>Dockerfileがあれば、誰でも同じイメージを再現できます。「このアプリを動かすための環境」をコードとして管理できるため、<strong>Infrastructure as Code</strong>（コードとしてのインフラ）を実践できます。Gitでバージョン管理し、チームで共有できる点も大きなメリットです。</p>\n<pre><code># Dockerfileのビルド基本コマンド\ndocker build -t my-app:1.0 .\n# -t：タグ（イメージ名:バージョン）を指定\n# .：Dockerfileがあるディレクトリ（ビルドコンテキスト）</code></pre>\n\n<h2>Dockerfileの主要命令：FROM・RUN・COPY・CMD</h2>\n<p>Dockerfileには多くの命令がありますが、まず必須の4つを覚えましょう。</p>\n<p><strong>FROM：ベースイメージを指定（必須・最初に書く）</strong><br>どのイメージをベースに新しいイメージを作るかを指定します。ほぼすべてのDockerfileはFROMで始まります。</p>\n<pre><code># 最新のUbuntuをベースに使う\nFROM ubuntu:22.04\n\n# Node.js 20のalpineベース（軽量）\nFROM node:20-alpine\n\n# Pythonの公式イメージ\nFROM python:3.12-slim\n\n# 何もないゼロからのイメージ（バイナリだけ含む場合）\nFROM scratch</code></pre>\n<p><strong>RUN：イメージビルド時にコマンドを実行する</strong><br>パッケージのインストールや設定ファイルの作成など、イメージ作成時に行う処理を記述します。</p>\n<pre><code># aptでパッケージをインストール\nRUN apt-get update && apt-get install -y     curl     git     vim     && apt-get clean     && rm -rf /var/lib/apt/lists/*\n\n# npmでパッケージをインストール\nRUN npm install\n\n# ディレクトリを作成\nRUN mkdir -p /app/logs</code></pre>\n<p>RUN命令は一つ実行するごとに新しいレイヤーが追加されます。<code>&&</code>で繋げることで1レイヤーにまとめ、イメージサイズを抑えるのがベストプラクティスです。</p>\n<p><strong>COPY：ファイルをイメージにコピーする</strong><br>ホストマシンのファイルをイメージの中にコピーします。</p>\n<pre><code># 単一ファイルをコピー\nCOPY app.py /app/app.py\n\n# フォルダ全体をコピー\nCOPY src/ /app/src/\n\n# カレントディレクトリ全体を/appにコピー\nCOPY . /app/\n\n# package.jsonだけ先にコピー（キャッシュ最適化）\nCOPY package*.json ./</code></pre>\n<p><strong>CMD：コンテナ起動時のデフォルトコマンド</strong><br>コンテナを起動したときに実行するコマンドを指定します。Dockerfileに1つだけ記述します（複数書いた場合は最後のCMDが有効）。</p>\n<pre><code># exec形式（推奨）\nCMD [\"node\", \"app.js\"]\nCMD [\"python\", \"app.py\"]\nCMD [\"nginx\", \"-g\", \"daemon off;\"]\n\n# shell形式（非推奨：シグナルハンドリングに問題がある）\nCMD node app.js</code></pre>\n\n<h2>実用的なDockerfileを書いてみる</h2>\n<p>Node.jsアプリ用のDockerfileを例に、実践的な書き方を解説します。</p>\n<pre><code># Node.jsアプリのDockerfile例\nFROM node:20-alpine\n\n# 作業ディレクトリを設定\nWORKDIR /app\n\n# package.jsonを先にコピー（依存関係のキャッシュ最適化）\nCOPY package*.json ./\n\n# 依存関係のインストール\nRUN npm ci --only=production\n\n# アプリのソースコードをコピー\nCOPY . .\n\n# ポートを公開（ドキュメント目的）\nEXPOSE 3000\n\n# 非rootユーザーで実行（セキュリティのベストプラクティス）\nUSER node\n\n# アプリの起動コマンド\nCMD [\"node\", \"server.js\"]</code></pre>\n<p>この例のポイントは「<strong>package.jsonを先にコピーしてnpm installを実行する</strong>」ことです。Dockerはレイヤーをキャッシュするため、package.jsonが変わっていなければnpm installのレイヤーはキャッシュが使われ、ビルドが高速化されます。</p>\n\n<h2>EXPOSE・ENV・ARG・ENTRYPOINT命令</h2>\n<p>より実用的なDockerfileを書くために、追加の重要命令を学びましょう。</p>\n<pre><code># EXPOSE：コンテナが使用するポートを記述（実際のポート開放はdocker runの-pオプション）\nEXPOSE 8080\nEXPOSE 3000\n\n# ENV：環境変数を設定（コンテナ実行時にも有効）\nENV NODE_ENV=production\nENV PORT=3000\nENV DB_HOST=localhost\n\n# ARG：ビルド時だけ使う変数（コンテナ実行時には無効）\nARG BUILD_VERSION=latest\nRUN echo \"Building version: ${BUILD_VERSION}\"\n\n# ビルド時に引数を渡す\n# docker build --build-arg BUILD_VERSION=2.0 .\n\n# ENTRYPOINT：コンテナの実行コマンドを固定（docker runで上書きできない）\nENTRYPOINT [\"python\", \"app.py\"]\n# ENTRYPOINTとCMDを組み合わせる（CMDはデフォルト引数になる）\nENTRYPOINT [\"python\"]\nCMD [\"app.py\"]\n# docker run my-image test.py とすると python test.py が実行される</code></pre>\n<pre><code># WORKDIR：作業ディレクトリを設定（なければ自動作成）\nWORKDIR /app\n# 以降のRUN・COPY・CMD等は /app が基準になる\n\n# LABEL：イメージにメタデータを追加\nLABEL maintainer=\"your@email.com\"\nLABEL version=\"1.0\"\nLABEL description=\"My Node.js Application\"\n\n# HEALTHCHECK：コンテナのヘルスチェック設定\nHEALTHCHECK --interval=30s --timeout=3s   CMD curl -f http://localhost:3000/health || exit 1</code></pre>\n\n<h2>docker buildコマンドの使い方</html2>\n<p>Dockerfileを書いたら <code>docker build</code> でイメージをビルドします。</p>\n<pre><code># 基本的なビルド（カレントディレクトリのDockerfileを使用）\ndocker build .\n\n# タグ（イメージ名:バージョン）を指定してビルド\ndocker build -t my-app:latest .\ndocker build -t my-app:1.0.0 .\n\n# 別の場所のDockerfileを指定\ndocker build -f ./docker/Dockerfile.prod -t my-app:prod .\n\n# ビルド時に引数を渡す\ndocker build --build-arg NODE_ENV=production -t my-app .\n\n# ビルドの詳細ログを表示\ndocker build --progress=plain -t my-app .\n\n# キャッシュを使わずに再ビルド\ndocker build --no-cache -t my-app .\n\n# ビルドしたイメージを確認\ndocker images my-app</code></pre>\n\n<h2>.dockerignoreでビルドを最適化する</h2>\n<p>Dockerfileと同じディレクトリに <code>.dockerignore</code> ファイルを作成することで、ビルドコンテキストから除外するファイルを指定できます。<code>.gitignore</code> と同じ文法です。</p>\n<pre><code># .dockerignoreの例\nnode_modules\nnpm-debug.log\n.git\n.gitignore\nREADME.md\n.env\n.env.local\n*.test.js\ncoverage/\ndist/\n.DS_Store</code></pre>\n<p><code>node_modules</code> フォルダをビルドコンテキストから除外することで、ビルドが大幅に高速化され、ネットワーク転送量も削減されます。コンテナ内では <code>npm install</code> で改めてインストールするため、ホストの <code>node_modules</code> は不要です。</p>\n<pre><code># .dockerignoreの効果を確認\n# ビルドコンテキストのサイズがSending build context to Docker daemon: XXXMBで表示される\n# node_modulesを除外すると数MBに圧縮される\ndocker build -t my-app .</code></pre>\n\n<h2>マルチステージビルドで本番イメージを軽量化する</h2>\n<p>マルチステージビルドは、ビルド用の環境と実行用の環境を分けることで、本番イメージを軽量にするテクニックです。</p>\n<pre><code># マルチステージビルドの例（Node.jsアプリ）\n\n# ステージ1: ビルド用（devDependenciesを含む）\nFROM node:20-alpine AS builder\nWORKDIR /app\nCOPY package*.json ./\nRUN npm ci\nCOPY . .\nRUN npm run build\n\n# ステージ2: 本番用（ビルド成果物のみをコピー）\nFROM node:20-alpine AS production\nWORKDIR /app\nCOPY package*.json ./\nRUN npm ci --only=production\nCOPY --from=builder /app/dist ./dist\nEXPOSE 3000\nCMD [\"node\", \"dist/server.js\"]</code></pre>\n<p>ビルドステージには開発ツールや一時ファイルが含まれますが、最終イメージにはコピーしません。これにより、本番イメージのサイズを大幅に削減（例：1GBから100MBに）できます。</p>",
+  "conclusion": "Dockerfileは FROM・RUN・COPY・CMD の4命令が基本です。WORKDIR で作業ディレクトリを設定し、package.jsonを先にコピーしてnpm installするキャッシュ最適化を実践しましょう。.dockerignoreでビルドを高速化し、マルチステージビルドで本番イメージを軽量化できます。",
+  "tags": [
+    "Docker",
+    "Dockerfile",
+    "docker build",
+    "FROM",
+    "RUN",
+    "COPY",
+    "CMD",
+    "docker 使い方"
+  ],
+  "category": "Docker",
+  "theme": "docker - Docker 入門",
+  "status": "published",
+  "createdAt": "2026-05-30T04:13:32.354Z",
+  "updatedAt": "2026-05-30T04:13:32.359Z",
+  "publishedAt": "2026-05-30T04:13:32.354Z",
+  "metaTitle": "Dockerfileの書き方入門：FROM RUN COPY CMD解説【docker build・docker 使い…",
+  "metaDescription": "DockerfileのFROM・RUN・COPY・CMD・EXPOSEなど主要命令の使い方を初心者向けに解説。docker buildでカスタムイメージを作る手順を丁寧に説明します。docker 初心者向け。 図解・具体例つきで丁寧に解説します。",
+  "ogTitle": "Dockerfileの書き方：FROM・RUN・COPY・CMDを完全解説",
+  "ogDescription": "【Docker初心者向け】DockerfileでカスタムDockerイメージをビルドする方法をゼロから解説。主要命令の意味と使い方を丁寧に説明します。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
+  "knowledge": {
+    "topic": "docker",
+    "courseId": "docker",
+    "episode": 5
+  },
+  "faq": [
+    {
+      "question": "CMDとENTRYPOINTの違いは何ですか？",
+      "answer": "CMDはdocker run実行時に上書きできるデフォルトコマンドです。ENTRYPOINTはdocker runで上書きできない固定コマンドです。組み合わせることでENTRYPOINTが実行コマンド、CMDがデフォルト引数という使い方もできます。"
+    },
+    {
+      "question": "RUNを複数行に分けるべきですか？一行にまとめるべきですか？",
+      "answer": "RUN命令は1回実行するごとに1レイヤーが追加されます。&&でコマンドをつなげて1つのRUN命令にまとめることでレイヤー数を減らし、イメージサイズを小さくできます。ただし、開発中はデバッグのために分けておく方が便利なこともあります。"
+    },
+    {
+      "question": "docker buildが遅いです。高速化する方法はありますか？",
+      "answer": ".dockerignoreを正しく設定してビルドコンテキストを小さくすること、変更頻度の低いレイヤー（npm installなど）を先に書いてキャッシュを活用すること、マルチステージビルドを使うことが主な高速化手法です。"
+    },
+    {
+      "question": "COPYとADDの違いは何ですか？",
+      "answer": "COPYはシンプルなファイルコピーです。ADDはCOPYの機能に加え、URLからのダウンロードやtar.gzの自動展開ができます。ただし、ADDの余計な機能はバグの原因になりやすいため、特別な理由がない限りCOPYを使うことが推奨されています。"
+    }
+  ],
+  "nextEpisodeHint": "次回は Docker Compose を使って、複数のコンテナ（アプリ＋DB等）を一括管理する方法を学びます。docker-compose.yml の書き方とservices設定を詳しく解説します。",
+  "ogImage": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+  "canonical": "https://ai-site-iota-nine.vercel.app/article/docker-dockerfile",
+  "jsonLd": {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@context": "https://schema.org",
+        "@type": "TechArticle",
+        "headline": "Dockerfileの書き方完全ガイド：FROM・RUN・COPY・CMDをマスターする",
+        "description": "DockerfileのFROM・RUN・COPY・CMD・EXPOSEなど主要命令の使い方を初心者向けに解説。docker buildでカスタムイメージを作る手順を丁寧に説明します。docker 初心者向け。 図解・具体例つきで丁寧に解説します。",
+        "datePublished": "2026-05-30T04:13:32.354Z",
+        "dateModified": "2026-05-30T04:13:32.359Z",
+        "author": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
+        },
+        "image": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+        "inLanguage": "ja",
+        "wordCount": 4085,
+        "mainEntityOfPage": {
+          "@type": "WebPage",
+          "@id": "https://ai-site-iota-nine.vercel.app/article/docker-dockerfile"
+        },
+        "keywords": "Docker, Dockerfile, docker build, FROM, RUN, COPY, CMD, docker 使い方",
+        "articleSection": "Docker",
+        "url": "https://ai-site-iota-nine.vercel.app/article/docker-dockerfile",
+        "learningResourceType": "tutorial",
+        "educationalLevel": "beginner"
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "ホーム",
+            "item": "https://ai-site-iota-nine.vercel.app/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "docker",
+            "item": "https://ai-site-iota-nine.vercel.app/knowledge/docker"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "Docker 入門",
+            "item": "https://ai-site-iota-nine.vercel.app/course/docker/docker"
+          },
+          {
+            "@type": "ListItem",
+            "position": 4,
+            "name": "Dockerfileの書き方完全ガイド：FROM・RUN・COPY・CMDをマスターする",
+            "item": "https://ai-site-iota-nine.vercel.app/article/docker-dockerfile"
+          }
+        ]
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "Course",
+        "name": "Docker 入門",
+        "description": "コンテナ技術Dockerを8ステップで習得。インストールからDockerfile・docker compose・ボリュームまで、開発環境構築に必須のスキルを具体例で学びます。",
+        "provider": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app"
+        },
+        "url": "https://ai-site-iota-nine.vercel.app/course/docker/docker",
+        "inLanguage": "ja",
+        "educationalLevel": "beginner",
+        "hasCourseInstance": {
+          "@type": "CourseInstance",
+          "courseMode": "online",
+          "courseWorkload": "PT1H"
+        }
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "CMDとENTRYPOINTの違いは何ですか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "CMDはdocker run実行時に上書きできるデフォルトコマンドです。ENTRYPOINTはdocker runで上書きできない固定コマンドです。組み合わせることでENTRYPOINTが実行コマンド、CMDがデフォルト引数という使い方もできます。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "RUNを複数行に分けるべきですか？一行にまとめるべきですか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "RUN命令は1回実行するごとに1レイヤーが追加されます。&&でコマンドをつなげて1つのRUN命令にまとめることでレイヤー数を減らし、イメージサイズを小さくできます。ただし、開発中はデバッグのために分けておく方が便利なこともあります。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "docker buildが遅いです。高速化する方法はありますか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": ".dockerignoreを正しく設定してビルドコンテキストを小さくすること、変更頻度の低いレイヤー（npm installなど）を先に書いてキャッシュを活用すること、マルチステージビルドを使うことが主な高速化手法です。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "COPYとADDの違いは何ですか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "COPYはシンプルなファイルコピーです。ADDはCOPYの機能に加え、URLからのダウンロードやtar.gzの自動展開ができます。ただし、ADDの余計な機能はバグの原因になりやすいため、特別な理由がない限りCOPYを使うことが推奨されています。"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "breadcrumb": {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "ホーム",
+        "item": "https://ai-site-iota-nine.vercel.app/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "docker",
+        "item": "https://ai-site-iota-nine.vercel.app/knowledge/docker"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "Docker 入門",
+        "item": "https://ai-site-iota-nine.vercel.app/course/docker/docker"
+      },
+      {
+        "@type": "ListItem",
+        "position": 4,
+        "name": "Dockerfileの書き方完全ガイド：FROM・RUN・COPY・CMDをマスターする",
+        "item": "https://ai-site-iota-nine.vercel.app/article/docker-dockerfile"
+      }
+    ]
+  },
+  "courseSchema": {
+    "@context": "https://schema.org",
+    "@type": "Course",
+    "name": "Docker 入門",
+    "description": "コンテナ技術Dockerを8ステップで習得。インストールからDockerfile・docker compose・ボリュームまで、開発環境構築に必須のスキルを具体例で学びます。",
+    "provider": {
+      "@type": "Organization",
+      "name": "StackShelf",
+      "url": "https://ai-site-iota-nine.vercel.app"
+    },
+    "url": "https://ai-site-iota-nine.vercel.app/course/docker/docker",
+    "inLanguage": "ja",
+    "educationalLevel": "beginner",
+    "hasCourseInstance": {
+      "@type": "CourseInstance",
+      "courseMode": "online",
+      "courseWorkload": "PT1H"
+    }
+  },
+  "faqSchema": {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "CMDとENTRYPOINTの違いは何ですか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "CMDはdocker run実行時に上書きできるデフォルトコマンドです。ENTRYPOINTはdocker runで上書きできない固定コマンドです。組み合わせることでENTRYPOINTが実行コマンド、CMDがデフォルト引数という使い方もできます。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "RUNを複数行に分けるべきですか？一行にまとめるべきですか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "RUN命令は1回実行するごとに1レイヤーが追加されます。&&でコマンドをつなげて1つのRUN命令にまとめることでレイヤー数を減らし、イメージサイズを小さくできます。ただし、開発中はデバッグのために分けておく方が便利なこともあります。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "docker buildが遅いです。高速化する方法はありますか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": ".dockerignoreを正しく設定してビルドコンテキストを小さくすること、変更頻度の低いレイヤー（npm installなど）を先に書いてキャッシュを活用すること、マルチステージビルドを使うことが主な高速化手法です。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "COPYとADDの違いは何ですか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "COPYはシンプルなファイルコピーです。ADDはCOPYの機能に加え、URLからのダウンロードやtar.gzの自動展開ができます。ただし、ADDの余計な機能はバグの原因になりやすいため、特別な理由がない限りCOPYを使うことが推奨されています。"
+        }
+      }
+    ]
+  }
+}

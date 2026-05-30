@@ -1,0 +1,13 @@
+{
+  "slug": "sql-aggregate",
+  "courseId": "sql",
+  "episode": 7,
+  "summaryMemory": [
+    "集計関数5種：COUNT（件数）・SUM（合計）・AVG（平均）・MIN（最小）・MAX（最大）",
+    "COUNT(*)はNULL込み全件、COUNT(col)はNULL除外の件数",
+    "SUM・AVG・MIN・MAXはすべてNULL値を無視して計算",
+    "AVGは浮動小数点を返すためROUND関数で丸める"
+  ],
+  "nextEpisodeHint": "次回はGROUP BYでカテゴリ別・日付別などのグループ集計、HAVINGで集計後の絞り込み、ORDER BYで並び替えを組み合わせる方法を学びます。",
+  "updatedAt": "2026-05-30T04:13:11.727Z"
+}

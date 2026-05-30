@@ -1,0 +1,13 @@
+{
+  "slug": "sql-index-basics",
+  "courseId": "sql",
+  "episode": 9,
+  "summaryMemory": [
+    "インデックスはデータの場所を記録した索引で検索を劇的に高速化する",
+    "CREATE INDEXでインデックス作成、DROP INDEXで削除",
+    "EXPLAIN QUERY PLANでSCANかSEARCHかを確認しインデックス使用状況を把握",
+    "複合インデックスは左端プレフィックスルール：左のカラムから順に使われる"
+  ],
+  "nextEpisodeHint": "最終回は、これまで学んだすべての知識を使って、TODOアプリのデータベースを実際に設計・実装します。テーブル設計・正規化・インデックス設計を実践で体験しましょう。",
+  "updatedAt": "2026-05-30T04:13:13.396Z"
+}

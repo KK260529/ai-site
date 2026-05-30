@@ -1,0 +1,248 @@
+{
+  "id": "art_python_python-conditions",
+  "slug": "python-conditions",
+  "title": "条件分岐 if/elif/else",
+  "summary": "Pythonの条件分岐（if/elif/else）の使い方を解説します。比較演算子・論理演算子・ネスト構造を学び、プログラムに「判断」をさせる技術を身につけましょう。",
+  "body": "\n<h2>条件分岐とは？</h2>\n<p>プログラムを書いていると、「ある条件が満たされたときはAの処理をする、そうでなければBの処理をする」という場面が頻繁に出てきます。これを「条件分岐」といいます。人間の日常生活でも「雨が降っていたら傘を持っていく、晴れていたら持っていかない」といった判断をしていますね。プログラムでも同じようなことができます。</p>\n<p>Pythonでは <code>if</code>、<code>elif</code>、<code>else</code> キーワードを使って条件分岐を表現します。</p>\n\n<h2>if文の基本構造</h2>\n<p>最もシンプルなif文の書き方です。</p>\n<pre><code>if 条件式:\n    条件が真(True)のときに実行する処理</code></pre>\n<p>Pythonでは処理の範囲をインデント（4つのスペースまたはタブ）で表します。コロン（:）を忘れないようにしましょう。</p>\n<pre><code>score = 75\n\nif score >= 60:\n    print(\"合格です！\")  # score が60以上なら実行される\n\nprint(\"処理終了\")  # if文の外なので常に実行される</code></pre>\n<p>上の例では <code>score</code> が75なので <code>score >= 60</code> は <code>True</code> になり、「合格です！」と「処理終了」の両方が表示されます。もし <code>score = 40</code> にしたら「合格です！」は表示されず「処理終了」だけが表示されます。</p>\n\n<h2>if〜else文</h2>\n<p>条件が成立しなかったときの処理を指定するには <code>else</code> を使います。</p>\n<pre><code>score = 45\n\nif score >= 60:\n    print(\"合格です！\")\nelse:\n    print(\"不合格です。もう一度挑戦しましょう。\")\n\n# score が45なので「不合格です。もう一度挑戦しましょう。」と表示</code></pre>\n\n<h2>if〜elif〜else文</h2>\n<p>複数の条件を段階的に確認するには <code>elif</code>（else if の略）を使います。</p>\n<pre><code>score = 82\n\nif score >= 90:\n    grade = \"S\"\nelif score >= 80:\n    grade = \"A\"\nelif score >= 70:\n    grade = \"B\"\nelif score >= 60:\n    grade = \"C\"\nelse:\n    grade = \"F\"\n\nprint(f\"点数: {score}点、評価: {grade}\")\n# 点数: 82点、評価: A</code></pre>\n<p><code>elif</code> はいくつでも並べることができます。条件は上から順番に確認され、最初に <code>True</code> になった条件のブロックだけが実行されます。どの条件も <code>True</code> にならなかった場合に <code>else</code> ブロックが実行されます。</p>\n\n<h2>比較演算子</h2>\n<p>条件式で使う比較演算子を一覧で確認しましょう。</p>\n<ul>\n  <li><code>==</code>：等しい（例：<code>x == 5</code>）</li>\n  <li><code>!=</code>：等しくない（例：<code>x != 5</code>）</li>\n  <li><code>&gt;</code>：より大きい（例：<code>x &gt; 5</code>）</li>\n  <li><code>&lt;</code>：より小さい（例：<code>x &lt; 5</code>）</li>\n  <li><code>&gt;=</code>：以上（例：<code>x &gt;= 5</code>）</li>\n  <li><code>&lt;=</code>：以下（例：<code>x &lt;= 5</code>）</li>\n</ul>\n<pre><code>x = 10\nprint(x == 10)  # True\nprint(x != 10)  # False\nprint(x &gt; 5)   # True\nprint(x &lt; 5)   # False\nprint(x &gt;= 10) # True\nprint(x &lt;= 9)  # False</code></pre>\n<p>よくあるミスとして、「等しい」の確認に <code>=</code>（代入）を使ってしまうことがあります。必ず <code>==</code>（二重イコール）を使ってください。</p>\n\n<h2>論理演算子（and・or・not）</h2>\n<p>複数の条件を組み合わせるには論理演算子を使います。</p>\n\n<h3>andとorの使い方</h3>\n<pre><code>age = 25\nincome = 300\n\n# and：両方の条件がTrueのとき\nif age &gt;= 18 and income &gt;= 200:\n    print(\"ローン審査通過\")\n\n# or：どちらか一方の条件がTrueのとき\nhas_coupon = False\nis_member = True\n\nif has_coupon or is_member:\n    print(\"10%割引が適用されます\")\n\n# not：条件を反転させる\nis_raining = False\nif not is_raining:\n    print(\"晴れています。お出かけ日和です！\")</code></pre>\n\n<h3>複数条件の組み合わせ</h3>\n<pre><code>temperature = 28\nhumidity = 70\n\nif temperature &gt;= 25 and humidity &gt;= 60:\n    print(\"蒸し暑い日です。熱中症に注意してください。\")\nelif temperature &gt;= 25 and humidity &lt; 60:\n    print(\"暑いですが湿度は低めです。\")\nelif temperature &lt; 25 and humidity &gt;= 60:\n    print(\"肌寒く感じるかもしれません。\")\nelse:\n    print(\"過ごしやすい天気です。\")</code></pre>\n\n<h2>if文のネスト（入れ子）</h2>\n<p>if文の中にさらにif文を書くことができます。これを「ネスト（入れ子）」と言います。</p>\n<pre><code>age = 20\nhas_id = True\n\nif age &gt;= 18:\n    if has_id:\n        print(\"入場できます\")\n    else:\n        print(\"身分証明書が必要です\")\nelse:\n    print(\"18歳未満は入場できません\")</code></pre>\n<p>ネストが深くなりすぎるとコードが読みにくくなるため、論理演算子でまとめられる場合はそちらを優先しましょう。</p>\n\n<h2>三項演算子（条件式）</h2>\n<p>シンプルな条件分岐は1行で書ける「三項演算子」（条件式）が便利です。</p>\n<pre><code># 通常のif-else\nscore = 75\nif score &gt;= 60:\n    result = \"合格\"\nelse:\n    result = \"不合格\"\n\n# 三項演算子で1行に\nresult = \"合格\" if score &gt;= 60 else \"不合格\"\nprint(result)  # 合格</code></pre>\n\n<h2>in演算子とnot in演算子</h2>\n<p>値がリストや文字列に含まれているかを確認するには <code>in</code> と <code>not in</code> が使えます。</p>\n<pre><code>fruits = [\"apple\", \"banana\", \"cherry\"]\n\nif \"banana\" in fruits:\n    print(\"バナナはリストに含まれています\")\n\nif \"grape\" not in fruits:\n    print(\"ぶどうはリストにありません\")\n\n# 文字列でも使える\nmessage = \"Hello, Python!\"\nif \"Python\" in message:\n    print(\"Pythonという単語が含まれています\")</code></pre>\n\n<h2>実践例：BMI判定プログラム</h2>\n<p>学んだ内容を使って実際のプログラムを作ってみましょう。</p>\n<pre><code>height = 1.70  # 身長（メートル）\nweight = 65    # 体重（キログラム）\n\nbmi = weight / (height ** 2)\nbmi = round(bmi, 1)\n\nprint(f\"BMI: {bmi}\")\n\nif bmi &lt; 18.5:\n    print(\"判定: 低体重（やせ型）\")\nelif bmi &lt; 25.0:\n    print(\"判定: 普通体重\")\nelif bmi &lt; 30.0:\n    print(\"判定: 肥満（1度）\")\nelse:\n    print(\"判定: 肥満（2度以上）\")</code></pre>\n",
+  "conclusion": "if/elif/elseを使った条件分岐はプログラムの基本中の基本です。比較演算子・論理演算子・in演算子を組み合わせることで、複雑な判断ロジックを表現できます。次のエピソードでは繰り返し処理（for/whileループ）を学び、同じ処理を効率よく実行する方法を習得します。",
+  "tags": [
+    "python",
+    "python入門",
+    "python if",
+    "python条件分岐",
+    "python初心者"
+  ],
+  "category": "Python",
+  "theme": "python - Python 入門",
+  "status": "published",
+  "createdAt": "2026-05-30T04:12:55.114Z",
+  "updatedAt": "2026-05-30T04:12:55.118Z",
+  "publishedAt": "2026-05-30T04:12:55.114Z",
+  "metaTitle": "Python if elif else 条件分岐入門 | Python入門",
+  "metaDescription": "【Python初心者向け】Python入門：if・elif・elseの条件分岐を初心者向けにわかりやすく解説。比較演算子・論理演算子・ネスト・三項演算子まで豊富なコード例で学べます。 図解・具体例つきで丁寧に解説します。",
+  "ogTitle": "Python 条件分岐 if/elif/else | Python入門",
+  "ogDescription": "【Python初心者向け】Pythonのif・elif・else条件分岐を初心者向けに解説。比較演算子・論理演算子の使い方から実践例まで丁寧に説明します。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
+  "knowledge": {
+    "topic": "python",
+    "courseId": "python",
+    "episode": 4
+  },
+  "faq": [
+    {
+      "question": "elifはいくつまで使えますか？",
+      "answer": "技術的には制限はなく、いくつでも使えます。ただしelifが多すぎるとコードが読みにくくなります。条件が多い場合はdictionary（辞書）やmatch文（Python 3.10以降）を使う方が整理しやすいこともあります。"
+    },
+    {
+      "question": "if文の条件式にTrue/Falseを直接書いてもいいですか？",
+      "answer": "はい、技術的には可能です。ただし `if True:` は常に実行され `if False:` は決して実行されないので、通常は変数や比較演算式を使います。デバッグ時に一時的に使うことはあります。"
+    },
+    {
+      "question": "Pythonにswitch文はありますか？",
+      "answer": "Python 3.10以降で `match` 文（構造的パターンマッチング）が追加されました。それ以前のバージョンにはswitch文はなく、if/elif/elseか辞書を使って同様の処理を表現していました。"
+    }
+  ],
+  "nextEpisodeHint": "次回はfor/whileのループ処理を学びます。同じ処理を繰り返したり、リストの要素を順番に処理したりする強力な仕組みです。range()関数やbreak/continueの使い方も解説します。",
+  "ogImage": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+  "canonical": "https://ai-site-iota-nine.vercel.app/article/python-conditions",
+  "jsonLd": {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@context": "https://schema.org",
+        "@type": "TechArticle",
+        "headline": "条件分岐 if/elif/else",
+        "description": "【Python初心者向け】Python入門：if・elif・elseの条件分岐を初心者向けにわかりやすく解説。比較演算子・論理演算子・ネスト・三項演算子まで豊富なコード例で学べます。 図解・具体例つきで丁寧に解説します。",
+        "datePublished": "2026-05-30T04:12:55.114Z",
+        "dateModified": "2026-05-30T04:12:55.118Z",
+        "author": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
+        },
+        "image": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+        "inLanguage": "ja",
+        "wordCount": 2694,
+        "mainEntityOfPage": {
+          "@type": "WebPage",
+          "@id": "https://ai-site-iota-nine.vercel.app/article/python-conditions"
+        },
+        "keywords": "python, python入門, python if, python条件分岐, python初心者",
+        "articleSection": "Python",
+        "url": "https://ai-site-iota-nine.vercel.app/article/python-conditions",
+        "learningResourceType": "tutorial",
+        "educationalLevel": "beginner"
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "ホーム",
+            "item": "https://ai-site-iota-nine.vercel.app/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "python",
+            "item": "https://ai-site-iota-nine.vercel.app/knowledge/python"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "Python 入門",
+            "item": "https://ai-site-iota-nine.vercel.app/course/python/python"
+          },
+          {
+            "@type": "ListItem",
+            "position": 4,
+            "name": "条件分岐 if/elif/else",
+            "item": "https://ai-site-iota-nine.vercel.app/article/python-conditions"
+          }
+        ]
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "Course",
+        "name": "Python 入門",
+        "description": "プログラミング初心者向けのPython完全入門。インストールから変数・関数・クラスまで、具体例と演習つきで12ステップ。AI・Web・自動化の土台になる言語をゼロから学べます。",
+        "provider": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app"
+        },
+        "url": "https://ai-site-iota-nine.vercel.app/course/python/python",
+        "inLanguage": "ja",
+        "educationalLevel": "beginner",
+        "hasCourseInstance": {
+          "@type": "CourseInstance",
+          "courseMode": "online",
+          "courseWorkload": "PT1H"
+        }
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "elifはいくつまで使えますか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "技術的には制限はなく、いくつでも使えます。ただしelifが多すぎるとコードが読みにくくなります。条件が多い場合はdictionary（辞書）やmatch文（Python 3.10以降）を使う方が整理しやすいこともあります。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "if文の条件式にTrue/Falseを直接書いてもいいですか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "はい、技術的には可能です。ただし `if True:` は常に実行され `if False:` は決して実行されないので、通常は変数や比較演算式を使います。デバッグ時に一時的に使うことはあります。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Pythonにswitch文はありますか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Python 3.10以降で `match` 文（構造的パターンマッチング）が追加されました。それ以前のバージョンにはswitch文はなく、if/elif/elseか辞書を使って同様の処理を表現していました。"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "breadcrumb": {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "ホーム",
+        "item": "https://ai-site-iota-nine.vercel.app/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "python",
+        "item": "https://ai-site-iota-nine.vercel.app/knowledge/python"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "Python 入門",
+        "item": "https://ai-site-iota-nine.vercel.app/course/python/python"
+      },
+      {
+        "@type": "ListItem",
+        "position": 4,
+        "name": "条件分岐 if/elif/else",
+        "item": "https://ai-site-iota-nine.vercel.app/article/python-conditions"
+      }
+    ]
+  },
+  "courseSchema": {
+    "@context": "https://schema.org",
+    "@type": "Course",
+    "name": "Python 入門",
+    "description": "プログラミング初心者向けのPython完全入門。インストールから変数・関数・クラスまで、具体例と演習つきで12ステップ。AI・Web・自動化の土台になる言語をゼロから学べます。",
+    "provider": {
+      "@type": "Organization",
+      "name": "StackShelf",
+      "url": "https://ai-site-iota-nine.vercel.app"
+    },
+    "url": "https://ai-site-iota-nine.vercel.app/course/python/python",
+    "inLanguage": "ja",
+    "educationalLevel": "beginner",
+    "hasCourseInstance": {
+      "@type": "CourseInstance",
+      "courseMode": "online",
+      "courseWorkload": "PT1H"
+    }
+  },
+  "faqSchema": {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "elifはいくつまで使えますか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "技術的には制限はなく、いくつでも使えます。ただしelifが多すぎるとコードが読みにくくなります。条件が多い場合はdictionary（辞書）やmatch文（Python 3.10以降）を使う方が整理しやすいこともあります。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "if文の条件式にTrue/Falseを直接書いてもいいですか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "はい、技術的には可能です。ただし `if True:` は常に実行され `if False:` は決して実行されないので、通常は変数や比較演算式を使います。デバッグ時に一時的に使うことはあります。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Pythonにswitch文はありますか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Python 3.10以降で `match` 文（構造的パターンマッチング）が追加されました。それ以前のバージョンにはswitch文はなく、if/elif/elseか辞書を使って同様の処理を表現していました。"
+        }
+      }
+    ]
+  }
+}

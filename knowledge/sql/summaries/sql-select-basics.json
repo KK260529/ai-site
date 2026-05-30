@@ -1,0 +1,13 @@
+{
+  "slug": "sql-select-basics",
+  "courseId": "sql",
+  "episode": 3,
+  "summaryMemory": [
+    "SELECT文の基本形は SELECT カラム名 FROM テーブル名",
+    "* はワイルドカードですべてのカラムを意味する",
+    "DISTINCT で重複除去、LIMIT で件数制限、ORDER BY で並び替え",
+    "AS でカラムに別名をつけ、計算結果にも名前を付けられる"
+  ],
+  "nextEpisodeHint": "次回はWHERE句を使って、条件に合うレコードだけを絞り込む方法を学びます。AND/OR/NOT・LIKE・BETWEEN・INなど、データ絞り込みの重要テクニックを習得しましょう。",
+  "updatedAt": "2026-05-30T04:13:09.145Z"
+}

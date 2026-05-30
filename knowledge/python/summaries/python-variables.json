@@ -1,0 +1,13 @@
+{
+  "slug": "python-variables",
+  "courseId": "python",
+  "episode": 3,
+  "summaryMemory": [
+    "変数は = で値を代入する箱。命名はスネークケース推奨",
+    "4つの基本型：int（整数）、float（小数）、str（文字列）、bool（True/False）",
+    "type()関数で変数の型を確認できる",
+    "int()・float()・str()・bool()で型変換（キャスト）ができる"
+  ],
+  "nextEpisodeHint": "次回は条件分岐（if/elif/else）を学びます。比較演算子と論理演算子を組み合わせて、条件に応じて異なる処理を行うプログラムを書いてみましょう。",
+  "updatedAt": "2026-05-30T04:12:54.760Z"
+}

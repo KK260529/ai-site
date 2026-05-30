@@ -1,0 +1,8 @@
+{
+  "SQL": { "definition": "データベースを操作するための標準言語", "aliases": ["エスキューエル"], "related": ["データベース", "SELECT", "テーブル"] },
+  "データベース": { "definition": "データを構造化して保存・検索するシステム", "aliases": ["DB"], "related": ["SQL", "テーブル", "RDBMS"] },
+  "テーブル": { "definition": "データベース内の表形式のデータ集合", "aliases": ["table"], "related": ["行", "列", "SQL"] },
+  "SELECT": { "definition": "データを取得するSQL文", "aliases": [], "related": ["WHERE", "JOIN"] },
+  "JOIN": { "definition": "複数テーブルを結合してデータを取得するSQL操作", "aliases": [], "related": ["SELECT", "外部キー"] },
+  "インデックス": { "definition": "検索速度を上げるためのデータベースの索引", "aliases": ["index"], "related": ["パフォーマンス", "SQL"] }
+}

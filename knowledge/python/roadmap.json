@@ -1,5 +1,10 @@
 {
   "topic": "python",
-  "title": "python",
-  "beginnerPath": []
+  "title": "Python 入門",
+  "description": "世界で最も人気のプログラミング言語Pythonを、初心者向けに12ステップで学ぶロードマップ。",
+  "beginnerPath": [
+    "python-intro", "python-install", "python-variables", "python-conditions",
+    "python-loops", "python-functions", "python-list-dict", "python-file-io",
+    "python-modules", "python-exceptions", "python-classes", "python-mini-project"
+  ]
 }

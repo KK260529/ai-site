@@ -1,0 +1,10 @@
+{
+  "topic": "sql",
+  "title": "SQL・データベース入門",
+  "description": "Webアプリ・データ分析の基盤となるSQLを10ステップで学ぶロードマップ。",
+  "beginnerPath": [
+    "sql-intro", "sql-sqlite-setup", "sql-select-basics", "sql-where-filter",
+    "sql-insert-update-delete", "sql-join", "sql-aggregate", "sql-group-by",
+    "sql-index-basics", "sql-practice-design"
+  ]
+}

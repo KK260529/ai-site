@@ -1,0 +1,14 @@
+{
+  "slug": "linux-permissions",
+  "courseId": "linux",
+  "episode": 6,
+  "summaryMemory": [
+    "rwx = read(4), write(2), execute(1)。3グループ（所有者・グループ・その他）",
+    "よく使う権限：755=スクリプト・ディレクトリ、644=一般ファイル、600=秘密鍵",
+    "chmod 数値 または chmod u+x などシンボルで権限変更",
+    "chown ユーザー:グループ で所有者変更（通常 sudo 必要）",
+    "最小権限の原則：必要最低限の権限だけ付与する"
+  ],
+  "nextEpisodeHint": "次回は、Linuxのプロセス管理を学びます。ps、top、kill、jobs コマンドを使って実行中のプロセスを監視・制御する方法を解説します。",
+  "updatedAt": "2026-05-30T04:13:04.488Z"
+}

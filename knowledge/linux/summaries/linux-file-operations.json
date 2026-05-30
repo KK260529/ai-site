@@ -1,0 +1,14 @@
+{
+  "slug": "linux-file-operations",
+  "courseId": "linux",
+  "episode": 4,
+  "summaryMemory": [
+    "touch で空ファイル作成、echo > でテキストを書き込んで作成",
+    "cp -r でディレクトリをコピー、cp -i で上書き前に確認",
+    "mv はリネームと移動を兼ねる",
+    "rm はゴミ箱なしの即時削除、rm -i を使う習慣を",
+    "nano：Ctrl+O 保存、Ctrl+X 終了"
+  ],
+  "nextEpisodeHint": "次回は、ファイルの内容を表示する cat、less、head、tail と、テキスト検索の grep コマンドを学びます。",
+  "updatedAt": "2026-05-30T04:13:03.071Z"
+}

@@ -1,0 +1,13 @@
+{
+  "slug": "web-publish-basics",
+  "courseId": "web",
+  "episode": 12,
+  "summaryMemory": [
+    "GitHub PagesはGitHubリポジトリのSettings→Pagesから有効化して無料公開できる",
+    "VercelはGitHubと連携すればgit pushで自動デプロイが走る",
+    "公開後はHTTPS・スマホ表示・OGP設定を確認する",
+    "次のステップはJavaScript・CSS Grid・GitHubの活用"
+  ],
+  "nextEpisodeHint": "このHTML/CSSコースはこれで完了です！次はJavaScript入門コースでWebページに動きを加える方法を学んでみましょう。また、GitコースでGitとGitHubの使い方を深く学ぶことでweb制作の効率が大幅に上がります。",
+  "updatedAt": "2026-05-30T04:13:27.736Z"
+}

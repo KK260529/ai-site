@@ -1,0 +1,7 @@
+{
+  "concepts": [
+    { "id": "container-vs-vm", "title": "コンテナ vs VM", "description": "仮想マシンより軽量。OSカーネルを共有する" },
+    { "id": "immutable", "title": "イミュータブル", "description": "コンテナは作り直しが基本。設定変更はイメージに反映" },
+    { "id": "orchestration", "title": "オーケストレーション", "description": "多数のコンテナを自動管理。Kubernetes等が代表例" }
+  ]
+}

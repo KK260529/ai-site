@@ -1,0 +1,7 @@
+{
+  "concepts": [
+    { "id": "dom", "title": "DOM", "description": "HTMLをツリー構造として表現したもの。ブラウザが解釈する" },
+    { "id": "box-model", "title": "ボックスモデル", "description": "HTML要素をcontent/padding/border/marginの箱として扱うCSSの考え方" },
+    { "id": "accessibility", "title": "アクセシビリティ", "description": "誰でも使いやすいWebサイトを作るための配慮" }
+  ]
+}

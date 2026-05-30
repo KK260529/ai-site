@@ -1,0 +1,13 @@
+{
+  "slug": "python-conditions",
+  "courseId": "python",
+  "episode": 4,
+  "summaryMemory": [
+    "if/elif/elseで条件分岐。コロン(:)とインデントが必須",
+    "比較演算子：==、!=、>、<、>=、<= を使って条件式を書く",
+    "論理演算子：and（両方真）、or（どちらか真）、not（反転）",
+    "三項演算子 `値1 if 条件 else 値2` で1行の条件分岐が書ける"
+  ],
+  "nextEpisodeHint": "次回はfor/whileのループ処理を学びます。同じ処理を繰り返したり、リストの要素を順番に処理したりする強力な仕組みです。range()関数やbreak/continueの使い方も解説します。",
+  "updatedAt": "2026-05-30T04:12:55.114Z"
+}

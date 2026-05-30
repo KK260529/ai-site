@@ -1,0 +1,13 @@
+{
+  "slug": "python-loops",
+  "courseId": "python",
+  "episode": 5,
+  "summaryMemory": [
+    "for文：リストやrange()の要素を順番に処理。for 変数 in イテラブル: の形",
+    "while文：条件がTrueの間繰り返す。ループ内で条件を変化させないと無限ループ",
+    "break でループを途中終了、continue で現在の繰り返しをスキップ",
+    "enumerate()でインデックス付き、zip()で複数リストを同時ループできる"
+  ],
+  "nextEpisodeHint": "次回は関数（def）を学びます。処理をまとめて名前をつけ、何度でも呼び出せる関数の定義方法と、引数・戻り値・デフォルト引数・キーワード引数の使い方を解説します。",
+  "updatedAt": "2026-05-30T04:12:55.932Z"
+}

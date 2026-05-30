@@ -1,0 +1,271 @@
+{
+  "id": "art_web_web-links-images",
+  "slug": "web-links-images",
+  "title": "リンクと画像の書き方：aタグ・imgタグ・alt属性を初心者向けに解説",
+  "summary": "HTMLのリンク（aタグ）と画像（imgタグ）の使い方を詳しく解説します。href属性・src属性・alt属性の意味、相対パス・絶対パスの違い、SEOに重要なalt属性の書き方まで網羅します。",
+  "body": "<h2>リンクはWebの基本：aタグを理解する</h2>\n<p>Webの「Web（蜘蛛の巣）」という名前は、ページとページがリンクでつながる網の目のような構造から来ています。このリンクを作るのが <code>&lt;a&gt;</code> タグ（アンカータグ）です。</p>\n<pre><code>&lt;a href=\"https://example.com\"&gt;リンクのテキスト&lt;/a&gt;</code></pre>\n<p><code>href</code> 属性（Hypertext REFerence）に遷移先のURLを指定します。タグの中に書いたテキストがクリック可能なリンクテキストになります。デフォルトではブラウザが青色の下線付きテキストとして表示しますが、CSSで見た目は自由に変更できます。</p>\n<p>html css 初心者がよく混乱するのが「リンクをクリックしたとき現在のタブで開くのか、新しいタブで開くのか」という点です。これは <code>target</code> 属性で制御します。</p>\n<pre><code>&lt;!-- 同じタブで開く（デフォルト） --&gt;\n&lt;a href=\"https://example.com\"&gt;同じタブで開く&lt;/a&gt;\n\n&lt;!-- 新しいタブで開く --&gt;\n&lt;a href=\"https://example.com\" target=\"_blank\" rel=\"noopener noreferrer\"&gt;\n  新しいタブで開く\n&lt;/a&gt;</code></pre>\n<p><code>target=\"_blank\"</code> を使うときは必ず <code>rel=\"noopener noreferrer\"</code> も一緒に書きましょう。これはセキュリティ上の理由からで、開いた先のページが元のページを操作できる脆弱性を防ぎます。</p>\n\n<h2>相対パスと絶対パスの違い</h2>\n<p>リンクのhref属性には「絶対パス」と「相対パス」の2種類の書き方があります。この違いを理解することはweb制作 入門において非常に重要です。</p>\n<p><strong>絶対パス</strong>は「https://」から始まる完全なURLです。他のWebサイトへのリンクには必ず絶対パスを使います。</p>\n<pre><code>&lt;!-- 絶対パス（外部サイトへのリンク） --&gt;\n&lt;a href=\"https://www.google.com\"&gt;Googleへ&lt;/a&gt;</code></pre>\n<p><strong>相対パス</strong>は現在のファイルの場所を基点とした相対的な位置です。同じサイト内のページへのリンクに使います。</p>\n<pre><code>&lt;!-- ファイル構成例 --&gt;\n&lt;!-- my-site/\n│   index.html\n│   about.html\n└── blog/\n    └── post1.html --&gt;\n\n&lt;!-- index.htmlから about.html へのリンク --&gt;\n&lt;a href=\"about.html\"&gt;About&lt;/a&gt;\n\n&lt;!-- index.htmlから blog/post1.html へのリンク --&gt;\n&lt;a href=\"blog/post1.html\"&gt;ブログ記事1&lt;/a&gt;\n\n&lt;!-- blog/post1.htmlから index.html へのリンク（親ディレクトリ） --&gt;\n&lt;a href=\"../index.html\"&gt;ホームへ戻る&lt;/a&gt;</code></pre>\n<p><code>../</code> は「1つ上のディレクトリ」を意味します。ファイルの場所関係を正確に把握することが、リンク切れを防ぐコツです。</p>\n\n<h2>ページ内リンク（アンカーリンク）の作り方</h2>\n<p>同じページ内の特定の場所にジャンプするリンクを「アンカーリンク（ページ内リンク）」と呼びます。長いページの目次などでよく使います。</p>\n<pre><code>&lt;!-- ジャンプ先の要素にid属性をつける --&gt;\n&lt;h2 id=\"section-about\"&gt;私たちについて&lt;/h2&gt;\n\n&lt;!-- id属性を「#」付きで指定してリンクを作る --&gt;\n&lt;a href=\"#section-about\"&gt;「私たちについて」へジャンプ&lt;/a&gt;</code></pre>\n<p>id属性の値は同じページ内で一意（ユニーク）でなければなりません。リンクの href には <code>#</code> に続けてid名を書きます。</p>\n\n<h2>画像を表示する：imgタグの基本</h2>\n<p>Webページに画像を表示するには <code>&lt;img&gt;</code> タグを使います。imgタグは自己終了タグ（空要素）で、終了タグが不要です。</p>\n<pre><code>&lt;!-- 基本的な画像の書き方 --&gt;\n&lt;img src=\"images/photo.jpg\" alt=\"海辺の夕日の写真\"&gt;\n\n&lt;!-- 幅・高さを指定する場合 --&gt;\n&lt;img src=\"images/photo.jpg\" alt=\"海辺の夕日の写真\" width=\"800\" height=\"600\"&gt;</code></pre>\n<p><code>src</code> 属性（source）に画像ファイルのパスを、<code>alt</code> 属性に画像の説明テキストを書きます。パスの書き方はリンクと同じで相対パスと絶対パスが使えます。</p>\n<p><code>width</code> と <code>height</code> 属性を指定すると、画像の読み込み前にブラウザがスペースを確保するため、ページの「ガタつき（レイアウトシフト）」を防げます。HTMLで指定するのはピクセル単位の実際のサイズを使い、見た目のサイズ調整はCSSで行いましょう。</p>\n\n<h2>alt属性の重要性：SEOとアクセシビリティ</h2>\n<p><code>alt</code> 属性（alternative text：代替テキスト）は、画像が表示できない場合や、スクリーンリーダーが読み上げる際に使われる代替テキストです。</p>\n<p>alt属性が重要な理由は2つあります。</p>\n<ul>\n  <li><strong>アクセシビリティ</strong>：視覚障害を持つユーザーがスクリーンリーダーを使ってページを読む際、alt属性の内容が読み上げられます。「photo.jpg」のようなファイル名ではなく、画像の内容を説明する文を書きましょう。</li>\n  <li><strong>SEO</strong>：検索エンジンは画像の中身を直接理解できません。alt属性のテキストが画像の内容を検索エンジンに伝えます。画像検索での表示にも影響します。</li>\n</ul>\n<pre><code>&lt;!-- 悪い例：意味のないalt --&gt;\n&lt;img src=\"dog.jpg\" alt=\"画像\"&gt;\n&lt;img src=\"dog.jpg\" alt=\"dog.jpg\"&gt;\n\n&lt;!-- 良い例：具体的な説明 --&gt;\n&lt;img src=\"dog.jpg\" alt=\"公園で走っているゴールデンレトリバー\"&gt;\n\n&lt;!-- 装飾目的の画像はalt属性を空にする --&gt;\n&lt;img src=\"decorative-line.png\" alt=\"\"&gt;</code></pre>\n<p>装飾のためだけに使う画像（背景の模様など）はalt属性を空文字（<code>alt=\"\"</code>）にします。これによりスクリーンリーダーがその画像をスキップするようになります。alt属性を省略すると一部のスクリーンリーダーがファイル名を読み上げてしまい、ユーザー体験を損ないます。</p>\n\n<h2>対応している画像形式と使い分け</h2>\n<p>Webで使われる主な画像形式とその特徴を知っておきましょう。</p>\n<ul>\n  <li><strong>JPEG（.jpg/.jpeg）</strong>：写真に最適。ファイルサイズを小さくできるが不可逆圧縮（画質が少し落ちる）。</li>\n  <li><strong>PNG（.png）</strong>：透明（透過）が使える。ロゴやアイコンに向いている。ファイルサイズはJPEGより大きくなりがち。</li>\n  <li><strong>SVG（.svg）</strong>：ベクター形式で拡大縮小しても画質が落ちない。アイコン・ロゴに最適。</li>\n  <li><strong>WebP（.webp）</strong>：Googleが開発した新しい形式。JPEGやPNGより小さいファイルサイズで高品質。現代のブラウザで広くサポート済み。</li>\n  <li><strong>GIF（.gif）</strong>：アニメーション画像に使われるが、色数が256色と少ない。現代ではMP4動画やWebPアニメーションに置き換えられつつある。</li>\n</ul>\n<pre><code>&lt;!-- 写真はJPEGかWebP --&gt;\n&lt;img src=\"photo.webp\" alt=\"山の景色\"&gt;\n\n&lt;!-- アイコン・ロゴはSVGかPNG --&gt;\n&lt;img src=\"logo.svg\" alt=\"会社ロゴ\"&gt;\n\n&lt;!-- フォールバックを設定するpictureタグ --&gt;\n&lt;picture&gt;\n  &lt;source srcset=\"image.webp\" type=\"image/webp\"&gt;\n  &lt;img src=\"image.jpg\" alt=\"風景写真\"&gt;\n&lt;/picture&gt;</code></pre>\n\n<h2>リンクと画像を組み合わせる：クリックできる画像</h2>\n<p>imgタグをaタグで囲むと、クリックできる画像リンクを作れます。</p>\n<pre><code>&lt;!-- 画像をリンクにする --&gt;\n&lt;a href=\"https://example.com\"&gt;\n  &lt;img src=\"banner.jpg\" alt=\"セール情報バナー：50%オフ\"&gt;\n&lt;/a&gt;</code></pre>\n<p>この場合、alt属性にはリンク先の内容も含めた説明を書くと、スクリーンリーダーのユーザーがリンクの目的を理解できます。</p>\n\n<h2>まとめ：リンクと画像はWebページの基本要素</h2>\n<p>aタグはhref属性でリンク先を指定し、imgタグはsrc属性で画像ファイルを指定します。alt属性はSEOとアクセシビリティの両面から非常に重要で、具体的な説明文を書くことが大切です。相対パスと絶対パスの違いを理解し、同じサイト内のリンクには相対パスを使いましょう。外部サイトへのリンクには target=\"_blank\" と rel=\"noopener noreferrer\" を組み合わせて安全に使いましょう。</p>",
+  "conclusion": "aタグ（リンク）はhref属性でURL、imgタグ（画像）はsrc属性でファイルパスを指定します。alt属性はSEOとアクセシビリティの両面で重要です。相対パスと絶対パスの使い分け、外部リンク時のrel属性など、基礎的なセキュリティとアクセシビリティの習慣もweb制作 入門の段階から身につけておきましょう。",
+  "tags": [
+    "HTML",
+    "aタグ",
+    "imgタグ",
+    "alt属性",
+    "リンク",
+    "画像",
+    "html css 初心者",
+    "web制作 入門"
+  ],
+  "category": "Web開発",
+  "theme": "web - HTML/CSS Web制作入門",
+  "status": "published",
+  "createdAt": "2026-05-30T04:13:17.643Z",
+  "updatedAt": "2026-05-30T04:13:17.655Z",
+  "publishedAt": "2026-05-30T04:13:17.643Z",
+  "metaTitle": "HTMLリンクと画像の書き方：aタグ・imgタグ・alt属性【html css 初心者】 | StackShelf",
+  "metaDescription": "【Web開発初心者向け】HTMLのaタグ（リンク）・imgタグ（画像）の使い方をhtml css 初心者向けに解説。href・src・alt属性の意味、相対パス・絶対パスの違いもわかりやすく説明します。 図解・具体例つきで丁寧に解説します。",
+  "ogTitle": "HTMLリンクと画像の使い方：aタグ・imgタグ・alt属性の完全解説",
+  "ogDescription": "【Web開発初心者向け】【Web開発初心者向け】aタグとimgタグの使い方、alt属性の重要性、相対・絶対パスの違いを初心者向けに丁寧に解説します。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
+  "knowledge": {
+    "topic": "web",
+    "courseId": "web",
+    "episode": 4
+  },
+  "faq": [
+    {
+      "question": "外部リンクに毎回rel=\"noopener noreferrer\"を書くのは面倒です。省略できますか？",
+      "answer": "セキュリティリスクがあるため省略しないことを推奨します。target=\"_blank\"だけだと、開いた先のページがwindow.openerを通じて元のページにアクセスできる「タブナッピング」という攻撃が可能になります。rel=\"noopener noreferrer\"を一緒に書く習慣をつけましょう。"
+    },
+    {
+      "question": "画像のサイズはHTMLで指定すべきですか？CSSで指定すべきですか？",
+      "answer": "両方使い分けます。HTMLのwidth/height属性には実際の画像の本来のサイズを書き（レイアウトシフト防止）、表示サイズの調整はCSSで行うのがベストプラクティスです。例えばHTMLでwidth=\"800\" height=\"600\"を指定しつつ、CSSでmax-width:100%を設定してレスポンシブに対応するのが一般的です。"
+    },
+    {
+      "question": "alt属性に長い文章を書いてもいいですか？",
+      "answer": "一般的に125文字以内を目安にすることが推奨されています。それ以上長い説明が必要な場合（複雑なグラフや図など）は、longdesc属性や近くの段落テキストで補足説明する方法もあります。簡潔かつ具体的な説明を心がけましょう。"
+    },
+    {
+      "question": "画像が表示されないときはどうすれば良いですか？",
+      "answer": "まずsrc属性のパスが正しいか確認しましょう。ブラウザの開発者ツール（F12）を開き、Consoleタブで404エラーが出ていないか確認します。ファイル名の大文字・小文字の違いや拡張子の間違いが原因のことが多いです。相対パスを使っている場合はHTMLファイルからの位置関係が正しいか確認してください。"
+    }
+  ],
+  "nextEpisodeHint": "次回はリスト（ul・ol・li）とテーブル（table・tr・td）の作り方を学びます。箇条書きリスト・番号付きリスト・表形式のデータ表示をHTMLで表現する方法をマスターしましょう。",
+  "ogImage": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+  "canonical": "https://ai-site-iota-nine.vercel.app/article/web-links-images",
+  "jsonLd": {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@context": "https://schema.org",
+        "@type": "TechArticle",
+        "headline": "リンクと画像の書き方：aタグ・imgタグ・alt属性を初心者向けに解説",
+        "description": "【Web開発初心者向け】HTMLのaタグ（リンク）・imgタグ（画像）の使い方をhtml css 初心者向けに解説。href・src・alt属性の意味、相対パス・絶対パスの違いもわかりやすく説明します。 図解・具体例つきで丁寧に解説します。",
+        "datePublished": "2026-05-30T04:13:17.643Z",
+        "dateModified": "2026-05-30T04:13:17.655Z",
+        "author": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
+        },
+        "image": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+        "inLanguage": "ja",
+        "wordCount": 3821,
+        "mainEntityOfPage": {
+          "@type": "WebPage",
+          "@id": "https://ai-site-iota-nine.vercel.app/article/web-links-images"
+        },
+        "keywords": "HTML, aタグ, imgタグ, alt属性, リンク, 画像, html css 初心者, web制作 入門",
+        "articleSection": "Web開発",
+        "url": "https://ai-site-iota-nine.vercel.app/article/web-links-images",
+        "learningResourceType": "tutorial",
+        "educationalLevel": "beginner"
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "ホーム",
+            "item": "https://ai-site-iota-nine.vercel.app/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "web",
+            "item": "https://ai-site-iota-nine.vercel.app/knowledge/web"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "HTML/CSS Web制作入門",
+            "item": "https://ai-site-iota-nine.vercel.app/course/web/web"
+          },
+          {
+            "@type": "ListItem",
+            "position": 4,
+            "name": "リンクと画像の書き方：aタグ・imgタグ・alt属性を初心者向けに解説",
+            "item": "https://ai-site-iota-nine.vercel.app/article/web-links-images"
+          }
+        ]
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "Course",
+        "name": "HTML/CSS Web制作入門",
+        "description": "Webサイト制作の基礎を12ステップで学ぶ。HTML/CSSの文法からFlexbox・レスポンシブ・フォームまで、手を動かしながら最初のWebページを作れるようになります。",
+        "provider": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app"
+        },
+        "url": "https://ai-site-iota-nine.vercel.app/course/web/web",
+        "inLanguage": "ja",
+        "educationalLevel": "beginner",
+        "hasCourseInstance": {
+          "@type": "CourseInstance",
+          "courseMode": "online",
+          "courseWorkload": "PT1H"
+        }
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "外部リンクに毎回rel=\"noopener noreferrer\"を書くのは面倒です。省略できますか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "セキュリティリスクがあるため省略しないことを推奨します。target=\"_blank\"だけだと、開いた先のページがwindow.openerを通じて元のページにアクセスできる「タブナッピング」という攻撃が可能になります。rel=\"noopener noreferrer\"を一緒に書く習慣をつけましょう。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "画像のサイズはHTMLで指定すべきですか？CSSで指定すべきですか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "両方使い分けます。HTMLのwidth/height属性には実際の画像の本来のサイズを書き（レイアウトシフト防止）、表示サイズの調整はCSSで行うのがベストプラクティスです。例えばHTMLでwidth=\"800\" height=\"600\"を指定しつつ、CSSでmax-width:100%を設定してレスポンシブに対応するのが一般的です。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "alt属性に長い文章を書いてもいいですか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "一般的に125文字以内を目安にすることが推奨されています。それ以上長い説明が必要な場合（複雑なグラフや図など）は、longdesc属性や近くの段落テキストで補足説明する方法もあります。簡潔かつ具体的な説明を心がけましょう。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "画像が表示されないときはどうすれば良いですか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "まずsrc属性のパスが正しいか確認しましょう。ブラウザの開発者ツール（F12）を開き、Consoleタブで404エラーが出ていないか確認します。ファイル名の大文字・小文字の違いや拡張子の間違いが原因のことが多いです。相対パスを使っている場合はHTMLファイルからの位置関係が正しいか確認してください。"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "breadcrumb": {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "ホーム",
+        "item": "https://ai-site-iota-nine.vercel.app/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "web",
+        "item": "https://ai-site-iota-nine.vercel.app/knowledge/web"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "HTML/CSS Web制作入門",
+        "item": "https://ai-site-iota-nine.vercel.app/course/web/web"
+      },
+      {
+        "@type": "ListItem",
+        "position": 4,
+        "name": "リンクと画像の書き方：aタグ・imgタグ・alt属性を初心者向けに解説",
+        "item": "https://ai-site-iota-nine.vercel.app/article/web-links-images"
+      }
+    ]
+  },
+  "courseSchema": {
+    "@context": "https://schema.org",
+    "@type": "Course",
+    "name": "HTML/CSS Web制作入門",
+    "description": "Webサイト制作の基礎を12ステップで学ぶ。HTML/CSSの文法からFlexbox・レスポンシブ・フォームまで、手を動かしながら最初のWebページを作れるようになります。",
+    "provider": {
+      "@type": "Organization",
+      "name": "StackShelf",
+      "url": "https://ai-site-iota-nine.vercel.app"
+    },
+    "url": "https://ai-site-iota-nine.vercel.app/course/web/web",
+    "inLanguage": "ja",
+    "educationalLevel": "beginner",
+    "hasCourseInstance": {
+      "@type": "CourseInstance",
+      "courseMode": "online",
+      "courseWorkload": "PT1H"
+    }
+  },
+  "faqSchema": {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "外部リンクに毎回rel=\"noopener noreferrer\"を書くのは面倒です。省略できますか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "セキュリティリスクがあるため省略しないことを推奨します。target=\"_blank\"だけだと、開いた先のページがwindow.openerを通じて元のページにアクセスできる「タブナッピング」という攻撃が可能になります。rel=\"noopener noreferrer\"を一緒に書く習慣をつけましょう。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "画像のサイズはHTMLで指定すべきですか？CSSで指定すべきですか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "両方使い分けます。HTMLのwidth/height属性には実際の画像の本来のサイズを書き（レイアウトシフト防止）、表示サイズの調整はCSSで行うのがベストプラクティスです。例えばHTMLでwidth=\"800\" height=\"600\"を指定しつつ、CSSでmax-width:100%を設定してレスポンシブに対応するのが一般的です。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "alt属性に長い文章を書いてもいいですか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "一般的に125文字以内を目安にすることが推奨されています。それ以上長い説明が必要な場合（複雑なグラフや図など）は、longdesc属性や近くの段落テキストで補足説明する方法もあります。簡潔かつ具体的な説明を心がけましょう。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "画像が表示されないときはどうすれば良いですか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "まずsrc属性のパスが正しいか確認しましょう。ブラウザの開発者ツール（F12）を開き、Consoleタブで404エラーが出ていないか確認します。ファイル名の大文字・小文字の違いや拡張子の間違いが原因のことが多いです。相対パスを使っている場合はHTMLファイルからの位置関係が正しいか確認してください。"
+        }
+      }
+    ]
+  }
+}

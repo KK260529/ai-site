@@ -1,0 +1,14 @@
+{
+  "slug": "linux-environment",
+  "courseId": "linux",
+  "episode": 9,
+  "summaryMemory": [
+    "環境変数は $変数名 で参照、env コマンドで全一覧表示",
+    "export 変数名=値 で子プロセスにも引き継がれる環境変数を設定",
+    "PATH はコマンド検索順序。先頭に追加するには export PATH=\"$HOME/bin:$PATH\"",
+    "~/.bashrc にalias・export を書いて永続化、source ~/.bashrc で即時反映",
+    "alias ll='ls -la' のように作業効率化エイリアスを設定する"
+  ],
+  "nextEpisodeHint": "次回は最終回として、これまで学んだLinuxコマンドを総合的に活用する実践コマンド集をお届けします。実務でよく使うテクニックをまとめて習得しましょう。",
+  "updatedAt": "2026-05-30T04:13:06.415Z"
+}

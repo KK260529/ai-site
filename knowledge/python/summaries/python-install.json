@@ -1,0 +1,13 @@
+{
+  "slug": "python-install",
+  "courseId": "python",
+  "episode": 2,
+  "summaryMemory": [
+    "Windowsはpython.orgから.exeをダウンロード、必ずAdd Python to PATHにチェック",
+    "Macはpython3コマンドを使う（pythonだと古いバージョンが呼ばれることがある）",
+    "print('Hello, World!')で最初のプログラムを実行できる",
+    "ファイルに書いて実行する場合は拡張子.pyで保存し python ファイル名.py で実行"
+  ],
+  "nextEpisodeHint": "次回は変数とデータ型を学びます。int（整数）、float（小数）、str（文字列）、bool（真偽値）という4つの基本型と、変数への値の代入方法を解説します。",
+  "updatedAt": "2026-05-30T04:12:54.448Z"
+}

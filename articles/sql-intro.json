@@ -1,0 +1,268 @@
+{
+  "id": "art_sql_sql-intro",
+  "slug": "sql-intro",
+  "title": "データベースとSQLとは？sql 初心者のための完全入門",
+  "summary": "データベースとは何か、SQLとは何かをゼロから解説。なぜSQLを学ぶべきか、どんな場面で使われているかを初心者向けにわかりやすく説明します。",
+  "body": "<h2>SQLとは何か？</h2>\n<p>SQL（エスキューエル）とは、<strong>データベースを操作するための言語</strong>です。正式名称は「Structured Query Language（構造化照会言語）」といい、データの検索・追加・更新・削除をコンピューターに指示するために使います。プログラミング言語のPythonやJavaScriptとは少し異なり、SQLは「データをどう扱うか」に特化した専門の言語です。</p>\n<p>sql 初心者の方がよく疑問に思うのが「SQLってどこで使うの？」という点です。実は、Webサービス・スマートフォンアプリ・業務システム・分析ツールなど、データを扱うほぼすべてのシステムの裏側でSQLが動いています。たとえば、Amazonで商品を検索するとき、Twitterで投稿を読み込むとき、銀行で残高を確認するとき、内部では大量のSQLが実行されています。</p>\n\n<h2>データベースとは何か？</h2>\n<p>データベース（Database）とは、<strong>データを整理して保存する仕組み</strong>です。日常生活に例えると、図書館の本棚のようなものです。本棚には本がジャンル・著者・タイトル順に整理されており、探したい本をすぐに見つけられます。データベースも同様に、大量のデータを構造的に管理し、素早く取り出せるように設計されています。</p>\n<p>最も広く使われているのが<strong>リレーショナルデータベース（RDB）</strong>です。RDBはデータを「テーブル（表）」という形式で管理します。Excelのスプレッドシートをイメージするとわかりやすいでしょう。縦の列を「カラム（列）」、横の行を「レコード（行）」と呼び、複数のテーブルを関係付けながらデータを管理します。</p>\n\n<h2>代表的なRDBMSの種類</h2>\n<p>RDBMS（Relational Database Management System：リレーショナルデータベース管理システム）には様々な種類があります。sql 使い方を学ぶ際に知っておくべき主要なものを紹介します。</p>\n<ul>\n  <li><strong>SQLite</strong>：ファイル1つで動く軽量なデータベース。インストール不要で使えるため、学習・開発・スマホアプリに最適。このコースではSQLiteを使います。</li>\n  <li><strong>MySQL</strong>：世界で最も広く使われているオープンソースのRDBMS。WordPressなど多くのWebサービスで採用。</li>\n  <li><strong>PostgreSQL</strong>：高機能・高信頼性のオープンソースRDBMS。大規模システムや複雑なクエリに強い。</li>\n  <li><strong>Microsoft SQL Server</strong>：Microsoftが開発。企業の業務システムで多く採用されている。</li>\n  <li><strong>Oracle Database</strong>：大企業・金融機関などエンタープライズ向けの商用RDBMS。</li>\n</ul>\n<p>基本的なSQLの構文はどのRDBMSでも共通しているため、SQLiteで学んだスキルはMySQLやPostgreSQLでもそのまま活かせます。</p>\n\n<h2>SQLでできること：4つの基本操作</h2>\n<p>SQLの基本操作は「<strong>CRUD</strong>」と呼ばれる4つの操作に集約されます。</p>\n<ul>\n  <li><strong>CREATE / INSERT（作成）</strong>：新しいデータをテーブルに追加する</li>\n  <li><strong>READ / SELECT（読み取り）</strong>：条件に合うデータを検索・取得する</li>\n  <li><strong>UPDATE（更新）</strong>：既存のデータを変更する</li>\n  <li><strong>DELETE（削除）</strong>：不要なデータを削除する</li>\n</ul>\n<p>この4つの操作を理解するだけで、日常的なデータベース作業の大半をこなせるようになります。特にSELECT文は最も頻繁に使い、複雑な条件での検索や複数テーブルの結合など、学べば学ぶほど奥が深い操作です。</p>\n<pre><code>-- SQLの基本的な構文例（SELECTでデータを取得）\nSELECT * FROM users;\n\n-- これは「usersテーブルの全データを取得する」という意味\n-- * はすべてのカラムを意味する</code></pre>\n\n<h2>テーブルの構造を理解する</h2>\n<p>SQLを学ぶ上で最初に理解すべきなのが「テーブル」の構造です。テーブルとは、行（レコード）と列（カラム）からなる表形式のデータ構造です。例えば、ユーザー情報を管理する <code>users</code> テーブルは次のような構造になります。</p>\n<pre><code>-- usersテーブルの構造イメージ\n-- id | name       | email              | age\n-- ---+------------+--------------------+----\n--  1 | 田中太郎    | tanaka@example.com | 25\n--  2 | 鈴木花子    | suzuki@example.com | 30\n--  3 | 佐藤一郎    | sato@example.com   | 22</code></pre>\n<p>各カラムには「データ型」が設定されています。<code>id</code> は整数型（INTEGER）、<code>name</code> や <code>email</code> は文字列型（TEXT）、<code>age</code> は整数型（INTEGER）といった具合です。データ型を適切に設定することで、誤ったデータの入力を防いだり、データベースの検索を高速化したりできます。</p>\n\n<h2>SQLを学ぶとどんなことができるようになるか</h2>\n<p>SQLを習得すると、実際にどんなことができるようになるでしょうか。具体的なユースケースを見てみましょう。</p>\n\n<h3>データ分析・集計</h3>\n<p>「先月の売上合計を出したい」「年代別のユーザー数を知りたい」といった集計作業をSQLで瞬時に行えます。ExcelのSUMIF関数のようなことを、数百万件のデータに対してほぼ瞬時に実行できます。</p>\n\n<h3>Webアプリ・スマホアプリの開発</h3>\n<p>Pythonのジャンゴ（Django）やRuby on Rails、Node.jsなどでWebアプリを開発する際、バックエンドからデータベースにSQLを発行してデータを取得・保存します。SQLが理解できると、O/Rマッパーのエラーも読み解けるようになります。</p>\n\n<h3>業務効率化</h3>\n<p>ExcelやCSVで管理しているデータをデータベースに移行し、SQLで高度な集計・分析を行うことで、これまで何時間もかかっていた作業を数秒で終わらせることができます。</p>\n<pre><code>-- 売上データから月別合計を集計するSQLの例\nSELECT\n  strftime('%Y-%m', sale_date) AS month,\n  SUM(amount) AS total_sales\nFROM sales\nGROUP BY month\nORDER BY month;</code></pre>\n\n<h2>このコースの学習ロードマップ</h2>\n<p>このコースでは、sql 初心者がゼロからSQLを実践的に使えるようになることを目標にしています。SQLiteを使って実際に手を動かしながら学ぶカリキュラムになっています。</p>\n<ul>\n  <li>第1回（今回）：データベースとSQLの概要</li>\n  <li>第2回：SQLiteのセットアップとCREATE TABLE</li>\n  <li>第3回：SELECTでデータを取得する基本</li>\n  <li>第4回：WHEREで条件を絞り込む</li>\n  <li>第5回：INSERT・UPDATE・DELETE</li>\n  <li>第6回：複数テーブルをJOINで結合する</li>\n  <li>第7回：COUNT・SUM・AVGなど集計関数</li>\n  <li>第8回：GROUP BY・HAVING・ORDER BY</li>\n  <li>第9回：インデックスでパフォーマンス改善</li>\n  <li>第10回：TODOアプリのDB設計実践</li>\n</ul>\n<p>SQLiteは追加インストールが不要な場合も多く、コマンドラインからすぐに試せます。環境構築でつまずくことなく、SQLの本質的な学習に集中できるのがSQLiteを選ぶ最大の理由です。sql 使い方をしっかり身につけて、データを自由に扱えるエンジニアを目指しましょう。</p>",
+  "conclusion": "SQLはデータベースを操作するための言語で、Webサービスや業務システムなどあらゆるデータを扱うシステムに使われています。基本操作はCRUD（作成・読取・更新・削除）の4つで、テーブル形式でデータを管理するリレーショナルデータベースをSQLで操作します。このコースではSQLiteを使って実際に手を動かしながら学習します。sql 初心者でも順番に学べば必ず使いこなせるようになりますので、次回はSQLiteのセットアップから始めましょう。",
+  "tags": [
+    "SQL",
+    "データベース",
+    "初心者",
+    "sqlite",
+    "プログラミング入門"
+  ],
+  "category": "SQL",
+  "theme": "sql - SQL・データベース入門",
+  "status": "published",
+  "createdAt": "2026-05-30T04:13:07.574Z",
+  "updatedAt": "2026-05-30T04:13:07.579Z",
+  "publishedAt": "2026-05-30T04:13:07.574Z",
+  "metaTitle": "データベースとSQLとは？sql 初心者向け完全入門【sql 使い方基礎】｜SQL入門 | StackShelf",
+  "metaDescription": "【SQL初心者向け】SQLとは何かをsql 初心者向けにわかりやすく解説。データベースの仕組み、sql 使い方の基本概念、RDBMSの種類まで丁寧に説明します。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
+  "ogTitle": "データベースとSQLとは？初心者向け完全入門",
+  "ogDescription": "【SQL初心者向け】【SQL初心者向け】SQLがどんな言語か、なぜ必要か、どこで使われているかをゼロからわかりやすく解説します。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
+  "knowledge": {
+    "topic": "sql",
+    "courseId": "sql",
+    "episode": 1
+  },
+  "faq": [
+    {
+      "question": "SQLはプログラミング言語ですか？",
+      "answer": "SQLは「クエリ言語（問い合わせ言語）」に分類され、一般的なプログラミング言語（Python・JavaScriptなど）とは異なります。if文やfor文のような処理ロジックより、「データをどう取得・操作するか」に特化した言語です。プログラミング未経験者でも比較的学びやすい言語です。"
+    },
+    {
+      "question": "SQLiteとMySQLはどう違いますか？",
+      "answer": "SQLiteはファイル1つで動く超軽量なデータベースで、サーバー不要・インストール簡単なため学習や小規模アプリに最適です。MySQLはサーバー型のデータベースで、大規模なWebサービスに向いています。基本的なSQL構文は共通なので、SQLiteで学んだ知識はMySQLでも使えます。"
+    },
+    {
+      "question": "SQLを学ぶのにプログラミング経験は必要ですか？",
+      "answer": "必要ありません。SQLはプログラミング未経験者でも学べる言語です。ただし、データベースの概念（テーブル・レコード・カラム）を理解することが重要で、最初は少し時間がかかるかもしれません。このコースではゼロから丁寧に解説しますので安心してください。"
+    },
+    {
+      "question": "SQLを覚えるとどんな仕事ができますか？",
+      "answer": "データエンジニア・バックエンドエンジニア・データアナリスト・ビジネスアナリストなど多くの職種でSQLは必須スキルです。また、マーケターや経営企画担当者でもSQLが使えると社内データを自分で集計・分析できるため、キャリアの幅が広がります。"
+    }
+  ],
+  "nextEpisodeHint": "次回は、SQLiteをインストールして実際に動かせる環境を作り、最初のテーブルをCREATE TABLE文で作成します。コマンドラインからSQLを打ち込む体験をしましょう。",
+  "ogImage": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+  "canonical": "https://ai-site-iota-nine.vercel.app/article/sql-intro",
+  "jsonLd": {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@context": "https://schema.org",
+        "@type": "TechArticle",
+        "headline": "データベースとSQLとは？sql 初心者のための完全入門",
+        "description": "【SQL初心者向け】SQLとは何かをsql 初心者向けにわかりやすく解説。データベースの仕組み、sql 使い方の基本概念、RDBMSの種類まで丁寧に説明します。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
+        "datePublished": "2026-05-30T04:13:07.574Z",
+        "dateModified": "2026-05-30T04:13:07.579Z",
+        "author": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
+        },
+        "image": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+        "inLanguage": "ja",
+        "wordCount": 2905,
+        "mainEntityOfPage": {
+          "@type": "WebPage",
+          "@id": "https://ai-site-iota-nine.vercel.app/article/sql-intro"
+        },
+        "keywords": "SQL, データベース, 初心者, sqlite, プログラミング入門",
+        "articleSection": "SQL",
+        "url": "https://ai-site-iota-nine.vercel.app/article/sql-intro",
+        "learningResourceType": "tutorial",
+        "educationalLevel": "beginner"
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "ホーム",
+            "item": "https://ai-site-iota-nine.vercel.app/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "sql",
+            "item": "https://ai-site-iota-nine.vercel.app/knowledge/sql"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "SQL・データベース入門",
+            "item": "https://ai-site-iota-nine.vercel.app/course/sql/sql"
+          },
+          {
+            "@type": "ListItem",
+            "position": 4,
+            "name": "データベースとSQLとは？sql 初心者のための完全入門",
+            "item": "https://ai-site-iota-nine.vercel.app/article/sql-intro"
+          }
+        ]
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "Course",
+        "name": "SQL・データベース入門",
+        "description": "データベースとSQLの基礎を10ステップで習得。SELECT/INSERT/JOIN/集計関数まで、SQLiteを使った具体例でWebアプリ開発に必要なDBスキルを身につけます。",
+        "provider": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app"
+        },
+        "url": "https://ai-site-iota-nine.vercel.app/course/sql/sql",
+        "inLanguage": "ja",
+        "educationalLevel": "beginner",
+        "hasCourseInstance": {
+          "@type": "CourseInstance",
+          "courseMode": "online",
+          "courseWorkload": "PT1H"
+        }
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "SQLはプログラミング言語ですか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "SQLは「クエリ言語（問い合わせ言語）」に分類され、一般的なプログラミング言語（Python・JavaScriptなど）とは異なります。if文やfor文のような処理ロジックより、「データをどう取得・操作するか」に特化した言語です。プログラミング未経験者でも比較的学びやすい言語です。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "SQLiteとMySQLはどう違いますか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "SQLiteはファイル1つで動く超軽量なデータベースで、サーバー不要・インストール簡単なため学習や小規模アプリに最適です。MySQLはサーバー型のデータベースで、大規模なWebサービスに向いています。基本的なSQL構文は共通なので、SQLiteで学んだ知識はMySQLでも使えます。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "SQLを学ぶのにプログラミング経験は必要ですか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "必要ありません。SQLはプログラミング未経験者でも学べる言語です。ただし、データベースの概念（テーブル・レコード・カラム）を理解することが重要で、最初は少し時間がかかるかもしれません。このコースではゼロから丁寧に解説しますので安心してください。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "SQLを覚えるとどんな仕事ができますか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "データエンジニア・バックエンドエンジニア・データアナリスト・ビジネスアナリストなど多くの職種でSQLは必須スキルです。また、マーケターや経営企画担当者でもSQLが使えると社内データを自分で集計・分析できるため、キャリアの幅が広がります。"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "breadcrumb": {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "ホーム",
+        "item": "https://ai-site-iota-nine.vercel.app/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "sql",
+        "item": "https://ai-site-iota-nine.vercel.app/knowledge/sql"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "SQL・データベース入門",
+        "item": "https://ai-site-iota-nine.vercel.app/course/sql/sql"
+      },
+      {
+        "@type": "ListItem",
+        "position": 4,
+        "name": "データベースとSQLとは？sql 初心者のための完全入門",
+        "item": "https://ai-site-iota-nine.vercel.app/article/sql-intro"
+      }
+    ]
+  },
+  "courseSchema": {
+    "@context": "https://schema.org",
+    "@type": "Course",
+    "name": "SQL・データベース入門",
+    "description": "データベースとSQLの基礎を10ステップで習得。SELECT/INSERT/JOIN/集計関数まで、SQLiteを使った具体例でWebアプリ開発に必要なDBスキルを身につけます。",
+    "provider": {
+      "@type": "Organization",
+      "name": "StackShelf",
+      "url": "https://ai-site-iota-nine.vercel.app"
+    },
+    "url": "https://ai-site-iota-nine.vercel.app/course/sql/sql",
+    "inLanguage": "ja",
+    "educationalLevel": "beginner",
+    "hasCourseInstance": {
+      "@type": "CourseInstance",
+      "courseMode": "online",
+      "courseWorkload": "PT1H"
+    }
+  },
+  "faqSchema": {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "SQLはプログラミング言語ですか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "SQLは「クエリ言語（問い合わせ言語）」に分類され、一般的なプログラミング言語（Python・JavaScriptなど）とは異なります。if文やfor文のような処理ロジックより、「データをどう取得・操作するか」に特化した言語です。プログラミング未経験者でも比較的学びやすい言語です。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "SQLiteとMySQLはどう違いますか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "SQLiteはファイル1つで動く超軽量なデータベースで、サーバー不要・インストール簡単なため学習や小規模アプリに最適です。MySQLはサーバー型のデータベースで、大規模なWebサービスに向いています。基本的なSQL構文は共通なので、SQLiteで学んだ知識はMySQLでも使えます。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "SQLを学ぶのにプログラミング経験は必要ですか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "必要ありません。SQLはプログラミング未経験者でも学べる言語です。ただし、データベースの概念（テーブル・レコード・カラム）を理解することが重要で、最初は少し時間がかかるかもしれません。このコースではゼロから丁寧に解説しますので安心してください。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "SQLを覚えるとどんな仕事ができますか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "データエンジニア・バックエンドエンジニア・データアナリスト・ビジネスアナリストなど多くの職種でSQLは必須スキルです。また、マーケターや経営企画担当者でもSQLが使えると社内データを自分で集計・分析できるため、キャリアの幅が広がります。"
+        }
+      }
+    ]
+  }
+}

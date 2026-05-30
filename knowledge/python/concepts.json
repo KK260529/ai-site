@@ -1,3 +1,7 @@
 {
-  "concepts": []
+  "concepts": [
+    { "id": "interpreted", "title": "インタプリタ言語", "description": "コードを1行ずつ実行する方式。Pythonはインタプリタ言語" },
+    { "id": "indentation", "title": "インデント", "description": "Pythonは字下げでブロックを表現する独特の文法" },
+    { "id": "dynamic-typing", "title": "動的型付け", "description": "変数の型を宣言せず、代入時に決まる方式" }
+  ]
 }

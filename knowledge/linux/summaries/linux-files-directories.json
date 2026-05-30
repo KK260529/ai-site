@@ -1,0 +1,14 @@
+{
+  "slug": "linux-files-directories",
+  "courseId": "linux",
+  "episode": 3,
+  "summaryMemory": [
+    "Linuxのファイルシステムはルート（/）を頂点とした木構造",
+    "pwd=現在地表示、ls=一覧表示、cd=ディレクトリ移動、mkdir=作成",
+    "ls -la で詳細情報と隠しファイルを同時確認できる",
+    "cd - で直前のディレクトリへ瞬時に戻れる",
+    "mkdir -p でネストしたディレクトリを一度に作成できる"
+  ],
+  "nextEpisodeHint": "次回は、ファイルの作成（touch）、コピー（cp）、移動・リネーム（mv）、削除（rm）、テキスト編集（nano）を学びます。",
+  "updatedAt": "2026-05-30T04:13:02.167Z"
+}

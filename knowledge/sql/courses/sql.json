@@ -1,0 +1,19 @@
+{
+  "courseId": "sql",
+  "title": "SQL・データベース入門",
+  "description": "データベースとSQLの基礎を10ステップで習得。SELECT/INSERT/JOIN/集計関数まで、SQLiteを使った具体例でWebアプリ開発に必要なDBスキルを身につけます。",
+  "target": "データベース未経験者",
+  "topic": "sql",
+  "episodes": [
+    { "episode": 1, "title": "データベースとSQLとは", "slug": "sql-intro" },
+    { "episode": 2, "title": "SQLiteの準備と最初のテーブル", "slug": "sql-sqlite-setup" },
+    { "episode": 3, "title": "SELECTでデータを取得", "slug": "sql-select-basics" },
+    { "episode": 4, "title": "WHEREで条件絞り込み", "slug": "sql-where-filter" },
+    { "episode": 5, "title": "INSERT/UPDATE/DELETE", "slug": "sql-insert-update-delete" },
+    { "episode": 6, "title": "JOINでテーブルを結合", "slug": "sql-join" },
+    { "episode": 7, "title": "集計関数（COUNT/SUM/AVG）", "slug": "sql-aggregate" },
+    { "episode": 8, "title": "GROUP BYとHAVING", "slug": "sql-group-by" },
+    { "episode": 9, "title": "インデックスの基礎", "slug": "sql-index-basics" },
+    { "episode": 10, "title": "実践：TODOアプリのDB設計", "slug": "sql-practice-design" }
+  ]
+}

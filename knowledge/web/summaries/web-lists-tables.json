@@ -1,0 +1,13 @@
+{
+  "slug": "web-lists-tables",
+  "courseId": "web",
+  "episode": 5,
+  "summaryMemory": [
+    "ulは順序なしリスト、olは番号付きリスト、dlは定義リスト（用語+説明）",
+    "テーブルはtable>thead/tbody>tr>th/tdの入れ子構造で作る",
+    "colspan（横結合）とrowspan（縦結合）でセルをマージできる",
+    "テーブルはデータ表示専用、レイアウトには使わない"
+  ],
+  "nextEpisodeHint": "次回からいよいよCSSを学びます。セレクタ・color・font-sizeなどCSSの基本構文と、HTMLにCSSを適用する3つの方法（インライン・スタイルタグ・外部ファイル）を解説します。",
+  "updatedAt": "2026-05-30T04:13:19.436Z"
+}

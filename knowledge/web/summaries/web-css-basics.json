@@ -1,0 +1,13 @@
+{
+  "slug": "web-css-basics",
+  "courseId": "web",
+  "episode": 6,
+  "summaryMemory": [
+    "CSSの基本構文：セレクタ { プロパティ: 値; }",
+    "HTMLへのCSSの適用はlinkタグで外部.cssファイルを読み込む方法が推奨",
+    "クラスセレクタ（.class名）が最もよく使われる",
+    "カスケード：インラインスタイル > IDセレクタ > クラスセレクタ > タイプセレクタの順で詳細度が高い"
+  ],
+  "nextEpisodeHint": "次回はCSSのボックスモデルを学びます。margin・padding・border・widthの仕組みを理解すると、レイアウトの調整が格段にやりやすくなります。",
+  "updatedAt": "2026-05-30T04:13:22.058Z"
+}

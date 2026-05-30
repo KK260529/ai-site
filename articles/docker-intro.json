@@ -1,0 +1,269 @@
+{
+  "id": "art_docker_docker-intro",
+  "slug": "docker-intro",
+  "title": "Dockerとは？仮想マシンとの違いをわかりやすく解説【初心者向け】",
+  "summary": "Dockerとは何か、なぜ注目されているのか、仮想マシンとの違いを初心者向けにわかりやすく解説します。コンテナ技術の基本概念をゼロから学びましょう。",
+  "body": "<h2>Dockerとは何か？</h2>\n<p>Docker（ドッカー）とは、アプリケーションを<strong>コンテナ（container）</strong>と呼ばれる独立した環境に封じ込めて実行するためのプラットフォームです。2013年にDotCloud社（現Docker社）が公開し、現在では世界中の開発現場で標準的に使われているツールです。</p>\n<p>「docker 使い方」や「docker 初心者」で検索してこの記事にたどり着いた方は、Dockerが何となく便利そうだと感じているかもしれません。一言で言うと、Dockerは「アプリをどこでも同じように動かせる箱を作るツール」です。この「箱（コンテナ）」の中にアプリと必要なライブラリをまとめて入れることで、開発環境・本番環境・チームメンバーのPCを問わず、まったく同じ環境でアプリを動かせます。</p>\n<pre><code># Dockerのバージョン確認（インストール後に試してみよう）\ndocker --version\n# 出力例: Docker version 26.1.4, build 5650f9b</code></pre>\n\n<h2>「環境差異」という開発現場の悩み</h2>\n<p>Dockerが生まれた背景には、ソフトウェア開発における長年の悩みがあります。それが「<strong>自分のPCでは動くのに、本番サーバーで動かない</strong>」という問題です。英語では \"It works on my machine\" 問題と呼ばれ、世界中の開発者が悩んできました。</p>\n<p>原因は環境の違いです。開発者AのPCはNode.js 18、開発者BのPCはNode.js 20、本番サーバーはNode.js 16。OSもmacOS、Windows、Linuxとバラバラ。ライブラリのバージョンも微妙に違う…。こうした「環境の差異」が予期しないバグを生み出します。</p>\n<p>Dockerはこの問題を根本から解決します。コンテナの中に「Node.js 18 + 必要なライブラリすべて」を封じ込めるので、誰がどのOSで実行しても完全に同じ環境でアプリが動きます。</p>\n\n<h2>コンテナとは何か？わかりやすく解説</h2>\n<p>コンテナを理解するには、「輸送用コンテナ」のアナロジーが役立ちます。船で荷物を運ぶとき、コンテナに荷物を詰めれば、船・トラック・鉄道とどんな乗り物に積み替えても中身を気にする必要はありません。ソフトウェアのコンテナも同じです。アプリと依存関係をひとまとめにした「箱」を作れば、どんなサーバーやクラウドでも動かせます。</p>\n<p>技術的に言うと、コンテナはLinuxカーネルの<strong>名前空間（namespace）</strong>と<strong>cgroup</strong>という機能を使って、プロセスを互いに隔離する仕組みです。コンテナはホストOSのカーネルを共有しますが、それぞれが独立したファイルシステム・ネットワーク・プロセス空間を持ちます。</p>\n<pre><code># 実行中のコンテナ一覧を表示\ndocker ps\n\n# 全てのコンテナ（停止中含む）を表示\ndocker ps -a</code></pre>\n\n<h2>DockerとVMの違い：コンテナ vs 仮想マシン</h2>\n<p>「コンテナ」と似た概念に<strong>仮想マシン（VM: Virtual Machine）</strong>があります。VirtualBoxやVMwareで仮想のWindowsやLinuxを動かした経験がある方もいるでしょう。両者の最大の違いは「OSのレイヤー」にあります。</p>\n<p><strong>仮想マシンの仕組み：</strong>ホストOSの上にハイパーバイザー（仮想化ソフトウェア）が乗り、その上に仮想の「ゲストOS」が丸ごと起動します。VMはWindows上でLinuxを動かすといった完全な仮想化が可能ですが、ゲストOS自体が数GBのメモリを消費し、起動に1分以上かかることもあります。</p>\n<p><strong>コンテナの仕組み：</strong>ホストOSのカーネルを直接共有するため、ゲストOSを持ちません。その分、コンテナは数十MBほどで、起動は数秒以内です。一台のサーバーで数十〜数百のコンテナを同時に動かすことも現実的です。</p>\n<p>まとめると：VMは「完全な隔離・重い・遅い」、コンテナは「軽量・高速・効率的」です。本番環境での大規模展開にはコンテナが圧倒的に向いています。</p>\n\n<h2>Dockerの主要コンポーネント</h2>\n<p>Dockerを使いこなすには、いくつかの重要な用語を理解する必要があります。</p>\n<p><strong>Dockerイメージ（Image）：</strong>コンテナの「設計図」または「スナップショット」です。どのOSベース・どのソフトウェア・どの設定を使うかが記録された読み取り専用のテンプレートです。</p>\n<p><strong>Dockerコンテナ（Container）：</strong>イメージを実際に起動した「実行中のインスタンス」です。同じイメージから複数のコンテナを起動できます。</p>\n<p><strong>Dockerfile：</strong>イメージを作るための「レシピファイル」です。テキストファイルに命令を書くことで、自分だけのカスタムイメージを作れます。</p>\n<p><strong>Docker Hub：</strong>Dockerイメージを公開・共有できるレジストリサービスです。GitHubのDocker版と思えばわかりやすいです。公式イメージ（nginx、mysql、node等）が無料で利用できます。</p>\n<pre><code># Docker Hubからnginxイメージを取得する\ndocker pull nginx\n\n# ローカルのイメージ一覧を表示\ndocker images</code></pre>\n\n<h2>Dockerが使われる場面</h2>\n<p>現代の開発現場では、Dockerは以下のような場面で活躍しています。</p>\n<p><strong>開発環境の統一：</strong>チーム全員が同じDockerイメージを使うことで、「自分のPCでは動く」問題を完全に排除できます。新メンバーのオンボーディングも <code>docker-compose up</code> 一発で完了します。</p>\n<p><strong>CI/CDパイプライン：</strong>GitHub ActionsやCircleCIなどのCI環境でDockerを使うことで、テスト・ビルド・デプロイを一貫した環境で自動化できます。</p>\n<p><strong>マイクロサービスアーキテクチャ：</strong>アプリを小さなサービスに分割し、それぞれをコンテナで動かすマイクロサービス構成は、現代のクラウドネイティブ開発の主流です。</p>\n<p><strong>Kubernetes（クバネティス）との連携：</strong>大規模なコンテナ管理にはKubernetesが使われますが、その基盤となるのもDockerイメージです。Dockerを習得することはKubernetesへの第一歩でもあります。</p>\n\n<h2>Dockerを学ぶと何が変わるか</h2>\n<p>Dockerを習得することで、エンジニアとしての世界は大きく広がります。インフラの知識がなくても、アプリのコンテナ化・デプロイが自分でできるようになります。クラウドサービス（AWS ECS、Google Cloud Run、Azure Container Apps等）もDockerイメージを前提としているものが多く、クラウド開発の幅が広がります。</p>\n<p>また、「docker 使い方」を習得することで、他の開発者が公開しているOSSツールをDockerで簡単に試せるようになります。MySQLやRedisを自分のPCにインストールせずとも、<code>docker run</code> 一行で起動できる便利さは、一度体験すると手放せなくなります。</p>\n\n<h2>まとめ：Dockerはアプリを「箱に入れる」技術</h2>\n<p>Dockerを一言で表すなら「アプリとその実行環境を丸ごとパッケージングする技術」です。仮想マシンより軽量・高速で、開発・テスト・本番環境の差異をなくし、現代のクラウドネイティブ開発に欠かせないツールです。docker 初心者の方も、このコースを通じて基礎から実践まで体系的に学んでいきましょう。</p>",
+  "conclusion": "Dockerはアプリを「コンテナ」という独立した箱に封じ込めて実行するプラットフォームです。仮想マシンと異なりゲストOSを持たないため軽量・高速で、どんな環境でも同じように動かせる再現性が最大の強みです。開発環境の統一、CI/CD、クラウドデプロイなど現代の開発に欠かせない技術です。",
+  "tags": [
+    "Docker",
+    "コンテナ",
+    "仮想マシン",
+    "初心者",
+    "インフラ",
+    "DevOps"
+  ],
+  "category": "Docker",
+  "theme": "docker - Docker 入門",
+  "status": "published",
+  "createdAt": "2026-05-30T04:13:28.570Z",
+  "updatedAt": "2026-05-30T04:13:28.580Z",
+  "publishedAt": "2026-05-30T04:13:28.570Z",
+  "metaTitle": "Dockerとは？VMとの違いと基本概念を初心者向けに解説【docker 使い方入門】 | StackShelf",
+  "metaDescription": "【Docker初心者向け】Dockerとは何かを初心者向けにわかりやすく解説。仮想マシンとの違い、コンテナの仕組み、Dockerを使うメリットをゼロから丁寧に説明します。docker 初心者必読。 図解・具体例つきで丁寧に解説します。",
+  "ogTitle": "Dockerとは？VMとの違いをわかりやすく解説",
+  "ogDescription": "【Docker初心者向け】【Docker初心者向け】コンテナ技術Dockerの基本をゼロから解説。仮想マシンとの違い、仕組み、メリットを初心者向けに説明します。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
+  "knowledge": {
+    "topic": "docker",
+    "courseId": "docker",
+    "episode": 1
+  },
+  "faq": [
+    {
+      "question": "Dockerは無料で使えますか？",
+      "answer": "個人利用・小規模開発であれば無料で使えます。Docker Desktop（GUI付きツール）は一定規模以上の企業利用は有料ですが、CLIのDockerエンジン自体はオープンソースで無料です。"
+    },
+    {
+      "question": "DockerはWindowsでも使えますか？",
+      "answer": "はい、使えます。Windows 10/11のWSL2（Windows Subsystem for Linux）を使ってDocker Desktopをインストールすることで、Windows上でも快適にDockerを利用できます。"
+    },
+    {
+      "question": "DockerとKubernetesの違いは何ですか？",
+      "answer": "DockerはコンテナをビルドしてPC上で動かすツールです。KubernetesはDockerコンテナを複数のサーバーで大規模に管理・運用するオーケストレーションツールです。まずDockerを習得してからKubernetesを学ぶのが一般的な順序です。"
+    },
+    {
+      "question": "仮想マシンとコンテナはどちらが優れていますか？",
+      "answer": "用途によります。完全なOS隔離が必要な場合や異なるOSカーネルが必要な場合はVMが向いています。アプリの軽量・高速なデプロイには圧倒的にコンテナが優れています。多くのクラウドネイティブ用途ではコンテナが主流です。"
+    }
+  ],
+  "nextEpisodeHint": "次回は、Docker DesktopをWindows・Mac・Linuxにインストールし、実際にコマンドが使える状態にするまでの手順を丁寧に解説します。",
+  "ogImage": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+  "canonical": "https://ai-site-iota-nine.vercel.app/article/docker-intro",
+  "jsonLd": {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@context": "https://schema.org",
+        "@type": "TechArticle",
+        "headline": "Dockerとは？仮想マシンとの違いをわかりやすく解説【初心者向け】",
+        "description": "【Docker初心者向け】Dockerとは何かを初心者向けにわかりやすく解説。仮想マシンとの違い、コンテナの仕組み、Dockerを使うメリットをゼロから丁寧に説明します。docker 初心者必読。 図解・具体例つきで丁寧に解説します。",
+        "datePublished": "2026-05-30T04:13:28.570Z",
+        "dateModified": "2026-05-30T04:13:28.580Z",
+        "author": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
+        },
+        "image": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+        "inLanguage": "ja",
+        "wordCount": 2966,
+        "mainEntityOfPage": {
+          "@type": "WebPage",
+          "@id": "https://ai-site-iota-nine.vercel.app/article/docker-intro"
+        },
+        "keywords": "Docker, コンテナ, 仮想マシン, 初心者, インフラ, DevOps",
+        "articleSection": "Docker",
+        "url": "https://ai-site-iota-nine.vercel.app/article/docker-intro",
+        "learningResourceType": "tutorial",
+        "educationalLevel": "beginner"
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "ホーム",
+            "item": "https://ai-site-iota-nine.vercel.app/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "docker",
+            "item": "https://ai-site-iota-nine.vercel.app/knowledge/docker"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "Docker 入門",
+            "item": "https://ai-site-iota-nine.vercel.app/course/docker/docker"
+          },
+          {
+            "@type": "ListItem",
+            "position": 4,
+            "name": "Dockerとは？仮想マシンとの違いをわかりやすく解説【初心者向け】",
+            "item": "https://ai-site-iota-nine.vercel.app/article/docker-intro"
+          }
+        ]
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "Course",
+        "name": "Docker 入門",
+        "description": "コンテナ技術Dockerを8ステップで習得。インストールからDockerfile・docker compose・ボリュームまで、開発環境構築に必須のスキルを具体例で学びます。",
+        "provider": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app"
+        },
+        "url": "https://ai-site-iota-nine.vercel.app/course/docker/docker",
+        "inLanguage": "ja",
+        "educationalLevel": "beginner",
+        "hasCourseInstance": {
+          "@type": "CourseInstance",
+          "courseMode": "online",
+          "courseWorkload": "PT1H"
+        }
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "Dockerは無料で使えますか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "個人利用・小規模開発であれば無料で使えます。Docker Desktop（GUI付きツール）は一定規模以上の企業利用は有料ですが、CLIのDockerエンジン自体はオープンソースで無料です。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "DockerはWindowsでも使えますか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "はい、使えます。Windows 10/11のWSL2（Windows Subsystem for Linux）を使ってDocker Desktopをインストールすることで、Windows上でも快適にDockerを利用できます。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "DockerとKubernetesの違いは何ですか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "DockerはコンテナをビルドしてPC上で動かすツールです。KubernetesはDockerコンテナを複数のサーバーで大規模に管理・運用するオーケストレーションツールです。まずDockerを習得してからKubernetesを学ぶのが一般的な順序です。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "仮想マシンとコンテナはどちらが優れていますか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "用途によります。完全なOS隔離が必要な場合や異なるOSカーネルが必要な場合はVMが向いています。アプリの軽量・高速なデプロイには圧倒的にコンテナが優れています。多くのクラウドネイティブ用途ではコンテナが主流です。"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "breadcrumb": {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "ホーム",
+        "item": "https://ai-site-iota-nine.vercel.app/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "docker",
+        "item": "https://ai-site-iota-nine.vercel.app/knowledge/docker"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "Docker 入門",
+        "item": "https://ai-site-iota-nine.vercel.app/course/docker/docker"
+      },
+      {
+        "@type": "ListItem",
+        "position": 4,
+        "name": "Dockerとは？仮想マシンとの違いをわかりやすく解説【初心者向け】",
+        "item": "https://ai-site-iota-nine.vercel.app/article/docker-intro"
+      }
+    ]
+  },
+  "courseSchema": {
+    "@context": "https://schema.org",
+    "@type": "Course",
+    "name": "Docker 入門",
+    "description": "コンテナ技術Dockerを8ステップで習得。インストールからDockerfile・docker compose・ボリュームまで、開発環境構築に必須のスキルを具体例で学びます。",
+    "provider": {
+      "@type": "Organization",
+      "name": "StackShelf",
+      "url": "https://ai-site-iota-nine.vercel.app"
+    },
+    "url": "https://ai-site-iota-nine.vercel.app/course/docker/docker",
+    "inLanguage": "ja",
+    "educationalLevel": "beginner",
+    "hasCourseInstance": {
+      "@type": "CourseInstance",
+      "courseMode": "online",
+      "courseWorkload": "PT1H"
+    }
+  },
+  "faqSchema": {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "Dockerは無料で使えますか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "個人利用・小規模開発であれば無料で使えます。Docker Desktop（GUI付きツール）は一定規模以上の企業利用は有料ですが、CLIのDockerエンジン自体はオープンソースで無料です。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "DockerはWindowsでも使えますか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "はい、使えます。Windows 10/11のWSL2（Windows Subsystem for Linux）を使ってDocker Desktopをインストールすることで、Windows上でも快適にDockerを利用できます。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "DockerとKubernetesの違いは何ですか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "DockerはコンテナをビルドしてPC上で動かすツールです。KubernetesはDockerコンテナを複数のサーバーで大規模に管理・運用するオーケストレーションツールです。まずDockerを習得してからKubernetesを学ぶのが一般的な順序です。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "仮想マシンとコンテナはどちらが優れていますか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "用途によります。完全なOS隔離が必要な場合や異なるOSカーネルが必要な場合はVMが向いています。アプリの軽量・高速なデプロイには圧倒的にコンテナが優れています。多くのクラウドネイティブ用途ではコンテナが主流です。"
+        }
+      }
+    ]
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "slug": "web-text-headings",
+  "courseId": "web",
+  "episode": 3,
+  "summaryMemory": [
+    "h1〜h6は見出しの階層を表し、h1は1ページに1つが原則",
+    "pは段落タグで本文テキストを囲む",
+    "strongは重要性の強調、emはアクセント強調（音読みの強調）",
+    "HTMLタグは意味・役割で選び、見た目はCSSで変更する"
+  ],
+  "nextEpisodeHint": "次回はリンク（aタグ）と画像（imgタグ）の使い方を学びます。href属性・src属性・alt属性の役割と、相対パス・絶対パスの違いを理解しましょう。",
+  "updatedAt": "2026-05-30T04:13:16.724Z"
+}

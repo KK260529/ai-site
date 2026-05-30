@@ -1,0 +1,13 @@
+{
+  "slug": "sql-join",
+  "courseId": "sql",
+  "episode": 6,
+  "summaryMemory": [
+    "INNER JOINは両テーブルに一致するデータのみ結合（NULL除外）",
+    "LEFT JOINは左テーブル全件＋右テーブルの一致データ（不一致はNULL）",
+    "テーブルにASで別名を付けて長いSQL文を読みやすくできる",
+    "3テーブル以上の結合はJOINを連ねて書く"
+  ],
+  "nextEpisodeHint": "次回はCOUNT・SUM・AVG・MIN・MAXなどの集計関数を学びます。データの件数を数えたり、合計・平均を計算したりする操作はデータ分析に欠かせないスキルです。",
+  "updatedAt": "2026-05-30T04:13:10.983Z"
+}

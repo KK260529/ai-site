@@ -1,0 +1,13 @@
+{
+  "slug": "docker-first-container",
+  "courseId": "docker",
+  "episode": 3,
+  "summaryMemory": [
+    "docker run は「イメージ確認→pull→create→start」を一括で行うコマンド",
+    "-d でバックグラウンド実行、-p でポートマッピング、--name で名前指定",
+    "docker exec -it コンテナ名 bash で実行中のコンテナ内部に入れる",
+    "docker stop→docker rmでコンテナを停止・削除してもイメージは残る"
+  ],
+  "nextEpisodeHint": "次回は、Dockerのイメージとコンテナの関係をより深く理解し、docker images・docker ps・docker inspectなどのコマンドでイメージとコンテナを管理する方法を学びます。",
+  "updatedAt": "2026-05-30T04:13:30.603Z"
+}

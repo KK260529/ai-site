@@ -1,0 +1,269 @@
+{
+  "id": "art_docker_docker-image-container",
+  "slug": "docker-image-container",
+  "title": "Dockerイメージとコンテナを理解する：images・ps・exec完全解説",
+  "summary": "Dockerのイメージとコンテナの関係を徹底解説。docker images、docker ps、docker exec、docker inspectなどイメージ・コンテナ管理の必須コマンドをマスターします。",
+  "body": "<h2>イメージとコンテナの関係：クラスとインスタンス</h2>\n<p>DockerのイメージとコンテナはOOP（オブジェクト指向プログラミング）における<strong>クラスとインスタンス</strong>の関係に似ています。イメージはコンテナの「設計図（クラス）」であり、コンテナはその設計図から作られた「実体（インスタンス）」です。一つのイメージから、何個でもコンテナを作れます。</p>\n<p>例えば <code>nginx:latest</code> イメージが一つあれば、そこから3つのnginxコンテナを起動して、それぞれ異なるポート（8080、8081、8082）でWebサーバーを動かすことができます。各コンテナは独立して動作し、一方のコンテナを変更しても他のコンテナには影響しません。</p>\n<pre><code># 同じイメージから複数コンテナを起動\ndocker run -d -p 8080:80 --name nginx-1 nginx\ndocker run -d -p 8081:80 --name nginx-2 nginx\ndocker run -d -p 8082:80 --name nginx-3 nginx\n\n# 3つのコンテナが起動していることを確認\ndocker ps</code></pre>\n\n<h2>docker imagesでイメージを管理する</h2>\n<p>ローカルに保存されているDockerイメージを管理するコマンドを見ていきましょう。</p>\n<pre><code># ローカルのイメージ一覧を表示\ndocker images\n# 出力例:\n# REPOSITORY   TAG       IMAGE ID       CREATED        SIZE\n# nginx        latest    e784f4560448   2 weeks ago    188MB\n# ubuntu       22.04     174c8c134b2a   4 weeks ago    77.9MB\n# mysql        8.0       a3b6608898d6   6 weeks ago    603MB\n# hello-world  latest    d2c94e258dcb   14 months ago  13.3kB\n\n# イメージの詳細フォーマットで表示\ndocker images --format \"table {{.Repository}}\t{{.Tag}}\t{{.Size}}\"\n\n# 特定のリポジトリのイメージのみ表示\ndocker images nginx</code></pre>\n<p>各列の意味を理解しましょう。<strong>REPOSITORY</strong>はイメージ名、<strong>TAG</strong>はバージョンを示すラベル（latestは最新版）、<strong>IMAGE ID</strong>はイメージの一意な識別子、<strong>SIZE</strong>はイメージのディスク使用量です。</p>\n<pre><code># Docker HubからイメージをPull（ダウンロード）\ndocker pull ubuntu:22.04      # バージョン指定でpull\ndocker pull nginx:1.25-alpine # 軽量なalpineベース\n\n# イメージを削除\ndocker rmi nginx              # イメージ名で削除\ndocker rmi e784f4560448       # IMAGE IDで削除\n\n# 使われていないイメージを一括削除（dangling images）\ndocker image prune\n\n# タグなしを含む全未使用イメージを削除\ndocker image prune -a</code></pre>\n\n<h2>Dockerのイメージレイヤー構造</h2>\n<p>Dockerイメージは<strong>レイヤー（layer）</strong>と呼ばれる階層構造で構成されています。各レイヤーはファイルシステムの変更差分を表します。例えば、ubuntuのベースイメージの上にNode.jsをインストールすれば新しいレイヤーが追加されます。</p>\n<p>このレイヤー構造の最大のメリットは<strong>キャッシュの再利用</strong>です。ubuntuレイヤーはすでにローカルにある場合、同じubuntuをベースにした別のイメージをpullするときにそのレイヤーはダウンロードされません。ディスク容量の節約とpullの高速化につながります。</p>\n<pre><code># イメージのレイヤー履歴を確認\ndocker history nginx\n# 出力例:\n# IMAGE          CREATED       CREATED BY                                     SIZE\n# e784f4560448   2 weeks ago   CMD [\"nginx\" \"-g\" \"daemon off;\"]               0B\n# <missing>      2 weeks ago   STOPSIGNAL SIGQUIT                              0B\n# <missing>      2 weeks ago   EXPOSE 80                                       0B\n# ...\n\n# イメージの詳細情報（JSON形式）\ndocker inspect nginx</code></pre>\n\n<h2>docker psでコンテナを管理する</h2>\n<p><code>docker ps</code> はコンテナの状態を確認する最も基本的なコマンドです。日常の開発で何度も使います。</p>\n<pre><code># 実行中のコンテナを表示\ndocker ps\n# 出力例:\n# CONTAINER ID  IMAGE  COMMAND                CREATED       STATUS      PORTS                  NAMES\n# a1b2c3d4e5f6  nginx  \"/docker-entrypoint…\"  2 hours ago   Up 2 hours  0.0.0.0:8080->80/tcp   my-nginx\n\n# 全コンテナを表示（停止中含む）\ndocker ps -a\n\n# コンテナIDのみ表示（スクリプトでよく使う）\ndocker ps -q         # 実行中のコンテナIDのみ\ndocker ps -aq        # 全コンテナIDのみ\n\n# 特定のフォーマットで表示\ndocker ps --format \"table {{.Names}}\t{{.Status}}\t{{.Ports}}\"\n\n# 実行中の全コンテナを一括停止\ndocker stop $(docker ps -q)\n\n# 全コンテナを一括削除（停止が必要）\ndocker rm $(docker ps -aq)</code></pre>\n<p>STATUSの表示を理解しましょう。<strong>Up X hours/minutes</strong>は実行中、<strong>Exited (0) X minutes ago</strong>は正常終了、<strong>Exited (1) X minutes ago</strong>はエラー終了、<strong>Restarting</strong>は再起動中を意味します。</p>\n\n<h2>docker inspectで詳細情報を確認する</h2>\n<p><code>docker inspect</code> はコンテナやイメージの詳細情報をJSON形式で出力します。ネットワーク設定・ボリューム・環境変数など、あらゆる設定を確認できます。</p>\n<pre><code># コンテナの詳細情報\ndocker inspect my-nginx\n\n# 特定の情報だけ抽出（--formatオプション）\ndocker inspect --format '{{.NetworkSettings.IPAddress}}' my-nginx\n# 出力例: 172.17.0.2\n\n# コンテナのマウント情報を確認\ndocker inspect --format '{{json .Mounts}}' my-nginx\n\n# 環境変数を確認\ndocker inspect --format '{{range .Config.Env}}{{println .}}{{end}}' my-nginx\n\n# イメージの詳細情報\ndocker inspect nginx:latest</code></pre>\n<p>特にIPアドレスの確認はコンテナ間通信のデバッグでよく使います。コンテナはデフォルトで <code>172.17.0.0/16</code> のサブネットにIPアドレスが割り当てられます。</p>\n\n<h2>コンテナのログ・統計・ポートを確認する</h2>\n<p>実行中のコンテナの状態を把握するためのモニタリングコマンドです。</p>\n<pre><code># コンテナのログを確認\ndocker logs my-nginx\n\n# 最新の50行のみ表示\ndocker logs --tail 50 my-nginx\n\n# タイムスタンプ付きで表示\ndocker logs -t my-nginx\n\n# リアルタイムでログを追跡（Ctrl+Cで終了）\ndocker logs -f my-nginx\n\n# リソース使用状況をリアルタイムで表示\ndocker stats\n# 全コンテナのCPU・メモリ・ネットワーク使用量が表示される\n\ndocker stats my-nginx  # 特定コンテナのみ\n\n# ポートマッピングを確認\ndocker port my-nginx\n# 出力例: 80/tcp -> 0.0.0.0:8080\n\n# コンテナ内のプロセスを表示\ndocker top my-nginx</code></pre>\n\n<h2>不要なリソースのクリーンアップ</h2>\n<p>Dockerを使い続けると、停止済みコンテナや未使用イメージがディスクを圧迫することがあります。定期的にクリーンアップしましょう。</p>\n<pre><code># 停止中のコンテナを全削除\ndocker container prune\n\n# 未使用のイメージを削除（dangling images）\ndocker image prune\n\n# 未使用のボリュームを削除\ndocker volume prune\n\n# 未使用のネットワークを削除\ndocker network prune\n\n# 全てを一括でクリーンアップ（コンテナ・イメージ・ネットワーク）\ndocker system prune\n\n# ボリュームも含めて全削除（注意：データが消えます）\ndocker system prune -a --volumes\n\n# Dockerが使用しているディスク容量を確認\ndocker system df</code></pre>\n<p><code>docker system df</code> を実行すると、イメージ・コンテナ・ボリュームそれぞれのディスク使用量と、削除可能なサイズが確認できます。定期的なクリーンアップを習慣にしましょう。</p>\n<pre><code># 実際のdocker system df 出力例\n# TYPE            TOTAL  ACTIVE  SIZE      RECLAIMABLE\n# Images          12     3       3.456GB   2.1GB (60%)\n# Containers      8      2       245MB     198MB (80%)\n# Local Volumes   5      2       1.2GB     800MB (66%)\n# Build Cache     -      -       512MB     512MB</code></pre>",
+  "conclusion": "DockerのイメージとコンテナはOOPのクラスとインスタンスの関係です。docker imagesでイメージ管理、docker psでコンテナ状態確認、docker inspectで詳細情報取得、docker logsでログ確認ができます。定期的に docker system prune でディスクを整理する習慣をつけましょう。",
+  "tags": [
+    "Docker",
+    "docker images",
+    "docker ps",
+    "docker exec",
+    "コンテナ管理",
+    "docker 使い方"
+  ],
+  "category": "Docker",
+  "theme": "docker - Docker 入門",
+  "status": "published",
+  "createdAt": "2026-05-30T04:13:31.502Z",
+  "updatedAt": "2026-05-30T04:13:31.507Z",
+  "publishedAt": "2026-05-30T04:13:31.502Z",
+  "metaTitle": "Dockerイメージとコンテナの違い・管理コマンド完全ガイド【docker 使い方】 | StackShelf",
+  "metaDescription": "Dockerのイメージとコンテナの違いをわかりやすく解説。docker images、docker ps、docker exec、docker inspect の使い方を初心者向けに説明します。docker 初心者必読。",
+  "ogTitle": "Dockerイメージとコンテナを完全理解：images・ps・exec解説",
+  "ogDescription": "【Docker初心者向け】【Docker初心者向け】DockerのイメージとコンテナはOOPのクラスとインスタンスの関係。管理コマンドを詳しく解説します。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
+  "knowledge": {
+    "topic": "docker",
+    "courseId": "docker",
+    "episode": 4
+  },
+  "faq": [
+    {
+      "question": "docker rmとdocker rmiの違いは何ですか？",
+      "answer": "docker rmはコンテナを削除するコマンドで、docker rmiはイメージを削除するコマンドです。コンテナを先に削除してから、そのコンテナが使っていたイメージを削除するのが基本的な手順です。"
+    },
+    {
+      "question": "Dockerのイメージが大量にあってディスクを圧迫しています。",
+      "answer": "docker system dfで使用量を確認し、docker image prune -aで未使用イメージを削除してください。docker system pruneで停止コンテナ・未使用イメージ・未使用ネットワークを一括削除できます。ボリュームも含めて削除するには--volumesオプションを追加しますが、データが消えるので注意してください。"
+    },
+    {
+      "question": "コンテナのIPアドレスはどうやって確認しますか？",
+      "answer": "docker inspect --format '{{.NetworkSettings.IPAddress}}' コンテナ名で確認できます。また、docker exec -it コンテナ名 ip addr show でコンテナ内から確認する方法もあります。"
+    },
+    {
+      "question": "docker psでコンテナが表示されません。",
+      "answer": "docker psは実行中のコンテナのみ表示します。停止しているコンテナも確認するにはdocker ps -aを実行してください。STATUS列で「Exited」と表示されているコンテナは停止中です。"
+    }
+  ],
+  "nextEpisodeHint": "次回は、Dockerfileの書き方を学び、自分のアプリを含んだカスタムDockerイメージをビルドする方法を解説します。FROM・RUN・COPY・CMDなどの主要命令を丁寧に説明します。",
+  "ogImage": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+  "canonical": "https://ai-site-iota-nine.vercel.app/article/docker-image-container",
+  "jsonLd": {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@context": "https://schema.org",
+        "@type": "TechArticle",
+        "headline": "Dockerイメージとコンテナを理解する：images・ps・exec完全解説",
+        "description": "Dockerのイメージとコンテナの違いをわかりやすく解説。docker images、docker ps、docker exec、docker inspect の使い方を初心者向けに説明します。docker 初心者必読。",
+        "datePublished": "2026-05-30T04:13:31.502Z",
+        "dateModified": "2026-05-30T04:13:31.507Z",
+        "author": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
+        },
+        "image": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+        "inLanguage": "ja",
+        "wordCount": 3712,
+        "mainEntityOfPage": {
+          "@type": "WebPage",
+          "@id": "https://ai-site-iota-nine.vercel.app/article/docker-image-container"
+        },
+        "keywords": "Docker, docker images, docker ps, docker exec, コンテナ管理, docker 使い方",
+        "articleSection": "Docker",
+        "url": "https://ai-site-iota-nine.vercel.app/article/docker-image-container",
+        "learningResourceType": "tutorial",
+        "educationalLevel": "beginner"
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "ホーム",
+            "item": "https://ai-site-iota-nine.vercel.app/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "docker",
+            "item": "https://ai-site-iota-nine.vercel.app/knowledge/docker"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "Docker 入門",
+            "item": "https://ai-site-iota-nine.vercel.app/course/docker/docker"
+          },
+          {
+            "@type": "ListItem",
+            "position": 4,
+            "name": "Dockerイメージとコンテナを理解する：images・ps・exec完全解説",
+            "item": "https://ai-site-iota-nine.vercel.app/article/docker-image-container"
+          }
+        ]
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "Course",
+        "name": "Docker 入門",
+        "description": "コンテナ技術Dockerを8ステップで習得。インストールからDockerfile・docker compose・ボリュームまで、開発環境構築に必須のスキルを具体例で学びます。",
+        "provider": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app"
+        },
+        "url": "https://ai-site-iota-nine.vercel.app/course/docker/docker",
+        "inLanguage": "ja",
+        "educationalLevel": "beginner",
+        "hasCourseInstance": {
+          "@type": "CourseInstance",
+          "courseMode": "online",
+          "courseWorkload": "PT1H"
+        }
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "docker rmとdocker rmiの違いは何ですか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "docker rmはコンテナを削除するコマンドで、docker rmiはイメージを削除するコマンドです。コンテナを先に削除してから、そのコンテナが使っていたイメージを削除するのが基本的な手順です。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Dockerのイメージが大量にあってディスクを圧迫しています。",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "docker system dfで使用量を確認し、docker image prune -aで未使用イメージを削除してください。docker system pruneで停止コンテナ・未使用イメージ・未使用ネットワークを一括削除できます。ボリュームも含めて削除するには--volumesオプションを追加しますが、データが消えるので注意してください。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "コンテナのIPアドレスはどうやって確認しますか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "docker inspect --format '{{.NetworkSettings.IPAddress}}' コンテナ名で確認できます。また、docker exec -it コンテナ名 ip addr show でコンテナ内から確認する方法もあります。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "docker psでコンテナが表示されません。",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "docker psは実行中のコンテナのみ表示します。停止しているコンテナも確認するにはdocker ps -aを実行してください。STATUS列で「Exited」と表示されているコンテナは停止中です。"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "breadcrumb": {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "ホーム",
+        "item": "https://ai-site-iota-nine.vercel.app/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "docker",
+        "item": "https://ai-site-iota-nine.vercel.app/knowledge/docker"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "Docker 入門",
+        "item": "https://ai-site-iota-nine.vercel.app/course/docker/docker"
+      },
+      {
+        "@type": "ListItem",
+        "position": 4,
+        "name": "Dockerイメージとコンテナを理解する：images・ps・exec完全解説",
+        "item": "https://ai-site-iota-nine.vercel.app/article/docker-image-container"
+      }
+    ]
+  },
+  "courseSchema": {
+    "@context": "https://schema.org",
+    "@type": "Course",
+    "name": "Docker 入門",
+    "description": "コンテナ技術Dockerを8ステップで習得。インストールからDockerfile・docker compose・ボリュームまで、開発環境構築に必須のスキルを具体例で学びます。",
+    "provider": {
+      "@type": "Organization",
+      "name": "StackShelf",
+      "url": "https://ai-site-iota-nine.vercel.app"
+    },
+    "url": "https://ai-site-iota-nine.vercel.app/course/docker/docker",
+    "inLanguage": "ja",
+    "educationalLevel": "beginner",
+    "hasCourseInstance": {
+      "@type": "CourseInstance",
+      "courseMode": "online",
+      "courseWorkload": "PT1H"
+    }
+  },
+  "faqSchema": {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "docker rmとdocker rmiの違いは何ですか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "docker rmはコンテナを削除するコマンドで、docker rmiはイメージを削除するコマンドです。コンテナを先に削除してから、そのコンテナが使っていたイメージを削除するのが基本的な手順です。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Dockerのイメージが大量にあってディスクを圧迫しています。",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "docker system dfで使用量を確認し、docker image prune -aで未使用イメージを削除してください。docker system pruneで停止コンテナ・未使用イメージ・未使用ネットワークを一括削除できます。ボリュームも含めて削除するには--volumesオプションを追加しますが、データが消えるので注意してください。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "コンテナのIPアドレスはどうやって確認しますか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "docker inspect --format '{{.NetworkSettings.IPAddress}}' コンテナ名で確認できます。また、docker exec -it コンテナ名 ip addr show でコンテナ内から確認する方法もあります。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "docker psでコンテナが表示されません。",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "docker psは実行中のコンテナのみ表示します。停止しているコンテナも確認するにはdocker ps -aを実行してください。STATUS列で「Exited」と表示されているコンテナは停止中です。"
+        }
+      }
+    ]
+  }
+}

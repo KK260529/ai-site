@@ -1,0 +1,13 @@
+{
+  "slug": "web-responsive",
+  "courseId": "web",
+  "episode": 9,
+  "summaryMemory": [
+    "viewportメタタグ（width=device-width, initial-scale=1.0）はHTMLのheadに必須",
+    "モバイルファーストはmin-widthメディアクエリでスマホ→PCの順に書くアプローチ",
+    "img { max-width: 100%; height: auto; } で画像をレスポンシブ化",
+    "コンテナはmax-width + margin:0 autoで中央配置するのが定番"
+  ],
+  "nextEpisodeHint": "次回はHTMLのフォームを学びます。form・input・label・button・selectタグの使い方と、アクセシブルなフォームの作り方を解説します。",
+  "updatedAt": "2026-05-30T04:13:24.635Z"
+}

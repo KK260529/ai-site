@@ -1,0 +1,13 @@
+{
+  "slug": "web-box-model",
+  "courseId": "web",
+  "episode": 7,
+  "summaryMemory": [
+    "ボックスモデルはcontent・padding（内側余白）・border（枠線）・margin（外側余白）の4層",
+    "box-sizing:border-boxを全要素に適用するとwidthの計算が直感的になる",
+    "縦方向の隣接marginは相殺（大きい方だけが有効）される",
+    "開発者ツール（F12→Computed）でボックスモデルを視覚的に確認できる"
+  ],
+  "nextEpisodeHint": "次回はCSSのFlexboxを学びます。display:flexとjustify-content・align-itemsを使えば、複雑な横並びレイアウトが驚くほど簡単に実現できます。",
+  "updatedAt": "2026-05-30T04:13:23.045Z"
+}

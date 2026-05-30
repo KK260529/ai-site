@@ -1,0 +1,13 @@
+{
+  "slug": "sql-practice-design",
+  "courseId": "sql",
+  "episode": 10,
+  "summaryMemory": [
+    "TODOアプリDB：users・categories・todos・tags・todo_tags（中間テーブル）の5テーブル構成",
+    "多対多の関係は中間テーブルで管理（todo_tagsがtodosとtagsをつなぐ）",
+    "CASE式でカスタム並び順（priority: high→medium→low）を実現",
+    "GROUP_CONCAT関数でタグ一覧を1行に連結して取得"
+  ],
+  "nextEpisodeHint": "コース修了おめでとうございます！次のステップとして、PythonのsqliteモジュールやNode.jsのbetter-sqlite3を使って、実際のアプリケーションからSQLiteを操作することに挑戦してみましょう。",
+  "updatedAt": "2026-05-30T04:13:14.023Z"
+}

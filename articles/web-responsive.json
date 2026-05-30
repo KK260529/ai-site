@@ -1,0 +1,270 @@
+{
+  "id": "art_web_web-responsive",
+  "slug": "web-responsive",
+  "title": "レスポンシブデザイン入門：viewportとメディアクエリでスマホ対応を実現しよう",
+  "summary": "レスポンシブデザインの基本概念、viewportメタタグの設定、CSSメディアクエリの書き方をhtml css 初心者向けに解説します。モバイルファーストの考え方とブレークポイントの設定方法も説明します。",
+  "body": "<h2>レスポンシブデザインとは何か</h2>\n<p><strong>レスポンシブデザイン（Responsive Web Design）</strong>とは、スマートフォン・タブレット・PCなど異なる画面サイズのデバイスすべてに対して、1つのHTMLとCSSで適切に表示されるWebページを作る設計手法です。2010年代以降、スマートフォンの普及により、現代のweb制作では必須スキルとなっています。</p>\n<p>Googleは2019年からモバイルファーストインデックスを採用しており、スマートフォンでの表示品質がSEOの評価に直接影響します。html css 初心者であっても、最初からレスポンシブデザインを意識して作ることが重要です。</p>\n<p>レスポンシブデザインを実現する主な技術は2つです。</p>\n<ul>\n  <li><strong>viewportメタタグ</strong>：スマートフォンが画面幅を正しく認識するためのHTML設定</li>\n  <li><strong>メディアクエリ</strong>：画面サイズに応じてCSSを切り替えるCSS機能</li>\n</ul>\n\n<h2>viewportメタタグの役割と設定</h2>\n<p>スマートフォンのブラウザはデフォルトで「仮想ウィンドウ（viewport）」を使い、PCサイトを縮小してページ全体を表示しようとします。これを防ぐのが <code>viewport</code> メタタグです。</p>\n<pre><code>&lt;!-- HTMLのheadタグ内に書く --&gt;\n&lt;meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\"&gt;</code></pre>\n<p>この1行は非常に重要です。</p>\n<ul>\n  <li><code>width=device-width</code>：ページの幅をデバイスの画面幅に合わせる</li>\n  <li><code>initial-scale=1.0</code>：初期のズームレベルを1倍（等倍）にする</li>\n</ul>\n<p>このメタタグがないと、スマートフォンでページを開いたとき全体が小さく縮小表示され、メディアクエリも正しく機能しません。エピソード2で紹介した基本テンプレートに含まれているのは、この理由からです。</p>\n\n<h2>メディアクエリの基本構文</h2>\n<p>メディアクエリは画面幅などの条件に応じてCSSを適用する構文です。</p>\n<pre><code>/* 基本構文 */\n@media (条件) {\n  /* 条件が満たされたときだけ適用されるCSS */\n  セレクタ {\n    プロパティ: 値;\n  }\n}\n\n/* 例：画面幅が768px以下のとき */\n@media (max-width: 768px) {\n  .container {\n    flex-direction: column;\n  }\n}\n\n/* 例：画面幅が768px以上のとき */\n@media (min-width: 768px) {\n  .sidebar {\n    display: block;\n  }\n}</code></pre>\n<p><code>max-width</code> は「〜以下の幅のとき」、<code>min-width</code> は「〜以上の幅のとき」という条件です。どちらを使うかはデザインアプローチによって変わります。</p>\n\n<h2>モバイルファーストとデスクトップファーストの違い</h2>\n<p>レスポンシブデザインには2つのアプローチがあります。</p>\n<p><strong>デスクトップファースト</strong>：まずPC向けのCSSを書き、<code>max-width</code> のメディアクエリでスマホ向けに上書きします。</p>\n<pre><code>/* デスクトップファースト（max-widthアプローチ） */\n.container {\n  display: flex;\n  gap: 32px;\n}\n\n/* タブレット以下 */\n@media (max-width: 768px) {\n  .container {\n    flex-direction: column;\n    gap: 16px;\n  }\n}\n\n/* スマートフォン */\n@media (max-width: 480px) {\n  .container {\n    padding: 16px;\n  }\n}</code></pre>\n<p><strong>モバイルファースト（推奨）</strong>：まずスマホ向けのCSSを書き、<code>min-width</code> のメディアクエリで大きい画面向けに追加します。</p>\n<pre><code>/* モバイルファースト（min-widthアプローチ） */\n/* スマホ向けのベーススタイル */\n.container {\n  display: flex;\n  flex-direction: column;\n  gap: 16px;\n  padding: 16px;\n}\n\n/* タブレット以上 */\n@media (min-width: 768px) {\n  .container {\n    flex-direction: row;\n    gap: 32px;\n    padding: 24px;\n  }\n}\n\n/* PC以上 */\n@media (min-width: 1024px) {\n  .container {\n    max-width: 1200px;\n    margin: 0 auto;\n    padding: 32px;\n  }\n}</code></pre>\n<p>モバイルファーストが推奨される理由は、CSSが軽量になること（スマホに不要なスタイルを読み込まない）と、Googleのモバイルファーストインデックスに合わせた設計ができることです。web制作 入門の段階からモバイルファーストの習慣を身につけましょう。</p>\n\n<h2>よく使うブレークポイントの目安</h2>\n<p>ブレークポイントとは、レイアウトを切り替える画面幅の境界値です。絶対的なルールはありませんが、一般的によく使われる値を紹介します。</p>\n<pre><code>/* 一般的なブレークポイントの目安 */\n\n/* スマートフォン縦: 〜480px */\n@media (max-width: 480px) { /* ... */ }\n\n/* タブレット縦: 〜768px */\n@media (max-width: 768px) { /* ... */ }\n\n/* タブレット横/小型PC: 〜1024px */\n@media (max-width: 1024px) { /* ... */ }\n\n/* PC: 1025px〜 */\n@media (min-width: 1025px) { /* ... */ }\n\n/* 大型ディスプレイ: 1440px〜 */\n@media (min-width: 1440px) { /* ... */ }\n\n/* Tailwind CSSのブレークポイント（参考） */\n/* sm: 640px, md: 768px, lg: 1024px, xl: 1280px, 2xl: 1536px */</code></pre>\n<p>現代では特定の数値にこだわるより、コンテンツが崩れ始める幅でブレークポイントを設定するアプローチも推奨されています。</p>\n\n<h2>レスポンシブデザインのCSSテクニック集</h2>\n<p>よく使うレスポンシブ対応のテクニックをまとめます。</p>\n<pre><code>/* ① 画像をレスポンシブにする */\nimg {\n  max-width: 100%;\n  height: auto;  /* 縦横比を維持 */\n}\n\n/* ② コンテナの最大幅を設定 */\n.container {\n  width: 100%;\n  max-width: 1200px;\n  margin: 0 auto;\n  padding: 0 16px;  /* 左右の余白 */\n}\n\n/* ③ フレキシブルなフォントサイズ（clamp） */\nh1 {\n  /* 最小:24px, 推奨:5vw, 最大:48px */\n  font-size: clamp(24px, 5vw, 48px);\n}\n\n/* ④ Flexboxで折り返しレイアウト */\n.card-grid {\n  display: flex;\n  flex-wrap: wrap;\n  gap: 16px;\n}\n\n.card {\n  flex: 1 1 280px;  /* 最低280pxを確保して伸縮 */\n}\n\n/* ⑤ CSS Gridでレスポンシブグリッド */\n.grid {\n  display: grid;\n  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));\n  gap: 24px;\n}</code></pre>\n<p><code>max-width: 100%; height: auto;</code> で画像をレスポンシブにするのはhtml css 初心者が最初に覚えるべきテクニックです。<code>repeat(auto-fit, minmax(280px, 1fr))</code> はCSS Gridの強力なレスポンシブ機能で、画面幅に応じてカラム数が自動的に変わります。</p>\n\n<h2>スマートフォン対応の確認方法</h2>\n<p>作ったページがスマートフォンで正しく表示されるかは、実機で確認するのが理想ですが、ブラウザの開発者ツールでもある程度確認できます。</p>\n<ul>\n  <li>Google ChromeでF12を押して開発者ツールを開く</li>\n  <li>ツールバーの「デバイスエミュレーション」アイコン（スマホとタブレットのアイコン）をクリック</li>\n  <li>デバイスをiPhone・Pixel・iPadなどから選択して表示を確認</li>\n  <li>画面幅を自由に変更してレイアウトが崩れないかチェック</li>\n</ul>\n<pre><code>/* レスポンシブデバッグ用：サイズ確認 */\nbody::before {\n  content: \"xs: \" + screen.width;\n  position: fixed;\n  top: 0;\n  left: 0;\n  background: rgba(0,0,0,0.7);\n  color: white;\n  padding: 4px 8px;\n  font-size: 12px;\n  z-index: 9999;\n}\n\n/* 現在のブレークポイントを表示する疑似要素 */\n@media (min-width: 768px) {\n  body::before { content: \"md (768px+)\"; }\n}\n@media (min-width: 1024px) {\n  body::before { content: \"lg (1024px+)\"; }\n}</code></pre>\n\n<h2>まとめ：レスポンシブデザインの3つのキーワード</h2>\n<p>レスポンシブデザインのポイントは「viewportメタタグ・メディアクエリ・モバイルファースト」の3つです。viewportメタタグはHTMLのheadに必ず書き、メディアクエリで画面サイズに応じたCSSを適用し、モバイルからデザインを考えるモバイルファーストアプローチを習慣にしましょう。画像にはmax-width:100%を指定し、コンテナにはmax-widthとmargin:0 autoを使うのが定番のテクニックです。</p>",
+  "conclusion": "レスポンシブデザインはviewportメタタグとCSSメディアクエリで実現します。モバイルファーストアプローチ（min-widthでスマホ→PC）が現代のSEOにも有利です。画像はmax-width:100%でレスポンシブ化、コンテナはmax-widthとmargin:0 autoで中央配置するテクニックがweb制作の基本です。",
+  "tags": [
+    "CSS",
+    "レスポンシブデザイン",
+    "viewport",
+    "メディアクエリ",
+    "モバイルファースト",
+    "html css 初心者",
+    "web制作 入門"
+  ],
+  "category": "Web開発",
+  "theme": "web - HTML/CSS Web制作入門",
+  "status": "published",
+  "createdAt": "2026-05-30T04:13:24.635Z",
+  "updatedAt": "2026-05-30T04:13:24.645Z",
+  "publishedAt": "2026-05-30T04:13:24.635Z",
+  "metaTitle": "レスポンシブデザイン入門：viewportとメディアクエリ【html css 初心者】 | StackShelf",
+  "metaDescription": "レスポンシブデザインのviewportとメディアクエリをhtml css 初心者向けに解説。モバイルファースト設計、ブレークポイントの設定、柔軟なレイアウト技法を実例コードで説明します。 図解・具体例つきで丁寧に解説します。",
+  "ogTitle": "レスポンシブデザイン入門：viewportとメディアクエリでスマホ対応しよう",
+  "ogDescription": "【Web開発初心者向け】スマホ・タブレット・PCすべてに対応するレスポンシブデザインを解説。viewportとメディアクエリをゼロから学びます。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
+  "knowledge": {
+    "topic": "web",
+    "courseId": "web",
+    "episode": 9
+  },
+  "faq": [
+    {
+      "question": "viewportメタタグを書き忘れるとどうなりますか？",
+      "answer": "スマートフォンでページを開いたとき、ブラウザがPC用の広い幅でレンダリングしてページ全体を縮小表示します。文字が非常に小さくなり、メディアクエリも正しく機能しません。現代のweb制作では必須の設定です。"
+    },
+    {
+      "question": "モバイルファーストとデスクトップファーストどちらがいいですか？",
+      "answer": "モバイルファーストが現代のベストプラクティスです。Googleがモバイルファーストインデックスを採用しており、スマートフォン向けのHTMLとCSSが検索エンジンの評価基準になっています。また、CSSの上書きが少なくなり、スマホでの読み込み速度も向上します。"
+    },
+    {
+      "question": "ブレークポイントの数はどのくらいが適切ですか？",
+      "answer": "一般的には2〜3個（スマートフォン・タブレット・PC）のブレークポイントで対応できます。多すぎるとCSSが複雑になって管理しにくくなります。コンテンツが自然に崩れる幅でブレークポイントを追加するのが、数値にこだわるより実用的なアプローチです。"
+    },
+    {
+      "question": "CSSのvwとvhとは何ですか？",
+      "answer": "vw（viewport width）はビューポート幅の1%、vh（viewport height）はビューポート高の1%を表す単位です。例えば「width: 50vw」は画面幅の半分になります。ヒーロー画像を画面いっぱいに表示する「height: 100vh」は非常によく使われます。"
+    }
+  ],
+  "nextEpisodeHint": "次回はHTMLのフォームを学びます。form・input・label・button・selectタグの使い方と、アクセシブルなフォームの作り方を解説します。",
+  "ogImage": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+  "canonical": "https://ai-site-iota-nine.vercel.app/article/web-responsive",
+  "jsonLd": {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@context": "https://schema.org",
+        "@type": "TechArticle",
+        "headline": "レスポンシブデザイン入門：viewportとメディアクエリでスマホ対応を実現しよう",
+        "description": "レスポンシブデザインのviewportとメディアクエリをhtml css 初心者向けに解説。モバイルファースト設計、ブレークポイントの設定、柔軟なレイアウト技法を実例コードで説明します。 図解・具体例つきで丁寧に解説します。",
+        "datePublished": "2026-05-30T04:13:24.635Z",
+        "dateModified": "2026-05-30T04:13:24.645Z",
+        "author": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
+        },
+        "image": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+        "inLanguage": "ja",
+        "wordCount": 3796,
+        "mainEntityOfPage": {
+          "@type": "WebPage",
+          "@id": "https://ai-site-iota-nine.vercel.app/article/web-responsive"
+        },
+        "keywords": "CSS, レスポンシブデザイン, viewport, メディアクエリ, モバイルファースト, html css 初心者, web制作 入門",
+        "articleSection": "Web開発",
+        "url": "https://ai-site-iota-nine.vercel.app/article/web-responsive",
+        "learningResourceType": "tutorial",
+        "educationalLevel": "beginner"
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "ホーム",
+            "item": "https://ai-site-iota-nine.vercel.app/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "web",
+            "item": "https://ai-site-iota-nine.vercel.app/knowledge/web"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "HTML/CSS Web制作入門",
+            "item": "https://ai-site-iota-nine.vercel.app/course/web/web"
+          },
+          {
+            "@type": "ListItem",
+            "position": 4,
+            "name": "レスポンシブデザイン入門：viewportとメディアクエリでスマホ対応を実現しよう",
+            "item": "https://ai-site-iota-nine.vercel.app/article/web-responsive"
+          }
+        ]
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "Course",
+        "name": "HTML/CSS Web制作入門",
+        "description": "Webサイト制作の基礎を12ステップで学ぶ。HTML/CSSの文法からFlexbox・レスポンシブ・フォームまで、手を動かしながら最初のWebページを作れるようになります。",
+        "provider": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app"
+        },
+        "url": "https://ai-site-iota-nine.vercel.app/course/web/web",
+        "inLanguage": "ja",
+        "educationalLevel": "beginner",
+        "hasCourseInstance": {
+          "@type": "CourseInstance",
+          "courseMode": "online",
+          "courseWorkload": "PT1H"
+        }
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "viewportメタタグを書き忘れるとどうなりますか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "スマートフォンでページを開いたとき、ブラウザがPC用の広い幅でレンダリングしてページ全体を縮小表示します。文字が非常に小さくなり、メディアクエリも正しく機能しません。現代のweb制作では必須の設定です。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "モバイルファーストとデスクトップファーストどちらがいいですか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "モバイルファーストが現代のベストプラクティスです。Googleがモバイルファーストインデックスを採用しており、スマートフォン向けのHTMLとCSSが検索エンジンの評価基準になっています。また、CSSの上書きが少なくなり、スマホでの読み込み速度も向上します。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "ブレークポイントの数はどのくらいが適切ですか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "一般的には2〜3個（スマートフォン・タブレット・PC）のブレークポイントで対応できます。多すぎるとCSSが複雑になって管理しにくくなります。コンテンツが自然に崩れる幅でブレークポイントを追加するのが、数値にこだわるより実用的なアプローチです。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "CSSのvwとvhとは何ですか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "vw（viewport width）はビューポート幅の1%、vh（viewport height）はビューポート高の1%を表す単位です。例えば「width: 50vw」は画面幅の半分になります。ヒーロー画像を画面いっぱいに表示する「height: 100vh」は非常によく使われます。"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "breadcrumb": {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "ホーム",
+        "item": "https://ai-site-iota-nine.vercel.app/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "web",
+        "item": "https://ai-site-iota-nine.vercel.app/knowledge/web"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "HTML/CSS Web制作入門",
+        "item": "https://ai-site-iota-nine.vercel.app/course/web/web"
+      },
+      {
+        "@type": "ListItem",
+        "position": 4,
+        "name": "レスポンシブデザイン入門：viewportとメディアクエリでスマホ対応を実現しよう",
+        "item": "https://ai-site-iota-nine.vercel.app/article/web-responsive"
+      }
+    ]
+  },
+  "courseSchema": {
+    "@context": "https://schema.org",
+    "@type": "Course",
+    "name": "HTML/CSS Web制作入門",
+    "description": "Webサイト制作の基礎を12ステップで学ぶ。HTML/CSSの文法からFlexbox・レスポンシブ・フォームまで、手を動かしながら最初のWebページを作れるようになります。",
+    "provider": {
+      "@type": "Organization",
+      "name": "StackShelf",
+      "url": "https://ai-site-iota-nine.vercel.app"
+    },
+    "url": "https://ai-site-iota-nine.vercel.app/course/web/web",
+    "inLanguage": "ja",
+    "educationalLevel": "beginner",
+    "hasCourseInstance": {
+      "@type": "CourseInstance",
+      "courseMode": "online",
+      "courseWorkload": "PT1H"
+    }
+  },
+  "faqSchema": {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "viewportメタタグを書き忘れるとどうなりますか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "スマートフォンでページを開いたとき、ブラウザがPC用の広い幅でレンダリングしてページ全体を縮小表示します。文字が非常に小さくなり、メディアクエリも正しく機能しません。現代のweb制作では必須の設定です。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "モバイルファーストとデスクトップファーストどちらがいいですか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "モバイルファーストが現代のベストプラクティスです。Googleがモバイルファーストインデックスを採用しており、スマートフォン向けのHTMLとCSSが検索エンジンの評価基準になっています。また、CSSの上書きが少なくなり、スマホでの読み込み速度も向上します。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "ブレークポイントの数はどのくらいが適切ですか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "一般的には2〜3個（スマートフォン・タブレット・PC）のブレークポイントで対応できます。多すぎるとCSSが複雑になって管理しにくくなります。コンテンツが自然に崩れる幅でブレークポイントを追加するのが、数値にこだわるより実用的なアプローチです。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "CSSのvwとvhとは何ですか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "vw（viewport width）はビューポート幅の1%、vh（viewport height）はビューポート高の1%を表す単位です。例えば「width: 50vw」は画面幅の半分になります。ヒーロー画像を画面いっぱいに表示する「height: 100vh」は非常によく使われます。"
+        }
+      }
+    ]
+  }
+}

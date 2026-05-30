@@ -1,0 +1,14 @@
+{
+  "slug": "linux-processes",
+  "courseId": "linux",
+  "episode": 7,
+  "summaryMemory": [
+    "PID=プロセスID。ps aux で全プロセス確認",
+    "top でリアルタイム監視（q で終了、P でCPUソート、M でメモリソート）",
+    "kill PID=正常終了(SIGTERM)、kill -9 PID=強制終了(SIGKILL)は最終手段",
+    "コマンド末尾に & でバックグラウンド実行、jobs で一覧、fg/bg で切替",
+    "nohup コマンド & でターミナルを閉じても継続実行"
+  ],
+  "nextEpisodeHint": "次回は、Linuxの強力な機能であるパイプ（|）とリダイレクト（>、>>、2>&1）の使い方を学びます。コマンドを組み合わせてデータを処理する方法を習得しましょう。",
+  "updatedAt": "2026-05-30T04:13:05.161Z"
+}

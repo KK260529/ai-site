@@ -1,0 +1,7 @@
+{
+  "concepts": [
+    { "id": "cli", "title": "CLI", "description": "Command Line Interface。マウスではなくキーボードで操作する方式" },
+    { "id": "filesystem", "title": "ファイルシステム", "description": "Linuxではすべてがファイル。ディレクトリも特殊なファイル" },
+    { "id": "pipe", "title": "パイプ", "description": "コマンドの出力を次のコマンドの入力に渡す仕組み（|）" }
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "courseId": "linux",
+  "title": "Linux コマンドライン入門",
+  "description": "エンジニア必須のLinuxターミナル操作を10ステップで習得。ファイル操作・権限・プロセス・パイプまで、具体コマンド例付きで丁寧に解説します。",
+  "target": "Linux未経験のプログラミング学習者",
+  "topic": "linux",
+  "episodes": [
+    { "episode": 1, "title": "Linuxとは？コマンドラインの世界", "slug": "linux-intro" },
+    { "episode": 2, "title": "ターミナルの開き方と基本操作", "slug": "linux-terminal-basics" },
+    { "episode": 3, "title": "ファイルとディレクトリ（ls/cd/pwd）", "slug": "linux-files-directories" },
+    { "episode": 4, "title": "ファイルの作成・編集・削除", "slug": "linux-file-operations" },
+    { "episode": 5, "title": "ファイルの中身を見る（cat/grep/less）", "slug": "linux-view-search" },
+    { "episode": 6, "title": "権限とchmod", "slug": "linux-permissions" },
+    { "episode": 7, "title": "プロセス管理（ps/kill）", "slug": "linux-processes" },
+    { "episode": 8, "title": "パイプとリダイレクト", "slug": "linux-pipe-redirect" },
+    { "episode": 9, "title": "環境変数と.bashrc", "slug": "linux-environment" },
+    { "episode": 10, "title": "よく使うコマンド実践集", "slug": "linux-commands-practice" }
+  ]
+}

@@ -1,0 +1,269 @@
+{
+  "id": "art_linux_linux-environment",
+  "slug": "linux-environment",
+  "title": "環境変数・.bashrc・PATHの仕組みを理解する【Linux設定入門】",
+  "summary": "Linux の環境変数（env、export）の使い方、.bashrc や .bash_profile の設定方法、PATH の仕組みとカスタマイズ方法を初心者向けに解説します。",
+  "body": "<h2>環境変数とは何か？</h2>\n<p><strong>環境変数</strong>とは、シェルやプログラムが参照できるキーと値のペアです。プログラムの動作を制御したり、設定情報を共有したりするために使われます。たとえば <code>HOME</code> には自分のホームディレクトリのパスが、<code>PATH</code> にはコマンドを検索するディレクトリの一覧が格納されています。</p>\n<pre><code># 全ての環境変数を一覧表示\nenv\n\n# または printenv で同様の結果\nprintenv\n\n# 特定の環境変数の値を表示\necho $HOME\necho $USER\necho $SHELL\necho $PATH\n\n# 環境変数が設定されているか確認\nprintenv HOME\n# 出力例: /home/ubuntu</code></pre>\n\n<h2>主要な環境変数一覧</h2>\n<p>Linuxにはあらかじめ多くの環境変数が設定されています。よく使うものを覚えておきましょう。</p>\n<ul>\n  <li><code>$HOME</code>：ホームディレクトリのパス（<code>/home/username</code>）</li>\n  <li><code>$USER</code>：現在のユーザー名</li>\n  <li><code>$SHELL</code>：使用中のシェルのパス（<code>/bin/bash</code> など）</li>\n  <li><code>$PATH</code>：コマンド検索パス（後述）</li>\n  <li><code>$PWD</code>：現在のディレクトリ（<code>pwd</code> コマンドと同じ）</li>\n  <li><code>$LANG</code>：言語・ロケール設定（<code>ja_JP.UTF-8</code> など）</li>\n  <li><code>$EDITOR</code>：デフォルトのテキストエディタ</li>\n  <li><code>$TERM</code>：ターミナルの種類</li>\n</ul>\n<pre><code># 環境変数を参照するには $ プレフィックスを使う\necho \"ユーザー名: $USER\"\necho \"ホーム: $HOME\"\necho \"シェル: $SHELL\"\necho \"現在地: $PWD\"</code></pre>\n\n<h2>export：環境変数を設定・エクスポートする</h2>\n<p><code>export</code> は変数を環境変数としてシェルに登録するコマンドです。<code>export</code> なしで設定した変数はシェル変数（現在のシェルのみ有効）で、<code>export</code> で登録した変数は子プロセスにも引き継がれる環境変数になります。</p>\n<pre><code># シェル変数（現在のシェルのみ）\nMY_VAR=\"hello\"\necho $MY_VAR  # 出力: hello\n\n# 環境変数としてエクスポート（子プロセスにも引き継がれる）\nexport MY_VAR=\"hello\"\n\n# 一行で変数の設定とエクスポートを同時に行う\nexport API_KEY=\"your_api_key_here\"\nexport DB_HOST=\"localhost\"\nexport DB_PORT=\"5432\"\n\n# エクスポートされた変数の確認\nexport -p  # または env\n\n# 変数を削除する\nunset MY_VAR\necho $MY_VAR  # 何も表示されない</code></pre>\n\n<h3>環境変数の一時的な適用</h3>\n<pre><code># コマンドの実行時だけ環境変数を適用する\nDEBUG=true node app.js\n\n# 複数の環境変数を一時適用\nAPI_URL=\"http://localhost:3000\" PORT=8080 python3 server.py</code></pre>\n\n<h2>PATH の仕組みとカスタマイズ</h2>\n<p><code>PATH</code> はシェルがコマンドを検索するディレクトリの一覧です。コロン（:）で区切られた複数のディレクトリが左から順に検索されます。これにより、フルパスを指定しなくてもコマンド名だけで実行できます。</p>\n<pre><code># 現在の PATH を確認\necho $PATH\n# 出力例: /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin\n\n# コマンドの実体がどこにあるか確認\nwhich python3\n# 出力例: /usr/bin/python3\n\nwhich git\n# 出力例: /usr/bin/git\n\n# PATH に新しいディレクトリを追加する\nexport PATH=\"$HOME/bin:$PATH\"\n# $PATH の先頭に ~/bin を追加（既存のPATHは保持）\n\n# 確認\necho $PATH</code></pre>\n\n<h3>自作スクリプトを PATH に追加する</h3>\n<pre><code># ~/bin ディレクトリを作成してスクリプトを置く\nmkdir -p ~/bin\n\n# スクリプトを作成\ncat > ~/bin/hello << 'EOF'\n#!/bin/bash\necho \"Hello, $USER!\"\nEOF\n\n# 実行権限を付与\nchmod +x ~/bin/hello\n\n# PATH に ~/bin を追加（.bashrc に記載してから source する）\necho 'export PATH=\"$HOME/bin:$PATH\"' >> ~/.bashrc\nsource ~/.bashrc\n\n# どこからでも実行できるようになる\nhello\n# 出力: Hello, ubuntu!</code></pre>\n\n<h2>.bashrc と .bash_profile の違い</h2>\n<p>シェルの設定ファイルには複数種類があります。使い分けを理解しておきましょう。</p>\n<ul>\n  <li><code>~/.bashrc</code>：インタラクティブシェル（ターミナルを開くたびに読み込まれる）の設定</li>\n  <li><code>~/.bash_profile</code>（または <code>~/.profile</code>）：ログインシェル起動時に一度だけ読み込まれる設定</li>\n  <li><code>~/.bash_aliases</code>：エイリアス専用ファイル（.bashrc から読み込む場合が多い）</li>\n</ul>\n<p>一般的なデスクトップ使用では、設定は <code>~/.bashrc</code> に書けば問題ありません。</p>\n<pre><code># .bashrc を編集\nnano ~/.bashrc\n\n# 設定を変更した後すぐに反映させる（再起動不要）\nsource ~/.bashrc\n# または\n. ~/.bashrc</code></pre>\n\n<h2>.bashrc に設定を追加する（実践）</h2>\n<p>よく使われる .bashrc の設定例を紹介します。</p>\n<pre><code># ~/.bashrc の設定例\n\n# エイリアスの定義\nalias ll='ls -la'\nalias la='ls -la'\nalias ..='cd ..'\nalias ...='cd ../..'\nalias grep='grep --color=auto'\n\n# PATH の追加\nexport PATH=\"$HOME/bin:$HOME/.local/bin:$PATH\"\n\n# デフォルトエディタの設定\nexport EDITOR=nano\n\n# プロンプトのカスタマイズ（例：色付きプロンプト）\nexport PS1='\\[\\033[01;32m\\]\\u@\\h\\[\\033[00m\\]:\\[\\033[01;34m\\]\\w\\[\\033[00m\\]\\$ '\n\n# 履歴の設定\nexport HISTSIZE=10000\nexport HISTFILESIZE=20000\nexport HISTCONTROL=ignoredups  # 重複コマンドを履歴に記録しない\n\n# よく使うディレクトリへのショートカット関数\nproj() { cd ~/projects/$1; }\n\n# 設定後は source で反映\n# source ~/.bashrc</code></pre>\n\n<h3>エイリアスの便利な使い方</h3>\n<pre><code># alias コマンドで現在のエイリアス一覧を確認\nalias\n\n# 一時的にエイリアスを作成（シェルを閉じると消える）\nalias myip='curl -s ifconfig.me'\n\n# 永続的に使うには ~/.bashrc に書く\necho \"alias myip='curl -s ifconfig.me'\" >> ~/.bashrc\nsource ~/.bashrc\n\n# エイリアスを削除\nunalias myip</code></pre>\n\n<h2>まとめ：環境変数とシェル設定のポイント</h2>\n<ul>\n  <li><code>env</code> で全環境変数を確認、<code>echo $変数名</code> で個別確認</li>\n  <li><code>export 変数名=値</code> で環境変数を設定（子プロセスにも引き継がれる）</li>\n  <li><code>PATH</code> にディレクトリを追加してカスタムコマンドを登録</li>\n  <li><code>~/.bashrc</code> に alias や export を書いて永続的に設定</li>\n  <li><code>source ~/.bashrc</code> で設定ファイルを再起動なしに反映</li>\n</ul>",
+  "conclusion": "環境変数とシェル設定ファイルを理解することで、Linux 環境を自分好みにカスタマイズできます。.bashrc に alias や PATH の設定を書くことで作業効率が大幅に上がります。source ~/.bashrc でターミナルを再起動せずに設定を反映させる方法は特に重要です。次はこれまで学んだコマンドを総合的に使う実践練習をしていきます。",
+  "tags": [
+    "Linux",
+    "環境変数",
+    "bashrc",
+    "PATH",
+    "export",
+    "シェル設定"
+  ],
+  "category": "Linux",
+  "theme": "linux - Linux コマンドライン入門",
+  "status": "published",
+  "createdAt": "2026-05-30T04:13:06.415Z",
+  "updatedAt": "2026-05-30T04:13:06.422Z",
+  "publishedAt": "2026-05-30T04:13:06.415Z",
+  "metaTitle": "env export .bashrc PATH の使い方｜Linux 環境変数 シェル設定",
+  "metaDescription": "【Linux初心者向け】linux コマンドの env export .bashrc PATH の使い方をわかりやすく解説。環境変数の設定とシェルのカスタマイズをマスターしましょう。 図解・具体例つきで丁寧に解説します。",
+  "ogTitle": "env/export/.bashrc/PATH でLinux環境をカスタマイズする",
+  "ogDescription": "【Linux初心者向け】【Linux初心者向け】Linuxの環境変数とシェル設定ファイルの仕組みを初心者向けに丁寧に解説します。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
+  "knowledge": {
+    "topic": "linux",
+    "courseId": "linux",
+    "episode": 9
+  },
+  "faq": [
+    {
+      "question": ".bashrc と .bash_profile はどちらに設定を書けばいいですか？",
+      "answer": "迷ったら .bashrc に書いておけば問題ありません。ターミナルを開くたびに読み込まれるため、alias や環境変数の設定には .bashrc が適しています。ログイン時に一度だけ実行したい設定（デーモン起動など）は .bash_profile に書きます。"
+    },
+    {
+      "question": "export なしで変数を設定した場合の違いは何ですか？",
+      "answer": "export なしの変数はシェル変数で、現在のシェルのみで使えます。export で登録した変数は環境変数となり、そのシェルから起動した子プロセス（コマンドや別のスクリプト）にも引き継がれます。"
+    },
+    {
+      "question": "設定ファイルを間違えて壊してしまった場合はどうすればいいですか？",
+      "answer": "cp ~/.bashrc ~/.bashrc.bak のように事前にバックアップを取っておくと安心です。壊した場合は cp ~/.bashrc.bak ~/.bashrc で戻せます。また /etc/skel/.bashrc にデフォルトの .bashrc があるのでそこからコピーして復元できます。"
+    },
+    {
+      "question": "PATHに同じコマンドが複数のディレクトリに存在する場合はどうなりますか？",
+      "answer": "PATH の左（先頭）にあるディレクトリが優先されます。which コマンドで実際に使われているコマンドのパスを確認できます。複数のバージョンがある場合はPATHの順序で使われるものが決まります。"
+    }
+  ],
+  "nextEpisodeHint": "次回は最終回として、これまで学んだLinuxコマンドを総合的に活用する実践コマンド集をお届けします。実務でよく使うテクニックをまとめて習得しましょう。",
+  "ogImage": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+  "canonical": "https://ai-site-iota-nine.vercel.app/article/linux-environment",
+  "jsonLd": {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@context": "https://schema.org",
+        "@type": "TechArticle",
+        "headline": "環境変数・.bashrc・PATHの仕組みを理解する【Linux設定入門】",
+        "description": "【Linux初心者向け】linux コマンドの env export .bashrc PATH の使い方をわかりやすく解説。環境変数の設定とシェルのカスタマイズをマスターしましょう。 図解・具体例つきで丁寧に解説します。",
+        "datePublished": "2026-05-30T04:13:06.415Z",
+        "dateModified": "2026-05-30T04:13:06.422Z",
+        "author": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
+        },
+        "image": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+        "inLanguage": "ja",
+        "wordCount": 2821,
+        "mainEntityOfPage": {
+          "@type": "WebPage",
+          "@id": "https://ai-site-iota-nine.vercel.app/article/linux-environment"
+        },
+        "keywords": "Linux, 環境変数, bashrc, PATH, export, シェル設定",
+        "articleSection": "Linux",
+        "url": "https://ai-site-iota-nine.vercel.app/article/linux-environment",
+        "learningResourceType": "tutorial",
+        "educationalLevel": "beginner"
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "ホーム",
+            "item": "https://ai-site-iota-nine.vercel.app/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "linux",
+            "item": "https://ai-site-iota-nine.vercel.app/knowledge/linux"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "Linux コマンドライン入門",
+            "item": "https://ai-site-iota-nine.vercel.app/course/linux/linux"
+          },
+          {
+            "@type": "ListItem",
+            "position": 4,
+            "name": "環境変数・.bashrc・PATHの仕組みを理解する【Linux設定入門】",
+            "item": "https://ai-site-iota-nine.vercel.app/article/linux-environment"
+          }
+        ]
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "Course",
+        "name": "Linux コマンドライン入門",
+        "description": "エンジニア必須のLinuxターミナル操作を10ステップで習得。ファイル操作・権限・プロセス・パイプまで、具体コマンド例付きで丁寧に解説します。",
+        "provider": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app"
+        },
+        "url": "https://ai-site-iota-nine.vercel.app/course/linux/linux",
+        "inLanguage": "ja",
+        "educationalLevel": "beginner",
+        "hasCourseInstance": {
+          "@type": "CourseInstance",
+          "courseMode": "online",
+          "courseWorkload": "PT1H"
+        }
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": ".bashrc と .bash_profile はどちらに設定を書けばいいですか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "迷ったら .bashrc に書いておけば問題ありません。ターミナルを開くたびに読み込まれるため、alias や環境変数の設定には .bashrc が適しています。ログイン時に一度だけ実行したい設定（デーモン起動など）は .bash_profile に書きます。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "export なしで変数を設定した場合の違いは何ですか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "export なしの変数はシェル変数で、現在のシェルのみで使えます。export で登録した変数は環境変数となり、そのシェルから起動した子プロセス（コマンドや別のスクリプト）にも引き継がれます。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "設定ファイルを間違えて壊してしまった場合はどうすればいいですか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "cp ~/.bashrc ~/.bashrc.bak のように事前にバックアップを取っておくと安心です。壊した場合は cp ~/.bashrc.bak ~/.bashrc で戻せます。また /etc/skel/.bashrc にデフォルトの .bashrc があるのでそこからコピーして復元できます。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "PATHに同じコマンドが複数のディレクトリに存在する場合はどうなりますか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "PATH の左（先頭）にあるディレクトリが優先されます。which コマンドで実際に使われているコマンドのパスを確認できます。複数のバージョンがある場合はPATHの順序で使われるものが決まります。"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "breadcrumb": {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "ホーム",
+        "item": "https://ai-site-iota-nine.vercel.app/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "linux",
+        "item": "https://ai-site-iota-nine.vercel.app/knowledge/linux"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "Linux コマンドライン入門",
+        "item": "https://ai-site-iota-nine.vercel.app/course/linux/linux"
+      },
+      {
+        "@type": "ListItem",
+        "position": 4,
+        "name": "環境変数・.bashrc・PATHの仕組みを理解する【Linux設定入門】",
+        "item": "https://ai-site-iota-nine.vercel.app/article/linux-environment"
+      }
+    ]
+  },
+  "courseSchema": {
+    "@context": "https://schema.org",
+    "@type": "Course",
+    "name": "Linux コマンドライン入門",
+    "description": "エンジニア必須のLinuxターミナル操作を10ステップで習得。ファイル操作・権限・プロセス・パイプまで、具体コマンド例付きで丁寧に解説します。",
+    "provider": {
+      "@type": "Organization",
+      "name": "StackShelf",
+      "url": "https://ai-site-iota-nine.vercel.app"
+    },
+    "url": "https://ai-site-iota-nine.vercel.app/course/linux/linux",
+    "inLanguage": "ja",
+    "educationalLevel": "beginner",
+    "hasCourseInstance": {
+      "@type": "CourseInstance",
+      "courseMode": "online",
+      "courseWorkload": "PT1H"
+    }
+  },
+  "faqSchema": {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": ".bashrc と .bash_profile はどちらに設定を書けばいいですか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "迷ったら .bashrc に書いておけば問題ありません。ターミナルを開くたびに読み込まれるため、alias や環境変数の設定には .bashrc が適しています。ログイン時に一度だけ実行したい設定（デーモン起動など）は .bash_profile に書きます。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "export なしで変数を設定した場合の違いは何ですか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "export なしの変数はシェル変数で、現在のシェルのみで使えます。export で登録した変数は環境変数となり、そのシェルから起動した子プロセス（コマンドや別のスクリプト）にも引き継がれます。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "設定ファイルを間違えて壊してしまった場合はどうすればいいですか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "cp ~/.bashrc ~/.bashrc.bak のように事前にバックアップを取っておくと安心です。壊した場合は cp ~/.bashrc.bak ~/.bashrc で戻せます。また /etc/skel/.bashrc にデフォルトの .bashrc があるのでそこからコピーして復元できます。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "PATHに同じコマンドが複数のディレクトリに存在する場合はどうなりますか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "PATH の左（先頭）にあるディレクトリが優先されます。which コマンドで実際に使われているコマンドのパスを確認できます。複数のバージョンがある場合はPATHの順序で使われるものが決まります。"
+        }
+      }
+    ]
+  }
+}

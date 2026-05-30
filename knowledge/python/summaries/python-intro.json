@@ -1,0 +1,13 @@
+{
+  "slug": "python-intro",
+  "courseId": "python",
+  "episode": 1,
+  "summaryMemory": [
+    "Pythonは1991年作成のシンプルで読みやすいプログラミング言語",
+    "データ分析・Web開発・自動化など幅広い分野で使われている",
+    "現在はPython 3が標準。Python 2はサポート終了済み",
+    "エラーを恐れず手を動かすことがプログラミング上達の近道"
+  ],
+  "nextEpisodeHint": "次回はPythonをWindowsとMacにインストールする手順を解説します。python --versionコマンドで動作確認し、初めてのprint('Hello, World!')を実行してみましょう。",
+  "updatedAt": "2026-05-30T04:12:54.116Z"
+}

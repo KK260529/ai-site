@@ -1,0 +1,270 @@
+{
+  "id": "art_linux_linux-file-operations",
+  "slug": "linux-file-operations",
+  "title": "touch/cp/mv/rm/nano でファイルを作成・コピー・移動・削除する【Linux入門】",
+  "summary": "Linuxでファイルを作成するtouch、コピーするcp、移動・リネームするmv、削除するrm、テキスト編集するnanoの使い方を実例で解説します。",
+  "body": "<h2>touch：ファイルを作成する</h2>\n<p><code>touch</code> コマンドは本来「ファイルのタイムスタンプを更新する」コマンドですが、存在しないファイルを指定すると空のファイルを作成する用途で広く使われています。</p>\n<pre><code># 空のファイルを作成\ntouch sample.txt\n\n# 複数のファイルを一度に作成\ntouch file1.txt file2.txt file3.txt\n\n# 確認\nls -l\n\n# タイムスタンプを現在時刻に更新（ファイルが存在する場合）\ntouch existing_file.txt\n\n# ドット始まりの隠しファイルを作成\ntouch .gitignore</code></pre>\n<p>テキスト内容を持つファイルを作成したい場合は、後述の <code>nano</code> エディタや <code>echo</code> コマンドを使います。</p>\n<pre><code># echo コマンドでファイルに内容を書き込む\necho \"Hello, Linux!\" > hello.txt\n\n# 確認\ncat hello.txt\n# 出力: Hello, Linux!</code></pre>\n\n<h2>cp：ファイルとディレクトリをコピーする</h2>\n<p><code>cp</code>（CoPy）はファイルやディレクトリをコピーするコマンドです。コピー元とコピー先の2つの引数を指定します。</p>\n<pre><code># ファイルをコピー（コピー元 → コピー先）\ncp sample.txt sample_backup.txt\n\n# 別のディレクトリにコピー\ncp sample.txt Documents/\n\n# 別のディレクトリにコピー（ファイル名も変える）\ncp sample.txt Documents/renamed.txt\n\n# 複数のファイルをディレクトリにコピー\ncp file1.txt file2.txt file3.txt Documents/\n\n# ディレクトリをコピー（-r オプションで再帰的にコピー）\ncp -r projects/ projects_backup/\n\n# コピー前に上書き確認をする（-i オプション）\ncp -i sample.txt existing.txt</code></pre>\n\n<h3>cp の重要なオプション</h3>\n<ul>\n  <li><code>-r</code>（--recursive）：ディレクトリを中身ごとコピー。ディレクトリコピー時は必須</li>\n  <li><code>-i</code>（--interactive）：上書き前に確認プロンプトを表示</li>\n  <li><code>-p</code>（--preserve）：タイムスタンプや権限を保持してコピー</li>\n  <li><code>-v</code>（--verbose）：コピーしたファイルを表示</li>\n</ul>\n<pre><code># 権限・タイムスタンプを保持してコピー\ncp -p original.txt backup.txt\n\n# 詳細表示しながらディレクトリコピー\ncp -rv projects/ projects_backup/</code></pre>\n\n<h2>mv：ファイルを移動・リネームする</h2>\n<p><code>mv</code>（MoVe）はファイルやディレクトリの移動と名前の変更（リネーム）に使います。Linuxではリネームと移動が同じコマンドで行えます。</p>\n<pre><code># ファイルをリネーム（名前の変更）\nmv old_name.txt new_name.txt\n\n# ファイルを別のディレクトリへ移動\nmv sample.txt Documents/\n\n# 移動しながらリネーム\nmv sample.txt Documents/renamed.txt\n\n# ディレクトリを移動\nmv projects/ /tmp/\n\n# 複数のファイルをディレクトリへ移動\nmv file1.txt file2.txt Documents/\n\n# 上書き前に確認する\nmv -i source.txt destination.txt</code></pre>\n\n<h3>mv と cp の違い</h3>\n<p><code>cp</code> はコピーを残しますが、<code>mv</code> は元のファイル・ディレクトリを削除して移動します。誤操作を防ぐため、重要な操作の前には <code>-i</code> オプションを付ける習慣をつけましょう。</p>\n<pre><code># バッチリネームの例：拡張子を変える\n# （bash のパターン展開を使った例）\nfor f in *.txt; do mv \"$f\" \"${f%.txt}.md\"; done</code></pre>\n\n<h2>rm：ファイルとディレクトリを削除する</h2>\n<p><code>rm</code>（ReMove）はファイルを削除するコマンドです。<strong>Linuxのrmはゴミ箱に入らず即座に完全削除されます。</strong>元に戻せないため、十分注意して使ってください。</p>\n<pre><code># ファイルを削除\nrm sample.txt\n\n# 削除前に確認プロンプトを表示（推奨）\nrm -i important.txt\n\n# 複数のファイルを削除\nrm file1.txt file2.txt file3.txt\n\n# ディレクトリを中身ごと削除（-r オプション必須）\nrm -r old_project/\n\n# 確認なしで強制削除（！危険！）\nrm -f locked_file.txt\n\n# -rf は特に危険！使用前に必ず二重確認\nrm -rf tmp/</code></pre>\n\n<h3>rm を安全に使うためのコツ</h3>\n<p>削除は取り消せないため、以下の習慣が大切です。</p>\n<ul>\n  <li><code>rm -i</code> を使って削除前に確認する習慣をつける</li>\n  <li>削除前に <code>ls</code> でファイルの存在を確認する</li>\n  <li><code>rm -rf /</code> や <code>rm -rf ~</code> は絶対に実行しない（システムが壊れる）</li>\n  <li>重要なファイルは削除前に <code>cp</code> でバックアップを取る</li>\n</ul>\n<pre><code># 空のディレクトリだけ削除（rmdir）\nrmdir empty_directory/\n\n# rmdir はディレクトリが空でないとエラーになる（安全）\nrmdir non_empty/  # エラー: Directory not empty</code></pre>\n\n<h2>nano：シンプルなテキストエディタ</h2>\n<p><code>nano</code> はターミナル上で動くシンプルなテキストエディタです。vim や emacs と比べて学習コストが低く、初心者でもすぐに使いこなせます。</p>\n<pre><code># 新規ファイルを nano で開く（ファイルが存在しない場合は新規作成）\nnano newfile.txt\n\n# 既存のファイルを編集\nnano ~/.bashrc</code></pre>\n\n<h3>nano の基本操作</h3>\n<p>nano を開くと画面下部にショートカット一覧が表示されます。<code>^</code> は <kbd>Ctrl</kbd> キーを意味します。</p>\n<ul>\n  <li><kbd>Ctrl</kbd>+<kbd>O</kbd>：ファイルを保存（Write Out）。Enterで確定</li>\n  <li><kbd>Ctrl</kbd>+<kbd>X</kbd>：nanoを終了。未保存の場合は保存確認が出る</li>\n  <li><kbd>Ctrl</kbd>+<kbd>W</kbd>：テキスト検索（Where is）</li>\n  <li><kbd>Ctrl</kbd>+<kbd>K</kbd>：現在行を切り取り</li>\n  <li><kbd>Ctrl</kbd>+<kbd>U</kbd>：切り取った行を貼り付け</li>\n  <li><kbd>Ctrl</kbd>+<kbd>G</kbd>：ヘルプを表示</li>\n  <li><kbd>Alt</kbd>+<kbd>U</kbd>：アンドゥ（元に戻す）</li>\n</ul>\n<pre><code># nano で設定ファイルを編集する例\nnano ~/.bashrc\n# 編集後: Ctrl+O → Enter で保存 → Ctrl+X で終了</code></pre>\n\n<h3>vim が必要になる場面</h3>\n<p>多くのサーバー環境では nano がインストールされていないことがあります。その場合は <code>vi</code> または <code>vim</code> を使う必要があります。vim は覚えるまで少し時間がかかりますが、基本操作（i=入力モード、Esc=コマンドモード、:wq=保存終了）だけ覚えておくと緊急時に役立ちます。</p>\n<pre><code># vim の最低限の操作\nvim file.txt\n# i     → 入力モードに切り替え（テキスト入力できる）\n# Esc   → コマンドモードに戻る\n# :w    → 保存\n# :q    → 終了\n# :wq   → 保存して終了\n# :q!   → 保存せずに強制終了</code></pre>\n\n<h2>まとめ：ファイル操作コマンドの早見表</h2>\n<p>今回学んだコマンドをまとめます。</p>\n<ul>\n  <li><code>touch ファイル名</code>：空のファイルを作成</li>\n  <li><code>cp 元 先</code>：コピー（ディレクトリは -r が必須）</li>\n  <li><code>mv 元 先</code>：移動またはリネーム</li>\n  <li><code>rm ファイル名</code>：削除（ゴミ箱なし！）、ディレクトリは -r</li>\n  <li><code>nano ファイル名</code>：テキスト編集（Ctrl+O 保存、Ctrl+X 終了）</li>\n</ul>",
+  "conclusion": "touch、cp、mv、rm、nano の5コマンドでファイルのライフサイクル全体を管理できます。特に rm は取り消しができないため、rm -i で確認してから削除する習慣が重要です。ディレクトリを操作するときは cp -r や rm -r のように -r オプションが必要なことも覚えておきましょう。nanoは初心者に最もやさしいターミナルエディタで、Ctrl+O で保存、Ctrl+X で終了です。",
+  "tags": [
+    "Linux",
+    "touch",
+    "cp",
+    "mv",
+    "rm",
+    "nano",
+    "ファイル操作"
+  ],
+  "category": "Linux",
+  "theme": "linux - Linux コマンドライン入門",
+  "status": "published",
+  "createdAt": "2026-05-30T04:13:03.071Z",
+  "updatedAt": "2026-05-30T04:13:03.075Z",
+  "publishedAt": "2026-05-30T04:13:03.071Z",
+  "metaTitle": "touch cp mv rm nano の使い方｜Linux ファイル操作 コマンド",
+  "metaDescription": "【Linux初心者向け】touch cp mv rm nano コマンドの使い方を初心者向けに解説。linux コマンドでファイルの作成・コピー・移動・削除・編集をマスターしましょう。 図解・具体例つきで丁寧に解説します。",
+  "ogTitle": "touch/cp/mv/rm/nano でファイル操作をマスター【Linux】",
+  "ogDescription": "【Linux初心者向け】【Linux初心者向け】Linuxのファイル作成・コピー・移動・削除・テキスト編集コマンドを丁寧に解説。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
+  "knowledge": {
+    "topic": "linux",
+    "courseId": "linux",
+    "episode": 4
+  },
+  "faq": [
+    {
+      "question": "rm で削除したファイルを元に戻せますか？",
+      "answer": "通常の rm では元に戻せません。削除前にバックアップを取るか、trash-cli などのゴミ箱機能を持つツールをインストールすることをおすすめします。サーバー環境では特に注意が必要です。"
+    },
+    {
+      "question": "cp と mv の使い分けはどうすればいいですか？",
+      "answer": "バックアップを残す場合は cp、ファイルを別の場所に移したりリネームする場合は mv を使います。mv はコピー元が削除されるため、重要なファイルを移動させる前に cp でバックアップを取ることをおすすめします。"
+    },
+    {
+      "question": "nanoがインストールされていない場合はどうすればいいですか？",
+      "answer": "Ubuntu/Debianなら「sudo apt install nano」でインストールできます。インストールできない環境では vi（vim）を使います。vi はほぼすべてのLinux環境にあらかじめインストールされています。"
+    },
+    {
+      "question": "ファイル名にワイルドカード（*）は使えますか？",
+      "answer": "はい、使えます。例えば「rm *.txt」で拡張子.txtのファイルを全削除、「cp *.jpg /backup/」で全JPGファイルをコピーできます。ただし rm と組み合わせるときは特に慎重に。削除前に「ls *.txt」で対象ファイルを確認する習慣をつけましょう。"
+    }
+  ],
+  "nextEpisodeHint": "次回は、ファイルの内容を表示する cat、less、head、tail と、テキスト検索の grep コマンドを学びます。",
+  "ogImage": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+  "canonical": "https://ai-site-iota-nine.vercel.app/article/linux-file-operations",
+  "jsonLd": {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@context": "https://schema.org",
+        "@type": "TechArticle",
+        "headline": "touch/cp/mv/rm/nano でファイルを作成・コピー・移動・削除する【Linux入門】",
+        "description": "【Linux初心者向け】touch cp mv rm nano コマンドの使い方を初心者向けに解説。linux コマンドでファイルの作成・コピー・移動・削除・編集をマスターしましょう。 図解・具体例つきで丁寧に解説します。",
+        "datePublished": "2026-05-30T04:13:03.071Z",
+        "dateModified": "2026-05-30T04:13:03.075Z",
+        "author": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
+        },
+        "image": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+        "inLanguage": "ja",
+        "wordCount": 2844,
+        "mainEntityOfPage": {
+          "@type": "WebPage",
+          "@id": "https://ai-site-iota-nine.vercel.app/article/linux-file-operations"
+        },
+        "keywords": "Linux, touch, cp, mv, rm, nano, ファイル操作",
+        "articleSection": "Linux",
+        "url": "https://ai-site-iota-nine.vercel.app/article/linux-file-operations",
+        "learningResourceType": "tutorial",
+        "educationalLevel": "beginner"
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "ホーム",
+            "item": "https://ai-site-iota-nine.vercel.app/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "linux",
+            "item": "https://ai-site-iota-nine.vercel.app/knowledge/linux"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "Linux コマンドライン入門",
+            "item": "https://ai-site-iota-nine.vercel.app/course/linux/linux"
+          },
+          {
+            "@type": "ListItem",
+            "position": 4,
+            "name": "touch/cp/mv/rm/nano でファイルを作成・コピー・移動・削除する【Linux入門】",
+            "item": "https://ai-site-iota-nine.vercel.app/article/linux-file-operations"
+          }
+        ]
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "Course",
+        "name": "Linux コマンドライン入門",
+        "description": "エンジニア必須のLinuxターミナル操作を10ステップで習得。ファイル操作・権限・プロセス・パイプまで、具体コマンド例付きで丁寧に解説します。",
+        "provider": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app"
+        },
+        "url": "https://ai-site-iota-nine.vercel.app/course/linux/linux",
+        "inLanguage": "ja",
+        "educationalLevel": "beginner",
+        "hasCourseInstance": {
+          "@type": "CourseInstance",
+          "courseMode": "online",
+          "courseWorkload": "PT1H"
+        }
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "rm で削除したファイルを元に戻せますか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "通常の rm では元に戻せません。削除前にバックアップを取るか、trash-cli などのゴミ箱機能を持つツールをインストールすることをおすすめします。サーバー環境では特に注意が必要です。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "cp と mv の使い分けはどうすればいいですか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "バックアップを残す場合は cp、ファイルを別の場所に移したりリネームする場合は mv を使います。mv はコピー元が削除されるため、重要なファイルを移動させる前に cp でバックアップを取ることをおすすめします。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "nanoがインストールされていない場合はどうすればいいですか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Ubuntu/Debianなら「sudo apt install nano」でインストールできます。インストールできない環境では vi（vim）を使います。vi はほぼすべてのLinux環境にあらかじめインストールされています。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "ファイル名にワイルドカード（*）は使えますか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "はい、使えます。例えば「rm *.txt」で拡張子.txtのファイルを全削除、「cp *.jpg /backup/」で全JPGファイルをコピーできます。ただし rm と組み合わせるときは特に慎重に。削除前に「ls *.txt」で対象ファイルを確認する習慣をつけましょう。"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "breadcrumb": {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "ホーム",
+        "item": "https://ai-site-iota-nine.vercel.app/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "linux",
+        "item": "https://ai-site-iota-nine.vercel.app/knowledge/linux"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "Linux コマンドライン入門",
+        "item": "https://ai-site-iota-nine.vercel.app/course/linux/linux"
+      },
+      {
+        "@type": "ListItem",
+        "position": 4,
+        "name": "touch/cp/mv/rm/nano でファイルを作成・コピー・移動・削除する【Linux入門】",
+        "item": "https://ai-site-iota-nine.vercel.app/article/linux-file-operations"
+      }
+    ]
+  },
+  "courseSchema": {
+    "@context": "https://schema.org",
+    "@type": "Course",
+    "name": "Linux コマンドライン入門",
+    "description": "エンジニア必須のLinuxターミナル操作を10ステップで習得。ファイル操作・権限・プロセス・パイプまで、具体コマンド例付きで丁寧に解説します。",
+    "provider": {
+      "@type": "Organization",
+      "name": "StackShelf",
+      "url": "https://ai-site-iota-nine.vercel.app"
+    },
+    "url": "https://ai-site-iota-nine.vercel.app/course/linux/linux",
+    "inLanguage": "ja",
+    "educationalLevel": "beginner",
+    "hasCourseInstance": {
+      "@type": "CourseInstance",
+      "courseMode": "online",
+      "courseWorkload": "PT1H"
+    }
+  },
+  "faqSchema": {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "rm で削除したファイルを元に戻せますか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "通常の rm では元に戻せません。削除前にバックアップを取るか、trash-cli などのゴミ箱機能を持つツールをインストールすることをおすすめします。サーバー環境では特に注意が必要です。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "cp と mv の使い分けはどうすればいいですか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "バックアップを残す場合は cp、ファイルを別の場所に移したりリネームする場合は mv を使います。mv はコピー元が削除されるため、重要なファイルを移動させる前に cp でバックアップを取ることをおすすめします。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "nanoがインストールされていない場合はどうすればいいですか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Ubuntu/Debianなら「sudo apt install nano」でインストールできます。インストールできない環境では vi（vim）を使います。vi はほぼすべてのLinux環境にあらかじめインストールされています。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "ファイル名にワイルドカード（*）は使えますか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "はい、使えます。例えば「rm *.txt」で拡張子.txtのファイルを全削除、「cp *.jpg /backup/」で全JPGファイルをコピーできます。ただし rm と組み合わせるときは特に慎重に。削除前に「ls *.txt」で対象ファイルを確認する習慣をつけましょう。"
+        }
+      }
+    ]
+  }
+}

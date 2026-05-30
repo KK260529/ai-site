@@ -1,0 +1,13 @@
+{
+  "slug": "web-intro",
+  "courseId": "web",
+  "episode": 1,
+  "summaryMemory": [
+    "WebサイトはクライアントがサーバーからHTMLを受け取りブラウザが表示する仕組み",
+    "HTMLが構造・CSSが見た目・JavaScriptが動きを担う三層構造",
+    "html css 初心者はVS CodeとChromeだけで学習を始められる",
+    "HTMLはマークアップ言語でプログラミング言語ではない"
+  ],
+  "nextEpisodeHint": "次回は実際にVS Codeを使って最初のHTMLファイルを作り、ブラウザで表示するところまでやっていきます。HTMLの基本構造（DOCTYPE・html・head・body）を手を動かして学びましょう。",
+  "updatedAt": "2026-05-30T04:13:14.664Z"
+}

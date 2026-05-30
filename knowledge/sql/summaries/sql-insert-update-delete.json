@@ -1,0 +1,13 @@
+{
+  "slug": "sql-insert-update-delete",
+  "courseId": "sql",
+  "episode": 5,
+  "summaryMemory": [
+    "INSERT INTO で新規レコードを追加。複数件は VALUES句を連ねて一括挿入可能",
+    "UPDATE SET で値を更新。必ずWHERE句を付けないと全件更新になる",
+    "DELETE FROM で削除。必ずWHERE句を付けないと全件削除になる",
+    "BEGIN/COMMIT/ROLLBACKトランザクションで複数操作をアトミックに実行"
+  ],
+  "nextEpisodeHint": "次回は複数のテーブルを結合して扱うJOIN構文を学びます。INNER JOINとLEFT JOINの違いを理解して、複数テーブルをまたいだデータ取得をマスターしましょう。",
+  "updatedAt": "2026-05-30T04:13:10.305Z"
+}

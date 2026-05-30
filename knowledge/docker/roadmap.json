@@ -1,0 +1,9 @@
+{
+  "topic": "docker",
+  "title": "Docker 入門",
+  "description": "現場で必須のDockerコンテナ技術を8ステップで学ぶロードマップ。",
+  "beginnerPath": [
+    "docker-intro", "docker-install", "docker-first-container", "docker-image-container",
+    "docker-dockerfile", "docker-compose", "docker-volumes", "docker-webapp-practice"
+  ]
+}

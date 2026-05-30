@@ -1,0 +1,271 @@
+{
+  "id": "art_web_web-text-headings",
+  "slug": "web-text-headings",
+  "title": "見出し・段落・強調の書き方：h1〜h6・p・strong・emタグを徹底解説",
+  "summary": "HTMLのテキスト系タグ（h1〜h6・p・strong・em・br）の使い方と使い分けを初心者向けに解説します。SEOにも直結する見出し構造の正しい作り方を学びましょう。",
+  "body": "<h2>HTMLのテキスト系タグの全体像</h2>\n<p>Webページの中心はテキストです。HTMLにはテキストを意味的に分類するためのタグが多数用意されています。単に「大きい文字」「小さい文字」という見た目の指定ではなく、「これは最も重要な見出し」「これは本文の段落」「ここは特に強調したい」という<strong>意味・役割</strong>を伝えることがHTMLの本質です。</p>\n<p>html css 初心者がよく陥る間違いは、見た目を変えたいためだけにタグを選ぶことです。例えば「文字を大きくしたいからh1を使う」というのは誤りで、見た目の変更はCSSで行うのが正解です。HTMLはあくまで構造と意味を記述するものです。この考え方を「セマンティックHTML（意味のあるHTML）」と呼び、SEOやアクセシビリティに大きく関わる重要な概念です。</p>\n\n<h2>見出しタグ（h1〜h6）の使い方と使い分け</h2>\n<p>HTMLには6段階の見出しタグが用意されています。</p>\n<pre><code>&lt;h1&gt;最も重要な大見出し（ページタイトル）&lt;/h1&gt;\n&lt;h2&gt;セクションの見出し&lt;/h2&gt;\n&lt;h3&gt;サブセクションの見出し&lt;/h3&gt;\n&lt;h4&gt;さらに細かい見出し&lt;/h4&gt;\n&lt;h5&gt;h4より小さい見出し&lt;/h5&gt;\n&lt;h6&gt;最も小さい見出し&lt;/h6&gt;</code></pre>\n<p><code>h1</code> は1ページに1つだけ使うのが原則です。検索エンジンはh1タグをそのページの最も重要なテーマとして認識します。複数の <code>h1</code> があるとSEEの評価が分散してしまいます。</p>\n<p><code>h2</code> はページ内の主要なセクションを分けるために使います。このページであれば「HTMLのテキスト系タグの全体像」「見出しタグの使い方」などがh2に相当します。<code>h3</code> はh2の中のサブトピックに使います。見出しのレベルは<strong>飛び越えてはいけません</strong>。h1の次にいきなりh3を使うのは構造的に誤りです。</p>\n\n<h2>段落タグ（p）：本文テキストの基本</h2>\n<p>本文のテキストは <code>&lt;p&gt;</code> タグで囲みます。<code>p</code> は「paragraph（段落）」の略です。</p>\n<pre><code>&lt;p&gt;これは1つ目の段落です。段落はpタグで囲みます。&lt;/p&gt;\n&lt;p&gt;これは2つ目の段落です。pタグを使うと段落の間に自動で余白が生まれます。&lt;/p&gt;</code></pre>\n<p>ブラウザはデフォルトで <code>p</code> タグの前後に余白（マージン）を入れます。この余白はCSSで調整できます。</p>\n<p>注意点として、段落の途中で改行したいからといって <code>&lt;br&gt;</code> タグを多用するのは避けましょう。<code>&lt;br&gt;</code> は詩や住所のように意味的に改行が必要な場合に使うものです。レイアウト目的の改行や余白追加はCSSで行うのが正しい作り方です。</p>\n<pre><code>&lt;!-- brタグの正しい使い方（詩・住所など） --&gt;\n&lt;p&gt;\n  〒100-0001&lt;br&gt;\n  東京都千代田区千代田1-1\n&lt;/p&gt;</code></pre>\n\n<h2>strongタグとemタグ：強調の使い分け</h2>\n<p>テキストを強調するために <code>&lt;strong&gt;</code> と <code>&lt;em&gt;</code> の2種類のタグがあります。見た目だけで考えると紛らわしいですが、意味が異なります。</p>\n<ul>\n  <li><code>&lt;strong&gt;</code>：<strong>重要性の強調</strong>。「これは特に重要！」という意味を持つ。デフォルトでは太字で表示される。</li>\n  <li><code>&lt;em&gt;</code>：<em>アクセント（読み強調）</em>。「ここを強く読んで」という意味を持つ。デフォルトではイタリック（斜体）で表示される。</li>\n</ul>\n<pre><code>&lt;p&gt;&lt;strong&gt;重要：&lt;/strong&gt;この作業は元に戻せません。&lt;/p&gt;\n&lt;p&gt;彼女は &lt;em&gt;絶対に&lt;/em&gt; 来ると言っていた。&lt;/p&gt;</code></pre>\n<p>スクリーンリーダー（視覚障害者が使う読み上げソフト）は <code>strong</code> と <code>em</code> の違いを音の強さで表現します。「太字にしたいだけ」ならCSSで <code>font-weight: bold</code> を使うべきで、見た目の変更のために意味タグを使わないようにしましょう。</p>\n\n<h2>その他の便利なテキスト系タグ</h2>\n<p>よく使うテキスト系タグをまとめて紹介します。</p>\n<pre><code>&lt;!-- 打ち消し線（削除された内容） --&gt;\n&lt;p&gt;元の価格：&lt;s&gt;10,000円&lt;/s&gt; 特別価格：5,000円&lt;/p&gt;\n\n&lt;!-- コード・プログラム名の表示 --&gt;\n&lt;p&gt;&lt;code&gt;index.html&lt;/code&gt; ファイルを開いてください。&lt;/p&gt;\n\n&lt;!-- 略語の説明 --&gt;\n&lt;p&gt;&lt;abbr title=\"HyperText Markup Language\"&gt;HTML&lt;/abbr&gt; を学ぼう。&lt;/p&gt;\n\n&lt;!-- 上付き・下付き文字 --&gt;\n&lt;p&gt;E = mc&lt;sup&gt;2&lt;/sup&gt;&lt;/p&gt;\n&lt;p&gt;H&lt;sub&gt;2&lt;/sub&gt;O は水の化学式です。&lt;/p&gt;\n\n&lt;!-- 水平線（区切り線） --&gt;\n&lt;hr&gt;</code></pre>\n<p>これらのタグはすべて意味を持っています。<code>s</code> タグは「削除・無効になった情報」を示し、<code>code</code> タグは「コンピューターのコードや変数名」を示します。文字の見た目だけでなく、その内容の意味・役割に合ったタグを選ぶ習慣をつけましょう。</p>\n\n<h2>見出し構造がSEOに与える影響</h2>\n<p>検索エンジン（GoogleなどのSEO）は、HTMLの見出し構造を読んでページのテーマや内容を把握します。適切な見出し構造を持つページは、検索エンジンにとって「このページは何について書かれているか」がわかりやすく、検索順位に好影響を与えます。</p>\n<p>SEOに強い見出し構造の原則は以下の通りです。</p>\n<ul>\n  <li>h1は1ページに1つ、ページの最も重要なテーマを含む</li>\n  <li>h2はページの主要セクションを分ける（検索キーワードを含めると効果的）</li>\n  <li>h1→h2→h3の順番で、レベルを飛ばさない</li>\n  <li>見出しには具体的でわかりやすいキーワードを含める</li>\n</ul>\n<pre><code>&lt;!-- SEOを意識した見出し構造の例 --&gt;\n&lt;h1&gt;HTMLの基本を初心者向けに解説&lt;/h1&gt;\n  &lt;h2&gt;HTMLとは何か&lt;/h2&gt;\n    &lt;h3&gt;タグの基本的な書き方&lt;/h3&gt;\n    &lt;h3&gt;よく使うHTMLタグ一覧&lt;/h3&gt;\n  &lt;h2&gt;CSSとの違い&lt;/h2&gt;\n  &lt;h2&gt;HTMLの学習ロードマップ&lt;/h2&gt;</code></pre>\n<p>web制作 入門の段階から正しい見出し構造を習慣にしておくと、後でSEOを意識したサイト作りが自然と身につきます。</p>\n\n<h2>実践：ブログ記事のHTML構造を作ってみよう</h2>\n<p>学んだタグを使って、簡単なブログ記事のHTML構造を作ってみましょう。</p>\n<pre><code>&lt;!DOCTYPE html&gt;\n&lt;html lang=\"ja\"&gt;\n&lt;head&gt;\n  &lt;meta charset=\"UTF-8\"&gt;\n  &lt;title&gt;はじめての旅行記&lt;/title&gt;\n&lt;/head&gt;\n&lt;body&gt;\n  &lt;h1&gt;京都旅行記：2泊3日で巡る古都の魅力&lt;/h1&gt;\n  &lt;p&gt;先週末、はじめて京都を訪れました。&lt;strong&gt;金閣寺&lt;/strong&gt; の輝きに息をのみ、&lt;em&gt;特別な体験&lt;/em&gt; ができました。&lt;/p&gt;\n\n  &lt;h2&gt;1日目：嵐山と竹林&lt;/h2&gt;\n  &lt;p&gt;午前中は嵐山の竹林を散策しました。&lt;/p&gt;\n\n  &lt;h2&gt;2日目：金閣寺と清水寺&lt;/h2&gt;\n  &lt;p&gt;朝一番で金閣寺へ。観光客が少なく、絶好の写真が撮れました。&lt;/p&gt;\n\n  &lt;h3&gt;清水の舞台で見た絶景&lt;/h3&gt;\n  &lt;p&gt;清水寺からの眺めは &lt;strong&gt;圧巻&lt;/strong&gt; の一言。&lt;/p&gt;\n\n  &lt;h2&gt;まとめ&lt;/h2&gt;\n  &lt;p&gt;京都は何度来ても新しい発見があります。また必ず訪れたいと思います。&lt;/p&gt;\n&lt;/body&gt;\n&lt;/html&gt;</code></pre>\n<p>このようなシンプルな構造でも、HTMLとして意味が完結した文書になっています。まずはこうした小さな例を自分で作ってみることが上達の近道です。</p>\n\n<h2>まとめ：意味に合ったタグを選ぼう</h2>\n<p>HTMLのテキスト系タグはそれぞれ明確な意味を持っています。h1〜h6は見出しの階層を表し、pは段落、strongは重要な強調、emはアクセント強調です。見た目の変更はCSSの仕事で、HTMLは構造と意味の記述に徹しましょう。適切な見出し構造はSEOにも直結するため、html css 初心者の段階から正しい習慣を身につけることが大切です。</p>",
+  "conclusion": "HTMLのテキスト系タグはh1〜h6（見出し）・p（段落）・strong（重要強調）・em（アクセント強調）が基本です。見た目の変更はCSSに任せ、HTMLは意味・役割に合ったタグを選ぶことが原則です。h1は1ページに1つ、見出しレベルは飛ばさないというルールを守ることがSEOにもつながります。",
+  "tags": [
+    "HTML",
+    "h1",
+    "h2",
+    "見出し",
+    "段落",
+    "strong",
+    "em",
+    "html css 初心者"
+  ],
+  "category": "Web開発",
+  "theme": "web - HTML/CSS Web制作入門",
+  "status": "published",
+  "createdAt": "2026-05-30T04:13:16.724Z",
+  "updatedAt": "2026-05-30T04:13:16.735Z",
+  "publishedAt": "2026-05-30T04:13:16.724Z",
+  "metaTitle": "HTMLの見出し・段落・強調タグの使い方【html css 初心者向け解説】｜Web開発入門 | StackShelf",
+  "metaDescription": "【Web開発初心者向け】h1〜h6・p・strong・emなどHTMLのテキスト系タグの使い方と使い分けをhtml css 初心者向けに解説。SEOに重要な見出し構造の作り方もわかります。 図解・具体例つきで丁寧に解説します。",
+  "ogTitle": "見出し・段落・強調：h1〜h6・p・strong・emの使い方",
+  "ogDescription": "【Web開発初心者向け】【Web開発初心者向け】HTMLのテキスト系タグを初心者向けに丁寧解説。見出し構造の正しい作り方からSEOへの影響まで説明します。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
+  "knowledge": {
+    "topic": "web",
+    "courseId": "web",
+    "episode": 3
+  },
+  "faq": [
+    {
+      "question": "h1タグは本当に1ページに1つだけですか？",
+      "answer": "HTML5の仕様では複数のh1を使うことも技術的には可能ですが、SEOの観点からは1ページに1つのh1が推奨されています。Googleもh1を1つにすることを推奨しており、ページの主テーマを明確にするためにも1つにするのがベストプラクティスです。"
+    },
+    {
+      "question": "strongとbタグ、emとiタグの違いは何ですか？",
+      "answer": "strongとemは意味的な強調を表すセマンティックタグです。bタグ（太字）とiタグ（斜体）は単に見た目を変えるだけで意味を持ちません。SEOやアクセシビリティのためにはstrongとemを使うことが推奨されています。"
+    },
+    {
+      "question": "改行したいときはbrタグを使えばいいですか？",
+      "answer": "brタグは詩や住所など意味的に改行が必要な場合に使います。単にスペースを空けたいだけならCSSのmarginやpaddingを使うべきです。brタグを連続して使って余白を作るのは避けてください。"
+    },
+    {
+      "question": "見出しタグの見た目はCSSで変えられますか？",
+      "answer": "はい、変えられます。例えばh2のフォントサイズ・色・太さなどはすべてCSSで自由にカスタマイズできます。h1をh2より小さく見せることも技術的には可能ですが、構造の意味と見た目が食い違うので混乱を招きます。タグは意味で選び、見た目はCSSで調整しましょう。"
+    }
+  ],
+  "nextEpisodeHint": "次回はリンク（aタグ）と画像（imgタグ）の使い方を学びます。href属性・src属性・alt属性の役割と、相対パス・絶対パスの違いを理解しましょう。",
+  "ogImage": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+  "canonical": "https://ai-site-iota-nine.vercel.app/article/web-text-headings",
+  "jsonLd": {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@context": "https://schema.org",
+        "@type": "TechArticle",
+        "headline": "見出し・段落・強調の書き方：h1〜h6・p・strong・emタグを徹底解説",
+        "description": "【Web開発初心者向け】h1〜h6・p・strong・emなどHTMLのテキスト系タグの使い方と使い分けをhtml css 初心者向けに解説。SEOに重要な見出し構造の作り方もわかります。 図解・具体例つきで丁寧に解説します。",
+        "datePublished": "2026-05-30T04:13:16.724Z",
+        "dateModified": "2026-05-30T04:13:16.735Z",
+        "author": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
+        },
+        "image": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+        "inLanguage": "ja",
+        "wordCount": 3742,
+        "mainEntityOfPage": {
+          "@type": "WebPage",
+          "@id": "https://ai-site-iota-nine.vercel.app/article/web-text-headings"
+        },
+        "keywords": "HTML, h1, h2, 見出し, 段落, strong, em, html css 初心者",
+        "articleSection": "Web開発",
+        "url": "https://ai-site-iota-nine.vercel.app/article/web-text-headings",
+        "learningResourceType": "tutorial",
+        "educationalLevel": "beginner"
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "ホーム",
+            "item": "https://ai-site-iota-nine.vercel.app/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "web",
+            "item": "https://ai-site-iota-nine.vercel.app/knowledge/web"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "HTML/CSS Web制作入門",
+            "item": "https://ai-site-iota-nine.vercel.app/course/web/web"
+          },
+          {
+            "@type": "ListItem",
+            "position": 4,
+            "name": "見出し・段落・強調の書き方：h1〜h6・p・strong・emタグを徹底解説",
+            "item": "https://ai-site-iota-nine.vercel.app/article/web-text-headings"
+          }
+        ]
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "Course",
+        "name": "HTML/CSS Web制作入門",
+        "description": "Webサイト制作の基礎を12ステップで学ぶ。HTML/CSSの文法からFlexbox・レスポンシブ・フォームまで、手を動かしながら最初のWebページを作れるようになります。",
+        "provider": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app"
+        },
+        "url": "https://ai-site-iota-nine.vercel.app/course/web/web",
+        "inLanguage": "ja",
+        "educationalLevel": "beginner",
+        "hasCourseInstance": {
+          "@type": "CourseInstance",
+          "courseMode": "online",
+          "courseWorkload": "PT1H"
+        }
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "h1タグは本当に1ページに1つだけですか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "HTML5の仕様では複数のh1を使うことも技術的には可能ですが、SEOの観点からは1ページに1つのh1が推奨されています。Googleもh1を1つにすることを推奨しており、ページの主テーマを明確にするためにも1つにするのがベストプラクティスです。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "strongとbタグ、emとiタグの違いは何ですか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "strongとemは意味的な強調を表すセマンティックタグです。bタグ（太字）とiタグ（斜体）は単に見た目を変えるだけで意味を持ちません。SEOやアクセシビリティのためにはstrongとemを使うことが推奨されています。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "改行したいときはbrタグを使えばいいですか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "brタグは詩や住所など意味的に改行が必要な場合に使います。単にスペースを空けたいだけならCSSのmarginやpaddingを使うべきです。brタグを連続して使って余白を作るのは避けてください。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "見出しタグの見た目はCSSで変えられますか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "はい、変えられます。例えばh2のフォントサイズ・色・太さなどはすべてCSSで自由にカスタマイズできます。h1をh2より小さく見せることも技術的には可能ですが、構造の意味と見た目が食い違うので混乱を招きます。タグは意味で選び、見た目はCSSで調整しましょう。"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "breadcrumb": {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "ホーム",
+        "item": "https://ai-site-iota-nine.vercel.app/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "web",
+        "item": "https://ai-site-iota-nine.vercel.app/knowledge/web"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "HTML/CSS Web制作入門",
+        "item": "https://ai-site-iota-nine.vercel.app/course/web/web"
+      },
+      {
+        "@type": "ListItem",
+        "position": 4,
+        "name": "見出し・段落・強調の書き方：h1〜h6・p・strong・emタグを徹底解説",
+        "item": "https://ai-site-iota-nine.vercel.app/article/web-text-headings"
+      }
+    ]
+  },
+  "courseSchema": {
+    "@context": "https://schema.org",
+    "@type": "Course",
+    "name": "HTML/CSS Web制作入門",
+    "description": "Webサイト制作の基礎を12ステップで学ぶ。HTML/CSSの文法からFlexbox・レスポンシブ・フォームまで、手を動かしながら最初のWebページを作れるようになります。",
+    "provider": {
+      "@type": "Organization",
+      "name": "StackShelf",
+      "url": "https://ai-site-iota-nine.vercel.app"
+    },
+    "url": "https://ai-site-iota-nine.vercel.app/course/web/web",
+    "inLanguage": "ja",
+    "educationalLevel": "beginner",
+    "hasCourseInstance": {
+      "@type": "CourseInstance",
+      "courseMode": "online",
+      "courseWorkload": "PT1H"
+    }
+  },
+  "faqSchema": {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "h1タグは本当に1ページに1つだけですか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "HTML5の仕様では複数のh1を使うことも技術的には可能ですが、SEOの観点からは1ページに1つのh1が推奨されています。Googleもh1を1つにすることを推奨しており、ページの主テーマを明確にするためにも1つにするのがベストプラクティスです。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "strongとbタグ、emとiタグの違いは何ですか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "strongとemは意味的な強調を表すセマンティックタグです。bタグ（太字）とiタグ（斜体）は単に見た目を変えるだけで意味を持ちません。SEOやアクセシビリティのためにはstrongとemを使うことが推奨されています。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "改行したいときはbrタグを使えばいいですか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "brタグは詩や住所など意味的に改行が必要な場合に使います。単にスペースを空けたいだけならCSSのmarginやpaddingを使うべきです。brタグを連続して使って余白を作るのは避けてください。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "見出しタグの見た目はCSSで変えられますか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "はい、変えられます。例えばh2のフォントサイズ・色・太さなどはすべてCSSで自由にカスタマイズできます。h1をh2より小さく見せることも技術的には可能ですが、構造の意味と見た目が食い違うので混乱を招きます。タグは意味で選び、見た目はCSSで調整しましょう。"
+        }
+      }
+    ]
+  }
+}

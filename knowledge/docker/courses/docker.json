@@ -1,0 +1,17 @@
+{
+  "courseId": "docker",
+  "title": "Docker 入門",
+  "description": "コンテナ技術Dockerを8ステップで習得。インストールからDockerfile・docker compose・ボリュームまで、開発環境構築に必須のスキルを具体例で学びます。",
+  "target": "Docker未経験の開発者",
+  "topic": "docker",
+  "episodes": [
+    { "episode": 1, "title": "Dockerとは？仮想化との違い", "slug": "docker-intro" },
+    { "episode": 2, "title": "Dockerのインストール", "slug": "docker-install" },
+    { "episode": 3, "title": "最初のコンテナを動かす", "slug": "docker-first-container" },
+    { "episode": 4, "title": "イメージとコンテナの仕組み", "slug": "docker-image-container" },
+    { "episode": 5, "title": "Dockerfileの書き方", "slug": "docker-dockerfile" },
+    { "episode": 6, "title": "docker composeで複数サービス", "slug": "docker-compose" },
+    { "episode": 7, "title": "ボリュームとデータ永続化", "slug": "docker-volumes" },
+    { "episode": 8, "title": "実践：WebアプリをDocker化", "slug": "docker-webapp-practice" }
+  ]
+}

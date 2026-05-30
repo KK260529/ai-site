@@ -1,0 +1,13 @@
+{
+  "slug": "web-forms",
+  "courseId": "web",
+  "episode": 10,
+  "summaryMemory": [
+    "formタグのaction（送信先URL）とmethod（GET/POST）が基本設定",
+    "inputのtype属性でテキスト・メール・パスワード・チェックボックスなどを切り替える",
+    "labelとinputはfor属性とid属性で紐付けるのがアクセシビリティの基本",
+    "required・minlength・pattern属性でHTMLバリデーションができる"
+  ],
+  "nextEpisodeHint": "次回はCSS実践として、学んだHTML/CSSを組み合わせてシンプルなランディングページを作ります。ヘッダー・ヒーロー・特徴セクション・フッターを実際に組み上げてみましょう。",
+  "updatedAt": "2026-05-30T04:13:25.597Z"
+}

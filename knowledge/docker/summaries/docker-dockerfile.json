@@ -1,0 +1,13 @@
+{
+  "slug": "docker-dockerfile",
+  "courseId": "docker",
+  "episode": 5,
+  "summaryMemory": [
+    "DockerfileはFROM（ベース）→WORKDIR→COPY→RUN→EXPOSE→CMDの順で書くのが一般的",
+    "RUN命令は&&でつなげて1レイヤーにまとめることでイメージサイズを削減できる",
+    "package.jsonを先にCOPYしてnpm installすることでキャッシュが効き、ビルドが速くなる",
+    "マルチステージビルドでビルド用と本番用を分けると本番イメージを大幅に軽量化できる"
+  ],
+  "nextEpisodeHint": "次回は Docker Compose を使って、複数のコンテナ（アプリ＋DB等）を一括管理する方法を学びます。docker-compose.yml の書き方とservices設定を詳しく解説します。",
+  "updatedAt": "2026-05-30T04:13:32.354Z"
+}

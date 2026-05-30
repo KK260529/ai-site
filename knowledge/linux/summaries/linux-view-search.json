@@ -1,0 +1,14 @@
+{
+  "slug": "linux-view-search",
+  "courseId": "linux",
+  "episode": 5,
+  "summaryMemory": [
+    "cat=即時表示（短いファイル向け）、less=ページ閲覧（大きいファイル向け）",
+    "head -n 数=先頭N行、tail -n 数=末尾N行",
+    "tail -f でログをリアルタイム監視",
+    "grep -i=大文字小文字無視、-n=行番号、-r=再帰、-v=反転、-A/-B/-C=前後の行も表示",
+    "grep -E でOR検索（|）、grep -w で単語境界マッチ"
+  ],
+  "nextEpisodeHint": "次回は、Linuxのファイル権限システム chmod と chown を学びます。rwx の意味と数値表記での権限設定を理解しましょう。",
+  "updatedAt": "2026-05-30T04:13:03.908Z"
+}

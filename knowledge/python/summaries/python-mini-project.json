@@ -1,0 +1,13 @@
+{
+  "slug": "python-mini-project",
+  "courseId": "python",
+  "episode": 12,
+  "summaryMemory": [
+    "TodoItemクラスとTodoManagerクラスの2層設計でTODOツールを実装した",
+    "JSONファイルへの保存・読み込みでプログラム終了後もデータを保持できる",
+    "while Trueループとif/elifでコマンド入力を処理するメインループを実装",
+    "クラス・例外処理・ファイル操作・ループ・関数など12エピソードの総まとめ"
+  ],
+  "nextEpisodeHint": "Python入門コースの全12エピソードを完了しました！次のステップとしてWebスクレイピング・データ分析（pandas）・Web開発（Flask）など、興味のある分野に進んでみましょう。",
+  "updatedAt": "2026-05-30T04:13:00.487Z"
+}

@@ -1,0 +1,13 @@
+{
+  "slug": "python-list-dict",
+  "courseId": "python",
+  "episode": 7,
+  "summaryMemory": [
+    "リスト[]は順序付きのデータ。append/insert/pop/remove/sortなどのメソッドで操作",
+    "辞書{}はキーと値のペア。dict[key]でアクセス、.items()でキーと値を同時にループ",
+    "タプル()は変更不可のリスト。複数の戻り値を受け取るアンパックによく使う",
+    "スライス[start:end:step]でリストの部分取得・逆順も可能"
+  ],
+  "nextEpisodeHint": "次回はファイルの読み書きを学びます。open()関数・read()/write()・withブロックを使って、テキストファイルやCSVファイルをPythonで操作する方法を解説します。",
+  "updatedAt": "2026-05-30T04:12:57.486Z"
+}

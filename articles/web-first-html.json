@@ -1,0 +1,270 @@
+{
+  "id": "art_web_web-first-html",
+  "slug": "web-first-html",
+  "title": "最初のHTMLページを作ろう！DOCTYPE・head・bodyの基本構造を解説",
+  "summary": "HTMLファイルの基本構造（DOCTYPE宣言・html・head・body）をゼロから丁寧に解説します。html css 初心者が最初に書くべきコードを手順ごとに説明するweb制作 入門コンテンツです。",
+  "body": "<h2>HTMLファイルを作る前に知っておくこと</h2>\n<p>HTMLファイルは、拡張子が <code>.html</code> のテキストファイルです。中身は普通の文字（テキスト）で、特別なソフトなしにテキストエディタで作成・編集できます。ブラウザはこのテキストを読み込んで、タグの意味を解釈しながら画面に表示します。</p>\n<p>html css 初心者がよく疑問に思うのが「どうやってファイルを作ればいいの？」という点です。答えはシンプルで、VS Codeを開き、新しいファイルを作成して <code>index.html</code> という名前で保存するだけです。この <code>index.html</code> というファイル名は特別な意味を持っていて、Webサーバーがデフォルトで返すファイルとして認識されます。トップページのファイル名には慣習的に <code>index.html</code> を使います。</p>\n\n<h2>HTMLの最小構成テンプレートを理解する</h2>\n<p>すべてのHTMLファイルは次のような基本的な構造から始まります。この構造を「HTMLのボイラープレート（雛形）」と呼びます。</p>\n<pre><code>&lt;!DOCTYPE html&gt;\n&lt;html lang=\"ja\"&gt;\n&lt;head&gt;\n  &lt;meta charset=\"UTF-8\"&gt;\n  &lt;meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\"&gt;\n  &lt;title&gt;はじめてのHTMLページ&lt;/title&gt;\n&lt;/head&gt;\n&lt;body&gt;\n  &lt;h1&gt;こんにちは、世界！&lt;/h1&gt;\n  &lt;p&gt;これが最初のHTMLページです。&lt;/p&gt;\n&lt;/body&gt;\n&lt;/html&gt;</code></pre>\n<p>それぞれの行が何を意味するのか、一つひとつ丁寧に見ていきましょう。</p>\n\n<h2>DOCTYPE宣言とは何か</h2>\n<p><code>&lt;!DOCTYPE html&gt;</code> は、このファイルがHTML5形式で書かれていることをブラウザに伝えるための宣言です。HTMLタグではなく、ブラウザへの「事前案内」のようなものです。これを書かないとブラウザが「互換モード（Quirks Mode）」という古い解釈モードで動作してしまい、レイアウトが崩れることがあります。</p>\n<p>必ずHTMLファイルの<strong>1行目</strong>に書く必要があります。大文字・小文字は問いませんが、<code>&lt;!DOCTYPE html&gt;</code> と書くのが現代のベストプラクティスです。web制作 入門として必ず覚えておきましょう。</p>\n\n<h2>htmlタグ・headタグ・bodyタグの役割</h2>\n<p><code>&lt;html&gt;</code> タグはページ全体を囲む「ルート要素」です。<code>lang=\"ja\"</code> という属性は、このページが日本語で書かれていることを示しており、検索エンジンやスクリーンリーダーが正しく処理するために重要です。英語のページなら <code>lang=\"en\"</code> にします。</p>\n<p><code>&lt;head&gt;</code> タグの中には、ページの<strong>メタ情報</strong>（画面に表示されない情報）を書きます。文字コード、タイトル、CSSの読み込みなどがここに入ります。</p>\n<p><code>&lt;body&gt;</code> タグの中には、ブラウザの画面に<strong>実際に表示される内容</strong>を書きます。テキスト・画像・リンクなど、ユーザーが見るものはすべて <code>&lt;body&gt;</code> の中に書きます。</p>\n<pre><code>&lt;html lang=\"ja\"&gt;   &lt;!-- ページ全体を囲む --&gt;\n&lt;head&gt;\n  &lt;!-- 画面に表示されないメタ情報 --&gt;\n  &lt;title&gt;タブに表示されるタイトル&lt;/title&gt;\n&lt;/head&gt;\n&lt;body&gt;\n  &lt;!-- 画面に表示されるコンテンツ --&gt;\n  &lt;h1&gt;見出し&lt;/h1&gt;\n&lt;/body&gt;\n&lt;/html&gt;</code></pre>\n\n<h2>headタグの中に書くべき重要なmeta要素</h2>\n<p>headタグの中でよく使う要素を紹介します。</p>\n<p><strong>charset（文字コード）</strong>：<code>&lt;meta charset=\"UTF-8\"&gt;</code> は文字の種類（エンコーディング）を指定します。UTF-8は日本語を含む世界中のほぼすべての文字を表現できる文字コードです。これを省略すると日本語が文字化けすることがあるため、必ず書きましょう。</p>\n<p><strong>viewport（表示領域）</strong>：<code>&lt;meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\"&gt;</code> はスマートフォンでの表示を正しく制御するための指定です。これがないとスマホでPCサイトを縮小表示したような状態になります。</p>\n<p><strong>title（ページタイトル）</strong>：<code>&lt;title&gt;</code> タグの内容はブラウザのタブや検索エンジンの結果に表示されます。ページごとに適切なタイトルをつけることがSEO上も重要です。</p>\n<pre><code>&lt;head&gt;\n  &lt;meta charset=\"UTF-8\"&gt;\n  &lt;meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\"&gt;\n  &lt;meta name=\"description\" content=\"ページの説明文（検索結果に表示されます）\"&gt;\n  &lt;title&gt;ページタイトル | サイト名&lt;/title&gt;\n&lt;/head&gt;</code></pre>\n\n<h2>HTMLタグの書き方：開始タグ・終了タグ・自己終了タグ</h2>\n<p>HTMLのタグには主に2種類あります。</p>\n<p><strong>開始タグと終了タグのペア</strong>：<code>&lt;p&gt;ここに内容&lt;/p&gt;</code> のように、開始タグ（<code>&lt;p&gt;</code>）と終了タグ（<code>&lt;/p&gt;</code>）でコンテンツを囲むタイプです。ほとんどのタグがこの形式です。終了タグには「/（スラッシュ）」がつきます。</p>\n<p><strong>自己終了タグ（空要素）</strong>：<code>&lt;meta&gt;</code> や <code>&lt;img&gt;</code>、<code>&lt;br&gt;</code>、<code>&lt;hr&gt;</code> のように、内容を持たないタグです。終了タグが不要で、<code>&lt;meta charset=\"UTF-8\"&gt;</code> のように書きます。</p>\n<p>タグは<strong>ネスト（入れ子）</strong>にすることができます。例えば <code>&lt;p&gt;&lt;strong&gt;太字&lt;/strong&gt;の文字&lt;/p&gt;</code> のように、タグの中にタグを書けます。ただし、正しく閉じる順番を守ることが重要です。</p>\n\n<h2>VS Codeで最初のHTMLファイルを作る手順</h2>\n<p>それでは実際にファイルを作成してみましょう。手順は次のとおりです。</p>\n<ul>\n  <li>デスクトップに <code>my-website</code> という名前のフォルダを作成する</li>\n  <li>VS Codeでそのフォルダを開く（「ファイル」→「フォルダーを開く」）</li>\n  <li>エクスプローラーパネルで「新しいファイル」をクリックし、<code>index.html</code> と入力する</li>\n  <li>VS Codeで <code>!</code> と入力してTabキーを押すと、基本構造が自動で挿入される（Emmet機能）</li>\n  <li><code>body</code> タグの中に <code>&lt;h1&gt;はじめてのページ&lt;/h1&gt;</code> と書いて保存する</li>\n  <li>作成した <code>index.html</code> ファイルをブラウザにドラッグ＆ドロップして確認する</li>\n</ul>\n<p>ブラウザに「はじめてのページ」という見出しが表示されれば成功です。これがhtml css 初心者にとっての最初の達成感です。ここからHTMLの各タグを学んでいきましょう。</p>\n<pre><code>&lt;!-- VS Codeで ! + Tab を押すと自動挿入される雛形 --&gt;\n&lt;!DOCTYPE html&gt;\n&lt;html lang=\"en\"&gt;\n&lt;head&gt;\n    &lt;meta charset=\"UTF-8\"&gt;\n    &lt;meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\"&gt;\n    &lt;title&gt;Document&lt;/title&gt;\n&lt;/head&gt;\n&lt;body&gt;\n    &lt;!-- ここにコンテンツを書く --&gt;\n&lt;/body&gt;\n&lt;/html&gt;</code></pre>\n\n<h2>よくあるHTMLの書き間違いとその対処法</h2>\n<p>html css 初心者がよく犯すミスをいくつか紹介します。</p>\n<ul>\n  <li><strong>終了タグの書き忘れ</strong>：<code>&lt;p&gt;</code> に対する <code>&lt;/p&gt;</code> を忘れると、以降のHTML構造が崩れます。ブラウザは自動補完してくれることもありますが、それに頼るのは危険です。</li>\n  <li><strong>タグの入れ子ミス</strong>：<code>&lt;p&gt;&lt;strong&gt;テキスト&lt;/p&gt;&lt;/strong&gt;</code> は誤りで、<code>&lt;p&gt;&lt;strong&gt;テキスト&lt;/strong&gt;&lt;/p&gt;</code> が正しい書き方です。開いた順番通りに閉じる必要があります。</li>\n  <li><strong>属性の引用符忘れ</strong>：<code>href=https://example.com</code> ではなく、<code>href=\"https://example.com\"</code> のようにダブルクォートで囲みます。</li>\n  <li><strong>半角・全角の混在</strong>：HTMLのタグや属性は半角文字で書きます。全角の <code>＜h1＞</code> はタグとして認識されません。</li>\n</ul>\n<p>VS Codeには構文のハイライト表示や自動補完機能があるため、ミスを早期に発見しやすい環境が整っています。エラーが出ても焦らず、コードを上から順番に確認する習慣をつけましょう。</p>\n\n<h2>まとめ：HTMLの基本構造は5行から始まる</h2>\n<p>HTMLの基本構造はDOCTYPE宣言・htmlタグ・headタグ・bodyタグで成り立っています。headの中にはcharset・viewport・titleなどのメタ情報を書き、bodyの中に実際に表示するコンテンツを書きます。VS Codeの「!」ショートカットを使えば雛形が一瞬で挿入でき、あとは内容を書き加えるだけです。このシンプルな構造が、どんな大規模なWebサイトの基盤にもなっています。</p>",
+  "conclusion": "HTMLの基本構造はDOCTYPE・html・head・bodyの4つで構成されています。headには見えないメタ情報、bodyには表示するコンテンツを書きます。VS Codeで「!」+Tabを押せば雛形が自動挿入でき、ブラウザにドラッグするだけで表示確認できます。html css 初心者はまずこの基本テンプレートを暗記するより、何度も書いて体で覚えることが大切です。",
+  "tags": [
+    "HTML",
+    "DOCTYPE",
+    "head",
+    "body",
+    "初心者",
+    "web制作 入門",
+    "html css 初心者"
+  ],
+  "category": "Web開発",
+  "theme": "web - HTML/CSS Web制作入門",
+  "status": "published",
+  "createdAt": "2026-05-30T04:13:15.451Z",
+  "updatedAt": "2026-05-30T04:13:15.456Z",
+  "publishedAt": "2026-05-30T04:13:15.451Z",
+  "metaTitle": "最初のHTMLページの作り方【html css 初心者・web制作 入門】｜Web開発入門 | StackShelf",
+  "metaDescription": "HTMLの基本構造（DOCTYPE・html・head・body）をゼロから解説。VS Codeでファイルを作成してブラウザで確認するまでの手順をhtml css 初心者向けに丁寧に説明します。 図解・具体例つきで丁寧に解説します。",
+  "ogTitle": "最初のHTMLページを作ろう！DOCTYPE・head・bodyの基本構造",
+  "ogDescription": "【Web開発初心者向け】HTMLファイルの基本構造をゼロから解説。初めてのHTMLページをVS Codeで作ってブラウザに表示する手順を説明します。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
+  "knowledge": {
+    "topic": "web",
+    "courseId": "web",
+    "episode": 2
+  },
+  "faq": [
+    {
+      "question": "index.htmlという名前には意味がありますか？",
+      "answer": "はい、意味があります。Webサーバーはデフォルトでindex.htmlをトップページとして返す設定になっています。例えば「example.com」にアクセスすると、サーバーは自動的に「example.com/index.html」を返します。トップページのファイル名には慣習的にindex.htmlを使いましょう。"
+    },
+    {
+      "question": "DOCTYPE宣言を書き忘れるとどうなりますか？",
+      "answer": "ブラウザが「互換モード（Quirks Mode）」で動作し、CSSのレイアウトが意図通りに表示されないことがあります。特に古いブラウザとの互換性に問題が出やすいです。必ずファイルの1行目に書く習慣をつけましょう。"
+    },
+    {
+      "question": "VS Code以外のエディタでも学習できますか？",
+      "answer": "はい、できます。メモ帳（Notepad）でもHTMLファイルは作れます。ただしVS Codeはシンタックスハイライト・自動補完・エラー表示などの機能が充実しており、学習効率が大幅に上がります。無料なので迷わずVS Codeを使うことをおすすめします。"
+    },
+    {
+      "question": "htmlタグのlang属性は必須ですか？",
+      "answer": "必須ではありませんが、書くことを強く推奨します。lang属性がないと検索エンジンやスクリーンリーダーがページの言語を正しく識別できず、SEOやアクセシビリティに悪影響が出ます。日本語ページはlang=\"ja\"、英語ページはlang=\"en\"を指定しましょう。"
+    }
+  ],
+  "nextEpisodeHint": "次回は見出し（h1〜h6）・段落（p）・強調（strong・em）などテキスト系のタグを詳しく学びます。ページの文章構造をHTMLで正しく表現する方法を習得しましょう。",
+  "ogImage": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+  "canonical": "https://ai-site-iota-nine.vercel.app/article/web-first-html",
+  "jsonLd": {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@context": "https://schema.org",
+        "@type": "TechArticle",
+        "headline": "最初のHTMLページを作ろう！DOCTYPE・head・bodyの基本構造を解説",
+        "description": "HTMLの基本構造（DOCTYPE・html・head・body）をゼロから解説。VS Codeでファイルを作成してブラウザで確認するまでの手順をhtml css 初心者向けに丁寧に説明します。 図解・具体例つきで丁寧に解説します。",
+        "datePublished": "2026-05-30T04:13:15.451Z",
+        "dateModified": "2026-05-30T04:13:15.456Z",
+        "author": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
+        },
+        "image": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+        "inLanguage": "ja",
+        "wordCount": 4030,
+        "mainEntityOfPage": {
+          "@type": "WebPage",
+          "@id": "https://ai-site-iota-nine.vercel.app/article/web-first-html"
+        },
+        "keywords": "HTML, DOCTYPE, head, body, 初心者, web制作 入門, html css 初心者",
+        "articleSection": "Web開発",
+        "url": "https://ai-site-iota-nine.vercel.app/article/web-first-html",
+        "learningResourceType": "tutorial",
+        "educationalLevel": "beginner"
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "ホーム",
+            "item": "https://ai-site-iota-nine.vercel.app/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "web",
+            "item": "https://ai-site-iota-nine.vercel.app/knowledge/web"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "HTML/CSS Web制作入門",
+            "item": "https://ai-site-iota-nine.vercel.app/course/web/web"
+          },
+          {
+            "@type": "ListItem",
+            "position": 4,
+            "name": "最初のHTMLページを作ろう！DOCTYPE・head・bodyの基本構造を解説",
+            "item": "https://ai-site-iota-nine.vercel.app/article/web-first-html"
+          }
+        ]
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "Course",
+        "name": "HTML/CSS Web制作入門",
+        "description": "Webサイト制作の基礎を12ステップで学ぶ。HTML/CSSの文法からFlexbox・レスポンシブ・フォームまで、手を動かしながら最初のWebページを作れるようになります。",
+        "provider": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app"
+        },
+        "url": "https://ai-site-iota-nine.vercel.app/course/web/web",
+        "inLanguage": "ja",
+        "educationalLevel": "beginner",
+        "hasCourseInstance": {
+          "@type": "CourseInstance",
+          "courseMode": "online",
+          "courseWorkload": "PT1H"
+        }
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "index.htmlという名前には意味がありますか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "はい、意味があります。Webサーバーはデフォルトでindex.htmlをトップページとして返す設定になっています。例えば「example.com」にアクセスすると、サーバーは自動的に「example.com/index.html」を返します。トップページのファイル名には慣習的にindex.htmlを使いましょう。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "DOCTYPE宣言を書き忘れるとどうなりますか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "ブラウザが「互換モード（Quirks Mode）」で動作し、CSSのレイアウトが意図通りに表示されないことがあります。特に古いブラウザとの互換性に問題が出やすいです。必ずファイルの1行目に書く習慣をつけましょう。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "VS Code以外のエディタでも学習できますか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "はい、できます。メモ帳（Notepad）でもHTMLファイルは作れます。ただしVS Codeはシンタックスハイライト・自動補完・エラー表示などの機能が充実しており、学習効率が大幅に上がります。無料なので迷わずVS Codeを使うことをおすすめします。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "htmlタグのlang属性は必須ですか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "必須ではありませんが、書くことを強く推奨します。lang属性がないと検索エンジンやスクリーンリーダーがページの言語を正しく識別できず、SEOやアクセシビリティに悪影響が出ます。日本語ページはlang=\"ja\"、英語ページはlang=\"en\"を指定しましょう。"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "breadcrumb": {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "ホーム",
+        "item": "https://ai-site-iota-nine.vercel.app/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "web",
+        "item": "https://ai-site-iota-nine.vercel.app/knowledge/web"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "HTML/CSS Web制作入門",
+        "item": "https://ai-site-iota-nine.vercel.app/course/web/web"
+      },
+      {
+        "@type": "ListItem",
+        "position": 4,
+        "name": "最初のHTMLページを作ろう！DOCTYPE・head・bodyの基本構造を解説",
+        "item": "https://ai-site-iota-nine.vercel.app/article/web-first-html"
+      }
+    ]
+  },
+  "courseSchema": {
+    "@context": "https://schema.org",
+    "@type": "Course",
+    "name": "HTML/CSS Web制作入門",
+    "description": "Webサイト制作の基礎を12ステップで学ぶ。HTML/CSSの文法からFlexbox・レスポンシブ・フォームまで、手を動かしながら最初のWebページを作れるようになります。",
+    "provider": {
+      "@type": "Organization",
+      "name": "StackShelf",
+      "url": "https://ai-site-iota-nine.vercel.app"
+    },
+    "url": "https://ai-site-iota-nine.vercel.app/course/web/web",
+    "inLanguage": "ja",
+    "educationalLevel": "beginner",
+    "hasCourseInstance": {
+      "@type": "CourseInstance",
+      "courseMode": "online",
+      "courseWorkload": "PT1H"
+    }
+  },
+  "faqSchema": {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "index.htmlという名前には意味がありますか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "はい、意味があります。Webサーバーはデフォルトでindex.htmlをトップページとして返す設定になっています。例えば「example.com」にアクセスすると、サーバーは自動的に「example.com/index.html」を返します。トップページのファイル名には慣習的にindex.htmlを使いましょう。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "DOCTYPE宣言を書き忘れるとどうなりますか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "ブラウザが「互換モード（Quirks Mode）」で動作し、CSSのレイアウトが意図通りに表示されないことがあります。特に古いブラウザとの互換性に問題が出やすいです。必ずファイルの1行目に書く習慣をつけましょう。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "VS Code以外のエディタでも学習できますか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "はい、できます。メモ帳（Notepad）でもHTMLファイルは作れます。ただしVS Codeはシンタックスハイライト・自動補完・エラー表示などの機能が充実しており、学習効率が大幅に上がります。無料なので迷わずVS Codeを使うことをおすすめします。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "htmlタグのlang属性は必須ですか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "必須ではありませんが、書くことを強く推奨します。lang属性がないと検索エンジンやスクリーンリーダーがページの言語を正しく識別できず、SEOやアクセシビリティに悪影響が出ます。日本語ページはlang=\"ja\"、英語ページはlang=\"en\"を指定しましょう。"
+        }
+      }
+    ]
+  }
+}

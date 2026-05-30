@@ -1,0 +1,14 @@
+{
+  "slug": "linux-commands-practice",
+  "courseId": "linux",
+  "episode": 10,
+  "summaryMemory": [
+    "find . -name *.拡張子 でファイル検索、-type f/d でファイル・ディレクトリ限定",
+    "find + xargs でマッチしたファイルに一括コマンド実行",
+    "シェルスクリプト：#!/bin/bash、変数、if文、forループが基本",
+    "apt update && apt install でパッケージ管理（Ubuntu/Debian系）",
+    "ssh -i 鍵ファイル ユーザー@サーバーIP でリモートサーバー接続"
+  ],
+  "nextEpisodeHint": "Linuxコマンドラインコースはここで完了です。次はシェルスクリプトの本格的な書き方、または Gitを使ったバージョン管理、Dockerを使ったコンテナ技術など、さらに上のレベルへ進みましょう。",
+  "updatedAt": "2026-05-30T04:13:06.965Z"
+}

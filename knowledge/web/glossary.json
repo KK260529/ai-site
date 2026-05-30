@@ -1,0 +1,7 @@
+{
+  "HTML": { "definition": "Webページの構造を記述するマークアップ言語", "aliases": ["エイチティーエムエル"], "related": ["CSS", "タグ", "Web"] },
+  "CSS": { "definition": "Webページの見た目（色・レイアウト）を指定する言語", "aliases": ["シーエスエス"], "related": ["HTML", "セレクタ", "Flexbox"] },
+  "Flexbox": { "definition": "CSSの柔軟なレイアウト方式", "aliases": ["フレックスボックス"], "related": ["CSS", "レスポンシブ"] },
+  "レスポンシブ": { "definition": "画面サイズに応じてレイアウトが変わるWebデザイン", "aliases": ["responsive"], "related": ["CSS", "メディアクエリ"] },
+  "セマンティックHTML": { "definition": "意味に基づいたタグ（header, nav, article等）を使うHTML", "aliases": [], "related": ["HTML", "SEO"] }
+}

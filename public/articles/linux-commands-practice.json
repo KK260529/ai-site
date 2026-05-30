@@ -1,0 +1,269 @@
+{
+  "id": "art_linux_linux-commands-practice",
+  "slug": "linux-commands-practice",
+  "title": "Linux実践コマンド集｜現場で使えるテクニック総まとめ【完全版】",
+  "summary": "これまでに学んだLinuxコマンドの総復習と、現場で役立つ実践的なテクニック集です。シェルスクリプトの基礎、find/xargs、ssh、パッケージ管理まで幅広く解説します。",
+  "body": "<h2>これまでの学習を振り返る</h2>\n<p>このコースではLinuxコマンドラインの基礎から応用まで幅広く学んできました。最終回では実践的なシーンで役立つテクニックを総まとめします。単発のコマンドではなく、複数を組み合わせた「実務レベルの使い方」を中心に解説します。</p>\n<pre><code># これまで学んだコマンドの早見表\n# ディレクトリ操作:  pwd, ls, cd, mkdir\n# ファイル操作:      touch, cp, mv, rm, nano\n# 表示・検索:        cat, less, head, tail, grep\n# 権限管理:          chmod, chown, sudo\n# プロセス管理:      ps, top, kill, jobs, fg, bg\n# パイプ・リダイレクト: |, >, >>, 2>&1\n# 環境変数:          env, export, .bashrc, PATH</code></pre>\n\n<h2>find：ファイルを高度に検索する</h2>\n<p><code>find</code> コマンドはディレクトリツリーを再帰的に検索し、条件にマッチするファイルやディレクトリを見つけます。<code>grep</code> がファイルの「内容」を検索するのに対し、<code>find</code> はファイルの「名前・属性・サイズ・日時」などで検索します。</p>\n<pre><code># ファイル名で検索（カレントディレクトリ以下）\nfind . -name \"*.log\"\n\n# 大文字小文字を区別しない検索\nfind . -iname \"*.TXT\"\n\n# ディレクトリのみを検索\nfind . -type d -name \"backup\"\n\n# ファイルのみを検索\nfind . -type f -name \"*.sh\"\n\n# 特定のサイズ以上のファイルを探す（100MB以上）\nfind / -type f -size +100M\n\n# 7日以内に更新されたファイルを探す\nfind . -mtime -7\n\n# 30日以上前に更新されたファイルを探す（ログ整理）\nfind /var/log -mtime +30 -name \"*.log\"\n\n# 権限が 777 のファイルを探す（セキュリティ確認）\nfind / -perm 777 -type f 2>/dev/null</code></pre>\n\n<h3>find と xargs の組み合わせ</h3>\n<pre><code># 見つかったファイルに対してコマンドを実行（-exec）\nfind . -name \"*.bak\" -exec rm {} ;\n\n# xargs を使った方が効率的な場合\nfind . -name \"*.log\" | xargs grep \"ERROR\"\n\n# スペースを含むファイル名を安全に処理する\nfind . -name \"*.txt\" -print0 | xargs -0 wc -l\n\n# 見つかったJSファイルを一覧表示してから圧縮\nfind . -name \"*.js\" | sort | xargs tar czf scripts.tar.gz</code></pre>\n\n<h2>シェルスクリプトの基礎</h2>\n<p>コマンドをファイルにまとめて自動実行できる<strong>シェルスクリプト</strong>は、Linuxの強力な機能の一つです。繰り返し行う作業や複雑な処理を自動化できます。</p>\n<pre><code>#!/bin/bash\n# 上記の「シバン行」はこのスクリプトが bash で実行されることを示す\n\n# 変数の使い方\nNAME=\"Ubuntu\"\nVERSION=22.04\necho \"OS: $NAME $VERSION\"\n\n# if文（条件分岐）\nif [ -f /etc/hosts ]; then\n  echo \"/etc/hosts は存在します\"\nelse\n  echo \"/etc/hosts が見つかりません\"\nfi\n\n# for ループ\nfor i in 1 2 3 4 5; do\n  echo \"番号: $i\"\ndone\n\n# ファイルのリストをループ処理\nfor file in *.txt; do\n  echo \"処理中: $file\"\n  wc -l \"$file\"\ndone</code></pre>\n\n<h3>実用的なシェルスクリプト例</h3>\n<pre><code>#!/bin/bash\n# バックアップスクリプトの例\n\nSOURCE_DIR=\"$HOME/projects\"\nBACKUP_DIR=\"$HOME/backups\"\nDATE=$(date +%Y%m%d_%H%M%S)\nBACKUP_FILE=\"backup_$DATE.tar.gz\"\n\n# バックアップディレクトリがなければ作成\nmkdir -p \"$BACKUP_DIR\"\n\n# アーカイブを作成\ntar czf \"$BACKUP_DIR/$BACKUP_FILE\" \"$SOURCE_DIR\"\n\n# 結果を表示\nif [ $? -eq 0 ]; then\n  echo \"バックアップ成功: $BACKUP_DIR/$BACKUP_FILE\"\n  ls -lh \"$BACKUP_DIR/$BACKUP_FILE\"\nelse\n  echo \"バックアップ失敗\" >&2\n  exit 1\nfi</code></pre>\n\n<h2>パッケージ管理（apt）</h2>\n<p>Ubuntu/Debian系では <code>apt</code> コマンドでソフトウェアのインストール・管理を行います。</p>\n<pre><code># パッケージリストを更新（インストール前に必ず実行）\nsudo apt update\n\n# パッケージをインストール\nsudo apt install tree htop jq\n\n# インストール済みパッケージを更新\nsudo apt upgrade\n\n# パッケージを削除\nsudo apt remove パッケージ名\n\n# パッケージを設定ファイルも含めて完全削除\nsudo apt purge パッケージ名\n\n# 不要な依存パッケージを削除\nsudo apt autoremove\n\n# パッケージを検索\napt search キーワード\n\n# パッケージの情報を確認\napt show nginx</code></pre>\n\n<h2>SSH：リモートサーバーに接続する</h2>\n<p><code>ssh</code>（Secure SHell）はネットワーク越しにリモートサーバーに安全に接続するプロトコルです。クラウドサーバーの管理に欠かせません。</p>\n<pre><code># パスワード認証でSSH接続\nssh username@192.168.1.100\n\n# SSHキーペアを生成（一度だけ実行）\nssh-keygen -t ed25519 -C \"your_email@example.com\"\n\n# 公開鍵をサーバーにコピー（以降パスワード不要）\nssh-copy-id username@server_ip\n\n# 秘密鍵を指定してSSH接続（AWSなど）\nssh -i ~/.ssh/my_key.pem ubuntu@54.123.45.67\n\n# リモートサーバーでコマンドを実行（接続せずに）\nssh username@server \"ls -la /var/www/\"\n\n# ファイルをリモートにコピー（SCP）\nscp local_file.txt username@server:/home/username/\n\n# ディレクトリをリモートに再帰コピー\nscp -r ./project/ username@server:/var/www/</code></pre>\n\n<h2>よく使う実践テクニック集</h2>\n<p>現場でよく使われるコマンドのパターンをまとめます。</p>\n\n<h3>システム情報の確認</h3>\n<pre><code># OSのバージョンを確認\ncat /etc/os-release\nlsb_release -a\n\n# CPUの情報\nnproc          # CPUコア数\ncat /proc/cpuinfo | grep \"model name\" | head -1\n\n# メモリとディスクの使用状況\nfree -h\ndf -h\n\n# ネットワーク設定を確認\nip addr\nip route\ncat /etc/resolv.conf\n\n# 開いているポートを確認\nss -tulnp\nnetstat -tulnp  # 古い方法（net-toolsが必要）</code></pre>\n\n<h3>ログ調査の実践パターン</h3>\n<pre><code># 特定時間帯のログを抽出\ngrep \"2026-05-30 10:\" /var/log/syslog\n\n# エラーレベル別に集計\ngrep -c \"ERROR\" app.log\ngrep -c \"WARN\" app.log\n\n# 最近5分以内のログのみ表示\njournalctl --since \"5 minutes ago\"\n\n# サービスのログをリアルタイム監視\njournalctl -u nginx -f\n\n# ディスクが圧迫されているとき：大きいファイルを探す\ndu -sh /* 2>/dev/null | sort -rh | head -10\nfind / -size +500M -type f 2>/dev/null</code></pre>\n\n<h3>ファイルのアーカイブと圧縮</h3>\n<pre><code># tar で圧縮アーカイブを作成（.tar.gz）\ntar czf archive.tar.gz directory/\n\n# アーカイブを展開\ntar xzf archive.tar.gz\n\n# アーカイブの中身を確認（展開せずに）\ntar tzf archive.tar.gz\n\n# zip ファイルの操作\nzip -r archive.zip directory/\nunzip archive.zip</code></pre>\n\n<h2>Linuxコマンドラインをさらに深めるには</h2>\n<p>このコースで学んだことは Linux の入り口です。さらに深く学ぶための方向性を紹介します。</p>\n<ul>\n  <li><strong>シェルスクリプト</strong>：自動化のために bash スクリプトを書けるようになる</li>\n  <li><strong>awk / sed</strong>：テキスト処理の強力なツール</li>\n  <li><strong>vim</strong>：サーバー環境でも使えるターミナルエディタをマスターする</li>\n  <li><strong>tmux / screen</strong>：複数のターミナルウィンドウをセッション管理する</li>\n  <li><strong>正規表現</strong>：grep や sed をより高度に活用するための必須知識</li>\n  <li><strong>systemd</strong>：サービスの起動・停止・自動起動の管理</li>\n  <li><strong>Docker</strong>：Linuxコンテナを活用した環境構築</li>\n</ul>\n<pre><code># 覚えておくと便利な追加コマンド\nwc -l file.txt        # 行数を数える\nsort file.txt         # ソート\nuniq                  # 重複行を削除\ncut -d, -f1 csv.txt   # 列を抽出\ntr 'a-z' 'A-Z'        # 文字変換\nsed 's/old/new/g'     # テキスト置換\nawk '{print $1}'      # フィールド抽出\ndate +%Y-%m-%d        # 日付フォーマット\ncurl -s URL           # URLのコンテンツを取得\nwget URL              # ファイルをダウンロード</code></pre>\n\n<h2>まとめ：Linuxコマンドライン習得のロードマップ</h2>\n<p>このコースで学んだ内容を振り返り、次のステップへの指針をまとめます。Linuxは使い続けることで自然と身についていくものです。毎日のちょっとした作業をターミナルで行う習慣が、最短で上達する道です。</p>\n<ul>\n  <li><strong>Step 1（入門）</strong>：pwd、ls、cd、mkdir、touch、cp、mv、rm をマスター</li>\n  <li><strong>Step 2（初級）</strong>：grep、less、head、tail、chmod、ps、kill を活用</li>\n  <li><strong>Step 3（中級）</strong>：パイプ・リダイレクト、find、シェルスクリプト基礎</li>\n  <li><strong>Step 4（上級）</strong>：awk、sed、systemd、SSH、Dockerなど本格的なサーバー管理</li>\n</ul>",
+  "conclusion": "Linuxコマンドラインの基礎から実践テクニックまで10回にわたって学んできました。find によるファイル検索、シェルスクリプトによる自動化、apt によるパッケージ管理、SSH によるリモート接続は現場で毎日使うスキルです。コマンドは覚えるより「引き出し方を知っておいて、必要なときに調べる」という姿勢で問題ありません。毎日ターミナルを触ることで、自然とコマンドが身についていきます。",
+  "tags": [
+    "Linux",
+    "コマンド",
+    "シェルスクリプト",
+    "find",
+    "SSH",
+    "実践"
+  ],
+  "category": "Linux",
+  "theme": "linux - Linux コマンドライン入門",
+  "status": "published",
+  "createdAt": "2026-05-30T04:13:06.965Z",
+  "updatedAt": "2026-05-30T04:13:06.977Z",
+  "publishedAt": "2026-05-30T04:13:06.965Z",
+  "metaTitle": "Linux 実践コマンド集｜現場で使える linux コマンド テクニック総まとめ",
+  "metaDescription": "【Linux初心者向け】linux コマンドの実践テクニックを総まとめ。find xargs ssh apt シェルスクリプト基礎まで、現場で使えるターミナル 使い方をすべて解説します。 図解・具体例つきで丁寧に解説します。",
+  "ogTitle": "Linux実践コマンド集｜現場で使えるテクニック総まとめ",
+  "ogDescription": "【Linux初心者向け】【Linux初心者向け】Linuxコマンドラインの実践的な使い方を総まとめ。現場で役立つテクニックを習得しましょう。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
+  "knowledge": {
+    "topic": "linux",
+    "courseId": "linux",
+    "episode": 10
+  },
+  "faq": [
+    {
+      "question": "シェルスクリプトを学ぶには何から始めればいいですか？",
+      "answer": "まず「#!/bin/bash」のシバン行、変数の使い方、if文、forループの4つを覚えることから始めましょう。実際に自分が繰り返し行っている作業（ログのバックアップ、ファイルの整理など）をスクリプト化してみると理解が深まります。"
+    },
+    {
+      "question": "Linux コマンドをより効率よく覚えるコツはありますか？",
+      "answer": "実際の作業でコマンドを使うのが一番です。例えば、ファイルを探したいときはGUIでなくfindを使う、テキストを確認したいときはcatを使うなど。チートシートを手元に置いて少しずつ使うコマンドを増やしていきましょう。"
+    },
+    {
+      "question": "クラウドサーバー（AWS、GCP）でLinuxを使うにはどこから始めればいいですか？",
+      "answer": "AWSのEC2やGCPのCompute Engineで無料枠のUbuntuインスタンスを作成し、SSH接続から始めましょう。このコースで学んだコマンドがそのまま使えます。サーバー管理の基本（Nginx設定、ログ確認、ポート管理）を実際のサーバーで練習すると理解が深まります。"
+    },
+    {
+      "question": "Linuxコマンドを忘れた場合どうすればいいですか？",
+      "answer": "man コマンドやコマンド --help で調べるのが基本です。インターネットで「linux コマンド やりたいこと」と検索するのも有効です。tldr というコマンドもあり、manより簡潔にコマンドの使い方を確認できます（apt install tldr でインストール可能）。"
+    }
+  ],
+  "nextEpisodeHint": "Linuxコマンドラインコースはここで完了です。次はシェルスクリプトの本格的な書き方、または Gitを使ったバージョン管理、Dockerを使ったコンテナ技術など、さらに上のレベルへ進みましょう。",
+  "ogImage": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+  "canonical": "https://ai-site-iota-nine.vercel.app/article/linux-commands-practice",
+  "jsonLd": {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@context": "https://schema.org",
+        "@type": "TechArticle",
+        "headline": "Linux実践コマンド集｜現場で使えるテクニック総まとめ【完全版】",
+        "description": "【Linux初心者向け】linux コマンドの実践テクニックを総まとめ。find xargs ssh apt シェルスクリプト基礎まで、現場で使えるターミナル 使い方をすべて解説します。 図解・具体例つきで丁寧に解説します。",
+        "datePublished": "2026-05-30T04:13:06.965Z",
+        "dateModified": "2026-05-30T04:13:06.977Z",
+        "author": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
+        },
+        "image": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+        "inLanguage": "ja",
+        "wordCount": 4065,
+        "mainEntityOfPage": {
+          "@type": "WebPage",
+          "@id": "https://ai-site-iota-nine.vercel.app/article/linux-commands-practice"
+        },
+        "keywords": "Linux, コマンド, シェルスクリプト, find, SSH, 実践",
+        "articleSection": "Linux",
+        "url": "https://ai-site-iota-nine.vercel.app/article/linux-commands-practice",
+        "learningResourceType": "tutorial",
+        "educationalLevel": "beginner"
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "ホーム",
+            "item": "https://ai-site-iota-nine.vercel.app/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "linux",
+            "item": "https://ai-site-iota-nine.vercel.app/knowledge/linux"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "Linux コマンドライン入門",
+            "item": "https://ai-site-iota-nine.vercel.app/course/linux/linux"
+          },
+          {
+            "@type": "ListItem",
+            "position": 4,
+            "name": "Linux実践コマンド集｜現場で使えるテクニック総まとめ【完全版】",
+            "item": "https://ai-site-iota-nine.vercel.app/article/linux-commands-practice"
+          }
+        ]
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "Course",
+        "name": "Linux コマンドライン入門",
+        "description": "エンジニア必須のLinuxターミナル操作を10ステップで習得。ファイル操作・権限・プロセス・パイプまで、具体コマンド例付きで丁寧に解説します。",
+        "provider": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app"
+        },
+        "url": "https://ai-site-iota-nine.vercel.app/course/linux/linux",
+        "inLanguage": "ja",
+        "educationalLevel": "beginner",
+        "hasCourseInstance": {
+          "@type": "CourseInstance",
+          "courseMode": "online",
+          "courseWorkload": "PT1H"
+        }
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "シェルスクリプトを学ぶには何から始めればいいですか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "まず「#!/bin/bash」のシバン行、変数の使い方、if文、forループの4つを覚えることから始めましょう。実際に自分が繰り返し行っている作業（ログのバックアップ、ファイルの整理など）をスクリプト化してみると理解が深まります。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Linux コマンドをより効率よく覚えるコツはありますか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "実際の作業でコマンドを使うのが一番です。例えば、ファイルを探したいときはGUIでなくfindを使う、テキストを確認したいときはcatを使うなど。チートシートを手元に置いて少しずつ使うコマンドを増やしていきましょう。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "クラウドサーバー（AWS、GCP）でLinuxを使うにはどこから始めればいいですか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "AWSのEC2やGCPのCompute Engineで無料枠のUbuntuインスタンスを作成し、SSH接続から始めましょう。このコースで学んだコマンドがそのまま使えます。サーバー管理の基本（Nginx設定、ログ確認、ポート管理）を実際のサーバーで練習すると理解が深まります。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Linuxコマンドを忘れた場合どうすればいいですか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "man コマンドやコマンド --help で調べるのが基本です。インターネットで「linux コマンド やりたいこと」と検索するのも有効です。tldr というコマンドもあり、manより簡潔にコマンドの使い方を確認できます（apt install tldr でインストール可能）。"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "breadcrumb": {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "ホーム",
+        "item": "https://ai-site-iota-nine.vercel.app/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "linux",
+        "item": "https://ai-site-iota-nine.vercel.app/knowledge/linux"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "Linux コマンドライン入門",
+        "item": "https://ai-site-iota-nine.vercel.app/course/linux/linux"
+      },
+      {
+        "@type": "ListItem",
+        "position": 4,
+        "name": "Linux実践コマンド集｜現場で使えるテクニック総まとめ【完全版】",
+        "item": "https://ai-site-iota-nine.vercel.app/article/linux-commands-practice"
+      }
+    ]
+  },
+  "courseSchema": {
+    "@context": "https://schema.org",
+    "@type": "Course",
+    "name": "Linux コマンドライン入門",
+    "description": "エンジニア必須のLinuxターミナル操作を10ステップで習得。ファイル操作・権限・プロセス・パイプまで、具体コマンド例付きで丁寧に解説します。",
+    "provider": {
+      "@type": "Organization",
+      "name": "StackShelf",
+      "url": "https://ai-site-iota-nine.vercel.app"
+    },
+    "url": "https://ai-site-iota-nine.vercel.app/course/linux/linux",
+    "inLanguage": "ja",
+    "educationalLevel": "beginner",
+    "hasCourseInstance": {
+      "@type": "CourseInstance",
+      "courseMode": "online",
+      "courseWorkload": "PT1H"
+    }
+  },
+  "faqSchema": {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "シェルスクリプトを学ぶには何から始めればいいですか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "まず「#!/bin/bash」のシバン行、変数の使い方、if文、forループの4つを覚えることから始めましょう。実際に自分が繰り返し行っている作業（ログのバックアップ、ファイルの整理など）をスクリプト化してみると理解が深まります。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Linux コマンドをより効率よく覚えるコツはありますか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "実際の作業でコマンドを使うのが一番です。例えば、ファイルを探したいときはGUIでなくfindを使う、テキストを確認したいときはcatを使うなど。チートシートを手元に置いて少しずつ使うコマンドを増やしていきましょう。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "クラウドサーバー（AWS、GCP）でLinuxを使うにはどこから始めればいいですか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "AWSのEC2やGCPのCompute Engineで無料枠のUbuntuインスタンスを作成し、SSH接続から始めましょう。このコースで学んだコマンドがそのまま使えます。サーバー管理の基本（Nginx設定、ログ確認、ポート管理）を実際のサーバーで練習すると理解が深まります。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Linuxコマンドを忘れた場合どうすればいいですか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "man コマンドやコマンド --help で調べるのが基本です。インターネットで「linux コマンド やりたいこと」と検索するのも有効です。tldr というコマンドもあり、manより簡潔にコマンドの使い方を確認できます（apt install tldr でインストール可能）。"
+        }
+      }
+    ]
+  }
+}

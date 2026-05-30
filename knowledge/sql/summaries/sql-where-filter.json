@@ -1,0 +1,13 @@
+{
+  "slug": "sql-where-filter",
+  "courseId": "sql",
+  "episode": 4,
+  "summaryMemory": [
+    "WHERE句で条件を指定してデータを絞り込む",
+    "AND（かつ）、OR（または）、NOT（否定）で複合条件を構築",
+    "BETWEEN範囲・IN複数値・LIKE部分一致・IS NULL判定の4パターンが重要",
+    "NULLの比較にはIS NULLを使う（= NULLは機能しない）"
+  ],
+  "nextEpisodeHint": "次回はINSERT（データ追加）・UPDATE（データ更新）・DELETE（データ削除）の3つの操作を学びます。SELECTで読み取るだけでなく、データを変更する操作もマスターしましょう。",
+  "updatedAt": "2026-05-30T04:13:09.718Z"
+}

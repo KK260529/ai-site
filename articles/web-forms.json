@@ -1,0 +1,271 @@
+{
+  "id": "art_web_web-forms",
+  "slug": "web-forms",
+  "title": "HTMLフォームの作り方：form・input・label・buttonタグを徹底解説",
+  "summary": "HTMLのフォーム（form・input・label・select・textarea・button）の作り方をweb制作 入門として解説します。アクセシブルなフォームの設計とinputのtype属性の使い分けも説明します。",
+  "body": "<h2>HTMLフォームの基本：ユーザーからデータを受け取る仕組み</h2>\n<p>Webのフォームは、ユーザーがWebサイトにデータを入力して送信するための仕組みです。お問い合わせフォーム・ログイン画面・検索ボックス・会員登録など、あらゆる入力フォームがHTMLのformタグで作られています。</p>\n<p>フォームは大きく「ユーザーが入力する画面（フロントエンド）」と「データを受け取って処理するサーバー（バックエンド）」に分かれます。このコースではフロントエンド部分、つまりHTMLでフォームの見た目と構造を作ることに集中します。</p>\n<pre><code>&lt;!-- フォームの基本構造 --&gt;\n&lt;form action=\"/submit\" method=\"post\"&gt;\n  &lt;!-- フォームの要素を書く場所 --&gt;\n  &lt;button type=\"submit\"&gt;送信する&lt;/button&gt;\n&lt;/form&gt;</code></pre>\n<p><code>action</code> 属性は送信先のURLを指定し、<code>method</code> 属性はHTTPのリクエストメソッド（<code>GET</code> または <code>POST</code>）を指定します。GETはURLにデータが含まれ検索フォームなどに使い、POSTはデータがボディに含まれログイン・お問い合わせなどに使います。</p>\n\n<h2>inputタグとtype属性：入力フィールドの種類</h2>\n<p><code>&lt;input&gt;</code> タグは最も多用途なフォーム要素で、<code>type</code> 属性でテキスト・パスワード・チェックボックスなどさまざまな入力形式を切り替えられます。</p>\n<pre><code>&lt;!-- テキスト入力 --&gt;\n&lt;input type=\"text\" name=\"name\" placeholder=\"お名前を入力\"&gt;\n\n&lt;!-- メールアドレス（形式バリデーション付き） --&gt;\n&lt;input type=\"email\" name=\"email\" placeholder=\"example@mail.com\"&gt;\n\n&lt;!-- パスワード（入力内容が●●●で隠れる） --&gt;\n&lt;input type=\"password\" name=\"password\" minlength=\"8\"&gt;\n\n&lt;!-- 電話番号 --&gt;\n&lt;input type=\"tel\" name=\"phone\" placeholder=\"090-1234-5678\"&gt;\n\n&lt;!-- 数値 --&gt;\n&lt;input type=\"number\" name=\"age\" min=\"0\" max=\"120\"&gt;\n\n&lt;!-- 日付 --&gt;\n&lt;input type=\"date\" name=\"birthday\"&gt;\n\n&lt;!-- 検索ボックス --&gt;\n&lt;input type=\"search\" name=\"q\" placeholder=\"検索...\"&gt;\n\n&lt;!-- URLの入力 --&gt;\n&lt;input type=\"url\" name=\"website\" placeholder=\"https://\"&gt;\n\n&lt;!-- チェックボックス --&gt;\n&lt;input type=\"checkbox\" name=\"agree\" value=\"yes\"&gt;\n\n&lt;!-- ラジオボタン（同じname属性でグループ化） --&gt;\n&lt;input type=\"radio\" name=\"gender\" value=\"male\"&gt;\n&lt;input type=\"radio\" name=\"gender\" value=\"female\"&gt;\n\n&lt;!-- ファイルアップロード --&gt;\n&lt;input type=\"file\" name=\"photo\" accept=\"image/*\"&gt;\n\n&lt;!-- 非表示フィールド（ユーザーには見えない）--&gt;\n&lt;input type=\"hidden\" name=\"token\" value=\"abc123\"&gt;\n\n&lt;!-- レンジスライダー --&gt;\n&lt;input type=\"range\" name=\"volume\" min=\"0\" max=\"100\" value=\"50\"&gt;</code></pre>\n<p>適切なtypeを設定することで、スマートフォンでは最適なキーボード（数字キーボードやメールキーボードなど）が自動的に表示されるという利点もあります。</p>\n\n<h2>labelタグの重要性：アクセシビリティとUX</h2>\n<p><code>&lt;label&gt;</code> タグはinput要素にラベルテキストを関連付けます。見た目だけでなく、アクセシビリティとユーザビリティの両面で非常に重要です。</p>\n<pre><code>&lt;!-- for属性とid属性で紐付ける方法（推奨） --&gt;\n&lt;label for=\"user-name\"&gt;お名前&lt;/label&gt;\n&lt;input type=\"text\" id=\"user-name\" name=\"name\"&gt;\n\n&lt;!-- labelで囲む方法 --&gt;\n&lt;label&gt;\n  お名前\n  &lt;input type=\"text\" name=\"name\"&gt;\n&lt;/label&gt;\n\n&lt;!-- チェックボックスとラジオボタンのlabel --&gt;\n&lt;label&gt;\n  &lt;input type=\"checkbox\" name=\"agree\"&gt;\n  利用規約に同意する\n&lt;/label&gt;</code></pre>\n<p>labelを正しく設定すると、ラベルテキストをクリックしてもinputにフォーカスが当たります（タップ領域が広がりスマホでの操作性が向上）。また、スクリーンリーダーがフォームを読み上げるとき、対応するラベルテキストを一緒に読み上げます。labelなしのinputはアクセシビリティ的にNGです。</p>\n\n<h2>textarea・select・optionタグ</h2>\n<p>複数行のテキスト入力や選択肢の提供には、textareaやselectタグを使います。</p>\n<pre><code>&lt;!-- 複数行テキスト入力 --&gt;\n&lt;label for=\"message\"&gt;メッセージ&lt;/label&gt;\n&lt;textarea id=\"message\" name=\"message\" rows=\"6\" cols=\"40\"\n  placeholder=\"お問い合わせ内容を入力してください\"&gt;&lt;/textarea&gt;\n\n&lt;!-- ドロップダウン選択（select） --&gt;\n&lt;label for=\"prefecture\"&gt;都道府県&lt;/label&gt;\n&lt;select id=\"prefecture\" name=\"prefecture\"&gt;\n  &lt;option value=\"\"&gt;選択してください&lt;/option&gt;\n  &lt;option value=\"tokyo\"&gt;東京都&lt;/option&gt;\n  &lt;option value=\"osaka\"&gt;大阪府&lt;/option&gt;\n  &lt;option value=\"aichi\"&gt;愛知県&lt;/option&gt;\n&lt;/select&gt;\n\n&lt;!-- 複数選択（multiple属性） --&gt;\n&lt;select name=\"skills\" multiple size=\"4\"&gt;\n  &lt;option value=\"html\"&gt;HTML&lt;/option&gt;\n  &lt;option value=\"css\"&gt;CSS&lt;/option&gt;\n  &lt;option value=\"js\"&gt;JavaScript&lt;/option&gt;\n  &lt;option value=\"python\"&gt;Python&lt;/option&gt;\n&lt;/select&gt;\n\n&lt;!-- optgroupで選択肢をグループ化 --&gt;\n&lt;select name=\"country\"&gt;\n  &lt;optgroup label=\"アジア\"&gt;\n    &lt;option value=\"jp\"&gt;日本&lt;/option&gt;\n    &lt;option value=\"kr\"&gt;韓国&lt;/option&gt;\n  &lt;/optgroup&gt;\n  &lt;optgroup label=\"ヨーロッパ\"&gt;\n    &lt;option value=\"de\"&gt;ドイツ&lt;/option&gt;\n    &lt;option value=\"fr\"&gt;フランス&lt;/option&gt;\n  &lt;/optgroup&gt;\n&lt;/select&gt;</code></pre>\n\n<h2>buttonタグ：ボタンの種類と使い分け</h2>\n<p>フォームのボタンには <code>&lt;button&gt;</code> タグと <code>&lt;input type=\"submit\"&gt;</code> の2種類がありますが、現代のweb制作では <code>&lt;button&gt;</code> が推奨されます。</p>\n<pre><code>&lt;!-- 送信ボタン（デフォルト動作） --&gt;\n&lt;button type=\"submit\"&gt;送信する&lt;/button&gt;\n\n&lt;!-- リセットボタン（フォームの入力を全クリア） --&gt;\n&lt;button type=\"reset\"&gt;クリア&lt;/button&gt;\n\n&lt;!-- 通常ボタン（JavaScriptで動作を定義） --&gt;\n&lt;button type=\"button\"&gt;キャンセル&lt;/button&gt;\n\n&lt;!-- アイコン付きボタン --&gt;\n&lt;button type=\"submit\"&gt;\n  &lt;span&gt;送信する&lt;/span&gt;\n&lt;/button&gt;</code></pre>\n<p><code>type=\"button\"</code> を明示しないとフォーム内ではデフォルトで <code>type=\"submit\"</code> として動作します。JavaScriptでボタンの動作を定義する場合は必ず <code>type=\"button\"</code> を指定しましょう。</p>\n\n<h2>フォームのバリデーション属性</h2>\n<p>HTMLには入力値を検証するための属性が用意されています。JavaScriptなしでも基本的なバリデーションが行えます。</p>\n<pre><code>&lt;!-- required：必須入力 --&gt;\n&lt;input type=\"text\" name=\"name\" required&gt;\n\n&lt;!-- minlength・maxlength：文字数の制限 --&gt;\n&lt;input type=\"password\" name=\"password\" minlength=\"8\" maxlength=\"32\"&gt;\n\n&lt;!-- min・max：数値の範囲 --&gt;\n&lt;input type=\"number\" name=\"age\" min=\"18\" max=\"120\"&gt;\n\n&lt;!-- pattern：正規表現でバリデーション --&gt;\n&lt;input type=\"text\" name=\"postal\"\n  pattern=\"[0-9]{3}-[0-9]{4}\"\n  placeholder=\"123-4567\"\n  title=\"郵便番号は「123-4567」の形式で入力してください\"&gt;\n\n&lt;!-- autocomplete：入力補助を有効/無効に --&gt;\n&lt;input type=\"email\" name=\"email\" autocomplete=\"email\"&gt;\n&lt;input type=\"password\" name=\"new-password\" autocomplete=\"new-password\"&gt;</code></pre>\n\n<h2>お問い合わせフォームの実践例</h2>\n<p>学んだ内容を使って実際のお問い合わせフォームを作ってみましょう。</p>\n<pre><code>&lt;form class=\"contact-form\" action=\"/contact\" method=\"post\"&gt;\n  &lt;div class=\"form-group\"&gt;\n    &lt;label for=\"contact-name\"&gt;お名前 &lt;span class=\"required\"&gt;必須&lt;/span&gt;&lt;/label&gt;\n    &lt;input type=\"text\" id=\"contact-name\" name=\"name\"\n      placeholder=\"田中 太郎\" required&gt;\n  &lt;/div&gt;\n\n  &lt;div class=\"form-group\"&gt;\n    &lt;label for=\"contact-email\"&gt;メールアドレス &lt;span class=\"required\"&gt;必須&lt;/span&gt;&lt;/label&gt;\n    &lt;input type=\"email\" id=\"contact-email\" name=\"email\"\n      placeholder=\"example@mail.com\" required&gt;\n  &lt;/div&gt;\n\n  &lt;div class=\"form-group\"&gt;\n    &lt;label for=\"contact-category\"&gt;お問い合わせ種別&lt;/label&gt;\n    &lt;select id=\"contact-category\" name=\"category\"&gt;\n      &lt;option value=\"\"&gt;選択してください&lt;/option&gt;\n      &lt;option value=\"product\"&gt;製品について&lt;/option&gt;\n      &lt;option value=\"service\"&gt;サービスについて&lt;/option&gt;\n      &lt;option value=\"other\"&gt;その他&lt;/option&gt;\n    &lt;/select&gt;\n  &lt;/div&gt;\n\n  &lt;div class=\"form-group\"&gt;\n    &lt;label for=\"contact-message\"&gt;メッセージ &lt;span class=\"required\"&gt;必須&lt;/span&gt;&lt;/label&gt;\n    &lt;textarea id=\"contact-message\" name=\"message\"\n      rows=\"6\" placeholder=\"お問い合わせ内容を入力してください\" required&gt;&lt;/textarea&gt;\n  &lt;/div&gt;\n\n  &lt;div class=\"form-group\"&gt;\n    &lt;label class=\"checkbox-label\"&gt;\n      &lt;input type=\"checkbox\" name=\"privacy\" required&gt;\n      &lt;a href=\"/privacy\"&gt;プライバシーポリシー&lt;/a&gt;に同意する\n    &lt;/label&gt;\n  &lt;/div&gt;\n\n  &lt;button type=\"submit\" class=\"btn-submit\"&gt;送信する&lt;/button&gt;\n&lt;/form&gt;</code></pre>\n\n<h2>まとめ：フォームはユーザーとWebサイトをつなぐ橋</h2>\n<p>HTMLフォームはform・input・label・button・select・textareaの組み合わせで構成されます。inputのtype属性でフィールドの種類を指定し、labelで必ずinputに説明テキストを紐付けましょう。required・minlength・patternなどの属性でHTML標準のバリデーションも活用できます。アクセシビリティを意識したフォーム作りは、すべてのユーザーが使いやすいWebサイトにつながります。</p>",
+  "conclusion": "HTMLフォームはform・input・label・select・textarea・buttonで構成されます。labelとinputの紐付け（for属性とid属性）はアクセシビリティに必須です。inputのtype属性でメール・パスワード・日付などの入力種別を指定し、required・patternなどでHTMLバリデーションも活用しましょう。フォームはバックエンドと連携して初めて機能しますが、HTMLの構造を正しく作ることが大前提です。",
+  "tags": [
+    "HTML",
+    "form",
+    "input",
+    "label",
+    "button",
+    "フォーム",
+    "html css 初心者",
+    "web制作 入門"
+  ],
+  "category": "Web開発",
+  "theme": "web - HTML/CSS Web制作入門",
+  "status": "published",
+  "createdAt": "2026-05-30T04:13:25.596Z",
+  "updatedAt": "2026-05-30T04:13:25.600Z",
+  "publishedAt": "2026-05-30T04:13:25.596Z",
+  "metaTitle": "HTMLフォームの作り方：form・input・label・button【html css 初心者向け】 | Stac…",
+  "metaDescription": "HTMLのform・input・label・button・selectタグの使い方をhtml css 初心者向けに解説。inputのtype属性の種類、アクセシブルなフォームの書き方をわかりやすく説明します。 図解・具体例つきで丁寧に解説します。",
+  "ogTitle": "HTMLフォームの作り方：form・input・label・buttonタグ完全解説",
+  "ogDescription": "【Web開発初心者向け】お問い合わせフォームや検索フォームをHTMLで作る方法を解説。inputのtype属性の種類とlabelの重要性をわかりやすく説明します。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
+  "knowledge": {
+    "topic": "web",
+    "courseId": "web",
+    "episode": 10
+  },
+  "faq": [
+    {
+      "question": "フォームのデータはどこへ送られますか？",
+      "answer": "formタグのaction属性で指定したURLのサーバーへ送られます。サーバー側でそのデータを受け取り、データベースに保存したり、メール送信したりする処理を行います。このコースはHTMLの構造作りが対象で、サーバー側の処理はPHPやNode.jsなどのバックエンド技術の範囲です。"
+    },
+    {
+      "question": "GETとPOSTはどう使い分けますか？",
+      "answer": "検索フォームなど結果をURLで共有したい場合はGET（データがURLに含まれる）を使います。ログイン・パスワード・個人情報を扱うフォームはPOST（データがリクエストボディに含まれURLに見えない）を使います。ただしPOSTでもHTTPS（SSL）なしではデータは暗号化されません。"
+    },
+    {
+      "question": "HTMLのバリデーションだけで十分ですか？",
+      "answer": "いいえ、HTMLバリデーションだけでは不十分です。ユーザーが開発者ツールでHTML属性を削除できるため、悪意あるユーザーをHTMLバリデーションだけで防ぐことはできません。必ずサーバー側でも入力値を検証する必要があります。HTMLバリデーションはあくまでユーザー体験向上のためのものです。"
+    },
+    {
+      "question": "input type=\"text\"とtype=\"tel\"の違いは何ですか？",
+      "answer": "HTMLとしての違いはほとんどありませんが、スマートフォンではtype=\"tel\"を指定すると数字キーパッドが自動的に表示されます。ユーザーの入力体験を向上させるために、データの種類に合ったtypeを指定しましょう。"
+    }
+  ],
+  "nextEpisodeHint": "次回はCSS実践として、学んだHTML/CSSを組み合わせてシンプルなランディングページを作ります。ヘッダー・ヒーロー・特徴セクション・フッターを実際に組み上げてみましょう。",
+  "ogImage": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+  "canonical": "https://ai-site-iota-nine.vercel.app/article/web-forms",
+  "jsonLd": {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@context": "https://schema.org",
+        "@type": "TechArticle",
+        "headline": "HTMLフォームの作り方：form・input・label・buttonタグを徹底解説",
+        "description": "HTMLのform・input・label・button・selectタグの使い方をhtml css 初心者向けに解説。inputのtype属性の種類、アクセシブルなフォームの書き方をわかりやすく説明します。 図解・具体例つきで丁寧に解説します。",
+        "datePublished": "2026-05-30T04:13:25.596Z",
+        "dateModified": "2026-05-30T04:13:25.600Z",
+        "author": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
+        },
+        "image": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+        "inLanguage": "ja",
+        "wordCount": 6362,
+        "mainEntityOfPage": {
+          "@type": "WebPage",
+          "@id": "https://ai-site-iota-nine.vercel.app/article/web-forms"
+        },
+        "keywords": "HTML, form, input, label, button, フォーム, html css 初心者, web制作 入門",
+        "articleSection": "Web開発",
+        "url": "https://ai-site-iota-nine.vercel.app/article/web-forms",
+        "learningResourceType": "tutorial",
+        "educationalLevel": "beginner"
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "ホーム",
+            "item": "https://ai-site-iota-nine.vercel.app/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "web",
+            "item": "https://ai-site-iota-nine.vercel.app/knowledge/web"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "HTML/CSS Web制作入門",
+            "item": "https://ai-site-iota-nine.vercel.app/course/web/web"
+          },
+          {
+            "@type": "ListItem",
+            "position": 4,
+            "name": "HTMLフォームの作り方：form・input・label・buttonタグを徹底解説",
+            "item": "https://ai-site-iota-nine.vercel.app/article/web-forms"
+          }
+        ]
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "Course",
+        "name": "HTML/CSS Web制作入門",
+        "description": "Webサイト制作の基礎を12ステップで学ぶ。HTML/CSSの文法からFlexbox・レスポンシブ・フォームまで、手を動かしながら最初のWebページを作れるようになります。",
+        "provider": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app"
+        },
+        "url": "https://ai-site-iota-nine.vercel.app/course/web/web",
+        "inLanguage": "ja",
+        "educationalLevel": "beginner",
+        "hasCourseInstance": {
+          "@type": "CourseInstance",
+          "courseMode": "online",
+          "courseWorkload": "PT1H"
+        }
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "フォームのデータはどこへ送られますか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "formタグのaction属性で指定したURLのサーバーへ送られます。サーバー側でそのデータを受け取り、データベースに保存したり、メール送信したりする処理を行います。このコースはHTMLの構造作りが対象で、サーバー側の処理はPHPやNode.jsなどのバックエンド技術の範囲です。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "GETとPOSTはどう使い分けますか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "検索フォームなど結果をURLで共有したい場合はGET（データがURLに含まれる）を使います。ログイン・パスワード・個人情報を扱うフォームはPOST（データがリクエストボディに含まれURLに見えない）を使います。ただしPOSTでもHTTPS（SSL）なしではデータは暗号化されません。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "HTMLのバリデーションだけで十分ですか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "いいえ、HTMLバリデーションだけでは不十分です。ユーザーが開発者ツールでHTML属性を削除できるため、悪意あるユーザーをHTMLバリデーションだけで防ぐことはできません。必ずサーバー側でも入力値を検証する必要があります。HTMLバリデーションはあくまでユーザー体験向上のためのものです。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "input type=\"text\"とtype=\"tel\"の違いは何ですか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "HTMLとしての違いはほとんどありませんが、スマートフォンではtype=\"tel\"を指定すると数字キーパッドが自動的に表示されます。ユーザーの入力体験を向上させるために、データの種類に合ったtypeを指定しましょう。"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "breadcrumb": {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "ホーム",
+        "item": "https://ai-site-iota-nine.vercel.app/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "web",
+        "item": "https://ai-site-iota-nine.vercel.app/knowledge/web"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "HTML/CSS Web制作入門",
+        "item": "https://ai-site-iota-nine.vercel.app/course/web/web"
+      },
+      {
+        "@type": "ListItem",
+        "position": 4,
+        "name": "HTMLフォームの作り方：form・input・label・buttonタグを徹底解説",
+        "item": "https://ai-site-iota-nine.vercel.app/article/web-forms"
+      }
+    ]
+  },
+  "courseSchema": {
+    "@context": "https://schema.org",
+    "@type": "Course",
+    "name": "HTML/CSS Web制作入門",
+    "description": "Webサイト制作の基礎を12ステップで学ぶ。HTML/CSSの文法からFlexbox・レスポンシブ・フォームまで、手を動かしながら最初のWebページを作れるようになります。",
+    "provider": {
+      "@type": "Organization",
+      "name": "StackShelf",
+      "url": "https://ai-site-iota-nine.vercel.app"
+    },
+    "url": "https://ai-site-iota-nine.vercel.app/course/web/web",
+    "inLanguage": "ja",
+    "educationalLevel": "beginner",
+    "hasCourseInstance": {
+      "@type": "CourseInstance",
+      "courseMode": "online",
+      "courseWorkload": "PT1H"
+    }
+  },
+  "faqSchema": {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "フォームのデータはどこへ送られますか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "formタグのaction属性で指定したURLのサーバーへ送られます。サーバー側でそのデータを受け取り、データベースに保存したり、メール送信したりする処理を行います。このコースはHTMLの構造作りが対象で、サーバー側の処理はPHPやNode.jsなどのバックエンド技術の範囲です。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "GETとPOSTはどう使い分けますか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "検索フォームなど結果をURLで共有したい場合はGET（データがURLに含まれる）を使います。ログイン・パスワード・個人情報を扱うフォームはPOST（データがリクエストボディに含まれURLに見えない）を使います。ただしPOSTでもHTTPS（SSL）なしではデータは暗号化されません。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "HTMLのバリデーションだけで十分ですか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "いいえ、HTMLバリデーションだけでは不十分です。ユーザーが開発者ツールでHTML属性を削除できるため、悪意あるユーザーをHTMLバリデーションだけで防ぐことはできません。必ずサーバー側でも入力値を検証する必要があります。HTMLバリデーションはあくまでユーザー体験向上のためのものです。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "input type=\"text\"とtype=\"tel\"の違いは何ですか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "HTMLとしての違いはほとんどありませんが、スマートフォンではtype=\"tel\"を指定すると数字キーパッドが自動的に表示されます。ユーザーの入力体験を向上させるために、データの種類に合ったtypeを指定しましょう。"
+        }
+      }
+    ]
+  }
+}

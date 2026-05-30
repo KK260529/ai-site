@@ -1,0 +1,21 @@
+{
+  "courseId": "web",
+  "title": "HTML/CSS Web制作入門",
+  "description": "Webサイト制作の基礎を12ステップで学ぶ。HTML/CSSの文法からFlexbox・レスポンシブ・フォームまで、手を動かしながら最初のWebページを作れるようになります。",
+  "target": "Web制作未経験者",
+  "topic": "web",
+  "episodes": [
+    { "episode": 1, "title": "Webサイトの仕組み（HTML/CSS/JS）", "slug": "web-intro" },
+    { "episode": 2, "title": "最初のHTMLページを作る", "slug": "web-first-html" },
+    { "episode": 3, "title": "テキスト・見出し・段落", "slug": "web-text-headings" },
+    { "episode": 4, "title": "リンクと画像", "slug": "web-links-images" },
+    { "episode": 5, "title": "リストと表", "slug": "web-lists-tables" },
+    { "episode": 6, "title": "CSSの基本（セレクタとプロパティ）", "slug": "web-css-basics" },
+    { "episode": 7, "title": "ボックスモデルとレイアウト", "slug": "web-box-model" },
+    { "episode": 8, "title": "Flexbox入門", "slug": "web-flexbox" },
+    { "episode": 9, "title": "レスポンシブデザインの基礎", "slug": "web-responsive" },
+    { "episode": 10, "title": "フォームの作り方", "slug": "web-forms" },
+    { "episode": 11, "title": "CSSでサイトを整える実践", "slug": "web-css-practice" },
+    { "episode": 12, "title": "Webサイトを公開するまで", "slug": "web-publish-basics" }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "slug": "sql-sqlite-setup",
+  "courseId": "sql",
+  "episode": 2,
+  "summaryMemory": [
+    "SQLiteはファイル1つで動くサーバー不要の軽量データベース",
+    "CREATE TABLE文でテーブルを定義し、データ型と制約を指定する",
+    "SQLiteのドットコマンド（.tables, .schema, .mode）は管理用コマンド",
+    "AUTOINCREMENT付きINTEGER PRIMARY KEYが一般的な主キーの設定方法"
+  ],
+  "nextEpisodeHint": "次回は、作成したテーブルにデータを入れて、SELECT文でデータを取得する方法を学びます。SELECT * FROM テーブル名 から始まる検索の基本をマスターしましょう。",
+  "updatedAt": "2026-05-30T04:13:08.260Z"
+}

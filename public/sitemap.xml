@@ -16,9 +16,19 @@
     <priority>0.3</priority>
   </url>
   <url>
+    <loc>https://ai-site-iota-nine.vercel.app/course/ai/ai</loc>
+    
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://ai-site-iota-nine.vercel.app/course/java/java</loc>
     
     <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://ai-site-iota-nine.vercel.app/article/ai-intro</loc>
+    <lastmod>2026-05-30</lastmod>
+    <priority>0.7</priority>
   </url>
   <url>
     <loc>https://ai-site-iota-nine.vercel.app/article/java-project-development</loc>
@@ -121,7 +131,15 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://ai-site-iota-nine.vercel.app/knowledge/ai</loc>
+    <priority>0.85</priority>
+  </url>
+  <url>
     <loc>https://ai-site-iota-nine.vercel.app/knowledge/java</loc>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://ai-site-iota-nine.vercel.app/knowledge/python</loc>
     <priority>0.85</priority>
   </url>
 </urlset>

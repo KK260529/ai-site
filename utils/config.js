@@ -24,6 +24,7 @@ const config = {
   groqApiKey: process.env.GROQ_API_KEY || "",
   groqModel: process.env.GROQ_MODEL || "llama-3.3-70b-versatile",
   groqMaxTokens: Number(process.env.GROQ_MAX_TOKENS) || 4096,
+  articleLength: (process.env.ARTICLE_LENGTH || "medium").trim().toLowerCase(),
   groqBaseURL: "https://api.groq.com/openai/v1",
   siteName: process.env.SITE_NAME || "StackShelf",
   siteTagline: process.env.SITE_TAGLINE || "技術を、ひとつずつ積み上げる。",

@@ -1,6 +1,7 @@
 const express = require("express");
 const { generateArticle, verifyApiKey } = require("../utils/groq");
-const { validateGroqApiKey } = require("../utils/config");
+const { config, validateGroqApiKey } = require("../utils/config");
+const { listArticleLengthPresets } = require("../utils/generation/articleLength");
 const articleStore = require("../utils/articleStore");
 const { runHooks } = require("../utils/automation");
 const { publishArticle } = require("../utils/publish/publishService");
@@ -9,7 +10,12 @@ const router = express.Router();
 
 router.get("/health", async (req, res) => {
   const validation = validateGroqApiKey(process.env.GROQ_API_KEY);
-  const payload = { ok: true, groqConfigured: validation.ok };
+  const payload = {
+    ok: true,
+    groqConfigured: validation.ok,
+    articleLengthDefault: config.articleLength,
+    articleLengthPresets: listArticleLengthPresets(),
+  };
 
   if (req.query.verify === "true") {
     if (!validation.ok) {
@@ -48,7 +54,10 @@ router.post("/articles/generate", async (req, res) => {
   }
 
   try {
-    const draft = await generateArticle(theme, { angle: req.body?.angle });
+    const draft = await generateArticle(theme, {
+      angle: req.body?.angle,
+      length: req.body?.length,
+    });
     res.json({ success: true, draft });
   } catch (err) {
     console.error("[generate]", err.message);

@@ -1,0 +1,109 @@
+{
+  "courseId": "ai",
+  "title": "はじめての人工知能(python)",
+  "description": "Pythonを用いた人工知能の基礎から応用までを学ぶ講座です。",
+  "target": "初心者",
+  "topic": "ai",
+  "episodes": [
+    {
+      "episode": 1,
+      "title": "人工知能とは",
+      "slug": "ai-intro"
+    },
+    {
+      "episode": 2,
+      "title": "Pythonのインストール",
+      "slug": "python-install"
+    },
+    {
+      "episode": 3,
+      "title": "Pythonの基礎",
+      "slug": "python-basics"
+    },
+    {
+      "episode": 4,
+      "title": "NumPyの基礎",
+      "slug": "numpy-intro"
+    },
+    {
+      "episode": 5,
+      "title": "Pandasの基礎",
+      "slug": "pandas-intro"
+    },
+    {
+      "episode": 6,
+      "title": "データ前処理",
+      "slug": "data-preprocessing"
+    },
+    {
+      "episode": 7,
+      "title": "機械学習の基礎",
+      "slug": "machine-learning-basics"
+    },
+    {
+      "episode": 8,
+      "title": "Scikit-learnの基礎",
+      "slug": "scikit-learn-intro"
+    },
+    {
+      "episode": 9,
+      "title": "線形回帰",
+      "slug": "linear-regression"
+    },
+    {
+      "episode": 10,
+      "title": "ロジスティック回帰",
+      "slug": "logistic-regression"
+    },
+    {
+      "episode": 11,
+      "title": "決定木",
+      "slug": "decision-trees"
+    },
+    {
+      "episode": 12,
+      "title": "ランダムフォレスト",
+      "slug": "random-forests"
+    },
+    {
+      "episode": 13,
+      "title": "サポートベクターマシン",
+      "slug": "svm"
+    },
+    {
+      "episode": 14,
+      "title": "K-meansクラスタリング",
+      "slug": "k-means-clustering"
+    },
+    {
+      "episode": 15,
+      "title": "階層クラスタリング",
+      "slug": "hierarchical-clustering"
+    },
+    {
+      "episode": 16,
+      "title": "ディープラーニングの基礎",
+      "slug": "deep-learning-basics"
+    },
+    {
+      "episode": 17,
+      "title": "TensorFlowの基礎",
+      "slug": "tensorflow-intro"
+    },
+    {
+      "episode": 18,
+      "title": "Kerasの基礎",
+      "slug": "keras-intro"
+    },
+    {
+      "episode": 19,
+      "title": "畳み込みニューラルネットワーク",
+      "slug": "convolutional-neural-networks"
+    },
+    {
+      "episode": 20,
+      "title": "再帰型ニューラルネットワーク",
+      "slug": "recurrent-neural-networks"
+    }
+  ]
+}

@@ -86,10 +86,54 @@ document.querySelectorAll(".nav-btn").forEach((btn) => {
   });
 });
 
+const ARTICLE_LENGTH_STORAGE_KEY = "cmsArticleLength";
+
+function getSelectedArticleLength() {
+  const sel = $("articleLengthSelect");
+  return sel?.value || "medium";
+}
+
+function initArticleLengthSelect(presets, defaultId) {
+  const sel = $("articleLengthSelect");
+  const hint = $("articleLengthHint");
+  if (!sel || !presets?.length) return;
+
+  const saved = localStorage.getItem(ARTICLE_LENGTH_STORAGE_KEY);
+  const initial = presets.some((p) => p.id === saved)
+    ? saved
+    : presets.some((p) => p.id === defaultId)
+      ? defaultId
+      : presets[0].id;
+
+  sel.innerHTML = presets
+    .map(
+      (p) =>
+        `<option value="${escapeAttr(p.id)}">${escapeHtml(p.label)}（${escapeHtml(p.description)}）</option>`
+    )
+    .join("");
+  sel.value = initial;
+  updateArticleLengthHint(presets, initial);
+
+  sel.addEventListener("change", () => {
+    localStorage.setItem(ARTICLE_LENGTH_STORAGE_KEY, sel.value);
+    updateArticleLengthHint(presets, sel.value);
+  });
+}
+
+function updateArticleLengthHint(presets, id) {
+  const hint = $("articleLengthHint");
+  const preset = presets.find((p) => p.id === id);
+  if (!hint || !preset) return;
+  hint.textContent = `目標 ${preset.targetMin}〜${preset.targetMax}字（max_tokens 約 ${preset.maxTokens}）。短めにすると Groq の消費トークンを抑えられます。`;
+}
+
 async function checkHealth() {
   const el = $("apiStatus");
   try {
     const data = await api("/api/health?verify=true");
+    if (data.articleLengthPresets?.length) {
+      initArticleLengthSelect(data.articleLengthPresets, data.articleLengthDefault || "medium");
+    }
     if (!data.groqConfigured) {
       el.textContent = "⚠ GROQ_API_KEY 未設定";
       el.className = "admin__status admin__status--warn";
@@ -631,6 +675,7 @@ async function generateEpisode() {
   if (!slugs.length) return toast("1件以上のエピソードを選択してください");
 
   const angle = $("angleInput").value.trim() || undefined;
+  const length = getSelectedArticleLength();
   $("generateBtn").disabled = true;
   $("loading").hidden = false;
   $("genBatchLog").hidden = true;
@@ -648,7 +693,7 @@ async function generateEpisode() {
       try {
         const data = await api(`/api/knowledge/${encodeURIComponent(topic)}/episodes/generate`, {
           method: "POST",
-          body: JSON.stringify({ courseId, slug, angle }),
+          body: JSON.stringify({ courseId, slug, angle, length }),
         });
         lastDraft = data.draft;
         logEntries.push({

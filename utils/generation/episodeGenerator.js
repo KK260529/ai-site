@@ -8,10 +8,15 @@ const { sanitizeHtml } = require("../sanitize");
 const { applyInternalLinks } = require("../internalLinks");
 const { buildSeoExtended } = require("../seoExtended");
 const {
-  EPISODE_SYSTEM_PROMPT,
+  buildEpisodeSystemPrompt,
   buildEpisodeContext,
   buildEpisodeUserPrompt,
 } = require("./promptBuilder");
+const {
+  resolveArticleLength,
+  getMaxTokensForLength,
+  buildRetryUserMessage,
+} = require("./articleLength");
 
 function plainTextLength(html) {
   return String(html || "")
@@ -20,11 +25,11 @@ function plainTextLength(html) {
     .length;
 }
 
-async function callGroq(client, messages) {
+async function callGroq(client, messages, length) {
   const completion = await client.chat.completions.create({
     model: config.groqModel,
     temperature: 0.6,
-    max_tokens: config.groqMaxTokens,
+    max_tokens: getMaxTokensForLength(length),
     response_format: { type: "json_object" },
     messages,
   });
@@ -53,40 +58,43 @@ function validateEpisodePayload(data) {
   }
 }
 
-async function generateEpisodeArticle({ topic, courseId, slug, angle }) {
+async function generateEpisodeArticle({ topic, courseId, slug, angle, length }) {
   const client = getClient();
   if (!client) {
     throw new Error("Groq API キーが未設定です。.env を確認しサーバーを再起動してください。");
   }
+
+  const lengthKey = length || config.articleLength;
+  const lengthOpts = resolveArticleLength(lengthKey);
 
   const ctx = buildEpisodeContext({ topic, courseId, slug, angle });
   if (!ctx.episode) {
     throw new Error(`エピソードが見つかりません: ${topic}/${courseId}/${slug}`);
   }
 
-  const userPrompt = buildEpisodeUserPrompt(ctx);
+  const userPrompt = buildEpisodeUserPrompt(ctx, lengthKey);
 
   const messages = [
-    { role: "system", content: EPISODE_SYSTEM_PROMPT },
+    { role: "system", content: buildEpisodeSystemPrompt(lengthKey) },
     { role: "user", content: userPrompt },
   ];
 
-  let groqResult = await callGroq(client, messages);
+  let groqResult = await callGroq(client, messages, lengthKey);
   let rawContent = groqResult.content;
   let parsed = parseJsonResponse(rawContent);
   validateEpisodePayload(parsed);
 
-  const minChars = 2200;
-  if (plainTextLength(parsed.body) < minChars) {
-    console.log(`[episode] 本文が短い (${plainTextLength(parsed.body)}字) → 再生成`);
+  if (plainTextLength(parsed.body) < lengthOpts.minChars) {
+    const actual = plainTextLength(parsed.body);
+    console.log(`[episode] 本文が短い (${actual}字 / 目標${lengthOpts.minChars}字) → 再生成`);
     messages.push(
       { role: "assistant", content: rawContent },
       {
         role: "user",
-        content: `前回の body が短すぎます（${plainTextLength(parsed.body)}字）。同じ slug で、body をタグ除去後2500字以上になるよう、h2を5つ以上、具体例・手順・よくある誤解を増やして書き直してください。JSONのみ返してください。`,
+        content: buildRetryUserMessage(lengthKey, actual),
       }
     );
-    groqResult = await callGroq(client, messages);
+    groqResult = await callGroq(client, messages, lengthKey);
     rawContent = groqResult.content;
     parsed = parseJsonResponse(rawContent);
     validateEpisodePayload(parsed);

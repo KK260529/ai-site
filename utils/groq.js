@@ -1,6 +1,7 @@
 const OpenAI = require("openai");
 const { config, isGroqConfigured, validateGroqApiKey, normalizeApiKey } = require("./config");
-const { SYSTEM_PROMPT, buildUserPrompt } = require("./prompt");
+const { buildSystemPrompt, buildUserPrompt } = require("./prompt");
+const { getMaxTokensForLength } = require("./generation/articleLength");
 
 function getClient() {
   const validation = validateGroqApiKey(config.groqApiKey);
@@ -75,13 +76,14 @@ async function generateArticle(theme, options = {}) {
   }
 
   try {
+    const length = options.length;
     const completion = await client.chat.completions.create({
       model: config.groqModel,
       temperature: 0.65,
-      max_tokens: config.groqMaxTokens,
+      max_tokens: getMaxTokensForLength(length),
       response_format: { type: "json_object" },
       messages: [
-        { role: "system", content: SYSTEM_PROMPT },
+        { role: "system", content: buildSystemPrompt(length) },
         { role: "user", content: buildUserPrompt(theme, options) },
       ],
     });

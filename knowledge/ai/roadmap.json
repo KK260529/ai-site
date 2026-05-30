@@ -1,0 +1,26 @@
+{
+  "topic": "ai",
+  "title": "AI",
+  "beginnerPath": [
+    "ai-intro",
+    "python-install",
+    "python-basics",
+    "numpy-intro",
+    "pandas-intro",
+    "data-preprocessing",
+    "machine-learning-basics",
+    "scikit-learn-intro",
+    "linear-regression",
+    "logistic-regression",
+    "decision-trees",
+    "random-forests",
+    "svm",
+    "k-means-clustering",
+    "hierarchical-clustering",
+    "deep-learning-basics",
+    "tensorflow-intro",
+    "keras-intro",
+    "convolutional-neural-networks",
+    "recurrent-neural-networks"
+  ]
+}

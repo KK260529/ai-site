@@ -282,12 +282,12 @@ router.get("/:topic/courses/:courseId", (req, res) => {
 
 router.post("/:topic/episodes/generate", async (req, res) => {
   const { topic } = req.params;
-  const { courseId, slug, angle } = req.body || {};
+  const { courseId, slug, angle, length } = req.body || {};
   if (!courseId || !slug) {
     return res.status(400).json({ error: "courseId と slug が必要です" });
   }
   try {
-    const result = await generateEpisodeArticle({ topic, courseId, slug, angle });
+    const result = await generateEpisodeArticle({ topic, courseId, slug, angle, length });
     res.json({
       success: true,
       draft: result.draft,

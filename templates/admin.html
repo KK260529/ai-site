@@ -132,6 +132,9 @@
           <button type="button" class="btn btn--ghost btn--xs" id="deselectAllEpisodesBtn">選択解除</button>
         </div>
         <div id="genEpisodeList" class="ep-checklist"></div>
+        <label class="label" for="articleLengthSelect">文章量</label>
+        <select id="articleLengthSelect" class="input"></select>
+        <p class="panel-hint" id="articleLengthHint">生成する記事の目標文字数です。短めにすると Groq の消費トークンを抑えられます。</p>
         <label class="label" for="angleInput">切り口（任意）</label>
         <input type="text" id="angleInput" class="input" placeholder="例: 実務のつまずきポイント">
         <div class="admin__actions">

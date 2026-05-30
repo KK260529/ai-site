@@ -15,8 +15,7 @@ function escapeXml(str) {
 function generateXml() {
   const articles = articleStore
     .getPublishedArticles()
-    .sort((a, b) => new Date(b.publishedAt || b.createdAt) - new Date(a.publishedAt || a.createdAt))
-    .slice(0, 50);
+    .sort((a, b) => new Date(b.publishedAt || b.createdAt) - new Date(a.publishedAt || a.createdAt));
 
   const lastBuild = articles[0]?.publishedAt || new Date().toISOString();
   const ogImage = config.siteOgImage;
@@ -61,7 +60,7 @@ function writeToPublic() {
     fs.writeFileSync(filePath, xml, "utf-8");
   }
   const count = articleStore.getPublishedArticles().length;
-  return { filePath, updatedAt: new Date().toISOString(), itemCount: Math.min(count, 50) };
+  return { filePath, updatedAt: new Date().toISOString(), itemCount: count };
 }
 
 module.exports = { generateXml, writeToPublic };

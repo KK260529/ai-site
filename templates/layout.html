@@ -23,6 +23,7 @@
   <link rel="stylesheet" href="/css/main.css">
   <link rel="alternate" type="application/rss+xml" title="{{siteName}} RSS" href="/rss.xml">
   {{adHeadScript}}
+  {{analyticsScript}}
   {{extraCss}}
 </head>
 <body class="{{bodyClass}}">
@@ -36,11 +37,9 @@
     </a>
     <nav class="header__nav">
       <a href="/">ホーム</a>
-      <a href="/knowledge/python">Python</a>
-      <a href="/knowledge/java">Java</a>
-      <a href="/knowledge/git">Git</a>
-      <a href="/knowledge/web">Web</a>
-      <a href="/knowledge/linux">Linux</a>
+      <a href="/topics">講座</a>
+      {{topicNavLinks}}
+      <a href="/articles">記事</a>
       {{adminNavLink}}
     </nav>
   </header>
@@ -51,7 +50,7 @@
 
   <footer class="footer glass">
     <nav class="footer__nav">
-      <a href="/privacy">プライバシーポリシー</a>
+      {{footerNav}}
     </nav>
     <p>&copy; {{siteName}} — {{siteTagline}}</p>
   </footer>

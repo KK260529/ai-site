@@ -457,5 +457,302 @@
       <pubDate>Sat, 30 May 2026 04:12:54 GMT</pubDate>
       <enclosure url="https://ai-site-iota-nine.vercel.app/og-default.svg" type="image/svg+xml"/>
     </item>
+    <item>
+      <title>Pythonのインストールと動作確認</title>
+      <link>https://ai-site-iota-nine.vercel.app/article/python-install</link>
+      <guid isPermaLink="true">https://ai-site-iota-nine.vercel.app/article/python-install</guid>
+      <description>PythonをWindowsとMacにインストールする手順をスクリーンショット付きで解説。python --versionで動作確認し、Hello Worldを実行するまでをわかりやすく説明します。 図解・具体例つきで丁寧に解説します。</description>
+      <category>Python</category>
+      <pubDate>Sat, 30 May 2026 04:12:54 GMT</pubDate>
+      <enclosure url="https://ai-site-iota-nine.vercel.app/og-default.svg" type="image/svg+xml"/>
+    </item>
+    <item>
+      <title>Pythonとは？プログラミングの第一歩</title>
+      <link>https://ai-site-iota-nine.vercel.app/article/python-intro</link>
+      <guid isPermaLink="true">https://ai-site-iota-nine.vercel.app/article/python-intro</guid>
+      <description>【Python初心者向け】Python入門の第一歩。Pythonの特徴・歴史・用途をわかりやすく解説。初心者がプログラミングを始めるのにPythonが最適な理由を詳しく紹介します。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。</description>
+      <category>Python</category>
+      <pubDate>Sat, 30 May 2026 04:12:54 GMT</pubDate>
+      <enclosure url="https://ai-site-iota-nine.vercel.app/og-default.svg" type="image/svg+xml"/>
+    </item>
+    <item>
+      <title>実務で使う Git ワークフロー｜Git Flow・GitHub Flow・git stash 解説</title>
+      <link>https://ai-site-iota-nine.vercel.app/article/git-workflow-practice</link>
+      <guid isPermaLink="true">https://ai-site-iota-nine.vercel.app/article/git-workflow-practice</guid>
+      <description>Git Flow と GitHub Flow の違い、git stash・git cherry-pick・git tag・git bisect の使い方を解説。実務のチーム開発で役立つ Git ワークフローを初心者向けにわかりやすく紹介します。</description>
+      <category>Git</category>
+      <pubDate>Sat, 30 May 2026 03:50:00 GMT</pubDate>
+      <enclosure url="https://ai-site-iota-nine.vercel.app/og-default.svg" type="image/svg+xml"/>
+    </item>
+    <item>
+      <title>Pull Requestと協業の流れ</title>
+      <link>https://ai-site-iota-nine.vercel.app/article/github-pull-request</link>
+      <guid isPermaLink="true">https://ai-site-iota-nine.vercel.app/article/github-pull-request</guid>
+      <description>【Git初心者向け】GitHub の Pull Request（PR）の作り方・レビュー・マージ方法を初心者向けに解説。フォーク、ブランチ戦略、コードレビューのコメント方法まで実践的に説明します。 図解・具体例つきで丁寧に解説します。</description>
+      <category>Git</category>
+      <pubDate>Sat, 30 May 2026 03:49:59 GMT</pubDate>
+      <enclosure url="https://ai-site-iota-nine.vercel.app/og-default.svg" type="image/svg+xml"/>
+    </item>
+    <item>
+      <title>GitHub 入門｜アカウント作成からリポジトリ操作まで【初心者向け】</title>
+      <link>https://ai-site-iota-nine.vercel.app/article/github-basics</link>
+      <guid isPermaLink="true">https://ai-site-iota-nine.vercel.app/article/github-basics</guid>
+      <description>【Git初心者向け】GitHub の使い方を初心者向けに解説。アカウント作成、リポジトリ作成、README.md の書き方、.gitignore の設定方法をステップバイステップで説明します。 図解・具体例つきで丁寧に解説します。</description>
+      <category>Git</category>
+      <pubDate>Sat, 30 May 2026 03:49:59 GMT</pubDate>
+      <enclosure url="https://ai-site-iota-nine.vercel.app/og-default.svg" type="image/svg+xml"/>
+    </item>
+    <item>
+      <title>push・pull・remote でリモート連携</title>
+      <link>https://ai-site-iota-nine.vercel.app/article/git-remote-push-pull</link>
+      <guid isPermaLink="true">https://ai-site-iota-nine.vercel.app/article/git-remote-push-pull</guid>
+      <description>git push でリモートへ送信、git pull でローカルへ取り込む方法を解説。git remote の設定から origin の意味、fetch との違いまで初心者向けに丁寧に説明します。 図解・具体例つきで丁寧に解説します。</description>
+      <category>Git</category>
+      <pubDate>Sat, 30 May 2026 03:49:58 GMT</pubDate>
+      <enclosure url="https://ai-site-iota-nine.vercel.app/og-default.svg" type="image/svg+xml"/>
+    </item>
+    <item>
+      <title>マージとコンフリクトの解決</title>
+      <link>https://ai-site-iota-nine.vercel.app/article/git-merge-conflict</link>
+      <guid isPermaLink="true">https://ai-site-iota-nine.vercel.app/article/git-merge-conflict</guid>
+      <description>git merge の使い方とコンフリクト（競合）が起きる原因を解説。マーカーの読み方・手動解決・git add / git commit の流れを初心者向けにわかりやすく説明します。 図解・具体例つきで丁寧に解説します。</description>
+      <category>Git</category>
+      <pubDate>Sat, 30 May 2026 03:49:58 GMT</pubDate>
+      <enclosure url="https://ai-site-iota-nine.vercel.app/og-default.svg" type="image/svg+xml"/>
+    </item>
+    <item>
+      <title>Gitブランチの作り方と切り替え：git branch・checkout・switchの基本</title>
+      <link>https://ai-site-iota-nine.vercel.app/article/git-branch-basics</link>
+      <guid isPermaLink="true">https://ai-site-iota-nine.vercel.app/article/git-branch-basics</guid>
+      <description>Gitブランチの仕組みからgit branch・git switch・git checkoutコマンドの使い方まで実例付きで解説。ブランチの作成・切り替え・マージを初心者向けに丁寧に説明します。 図解・具体例つきで丁寧に解説します。</description>
+      <category>Git</category>
+      <pubDate>Sat, 30 May 2026 03:49:58 GMT</pubDate>
+      <enclosure url="https://ai-site-iota-nine.vercel.app/og-default.svg" type="image/svg+xml"/>
+    </item>
+    <item>
+      <title>git add・commit・status・logの使い方：Gitの基本操作を完全マスター</title>
+      <link>https://ai-site-iota-nine.vercel.app/article/git-basic-commands</link>
+      <guid isPermaLink="true">https://ai-site-iota-nine.vercel.app/article/git-basic-commands</guid>
+      <description>git add、git commit、git status、git logの基本4コマンドを実例付きで解説。Gitのステージング概念からコミット履歴の確認方法まで初心者向けに丁寧に説明します。 図解・具体例つきで丁寧に解説します。</description>
+      <category>Git</category>
+      <pubDate>Sat, 30 May 2026 03:49:58 GMT</pubDate>
+      <enclosure url="https://ai-site-iota-nine.vercel.app/og-default.svg" type="image/svg+xml"/>
+    </item>
+    <item>
+      <title>Gitリポジトリの作成とclone：git initとgit cloneの使い方</title>
+      <link>https://ai-site-iota-nine.vercel.app/article/git-repository-basics</link>
+      <guid isPermaLink="true">https://ai-site-iota-nine.vercel.app/article/git-repository-basics</guid>
+      <description>【Git初心者向け】git initで新しいリポジトリを作成する方法とgit cloneでGitHubからコードを取得する方法を、実例コマンドとともに初心者向けに丁寧に解説します。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。</description>
+      <category>Git</category>
+      <pubDate>Sat, 30 May 2026 03:49:57 GMT</pubDate>
+      <enclosure url="https://ai-site-iota-nine.vercel.app/og-default.svg" type="image/svg+xml"/>
+    </item>
+    <item>
+      <title>Gitのインストールと初期設定：Windows・Mac対応の完全ガイド</title>
+      <link>https://ai-site-iota-nine.vercel.app/article/git-install-setup</link>
+      <guid isPermaLink="true">https://ai-site-iota-nine.vercel.app/article/git-install-setup</guid>
+      <description>【Git初心者向け】GitをWindowsとMacにインストールする手順と、git configで行う名前・メール・エディタの初期設定をスクリーンショット付きで詳しく解説します。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。</description>
+      <category>Git</category>
+      <pubDate>Sat, 30 May 2026 03:49:57 GMT</pubDate>
+      <enclosure url="https://ai-site-iota-nine.vercel.app/og-default.svg" type="image/svg+xml"/>
+    </item>
+    <item>
+      <title>Gitとは？バージョン管理を初めて学ぶ人のための完全入門</title>
+      <link>https://ai-site-iota-nine.vercel.app/article/git-intro</link>
+      <guid isPermaLink="true">https://ai-site-iota-nine.vercel.app/article/git-intro</guid>
+      <description>【Git初心者向け】Gitとは何かを初心者向けにわかりやすく解説。バージョン管理の必要性、Gitの仕組み、GitとGitHubの違いまで丁寧に説明します。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。</description>
+      <category>Git</category>
+      <pubDate>Sat, 30 May 2026 03:49:57 GMT</pubDate>
+      <enclosure url="https://ai-site-iota-nine.vercel.app/og-default.svg" type="image/svg+xml"/>
+    </item>
+    <item>
+      <title>人工知能とは</title>
+      <link>https://ai-site-iota-nine.vercel.app/article/ai-intro</link>
+      <guid isPermaLink="true">https://ai-site-iota-nine.vercel.app/article/ai-intro</guid>
+      <description>人工知能の基礎を理解するための初回エピソード。人工知能の定義から歴史、応用例までを学び、自分の将来への活用方法を考えることができるようになる。</description>
+      <category>AI</category>
+      <pubDate>Sat, 30 May 2026 02:46:20 GMT</pubDate>
+      <enclosure url="https://ai-site-iota-nine.vercel.app/og-default.svg" type="image/svg+xml"/>
+    </item>
+    <item>
+      <title>Javaのプロジェクト開発</title>
+      <link>https://ai-site-iota-nine.vercel.app/article/java-project-development</link>
+      <guid isPermaLink="true">https://ai-site-iota-nine.vercel.app/article/java-project-development</guid>
+      <description>小さな Java プロジェクトを設計・実装・ビルドする流れを学びます。パッケージ構成、Maven/Gradle の概要、テストと README の重要性を解説します。</description>
+      <category>プログラミング</category>
+      <pubDate>Fri, 29 May 2026 14:36:45 GMT</pubDate>
+      <enclosure url="https://ai-site-iota-nine.vercel.app/og-default.svg" type="image/svg+xml"/>
+    </item>
+    <item>
+      <title>Javaの関数型プログラミング</title>
+      <link>https://ai-site-iota-nine.vercel.app/article/java-functional-programming</link>
+      <guid isPermaLink="true">https://ai-site-iota-nine.vercel.app/article/java-functional-programming</guid>
+      <description>Java における関数型プログラミングの考え方を学びます。不変性、副作用の削減、Optional、純粋関数のメリットを解説します。</description>
+      <category>プログラミング</category>
+      <pubDate>Fri, 29 May 2026 14:36:45 GMT</pubDate>
+      <enclosure url="https://ai-site-iota-nine.vercel.app/og-default.svg" type="image/svg+xml"/>
+    </item>
+    <item>
+      <title>Javaのラムダ式</title>
+      <link>https://ai-site-iota-nine.vercel.app/article/java-lambda-expression</link>
+      <guid isPermaLink="true">https://ai-site-iota-nine.vercel.app/article/java-lambda-expression</guid>
+      <description>ラムダ式の構文と関数型インターフェースの関係を学びます。匿名クラスの短縮、メソッド参照、よく使う型を押さえます。</description>
+      <category>プログラミング</category>
+      <pubDate>Fri, 29 May 2026 14:36:45 GMT</pubDate>
+      <enclosure url="https://ai-site-iota-nine.vercel.app/og-default.svg" type="image/svg+xml"/>
+    </item>
+    <item>
+      <title>JavaのStream API</title>
+      <link>https://ai-site-iota-nine.vercel.app/article/java-stream-api</link>
+      <guid isPermaLink="true">https://ai-site-iota-nine.vercel.app/article/java-stream-api</guid>
+      <description>Stream API でコレクションを filter、map、collect する方法を学びます。ループより宣言的にデータ処理を書く考え方を身につけます。</description>
+      <category>プログラミング</category>
+      <pubDate>Fri, 29 May 2026 14:36:45 GMT</pubDate>
+      <enclosure url="https://ai-site-iota-nine.vercel.app/og-default.svg" type="image/svg+xml"/>
+    </item>
+    <item>
+      <title>Javaのコレクションフレームワーク</title>
+      <link>https://ai-site-iota-nine.vercel.app/article/java-collection-framework</link>
+      <guid isPermaLink="true">https://ai-site-iota-nine.vercel.app/article/java-collection-framework</guid>
+      <description>List、Set、Map の使い分けと ArrayList、HashMap の基本操作を学びます。ジェネリクス付きコレクションの書き方も押さえます。</description>
+      <category>プログラミング</category>
+      <pubDate>Fri, 29 May 2026 14:36:45 GMT</pubDate>
+      <enclosure url="https://ai-site-iota-nine.vercel.app/og-default.svg" type="image/svg+xml"/>
+    </item>
+    <item>
+      <title>Javaのスレッドプログラミング</title>
+      <link>https://ai-site-iota-nine.vercel.app/article/java-thread-programming</link>
+      <guid isPermaLink="true">https://ai-site-iota-nine.vercel.app/article/java-thread-programming</guid>
+      <description>Thread と Runnable を使った並行処理の基礎を学びます。スレッドの起動、共有データの注意点、ExecutorService の概要を解説します。</description>
+      <category>プログラミング</category>
+      <pubDate>Fri, 29 May 2026 14:36:44 GMT</pubDate>
+      <enclosure url="https://ai-site-iota-nine.vercel.app/og-default.svg" type="image/svg+xml"/>
+    </item>
+    <item>
+      <title>Javaのネットワークプログラミング</title>
+      <link>https://ai-site-iota-nine.vercel.app/article/java-network-programming</link>
+      <guid isPermaLink="true">https://ai-site-iota-nine.vercel.app/article/java-network-programming</guid>
+      <description>TCP ソケットを使った基本的なクライアント・サーバー通信を学びます。Socket、ServerSocket、入出力ストリームの流れを理解します。</description>
+      <category>プログラミング</category>
+      <pubDate>Fri, 29 May 2026 14:36:44 GMT</pubDate>
+      <enclosure url="https://ai-site-iota-nine.vercel.app/og-default.svg" type="image/svg+xml"/>
+    </item>
+    <item>
+      <title>Javaのファイル入出力</title>
+      <link>https://ai-site-iota-nine.vercel.app/article/java-file-input-output</link>
+      <guid isPermaLink="true">https://ai-site-iota-nine.vercel.app/article/java-file-input-output</guid>
+      <description>Java でファイルを読み書きする方法を学びます。java.nio.file、Files、BufferedReader の基本と try-with-resources を解説します。</description>
+      <category>プログラミング</category>
+      <pubDate>Fri, 29 May 2026 14:36:44 GMT</pubDate>
+      <enclosure url="https://ai-site-iota-nine.vercel.app/og-default.svg" type="image/svg+xml"/>
+    </item>
+    <item>
+      <title>Javaの基礎構文</title>
+      <link>https://ai-site-iota-nine.vercel.app/article/java-syntax</link>
+      <guid isPermaLink="true">https://ai-site-iota-nine.vercel.app/article/java-syntax</guid>
+      <description>Javaプログラムの骨格となる基礎構文を学びます。クラス定義、mainメソッド、文と式、コメント、セミコロンの役割を押さえましょう。</description>
+      <category>プログラミング</category>
+      <pubDate>Fri, 29 May 2026 14:36:44 GMT</pubDate>
+      <enclosure url="https://ai-site-iota-nine.vercel.app/og-default.svg" type="image/svg+xml"/>
+    </item>
+    <item>
+      <title>Javaの基礎</title>
+      <link>https://ai-site-iota-nine.vercel.app/article/java-introduction</link>
+      <guid isPermaLink="true">https://ai-site-iota-nine.vercel.app/article/java-introduction</guid>
+      <description>Javaを学ぶための基礎を解説します。Javaの特徴や基本的な構造を理解しましょう。</description>
+      <category>プログラミング</category>
+      <pubDate>Fri, 29 May 2026 11:36:53 GMT</pubDate>
+      <enclosure url="https://ai-site-iota-nine.vercel.app/og-default.svg" type="image/svg+xml"/>
+    </item>
+    <item>
+      <title>Javaプログラミングのベストプラクティス</title>
+      <link>https://ai-site-iota-nine.vercel.app/article/java-best-practices</link>
+      <guid isPermaLink="true">https://ai-site-iota-nine.vercel.app/article/java-best-practices</guid>
+      <description>Javaプログラミングのベストプラクティスについて学びます。コードの可読性、メンテナンス性、効率性を向上させるためのテクニックを紹介します。</description>
+      <category>プログラミング</category>
+      <pubDate>Fri, 29 May 2026 11:30:05 GMT</pubDate>
+      <enclosure url="https://ai-site-iota-nine.vercel.app/og-default.svg" type="image/svg+xml"/>
+    </item>
+    <item>
+      <title>Javaの例外処理</title>
+      <link>https://ai-site-iota-nine.vercel.app/article/java-exception-handling</link>
+      <guid isPermaLink="true">https://ai-site-iota-nine.vercel.app/article/java-exception-handling</guid>
+      <description>Javaにおける例外処理の基礎を理解する。try-catch-finally文やthrowsキーワードの使い方を学ぶ。</description>
+      <category>Java</category>
+      <pubDate>Fri, 29 May 2026 11:30:02 GMT</pubDate>
+      <enclosure url="https://ai-site-iota-nine.vercel.app/og-default.svg" type="image/svg+xml"/>
+    </item>
+    <item>
+      <title>Javaの多態性</title>
+      <link>https://ai-site-iota-nine.vercel.app/article/java-polymorphism</link>
+      <guid isPermaLink="true">https://ai-site-iota-nine.vercel.app/article/java-polymorphism</guid>
+      <description>Javaの多態性は、オブジェクト指向プログラミングの重要な概念の一つです。この記事では、多態性の基本とその使用方法について説明します。</description>
+      <category>Java</category>
+      <pubDate>Fri, 29 May 2026 11:30:00 GMT</pubDate>
+      <enclosure url="https://ai-site-iota-nine.vercel.app/og-default.svg" type="image/svg+xml"/>
+    </item>
+    <item>
+      <title>Javaの継承</title>
+      <link>https://ai-site-iota-nine.vercel.app/article/java-inheritance</link>
+      <guid isPermaLink="true">https://ai-site-iota-nine.vercel.app/article/java-inheritance</guid>
+      <description>Javaの継承の基本概念と使い方を解説します。継承を使用すると、コードの再利用性を高め、プログラミングの効率を向上させることができます。</description>
+      <category>Java</category>
+      <pubDate>Fri, 29 May 2026 11:29:58 GMT</pubDate>
+      <enclosure url="https://ai-site-iota-nine.vercel.app/og-default.svg" type="image/svg+xml"/>
+    </item>
+    <item>
+      <title>Javaのクラスとオブジェクト</title>
+      <link>https://ai-site-iota-nine.vercel.app/article/java-classes</link>
+      <guid isPermaLink="true">https://ai-site-iota-nine.vercel.app/article/java-classes</guid>
+      <description>Javaのクラスとオブジェクトについて学びます。クラスはオブジェクトの設計図であり、オブジェクトはクラスから生成されるインスタンスです。</description>
+      <category>Java</category>
+      <pubDate>Fri, 29 May 2026 11:29:57 GMT</pubDate>
+      <enclosure url="https://ai-site-iota-nine.vercel.app/og-default.svg" type="image/svg+xml"/>
+    </item>
+    <item>
+      <title>Javaのオブジェクト指向プログラミング</title>
+      <link>https://ai-site-iota-nine.vercel.app/article/java-objects</link>
+      <guid isPermaLink="true">https://ai-site-iota-nine.vercel.app/article/java-objects</guid>
+      <description>Javaのオブジェクト指向プログラミングの基礎を学びます。クラス、オブジェクト、継承、多態性について理解します。具体例を通じて、オブジェクト指向プログラミングの概念を実践的に学びます。</description>
+      <category>Java</category>
+      <pubDate>Fri, 29 May 2026 11:29:55 GMT</pubDate>
+      <enclosure url="https://ai-site-iota-nine.vercel.app/og-default.svg" type="image/svg+xml"/>
+    </item>
+    <item>
+      <title>Javaの配列</title>
+      <link>https://ai-site-iota-nine.vercel.app/article/java-arrays</link>
+      <guid isPermaLink="true">https://ai-site-iota-nine.vercel.app/article/java-arrays</guid>
+      <description>Javaの配列について学ぶ。配列の定義、初期化、要素へのアクセス、配列の操作について解説します。</description>
+      <category>Java</category>
+      <pubDate>Fri, 29 May 2026 11:29:51 GMT</pubDate>
+      <enclosure url="https://ai-site-iota-nine.vercel.app/og-default.svg" type="image/svg+xml"/>
+    </item>
+    <item>
+      <title>Javaの関数</title>
+      <link>https://ai-site-iota-nine.vercel.app/article/java-functions</link>
+      <guid isPermaLink="true">https://ai-site-iota-nine.vercel.app/article/java-functions</guid>
+      <description>Javaの関数は、プログラムの再利用性と可読性を向上させるために使用されます。このエピソードでは、Javaの関数の基本について学びます。</description>
+      <category>Java</category>
+      <pubDate>Fri, 29 May 2026 11:29:49 GMT</pubDate>
+      <enclosure url="https://ai-site-iota-nine.vercel.app/og-default.svg" type="image/svg+xml"/>
+    </item>
+    <item>
+      <title>Java制御構文の基礎</title>
+      <link>https://ai-site-iota-nine.vercel.app/article/java-control-structures</link>
+      <guid isPermaLink="true">https://ai-site-iota-nine.vercel.app/article/java-control-structures</guid>
+      <description>Javaの制御構文は、プログラムの流れを制御するために使用されます。if文、switch文、for文、while文などの種類があります。</description>
+      <category>Java</category>
+      <pubDate>Fri, 29 May 2026 11:29:47 GMT</pubDate>
+      <enclosure url="https://ai-site-iota-nine.vercel.app/og-default.svg" type="image/svg+xml"/>
+    </item>
+    <item>
+      <title>Javaの変数とデータ型</title>
+      <link>https://ai-site-iota-nine.vercel.app/article/java-variables</link>
+      <guid isPermaLink="true">https://ai-site-iota-nine.vercel.app/article/java-variables</guid>
+      <description>Javaの変数とデータ型について学びます。変数を使用してデータを格納し、データ型を指定してデータの種類を定義します。</description>
+      <category>プログラミング</category>
+      <pubDate>Fri, 29 May 2026 11:29:44 GMT</pubDate>
+      <enclosure url="https://ai-site-iota-nine.vercel.app/og-default.svg" type="image/svg+xml"/>
+    </item>
   </channel>
 </rss>

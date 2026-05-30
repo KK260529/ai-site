@@ -1,3 +1,11 @@
 User-agent: *
 Allow: /
 Sitemap: https://ai-site-iota-nine.vercel.app/sitemap.xml
+
+# LLM / AI crawlers
+User-agent: GPTBot
+Allow: /
+User-agent: ChatGPT-User
+Allow: /
+
+# Site overview for LLMs: https://ai-site-iota-nine.vercel.app/llms.txt

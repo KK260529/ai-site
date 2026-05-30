@@ -72,10 +72,13 @@ function buildSeoExtended(article, ctx) {
   };
 }
 
-function buildSitemapXml(articles, courses = [], topics = []) {
+function buildSitemapXml(articles, courses = [], topics = [], { tags = [], categories = [] } = {}) {
   const { siteUrl } = config;
   const urls = [
     { loc: siteUrl, priority: "1.0", changefreq: "daily" },
+    { loc: `${siteUrl}/topics`, priority: "0.9", changefreq: "weekly" },
+    { loc: `${siteUrl}/articles`, priority: "0.9", changefreq: "daily" },
+    { loc: `${siteUrl}/search`, priority: "0.5", changefreq: "monthly" },
     { loc: `${siteUrl}/privacy`, priority: "0.4", changefreq: "monthly" },
   ];
 
@@ -95,6 +98,22 @@ function buildSitemapXml(articles, courses = [], topics = []) {
     urls.push({
       loc: `${siteUrl}/course/${c.topic}/${c.courseId}`,
       priority: "0.8",
+      changefreq: "weekly",
+    });
+  }
+
+  for (const { url } of tags) {
+    urls.push({
+      loc: `${siteUrl}${url}`,
+      priority: "0.65",
+      changefreq: "weekly",
+    });
+  }
+
+  for (const { url } of categories) {
+    urls.push({
+      loc: `${siteUrl}${url}`,
+      priority: "0.65",
       changefreq: "weekly",
     });
   }

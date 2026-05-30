@@ -7,6 +7,14 @@ function generateText() {
     "User-agent: *",
     "Allow: /",
     `Sitemap: ${config.siteUrl}/sitemap.xml`,
+    "",
+    "# LLM / AI crawlers",
+    "User-agent: GPTBot",
+    "Allow: /",
+    "User-agent: ChatGPT-User",
+    "Allow: /",
+    "",
+    `# Site overview for LLMs: ${config.siteUrl}/llms.txt`,
   ];
   if (config.isProduction) {
     lines.push("Disallow: /admin");

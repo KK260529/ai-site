@@ -1,5 +1,6 @@
 (function () {
   const searchInput = document.getElementById("searchInput");
+  const searchForm = document.getElementById("homeSearchForm");
   const categoryFilter = document.getElementById("categoryFilter");
   const clearBtn = document.getElementById("clearFilters");
   const grid = document.getElementById("articleGrid");
@@ -27,6 +28,13 @@
     const countEl = document.getElementById("articleCount");
     if (countEl) countEl.textContent = String(visible);
   }
+
+  searchForm?.addEventListener("submit", (e) => {
+    const q = (searchInput?.value || "").trim();
+    if (q.length >= 2) return;
+    e.preventDefault();
+    filter();
+  });
 
   searchInput?.addEventListener("input", filter);
   categoryFilter?.addEventListener("change", filter);

@@ -56,7 +56,8 @@ app.use("/api", protectAdminApi, apiRouter);
 app.use(pagesRouter);
 
 app.use((_req, res) => {
-  res.status(404).send("ページが見つかりません");
+  const { render404 } = require("./utils/render");
+  res.status(404).send(render404());
 });
 
 function startServer() {

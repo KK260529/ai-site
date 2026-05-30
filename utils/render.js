@@ -10,12 +10,23 @@ const {
   buildBreadcrumbSchema,
   buildSeoHeadExtras,
   buildFaviconLinks,
+  buildAnalyticsScript,
   injectHeadingIds,
   buildTableOfContents,
   estimateReadingMinutes,
   getOgImageUrl,
   optimizeSerpDescription,
 } = require("./seoMeta");
+const {
+  slugifyTag,
+  collectTagStats,
+  collectCategoryStats,
+  findRelatedArticles,
+  getFeaturedArticles,
+  getLearningPaths,
+  listTopicSummaries,
+} = require("./discovery");
+const { applyInternalLinks, TOPIC_LABELS } = require("./internalLinks");
 
 const TEMPLATES_DIR = path.join(__dirname, "..", "templates");
 
@@ -27,6 +38,9 @@ const TEMPLATE_FILES = [
   "article.html",
   "admin.html",
   "privacy.html",
+  "listing.html",
+  "404.html",
+  "topics.html",
 ];
 
 const templateCache = {};
@@ -65,10 +79,63 @@ function layoutDefaults() {
     siteTagline: config.siteTagline,
     siteUrl: config.siteUrl,
     adminNavLink: config.isProduction ? "" : '<a href="/admin">管理</a>',
+    topicNavLinks: buildTopicNavLinks(),
+    footerNav: buildFooterNavHtml(),
     adHeadScript: getAdHeadScript(),
     faviconLinks: buildFaviconLinks(),
+    analyticsScript: buildAnalyticsScript(),
     seoExtraHead: "",
   };
+}
+
+function buildTopicNavLinks() {
+  return knowledgeStore
+    .listTopics()
+    .map((t) => {
+      const label = TOPIC_LABELS[t] || t.charAt(0).toUpperCase() + t.slice(1);
+      return `<a href="/knowledge/${escapeHtml(t)}">${escapeHtml(label)}</a>`;
+    })
+    .join("\n      ");
+}
+
+function buildFooterNavHtml() {
+  return `<a href="/topics">講座一覧</a>
+      <a href="/articles">全記事</a>
+      <a href="/rss.xml">RSS</a>
+      <a href="/sitemap.xml">サイトマップ</a>
+      <a href="/privacy">プライバシーポリシー</a>`;
+}
+
+function buildArticleCardHtml(a) {
+  const tags = (a.tags || [])
+    .map((t) => `<a href="/tag/${slugifyTag(t)}" class="tag">${escapeHtml(t)}</a>`)
+    .join("");
+  const date = new Date(a.publishedAt || a.createdAt).toLocaleDateString("ja-JP");
+  const readMin = estimateReadingMinutes(a.body);
+  return `
+      <article class="card" data-category="${escapeHtml(a.category)}" data-tags="${escapeHtml((a.tags || []).join(","))}">
+        <a href="/article/${escapeHtml(a.slug)}" class="card__link">
+          <span class="card__category">${escapeHtml(a.category)}</span>
+          <h2 class="card__title">${escapeHtml(a.title)}</h2>
+          <p class="card__summary">${escapeHtml(a.summary)}</p>
+          <div class="card__meta-row">
+            <time class="card__date">${date}</time>
+            <span class="card__read">${readMin}分で読める</span>
+          </div>
+        </a>
+        ${tags ? `<div class="card__tags">${tags}</div>` : ""}
+      </article>`;
+}
+
+function buildShareHtml(article, canonical) {
+  const url = encodeURIComponent(canonical);
+  const title = encodeURIComponent(article.title);
+  return `<div class="share-bar">
+    <span class="share-bar__label">シェア</span>
+    <a href="https://twitter.com/intent/tweet?url=${url}&text=${title}" class="share-bar__btn" rel="noopener noreferrer" target="_blank" aria-label="Xでシェア">X</a>
+    <a href="https://www.facebook.com/sharer/sharer.php?u=${url}" class="share-bar__btn" rel="noopener noreferrer" target="_blank" aria-label="Facebookでシェア">Facebook</a>
+    <a href="https://social-plugins.line.me/lineit/share?url=${url}" class="share-bar__btn" rel="noopener noreferrer" target="_blank" aria-label="LINEでシェア">LINE</a>
+  </div>`;
 }
 
 function pageMetaExtras({ robots, ogImage, article } = {}) {
@@ -104,44 +171,23 @@ function buildSeriesNavHtml(seriesNav) {
 }
 
 function buildRelatedHtml(article) {
-  const related = articleStore
-    .getPublishedArticles()
-    .filter(
-      (a) =>
-        a.slug !== article.slug &&
-        (a.knowledge?.courseId === article.knowledge?.courseId ||
-          a.category === article.category)
-    )
-    .slice(0, 4);
+  const related = findRelatedArticles(article, 6);
   if (!related.length) return "";
   return `<section class="related">
     <h2>関連記事</h2>
-    <ul>${related.map((a) => `<li><a href="/article/${escapeHtml(a.slug)}">${escapeHtml(a.title)}</a></li>`).join("")}</ul>
+    <ul class="related__list">${related
+      .map(
+        (a) =>
+          `<li><a href="/article/${escapeHtml(a.slug)}">${escapeHtml(a.title)}</a>
+        <span class="related__meta">${escapeHtml(a.category)} · ${estimateReadingMinutes(a.body)}分</span></li>`
+      )
+      .join("")}</ul>
   </section>`;
 }
 
 function renderHome(articles, courses = [], { tag } = {}) {
   const content = loadTemplate("home.html");
-  const cards = articles
-    .map((a) => {
-      const tags = (a.tags || []).map((t) => `<span class="tag">${escapeHtml(t)}</span>`).join("");
-      const date = new Date(a.publishedAt || a.createdAt).toLocaleDateString("ja-JP");
-      const readMin = estimateReadingMinutes(a.body);
-      return `
-      <article class="card" data-category="${escapeHtml(a.category)}" data-tags="${escapeHtml((a.tags || []).join(","))}">
-        <a href="/article/${escapeHtml(a.slug)}" class="card__link">
-          <span class="card__category">${escapeHtml(a.category)}</span>
-          <h2 class="card__title">${escapeHtml(a.title)}</h2>
-          <p class="card__summary">${escapeHtml(a.summary)}</p>
-          <div class="card__tags">${tags}</div>
-          <div class="card__meta-row">
-            <time class="card__date">${date}</time>
-            <span class="card__read">${readMin}分で読める</span>
-          </div>
-        </a>
-      </article>`;
-    })
-    .join("");
+  const cards = articles.map((a) => buildArticleCardHtml(a)).join("");
 
   const courseCards = courses
     .map(
@@ -157,7 +203,33 @@ function renderHome(articles, courses = [], { tag } = {}) {
     .join("");
 
   const categories = [...new Set(articles.map((a) => a.category))];
-  const categoryOptions = categories.map((c) => `<option value="${escapeHtml(c)}">${escapeHtml(c)}</option>`).join("");
+  const categoryOptions = categories
+    .map((c) => `<option value="${escapeHtml(c)}">${escapeHtml(c)}</option>`)
+    .join("");
+
+  const learningPaths = getLearningPaths()
+    .map(
+      (p) => `
+    <article class="learning-path">
+      <h3 class="learning-path__title">${escapeHtml(p.title)}</h3>
+      <p class="learning-path__desc">${escapeHtml(p.description)}</p>
+      <div class="learning-path__steps">${p.steps
+        .map((s, i) => {
+          const arrow = i > 0 ? '<span class="learning-path__arrow">→</span>' : "";
+          return `${arrow}<a href="${escapeHtml(s.href)}" class="learning-path__step">${escapeHtml(s.label)}</a>`;
+        })
+        .join("")}</div>
+    </article>`
+    )
+    .join("");
+
+  const tagCloud = collectTagStats(2)
+    .slice(0, 24)
+    .map(
+      ({ tag: t, count }) =>
+        `<a href="/tag/${slugifyTag(t)}" class="tag tag--cloud">${escapeHtml(t)} <span class="tag__count">${count}</span></a>`
+    )
+    .join("");
 
   const courseCardsWithAds = injectAdsInCourseCards(
     courseCards || "",
@@ -172,6 +244,8 @@ function renderHome(articles, courses = [], { tag } = {}) {
     courseCards: courseCardsWithAds,
     categoryOptions,
     articleCount: String(articles.length),
+    learningPaths,
+    tagCloud,
     adAfterHero: getAdSlot("home"),
     adBetweenSections: getAdSlot("top"),
     adBeforeArticles: getAdSlot("inline"),
@@ -409,7 +483,7 @@ function renderArticle(article, seriesNav = null) {
   }
 
   const tags = (article.tags || [])
-    .map((t) => `<a href="/?tag=${encodeURIComponent(t)}" class="tag">${escapeHtml(t)}</a>`)
+    .map((t) => `<a href="/tag/${slugifyTag(t)}" class="tag">${escapeHtml(t)}</a>`)
     .join("");
   const date = new Date(article.publishedAt || article.createdAt).toLocaleDateString("ja-JP", {
     year: "numeric",
@@ -445,7 +519,12 @@ function renderArticle(article, seriesNav = null) {
   }
   breadcrumbItems.push({ href: `/article/${article.slug}`, label: article.title });
 
-  const bodyWithIds = injectHeadingIds(article.body);
+  const bodyLinked = applyInternalLinks(
+    article.body,
+    article.knowledge?.topic,
+    article.slug
+  );
+  const bodyWithIds = injectHeadingIds(bodyLinked);
   const tableOfContents = buildTableOfContents(bodyWithIds);
   const bodyWithAds = injectAds(bodyWithIds);
 
@@ -472,7 +551,7 @@ function renderArticle(article, seriesNav = null) {
   const pageContent = replaceAll(content, {
     breadcrumb: buildBreadcrumbHtml(breadcrumbItems),
     title: escapeHtml(article.title),
-    category: escapeHtml(article.category),
+    category: `<a href="/category/${slugifyTag(article.category)}" class="article-page__category-link">${escapeHtml(article.category)}</a>`,
     summary: escapeHtml(article.summary),
     body: bodyWithAds,
     conclusion: escapeHtml(article.conclusion),
@@ -486,6 +565,7 @@ function renderArticle(article, seriesNav = null) {
     tableOfContents,
     seriesNav: buildSeriesNavHtml(seriesNav),
     relatedArticles: buildRelatedHtml(article),
+    shareBar: buildShareHtml(article, liveSeo.canonical),
     faq: faqHtml,
     adTop: getAdSlot("top"),
     adAfterSummary: getAdSlot("inline"),
@@ -581,6 +661,293 @@ function renderPrivacy() {
   });
 }
 
+function renderListingPage({
+  title,
+  description,
+  countLabel,
+  articles,
+  breadcrumbItems,
+  extraTop = "",
+  relatedLinks = "",
+  bodyClass,
+  canonical,
+  pageTitle,
+  metaDescription,
+  ogTitle,
+}) {
+  const content = loadTemplate("listing.html");
+  const cards = articles.length
+    ? articles.map((a) => buildArticleCardHtml(a)).join("")
+    : '<p class="empty">該当する記事がありません。</p>';
+
+  const pageContent = replaceAll(content, {
+    breadcrumb: buildBreadcrumbHtml(breadcrumbItems),
+    title: escapeHtml(title),
+    description: escapeHtml(description),
+    countLabel: escapeHtml(countLabel),
+    articleCards: injectAdsInCardList(cards),
+    extraTop,
+    relatedLinks,
+    adTop: getAdSlot("top"),
+    adBottom: getAdSlot("bottom"),
+  });
+
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    name: title,
+    url: canonical,
+    description: metaDescription,
+    inLanguage: "ja",
+    numberOfItems: articles.length,
+  };
+
+  return renderPage({
+    pageTitle,
+    metaDescription,
+    canonical,
+    ogTitle: ogTitle || title,
+    ogDescription: metaDescription,
+    ogType: "website",
+    jsonLd: JSON.stringify(jsonLd),
+    bodyClass: bodyClass || "page-listing",
+    extraCss: "",
+    extraJs: "",
+    content: pageContent,
+    siteName: config.siteName,
+    siteUrl: config.siteUrl,
+    ...pageMetaExtras({ ogImage: getOgImageUrl() }),
+  });
+}
+
+function renderTagPage(tag, articles) {
+  const canonical = `${config.siteUrl}/tag/${slugifyTag(tag)}`;
+  const metaDescription = `「${tag}」タグの技術記事 ${articles.length} 件。初心者向けにわかりやすく解説したまとめ一覧です。`;
+  const relatedTags = collectTagStats(2)
+    .filter((t) => t.tag !== tag)
+    .slice(0, 12)
+    .map(
+      ({ tag: t, count }) =>
+        `<a href="/tag/${slugifyTag(t)}" class="tag tag--cloud">${escapeHtml(t)} <span class="tag__count">${count}</span></a>`
+    )
+    .join("");
+
+  return renderListingPage({
+    title: `「${tag}」の記事`,
+    description: `タグ「${tag}」が付いた記事一覧です。`,
+    countLabel: `${articles.length} 件`,
+    articles,
+    breadcrumbItems: [
+      { href: "/", label: "ホーム" },
+      { href: "/articles", label: "全記事" },
+      { href: `/tag/${slugifyTag(tag)}`, label: tag },
+    ],
+    relatedLinks: relatedTags
+      ? `<section class="listing-related"><h2>関連タグ</h2><div class="tag-cloud">${relatedTags}</div></section>`
+      : "",
+    bodyClass: "page-tag",
+    canonical,
+    pageTitle: `「${tag}」の記事一覧 | ${config.siteName}`,
+    metaDescription,
+    ogTitle: `「${tag}」の記事一覧`,
+  });
+}
+
+function renderCategoryPage(category, articles) {
+  const canonical = `${config.siteUrl}/category/${slugifyTag(category)}`;
+  const metaDescription = `「${category}」カテゴリの技術記事 ${articles.length} 件。`;
+  const otherCats = collectCategoryStats()
+    .filter((c) => c.category !== category)
+    .slice(0, 8)
+    .map(
+      (c) =>
+        `<a href="/category/${slugifyTag(c.category)}" class="tag">${escapeHtml(c.category)} (${c.count})</a>`
+    )
+    .join(" ");
+
+  return renderListingPage({
+    title: category,
+    description: `カテゴリ「${category}」の記事一覧です。`,
+    countLabel: `${articles.length} 件`,
+    articles,
+    breadcrumbItems: [
+      { href: "/", label: "ホーム" },
+      { href: "/articles", label: "全記事" },
+      { href: `/category/${slugifyTag(category)}`, label: category },
+    ],
+    relatedLinks: otherCats
+      ? `<section class="listing-related"><h2>他のカテゴリ</h2><div class="tag-cloud">${otherCats}</div></section>`
+      : "",
+    bodyClass: "page-category",
+    canonical,
+    pageTitle: `${category} の記事一覧 | ${config.siteName}`,
+    metaDescription,
+    ogTitle: `${category} の記事一覧`,
+  });
+}
+
+function renderSearchPage(query, articles) {
+  const q = String(query || "").trim();
+  const canonical = `${config.siteUrl}/search?q=${encodeURIComponent(q)}`;
+  const metaDescription = q
+    ? `「${q}」の検索結果 ${articles.length} 件。`
+    : "記事をキーワードで検索できます。";
+
+  const searchForm = `<form class="listing-search" action="/search" method="get">
+    <input type="search" name="q" class="input" value="${escapeHtml(q)}" placeholder="キーワードで検索…" aria-label="検索">
+    <button type="submit" class="btn btn--primary">検索</button>
+  </form>`;
+
+  return renderListingPage({
+    title: q ? `「${q}」の検索結果` : "記事検索",
+    description: q ? `キーワード「${q}」に一致する記事です。` : "タイトル・概要・タグから記事を探せます。",
+    countLabel: `${articles.length} 件`,
+    articles,
+    breadcrumbItems: [
+      { href: "/", label: "ホーム" },
+      { href: "/search", label: "検索" },
+      ...(q ? [{ href: canonical, label: q }] : []),
+    ],
+    extraTop: searchForm,
+    bodyClass: "page-search",
+    canonical,
+    pageTitle: q ? `「${q}」の検索結果 | ${config.siteName}` : `記事検索 | ${config.siteName}`,
+    metaDescription,
+    ogTitle: q ? `「${q}」の検索結果` : "記事検索",
+  });
+}
+
+function renderArticlesPage(articles) {
+  const canonical = `${config.siteUrl}/articles`;
+  return renderListingPage({
+    title: "全記事",
+    description: "公開中の技術記事を新しい順に一覧表示しています。",
+    countLabel: `${articles.length} 件`,
+    articles,
+    breadcrumbItems: [
+      { href: "/", label: "ホーム" },
+      { href: "/articles", label: "全記事" },
+    ],
+    bodyClass: "page-articles",
+    canonical,
+    pageTitle: `全記事一覧 | ${config.siteName}`,
+    metaDescription: `公開記事 ${articles.length} 件。Linux・Git・Python・Java など初心者向け技術まとめ。`,
+    ogTitle: "全記事一覧",
+  });
+}
+
+function renderTopicsPage() {
+  const content = loadTemplate("topics.html");
+  const learningPaths = getLearningPaths()
+    .map(
+      (p) => `
+    <article class="learning-path">
+      <h3 class="learning-path__title">${escapeHtml(p.title)}</h3>
+      <p class="learning-path__desc">${escapeHtml(p.description)}</p>
+      <div class="learning-path__steps">${p.steps
+        .map((s, i) => {
+          const arrow = i > 0 ? '<span class="learning-path__arrow">→</span>' : "";
+          return `${arrow}<a href="${escapeHtml(s.href)}" class="learning-path__step">${escapeHtml(s.label)}</a>`;
+        })
+        .join("")}</div>
+    </article>`
+    )
+    .join("");
+
+  const topicGrid = listTopicSummaries()
+    .map(
+      (t) => `
+    <article class="topic-card">
+      <a href="${escapeHtml(t.href)}" class="topic-card__link">
+        <h3>${escapeHtml(t.title)}</h3>
+        <p>${escapeHtml(t.description)}</p>
+        <span class="topic-card__meta">${t.articleCount} 記事 · ${t.courseCount} 講座</span>
+      </a>
+    </article>`
+    )
+    .join("");
+
+  const tagCloud = collectTagStats(2)
+    .slice(0, 30)
+    .map(
+      ({ tag, count }) =>
+        `<a href="/tag/${slugifyTag(tag)}" class="tag tag--cloud">${escapeHtml(tag)} <span class="tag__count">${count}</span></a>`
+    )
+    .join("");
+
+  const pageContent = replaceAll(content, {
+    learningPaths,
+    topicGrid,
+    tagCloud,
+    adMid: getAdSlot("inline"),
+  });
+
+  const canonical = `${config.siteUrl}/topics`;
+  const metaDescription =
+    "Python・Git・Linux・SQL・Web・Docker など、初心者向け技術講座をテーマ別に学べます。";
+
+  return renderPage({
+    pageTitle: `講座一覧 | ${config.siteName}`,
+    metaDescription,
+    canonical,
+    ogTitle: "講座一覧",
+    ogDescription: metaDescription,
+    ogType: "website",
+    jsonLd: JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "CollectionPage",
+      name: "講座一覧",
+      url: canonical,
+      description: metaDescription,
+      inLanguage: "ja",
+    }),
+    bodyClass: "page-topics",
+    extraCss: "",
+    extraJs: "",
+    content: pageContent,
+    siteName: config.siteName,
+    siteUrl: config.siteUrl,
+    ...pageMetaExtras({ ogImage: getOgImageUrl() }),
+  });
+}
+
+function render404() {
+  const content = loadTemplate("404.html");
+  const topicLinks = knowledgeStore
+    .listTopics()
+    .map((t) => {
+      const label = TOPIC_LABELS[t] || t;
+      return `<a href="/knowledge/${escapeHtml(t)}" class="topic-pill">${escapeHtml(label)}</a>`;
+    })
+    .join("");
+
+  const recentArticles = getFeaturedArticles(8)
+    .map((a) => `<li><a href="/article/${escapeHtml(a.slug)}">${escapeHtml(a.title)}</a></li>`)
+    .join("");
+
+  const pageContent = replaceAll(content, {
+    topicLinks,
+    recentArticles,
+  });
+
+  return renderPage({
+    pageTitle: `ページが見つかりません | ${config.siteName}`,
+    metaDescription: "お探しのページは見つかりませんでした。",
+    canonical: config.siteUrl,
+    ogTitle: "404 Not Found",
+    ogDescription: "ページが見つかりません",
+    ogType: "website",
+    jsonLd: "{}",
+    bodyClass: "page-404",
+    extraCss: "",
+    extraJs: "",
+    content: pageContent,
+    siteName: config.siteName,
+    siteUrl: config.siteUrl,
+    ...pageMetaExtras({ robots: "noindex, nofollow" }),
+  });
+}
+
 module.exports = {
   renderHome,
   renderKnowledge,
@@ -588,5 +955,11 @@ module.exports = {
   renderArticle,
   renderAdmin,
   renderPrivacy,
+  renderTagPage,
+  renderCategoryPage,
+  renderSearchPage,
+  renderArticlesPage,
+  renderTopicsPage,
+  render404,
   escapeHtml,
 };

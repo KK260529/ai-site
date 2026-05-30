@@ -82,7 +82,7 @@ function buildWebSiteSchema() {
           "@type": "SearchAction",
           target: {
             "@type": "EntryPoint",
-            urlTemplate: `${config.siteUrl}/?q={search_term_string}`,
+            urlTemplate: `${config.siteUrl}/search?q={search_term_string}`,
           },
           "query-input": "required name=search_term_string",
         },
@@ -197,6 +197,13 @@ function buildFaviconLinks() {
   ].join("\n  ");
 }
 
+function buildAnalyticsScript() {
+  const id = config.ga4MeasurementId;
+  if (!id) return "";
+  return `<script async src="https://www.googletagmanager.com/gtag/js?id=${escapeAttr(id)}"></script>
+  <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','${escapeAttr(id)}');</script>`;
+}
+
 module.exports = {
   clipText,
   plainTextLength,
@@ -211,5 +218,6 @@ module.exports = {
   buildTableOfContents,
   buildSeoHeadExtras,
   buildFaviconLinks,
+  buildAnalyticsScript,
   stripTags,
 };

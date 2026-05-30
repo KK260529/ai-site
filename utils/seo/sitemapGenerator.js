@@ -4,6 +4,7 @@ const { config } = require("../config");
 const articleStore = require("../articleStore");
 const knowledgeStore = require("../stores/knowledgeStore");
 const { buildSitemapXml } = require("../seoExtended");
+const { collectTagStats, collectCategoryStats } = require("../discovery");
 
 function collectUrls() {
   const articles = articleStore.listAllArticles();
@@ -11,12 +12,18 @@ function collectUrls() {
     knowledgeStore.listCourses(t).map((c) => ({ ...c, topic: t }))
   );
   const topics = knowledgeStore.listTopics();
-  return { articles, courses, topics };
+  return {
+    articles,
+    courses,
+    topics,
+    tags: collectTagStats(2),
+    categories: collectCategoryStats(),
+  };
 }
 
 function generateXml() {
-  const { articles, courses, topics } = collectUrls();
-  return buildSitemapXml(articles, courses, topics);
+  const { articles, courses, topics, tags, categories } = collectUrls();
+  return buildSitemapXml(articles, courses, topics, { tags, categories });
 }
 
 function writeToPublic() {

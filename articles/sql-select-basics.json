@@ -2,9 +2,9 @@
   "id": "art_sql_sql-select-basics",
   "slug": "sql-select-basics",
   "title": "SELECT基本｜SQLでデータを取得するsql 使い方入門",
-  "summary": "SQL最重要命令であるSELECT文の基本構文を徹底解説。全件取得・特定カラム指定・AS別名・DISTINCT・LIMITなど実践的なsql 使い方を習得しましょう。",
-  "body": "<h2>SELECT文とは？SQLの最重要命令</h2>\n<p>SELECT文は、データベースのテーブルからデータを取得するための命令です。SQLの中で最も頻繁に使われる命令であり、<strong>「このテーブルから・このカラムを・この条件で・この順番で取得せよ」</strong>という指示をデータベースに与えます。sql 使い方の中核をなす命令で、完全にマスターするまで何度も使い続けることになります。</p>\n<p>SELECT文の基本的な構文は次の通りです。</p>\n<pre><code>-- 最もシンプルなSELECT文\nSELECT * FROM テーブル名;\n\n-- * はすべてのカラムを意味する\n-- FROM の後に取得したいテーブル名を書く</code></pre>\n<p>これを「テーブルの全データを取得する」と読みます。最初はこの形を覚えることから始めましょう。</p>\n\n<h2>学習用サンプルデータの準備</h2>\n<p>今回の学習では、商品管理データベースを使います。まずSQLiteを起動してテーブルとデータを作成しましょう。</p>\n<pre><code>-- データベースを起動\n-- sqlite3 shop.db\n\n-- 商品テーブルを作成\nCREATE TABLE products (\n  id       INTEGER PRIMARY KEY AUTOINCREMENT,\n  name     TEXT    NOT NULL,\n  price    INTEGER NOT NULL,\n  category TEXT    NOT NULL,\n  stock    INTEGER DEFAULT 0\n);\n\n-- サンプルデータを挿入\nINSERT INTO products (name, price, category, stock) VALUES\n  ('りんご',      150, '果物',   100),\n  ('バナナ',       80, '果物',   200),\n  ('みかん',      120, '果物',    50),\n  ('にんじん',     90, '野菜',   150),\n  ('じゃがいも',   60, '野菜',   300),\n  ('ほうれん草',  100, '野菜',    80),\n  ('牛乳',        200, '乳製品',  60),\n  ('チーズ',      350, '乳製品',  30),\n  ('ヨーグルト',  180, '乳製品',  40),\n  ('食パン',      250, 'パン',   120);</code></pre>\n\n<h2>全件取得と特定カラムの指定</h2>\n<p>SELECT文の基本パターンを見ていきましょう。</p>\n<pre><code>-- すべてのカラムを取得（* はワイルドカード）\nSELECT * FROM products;\n\n-- 出力例:\n-- id | name      | price | category | stock\n-- ---+-----------+-------+----------+------\n--  1 | りんご    |   150 | 果物     |   100\n--  2 | バナナ    |    80 | 果物     |   200\n-- ...（10件すべて表示）\n\n-- 特定のカラムだけを取得\nSELECT name, price FROM products;\n\n-- 出力例:\n-- name      | price\n-- ----------+------\n-- りんご    |   150\n-- バナナ    |    80\n-- ...\n\n-- カラムの順序は自由に変えられる\nSELECT price, name, category FROM products;</code></pre>\n<p>本番環境では <code>SELECT *</code> よりも必要なカラムだけを指定する方が、パフォーマンスと可読性の観点から推奨されます。特に大規模なテーブルでは、取得するデータ量を最小限にすることが重要です。</p>\n\n<h2>AS：カラムに別名をつける</h2>\n<p><code>AS</code>キーワードを使うと、取得結果のカラム名に別名（エイリアス）を付けられます。レポートやアプリケーションで読みやすい名前に変換するときに便利です。</p>\n<pre><code>-- ASで別名をつける\nSELECT\n  name    AS 商品名,\n  price   AS 価格,\n  stock   AS 在庫数\nFROM products;\n\n-- 出力例:\n-- 商品名    | 価格 | 在庫数\n-- ----------+------+------\n-- りんご    |  150 |   100\n\n-- 計算結果に別名をつける例\nSELECT\n  name                  AS 商品名,\n  price                 AS 単価,\n  price * stock         AS 在庫総額\nFROM products;\n\n-- 出力例:\n-- 商品名    | 単価 | 在庫総額\n-- ----------+------+--------\n-- りんご    |  150 |  15000\n-- バナナ    |   80 |  16000</code></pre>\n\n<h2>DISTINCTで重複を除去する</h2>\n<p><code>DISTINCT</code>を使うと、結果から重複する値を除いて取得できます。「どんなカテゴリがあるか一覧を見たい」というような場合に役立ちます。</p>\n<pre><code>-- 重複ありで取得（10件すべて表示）\nSELECT category FROM products;\n\n-- 出力: 果物, 果物, 果物, 野菜, 野菜, 野菜, 乳製品, 乳製品, 乳製品, パン\n\n-- DISTINCTで重複を除去（4件のみ表示）\nSELECT DISTINCT category FROM products;\n\n-- 出力:\n-- category\n-- --------\n-- 果物\n-- 野菜\n-- 乳製品\n-- パン\n\n-- 複数カラムへのDISTINCT（組み合わせで重複除去）\nSELECT DISTINCT category, price FROM products;</code></pre>\n\n<h2>LIMITとOFFSETで取得件数を制限する</h2>\n<p>大量のデータがある場合、すべてを取得するのは非効率です。<code>LIMIT</code> で件数を制限し、<code>OFFSET</code> で開始位置を指定することで、ページネーション（ページ切り替え）を実装できます。</p>\n<pre><code>-- 最初の5件だけ取得\nSELECT * FROM products LIMIT 5;\n\n-- 6件目から5件取得（OFFSETで開始位置を指定）\nSELECT * FROM products LIMIT 5 OFFSET 5;\n\n-- ページネーションの実装パターン\n-- 1ページ目（1〜5件目）\nSELECT * FROM products LIMIT 5 OFFSET 0;\n-- 2ページ目（6〜10件目）\nSELECT * FROM products LIMIT 5 OFFSET 5;\n-- 3ページ目（11〜15件目）\nSELECT * FROM products LIMIT 5 OFFSET 10;\n\n-- 件数だけを確認したい場合\nSELECT COUNT(*) FROM products;\n-- 出力: 10</code></pre>\n\n<h2>ORDER BYで並び順を指定する</h2>\n<p>取得したデータを特定のカラムで並び替えるには <code>ORDER BY</code> を使います。<code>ASC</code>（昇順・小さい順）か <code>DESC</code>（降順・大きい順）を指定できます。</p>\n<pre><code>-- 価格の安い順に並べる（ASCは省略可）\nSELECT name, price FROM products ORDER BY price ASC;\n\n-- 出力:\n-- name       | price\n-- -----------+------\n-- じゃがいも |    60\n-- バナナ     |    80\n-- にんじん   |    90\n\n-- 価格の高い順に並べる\nSELECT name, price FROM products ORDER BY price DESC;\n\n-- 複数カラムで並び替え（カテゴリ昇順、価格降順）\nSELECT name, category, price\nFROM products\nORDER BY category ASC, price DESC;\n\n-- 計算結果で並び替え\nSELECT name, price * stock AS total_value\nFROM products\nORDER BY total_value DESC\nLIMIT 3;</code></pre>\n<p>SELECT文の基本的なキーワードをまとめると、<code>SELECT</code>（取得カラム指定）→ <code>FROM</code>（テーブル指定）→ <code>ORDER BY</code>（並び順）→ <code>LIMIT</code>（件数制限）の順に書きます。次回はWHERE句を加えて条件を絞り込む方法を学びます。</p>",
-  "conclusion": "SELECT文はSQLで最も頻繁に使う命令で、SELECT（カラム）FROM（テーブル）の基本構文から始まります。特定カラムの指定・AS別名・DISTINCTで重複除去・LIMITで件数制限・ORDER BYで並び替えという5つのテクニックをマスターすることがsql 使い方の基本です。本番環境ではSELECT *よりも必要なカラムだけを指定する習慣をつけましょう。次回はWHERE句で条件を絞り込む方法を学びます。",
+  "summary": "SELECT文の基本構文を解説。全件取得、カラム指定、AS別名、DISTINCT、LIMIT/OFFSET、ORDER BYをSQLiteサンプルで実践的に習得します。",
+  "body": "<h2>結論：SELECTは「どのカラムを・どのテーブルから取るか」を指定する最重要命令</h2>\n<p><code>SELECT カラム FROM テーブル</code> が基本形です。<strong>AS</strong>で別名、<strong>DISTINCT</strong>で重複除去、<strong>LIMIT/OFFSET</strong>で件数制限、<strong>ORDER BY</strong>で並び替えが定番テクニックです。本番では <code>SELECT *</code> より必要なカラムだけ指定する習慣をつけましょう。</p>\n\n<h2>SELECT文とは？SQLの最重要命令</h2>\n<p>SELECT文は、データベースのテーブルからデータを取得するための命令です。SQLの中で最も頻繁に使われる命令であり、<strong>「このテーブルから・このカラムを・この条件で・この順番で取得せよ」</strong>という指示をデータベースに与えます。sql 使い方の中核をなす命令で、完全にマスターするまで何度も使い続けることになります。</p>\n<p>SELECT文の基本的な構文は次の通りです。</p>\n<pre><code>-- 最もシンプルなSELECT文\nSELECT * FROM テーブル名;\n\n-- * はすべてのカラムを意味する\n-- FROM の後に取得したいテーブル名を書く</code></pre>\n<p>これを「テーブルの全データを取得する」と読みます。最初はこの形を覚えることから始めましょう。</p>\n\n<h2>学習用サンプルデータの準備</h2>\n<p>今回の学習では、商品管理データベースを使います。まずSQLiteを起動してテーブルとデータを作成しましょう。</p>\n<pre><code>-- データベースを起動\n-- sqlite3 shop.db\n\n-- 商品テーブルを作成\nCREATE TABLE products (\n  id       INTEGER PRIMARY KEY AUTOINCREMENT,\n  name     TEXT    NOT NULL,\n  price    INTEGER NOT NULL,\n  category TEXT    NOT NULL,\n  stock    INTEGER DEFAULT 0\n);\n\n-- サンプルデータを挿入\nINSERT INTO products (name, price, category, stock) VALUES\n  ('りんご',      150, '果物',   100),\n  ('バナナ',       80, '果物',   200),\n  ('みかん',      120, '果物',    50),\n  ('にんじん',     90, '野菜',   150),\n  ('じゃがいも',   60, '野菜',   300),\n  ('ほうれん草',  100, '野菜',    80),\n  ('牛乳',        200, '乳製品',  60),\n  ('チーズ',      350, '乳製品',  30),\n  ('ヨーグルト',  180, '乳製品',  40),\n  ('食パン',      250, 'パン',   120);</code></pre>\n\n<h2>全件取得と特定カラムの指定</h2>\n<p>SELECT文の基本パターンを見ていきましょう。</p>\n<pre><code>-- すべてのカラムを取得（* はワイルドカード）\nSELECT * FROM products;\n\n-- 出力例:\n-- id | name      | price | category | stock\n-- ---+-----------+-------+----------+------\n--  1 | りんご    |   150 | 果物     |   100\n--  2 | バナナ    |    80 | 果物     |   200\n-- ...（10件すべて表示）\n\n-- 特定のカラムだけを取得\nSELECT name, price FROM products;\n\n-- 出力例:\n-- name      | price\n-- ----------+------\n-- りんご    |   150\n-- バナナ    |    80\n-- ...\n\n-- カラムの順序は自由に変えられる\nSELECT price, name, category FROM products;</code></pre>\n<p>本番環境では <code>SELECT *</code> よりも必要なカラムだけを指定する方が、パフォーマンスと可読性の観点から推奨されます。特に大規模なテーブルでは、取得するデータ量を最小限にすることが重要です。</p>\n\n<h2>AS：カラムに別名をつける</h2>\n<p><code>AS</code>キーワードを使うと、取得結果のカラム名に別名（エイリアス）を付けられます。レポートやアプリケーションで読みやすい名前に変換するときに便利です。</p>\n<pre><code>-- ASで別名をつける\nSELECT\n  name    AS 商品名,\n  price   AS 価格,\n  stock   AS 在庫数\nFROM products;\n\n-- 出力例:\n-- 商品名    | 価格 | 在庫数\n-- ----------+------+------\n-- りんご    |  150 |   100\n\n-- 計算結果に別名をつける例\nSELECT\n  name                  AS 商品名,\n  price                 AS 単価,\n  price * stock         AS 在庫総額\nFROM products;\n\n-- 出力例:\n-- 商品名    | 単価 | 在庫総額\n-- ----------+------+--------\n-- りんご    |  150 |  15000\n-- バナナ    |   80 |  16000</code></pre>\n\n<h2>DISTINCTで重複を除去する</h2>\n<p><code>DISTINCT</code>を使うと、結果から重複する値を除いて取得できます。「どんなカテゴリがあるか一覧を見たい」というような場合に役立ちます。</p>\n<pre><code>-- 重複ありで取得（10件すべて表示）\nSELECT category FROM products;\n\n-- 出力: 果物, 果物, 果物, 野菜, 野菜, 野菜, 乳製品, 乳製品, 乳製品, パン\n\n-- DISTINCTで重複を除去（4件のみ表示）\nSELECT DISTINCT category FROM products;\n\n-- 出力:\n-- category\n-- --------\n-- 果物\n-- 野菜\n-- 乳製品\n-- パン\n\n-- 複数カラムへのDISTINCT（組み合わせで重複除去）\nSELECT DISTINCT category, price FROM products;</code></pre>\n\n<h2>LIMITとOFFSETで取得件数を制限する</h2>\n<p>大量のデータがある場合、すべてを取得するのは非効率です。<code>LIMIT</code> で件数を制限し、<code>OFFSET</code> で開始位置を指定することで、ページネーション（ページ切り替え）を実装できます。</p>\n<pre><code>-- 最初の5件だけ取得\nSELECT * FROM products LIMIT 5;\n\n-- 6件目から5件取得（OFFSETで開始位置を指定）\nSELECT * FROM products LIMIT 5 OFFSET 5;\n\n-- ページネーションの実装パターン\n-- 1ページ目（1〜5件目）\nSELECT * FROM products LIMIT 5 OFFSET 0;\n-- 2ページ目（6〜10件目）\nSELECT * FROM products LIMIT 5 OFFSET 5;\n-- 3ページ目（11〜15件目）\nSELECT * FROM products LIMIT 5 OFFSET 10;\n\n-- 件数だけを確認したい場合\nSELECT COUNT(*) FROM products;\n-- 出力: 10</code></pre>\n\n<h2>ORDER BYで並び順を指定する</h2>\n<p>取得したデータを特定のカラムで並び替えるには <code>ORDER BY</code> を使います。<code>ASC</code>（昇順・小さい順）か <code>DESC</code>（降順・大きい順）を指定できます。</p>\n<pre><code>-- 価格の安い順に並べる（ASCは省略可）\nSELECT name, price FROM products ORDER BY price ASC;\n\n-- 出力:\n-- name       | price\n-- -----------+------\n-- じゃがいも |    60\n-- バナナ     |    80\n-- にんじん   |    90\n\n-- 価格の高い順に並べる\nSELECT name, price FROM products ORDER BY price DESC;\n\n-- 複数カラムで並び替え（カテゴリ昇順、価格降順）\nSELECT name, category, price\nFROM products\nORDER BY category ASC, price DESC;\n\n-- 計算結果で並び替え\nSELECT name, price * stock AS total_value\nFROM products\nORDER BY total_value DESC\nLIMIT 3;</code></pre>\n<p>SELECT文の基本的なキーワードをまとめると、<code>SELECT</code>（取得カラム指定）→ <code>FROM</code>（テーブル指定）→ <code>ORDER BY</code>（並び順）→ <code>LIMIT</code>（件数制限）の順に書きます。次回はWHERE句を加えて条件を絞り込む方法を学びます。</p>\n\n<h2>つまずきやすいポイント・失敗例</h2>\n<h3>失敗例：SELECT * を常用する</h3>\n<p>学習中は便利ですが、大規模テーブルでは不要なデータ転送で遅くなります。必要カラムを明示する癖をつけましょう。</p>\n<h3>失敗例：LIMITとOFFSETの順序を逆にする</h3>\n<p>SQLite/MySQLでは <code>LIMIT 件数 OFFSET 開始位置</code> の順です。ページネーションは <code>LIMIT 5 OFFSET 10</code> で11件目から5件取得します。</p>",
+  "conclusion": "SELECTはSQLで最も頻繁に使う命令です。SELECT（カラム）FROM（テーブル）を基本に、AS・DISTINCT・LIMIT・ORDER BYを組み合わせて必要なデータだけを取得する習慣をつけましょう。本番ではSELECT * より必要カラム指定が推奨されます。",
   "tags": [
     "SQL",
     "SELECT",
@@ -16,12 +16,12 @@
   "theme": "sql - SQL・データベース入門",
   "status": "published",
   "createdAt": "2026-05-30T04:13:09.145Z",
-  "updatedAt": "2026-05-30T05:01:29.388Z",
+  "updatedAt": "2026-05-30T05:23:47.481Z",
   "publishedAt": "2026-05-30T04:13:09.145Z",
   "metaTitle": "SELECT基本｜SQLでデータを取得するsql 使い方【sql 初心者向け】",
-  "metaDescription": "SELECT文の基本構文をsql 初心者向けに徹底解説。全件取得・カラム指定・DISTINCT・LIMIT・AS別名など実践的なsql 使い方を豊富なSQLiteサンプルで学べます。",
+  "metaDescription": "SELECT文の基本（*、カラム指定、AS、DISTINCT、LIMIT、ORDER BY）をSQLite例付きで解説。SELECT * の注意点とよくある失敗例も紹介します。",
   "ogTitle": "SELECT基本｜SQLデータ取得の完全入門",
-  "ogDescription": "SELECT文の基本構文をゼロから解説。SQLiteサンプルで実際に動かしながら学べます。",
+  "ogDescription": "SELECT文の基本構文をSQLiteサンプルで実践的に学べます。",
   "knowledge": {
     "topic": "sql",
     "courseId": "sql",
@@ -29,24 +29,24 @@
   },
   "faq": [
     {
-      "question": "SELECT * と特定カラム指定はどちらが良いですか？",
-      "answer": "学習中はSELECT *で全カラムを確認するのは問題ありませんが、実際のアプリ開発では必要なカラムだけを指定する方が推奨されます。理由は①不要なデータの転送を避けパフォーマンスが向上する、②コードを読んだときにどのデータを使っているか明確になる、③テーブルにカラムが追加されても影響を受けにくい、の3点です。"
+      "question": "SELECT * はいつ使ってよい？",
+      "answer": "テーブル構造の確認や小規模データの探索では便利です。本番アプリや大規模テーブルでは必要カラムのみ指定しましょう。"
     },
     {
-      "question": "ORDER BYのASCとDESCはどちらがデフォルトですか？",
-      "answer": "ASC（昇順：小さい順・アルファベット順）がデフォルトです。ORDER BY price と書くと ORDER BY price ASC と同じ意味です。数値は小さい順、文字列はアルファベット・五十音順で並びます。DESCは大きい順・逆アルファベット順になります。日付型の場合、DESCで最新順になります。"
+      "question": "ASは省略できますか？",
+      "answer": "カラム名と別名の間のASは省略可能ですが、可読性のためASを書くことを推奨します。"
     },
     {
-      "question": "LIMITを使わずに全件取得するのは問題ですか？",
-      "answer": "小規模なテーブルなら問題ありませんが、本番データベースで数百万件のレコードがあるテーブルでLIMITなしにSELECT *を実行するとサーバーに大きな負荷がかかります。本番環境では原則としてLIMITを付けるか、WHERE句で条件を絞り込んで取得件数を制限するのが良い習慣です。"
+      "question": "DISTINCTとGROUP BYの違いは？",
+      "answer": "DISTINCTは結果の重複行を除去します。GROUP BYはグループ化して集計関数と組み合わせる用途が中心です。"
     },
     {
-      "question": "SQLのコメントはどう書きますか？",
-      "answer": "SQLのコメントは2通りあります。1行コメントは -- （ハイフン2つ）の後に続けて書き、その行の末尾までコメントになります。複数行コメントは /* と */ で囲みます。コメントはSQLの実行に影響せず、コードの説明に使います。学習中は自分のメモとして積極的に使いましょう。"
+      "question": "ORDER BYで計算結果を並べ替えられる？",
+      "answer": "はい。<code>ORDER BY price * stock DESC</code> のように式や別名を指定できます。"
     },
     {
       "question": "SQLはどんな場面で使いますか？",
-      "answer": "Webアプリのユーザー情報保存、売上分析、ログ集計など、データを保存・検索・集計したい場面で使います。Excelの大量データ版と考えるとイメージしやすいです。"
+      "answer": "データの検索・一覧表示・レポート出力など、保存済みデータを取り出す場面すべてでSELECTが使われます。"
     }
   ],
   "nextEpisodeHint": "次回はWHERE句を使って、条件に合うレコードだけを絞り込む方法を学びます。AND/OR/NOT・LIKE・BETWEEN・INなど、データ絞り込みの重要テクニックを習得しましょう。",
@@ -59,9 +59,9 @@
         "@context": "https://schema.org",
         "@type": "TechArticle",
         "headline": "SELECT基本｜SQLでデータを取得するsql 使い方入門",
-        "description": "SELECT文の基本構文をsql 初心者向けに徹底解説。全件取得・カラム指定・DISTINCT・LIMIT・AS別名など実践的なsql 使い方を豊富なSQLiteサンプルで学べます。 図解・具体例つきで丁寧に解説します。",
+        "description": "SELECT文の基本（*、カラム指定、AS、DISTINCT、LIMIT、ORDER BY）をSQLite例付きで解説。SELECT * の注意点とよくある失敗例も紹介します。",
         "datePublished": "2026-05-30T04:13:09.145Z",
-        "dateModified": "2026-05-30T05:01:29.388Z",
+        "dateModified": "2026-05-30T05:23:47.481Z",
         "author": {
           "@type": "Organization",
           "name": "StackShelf",
@@ -82,7 +82,7 @@
         },
         "image": "https://ai-site-iota-nine.vercel.app/og-default.svg",
         "inLanguage": "ja",
-        "wordCount": 2940,
+        "wordCount": 3283,
         "mainEntityOfPage": {
           "@type": "WebPage",
           "@id": "https://ai-site-iota-nine.vercel.app/article/sql-select-basics"
@@ -148,34 +148,34 @@
         "mainEntity": [
           {
             "@type": "Question",
-            "name": "SELECT * と特定カラム指定はどちらが良いですか？",
+            "name": "SELECT * はいつ使ってよい？",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "学習中はSELECT *で全カラムを確認するのは問題ありませんが、実際のアプリ開発では必要なカラムだけを指定する方が推奨されます。理由は①不要なデータの転送を避けパフォーマンスが向上する、②コードを読んだときにどのデータを使っているか明確になる、③テーブルにカラムが追加されても影響を受けにくい、の3点です。"
+              "text": "テーブル構造の確認や小規模データの探索では便利です。本番アプリや大規模テーブルでは必要カラムのみ指定しましょう。"
             }
           },
           {
             "@type": "Question",
-            "name": "ORDER BYのASCとDESCはどちらがデフォルトですか？",
+            "name": "ASは省略できますか？",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "ASC（昇順：小さい順・アルファベット順）がデフォルトです。ORDER BY price と書くと ORDER BY price ASC と同じ意味です。数値は小さい順、文字列はアルファベット・五十音順で並びます。DESCは大きい順・逆アルファベット順になります。日付型の場合、DESCで最新順になります。"
+              "text": "カラム名と別名の間のASは省略可能ですが、可読性のためASを書くことを推奨します。"
             }
           },
           {
             "@type": "Question",
-            "name": "LIMITを使わずに全件取得するのは問題ですか？",
+            "name": "DISTINCTとGROUP BYの違いは？",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "小規模なテーブルなら問題ありませんが、本番データベースで数百万件のレコードがあるテーブルでLIMITなしにSELECT *を実行するとサーバーに大きな負荷がかかります。本番環境では原則としてLIMITを付けるか、WHERE句で条件を絞り込んで取得件数を制限するのが良い習慣です。"
+              "text": "DISTINCTは結果の重複行を除去します。GROUP BYはグループ化して集計関数と組み合わせる用途が中心です。"
             }
           },
           {
             "@type": "Question",
-            "name": "SQLのコメントはどう書きますか？",
+            "name": "ORDER BYで計算結果を並べ替えられる？",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "SQLのコメントは2通りあります。1行コメントは -- （ハイフン2つ）の後に続けて書き、その行の末尾までコメントになります。複数行コメントは /* と */ で囲みます。コメントはSQLの実行に影響せず、コードの説明に使います。学習中は自分のメモとして積極的に使いましょう。"
+              "text": "はい。<code>ORDER BY price * stock DESC</code> のように式や別名を指定できます。"
             }
           },
           {
@@ -183,7 +183,7 @@
             "name": "SQLはどんな場面で使いますか？",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "Webアプリのユーザー情報保存、売上分析、ログ集計など、データを保存・検索・集計したい場面で使います。Excelの大量データ版と考えるとイメージしやすいです。"
+              "text": "データの検索・一覧表示・レポート出力など、保存済みデータを取り出す場面すべてでSELECTが使われます。"
             }
           }
         ]
@@ -245,34 +245,34 @@
     "mainEntity": [
       {
         "@type": "Question",
-        "name": "SELECT * と特定カラム指定はどちらが良いですか？",
+        "name": "SELECT * はいつ使ってよい？",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "学習中はSELECT *で全カラムを確認するのは問題ありませんが、実際のアプリ開発では必要なカラムだけを指定する方が推奨されます。理由は①不要なデータの転送を避けパフォーマンスが向上する、②コードを読んだときにどのデータを使っているか明確になる、③テーブルにカラムが追加されても影響を受けにくい、の3点です。"
+          "text": "テーブル構造の確認や小規模データの探索では便利です。本番アプリや大規模テーブルでは必要カラムのみ指定しましょう。"
         }
       },
       {
         "@type": "Question",
-        "name": "ORDER BYのASCとDESCはどちらがデフォルトですか？",
+        "name": "ASは省略できますか？",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "ASC（昇順：小さい順・アルファベット順）がデフォルトです。ORDER BY price と書くと ORDER BY price ASC と同じ意味です。数値は小さい順、文字列はアルファベット・五十音順で並びます。DESCは大きい順・逆アルファベット順になります。日付型の場合、DESCで最新順になります。"
+          "text": "カラム名と別名の間のASは省略可能ですが、可読性のためASを書くことを推奨します。"
         }
       },
       {
         "@type": "Question",
-        "name": "LIMITを使わずに全件取得するのは問題ですか？",
+        "name": "DISTINCTとGROUP BYの違いは？",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "小規模なテーブルなら問題ありませんが、本番データベースで数百万件のレコードがあるテーブルでLIMITなしにSELECT *を実行するとサーバーに大きな負荷がかかります。本番環境では原則としてLIMITを付けるか、WHERE句で条件を絞り込んで取得件数を制限するのが良い習慣です。"
+          "text": "DISTINCTは結果の重複行を除去します。GROUP BYはグループ化して集計関数と組み合わせる用途が中心です。"
         }
       },
       {
         "@type": "Question",
-        "name": "SQLのコメントはどう書きますか？",
+        "name": "ORDER BYで計算結果を並べ替えられる？",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "SQLのコメントは2通りあります。1行コメントは -- （ハイフン2つ）の後に続けて書き、その行の末尾までコメントになります。複数行コメントは /* と */ で囲みます。コメントはSQLの実行に影響せず、コードの説明に使います。学習中は自分のメモとして積極的に使いましょう。"
+          "text": "はい。<code>ORDER BY price * stock DESC</code> のように式や別名を指定できます。"
         }
       },
       {
@@ -280,7 +280,7 @@
         "name": "SQLはどんな場面で使いますか？",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Webアプリのユーザー情報保存、売上分析、ログ集計など、データを保存・検索・集計したい場面で使います。Excelの大量データ版と考えるとイメージしやすいです。"
+          "text": "データの検索・一覧表示・レポート出力など、保存済みデータを取り出す場面すべてでSELECTが使われます。"
         }
       }
     ]
@@ -312,5 +312,5 @@
       "reason": "同じ講座の関連回です"
     }
   ],
-  "nextAction": "次はWHERE句を使って、条件に合うレコードだけを絞り込む方法を学びます。AND/OR/NOT・LIKE・BETWEEN・INなど、データ絞り込みの重要テクニックを習得しましょう。"
+  "nextAction": "前回作成したテーブル（または記事内のproductsサンプル）で SELECT name, price FROM products; と SELECT DISTINCT category FROM products; を実行し、結果の違いを確認してください。"
 }

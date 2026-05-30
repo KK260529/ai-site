@@ -1,0 +1,318 @@
+{
+  "id": "art_http_http-methods-status",
+  "slug": "http-methods-status",
+  "title": "HTTPメソッドとステータスコード完全ガイド",
+  "summary": "GET・POST・PUT・DELETE・PATCHなどのHTTPメソッドと、200・404・500などのステータスコードを体系的に解説します。REST API設計の基礎を学びましょう。",
+  "body": "<h2>HTTPメソッドとは</h2>\n<p>HTTPメソッド（HTTP Method）とは、リクエストの<strong>「何をしたいか」</strong>をサーバーに伝えるための動詞です。リクエスト行の最初の部分に書かれ、サーバーはこのメソッドを見て適切な処理を選択します。</p>\n<p>最もよく使う5つのメソッドは <strong>GET、POST、PUT、PATCH、DELETE</strong> です。これらはREST API設計の基本となり、<a href=\"/articles/sql-intro\">SQL</a>のCRUD操作（Create/Read/Update/Delete）と対応関係があります。</p>\n<pre><code># CRUDとHTTPメソッドの対応\nCREATE  → POST   （新規作成）\nREAD    → GET    （取得）\nUPDATE  → PUT/PATCH（更新）\nDELETE  → DELETE （削除）</code></pre>\n\n<h2>GET：データの取得</h2>\n<p>GETは最も頻繁に使われるメソッドで、<strong>サーバーからデータを取得する</strong>ために使います。ブラウザのアドレスバーにURLを入力してEnterを押す操作は、内部的にはGETリクエストです。</p>\n<pre><code>GET /api/users/42 HTTP/1.1\nHost: api.example.com\nAccept: application/json</code></pre>\n<p>GETの特徴：</p>\n<ul>\n  <li>ボディを含めない（データ送信には使わない）</li>\n  <li>クエリパラメータ（<code>?page=1&amp;limit=10</code>）で条件を指定できる</li>\n  <li><strong>冪等（べんとう）</strong>：同じリクエストを何度実行しても結果は同じ</li>\n  <li><strong>安全（Safe）</strong>：サーバーの状態を変更しない</li>\n  <li>ブラウザの履歴・ブックマーク・キャッシュの対象になる</li>\n</ul>\n<p>成功時のステータスコードは通常 <code>200 OK</code> です。リソースが存在しない場合は <code>404 Not Found</code> が返されます。</p>\n\n<h2>POST：データの作成</h2>\n<p>POSTは<strong>新しいリソースを作成する</strong>、または<strong>サーバーに処理を依頼する</strong>ために使います。HTMLフォームの送信、ユーザー登録、記事の投稿などがPOSTの典型例です。</p>\n<pre><code>POST /api/users HTTP/1.1\nHost: api.example.com\nContent-Type: application/json\n\n{\"name\": \"田中太郎\", \"email\": \"tanaka@example.com\"}</code></pre>\n<p>POSTの特徴：</p>\n<ul>\n  <li>ボディにJSONやフォームデータを含める</li>\n  <li>冪等ではない：同じリクエストを2回送ると2件作成される可能性がある</li>\n  <li>成功時は <code>201 Created</code> が返される（201のLocationヘッダーに新リソースのURL）</li>\n  <li>ログイン処理など「作成」以外の用途にも広く使われる</li>\n</ul>\n\n<h2>PUT：データの完全更新</h2>\n<p>PUTは<strong>既存リソースを完全に置き換える</strong>（上書き更新）ために使います。指定したIDのリソースが存在すれば更新、存在しなければ新規作成（Upsert）する設計もあります。</p>\n<pre><code>PUT /api/users/42 HTTP/1.1\nHost: api.example.com\nContent-Type: application/json\n\n{\"name\": \"田中次郎\", \"email\": \"tanaka@example.com\", \"age\": 30}</code></pre>\n<p>PUTは冪等です。同じリクエストを何度送っても結果は同じ状態になります。成功時は <code>200 OK</code>（更新）または <code>201 Created</code>（新規作成）です。</p>\n\n<h2>PATCH：データの部分更新</h2>\n<p>PATCHは<strong>リソースの一部だけを更新する</strong>ために使います。PUTが「全フィールドを送って完全置換」なのに対し、PATCHは「変更したいフィールドだけ送る」方式です。</p>\n<pre><code>PATCH /api/users/42 HTTP/1.1\nHost: api.example.com\nContent-Type: application/json\n\n{\"age\": 31}</code></pre>\n<p>上記の例では age だけを更新し、name や email は変更しません。PATCHも冪等であるべきですが、実装によってはそうでない場合もあります。</p>\n\n<h2>DELETE：データの削除</h2>\n<p>DELETEは<strong>指定したリソースを削除する</strong>ために使います。</p>\n<pre><code>DELETE /api/users/42 HTTP/1.1\nHost: api.example.com\nAuthorization: Bearer eyJhbGciOi...</code></pre>\n<p>DELETEは冪等です。存在しないリソースに対するDELETEは <code>404 Not Found</code> または <code>204 No Content</code>（削除済みとして成功扱い）を返す設計があります。成功時は <code>204 No Content</code>（ボディなし）が一般的です。</p>\n\n<h2>その他のメソッド</h2>\n<p>開発現場で occasionally 見るメソッド：</p>\n<ul>\n  <li><strong>HEAD</strong>：GETと同じだがボディを返さない。ファイルサイズや更新日時の確認に使う</li>\n  <li><strong>OPTIONS</strong>：サーバーがサポートするメソッドを確認。CORSのプリフライトリクエストで使用（第9回）</li>\n  <li><strong>TRACE</strong>：デバッグ用。本番環境では通常無効化</li>\n</ul>\n\n<h2>ステータスコードの体系</h2>\n<p>ステータスコードは3桁の数字で、処理結果を表します。最初の1桁で大分類されます。</p>\n\n<h3>2xx：成功</h3>\n<ul>\n  <li><strong>200 OK</strong>：リクエスト成功。GET/PUT/PATCHの一般的な成功レスポンス</li>\n  <li><strong>201 Created</strong>：リソース作成成功。POSTの成功レスポンス</li>\n  <li><strong>204 No Content</strong>：成功したがボディなし。DELETEの成功レスポンス</li>\n</ul>\n\n<h3>3xx：リダイレクト</h3>\n<ul>\n  <li><strong>301 Moved Permanently</strong>：恒久的な移転。SEO的には新URLに評価が引き継がれる</li>\n  <li><strong>302 Found</strong>：一時的なリダイレクト</li>\n  <li><strong>304 Not Modified</strong>：キャッシュが有効。ボディを返さず通信量を節約</li>\n</ul>\n\n<h3>4xx：クライアントエラー</h3>\n<ul>\n  <li><strong>400 Bad Request</strong>：リクエスト形式が不正（JSONの構文エラーなど）</li>\n  <li><strong>401 Unauthorized</strong>：認証が必要、または認証失敗</li>\n  <li><strong>403 Forbidden</strong>：認証済みだが権限不足</li>\n  <li><strong>404 Not Found</strong>：リソースが存在しない</li>\n  <li><strong>405 Method Not Allowed</strong>：そのURLでメソッドが許可されていない</li>\n  <li><strong>409 Conflict</strong>：リソースの状態と矛盾（重複登録など）</li>\n  <li><strong>422 Unprocessable Entity</strong>：形式は正しいが内容が無効（バリデーションエラー）</li>\n  <li><strong>429 Too Many Requests</strong>：レート制限超過</li>\n</ul>\n\n<h3>5xx：サーバーエラー</h3>\n<ul>\n  <li><strong>500 Internal Server Error</strong>：サーバー内部の予期しないエラー</li>\n  <li><strong>502 Bad Gateway</strong>：上流サーバー（<a href=\"/articles/nginx-intro\">nginx</a>の背後のアプリなど）から不正なレスポンス</li>\n  <li><strong>503 Service Unavailable</strong>：サーバーが一時的に利用不可（メンテナンス・過負荷）</li>\n  <li><strong>504 Gateway Timeout</strong>：上流サーバーからの応答タイムアウト</li>\n</ul>\n\n<h2>401と403の使い分け</h2>\n<p>初学者が混乱しやすいのが401と403の違いです。</p>\n<ul>\n  <li><strong>401 Unauthorized</strong>：「あなたが誰かわからない」——ログインが必要、トークンが無効・期限切れ</li>\n  <li><strong>403 Forbidden</strong>：「あなたが誰かはわかるが、権限がない」——一般ユーザーが管理者ページにアクセス</li>\n</ul>\n<p>ログインページにリダイレクトすべき状況は401、権限不足のエラーメッセージを表示すべき状況は403です。</p>\n\n<h2>実践：ステータスコードで問題を切り分ける</h2>\n<p>API開発やWebアプリのデバッグでは、ステータスコードを見るだけで問題の所在を大まかに特定できます。</p>\n<pre><code># 問題切り分けの早見表\n4xx → クライアント（自分）側の問題\n  400 → リクエストの形式・内容を確認\n  401 → 認証情報（トークン・Cookie）を確認\n  403 → 権限設定を確認\n  404 → URL・リソースIDを確認\n  422 → バリデーションルールを確認\n\n5xx → サーバー側の問題\n  500 → サーバーログを確認（<a href=\"/articles/python-intro\">Python</a>等の例外）\n  502 → nginxとアプリサーバーの接続を確認\n  503 → サーバーの負荷・メンテナンス状態を確認</code></pre>\n\n<h2>まとめ：メソッドとステータスコードはAPIの共通言語</h2>\n<p>HTTPメソッドは「何をしたいか」、ステータスコードは「結果はどうだったか」を伝える共通言語です。GET/POST/PUT/PATCH/DELETEの使い分けと、2xx/3xx/4xx/5xxの読み方を覚えれば、あらゆるWeb APIのドキュメントやエラーメッセージを理解できるようになります。次回はHTTPヘッダーの詳細を学びます。</p>",
+  "conclusion": "HTTPメソッドはリクエストの意図（GET=取得、POST=作成、PUT=完全更新、PATCH=部分更新、DELETE=削除）を表し、ステータスコードは処理結果（2xx=成功、3xx=リダイレクト、4xx=クライアントエラー、5xx=サーバーエラー）を表します。401は未認証、403は権限不足。4xxはクライアント側、5xxはサーバー側の問題と覚えましょう。",
+  "tags": [
+    "HTTP",
+    "GET",
+    "POST",
+    "ステータスコード",
+    "REST API",
+    "404",
+    "500"
+  ],
+  "category": "HTTP",
+  "theme": "http - HTTP・Web API入門",
+  "status": "published",
+  "createdAt": "2026-05-30T05:14:35.327Z",
+  "updatedAt": "2026-05-30T05:14:35.331Z",
+  "publishedAt": "2026-05-30T05:14:35.327Z",
+  "metaTitle": "HTTPメソッドとステータスコード完全ガイド【HTTP入門 第3回】｜HTTP入門 | StackShelf",
+  "metaDescription": "【HTTP初心者向け】GET/POST/PUT/DELETE/PATCHの使い分けと、2xx/3xx/4xx/5xxステータスコードの意味を具体例で解説。REST API設計の基本をマスターします。 図解・具体例つきで丁寧に解説します。",
+  "ogTitle": "HTTPメソッドとステータスコード完全ガイド",
+  "ogDescription": "【HTTP初心者向け】【HTTP初心者向け】HTTPメソッドの使い分けとステータスコードの読み方を、具体例と表でわかりやすく解説します。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
+  "knowledge": {
+    "topic": "http",
+    "courseId": "http",
+    "episode": 3
+  },
+  "faq": [
+    {
+      "question": "POSTとPUTの使い分けは？",
+      "answer": "POSTは「新規作成」が基本で、サーバーがIDを決定します。PUTは「指定IDのリソースを完全置換」で、クライアントがIDを指定します。同じPOSTを2回送ると重複作成される可能性がありますが、同じPUTを何度送っても結果は同じ（冪等）です。"
+    },
+    {
+      "question": "404と410 Goneの違いは？",
+      "answer": "404は「リソースが見つからない」（存在しないか、権限がないか不明）。410 Goneは「以前は存在したが、恒久的に削除された」ことを明示します。410はSEO的に「もう存在しない」と検索エンジンに伝える用途で使います。"
+    },
+    {
+      "question": "500エラーが出たとき最初に何を確認すべき？",
+      "answer": "サーバー側のログ（アプリケーションログ・nginxのerror.log）を確認します。500はサーバー内部の例外（未処理エラー、DB接続失敗、null参照など）が原因のことが多いです。クライアント側のリクエスト内容より、サーバー側の実装・環境を調査します。"
+    },
+    {
+      "question": "GETでデータを削除するAPIはダメですか？",
+      "answer": "HTTPの設計原則では、GETは安全（状態変更なし）であるべきです。GETで削除エンドポイントを作ると、ブラウザのプリフェッチやWebクローラーが意図せず削除を実行する危険があります。削除は必ずDELETEメソッド（またはPOST）を使いましょう。"
+    },
+    {
+      "question": "201 CreatedのLocationヘッダーとは？",
+      "answer": "POSTで新リソースを作成したとき、201レスポンスのLocationヘッダーに新リソースのURLが入ります。例：Location: /api/users/42。クライアントはこのURLを使って作成したリソースをGETで取得できます。"
+    }
+  ],
+  "nextEpisodeHint": "次回は、Content-Type、Authorization、Cache-ControlなどHTTPヘッダーの役割とよく使う項目を詳しく解説します。",
+  "nextAction": "次回はContent-Type、Authorization、Cache-ControlなどHTTPヘッダーの役割とよく使う項目を詳しく解説します。API開発で毎日使う重要な概念です。",
+  "internalLinkCandidates": [
+    {
+      "slug": "http-request-response",
+      "title": "HTTPリクエストとレスポンスの構造を完全理解する",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "http-headers",
+      "title": "HTTPヘッダーの役割とよく使う項目",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "http-rest-api",
+      "title": "REST APIの設計原則",
+      "reason": "HTTPメソッドとステータスコードはREST設計の基礎です"
+    },
+    {
+      "slug": "sql-insert-update-delete",
+      "title": "SQL INSERT・UPDATE・DELETE完全ガイド",
+      "reason": "CRUD操作とHTTPメソッドは対応関係があります"
+    },
+    {
+      "slug": "web-forms",
+      "title": "HTMLフォームの作り方",
+      "reason": "フォーム送信はPOSTメソッドで行われます"
+    }
+  ],
+  "ogImage": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+  "canonical": "https://ai-site-iota-nine.vercel.app/article/http-methods-status",
+  "jsonLd": {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@context": "https://schema.org",
+        "@type": "TechArticle",
+        "headline": "HTTPメソッドとステータスコード完全ガイド",
+        "description": "【HTTP初心者向け】GET/POST/PUT/DELETE/PATCHの使い分けと、2xx/3xx/4xx/5xxステータスコードの意味を具体例で解説。REST API設計の基本をマスターします。 図解・具体例つきで丁寧に解説します。",
+        "datePublished": "2026-05-30T05:14:35.327Z",
+        "dateModified": "2026-05-30T05:14:35.331Z",
+        "author": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
+        },
+        "image": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+        "inLanguage": "ja",
+        "wordCount": 3301,
+        "mainEntityOfPage": {
+          "@type": "WebPage",
+          "@id": "https://ai-site-iota-nine.vercel.app/article/http-methods-status"
+        },
+        "keywords": "HTTP, GET, POST, ステータスコード, REST API, 404, 500",
+        "articleSection": "HTTP",
+        "url": "https://ai-site-iota-nine.vercel.app/article/http-methods-status",
+        "learningResourceType": "tutorial",
+        "educationalLevel": "beginner"
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "ホーム",
+            "item": "https://ai-site-iota-nine.vercel.app/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "http",
+            "item": "https://ai-site-iota-nine.vercel.app/knowledge/http"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "HTTP・Web API入門",
+            "item": "https://ai-site-iota-nine.vercel.app/course/http/http"
+          },
+          {
+            "@type": "ListItem",
+            "position": 4,
+            "name": "HTTPメソッドとステータスコード完全ガイド",
+            "item": "https://ai-site-iota-nine.vercel.app/article/http-methods-status"
+          }
+        ]
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "Course",
+        "name": "HTTP・Web API入門",
+        "description": "ブラウザとサーバーの通信、REST API、HTTPSを10ステップで理解。バックエンド学習の前提となるHTTPを具体例で学びます。",
+        "provider": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app"
+        },
+        "url": "https://ai-site-iota-nine.vercel.app/course/http/http",
+        "inLanguage": "ja",
+        "educationalLevel": "beginner",
+        "hasCourseInstance": {
+          "@type": "CourseInstance",
+          "courseMode": "online",
+          "courseWorkload": "PT1H"
+        }
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "POSTとPUTの使い分けは？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "POSTは「新規作成」が基本で、サーバーがIDを決定します。PUTは「指定IDのリソースを完全置換」で、クライアントがIDを指定します。同じPOSTを2回送ると重複作成される可能性がありますが、同じPUTを何度送っても結果は同じ（冪等）です。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "404と410 Goneの違いは？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "404は「リソースが見つからない」（存在しないか、権限がないか不明）。410 Goneは「以前は存在したが、恒久的に削除された」ことを明示します。410はSEO的に「もう存在しない」と検索エンジンに伝える用途で使います。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "500エラーが出たとき最初に何を確認すべき？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "サーバー側のログ（アプリケーションログ・nginxのerror.log）を確認します。500はサーバー内部の例外（未処理エラー、DB接続失敗、null参照など）が原因のことが多いです。クライアント側のリクエスト内容より、サーバー側の実装・環境を調査します。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "GETでデータを削除するAPIはダメですか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "HTTPの設計原則では、GETは安全（状態変更なし）であるべきです。GETで削除エンドポイントを作ると、ブラウザのプリフェッチやWebクローラーが意図せず削除を実行する危険があります。削除は必ずDELETEメソッド（またはPOST）を使いましょう。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "201 CreatedのLocationヘッダーとは？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "POSTで新リソースを作成したとき、201レスポンスのLocationヘッダーに新リソースのURLが入ります。例：Location: /api/users/42。クライアントはこのURLを使って作成したリソースをGETで取得できます。"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "breadcrumb": {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "ホーム",
+        "item": "https://ai-site-iota-nine.vercel.app/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "http",
+        "item": "https://ai-site-iota-nine.vercel.app/knowledge/http"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "HTTP・Web API入門",
+        "item": "https://ai-site-iota-nine.vercel.app/course/http/http"
+      },
+      {
+        "@type": "ListItem",
+        "position": 4,
+        "name": "HTTPメソッドとステータスコード完全ガイド",
+        "item": "https://ai-site-iota-nine.vercel.app/article/http-methods-status"
+      }
+    ]
+  },
+  "courseSchema": {
+    "@context": "https://schema.org",
+    "@type": "Course",
+    "name": "HTTP・Web API入門",
+    "description": "ブラウザとサーバーの通信、REST API、HTTPSを10ステップで理解。バックエンド学習の前提となるHTTPを具体例で学びます。",
+    "provider": {
+      "@type": "Organization",
+      "name": "StackShelf",
+      "url": "https://ai-site-iota-nine.vercel.app"
+    },
+    "url": "https://ai-site-iota-nine.vercel.app/course/http/http",
+    "inLanguage": "ja",
+    "educationalLevel": "beginner",
+    "hasCourseInstance": {
+      "@type": "CourseInstance",
+      "courseMode": "online",
+      "courseWorkload": "PT1H"
+    }
+  },
+  "faqSchema": {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "POSTとPUTの使い分けは？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "POSTは「新規作成」が基本で、サーバーがIDを決定します。PUTは「指定IDのリソースを完全置換」で、クライアントがIDを指定します。同じPOSTを2回送ると重複作成される可能性がありますが、同じPUTを何度送っても結果は同じ（冪等）です。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "404と410 Goneの違いは？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "404は「リソースが見つからない」（存在しないか、権限がないか不明）。410 Goneは「以前は存在したが、恒久的に削除された」ことを明示します。410はSEO的に「もう存在しない」と検索エンジンに伝える用途で使います。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "500エラーが出たとき最初に何を確認すべき？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "サーバー側のログ（アプリケーションログ・nginxのerror.log）を確認します。500はサーバー内部の例外（未処理エラー、DB接続失敗、null参照など）が原因のことが多いです。クライアント側のリクエスト内容より、サーバー側の実装・環境を調査します。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "GETでデータを削除するAPIはダメですか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "HTTPの設計原則では、GETは安全（状態変更なし）であるべきです。GETで削除エンドポイントを作ると、ブラウザのプリフェッチやWebクローラーが意図せず削除を実行する危険があります。削除は必ずDELETEメソッド（またはPOST）を使いましょう。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "201 CreatedのLocationヘッダーとは？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "POSTで新リソースを作成したとき、201レスポンスのLocationヘッダーに新リソースのURLが入ります。例：Location: /api/users/42。クライアントはこのURLを使って作成したリソースをGETで取得できます。"
+        }
+      }
+    ]
+  }
+}

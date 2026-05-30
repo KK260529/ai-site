@@ -1,0 +1,13 @@
+{
+  "slug": "http-practice",
+  "courseId": "http",
+  "episode": 10,
+  "summaryMemory": [
+    "JSONPlaceholderでGET/POST/PUT/DELETEの一連の流れを体験",
+    "HTTPBinでリクエスト内容のエコー・ステータスコードテスト",
+    "GitHub APIで実在APIのレート制限ヘッダーを確認",
+    "fetch API + response.ok チェック + try/catch が実践的基本パターン"
+  ],
+  "nextEpisodeHint": "HTTP入門コースはこれで完了です。Python入門やnginx入門など関連コースで、HTTP知識を活かした開発を進めましょう。",
+  "updatedAt": "2026-05-30T05:14:43.465Z"
+}

@@ -2,9 +2,9 @@
   "id": "art_sql_sql-where-filter",
   "slug": "sql-where-filter",
   "title": "WHERE, AND/OR, LIKE｜SQL条件絞り込みの完全ガイド",
-  "summary": "WHERE句を使ったSQL条件絞り込みを徹底解説。AND/OR/NOT演算子、LIKE部分一致、BETWEEN範囲指定、IN複数値指定、NULL判定など実践的なsql 使い方を習得しましょう。",
-  "body": "<h2>WHERE句とは？条件でデータを絞り込む</h2>\n<p>WHERE句は、SELECT文に条件を加えてデータを絞り込むための命令です。「価格が100円以下の商品だけ取得したい」「カテゴリが果物の商品だけ表示したい」といった要求をSQLで表現できます。sql 使い方において最も重要な節の一つで、これをマスターするとデータの検索が格段に柔軟になります。</p>\n<pre><code>-- WHERE句の基本構文\nSELECT カラム名 FROM テーブル名 WHERE 条件式;\n\n-- 価格が150以下の商品を取得\nSELECT * FROM products WHERE price <= 150;\n\n-- カテゴリが果物の商品を取得\nSELECT * FROM products WHERE category = '果物';\n\n-- 出力例:\n-- id | name   | price | category | stock\n-- ---+--------+-------+----------+------\n--  1 | りんご |   150 | 果物     |   100\n--  2 | バナナ |    80 | 果物     |   200\n--  3 | みかん |   120 | 果物     |    50</code></pre>\n\n<h2>比較演算子の種類</h2>\n<p>WHERE句で使える比較演算子を覚えましょう。これらはほぼすべてのプログラミング言語と共通の概念です。</p>\n<pre><code>-- 等しい（= ）\nSELECT * FROM products WHERE category = '野菜';\n\n-- 等しくない（<> または !=）\nSELECT * FROM products WHERE category <> '果物';\nSELECT * FROM products WHERE category != '果物';\n\n-- より大きい（>）\nSELECT * FROM products WHERE price > 200;\n\n-- 以上（>=）\nSELECT * FROM products WHERE price >= 200;\n\n-- より小さい（<）\nSELECT * FROM products WHERE stock < 50;\n\n-- 以下（<=）\nSELECT * FROM products WHERE price <= 100;\n\n-- 出力確認例：価格200円以上の商品\n-- id | name       | price | category | stock\n-- ---+------------+-------+----------+------\n--  7 | 牛乳       |   200 | 乳製品   |    60\n--  8 | チーズ     |   350 | 乳製品   |    30\n-- 10 | 食パン     |   250 | パン     |   120</code></pre>\n\n<h2>AND/OR/NOTで複合条件を作る</h2>\n<p>複数の条件を組み合わせるには <code>AND</code>・<code>OR</code>・<code>NOT</code> 演算子を使います。</p>\n<pre><code>-- AND：両方の条件を満たすレコードを取得\nSELECT * FROM products\nWHERE category = '果物' AND price <= 100;\n-- バナナ（80円）のみ取得\n\n-- OR：どちらかの条件を満たすレコードを取得\nSELECT * FROM products\nWHERE category = '果物' OR category = '野菜';\n-- 果物3件 + 野菜3件 = 6件取得\n\n-- NOT：条件を否定する\nSELECT * FROM products\nWHERE NOT category = '果物';\n-- 果物以外の7件を取得\n\n-- ANDとORの組み合わせ（括弧で優先順位を明確に）\nSELECT * FROM products\nWHERE (category = '果物' OR category = '野菜')\n  AND price >= 100;\n-- 果物で100円以上（りんご・みかん）と野菜で100円以上（ほうれん草）\n\n-- 括弧なしと括弧ありでは結果が違う（注意！）\n-- 括弧なし：ANDが先に評価される\nSELECT * FROM products\nWHERE category = '果物' OR category = '野菜' AND price >= 100;\n-- これは category = '果物' OR (category = '野菜' AND price >= 100) と同じ</code></pre>\n<p>ANDはORよりも優先度が高いため、複合条件では<strong>括弧を使って意図を明確にする習慣</strong>をつけましょう。</p>\n\n<h2>BETWEEN：範囲指定でデータを絞り込む</h2>\n<p><code>BETWEEN</code> は範囲指定のための便利な構文です。「100円以上200円以下」のような範囲条件を簡潔に書けます。</p>\n<pre><code>-- BETWEEN を使った範囲指定（境界値を含む）\nSELECT * FROM products\nWHERE price BETWEEN 100 AND 200;\n\n-- 出力:\n-- id | name       | price | category | stock\n-- ---+------------+-------+----------+------\n--  1 | りんご     |   150 | 果物     |   100\n--  3 | みかん     |   120 | 果物     |    50\n--  4 | にんじん   |    90 | 野菜     |   150  ← 90は100未満なので含まない\n--  6 | ほうれん草 |   100 | 野菜     |    80\n--  7 | 牛乳       |   200 | 乳製品   |    60\n--  9 | ヨーグルト |   180 | 乳製品   |    40\n\n-- BETWEENはANDを使った書き方と同じ意味\nSELECT * FROM products\nWHERE price >= 100 AND price <= 200;\n\n-- NOT BETWEENで範囲外を指定\nSELECT * FROM products\nWHERE price NOT BETWEEN 100 AND 200;\n\n-- 文字列・日付でも使える（日付はTEXT型でも'YYYY-MM-DD'形式なら機能する）\nSELECT * FROM todos WHERE due_date BETWEEN '2024-01-01' AND '2024-12-31';</code></pre>\n\n<h2>IN：複数値のいずれかに一致する</h2>\n<p><code>IN</code> は、複数の値のいずれかに一致するレコードを取得するための構文です。複数の <code>OR</code> を使う代わりにすっきり書けます。</p>\n<pre><code>-- IN を使った複数値の指定\nSELECT * FROM products\nWHERE category IN ('果物', '乳製品');\n\n-- これは次のORと同じ意味\nSELECT * FROM products\nWHERE category = '果物' OR category = '乳製品';\n\n-- 出力:\n-- りんご・バナナ・みかん（果物）+ 牛乳・チーズ・ヨーグルト（乳製品）= 6件\n\n-- NOT INで指定値以外を取得\nSELECT * FROM products\nWHERE category NOT IN ('果物', '野菜');\n-- 乳製品とパンのみ取得\n\n-- INにサブクエリを使う（上級）\nSELECT * FROM products\nWHERE id IN (SELECT id FROM products WHERE stock < 60);</code></pre>\n\n<h2>LIKEで部分一致検索をする</h2>\n<p><code>LIKE</code> は文字列の部分一致検索のための構文です。<code>%</code>（任意の0文字以上）と <code>_</code>（任意の1文字）の2つのワイルドカードを使います。</p>\n<pre><code>-- % ：0文字以上の任意の文字列にマッチ\n-- 「ん」で終わる商品（前方は何でもOK）\nSELECT * FROM products WHERE name LIKE '%ん';\n-- にんじん, ほうれん草 → 「ん」で終わるもの\n\n-- 「に」で始まる商品\nSELECT * FROM products WHERE name LIKE 'に%';\n-- にんじん\n\n-- 「ん」を含む商品（前後何でもOK）\nSELECT * FROM products WHERE name LIKE '%ん%';\n-- りんご, みかん, にんじん, ほうれん草\n\n-- _ ：任意の1文字にマッチ\n-- 名前が3文字の商品（_が3つ）\nSELECT * FROM products WHERE name LIKE '___';\n-- りんご, バナナ, みかん, 牛乳, 食パン（3文字のもの）\n\n-- NOT LIKEで一致しないものを取得\nSELECT * FROM products WHERE name NOT LIKE '%ん%';\n\n-- SQLiteのLIKEは日本語に対応（大文字小文字区別なし：英語のみ）\nSELECT * FROM products WHERE category LIKE '果%';</code></pre>\n<p>LIKEは非常に便利ですが、先頭に <code>%</code> を付けた検索（例：<code>'%ん'</code>）はインデックスが効かないためテーブルが大きくなると遅くなります。パフォーマンスを考慮する場合は前方一致（<code>'に%'</code>）を優先しましょう。</p>\n\n<h2>IS NULLでNULLを判定する</h2>\n<p>NULL（ヌル）は「値が存在しない」ことを表す特別な値です。NULLは <code>=</code> で比較できないため、<code>IS NULL</code> / <code>IS NOT NULL</code> を使います。</p>\n<pre><code>-- NULLのテストデータを作成\nINSERT INTO products (name, price, category) VALUES\n  ('試作品', 999, NULL);  -- categoryがNULL\n\n-- IS NULLでNULLのレコードを取得\nSELECT * FROM products WHERE category IS NULL;\n\n-- IS NOT NULLでNULL以外を取得\nSELECT * FROM products WHERE category IS NOT NULL;\n\n-- 間違いやすい例（= NULLは機能しない）\nSELECT * FROM products WHERE category = NULL;   -- 結果: 0件（動かない）\nSELECT * FROM products WHERE category != NULL;  -- 結果: 0件（動かない）\n\n-- COALESCE：NULLの場合に代替値を返す\nSELECT name, COALESCE(category, '未分類') AS category\nFROM products;</code></pre>\n<p>NULLの比較に <code>=</code> を使っても結果が0件になるという罠は、sql 初心者が最もはまりやすいポイントの一つです。必ず <code>IS NULL</code> / <code>IS NOT NULL</code> を使いましょう。</p>",
-  "conclusion": "WHERE句はSQLでデータを絞り込む最重要の節です。比較演算子（=, <>, >, >=, <, <=）、AND/OR/NOT複合条件、BETWEEN範囲指定、IN複数値指定、LIKE部分一致、IS NULL判定という6つのテクニックをマスターすることで、どんな条件でもデータを取得できるようになります。AND/ORの優先順位に注意して括弧で意図を明確にし、NULLの判定にはIS NULLを使うことを必ず覚えておきましょう。",
+  "summary": "WHERE句による条件絞り込みを解説。比較演算子、AND/OR/NOT、BETWEEN、IN、LIKE、IS NULLをSQLite例で習得します。",
+  "body": "<h2>結論：WHERE句で「条件に合う行だけ」を取り出す</h2>\n<p><code>WHERE 条件</code> をSELECTに付けると、条件が真の行だけ返します。比較演算子（<code>=</code>・<code>&lt;&gt;</code>・<code>&gt;=</code>）、<strong>AND/OR/NOT</strong>、<strong>BETWEEN</strong>・<strong>IN</strong>・<strong>LIKE</strong>、<strong>IS NULL</strong> が定番です。<strong>NULL</strong> の判定に <code>= NULL</code> は使えません。</p>\n\n<h2>WHERE句とは？条件でデータを絞り込む</h2>\n<p>WHERE句は、SELECT文に条件を加えてデータを絞り込むための命令です。「価格が100円以下の商品だけ取得したい」「カテゴリが果物の商品だけ表示したい」といった要求をSQLで表現できます。sql 使い方において最も重要な節の一つで、これをマスターするとデータの検索が格段に柔軟になります。</p>\n<pre><code>-- WHERE句の基本構文\nSELECT カラム名 FROM テーブル名 WHERE 条件式;\n\n-- 価格が150以下の商品を取得\nSELECT * FROM products WHERE price <= 150;\n\n-- カテゴリが果物の商品を取得\nSELECT * FROM products WHERE category = '果物';\n\n-- 出力例:\n-- id | name   | price | category | stock\n-- ---+--------+-------+----------+------\n--  1 | りんご |   150 | 果物     |   100\n--  2 | バナナ |    80 | 果物     |   200\n--  3 | みかん |   120 | 果物     |    50</code></pre>\n\n<h2>比較演算子の種類</h2>\n<p>WHERE句で使える比較演算子を覚えましょう。これらはほぼすべてのプログラミング言語と共通の概念です。</p>\n<pre><code>-- 等しい（= ）\nSELECT * FROM products WHERE category = '野菜';\n\n-- 等しくない（<> または !=）\nSELECT * FROM products WHERE category <> '果物';\nSELECT * FROM products WHERE category != '果物';\n\n-- より大きい（>）\nSELECT * FROM products WHERE price > 200;\n\n-- 以上（>=）\nSELECT * FROM products WHERE price >= 200;\n\n-- より小さい（<）\nSELECT * FROM products WHERE stock < 50;\n\n-- 以下（<=）\nSELECT * FROM products WHERE price <= 100;\n\n-- 出力確認例：価格200円以上の商品\n-- id | name       | price | category | stock\n-- ---+------------+-------+----------+------\n--  7 | 牛乳       |   200 | 乳製品   |    60\n--  8 | チーズ     |   350 | 乳製品   |    30\n-- 10 | 食パン     |   250 | パン     |   120</code></pre>\n\n<h2>AND/OR/NOTで複合条件を作る</h2>\n<p>複数の条件を組み合わせるには <code>AND</code>・<code>OR</code>・<code>NOT</code> 演算子を使います。</p>\n<pre><code>-- AND：両方の条件を満たすレコードを取得\nSELECT * FROM products\nWHERE category = '果物' AND price <= 100;\n-- バナナ（80円）のみ取得\n\n-- OR：どちらかの条件を満たすレコードを取得\nSELECT * FROM products\nWHERE category = '果物' OR category = '野菜';\n-- 果物3件 + 野菜3件 = 6件取得\n\n-- NOT：条件を否定する\nSELECT * FROM products\nWHERE NOT category = '果物';\n-- 果物以外の7件を取得\n\n-- ANDとORの組み合わせ（括弧で優先順位を明確に）\nSELECT * FROM products\nWHERE (category = '果物' OR category = '野菜')\n  AND price >= 100;\n-- 果物で100円以上（りんご・みかん）と野菜で100円以上（ほうれん草）\n\n-- 括弧なしと括弧ありでは結果が違う（注意！）\n-- 括弧なし：ANDが先に評価される\nSELECT * FROM products\nWHERE category = '果物' OR category = '野菜' AND price >= 100;\n-- これは category = '果物' OR (category = '野菜' AND price >= 100) と同じ</code></pre>\n<p>ANDはORよりも優先度が高いため、複合条件では<strong>括弧を使って意図を明確にする習慣</strong>をつけましょう。</p>\n\n<h2>BETWEEN：範囲指定でデータを絞り込む</h2>\n<p><code>BETWEEN</code> は範囲指定のための便利な構文です。「100円以上200円以下」のような範囲条件を簡潔に書けます。</p>\n<pre><code>-- BETWEEN を使った範囲指定（境界値を含む）\nSELECT * FROM products\nWHERE price BETWEEN 100 AND 200;\n\n-- 出力:\n-- id | name       | price | category | stock\n-- ---+------------+-------+----------+------\n--  1 | りんご     |   150 | 果物     |   100\n--  3 | みかん     |   120 | 果物     |    50\n--  4 | にんじん   |    90 | 野菜     |   150  ← 90は100未満なので含まない\n--  6 | ほうれん草 |   100 | 野菜     |    80\n--  7 | 牛乳       |   200 | 乳製品   |    60\n--  9 | ヨーグルト |   180 | 乳製品   |    40\n\n-- BETWEENはANDを使った書き方と同じ意味\nSELECT * FROM products\nWHERE price >= 100 AND price <= 200;\n\n-- NOT BETWEENで範囲外を指定\nSELECT * FROM products\nWHERE price NOT BETWEEN 100 AND 200;\n\n-- 文字列・日付でも使える（日付はTEXT型でも'YYYY-MM-DD'形式なら機能する）\nSELECT * FROM todos WHERE due_date BETWEEN '2024-01-01' AND '2024-12-31';</code></pre>\n\n<h2>IN：複数値のいずれかに一致する</h2>\n<p><code>IN</code> は、複数の値のいずれかに一致するレコードを取得するための構文です。複数の <code>OR</code> を使う代わりにすっきり書けます。</p>\n<pre><code>-- IN を使った複数値の指定\nSELECT * FROM products\nWHERE category IN ('果物', '乳製品');\n\n-- これは次のORと同じ意味\nSELECT * FROM products\nWHERE category = '果物' OR category = '乳製品';\n\n-- 出力:\n-- りんご・バナナ・みかん（果物）+ 牛乳・チーズ・ヨーグルト（乳製品）= 6件\n\n-- NOT INで指定値以外を取得\nSELECT * FROM products\nWHERE category NOT IN ('果物', '野菜');\n-- 乳製品とパンのみ取得\n\n-- INにサブクエリを使う（上級）\nSELECT * FROM products\nWHERE id IN (SELECT id FROM products WHERE stock < 60);</code></pre>\n\n<h2>LIKEで部分一致検索をする</h2>\n<p><code>LIKE</code> は文字列の部分一致検索のための構文です。<code>%</code>（任意の0文字以上）と <code>_</code>（任意の1文字）の2つのワイルドカードを使います。</p>\n<pre><code>-- % ：0文字以上の任意の文字列にマッチ\n-- 「ん」で終わる商品（前方は何でもOK）\nSELECT * FROM products WHERE name LIKE '%ん';\n-- にんじん, ほうれん草 → 「ん」で終わるもの\n\n-- 「に」で始まる商品\nSELECT * FROM products WHERE name LIKE 'に%';\n-- にんじん\n\n-- 「ん」を含む商品（前後何でもOK）\nSELECT * FROM products WHERE name LIKE '%ん%';\n-- りんご, みかん, にんじん, ほうれん草\n\n-- _ ：任意の1文字にマッチ\n-- 名前が3文字の商品（_が3つ）\nSELECT * FROM products WHERE name LIKE '___';\n-- りんご, バナナ, みかん, 牛乳, 食パン（3文字のもの）\n\n-- NOT LIKEで一致しないものを取得\nSELECT * FROM products WHERE name NOT LIKE '%ん%';\n\n-- SQLiteのLIKEは日本語に対応（大文字小文字区別なし：英語のみ）\nSELECT * FROM products WHERE category LIKE '果%';</code></pre>\n<p>LIKEは非常に便利ですが、先頭に <code>%</code> を付けた検索（例：<code>'%ん'</code>）はインデックスが効かないためテーブルが大きくなると遅くなります。パフォーマンスを考慮する場合は前方一致（<code>'に%'</code>）を優先しましょう。</p>\n\n<h2>IS NULLでNULLを判定する</h2>\n<p>NULL（ヌル）は「値が存在しない」ことを表す特別な値です。NULLは <code>=</code> で比較できないため、<code>IS NULL</code> / <code>IS NOT NULL</code> を使います。</p>\n<pre><code>-- NULLのテストデータを作成\nINSERT INTO products (name, price, category) VALUES\n  ('試作品', 999, NULL);  -- categoryがNULL\n\n-- IS NULLでNULLのレコードを取得\nSELECT * FROM products WHERE category IS NULL;\n\n-- IS NOT NULLでNULL以外を取得\nSELECT * FROM products WHERE category IS NOT NULL;\n\n-- 間違いやすい例（= NULLは機能しない）\nSELECT * FROM products WHERE category = NULL;   -- 結果: 0件（動かない）\nSELECT * FROM products WHERE category != NULL;  -- 結果: 0件（動かない）\n\n-- COALESCE：NULLの場合に代替値を返す\nSELECT name, COALESCE(category, '未分類') AS category\nFROM products;</code></pre>\n<p>NULLの比較に <code>=</code> を使っても結果が0件になるという罠は、sql 初心者が最もはまりやすいポイントの一つです。必ず <code>IS NULL</code> / <code>IS NOT NULL</code> を使いましょう。</p>\n\n<h2>つまずきやすいポイント・失敗例</h2>\n<h3>失敗例：NULLを = で比較する</h3>\n<p><code>WHERE email = NULL</code> は常に不明（UNKNOWN）です。NULL判定は <code>IS NULL</code> / <code>IS NOT NULL</code> を使いましょう。</p>\n<h3>失敗例：AND/ORの優先順位を誤解する</h3>\n<p>ANDがORより先に評価されます。意図を明確にするため <code>WHERE (A OR B) AND C</code> のように括弧を使いましょう。</p>",
+  "conclusion": "WHERE句はデータ絞り込みの要です。比較演算子とAND/OR/NOT、BETWEEN・IN・LIKE・IS NULLを使い分け、括弧で条件の優先順位を明確にしましょう。NULL判定には = ではなく IS NULL を使います。",
   "tags": [
     "SQL",
     "WHERE",
@@ -17,12 +17,12 @@
   "theme": "sql - SQL・データベース入門",
   "status": "published",
   "createdAt": "2026-05-30T04:13:09.718Z",
-  "updatedAt": "2026-05-30T05:01:29.328Z",
+  "updatedAt": "2026-05-30T05:23:47.591Z",
   "publishedAt": "2026-05-30T04:13:09.718Z",
   "metaTitle": "WHERE, AND/OR, LIKE｜sql 初心者向け条件絞り込み完全ガイド",
-  "metaDescription": "WHERE句によるSQL条件絞り込みをsql 初心者向けに解説。AND/OR/NOT・LIKE部分一致・BETWEEN・IN・IS NULLなどsql 使い方の核心を豊富なSQLiteサンプルで学べます。",
+  "metaDescription": "WHERE句の条件指定（=、AND/OR、BETWEEN、IN、LIKE、IS NULL）をSQLite例付きで解説。NULL判定と括弧の注意点を紹介します。",
   "ogTitle": "WHERE, AND/OR, LIKE｜SQL条件絞り込み完全ガイド",
-  "ogDescription": "WHERE句でSQLデータを絞り込む方法を、LIKE・AND/OR・BETWEEN・INまで丁寧に解説。",
+  "ogDescription": "WHERE句でデータを条件絞り込みする方法を具体例で学べます。",
   "knowledge": {
     "topic": "sql",
     "courseId": "sql",
@@ -30,24 +30,24 @@
   },
   "faq": [
     {
-      "question": "ANDとORはどちらが先に実行されますか？",
-      "answer": "ANDがORよりも優先されます。例えば「A OR B AND C」は「A OR (B AND C)」として評価されます。この優先順位を間違えると意図しない結果になるため、複合条件では常に括弧を使って優先順位を明示することをお勧めします。"
+      "question": "LIKEの % と _ の意味は？",
+      "answer": "% は0文字以上の任意文字、_ は1文字にマッチします。'りん%' は「りん」で始まる文字列に一致します。"
     },
     {
-      "question": "LIKEで大文字小文字を区別させるには？",
-      "answer": "SQLiteのデフォルトでは、LIKE演算子は英字の大文字小文字を区別しません（日本語は区別されます）。大文字小文字を区別する場合は GLOB演算子を使うか、LIKE演算子にCASE式を組み合わせます。MySQLではCOLLATEで指定できます。"
+      "question": "BETWEENは終端を含む？",
+      "answer": "はい、BETWEEN A AND B は A以上B以下（両端含む）です。"
     },
     {
-      "question": "BETWEENは境界値を含みますか？",
-      "answer": "はい、BETWEENは境界値を含みます（inclusive）。「WHERE price BETWEEN 100 AND 200」は100以上200以下（100と200を含む）を意味します。境界値を含まない範囲指定は「WHERE price > 100 AND price < 200」のように比較演算子を使います。"
+      "question": "WHEREとHAVINGの違いは？",
+      "answer": "WHEREは集計前の行を絞り込み、HAVINGはGROUP BY後の集計結果を絞り込みます。"
     },
     {
-      "question": "WHEREの条件式は何個まで書けますか？",
-      "answer": "AND/ORを使えば理論上いくつでも条件を連結できます。ただし、条件が多くなると可読性が下がるため、複雑な条件はサブクエリやCTEを使って分割することが実践的なテクニックです。また、条件が多いとパフォーマンスにも影響するため、インデックスの設計も考慮が必要です。"
+      "question": "文字列比較は大文字小文字を区別する？",
+      "answer": "SQLiteのデフォルトでは区別しませんが、DBや照合順序設定により異なります。本番では仕様を確認しましょう。"
     },
     {
       "question": "SQLはどんな場面で使いますか？",
-      "answer": "Webアプリのユーザー情報保存、売上分析、ログ集計など、データを保存・検索・集計したい場面で使います。Excelの大量データ版と考えるとイメージしやすいです。"
+      "answer": "特定条件のユーザ検索、期間指定の売上抽出、在庫アラートなど、絞り込みが必要な場面すべてでWHEREが使われます。"
     }
   ],
   "nextEpisodeHint": "次回はINSERT（データ追加）・UPDATE（データ更新）・DELETE（データ削除）の3つの操作を学びます。SELECTで読み取るだけでなく、データを変更する操作もマスターしましょう。",
@@ -60,9 +60,9 @@
         "@context": "https://schema.org",
         "@type": "TechArticle",
         "headline": "WHERE, AND/OR, LIKE｜SQL条件絞り込みの完全ガイド",
-        "description": "WHERE句によるSQL条件絞り込みをsql 初心者向けに解説。AND/OR/NOT・LIKE部分一致・BETWEEN・IN・IS NULLなどsql 使い方の核心を豊富なSQLiteサンプルで学べます。 図解・具体例つきで丁寧に解説します。",
+        "description": "WHERE句の条件指定（=、AND/OR、BETWEEN、IN、LIKE、IS NULL）をSQLite例付きで解説。NULL判定と括弧の注意点を紹介します。",
         "datePublished": "2026-05-30T04:13:09.718Z",
-        "dateModified": "2026-05-30T05:01:29.328Z",
+        "dateModified": "2026-05-30T05:23:47.591Z",
         "author": {
           "@type": "Organization",
           "name": "StackShelf",
@@ -83,7 +83,7 @@
         },
         "image": "https://ai-site-iota-nine.vercel.app/og-default.svg",
         "inLanguage": "ja",
-        "wordCount": 2954,
+        "wordCount": 3264,
         "mainEntityOfPage": {
           "@type": "WebPage",
           "@id": "https://ai-site-iota-nine.vercel.app/article/sql-where-filter"
@@ -149,34 +149,34 @@
         "mainEntity": [
           {
             "@type": "Question",
-            "name": "ANDとORはどちらが先に実行されますか？",
+            "name": "LIKEの % と _ の意味は？",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "ANDがORよりも優先されます。例えば「A OR B AND C」は「A OR (B AND C)」として評価されます。この優先順位を間違えると意図しない結果になるため、複合条件では常に括弧を使って優先順位を明示することをお勧めします。"
+              "text": "% は0文字以上の任意文字、_ は1文字にマッチします。'りん%' は「りん」で始まる文字列に一致します。"
             }
           },
           {
             "@type": "Question",
-            "name": "LIKEで大文字小文字を区別させるには？",
+            "name": "BETWEENは終端を含む？",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "SQLiteのデフォルトでは、LIKE演算子は英字の大文字小文字を区別しません（日本語は区別されます）。大文字小文字を区別する場合は GLOB演算子を使うか、LIKE演算子にCASE式を組み合わせます。MySQLではCOLLATEで指定できます。"
+              "text": "はい、BETWEEN A AND B は A以上B以下（両端含む）です。"
             }
           },
           {
             "@type": "Question",
-            "name": "BETWEENは境界値を含みますか？",
+            "name": "WHEREとHAVINGの違いは？",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "はい、BETWEENは境界値を含みます（inclusive）。「WHERE price BETWEEN 100 AND 200」は100以上200以下（100と200を含む）を意味します。境界値を含まない範囲指定は「WHERE price > 100 AND price < 200」のように比較演算子を使います。"
+              "text": "WHEREは集計前の行を絞り込み、HAVINGはGROUP BY後の集計結果を絞り込みます。"
             }
           },
           {
             "@type": "Question",
-            "name": "WHEREの条件式は何個まで書けますか？",
+            "name": "文字列比較は大文字小文字を区別する？",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "AND/ORを使えば理論上いくつでも条件を連結できます。ただし、条件が多くなると可読性が下がるため、複雑な条件はサブクエリやCTEを使って分割することが実践的なテクニックです。また、条件が多いとパフォーマンスにも影響するため、インデックスの設計も考慮が必要です。"
+              "text": "SQLiteのデフォルトでは区別しませんが、DBや照合順序設定により異なります。本番では仕様を確認しましょう。"
             }
           },
           {
@@ -184,7 +184,7 @@
             "name": "SQLはどんな場面で使いますか？",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "Webアプリのユーザー情報保存、売上分析、ログ集計など、データを保存・検索・集計したい場面で使います。Excelの大量データ版と考えるとイメージしやすいです。"
+              "text": "特定条件のユーザ検索、期間指定の売上抽出、在庫アラートなど、絞り込みが必要な場面すべてでWHEREが使われます。"
             }
           }
         ]
@@ -246,34 +246,34 @@
     "mainEntity": [
       {
         "@type": "Question",
-        "name": "ANDとORはどちらが先に実行されますか？",
+        "name": "LIKEの % と _ の意味は？",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "ANDがORよりも優先されます。例えば「A OR B AND C」は「A OR (B AND C)」として評価されます。この優先順位を間違えると意図しない結果になるため、複合条件では常に括弧を使って優先順位を明示することをお勧めします。"
+          "text": "% は0文字以上の任意文字、_ は1文字にマッチします。'りん%' は「りん」で始まる文字列に一致します。"
         }
       },
       {
         "@type": "Question",
-        "name": "LIKEで大文字小文字を区別させるには？",
+        "name": "BETWEENは終端を含む？",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "SQLiteのデフォルトでは、LIKE演算子は英字の大文字小文字を区別しません（日本語は区別されます）。大文字小文字を区別する場合は GLOB演算子を使うか、LIKE演算子にCASE式を組み合わせます。MySQLではCOLLATEで指定できます。"
+          "text": "はい、BETWEEN A AND B は A以上B以下（両端含む）です。"
         }
       },
       {
         "@type": "Question",
-        "name": "BETWEENは境界値を含みますか？",
+        "name": "WHEREとHAVINGの違いは？",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "はい、BETWEENは境界値を含みます（inclusive）。「WHERE price BETWEEN 100 AND 200」は100以上200以下（100と200を含む）を意味します。境界値を含まない範囲指定は「WHERE price > 100 AND price < 200」のように比較演算子を使います。"
+          "text": "WHEREは集計前の行を絞り込み、HAVINGはGROUP BY後の集計結果を絞り込みます。"
         }
       },
       {
         "@type": "Question",
-        "name": "WHEREの条件式は何個まで書けますか？",
+        "name": "文字列比較は大文字小文字を区別する？",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "AND/ORを使えば理論上いくつでも条件を連結できます。ただし、条件が多くなると可読性が下がるため、複雑な条件はサブクエリやCTEを使って分割することが実践的なテクニックです。また、条件が多いとパフォーマンスにも影響するため、インデックスの設計も考慮が必要です。"
+          "text": "SQLiteのデフォルトでは区別しませんが、DBや照合順序設定により異なります。本番では仕様を確認しましょう。"
         }
       },
       {
@@ -281,7 +281,7 @@
         "name": "SQLはどんな場面で使いますか？",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Webアプリのユーザー情報保存、売上分析、ログ集計など、データを保存・検索・集計したい場面で使います。Excelの大量データ版と考えるとイメージしやすいです。"
+          "text": "特定条件のユーザ検索、期間指定の売上抽出、在庫アラートなど、絞り込みが必要な場面すべてでWHEREが使われます。"
         }
       }
     ]
@@ -313,5 +313,5 @@
       "reason": "同じ講座の関連回です"
     }
   ],
-  "nextAction": "次はINSERT（データ追加）・UPDATE（データ更新）・DELETE（データ削除）の3つの操作を学びます。SELECTで読み取るだけでなく、データを変更する操作もマスターしましょう。"
+  "nextAction": "SELECT * FROM products WHERE price <= 100; と SELECT * FROM products WHERE category IN ('果物','野菜'); を実行し、結果件数の違いを確認してください。"
 }

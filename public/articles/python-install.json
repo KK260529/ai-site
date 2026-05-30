@@ -3,7 +3,7 @@
   "slug": "python-install",
   "title": "Pythonのインストールと動作確認",
   "summary": "WindowsとMacへのPythonインストール方法を丁寧に解説します。python --versionで動作確認し、print('Hello, World!')を実行して最初のプログラムを動かしてみましょう。",
-  "body": "\n<h2>Pythonをインストールする前に</h2>\n<p>Pythonを使い始めるには、まず自分のパソコンにPythonをインストールする必要があります。インストールとは、ソフトウェアをパソコンに追加して使える状態にする作業です。難しく聞こえるかもしれませんが、手順に沿って進めれば10分もあれば完了します。</p>\n<p>このエピソードではWindowsとMacそれぞれのインストール手順を解説します。自分のパソコンのOSに合わせた箇所を読み進めてください。インストールが完了したら、ターミナル（コマンドプロンプト）でPythonが正しく動作するか確認し、最初のプログラムを実行します。</p>\n\n<h2>Windowsへのインストール手順</h2>\n<p>Windowsにはデフォルトでは最新のPythonが入っていないため、公式サイトからダウンロードしてインストールします。</p>\n\n<h3>公式サイトからダウンロード</h3>\n<ol>\n  <li>ブラウザで <strong>python.org</strong> にアクセスします。</li>\n  <li>トップページの「Downloads」ボタンをクリックすると、Windows向けの最新バージョンのインストーラーがダウンロードされます。</li>\n  <li>ダウンロードした <code>.exe</code> ファイルをダブルクリックして実行します。</li>\n  <li>インストーラーが起動したら、<strong>必ず「Add Python to PATH」のチェックボックスにチェックを入れてください</strong>。これを忘れると後でコマンドプロンプトからPythonを呼び出せなくなります。</li>\n  <li>「Install Now」をクリックしてインストールを開始します。</li>\n  <li>「Setup was successful」と表示されたらインストール完了です。</li>\n</ol>\n\n<h3>コマンドプロンプトで動作確認</h3>\n<p>インストールが完了したら、コマンドプロンプトを開いて確認しましょう。</p>\n<ol>\n  <li>Windowsキー + R を押して「ファイル名を指定して実行」を開きます。</li>\n  <li><code>cmd</code> と入力してEnterキーを押します。</li>\n  <li>黒い画面（コマンドプロンプト）が開いたら、次のコマンドを入力してEnterを押します。</li>\n</ol>\n<pre><code>python --version</code></pre>\n<p>「Python 3.x.x」（xは数字）と表示されれば成功です。もし「'python' は認識されていないコマンドです」というエラーが出た場合は、インストール時に「Add Python to PATH」を忘れた可能性があります。インストーラーをもう一度実行して「Modify」→「Add Python to PATH」にチェックを入れてください。</p>\n\n<h2>Macへのインストール手順</h2>\n<p>Macの場合、macOS Monterey以降には最初からPythonが入っていますが、バージョンが古い場合があります。最新版を使うために公式サイトからインストールすることを推奨します。</p>\n<ol>\n  <li>ブラウザで <strong>python.org</strong> にアクセスします。</li>\n  <li>「Downloads」→「macOS」をクリックし、最新の安定版インストーラー（<code>.pkg</code>ファイル）をダウンロードします。</li>\n  <li>ダウンロードした <code>.pkg</code> ファイルをダブルクリックしてインストーラーを起動します。</li>\n  <li>画面の指示に従って「続ける」「インストール」をクリックしていくと完了します。</li>\n</ol>\n\n<h3>ターミナルで動作確認（Mac）</h3>\n<p>Macでは「ターミナル」アプリを使ってPythonを操作します。</p>\n<ol>\n  <li>Spotlight（Command + Space）で「ターミナル」と検索して起動します。</li>\n  <li>次のコマンドを入力してEnterを押します。</li>\n</ol>\n<pre><code>python3 --version</code></pre>\n<p>Macでは <code>python3</code> コマンドを使います（<code>python</code> だとmacOS付属の古いPython 2が呼ばれる場合があります）。「Python 3.x.x」と表示されれば成功です。</p>\n\n<h2>テキストエディタの準備</h2>\n<p>Pythonのコードを書くためのテキストエディタを用意しましょう。メモ帳でも書けますが、プログラミング専用エディタを使うと色分け（シンタックスハイライト）やエラー検出など便利な機能が使えます。</p>\n<ul>\n  <li><strong>VS Code（Visual Studio Code）：</strong>Microsoftが提供する無料エディタ。拡張機能でPythonサポートを追加できます。初心者から上級者まで幅広く使われています。</li>\n  <li><strong>PyCharm Community：</strong>Python専用のIDE（統合開発環境）。Python開発に特化した機能が充実しています。無料版でも十分な機能があります。</li>\n  <li><strong>IDLE：</strong>Pythonインストール時に一緒にインストールされる簡易エディタ。追加インストール不要でシンプルな学習に向いています。</li>\n</ul>\n<p>このコースでは特定のエディタを指定しませんが、<strong>VS Code</strong>が最もおすすめです。拡張機能「Python」（Microsoft製）をインストールするとコード補完やデバッグ機能が使えます。</p>\n\n<h2>はじめてのPythonプログラムを実行しよう</h2>\n<p>環境が整ったら、さっそく最初のプログラムを実行してみましょう。プログラミングの世界では最初に「Hello, World!」と表示するプログラムを書く伝統があります。</p>\n\n<h3>対話モードで実行する</h3>\n<p>Pythonには「対話モード（インタラクティブシェル）」という機能があります。コマンドプロンプト（またはターミナル）で <code>python</code>（Macは <code>python3</code>）と入力してEnterを押すと、<code>&gt;&gt;&gt;</code> という記号が表示されます。これがPythonの対話モードです。ここに直接コードを入力して実行できます。</p>\n<pre><code>&gt;&gt;&gt; print(\"Hello, World!\")\nHello, World!\n&gt;&gt;&gt;</code></pre>\n<p><code>print()</code> は画面に文字を表示する関数です。ダブルクォーテーション（\"）またはシングルクォーテーション（'）で囲んだ文字列を表示します。対話モードを終了するには <code>exit()</code> と入力するか、Ctrl + Z（Windows）または Ctrl + D（Mac）を押します。</p>\n\n<h3>ファイルに書いて実行する</h3>\n<p>実際の開発では、コードをファイルに保存して実行します。テキストエディタで新しいファイルを作り、<code>hello.py</code> という名前で保存します（.pyがPythonファイルの拡張子です）。</p>\n<pre><code>print(\"Hello, World!\")\nprint(\"Pythonの学習を始めました！\")</code></pre>\n<p>このファイルを保存したら、コマンドプロンプト（またはターミナル）でファイルのある場所まで移動し、次のコマンドで実行します。</p>\n<pre><code>python hello.py</code></pre>\n<p>（Macの場合は <code>python3 hello.py</code>）</p>\n<p>ターミナルに「Hello, World!」と「Pythonの学習を始めました！」の2行が表示されれば成功です。おめでとうございます！これがあなたの最初のPythonプログラムです。</p>\n\n<h2>よくあるインストールトラブルと対処法</h2>\n<p>インストール時によく起きる問題とその解決方法を紹介します。</p>\n<ul>\n  <li><strong>「python」コマンドが見つからない（Windows）：</strong>インストール時に「Add Python to PATH」を忘れた場合に発生します。コントロールパネルからPythonを「変更」し、PATHを追加してください。</li>\n  <li><strong>古いPythonが呼ばれる（Mac）：</strong><code>python</code> の代わりに <code>python3</code> を使ってください。またはpyenvというバージョン管理ツールの使用を検討してください。</li>\n  <li><strong>文字化けが起きる（Windows）：</strong>コマンドプロンプトの文字コードの問題です。<code>chcp 65001</code> と入力してEnterを押してからPythonを実行してみてください。</li>\n</ul>\n",
+  "body": "<h2>結論：python.orgから入れて --version と Hello World で動作確認</h2>\n<p>Windowsは<strong>「Add Python to PATH」に必ずチェック</strong>を入れてインストールし、Macは <code>python3</code> コマンドを使います。インストール後は <code>python --version</code>（Macは <code>python3 --version</code>）で確認し、<code>print(\"Hello, World!\")</code> を対話モードまたは <code>.py</code> ファイルで実行できれば環境構築完了です。</p>\n\n<h2>Pythonをインストールする前に</h2>\n<p>Pythonを使い始めるには、まず自分のパソコンにPythonをインストールする必要があります。インストールとは、ソフトウェアをパソコンに追加して使える状態にする作業です。難しく聞こえるかもしれませんが、手順に沿って進めれば10分もあれば完了します。</p>\n<p>このエピソードではWindowsとMacそれぞれのインストール手順を解説します。自分のパソコンのOSに合わせた箇所を読み進めてください。インストールが完了したら、ターミナル（コマンドプロンプト）でPythonが正しく動作するか確認し、最初のプログラムを実行します。</p>\n\n<h2>Windowsへのインストール手順</h2>\n<p>Windowsにはデフォルトでは最新のPythonが入っていないため、公式サイトからダウンロードしてインストールします。</p>\n\n<h3>公式サイトからダウンロード</h3>\n<ol>\n  <li>ブラウザで <strong>python.org</strong> にアクセスします。</li>\n  <li>トップページの「Downloads」ボタンをクリックすると、Windows向けの最新バージョンのインストーラーがダウンロードされます。</li>\n  <li>ダウンロードした <code>.exe</code> ファイルをダブルクリックして実行します。</li>\n  <li>インストーラーが起動したら、<strong>必ず「Add Python to PATH」のチェックボックスにチェックを入れてください</strong>。これを忘れると後でコマンドプロンプトからPythonを呼び出せなくなります。</li>\n  <li>「Install Now」をクリックしてインストールを開始します。</li>\n  <li>「Setup was successful」と表示されたらインストール完了です。</li>\n</ol>\n\n<h3>コマンドプロンプトで動作確認</h3>\n<p>インストールが完了したら、コマンドプロンプトを開いて確認しましょう。</p>\n<ol>\n  <li>Windowsキー + R を押して「ファイル名を指定して実行」を開きます。</li>\n  <li><code>cmd</code> と入力してEnterキーを押します。</li>\n  <li>黒い画面（コマンドプロンプト）が開いたら、次のコマンドを入力してEnterを押します。</li>\n</ol>\n<pre><code>python --version</code></pre>\n<p>「Python 3.x.x」（xは数字）と表示されれば成功です。もし「'python' は認識されていないコマンドです」というエラーが出た場合は、インストール時に「Add Python to PATH」を忘れた可能性があります。インストーラーをもう一度実行して「Modify」→「Add Python to PATH」にチェックを入れてください。</p>\n\n<h2>Macへのインストール手順</h2>\n<p>Macの場合、macOS Monterey以降には最初からPythonが入っていますが、バージョンが古い場合があります。最新版を使うために公式サイトからインストールすることを推奨します。</p>\n<ol>\n  <li>ブラウザで <strong>python.org</strong> にアクセスします。</li>\n  <li>「Downloads」→「macOS」をクリックし、最新の安定版インストーラー（<code>.pkg</code>ファイル）をダウンロードします。</li>\n  <li>ダウンロードした <code>.pkg</code> ファイルをダブルクリックしてインストーラーを起動します。</li>\n  <li>画面の指示に従って「続ける」「インストール」をクリックしていくと完了します。</li>\n</ol>\n\n<h3>ターミナルで動作確認（Mac）</h3>\n<p>Macでは「ターミナル」アプリを使ってPythonを操作します。</p>\n<ol>\n  <li>Spotlight（Command + Space）で「ターミナル」と検索して起動します。</li>\n  <li>次のコマンドを入力してEnterを押します。</li>\n</ol>\n<pre><code>python3 --version</code></pre>\n<p>Macでは <code>python3</code> コマンドを使います（<code>python</code> だとmacOS付属の古いPython 2が呼ばれる場合があります）。「Python 3.x.x」と表示されれば成功です。</p>\n\n<h2>テキストエディタの準備</h2>\n<p>Pythonのコードを書くためのテキストエディタを用意しましょう。メモ帳でも書けますが、プログラミング専用エディタを使うと色分け（シンタックスハイライト）やエラー検出など便利な機能が使えます。</p>\n<ul>\n  <li><strong>VS Code（Visual Studio Code）：</strong>Microsoftが提供する無料エディタ。拡張機能でPythonサポートを追加できます。初心者から上級者まで幅広く使われています。</li>\n  <li><strong>PyCharm Community：</strong>Python専用のIDE（統合開発環境）。Python開発に特化した機能が充実しています。無料版でも十分な機能があります。</li>\n  <li><strong>IDLE：</strong>Pythonインストール時に一緒にインストールされる簡易エディタ。追加インストール不要でシンプルな学習に向いています。</li>\n</ul>\n<p>このコースでは特定のエディタを指定しませんが、<strong>VS Code</strong>が最もおすすめです。拡張機能「Python」（Microsoft製）をインストールするとコード補完やデバッグ機能が使えます。</p>\n\n<h2>はじめてのPythonプログラムを実行しよう</h2>\n<p>環境が整ったら、さっそく最初のプログラムを実行してみましょう。プログラミングの世界では最初に「Hello, World!」と表示するプログラムを書く伝統があります。</p>\n\n<h3>対話モードで実行する</h3>\n<p>Pythonには「対話モード（インタラクティブシェル）」という機能があります。コマンドプロンプト（またはターミナル）で <code>python</code>（Macは <code>python3</code>）と入力してEnterを押すと、<code>&gt;&gt;&gt;</code> という記号が表示されます。これがPythonの対話モードです。ここに直接コードを入力して実行できます。</p>\n<pre><code>&gt;&gt;&gt; print(\"Hello, World!\")\nHello, World!\n&gt;&gt;&gt;</code></pre>\n<p><code>print()</code> は画面に文字を表示する関数です。ダブルクォーテーション（\"）またはシングルクォーテーション（'）で囲んだ文字列を表示します。対話モードを終了するには <code>exit()</code> と入力するか、Ctrl + Z（Windows）または Ctrl + D（Mac）を押します。</p>\n\n<h3>ファイルに書いて実行する</h3>\n<p>実際の開発では、コードをファイルに保存して実行します。テキストエディタで新しいファイルを作り、<code>hello.py</code> という名前で保存します（.pyがPythonファイルの拡張子です）。</p>\n<pre><code>print(\"Hello, World!\")\nprint(\"Pythonの学習を始めました！\")</code></pre>\n<p>このファイルを保存したら、コマンドプロンプト（またはターミナル）でファイルのある場所まで移動し、次のコマンドで実行します。</p>\n<pre><code>python hello.py</code></pre>\n<p>（Macの場合は <code>python3 hello.py</code>）</p>\n<p>ターミナルに「Hello, World!」と「Pythonの学習を始めました！」の2行が表示されれば成功です。おめでとうございます！これがあなたの最初のPythonプログラムです。</p>\n\n<h2>よくあるインストールトラブルと対処法</h2>\n<p>インストール時によく起きる問題とその解決方法を紹介します。</p>\n<ul>\n  <li><strong>「python」コマンドが見つからない（Windows）：</strong>インストール時に「Add Python to PATH」を忘れた場合に発生します。コントロールパネルからPythonを「変更」し、PATHを追加してください。</li>\n  <li><strong>古いPythonが呼ばれる（Mac）：</strong><code>python</code> の代わりに <code>python3</code> を使ってください。またはpyenvというバージョン管理ツールの使用を検討してください。</li>\n  <li><strong>文字化けが起きる（Windows）：</strong>コマンドプロンプトの文字コードの問題です。<code>chcp 65001</code> と入力してEnterを押してからPythonを実行してみてください。</li>\n</ul>\n\n<h2>つまずきやすいポイント・失敗例</h2>\n<h3>失敗例：PATHを追加せず「python が認識されない」</h3>\n<p>Windowsで最も多いトラブルです。インストーラーを再実行し「Modify」→「Add Python to PATH」にチェックを入れてください。</p>\n<h3>失敗例：Macで python と python3 を混同</h3>\n<p><code>python</code> だけ打つと古いPython 2が起動することがあります。学習では <code>python3</code> を使いましょう。</p>\n<pre><code># Windows\npython --version\npython hello.py\n\n# Mac\npython3 --version\npython3 hello.py</code></pre>",
   "conclusion": "PythonのインストールとHello Worldの実行ができれば、環境構築は完了です。これからどんどんコードを書いていきましょう。次のエピソードでは変数とデータ型について学びます。数値・文字列・真偽値など、Pythonで扱えるデータの種類を理解しましょう。",
   "tags": [
     "python",
@@ -16,12 +16,12 @@
   "theme": "python - Python 入門",
   "status": "published",
   "createdAt": "2026-05-30T04:12:54.448Z",
-  "updatedAt": "2026-05-30T04:12:54.452Z",
+  "updatedAt": "2026-05-30T05:17:15.258Z",
   "publishedAt": "2026-05-30T04:12:54.448Z",
   "metaTitle": "Pythonインストール方法 Windows・Mac対応 | Python入門",
-  "metaDescription": "PythonをWindowsとMacにインストールする手順をスクリーンショット付きで解説。python --versionで動作確認し、Hello Worldを実行するまでをわかりやすく説明します。 図解・具体例つきで丁寧に解説します。",
+  "metaDescription": "PythonのWindows・Macインストール手順と動作確認。PATH設定の注意点、python3の使い分け、Hello World実行までを具体例で解説します。",
   "ogTitle": "Pythonのインストールと動作確認 | Python入門",
-  "ogDescription": "【Python初心者向け】【Python初心者向け】WindowsとMacへのPythonインストール手順と動作確認方法を初心者向けに解説します。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
+  "ogDescription": "WindowsとMacへのPythonインストール手順と動作確認方法を初心者向けに解説します。",
   "knowledge": {
     "topic": "python",
     "courseId": "python",
@@ -39,6 +39,14 @@
     {
       "question": "VS Codeに入れるべきPython拡張機能は何ですか？",
       "answer": "Microsoft製の「Python」拡張機能が必須です。追加でPylanceをインストールするとコード補完の精度が上がります。VS Codeの拡張機能パネル（Ctrl+Shift+X）で「Python」を検索するとすぐ見つかります。"
+    },
+    {
+      "question": "プログラミング未経験でもPythonは学べますか？",
+      "answer": "はい。Pythonは文法が比較的シンプルで、エラーメッセージも読みやすい言語です。小さなプログラムから手を動かしながら進めましょう。"
+    },
+    {
+      "question": "エラーが出たときの対処法は？",
+      "answer": "エラーメッセージの最終行（例外名と説明）を読み、該当行のコードを確認してください。print() で変数の中身を表示するのも有効です。"
     }
   ],
   "nextEpisodeHint": "次回は変数とデータ型を学びます。int（整数）、float（小数）、str（文字列）、bool（真偽値）という4つの基本型と、変数への値の代入方法を解説します。",
@@ -51,9 +59,9 @@
         "@context": "https://schema.org",
         "@type": "TechArticle",
         "headline": "Pythonのインストールと動作確認",
-        "description": "PythonをWindowsとMacにインストールする手順をスクリーンショット付きで解説。python --versionで動作確認し、Hello Worldを実行するまでをわかりやすく説明します。 図解・具体例つきで丁寧に解説します。",
+        "description": "PythonのWindows・Macインストール手順と動作確認。PATH設定の注意点、python3の使い分け、Hello World実行までを具体例で解説します。",
         "datePublished": "2026-05-30T04:12:54.448Z",
-        "dateModified": "2026-05-30T04:12:54.452Z",
+        "dateModified": "2026-05-30T05:17:15.258Z",
         "author": {
           "@type": "Organization",
           "name": "StackShelf",
@@ -74,7 +82,7 @@
         },
         "image": "https://ai-site-iota-nine.vercel.app/og-default.svg",
         "inLanguage": "ja",
-        "wordCount": 2993,
+        "wordCount": 3467,
         "mainEntityOfPage": {
           "@type": "WebPage",
           "@id": "https://ai-site-iota-nine.vercel.app/article/python-install"
@@ -161,6 +169,22 @@
               "@type": "Answer",
               "text": "Microsoft製の「Python」拡張機能が必須です。追加でPylanceをインストールするとコード補完の精度が上がります。VS Codeの拡張機能パネル（Ctrl+Shift+X）で「Python」を検索するとすぐ見つかります。"
             }
+          },
+          {
+            "@type": "Question",
+            "name": "プログラミング未経験でもPythonは学べますか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "はい。Pythonは文法が比較的シンプルで、エラーメッセージも読みやすい言語です。小さなプログラムから手を動かしながら進めましょう。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "エラーが出たときの対処法は？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "エラーメッセージの最終行（例外名と説明）を読み、該当行のコードを確認してください。print() で変数の中身を表示するのも有効です。"
+            }
           }
         ]
       }
@@ -242,7 +266,51 @@
           "@type": "Answer",
           "text": "Microsoft製の「Python」拡張機能が必須です。追加でPylanceをインストールするとコード補完の精度が上がります。VS Codeの拡張機能パネル（Ctrl+Shift+X）で「Python」を検索するとすぐ見つかります。"
         }
+      },
+      {
+        "@type": "Question",
+        "name": "プログラミング未経験でもPythonは学べますか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "はい。Pythonは文法が比較的シンプルで、エラーメッセージも読みやすい言語です。小さなプログラムから手を動かしながら進めましょう。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "エラーが出たときの対処法は？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "エラーメッセージの最終行（例外名と説明）を読み、該当行のコードを確認してください。print() で変数の中身を表示するのも有効です。"
+        }
       }
     ]
-  }
+  },
+  "internalLinkCandidates": [
+    {
+      "slug": "python-classes",
+      "title": "クラスの基礎（class, __init__, メソッド）",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "python-exceptions",
+      "title": "例外処理（try/except）",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "python-modules",
+      "title": "モジュールとパッケージ（import, pip install）",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "python-file-io",
+      "title": "ファイルの読み書き（open, read, write）",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "python-list-dict",
+      "title": "リストと辞書",
+      "reason": "同じ講座の関連回です"
+    }
+  ],
+  "nextAction": "次は変数とデータ型を学びます。int（整数）、float（小数）、str（文字列）、bool（真偽値）という4つの基本型と、変数への値の代入方法を解説します。"
 }

@@ -1,0 +1,318 @@
+{
+  "id": "art_http_http-fetch-tools",
+  "slug": "http-fetch-tools",
+  "title": "curlとDevToolsでAPIを試す",
+  "summary": "curlコマンドとブラウザDevToolsを使ってHTTPリクエストを送り、APIレスポンスを確認する方法を hands-on で解説します。",
+  "body": "<h2>APIを試すツールの選択肢</h2>\n<p>REST APIを開発・学習するとき、実際にHTTPリクエストを送ってレスポンスを確認する必要があります。代表的なツールは次のとおりです。</p>\n<ul>\n  <li><strong>curl</strong>：ターミナルからHTTPリクエストを送るCLIツール。スクリプト化・自動化に強い</li>\n  <li><strong>ブラウザDevTools</strong>：Networkタブでリクエスト/レスポンスを確認。フロントエンド開発時に必須</li>\n  <li><strong>fetch API</strong>：JavaScriptからHTTPリクエストを送るブラウザ標準API</li>\n  <li><strong>Postman / Insomnia</strong>：GUIでAPIをテストする専用ツール</li>\n</ul>\n<p>この回では、どの環境でも使える<strong>curl</strong>と、ブラウザ標準の<strong>DevTools</strong>、そして<strong>fetch API</strong>の基本を学びます。<a href=\"/articles/linux-terminal-basics\">Linuxターミナル</a>や<a href=\"/articles/bash-intro\">Bash</a>の基礎があると、curl操作がよりスムーズです。</p>\n\n<h2>curlの基本</h2>\n<p><strong>curl</strong>（Client URL）は、HTTP/HTTPS/FTPなど様々なプロトコルでデータ転送を行うCLIツールです。Windows 10以降、macOS、Linuxに標準または簡単にインストールできます。</p>\n<pre><code># インストール確認\ncurl --version\n\n# 最もシンプルなGETリクエスト\ncurl https://jsonplaceholder.typicode.com/users/1\n\n# レスポンスヘッダーも表示\ncurl -i https://jsonplaceholder.typicode.com/users/1\n\n# リクエストヘッダーのみ表示\ncurl -I https://jsonplaceholder.typicode.com/users/1</code></pre>\n<p><code>-i</code> オプションはレスポンスヘッダー + ボディ、<code>-I</code> はHEADリクエスト（ヘッダーのみ）を送ります。API開発では <code>-i</code> でステータスコードとContent-Typeを確認する習慣をつけましょう。</p>\n\n<h2>curlでPOSTリクエストを送る</h2>\n<p>JSONデータをPOSTで送る典型的なパターンです。</p>\n<pre><code># JSONをPOST\ncurl -X POST https://jsonplaceholder.typicode.com/posts \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\"title\": \"HTTP入門\", \"body\": \"curlの使い方\", \"userId\": 1}'\n\n# 整形して表示（jqコマンドと組み合わせ）\ncurl -s https://jsonplaceholder.typicode.com/users/1 | jq .\n\n# フォームデータをPOST\ncurl -X POST https://httpbin.org/post \\\n  -d \"name=田中太郎\" \\\n  -d \"email=tanaka@example.com\"</code></pre>\n<p>オプションの意味：</p>\n<ul>\n  <li><code>-X POST</code>：HTTPメソッドを指定（GETがデフォルト）</li>\n  <li><code>-H \"Header: Value\"</code>：リクエストヘッダーを追加（複数指定可）</li>\n  <li><code>-d '...'</code>：リクエストボディ（POSTデータ）</li>\n  <li><code>-s</code>：進捗表示を抑制（スクリプト向け）</li>\n</ul>\n\n<h2>curlで認証付きリクエスト</h2>\n<p>第5回で学んだ認証方式をcurlで試します。</p>\n<pre><code># Bearer Token（JWT）\ncurl https://api.example.com/profile \\\n  -H \"Authorization: Bearer eyJhbGciOiJIUzI1NiIs...\"\n\n# Basic認証\ncurl -u tanaka:password https://api.example.com/admin\n\n# Cookie付きリクエスト\ncurl https://api.example.com/dashboard \\\n  -b \"session_id=abc123\"\n\n# Cookieを保存して次回使用\ncurl -c cookies.txt -X POST https://api.example.com/login \\\n  -d \"email=tanaka@example.com&amp;password=secret\"\ncurl -b cookies.txt https://api.example.com/profile</code></pre>\n\n<h2>curlでPUT/DELETE/PATCH</h2>\n<pre><code># PUT（完全更新）\ncurl -X PUT https://jsonplaceholder.typicode.com/posts/1 \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\"id\": 1, \"title\": \"更新タイトル\", \"body\": \"更新本文\", \"userId\": 1}'\n\n# PATCH（部分更新）\ncurl -X PATCH https://jsonplaceholder.typicode.com/posts/1 \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\"title\": \"部分更新\"}'\n\n# DELETE\ncurl -X DELETE https://jsonplaceholder.typicode.com/posts/1</code></pre>\n\n<h2>curlのデバッグオプション</h2>\n<pre><code># 詳細な通信ログ（リクエスト/レスポンスヘッダー全表示）\ncurl -v https://jsonplaceholder.typicode.com/users/1\n\n# タイムアウト設定（秒）\ncurl --connect-timeout 5 --max-time 30 https://api.example.com/slow\n\n# リダイレクトを追跡\ncurl -L https://example.com/old-page\n\n# レスポンスステータスコードのみ表示\ncurl -s -o /dev/null -w \"%{http_code}\" https://api.example.com/health</code></pre>\n<p><code>-v</code>（verbose）は問題調査の最強オプションです。TLSハンドシェイク、送信ヘッダー、受信ヘッダーがすべて表示されます。</p>\n\n<h2>Chrome DevToolsでAPIを確認</h2>\n<p>ブラウザでWebアプリを使いながら、裏側のHTTP通信を確認する方法です。</p>\n<ol>\n  <li>F12 → Networkタブを開く</li>\n  <li>「Preserve log」にチェック（ページ遷移後もログを保持）</li>\n  <li>「Fetch/XHR」フィルターでAPIリクエストのみ表示</li>\n  <li>リクエストをクリック → Headers / Preview / Response タブで確認</li>\n</ol>\n<p>確認ポイント：</p>\n<ul>\n  <li><strong>General</strong>：Request URL、Request Method、Status Code</li>\n  <li><strong>Request Headers</strong>：Authorization、Content-Type、Cookie</li>\n  <li><strong>Response Headers</strong>：Content-Type、Set-Cookie、Cache-Control</li>\n  <li><strong>Response/Preview</strong>：JSONレスポンスの中身</li>\n</ul>\n<p>DevToolsの「Copy as cURL」機能：Networkタブでリクエストを右クリック → Copy → Copy as cURL。ブラウザが送ったリクエストをcurlコマンドとしてコピーでき、ターミナルで再現・デバッグできます。</p>\n\n<h2>fetch API：JavaScriptからHTTPリクエスト</h2>\n<p>フロントエンド（<a href=\"/articles/web-intro\">Web開発</a>）からAPIを呼び出す標準的な方法です。</p>\n<pre><code>// GET リクエスト\nconst response = await fetch('https://jsonplaceholder.typicode.com/users/1');\nconst user = await response.json();\nconsole.log(user.name);\n\n// POST リクエスト（JSON）\nconst response = await fetch('https://jsonplaceholder.typicode.com/posts', {\n  method: 'POST',\n  headers: {\n    'Content-Type': 'application/json',\n    'Authorization': 'Bearer ' + token\n  },\n  body: JSON.stringify({\n    title: 'HTTP入門',\n    body: 'fetch APIの使い方',\n    userId: 1\n  })\n});\n\nif (!response.ok) {\n  throw new Error(`HTTP error! status: ${response.status}`);\n}\nconst data = await response.json();</code></pre>\n<p>fetch APIの注意点：</p>\n<ul>\n  <li>4xx/5xxステータスでも例外はスローされない → <code>response.ok</code> を必ずチェック</li>\n  <li>Cookieは同一オリジンのみ自動送信。CORS設定が必要（第9回）</li>\n  <li><code>credentials: 'include'</code> でクロスオリインCookie送信可能</li>\n</ul>\n\n<h2>JSONPlaceholder：練習用API</h2>\n<p><strong>JSONPlaceholder</strong>（https://jsonplaceholder.typicode.com）は、無料で使える練習用REST APIです。第10回の実践でも使用します。</p>\n<pre><code># ユーザー一覧\ncurl https://jsonplaceholder.typicode.com/users\n\n# 投稿一覧\ncurl https://jsonplaceholder.typicode.com/posts\n\n# 特定ユーザーの投稿\ncurl https://jsonplaceholder.typicode.com/users/1/posts\n\n# 新規投稿（実際には保存されない）\ncurl -X POST https://jsonplaceholder.typicode.com/posts \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\"title\": \"テスト\", \"body\": \"本文\", \"userId\": 1}'</code></pre>\n<p>認証不要・HTTPS対応・RESTful設計で、HTTP学習に最適なサービスです。</p>\n\n<h2>HTTPie：curlの代替ツール</h2>\n<p><strong>HTTPie</strong>は、curlより直感的な構文でHTTPリクエストを送れるCLIツールです。</p>\n<pre><code># インストール（pip）\npip install httpie\n\n# GET\nhttp GET https://jsonplaceholder.typicode.com/users/1\n\n# POST（JSON自動）\nhttp POST https://jsonplaceholder.typicode.com/posts \\\n  title=\"HTTP入門\" body=\"HTTPieの使い方\" userId:=1\n\n# 認証付き\nhttp GET https://api.example.com/profile \\\n  Authorization:\"Bearer eyJhbGci...\"</code></pre>\n<p>JSONの送信が <code>key=value</code> 形式で書けるため、curlより読みやすい場合があります。</p>\n\n<h2>まとめ：curl + DevTools + fetch APIの3点セット</h2>\n<p>API開発・学習では、curl（ターミナル）、DevTools（ブラウザ）、fetch API（JavaScript）の3つを使い分けます。curlは自動化・サーバー側デバッグ、DevToolsはフロントエンド連携確認、fetch APIはアプリ実装。JSONPlaceholderで手を動かしながら、第7回で学んだREST API設計を実感しましょう。次回はCORS・エラー・デバッグの技法を学びます。</p>",
+  "conclusion": "curlはターミナルからHTTPリクエストを送る最強CLIツール。DevToolsのNetworkタブでブラウザの通信を確認、Copy as cURLで再現可能。fetch APIはJavaScriptからAPIを呼び出す標準。JSONPlaceholderで練習し、-vオプションで詳細ログを確認する習慣をつけましょう。",
+  "tags": [
+    "curl",
+    "DevTools",
+    "HTTP",
+    "API",
+    "fetch",
+    "Postman",
+    "デバッグ"
+  ],
+  "category": "HTTP",
+  "theme": "http - HTTP・Web API入門",
+  "status": "published",
+  "createdAt": "2026-05-30T05:14:41.268Z",
+  "updatedAt": "2026-05-30T05:14:41.273Z",
+  "publishedAt": "2026-05-30T05:14:41.268Z",
+  "metaTitle": "curlとDevToolsでAPIを試す【HTTP入門 第8回】｜HTTP入門 | StackShelf",
+  "metaDescription": "curlコマンドとChrome DevToolsでHTTPリクエストを送りAPIを試す方法を解説。GET/POST/PUT/DELETE、ヘッダー設定、JSON送信、レスポンス確認を hands-on で学びます。 図解・具体例つきで丁寧に解説します。",
+  "ogTitle": "curlとDevToolsでAPIを試す",
+  "ogDescription": "【HTTP初心者向け】【HTTP初心者向け】curlとDevToolsを使ったHTTPリクエストの送り方を、具体例で hands-on 解説します。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
+  "knowledge": {
+    "topic": "http",
+    "courseId": "http",
+    "episode": 8
+  },
+  "faq": [
+    {
+      "question": "curlとwgetの違いは？",
+      "answer": "wgetはファイルダウンロードに特化したツールで、HTTPメソッドの指定やヘッダー設定が限定的です。curlはHTTP/HTTPS/FTP等の汎用転送ツールで、API開発・テストに必要なあらゆるHTTP操作が可能です。API開発ではcurlを使いましょう。"
+    },
+    {
+      "question": "Windowsでcurlは使えますか？",
+      "answer": "Windows 10以降はcurlが標準搭載されています。PowerShellやコマンドプロンプトから curl コマンドが使えます。Linux/macOS/WSLでも同様です。Git Bashでも利用可能です。"
+    },
+    {
+      "question": "Postmanはcurlより優れていますか？",
+      "answer": "PostmanはGUIでAPIコレクション管理・チーム共有・自動テストが便利です。curlはスクリプト化・CI/CD連携・サーバー上での実行に強いです。両方使いこなすのが理想ですが、初学者はcurlから始めるのがおすすめです。"
+    },
+    {
+      "question": "fetch APIでタイムアウトを設定するには？",
+      "answer": "fetch API自体にタイムアウトオプションはありません。AbortControllerを使います：const controller = new AbortController(); setTimeout(() => controller.abort(), 5000); fetch(url, { signal: controller.signal })。axios等のライブラリはタイムアウトを内蔵しています。"
+    },
+    {
+      "question": "DevToolsでAPIリクエストを直接送れますか？",
+      "answer": "Chrome DevToolsのConsoleタブでfetch()を実行するか、Networkタブでリクエストを右クリック→「Edit and Resend」で再送・編集できます。Postman的な使い方も可能ですが、本格的なAPIテストにはcurlやPostmanが便利です。"
+    }
+  ],
+  "nextEpisodeHint": "次回は、CORS（Cross-Origin Resource Sharing）の仕組みと、HTTPエラーのデバッグ技法を解説します。",
+  "nextAction": "次回はCORS（Cross-Origin Resource Sharing）の仕組みと、HTTPエラーのデバッグ技法を解説します。fetch APIでAPI連携する際に必ず遭遇する重要なトピックです。",
+  "internalLinkCandidates": [
+    {
+      "slug": "http-rest-api",
+      "title": "REST APIの設計原則",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "http-debugging",
+      "title": "CORS・エラー・デバッグ",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "linux-terminal-basics",
+      "title": "Linuxターミナル基本操作",
+      "reason": "curlはターミナルから実行するCLIツールです"
+    },
+    {
+      "slug": "bash-intro",
+      "title": "Bashシェルスクリプトとは？",
+      "reason": "curlをスクリプトに組み込んでAPI自動化できます"
+    },
+    {
+      "slug": "web-intro",
+      "title": "Webサイトの仕組みとは？",
+      "reason": "fetch APIはJavaScriptからHTTPリクエストを送ります"
+    }
+  ],
+  "ogImage": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+  "canonical": "https://ai-site-iota-nine.vercel.app/article/http-fetch-tools",
+  "jsonLd": {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@context": "https://schema.org",
+        "@type": "TechArticle",
+        "headline": "curlとDevToolsでAPIを試す",
+        "description": "curlコマンドとChrome DevToolsでHTTPリクエストを送りAPIを試す方法を解説。GET/POST/PUT/DELETE、ヘッダー設定、JSON送信、レスポンス確認を hands-on で学びます。 図解・具体例つきで丁寧に解説します。",
+        "datePublished": "2026-05-30T05:14:41.268Z",
+        "dateModified": "2026-05-30T05:14:41.273Z",
+        "author": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
+        },
+        "image": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+        "inLanguage": "ja",
+        "wordCount": 4591,
+        "mainEntityOfPage": {
+          "@type": "WebPage",
+          "@id": "https://ai-site-iota-nine.vercel.app/article/http-fetch-tools"
+        },
+        "keywords": "curl, DevTools, HTTP, API, fetch, Postman, デバッグ",
+        "articleSection": "HTTP",
+        "url": "https://ai-site-iota-nine.vercel.app/article/http-fetch-tools",
+        "learningResourceType": "tutorial",
+        "educationalLevel": "beginner"
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "ホーム",
+            "item": "https://ai-site-iota-nine.vercel.app/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "http",
+            "item": "https://ai-site-iota-nine.vercel.app/knowledge/http"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "HTTP・Web API入門",
+            "item": "https://ai-site-iota-nine.vercel.app/course/http/http"
+          },
+          {
+            "@type": "ListItem",
+            "position": 4,
+            "name": "curlとDevToolsでAPIを試す",
+            "item": "https://ai-site-iota-nine.vercel.app/article/http-fetch-tools"
+          }
+        ]
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "Course",
+        "name": "HTTP・Web API入門",
+        "description": "ブラウザとサーバーの通信、REST API、HTTPSを10ステップで理解。バックエンド学習の前提となるHTTPを具体例で学びます。",
+        "provider": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app"
+        },
+        "url": "https://ai-site-iota-nine.vercel.app/course/http/http",
+        "inLanguage": "ja",
+        "educationalLevel": "beginner",
+        "hasCourseInstance": {
+          "@type": "CourseInstance",
+          "courseMode": "online",
+          "courseWorkload": "PT1H"
+        }
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "curlとwgetの違いは？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "wgetはファイルダウンロードに特化したツールで、HTTPメソッドの指定やヘッダー設定が限定的です。curlはHTTP/HTTPS/FTP等の汎用転送ツールで、API開発・テストに必要なあらゆるHTTP操作が可能です。API開発ではcurlを使いましょう。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Windowsでcurlは使えますか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Windows 10以降はcurlが標準搭載されています。PowerShellやコマンドプロンプトから curl コマンドが使えます。Linux/macOS/WSLでも同様です。Git Bashでも利用可能です。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Postmanはcurlより優れていますか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "PostmanはGUIでAPIコレクション管理・チーム共有・自動テストが便利です。curlはスクリプト化・CI/CD連携・サーバー上での実行に強いです。両方使いこなすのが理想ですが、初学者はcurlから始めるのがおすすめです。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "fetch APIでタイムアウトを設定するには？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "fetch API自体にタイムアウトオプションはありません。AbortControllerを使います：const controller = new AbortController(); setTimeout(() => controller.abort(), 5000); fetch(url, { signal: controller.signal })。axios等のライブラリはタイムアウトを内蔵しています。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "DevToolsでAPIリクエストを直接送れますか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Chrome DevToolsのConsoleタブでfetch()を実行するか、Networkタブでリクエストを右クリック→「Edit and Resend」で再送・編集できます。Postman的な使い方も可能ですが、本格的なAPIテストにはcurlやPostmanが便利です。"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "breadcrumb": {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "ホーム",
+        "item": "https://ai-site-iota-nine.vercel.app/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "http",
+        "item": "https://ai-site-iota-nine.vercel.app/knowledge/http"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "HTTP・Web API入門",
+        "item": "https://ai-site-iota-nine.vercel.app/course/http/http"
+      },
+      {
+        "@type": "ListItem",
+        "position": 4,
+        "name": "curlとDevToolsでAPIを試す",
+        "item": "https://ai-site-iota-nine.vercel.app/article/http-fetch-tools"
+      }
+    ]
+  },
+  "courseSchema": {
+    "@context": "https://schema.org",
+    "@type": "Course",
+    "name": "HTTP・Web API入門",
+    "description": "ブラウザとサーバーの通信、REST API、HTTPSを10ステップで理解。バックエンド学習の前提となるHTTPを具体例で学びます。",
+    "provider": {
+      "@type": "Organization",
+      "name": "StackShelf",
+      "url": "https://ai-site-iota-nine.vercel.app"
+    },
+    "url": "https://ai-site-iota-nine.vercel.app/course/http/http",
+    "inLanguage": "ja",
+    "educationalLevel": "beginner",
+    "hasCourseInstance": {
+      "@type": "CourseInstance",
+      "courseMode": "online",
+      "courseWorkload": "PT1H"
+    }
+  },
+  "faqSchema": {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "curlとwgetの違いは？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "wgetはファイルダウンロードに特化したツールで、HTTPメソッドの指定やヘッダー設定が限定的です。curlはHTTP/HTTPS/FTP等の汎用転送ツールで、API開発・テストに必要なあらゆるHTTP操作が可能です。API開発ではcurlを使いましょう。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Windowsでcurlは使えますか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Windows 10以降はcurlが標準搭載されています。PowerShellやコマンドプロンプトから curl コマンドが使えます。Linux/macOS/WSLでも同様です。Git Bashでも利用可能です。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Postmanはcurlより優れていますか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "PostmanはGUIでAPIコレクション管理・チーム共有・自動テストが便利です。curlはスクリプト化・CI/CD連携・サーバー上での実行に強いです。両方使いこなすのが理想ですが、初学者はcurlから始めるのがおすすめです。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "fetch APIでタイムアウトを設定するには？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "fetch API自体にタイムアウトオプションはありません。AbortControllerを使います：const controller = new AbortController(); setTimeout(() => controller.abort(), 5000); fetch(url, { signal: controller.signal })。axios等のライブラリはタイムアウトを内蔵しています。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "DevToolsでAPIリクエストを直接送れますか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Chrome DevToolsのConsoleタブでfetch()を実行するか、Networkタブでリクエストを右クリック→「Edit and Resend」で再送・編集できます。Postman的な使い方も可能ですが、本格的なAPIテストにはcurlやPostmanが便利です。"
+        }
+      }
+    ]
+  }
+}

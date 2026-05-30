@@ -1,0 +1,13 @@
+{
+  "slug": "nginx-practice",
+  "courseId": "nginx",
+  "episode": 8,
+  "summaryMemory": [
+    "本番構成: nginx（静的配信+SSL）→ Node.js（API）の2層",
+    "location / で try_files、location /api/ で proxy_pass が定番",
+    "trust proxy設定とX-Forwarded-*ヘッダー転送はセット",
+    "systemdまたはDocker ComposeでNode.jsを常駐化"
+  ],
+  "nextEpisodeHint": "nginx入門コースはここまでです。HTTPS本番化、Docker Compose、Kubernetes Ingressなど、学んだnginx知識をさらに実践環境で活かしてみましょう。",
+  "updatedAt": "2026-05-30T05:15:09.728Z"
+}

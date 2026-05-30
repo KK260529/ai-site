@@ -1,0 +1,59 @@
+{
+  "courseId": "http",
+  "title": "HTTP・Web API入門",
+  "description": "ブラウザとサーバーの通信、REST API、HTTPSを10ステップで理解。バックエンド学習の前提となるHTTPを具体例で学びます。",
+  "target": "Web開発初学者・API連携を学びたい人",
+  "topic": "http",
+  "episodes": [
+    {
+      "episode": 1,
+      "title": "HTTPとは？Webの通信の仕組み",
+      "slug": "http-intro"
+    },
+    {
+      "episode": 2,
+      "title": "リクエストとレスポンスの構造",
+      "slug": "http-request-response"
+    },
+    {
+      "episode": 3,
+      "title": "HTTPメソッドとステータスコード",
+      "slug": "http-methods-status"
+    },
+    {
+      "episode": 4,
+      "title": "ヘッダーの役割とよく使う項目",
+      "slug": "http-headers"
+    },
+    {
+      "episode": 5,
+      "title": "Cookie・セッション・認証の基礎",
+      "slug": "http-cookies-session"
+    },
+    {
+      "episode": 6,
+      "title": "HTTPSとTLSの仕組み",
+      "slug": "http-https-tls"
+    },
+    {
+      "episode": 7,
+      "title": "REST APIの設計原則",
+      "slug": "http-rest-api"
+    },
+    {
+      "episode": 8,
+      "title": "curlとDevToolsでAPIを試す",
+      "slug": "http-fetch-tools"
+    },
+    {
+      "episode": 9,
+      "title": "CORS・エラー・デバッグ",
+      "slug": "http-debugging"
+    },
+    {
+      "episode": 10,
+      "title": "実践：公開APIを叩いてみる",
+      "slug": "http-practice"
+    }
+  ]
+}

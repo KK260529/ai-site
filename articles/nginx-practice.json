@@ -1,0 +1,318 @@
+{
+  "id": "art_nginx_nginx-practice",
+  "slug": "nginx-practice",
+  "title": "実践：Node.jsアプリの前段にnginxを構築する【総合演習】",
+  "summary": "Node.js（Express）アプリの前段にnginxを構築する総合演習。静的ファイル配信、APIプロキシ、セキュリティヘッダー、ログ設定まで本番に近い構成を一から作ります。",
+  "body": "<h2>演習のゴール</h2>\n<p>このエピソードはnginx入門コースの<strong>総合演習</strong>です。Express.jsで作ったNode.jsアプリの前段にnginxを置き、以下を実現する本番に近い構成を一から構築します。</p>\n<ul>\n  <li>フロントエンド（静的HTML/CSS/JS）をnginxが直接配信</li>\n  <li><code>/api/*</code> リクエストをNode.js（Express）にプロキシ</li>\n  <li>gzip圧縮とキャッシュでパフォーマンス最適化</li>\n  <li>セキュリティヘッダーとアクセスログ設定</li>\n  <li>（オプション）Docker Composeでの構成</li>\n</ul>\n<pre><code># 完成後の構成\n# ブラウザ → nginx:80\n#              ├─ /         → /var/www/app/dist（静的ファイル）\n#              ├─ /api/*    → proxy_pass → Node.js:3000\n#              └─ /health   → nginx直接応答</code></pre>\n\n<h2>Step 1：Node.jsアプリの準備</h2>\n<p>シンプルなExpress APIを作成します。本番ではpm2やsystemdで常駐させますが、演習では直接起動します。</p>\n<pre><code># プロジェクト作成\nmkdir -p ~/nginx-practice/app && cd ~/nginx-practice/app\nnpm init -y\nnpm install express\n\n# app.js\ncat &gt; app.js &lt;&lt;'EOF'\nconst express = require('express');\nconst app = express();\nconst PORT = process.env.PORT || 3000;\n\napp.set('trust proxy', 1);\napp.use(express.json());\n\napp.get('/api/health', (req, res) =&gt; {\n  res.json({ status: 'ok', timestamp: new Date().toISOString() });\n});\n\napp.get('/api/users', (req, res) =&gt; {\n  res.json([\n    { id: 1, name: '田中太郎' },\n    { id: 2, name: '佐藤花子' },\n  ]);\n});\n\napp.post('/api/users', (req, res) =&gt; {\n  res.status(201).json({ id: 3, name: req.body.name });\n});\n\napp.listen(PORT, '127.0.0.1', () =&gt; {\n  console.log(`API server running on http://127.0.0.1:${PORT}`);\n});\nEOF\n\n# 起動確認\nnode app.js &\ncurl http://127.0.0.1:3000/api/users</code></pre>\n\n<h2>Step 2：フロントエンドの配置</h2>\n<p>ビルド済みのフロントエンドを模した静的ファイルを用意します。</p>\n<pre><code>sudo mkdir -p /var/www/app/dist\nsudo chown -R $USER:www-data /var/www/app\n\ncat &gt; /var/www/app/dist/index.html &lt;&lt;'EOF'\n&lt;!DOCTYPE html&gt;\n&lt;html lang=\"ja\"&gt;\n&lt;head&gt;\n  &lt;meta charset=\"UTF-8\"&gt;\n  &lt;title&gt;nginx + Node.js 演習&lt;/title&gt;\n  &lt;link rel=\"stylesheet\" href=\"/css/style.css\"&gt;\n&lt;/head&gt;\n&lt;body&gt;\n  &lt;h1&gt;nginx + Node.js 演習&lt;/h1&gt;\n  &lt;button id=\"loadBtn\"&gt;ユーザー一覧を取得&lt;/button&gt;\n  &lt;ul id=\"userList\"&gt;&lt;/ul&gt;\n  &lt;script src=\"/js/app.js\"&gt;&lt;/script&gt;\n&lt;/body&gt;\n&lt;/html&gt;\nEOF\n\nmkdir -p /var/www/app/dist/css /var/www/app/dist/js\necho 'body { font-family: sans-serif; max-width: 640px; margin: 2rem auto; }'   &gt; /var/www/app/dist/css/style.css\n\ncat &gt; /var/www/app/dist/js/app.js &lt;&lt;'EOF'\ndocument.getElementById('loadBtn').addEventListener('click', async () =&gt; {\n  const res = await fetch('/api/users');\n  const users = await res.json();\n  document.getElementById('userList').innerHTML =\n    users.map(u =&gt; `&lt;li&gt;${u.name}&lt;/li&gt;`).join('');\n});\nEOF</code></pre>\n\n<h2>Step 3：nginx設定ファイルの作成</h2>\n<p>これまで学んだ設定をすべて統合したserverブロックを作成します。</p>\n<pre><code># /etc/nginx/sites-available/app-practice.conf\n\nupstream node_api {\n    server 127.0.0.1:3000;\n    keepalive 32;\n}\n\nserver {\n    listen 80;\n    server_name app-practice.local;\n\n    root /var/www/app/dist;\n    index index.html;\n\n    access_log /var/log/nginx/app-practice.access.log;\n    error_log  /var/log/nginx/app-practice.error.log warn;\n\n    # gzip圧縮\n    gzip on;\n    gzip_types text/plain text/css application/javascript application/json;\n    gzip_min_length 256;\n\n    # nginx自身のヘルスチェック\n    location = /health {\n        access_log off;\n        return 200 'nginx ok\\n';\n        add_header Content-Type text/plain;\n    }\n\n    # API → Node.js\n    location /api/ {\n        proxy_pass http://node_api;\n        proxy_http_version 1.1;\n        proxy_set_header Host $host;\n        proxy_set_header X-Real-IP $remote_addr;\n        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;\n        proxy_set_header X-Forwarded-Proto $scheme;\n        proxy_set_header Connection \"\";\n    }\n\n    # 静的ファイルキャッシュ\n    location ~* \\.(css|js|png|jpg|svg|woff2)$ {\n        expires 7d;\n        add_header Cache-Control \"public\";\n        access_log off;\n    }\n\n    # フロントエンド（SPA対応）\n    location / {\n        try_files $uri $uri/ /index.html;\n    }\n\n    # セキュリティ\n    location ~ /\\. {\n        deny all;\n    }\n}</code></pre>\n<pre><code># 有効化\necho '127.0.0.1 app-practice.local' | sudo tee -a /etc/hosts\nsudo ln -sf /etc/nginx/sites-available/app-practice.conf /etc/nginx/sites-enabled/\nsudo nginx -t && sudo systemctl reload nginx</code></pre>\n\n<h2>Step 4：動作確認</h2>\n<pre><code># nginxヘルスチェック\ncurl http://app-practice.local/health\n\n# APIプロキシ確認\ncurl http://app-practice.local/api/users\ncurl http://app-practice.local/api/health\n\n# POSTリクエスト\ncurl -X POST http://app-practice.local/api/users \\\n  -H 'Content-Type: application/json' \\\n  -d '{\"name\":\"山田次郎\"}'\n\n# ブラウザで http://app-practice.local を開き\n# 「ユーザー一覧を取得」ボタンをクリック</code></pre>\n<p>ブラウザのDevTools（ネットワークタブ）で、HTML/CSS/JSはnginxから、<code>/api/users</code> はNode.jsから返っていることを確認しましょう。</p>\n\n<h2>Step 5：systemdでNode.jsを常駐化</h2>\n<p>手動起動ではなく、サーバー再起動後も自動でアプリが立ち上がるようにします。</p>\n<pre><code># /etc/systemd/system/app-practice.service\n[Unit]\nDescription=Node.js App Practice\nAfter=network.target\n\n[Service]\nType=simple\nUser=www-data\nWorkingDirectory=/home/youruser/nginx-practice/app\nExecStart=/usr/bin/node app.js\nRestart=on-failure\nEnvironment=NODE_ENV=production\nEnvironment=PORT=3000\n\n[Install]\nWantedBy=multi-user.target</code></pre>\n<pre><code>sudo systemctl daemon-reload\nsudo systemctl enable app-practice\nsudo systemctl start app-practice\nsudo systemctl status app-practice</code></pre>\n\n<h2>Step 6（オプション）：Docker Compose構成</h2>\n<p>Docker学習済みの方は、同じ構成をコンテナで再現できます。</p>\n<pre><code># docker-compose.yml\nservices:\n  app:\n    build: ./app\n    expose:\n      - \"3000\"\n    restart: unless-stopped\n\n  nginx:\n    image: nginx:1.25-alpine\n    ports:\n      - \"8080:80\"\n    volumes:\n      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf:ro\n      - ./frontend/dist:/var/www/app/dist:ro\n    depends_on:\n      - app\n    restart: unless-stopped</code></pre>\n<pre><code># nginx/default.conf（Docker版）\nupstream node_api {\n    server app:3000;\n}\n\nserver {\n    listen 80;\n    root /var/www/app/dist;\n    index index.html;\n\n    location /api/ {\n        proxy_pass http://node_api;\n        proxy_set_header Host $host;\n        proxy_set_header X-Real-IP $remote_addr;\n        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;\n    }\n\n    location / {\n        try_files $uri $uri/ /index.html;\n    }\n}</code></pre>\n<pre><code>docker compose up -d --build\ncurl http://localhost:8080/api/users</code></pre>\n\n<h2>チェックリスト：本番デプロイ前の確認</h2>\n<p>演習構成を本番に近づけるためのチェックリストです。</p>\n<pre><code># 本番チェックリスト\n# □ HTTPS設定（certbot --nginx）\n# □ ファイアウォール（ufw allow 'Nginx Full'）\n# □ Node.jsのsystemd常駐化\n# □ nginx -t をデプロイ前に必ず実行\n# □ error.log / access.log の監視設定\n# □ 隠しファイル（.env, .git）のアクセス拒否\n# □ client_max_body_size（ファイルアップロード上限）\n# □ rate limiting（必要に応じて limit_req）</code></pre>\n<pre><code># ファイルアップロード上限の例\nclient_max_body_size 10M;\n\n# レートリミットの例\nlimit_req_zone $binary_remote_addr zone=api:10m rate=10r/s;\nlocation /api/ {\n    limit_req zone=api burst=20 nodelay;\n    proxy_pass http://node_api;\n}</code></pre>\n\n<h2>このコースの総まとめ</h2>\n<p>8回にわたって、nginxの基礎から実践まで学びました。</p>\n<pre><code># nginx 入門コース：主要コマンド・設定の総まとめ\n\n# サービス管理\nsudo systemctl start|stop|reload nginx\nsudo nginx -t                    # 設定テスト\nsudo nginx -T                      # 全設定ダンプ\n\n# 設定の骨格\n# http → server → location\n# root / proxy_pass / try_files / upstream\n\n# リバースプロキシ必須ヘッダー\n# Host, X-Real-IP, X-Forwarded-For, X-Forwarded-Proto\n\n# HTTPS\n# certbot --nginx -d example.com\n\n# ログ調査\nsudo tail -f /var/log/nginx/error.log\nsudo grep '502\\|upstream' /var/log/nginx/error.log</code></pre>\n<p>nginxはWeb開発者にとって「本番環境の玄関口」を理解するための重要なスキルです。Docker、HTTP、Linux、Web制作の知識と組み合わせることで、フロントエンドからインフラまで一気通貫でWebサービスを構築できるようになります。</p>\n\n<h2>次のステップ</h2>\n<p>nginxの基礎を習得したら、以下に挑戦してみましょう。</p>\n<ul>\n  <li>Let's EncryptでHTTPS化（本番ドメインがある場合）</li>\n  <li>Docker Composeでnginx + app + db の3層構成</li>\n  <li>Kubernetes Ingress Controllerとしてのnginx</li>\n  <li>nginx Unit（アプリサーバー内蔵版）の評価</li>\n</ul>",
+  "conclusion": "Node.jsアプリの前段にnginxを置き、静的配信（try_files）とAPIプロキシ（proxy_pass + upstream）を組み合わせた本番構成を構築しました。gzip・キャッシュ・ログ・セキュリティ設定を加え、systemdまたはDocker Composeで常駐化すれば実運用に耐える構成になります。",
+  "tags": [
+    "nginx",
+    "Node.js",
+    "Express",
+    "実践",
+    "リバースプロキシ",
+    "Docker",
+    "総まとめ"
+  ],
+  "category": "nginx",
+  "theme": "nginx - nginx入門",
+  "status": "published",
+  "createdAt": "2026-05-30T05:15:09.728Z",
+  "updatedAt": "2026-05-30T05:15:40.789Z",
+  "publishedAt": "2026-05-30T05:15:09.728Z",
+  "metaTitle": "nginx実践：Node.jsアプリ前段の構築【nginx 入門 総まとめ】｜nginx入門 | StackShelf",
+  "metaDescription": "Node.jsアプリの前段にnginxを構築する実践演習。静的配信・APIプロキシ・gzip・キャッシュ・ログ設定を組み合わせた本番構成を初心者向けに解説。",
+  "ogTitle": "実践：Node.jsアプリの前段にnginxを構築",
+  "ogDescription": "nginx+Node.jsの本番に近い構成を一から構築する総合演習。",
+  "knowledge": {
+    "topic": "nginx",
+    "courseId": "nginx",
+    "episode": 8
+  },
+  "faq": [
+    {
+      "question": "ブラウザで/api/usersは動くが、ボタンクリックでfetchが失敗します。",
+      "answer": "ブラウザのDevToolsでエラーを確認してください。CORSエラーではなく、/api/usersへのリクエストがnginx経由で届いているか、Node.jsが127.0.0.1:3000で起動しているかを確認します。同一オリジン（app-practice.local）ならCORS問題は通常発生しません。"
+    },
+    {
+      "question": "Node.jsをwww-dataユーザーで動かすべきですか？",
+      "answer": "セキュリティ上、専用ユーザー（appuser等）で動かすのがベストプラクティスです。演習では簡略化のためwww-dataを使いましたが、本番では最小権限のユーザーを作成してください。"
+    },
+    {
+      "question": "Docker版と直接インストール版、どちらがよいですか？",
+      "answer": "学習・開発はDocker Composeが環境再現しやすくおすすめです。VPS等の単一サーバー本番運用では、nginxをOS直接インストール、Node.jsをsystemd管理する構成も広く使われています。"
+    },
+    {
+      "question": "pm2とsystemdどちらでNode.jsを管理すべきですか？",
+      "answer": "Linuxサーバーではsystemdが標準的です。pm2はNode.js特化のプロセス管理で、クラスタモードやゼロダウンタイムリロードが便利です。チームの運用方針に合わせて選択してください。"
+    },
+    {
+      "question": "nginx入門の次に学ぶべきことは？",
+      "answer": "HTTPS本番化（certbot）、Docker Composeでのマルチコンテナ構成、CI/CDパイプラインへの組み込み、Kubernetes Ingressがおすすめです。HTTP/TLSの深い理解も、nginx設定の理解をさらに深めます。"
+    }
+  ],
+  "nextEpisodeHint": "nginx入門コースはここまでです。HTTPS本番化、Docker Compose、Kubernetes Ingressなど、学んだnginx知識をさらに実践環境で活かしてみましょう。",
+  "nextAction": "nginx入門コースはここまでです。HTTPS本番化、Docker Compose、Kubernetes Ingressなど、学んだnginx知識をさらに実践環境で活かしてみましょう。",
+  "internalLinkCandidates": [
+    {
+      "slug": "nginx-reverse-proxy",
+      "title": "nginxリバースプロキシの設定方法【proxy_pass入門・初心者向け】",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "nginx-intro",
+      "title": "nginxとは？Apacheとの違いをわかりやすく解説【初心者向け】",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "nginx-logging",
+      "title": "nginxのログとトラブルシューティング入門【502/504エラー対処】",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "nginx-ssl",
+      "title": "nginxでSSL/TLS（HTTPS）を設定する方法【Let's Encrypt入門】",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "nginx-location",
+      "title": "nginxのlocationとルーティング【マッチング優先順位入門】",
+      "reason": "同じ講座の関連回です"
+    }
+  ],
+  "ogImage": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+  "canonical": "https://ai-site-iota-nine.vercel.app/article/nginx-practice",
+  "jsonLd": {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@context": "https://schema.org",
+        "@type": "TechArticle",
+        "headline": "実践：Node.jsアプリの前段にnginxを構築する【総合演習】",
+        "description": "【nginx初心者向け】Node.jsアプリの前段にnginxを構築する実践演習。静的配信・APIプロキシ・gzip・キャッシュ・ログ設定を組み合わせた本番構成を初心者向けに解説。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
+        "datePublished": "2026-05-30T05:15:09.728Z",
+        "dateModified": "2026-05-30T05:15:40.789Z",
+        "author": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
+        },
+        "image": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+        "inLanguage": "ja",
+        "wordCount": 5943,
+        "mainEntityOfPage": {
+          "@type": "WebPage",
+          "@id": "https://ai-site-iota-nine.vercel.app/article/nginx-practice"
+        },
+        "keywords": "nginx, Node.js, Express, 実践, リバースプロキシ, Docker, 総まとめ",
+        "articleSection": "nginx",
+        "url": "https://ai-site-iota-nine.vercel.app/article/nginx-practice",
+        "learningResourceType": "tutorial",
+        "educationalLevel": "beginner"
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "ホーム",
+            "item": "https://ai-site-iota-nine.vercel.app/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "nginx",
+            "item": "https://ai-site-iota-nine.vercel.app/knowledge/nginx"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "nginx入門",
+            "item": "https://ai-site-iota-nine.vercel.app/course/nginx/nginx"
+          },
+          {
+            "@type": "ListItem",
+            "position": 4,
+            "name": "実践：Node.jsアプリの前段にnginxを構築する【総合演習】",
+            "item": "https://ai-site-iota-nine.vercel.app/article/nginx-practice"
+          }
+        ]
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "Course",
+        "name": "nginx入門",
+        "description": "Webサーバー・リバースプロキシnginxを8ステップで習得。日本語の初心者向け解説が少ないテーマを、設定例つきで学びます。",
+        "provider": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app"
+        },
+        "url": "https://ai-site-iota-nine.vercel.app/course/nginx/nginx",
+        "inLanguage": "ja",
+        "educationalLevel": "beginner",
+        "hasCourseInstance": {
+          "@type": "CourseInstance",
+          "courseMode": "online",
+          "courseWorkload": "PT1H"
+        }
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "ブラウザで/api/usersは動くが、ボタンクリックでfetchが失敗します。",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "ブラウザのDevToolsでエラーを確認してください。CORSエラーではなく、/api/usersへのリクエストがnginx経由で届いているか、Node.jsが127.0.0.1:3000で起動しているかを確認します。同一オリジン（app-practice.local）ならCORS問題は通常発生しません。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Node.jsをwww-dataユーザーで動かすべきですか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "セキュリティ上、専用ユーザー（appuser等）で動かすのがベストプラクティスです。演習では簡略化のためwww-dataを使いましたが、本番では最小権限のユーザーを作成してください。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Docker版と直接インストール版、どちらがよいですか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "学習・開発はDocker Composeが環境再現しやすくおすすめです。VPS等の単一サーバー本番運用では、nginxをOS直接インストール、Node.jsをsystemd管理する構成も広く使われています。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "pm2とsystemdどちらでNode.jsを管理すべきですか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Linuxサーバーではsystemdが標準的です。pm2はNode.js特化のプロセス管理で、クラスタモードやゼロダウンタイムリロードが便利です。チームの運用方針に合わせて選択してください。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "nginx入門の次に学ぶべきことは？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "HTTPS本番化（certbot）、Docker Composeでのマルチコンテナ構成、CI/CDパイプラインへの組み込み、Kubernetes Ingressがおすすめです。HTTP/TLSの深い理解も、nginx設定の理解をさらに深めます。"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "breadcrumb": {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "ホーム",
+        "item": "https://ai-site-iota-nine.vercel.app/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "nginx",
+        "item": "https://ai-site-iota-nine.vercel.app/knowledge/nginx"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "nginx入門",
+        "item": "https://ai-site-iota-nine.vercel.app/course/nginx/nginx"
+      },
+      {
+        "@type": "ListItem",
+        "position": 4,
+        "name": "実践：Node.jsアプリの前段にnginxを構築する【総合演習】",
+        "item": "https://ai-site-iota-nine.vercel.app/article/nginx-practice"
+      }
+    ]
+  },
+  "courseSchema": {
+    "@context": "https://schema.org",
+    "@type": "Course",
+    "name": "nginx入門",
+    "description": "Webサーバー・リバースプロキシnginxを8ステップで習得。日本語の初心者向け解説が少ないテーマを、設定例つきで学びます。",
+    "provider": {
+      "@type": "Organization",
+      "name": "StackShelf",
+      "url": "https://ai-site-iota-nine.vercel.app"
+    },
+    "url": "https://ai-site-iota-nine.vercel.app/course/nginx/nginx",
+    "inLanguage": "ja",
+    "educationalLevel": "beginner",
+    "hasCourseInstance": {
+      "@type": "CourseInstance",
+      "courseMode": "online",
+      "courseWorkload": "PT1H"
+    }
+  },
+  "faqSchema": {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "ブラウザで/api/usersは動くが、ボタンクリックでfetchが失敗します。",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "ブラウザのDevToolsでエラーを確認してください。CORSエラーではなく、/api/usersへのリクエストがnginx経由で届いているか、Node.jsが127.0.0.1:3000で起動しているかを確認します。同一オリジン（app-practice.local）ならCORS問題は通常発生しません。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Node.jsをwww-dataユーザーで動かすべきですか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "セキュリティ上、専用ユーザー（appuser等）で動かすのがベストプラクティスです。演習では簡略化のためwww-dataを使いましたが、本番では最小権限のユーザーを作成してください。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Docker版と直接インストール版、どちらがよいですか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "学習・開発はDocker Composeが環境再現しやすくおすすめです。VPS等の単一サーバー本番運用では、nginxをOS直接インストール、Node.jsをsystemd管理する構成も広く使われています。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "pm2とsystemdどちらでNode.jsを管理すべきですか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Linuxサーバーではsystemdが標準的です。pm2はNode.js特化のプロセス管理で、クラスタモードやゼロダウンタイムリロードが便利です。チームの運用方針に合わせて選択してください。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "nginx入門の次に学ぶべきことは？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "HTTPS本番化（certbot）、Docker Composeでのマルチコンテナ構成、CI/CDパイプラインへの組み込み、Kubernetes Ingressがおすすめです。HTTP/TLSの深い理解も、nginx設定の理解をさらに深めます。"
+        }
+      }
+    ]
+  }
+}

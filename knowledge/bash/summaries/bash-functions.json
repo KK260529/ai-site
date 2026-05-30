@@ -1,0 +1,13 @@
+{
+  "slug": "bash-functions",
+  "courseId": "bash",
+  "episode": 5,
+  "summaryMemory": [
+    "関数は name() { ... }、引数は $1 $2 や $@",
+    "local で関数内ローカル変数、return N で終了コード",
+    "値を返すときは echo + $(func)",
+    "source で共通関数を別ファイルから読み込む"
+  ],
+  "nextEpisodeHint": "次回はパイプとコマンド置換を使い、複数コマンドを1行でつなぐデータ処理パターンを学びます。",
+  "updatedAt": "2026-05-30T05:14:50.855Z"
+}

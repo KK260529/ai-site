@@ -1,0 +1,13 @@
+{
+  "slug": "regex-javascript",
+  "courseId": "regex",
+  "episode": 8,
+  "summaryMemory": [
+    "/pattern/flags と new RegExp の2つの作り方",
+    "test match exec replace とフラグ g i m",
+    "置換で $1 またはコールバック、groups で名前付きキャプチャ",
+    "ユーザー入力を RegExp に直接渡すのは ReDoS 注意"
+  ],
+  "nextEpisodeHint": "次回は grep、ripgrep、VS Code の検索など、コマンドラインとエディタでの正規表現活用法を学びます。",
+  "updatedAt": "2026-05-30T05:14:29.233Z"
+}

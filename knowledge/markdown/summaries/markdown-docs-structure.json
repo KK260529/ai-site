@@ -1,0 +1,14 @@
+{
+  "slug": "markdown-docs-structure",
+  "courseId": "markdown",
+  "episode": 6,
+  "summaryMemory": [
+    "READMEは入口、詳細はdocs/、決定履歴はadr/に分割",
+    "How-to・Reference・Explanation・ADRで役割を分ける",
+    "更新頻度と読者が同じ内容を同じファイルにまとめる",
+    "陳腐化docsはPRでコードと同時更新する運用で防ぐ",
+    "ファイル名は英小文字ハイフン、見出し階層は飛ばさない"
+  ],
+  "nextEpisodeHint": "次回は、VS CodeのMarkdownプレビュー、markdownlint、Prettier、静的サイトジェネレーターなど執筆・品質ツールを紹介します。",
+  "updatedAt": "2026-05-30T05:14:17.654Z"
+}

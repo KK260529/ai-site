@@ -1,0 +1,59 @@
+{
+  "courseId": "bash",
+  "title": "Bashシェルスクリプト入門",
+  "description": "Linux/macOS/WSLで使えるBashスクリプトを10ステップで習得。自動化・運用の第一歩となるニッチスキルを具体例で学びます。",
+  "target": "Linux入門済み・作業自動化を学びたい人",
+  "topic": "bash",
+  "episodes": [
+    {
+      "episode": 1,
+      "title": "シェルスクリプトとは？",
+      "slug": "bash-intro"
+    },
+    {
+      "episode": 2,
+      "title": "変数・引数・終了コード",
+      "slug": "bash-variables"
+    },
+    {
+      "episode": 3,
+      "title": "ifとtestによる条件分岐",
+      "slug": "bash-conditionals"
+    },
+    {
+      "episode": 4,
+      "title": "for・whileループ",
+      "slug": "bash-loops"
+    },
+    {
+      "episode": 5,
+      "title": "関数の定義と使い方",
+      "slug": "bash-functions"
+    },
+    {
+      "episode": 6,
+      "title": "パイプとコマンド置換",
+      "slug": "bash-pipes-scripts"
+    },
+    {
+      "episode": 7,
+      "title": "ファイル処理（grep/sed/awk入門）",
+      "slug": "bash-file-processing"
+    },
+    {
+      "episode": 8,
+      "title": "cronと定期実行",
+      "slug": "bash-cron"
+    },
+    {
+      "episode": 9,
+      "title": "set -e とエラーハンドリング",
+      "slug": "bash-error-handling"
+    },
+    {
+      "episode": 10,
+      "title": "実践：バックアップスクリプト",
+      "slug": "bash-practice"
+    }
+  ]
+}

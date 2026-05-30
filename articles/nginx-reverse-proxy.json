@@ -1,0 +1,317 @@
+{
+  "id": "art_nginx_nginx-reverse-proxy",
+  "slug": "nginx-reverse-proxy",
+  "title": "nginxリバースプロキシの設定方法【proxy_pass入門・初心者向け】",
+  "summary": "Node.jsやPythonアプリの前段にnginxを置くリバースプロキシ設定を解説。proxy_pass、ヘッダー転送、WebSocket対応まで設定例つきで学びます。",
+  "body": "<h2>リバースプロキシとは？</h2>\n<p><strong>リバースプロキシ</strong>は、クライアント（ブラウザ）からのリクエストを受け取り、裏側のアプリケーションサーバーに転送し、返ってきたレスポンスをクライアントに返す仕組みです。nginxはこの役割の定番ツールです。</p>\n<p>なぜ直接アプリ（例：Node.jsの <code>localhost:3000</code>）に接続せず、nginxを前段に置くのでしょうか。主な理由は次の通りです。</p>\n<ul>\n  <li><strong>SSL/TLS（HTTPS）の終端</strong>：証明書管理をnginxに集約</li>\n  <li><strong>静的ファイルの高速配信</strong>：HTML/CSS/画像はnginx、APIだけアプリへ</li>\n  <li><strong>複数アプリへの振り分け</strong>：1つの80/443ポートで複数サービスを公開</li>\n  <li><strong>セキュリティ</strong>：アプリを外部に直接公開しない</li>\n  <li><strong>ロードバランシング</strong>：複数インスタンスへ負荷分散</li>\n</ul>\n<pre><code># 構成イメージ\n# ブラウザ → nginx:443(HTTPS) → Node.js:3000(HTTP)\n#          → nginx:443/static → 静的ファイル</code></pre>\n\n<h2>最小限のproxy_pass設定</h2>\n<p>Node.jsアプリが <code>127.0.0.1:3000</code> で動いていると仮定します。nginxはすべてのリクエストをそこに転送します。</p>\n<pre><code># /etc/nginx/sites-available/app-proxy.conf\n\nserver {\n    listen 80;\n    server_name app.local;\n\n    location / {\n        proxy_pass http://127.0.0.1:3000;\n    }\n}</code></pre>\n<pre><code># テスト用Node.jsアプリ（別ターミナルで起動）\nnode -e \"\nconst http = require('http');\nhttp.createServer((req, res) =&gt; {\n  res.end('Hello from Node.js on port 3000');\n}).listen(3000, '127.0.0.1');\n\"\n\n# nginx設定を反映\nsudo nginx -t && sudo systemctl reload nginx\ncurl http://app.local/</code></pre>\n<p>これだけで「nginx経由でNode.jsアプリにアクセスする」基本構成が完成します。</p>\n\n<h2>必須のプロキシヘッダー</h2>\n<p>アプリがクライアントのIPアドレスや元のHost名を正しく認識するには、nginxからヘッダーを転送する必要があります。本番では以下を必ず設定しましょう。</p>\n<pre><code>server {\n    listen 80;\n    server_name app.local;\n\n    location / {\n        proxy_pass http://127.0.0.1:3000;\n\n        # クライアント情報をアプリに伝える\n        proxy_set_header Host $host;\n        proxy_set_header X-Real-IP $remote_addr;\n        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;\n        proxy_set_header X-Forwarded-Proto $scheme;\n\n        # タイムアウト（必要に応じて調整）\n        proxy_connect_timeout 60s;\n        proxy_read_timeout 60s;\n    }\n}</code></pre>\n<p>Express.jsでは <code>app.set('trust proxy', 1)</code> を設定すると、<code>X-Forwarded-For</code> からクライアントIPを取得できます。HTTPS化後は <code>X-Forwarded-Proto</code> で <code>https</code> かどうかを判定します。</p>\n\n<h2>静的ファイルとAPIの使い分け</h2>\n<p>本番構成では、静的ファイルはnginxが直接配信し、APIリクエストだけアプリに転送するパターンが一般的です。</p>\n<pre><code>server {\n    listen 80;\n    server_name app.local;\n\n    root /var/www/app/dist;\n    index index.html;\n\n    # 静的ファイル（フロントエンド）\n    location / {\n        try_files $uri $uri/ /index.html;\n    }\n\n    # APIリクエストをNode.jsへ\n    location /api/ {\n        proxy_pass http://127.0.0.1:3000;\n        proxy_set_header Host $host;\n        proxy_set_header X-Real-IP $remote_addr;\n        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;\n        proxy_set_header X-Forwarded-Proto $scheme;\n    }\n}</code></pre>\n<p>この構成なら、React/Vueのビルド成果物を <code>/var/www/app/dist</code> に置き、<code>/api/*</code> だけバックエンドに流せます。</p>\n\n<h2>upstreamによるロードバランシング</h2>\n<p>同じアプリを複数インスタンスで動かす場合、<code>upstream</code> ブロックでバックエンド群を定義します。</p>\n<pre><code># http コンテキスト内\n\nupstream node_backend {\n    # デフォルトはラウンドロビン（順番に振り分け）\n    server 127.0.0.1:3000;\n    server 127.0.0.1:3001;\n    server 127.0.0.1:3002;\n\n    # ヘルスチェック風の設定（nginx Plus以外は passive）\n    # server 127.0.0.1:3002 backup;  # 予備サーバー\n}\n\nserver {\n    listen 80;\n    server_name app.local;\n\n    location / {\n        proxy_pass http://node_backend;\n        proxy_set_header Host $host;\n        proxy_set_header X-Real-IP $remote_addr;\n    }\n}</code></pre>\n<p>Docker Composeで <code>app</code> サービスを <code>scale app=3</code> した場合も、upstreamに各コンテナのアドレスを登録して負荷分散できます。</p>\n\n<h2>proxy_passの末尾スラッシュに注意</h2>\n<p><code>proxy_pass</code> のURL末尾にスラッシュがあるかないかで、転送先パスが変わります。初心者がハマりやすいポイントなので注意しましょう。</p>\n<pre><code># リクエスト: GET /api/users\n# proxy_pass http://127.0.0.1:3000;     → /api/users を転送\n# proxy_pass http://127.0.0.1:3000/;    → /users を転送（/api が除去）\n\nlocation /api/ {\n    proxy_pass http://127.0.0.1:3000/;   # /api/ を剥がして転送\n}</code></pre>\n<p>アプリ側のルーティング（<code>/api/users</code> か <code>/users</code> か）と合わせて、意図通りになるよう調整してください。</p>\n\n<h2>WebSocketのプロキシ設定</h2>\n<p>チャットアプリやリアルタイム通知で使うWebSocketは、追加のヘッダー設定が必要です。</p>\n<pre><code>location /ws/ {\n    proxy_pass http://127.0.0.1:3000;\n    proxy_http_version 1.1;\n    proxy_set_header Upgrade $http_upgrade;\n    proxy_set_header Connection \"upgrade\";\n    proxy_set_header Host $host;\n    proxy_read_timeout 86400;\n}</code></pre>\n<p><code>Upgrade</code> と <code>Connection</code> ヘッダーにより、HTTP接続からWebSocketへのプロトコル切り替えがnginxを通過できます。</p>\n\n<h2>502 Bad Gatewayの原因と対処</h2>\n<p>リバースプロキシ設定で最もよく見るエラーが <strong>502 Bad Gateway</strong> です。nginxはリクエストを受け取れたが、バックエンドから正常なレスポンスが得られなかった状態です。</p>\n<pre><code># 原因調査コマンド\n\n# 1. バックエンドアプリが起動しているか\ncurl http://127.0.0.1:3000/\n\n# 2. nginxエラーログを確認\nsudo tail -20 /var/log/nginx/error.log\n\n# 3. SELinux/AppArmor（環境による）\n# proxy_pass先が127.0.0.1以外の場合は注意</code></pre>\n<p>よくある原因は「アプリが起動していない」「ポート番号の typo」「ファイアウォールでブロック」の3つです。</p>\n\n<h2>まとめ：リバースプロキシの基本</h2>\n<p>nginxのリバースプロキシは <code>proxy_pass</code> が核心です。Host・X-Real-IP・X-Forwarded-For・X-Forwarded-Proto の4ヘッダーを転送し、静的ファイルとAPIをlocationで使い分けるのが本番の定番パターンです。次回は、locationブロックのマッチングルールと高度なルーティングを深掘りします。</p>",
+  "conclusion": "nginxのリバースプロキシは proxy_pass でバックエンドアプリにリクエストを転送します。Host・X-Forwarded-For 等のヘッダー転送は必須で、静的ファイルはnginx直接配信・APIだけプロキシする構成が本番の定番です。502エラーはバックエンドの起動状態とnginx error.log で調査します。",
+  "tags": [
+    "nginx",
+    "リバースプロキシ",
+    "proxy_pass",
+    "Node.js",
+    "upstream",
+    "初心者"
+  ],
+  "category": "nginx",
+  "theme": "nginx - nginx入門",
+  "status": "published",
+  "createdAt": "2026-05-30T05:15:04.430Z",
+  "updatedAt": "2026-05-30T05:15:41.162Z",
+  "publishedAt": "2026-05-30T05:15:04.430Z",
+  "metaTitle": "nginxリバースプロキシ設定：proxy_pass完全入門【nginx 初心者】｜nginx入門 | StackSh…",
+  "metaDescription": "nginxのリバースプロキシ設定（proxy_pass）を初心者向けに解説。Node.js/Pythonアプリへの転送、ヘッダー設定、WebSocket対応まで設定例つき。",
+  "ogTitle": "nginxリバースプロキシの設定方法",
+  "ogDescription": "proxy_passを使ったnginxリバースプロキシ設定を初心者向けに解説。",
+  "knowledge": {
+    "topic": "nginx",
+    "courseId": "nginx",
+    "episode": 4
+  },
+  "faq": [
+    {
+      "question": "502 Bad Gateway が表示されます。",
+      "answer": "バックエンドアプリが起動しているか curl http://127.0.0.1:ポート/ で確認してください。proxy_pass のURL typo、ポート不一致、アプリのクラッシュが主な原因です。/var/log/nginx/error.log に connect() failed 等のメッセージが出ます。"
+    },
+    {
+      "question": "proxy_pass の末尾スラッシュの違いがよくわかりません。",
+      "answer": "location /api/ と proxy_pass http://backend/;（末尾スラッシュあり）の組み合わせでは、/api/ 部分が除去されて転送されます。/api/users → /users。アプリのルート設計と合わせて調整してください。"
+    },
+    {
+      "question": "nginxとアプリを別サーバーに置けますか？",
+      "answer": "はい。proxy_pass http://192.168.1.10:3000; のようにIP/ホスト名を指定します。セキュリティ上、バックエンドは外部公開せず、nginxからのみアクセスできるようファイアウォールを設定してください。"
+    },
+    {
+      "question": "リバースプロキシとフォワードプロキシの違いは？",
+      "answer": "リバースプロキシはサーバー側に立ち、クライアントからのリクエストをバックエンドに転送します。フォワードプロキシはクライアント側（社内プロキシ等）に立ち、インターネットへの出口になります。nginxは主にリバースプロキシとして使われます。"
+    },
+    {
+      "question": "Docker Composeでnginx+appの構成はどう書きますか？",
+      "answer": "docker-compose.yml で nginx と app サービスを定義し、nginx の proxy_pass を http://app:3000;（サービス名）に指定します。同一ネットワーク内なのでサービス名で名前解決できます。"
+    }
+  ],
+  "nextEpisodeHint": "次回は、locationブロックのマッチング優先順位（完全一致・正規表現・最長プレフィックス）と、複雑なURLルーティングの設計方法を学びます。",
+  "nextAction": "次はlocationブロックのマッチング優先順位（完全一致・正規表現・最長プレフィックス）と、複雑なURLルーティングの設計方法を学びます。",
+  "internalLinkCandidates": [
+    {
+      "slug": "nginx-practice",
+      "title": "実践：Node.jsアプリの前段にnginxを構築する【総合演習】",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "nginx-intro",
+      "title": "nginxとは？Apacheとの違いをわかりやすく解説【初心者向け】",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "nginx-logging",
+      "title": "nginxのログとトラブルシューティング入門【502/504エラー対処】",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "nginx-ssl",
+      "title": "nginxでSSL/TLS（HTTPS）を設定する方法【Let's Encrypt入門】",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "nginx-location",
+      "title": "nginxのlocationとルーティング【マッチング優先順位入門】",
+      "reason": "同じ講座の関連回です"
+    }
+  ],
+  "ogImage": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+  "canonical": "https://ai-site-iota-nine.vercel.app/article/nginx-reverse-proxy",
+  "jsonLd": {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@context": "https://schema.org",
+        "@type": "TechArticle",
+        "headline": "nginxリバースプロキシの設定方法【proxy_pass入門・初心者向け】",
+        "description": "【nginx初心者向け】nginxのリバースプロキシ設定（proxy_pass）を初心者向けに解説。Node.js/Pythonアプリへの転送、ヘッダー設定、WebSocket対応まで設定例つき。 図解・具体例つきで丁寧に解説します。",
+        "datePublished": "2026-05-30T05:15:04.430Z",
+        "dateModified": "2026-05-30T05:15:41.162Z",
+        "author": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
+        },
+        "image": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+        "inLanguage": "ja",
+        "wordCount": 3523,
+        "mainEntityOfPage": {
+          "@type": "WebPage",
+          "@id": "https://ai-site-iota-nine.vercel.app/article/nginx-reverse-proxy"
+        },
+        "keywords": "nginx, リバースプロキシ, proxy_pass, Node.js, upstream, 初心者",
+        "articleSection": "nginx",
+        "url": "https://ai-site-iota-nine.vercel.app/article/nginx-reverse-proxy",
+        "learningResourceType": "tutorial",
+        "educationalLevel": "beginner"
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "ホーム",
+            "item": "https://ai-site-iota-nine.vercel.app/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "nginx",
+            "item": "https://ai-site-iota-nine.vercel.app/knowledge/nginx"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "nginx入門",
+            "item": "https://ai-site-iota-nine.vercel.app/course/nginx/nginx"
+          },
+          {
+            "@type": "ListItem",
+            "position": 4,
+            "name": "nginxリバースプロキシの設定方法【proxy_pass入門・初心者向け】",
+            "item": "https://ai-site-iota-nine.vercel.app/article/nginx-reverse-proxy"
+          }
+        ]
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "Course",
+        "name": "nginx入門",
+        "description": "Webサーバー・リバースプロキシnginxを8ステップで習得。日本語の初心者向け解説が少ないテーマを、設定例つきで学びます。",
+        "provider": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app"
+        },
+        "url": "https://ai-site-iota-nine.vercel.app/course/nginx/nginx",
+        "inLanguage": "ja",
+        "educationalLevel": "beginner",
+        "hasCourseInstance": {
+          "@type": "CourseInstance",
+          "courseMode": "online",
+          "courseWorkload": "PT1H"
+        }
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "502 Bad Gateway が表示されます。",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "バックエンドアプリが起動しているか curl http://127.0.0.1:ポート/ で確認してください。proxy_pass のURL typo、ポート不一致、アプリのクラッシュが主な原因です。/var/log/nginx/error.log に connect() failed 等のメッセージが出ます。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "proxy_pass の末尾スラッシュの違いがよくわかりません。",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "location /api/ と proxy_pass http://backend/;（末尾スラッシュあり）の組み合わせでは、/api/ 部分が除去されて転送されます。/api/users → /users。アプリのルート設計と合わせて調整してください。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "nginxとアプリを別サーバーに置けますか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "はい。proxy_pass http://192.168.1.10:3000; のようにIP/ホスト名を指定します。セキュリティ上、バックエンドは外部公開せず、nginxからのみアクセスできるようファイアウォールを設定してください。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "リバースプロキシとフォワードプロキシの違いは？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "リバースプロキシはサーバー側に立ち、クライアントからのリクエストをバックエンドに転送します。フォワードプロキシはクライアント側（社内プロキシ等）に立ち、インターネットへの出口になります。nginxは主にリバースプロキシとして使われます。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Docker Composeでnginx+appの構成はどう書きますか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "docker-compose.yml で nginx と app サービスを定義し、nginx の proxy_pass を http://app:3000;（サービス名）に指定します。同一ネットワーク内なのでサービス名で名前解決できます。"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "breadcrumb": {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "ホーム",
+        "item": "https://ai-site-iota-nine.vercel.app/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "nginx",
+        "item": "https://ai-site-iota-nine.vercel.app/knowledge/nginx"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "nginx入門",
+        "item": "https://ai-site-iota-nine.vercel.app/course/nginx/nginx"
+      },
+      {
+        "@type": "ListItem",
+        "position": 4,
+        "name": "nginxリバースプロキシの設定方法【proxy_pass入門・初心者向け】",
+        "item": "https://ai-site-iota-nine.vercel.app/article/nginx-reverse-proxy"
+      }
+    ]
+  },
+  "courseSchema": {
+    "@context": "https://schema.org",
+    "@type": "Course",
+    "name": "nginx入門",
+    "description": "Webサーバー・リバースプロキシnginxを8ステップで習得。日本語の初心者向け解説が少ないテーマを、設定例つきで学びます。",
+    "provider": {
+      "@type": "Organization",
+      "name": "StackShelf",
+      "url": "https://ai-site-iota-nine.vercel.app"
+    },
+    "url": "https://ai-site-iota-nine.vercel.app/course/nginx/nginx",
+    "inLanguage": "ja",
+    "educationalLevel": "beginner",
+    "hasCourseInstance": {
+      "@type": "CourseInstance",
+      "courseMode": "online",
+      "courseWorkload": "PT1H"
+    }
+  },
+  "faqSchema": {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "502 Bad Gateway が表示されます。",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "バックエンドアプリが起動しているか curl http://127.0.0.1:ポート/ で確認してください。proxy_pass のURL typo、ポート不一致、アプリのクラッシュが主な原因です。/var/log/nginx/error.log に connect() failed 等のメッセージが出ます。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "proxy_pass の末尾スラッシュの違いがよくわかりません。",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "location /api/ と proxy_pass http://backend/;（末尾スラッシュあり）の組み合わせでは、/api/ 部分が除去されて転送されます。/api/users → /users。アプリのルート設計と合わせて調整してください。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "nginxとアプリを別サーバーに置けますか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "はい。proxy_pass http://192.168.1.10:3000; のようにIP/ホスト名を指定します。セキュリティ上、バックエンドは外部公開せず、nginxからのみアクセスできるようファイアウォールを設定してください。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "リバースプロキシとフォワードプロキシの違いは？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "リバースプロキシはサーバー側に立ち、クライアントからのリクエストをバックエンドに転送します。フォワードプロキシはクライアント側（社内プロキシ等）に立ち、インターネットへの出口になります。nginxは主にリバースプロキシとして使われます。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Docker Composeでnginx+appの構成はどう書きますか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "docker-compose.yml で nginx と app サービスを定義し、nginx の proxy_pass を http://app:3000;（サービス名）に指定します。同一ネットワーク内なのでサービス名で名前解決できます。"
+        }
+      }
+    ]
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "slug": "nginx-static-site",
+  "courseId": "nginx",
+  "episode": 3,
+  "summaryMemory": [
+    "静的サイトは root で公開ディレクトリを指定し try_files でファイルを探す",
+    "SPA配信は try_files $uri $uri/ /index.html; が定番",
+    "gzip on でHTML/CSS/JSの転送量を大幅削減",
+    "HTMLはno-cache、CSS/JS/画像は長期キャッシュが一般的"
+  ],
+  "nextEpisodeHint": "次回は、Node.jsやPythonアプリの前段にnginxを置くリバースプロキシ設定を、proxy_pass を使って実践的に学びます。",
+  "updatedAt": "2026-05-30T05:15:03.094Z"
+}

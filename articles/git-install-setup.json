@@ -2,9 +2,9 @@
   "id": "art_git_git-install-setup",
   "slug": "git-install-setup",
   "title": "Gitのインストールと初期設定：Windows・Mac対応の完全ガイド",
-  "summary": "WindowsとMacへのGitインストール方法と、git config による名前・メール・エディタの初期設定を手順ごとに丁寧に解説します。",
-  "body": "<h2>Gitをインストールする前に確認すること</h2>\n<p>インストール作業を始める前に、すでにGitが入っていないか確認しましょう。ターミナル（WindowsではコマンドプロンプトまたはPowerShell、MacではTerminal）を開いて次のコマンドを実行してください。</p>\n<pre><code>git --version</code></pre>\n<p><code>git version 2.xx.x</code> のように表示されれば、すでにインストール済みです。<code>command not found</code> や <code>'git' は認識されていません</code> のようなエラーが出た場合は、次の手順でインストールしてください。</p>\n\n<h2>WindowsへのGitインストール</h2>\n<p>Windowsには「Git for Windows」（通称：Git Bash）をインストールします。これをインストールすることで、LinuxやMacと同じコマンドがWindows上でも使えるようになります。</p>\n\n<h3>インストーラーのダウンロード</h3>\n<p>公式サイト（<strong>git-scm.com</strong>）にアクセスし、「Download for Windows」ボタンをクリックします。最新の64bit版インストーラーが自動的にダウンロードされます。</p>\n\n<h3>インストール時の設定ポイント</h3>\n<p>インストーラーを実行すると、いくつかの選択画面が表示されます。初心者の場合は基本的にデフォルト設定のまま進めて問題ありませんが、以下の2点だけ確認してください。</p>\n<ul>\n  <li><strong>デフォルトエディタの選択</strong>：初期値は「Vim」ですが、慣れていない場合は「Visual Studio Code」や「Notepad++」を選ぶと操作しやすくなります</li>\n  <li><strong>改行コードの設定</strong>：「Checkout Windows-style, commit Unix-style line endings」を選択するのが一般的です</li>\n</ul>\n<p>インストール完了後、「Git Bash」というアプリが使えるようになります。スタートメニューから「Git Bash」を検索して開いてみましょう。</p>\n<pre><code># Git Bashを開いてバージョン確認\ngit --version\n# 出力例: git version 2.44.0.windows.1</code></pre>\n\n<h2>MacへのGitインストール</h2>\n<p>Macには複数のインストール方法がありますが、パッケージマネージャー「Homebrew」を使う方法が最も管理しやすくおすすめです。</p>\n\n<h3>Homebrewを使ったインストール</h3>\n<p>まずHomebrewがインストールされているか確認します。</p>\n<pre><code>brew --version</code></pre>\n<p>Homebrewが入っていない場合は、公式サイト（<strong>brew.sh</strong>）のインストールコマンドを実行してください。Homebrewが使える状態になったら、次のコマンドでGitをインストールします。</p>\n<pre><code>brew install git</code></pre>\n<p>インストール後、ターミナルを再起動してバージョンを確認します。</p>\n<pre><code>git --version\n# 出力例: git version 2.44.0</code></pre>\n\n<h3>XcodeコマンドラインツールでのインストールGit</h3>\n<p>Homebrewを使いたくない場合は、次のコマンドを実行するとXcodeコマンドラインツールの一部としてGitがインストールされます。</p>\n<pre><code>xcode-select --install</code></pre>\n\n<h2>Gitの初期設定：git config</h2>\n<p>Gitをインストールしたら、最初に必ず行うべき初期設定があります。それが<strong>git config</strong>コマンドによる名前とメールアドレスの設定です。これらはコミットに自動的に記録され、「誰がこの変更を行ったか」を示す情報になります。</p>\n\n<h3>名前とメールアドレスの設定</h3>\n<p>以下のコマンドで設定します。<code>--global</code> オプションを付けることで、そのパソコン上のすべてのリポジトリに適用されます。</p>\n<pre><code># ユーザー名の設定（自分の名前を入力）\ngit config --global user.name \"Taro Yamada\"\n\n# メールアドレスの設定（GitHubで使うメールを推奨）\ngit config --global user.email \"taro@example.com\"</code></pre>\n<p>GitHubを使う場合は、GitHubに登録したメールアドレスと同じものを設定することをおすすめします。コミット情報がGitHubアカウントと正しく紐付けられます。</p>\n\n<h3>デフォルトブランチ名の設定</h3>\n<p>近年、Gitのデフォルトブランチ名が <code>master</code> から <code>main</code> に移行しつつあります。GitHubもデフォルトを <code>main</code> にしています。以下の設定で統一しておくと混乱が少なくなります。</p>\n<pre><code>git config --global init.defaultBranch main</code></pre>\n\n<h3>デフォルトエディタの設定</h3>\n<p>コミットメッセージを書くときに使うエディタを設定できます。VS Codeを使っている場合は次のように設定します。</p>\n<pre><code># VS Codeをデフォルトエディタに設定\ngit config --global core.editor \"code --wait\"</code></pre>\n<p><code>--wait</code> オプションにより、エディタを閉じるまでGitが待機するようになります。これがないとコミットメッセージが空のまま処理されてしまう場合があります。</p>\n\n<h2>設定内容の確認方法</h2>\n<p>設定した内容を確認するには、次のコマンドを使います。</p>\n<pre><code># すべての設定を一覧表示\ngit config --list\n\n# 特定の設定値だけ確認\ngit config user.name\ngit config user.email</code></pre>\n<p>設定ファイルはホームディレクトリの <code>.gitconfig</code> ファイルに保存されています。テキストエディタで直接開いて確認・編集することもできます。</p>\n<pre><code># .gitconfigファイルをVS Codeで開く\ncode ~/.gitconfig</code></pre>\n<p>中身はこのような形式になっています。</p>\n<pre><code>[user]\n\tname = Taro Yamada\n\temail = taro@example.com\n[core]\n\teditor = code --wait\n[init]\n\tdefaultBranch = main</code></pre>\n\n<h2>プロジェクトごとに設定を変える方法</h2>\n<p><code>--global</code> は全リポジトリ共通の設定ですが、特定のプロジェクトだけ別の設定にしたい場合は <code>--local</code> オプション（または省略）を使います。たとえば会社のプロジェクトでは会社のメールアドレスを使いたい場合などに便利です。</p>\n<pre><code># リポジトリのルートディレクトリで実行\ncd /path/to/your-project\ngit config --local user.email \"work@company.com\"</code></pre>\n<p>ローカル設定はグローバル設定より優先されます。設定は <code>.git/config</code> ファイルに保存されます。</p>\n\n<h2>設定完了の確認チェックリスト</h2>\n<p>以下のコマンドを実行して、すべて正しく設定されているか確認しましょう。</p>\n<pre><code>git --version       # Gitのバージョンが表示される\ngit config user.name     # 設定した名前が表示される\ngit config user.email    # 設定したメールが表示される\ngit config init.defaultBranch  # mainと表示される</code></pre>",
-  "conclusion": "GitのインストールとInitial設定はこれで完了です。Windowsでは「Git Bash」、Macでは「Terminal」を使って同じコマンドが動かせる環境が整いました。git configで設定した名前とメールアドレスは、これからのすべてのコミットに記録される大切な情報です。デフォルトブランチ名をmainに設定しておくことで、GitHubとの連携がスムーズになります。次のステップでは、実際にリポジトリを作成して、Gitの管理下にプロジェクトを置いていきます。",
+  "summary": "Gitのインストール（Windows/Mac）と git config による初期設定を解説。user.name・user.email、改行コード、設定確認方法まで、初回セットアップで必要な項目を整理します。",
+  "body": "<h2>結論：Gitを入れたら user.name と user.email の2設定が必須</h2>\n<p>Windows/Macどちらも公式インストーラでGitを入れ、ターミナルで <code>git --version</code> を確認します。その直後に<strong><code>git config --global user.name</code> と <code>user.email</code> を設定</strong>しないと、コミットの作者情報が空のまま残り、後からチーム開発で困ります。</p>\n\n<h2>Gitをインストールする前に確認すること</h2>\n<p>インストール作業を始める前に、すでにGitが入っていないか確認しましょう。ターミナル（WindowsではコマンドプロンプトまたはPowerShell、MacではTerminal）を開いて次のコマンドを実行してください。</p>\n<pre><code>git --version</code></pre>\n<p><code>git version 2.xx.x</code> のように表示されれば、すでにインストール済みです。<code>command not found</code> や <code>'git' は認識されていません</code> のようなエラーが出た場合は、次の手順でインストールしてください。</p>\n\n<h2>WindowsへのGitインストール</h2>\n<p>Windowsには「Git for Windows」（通称：Git Bash）をインストールします。これをインストールすることで、LinuxやMacと同じコマンドがWindows上でも使えるようになります。</p>\n\n<h3>インストーラーのダウンロード</h3>\n<p>公式サイト（<strong>git-scm.com</strong>）にアクセスし、「Download for Windows」ボタンをクリックします。最新の64bit版インストーラーが自動的にダウンロードされます。</p>\n\n<h3>インストール時の設定ポイント</h3>\n<p>インストーラーを実行すると、いくつかの選択画面が表示されます。初心者の場合は基本的にデフォルト設定のまま進めて問題ありませんが、以下の2点だけ確認してください。</p>\n<ul>\n  <li><strong>デフォルトエディタの選択</strong>：初期値は「Vim」ですが、慣れていない場合は「Visual Studio Code」や「Notepad++」を選ぶと操作しやすくなります</li>\n  <li><strong>改行コードの設定</strong>：「Checkout Windows-style, commit Unix-style line endings」を選択するのが一般的です</li>\n</ul>\n<p>インストール完了後、「Git Bash」というアプリが使えるようになります。スタートメニューから「Git Bash」を検索して開いてみましょう。</p>\n<pre><code># Git Bashを開いてバージョン確認\ngit --version\n# 出力例: git version 2.44.0.windows.1</code></pre>\n\n<h2>MacへのGitインストール</h2>\n<p>Macには複数のインストール方法がありますが、パッケージマネージャー「Homebrew」を使う方法が最も管理しやすくおすすめです。</p>\n\n<h3>Homebrewを使ったインストール</h3>\n<p>まずHomebrewがインストールされているか確認します。</p>\n<pre><code>brew --version</code></pre>\n<p>Homebrewが入っていない場合は、公式サイト（<strong>brew.sh</strong>）のインストールコマンドを実行してください。Homebrewが使える状態になったら、次のコマンドでGitをインストールします。</p>\n<pre><code>brew install git</code></pre>\n<p>インストール後、ターミナルを再起動してバージョンを確認します。</p>\n<pre><code>git --version\n# 出力例: git version 2.44.0</code></pre>\n\n<h3>XcodeコマンドラインツールでのインストールGit</h3>\n<p>Homebrewを使いたくない場合は、次のコマンドを実行するとXcodeコマンドラインツールの一部としてGitがインストールされます。</p>\n<pre><code>xcode-select --install</code></pre>\n\n<h2>Gitの初期設定：git config</h2>\n<p>Gitをインストールしたら、最初に必ず行うべき初期設定があります。それが<strong>git config</strong>コマンドによる名前とメールアドレスの設定です。これらはコミットに自動的に記録され、「誰がこの変更を行ったか」を示す情報になります。</p>\n\n<h3>名前とメールアドレスの設定</h3>\n<p>以下のコマンドで設定します。<code>--global</code> オプションを付けることで、そのパソコン上のすべてのリポジトリに適用されます。</p>\n<pre><code># ユーザー名の設定（自分の名前を入力）\ngit config --global user.name \"Taro Yamada\"\n\n# メールアドレスの設定（GitHubで使うメールを推奨）\ngit config --global user.email \"taro@example.com\"</code></pre>\n<p>GitHubを使う場合は、GitHubに登録したメールアドレスと同じものを設定することをおすすめします。コミット情報がGitHubアカウントと正しく紐付けられます。</p>\n\n<h3>デフォルトブランチ名の設定</h3>\n<p>近年、Gitのデフォルトブランチ名が <code>master</code> から <code>main</code> に移行しつつあります。GitHubもデフォルトを <code>main</code> にしています。以下の設定で統一しておくと混乱が少なくなります。</p>\n<pre><code>git config --global init.defaultBranch main</code></pre>\n\n<h3>デフォルトエディタの設定</h3>\n<p>コミットメッセージを書くときに使うエディタを設定できます。VS Codeを使っている場合は次のように設定します。</p>\n<pre><code># VS Codeをデフォルトエディタに設定\ngit config --global core.editor \"code --wait\"</code></pre>\n<p><code>--wait</code> オプションにより、エディタを閉じるまでGitが待機するようになります。これがないとコミットメッセージが空のまま処理されてしまう場合があります。</p>\n\n<h2>設定内容の確認方法</h2>\n<p>設定した内容を確認するには、次のコマンドを使います。</p>\n<pre><code># すべての設定を一覧表示\ngit config --list\n\n# 特定の設定値だけ確認\ngit config user.name\ngit config user.email</code></pre>\n<p>設定ファイルはホームディレクトリの <code>.gitconfig</code> ファイルに保存されています。テキストエディタで直接開いて確認・編集することもできます。</p>\n<pre><code># .gitconfigファイルをVS Codeで開く\ncode ~/.gitconfig</code></pre>\n<p>中身はこのような形式になっています。</p>\n<pre><code>[user]\n\tname = Taro Yamada\n\temail = taro@example.com\n[core]\n\teditor = code --wait\n[init]\n\tdefaultBranch = main</code></pre>\n\n<h2>プロジェクトごとに設定を変える方法</h2>\n<p><code>--global</code> は全リポジトリ共通の設定ですが、特定のプロジェクトだけ別の設定にしたい場合は <code>--local</code> オプション（または省略）を使います。たとえば会社のプロジェクトでは会社のメールアドレスを使いたい場合などに便利です。</p>\n<pre><code># リポジトリのルートディレクトリで実行\ncd /path/to/your-project\ngit config --local user.email \"work@company.com\"</code></pre>\n<p>ローカル設定はグローバル設定より優先されます。設定は <code>.git/config</code> ファイルに保存されます。</p>\n\n<h2>よくあるつまずきと失敗例</h2>\n<h3>初期設定で見落としがちな点</h3>\n<ul>\n<li><strong>user.email を未設定のままコミット</strong>：GitHub連携時にコミットがアカウントに紐づきません。インストール直後に必ず設定しましょう。</li>\n<li><strong>改行コードの差異（Windows）</strong>：<code>git config --global core.autocrlf true</code>（Windows）/ <code>input</code>（Mac）を設定しないと、チームで diff が荒れます。</li>\n<li><strong>Git BashとPowerShellのパス表記</strong>：Windowsでは <code>C:\\Users\\...</code> と <code>/c/Users/...</code> が混在しがちです。どちらかに統一すると混乱が減ります。</li>\n</ul>\n\n<h2>設定完了の確認チェックリスト</h2>\n<p>以下のコマンドを実行して、すべて正しく設定されているか確認しましょう。</p>\n<pre><code>git --version       # Gitのバージョンが表示される\ngit config user.name     # 設定した名前が表示される\ngit config user.email    # 設定したメールが表示される\ngit config init.defaultBranch  # mainと表示される</code></pre>",
+  "conclusion": "Gitインストール後は user.name と user.email を必ず設定し、Windowsは core.autocrlf も確認しましょう。設定が済んだら git init または git clone でリポジトリを用意します。",
   "tags": [
     "Git",
     "インストール",
@@ -17,12 +17,12 @@
   "theme": "git - Git & GitHub 入門",
   "status": "published",
   "createdAt": "2026-05-30T03:49:57.646Z",
-  "updatedAt": "2026-05-30T05:01:31.536Z",
+  "updatedAt": "2026-05-30T05:17:44.709Z",
   "publishedAt": "2026-05-30T03:49:57.646Z",
   "metaTitle": "Gitインストールと初期設定【Windows・Mac対応】git config完全ガイド | StackShelf",
-  "metaDescription": "GitをWindowsとMacにインストールする手順と、git configで行う名前・メール・エディタの初期設定をスクリーンショット付きで詳しく解説します。",
+  "metaDescription": "Gitのインストールと git config 初期設定。Windows/Mac手順、user.name・user.email、改行コード設定。Gitを初めて入れる人向け。",
   "ogTitle": "Gitインストールと初期設定【完全ガイド】",
-  "ogDescription": "WindowsとMac両対応。Gitのインストールからgit configの初期設定まで丁寧に解説。",
+  "ogDescription": "Gitのインストールと git config 初期設定。Windows/Mac手順、user.name・user.email、改行コード設定。Gitを初めて入れる人向け。",
   "knowledge": {
     "topic": "git",
     "courseId": "git",
@@ -42,12 +42,12 @@
       "answer": "Git Bashの使用を強くおすすめします。Git BashはLinux/Macと同じコマンド体系で動くため、インターネットの解説記事や書籍の通りにコマンドを実行できます。コマンドプロンプトでも動きますが、パス区切り文字など細かい差異が混乱の原因になることがあります。"
     },
     {
-      "question": "エラーが出たときはどうすればいいですか？",
-      "answer": "まずは表示されたメッセージをそのまま読み、git status で現在の状態を確認してください。多くの場合、Git が次に打つべきコマンドのヒントを出してくれます。"
+      "question": "つまずいたときはどうすればいいですか？",
+      "answer": "エラーメッセージをそのまま検索し、公式ドキュメントを当たってください。小さなステップに分けて再現・確認すると原因を特定しやすくなります。"
     },
     {
-      "question": "1人で学ぶ場合でもGitは必要ですか？",
-      "answer": "はい。個人開発でも変更履歴の管理・過去への復元・機能追加の試行錯誤にGitは役立ちます。チーム開発の前に習慣づけるのがおすすめです。"
+      "question": "読むだけでなく手を動かすべきですか？",
+      "answer": "はい。コマンドは実際に打って出力を確認してください。1回動かした経験が、記事を10回読むより定着しやすくなります。"
     }
   ],
   "nextEpisodeHint": "次回は、Gitリポジトリの作成方法（git init）とGitHubからのcloneを学びます。自分のプロジェクトフォルダをGitの管理下に置く最初のステップです。",
@@ -60,9 +60,9 @@
         "@context": "https://schema.org",
         "@type": "TechArticle",
         "headline": "Gitのインストールと初期設定：Windows・Mac対応の完全ガイド",
-        "description": "【Git初心者向け】GitをWindowsとMacにインストールする手順と、git configで行う名前・メール・エディタの初期設定をスクリーンショット付きで詳しく解説します。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
+        "description": "Gitのインストールと git config 初期設定。Windows/Mac手順、user.name・user.email、改行コード設定。Gitを初めて入れる人向け。",
         "datePublished": "2026-05-30T03:49:57.646Z",
-        "dateModified": "2026-05-30T05:01:31.536Z",
+        "dateModified": "2026-05-30T05:17:44.709Z",
         "author": {
           "@type": "Organization",
           "name": "StackShelf",
@@ -83,7 +83,7 @@
         },
         "image": "https://ai-site-iota-nine.vercel.app/og-default.svg",
         "inLanguage": "ja",
-        "wordCount": 2798,
+        "wordCount": 3246,
         "mainEntityOfPage": {
           "@type": "WebPage",
           "@id": "https://ai-site-iota-nine.vercel.app/article/git-install-setup"
@@ -173,18 +173,18 @@
           },
           {
             "@type": "Question",
-            "name": "エラーが出たときはどうすればいいですか？",
+            "name": "つまずいたときはどうすればいいですか？",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "まずは表示されたメッセージをそのまま読み、git status で現在の状態を確認してください。多くの場合、Git が次に打つべきコマンドのヒントを出してくれます。"
+              "text": "エラーメッセージをそのまま検索し、公式ドキュメントを当たってください。小さなステップに分けて再現・確認すると原因を特定しやすくなります。"
             }
           },
           {
             "@type": "Question",
-            "name": "1人で学ぶ場合でもGitは必要ですか？",
+            "name": "読むだけでなく手を動かすべきですか？",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "はい。個人開発でも変更履歴の管理・過去への復元・機能追加の試行錯誤にGitは役立ちます。チーム開発の前に習慣づけるのがおすすめです。"
+              "text": "はい。コマンドは実際に打って出力を確認してください。1回動かした経験が、記事を10回読むより定着しやすくなります。"
             }
           }
         ]
@@ -270,18 +270,18 @@
       },
       {
         "@type": "Question",
-        "name": "エラーが出たときはどうすればいいですか？",
+        "name": "つまずいたときはどうすればいいですか？",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "まずは表示されたメッセージをそのまま読み、git status で現在の状態を確認してください。多くの場合、Git が次に打つべきコマンドのヒントを出してくれます。"
+          "text": "エラーメッセージをそのまま検索し、公式ドキュメントを当たってください。小さなステップに分けて再現・確認すると原因を特定しやすくなります。"
         }
       },
       {
         "@type": "Question",
-        "name": "1人で学ぶ場合でもGitは必要ですか？",
+        "name": "読むだけでなく手を動かすべきですか？",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "はい。個人開発でも変更履歴の管理・過去への復元・機能追加の試行錯誤にGitは役立ちます。チーム開発の前に習慣づけるのがおすすめです。"
+          "text": "はい。コマンドは実際に打って出力を確認してください。1回動かした経験が、記事を10回読むより定着しやすくなります。"
         }
       }
     ]

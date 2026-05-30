@@ -1,0 +1,318 @@
+{
+  "id": "art_http_http-cookies-session",
+  "slug": "http-cookies-session",
+  "title": "Cookie・セッション・認証の基礎",
+  "summary": "Cookie、セッション、JWT認証の仕組みを解説します。Webアプリのログイン機能を理解するためのHTTP認証の基礎を学びましょう。",
+  "body": "<h2>HTTPはステートレス（状態を持たない）</h2>\n<p>HTTPは<strong>ステートレスプロトコル</strong>です。つまり、サーバーは前のリクエストの内容を覚えていません。1リクエスト1レスポンスのやり取りは独立しており、「この人はログイン済みか？」「カートに何を入れたか？」といった<strong>状態（State）</strong>をサーバーが自動的に保持することはありません。</p>\n<p>しかし、Webアプリでは「ログイン状態を維持する」「ショッピングカートを保持する」といった状態管理が不可欠です。この問題を解決するのが、<strong>Cookie</strong>と<strong>セッション</strong>、そして現代の<strong>JWT（JSON Web Token）</strong>認証です。</p>\n\n<h2>Cookieとは</h2>\n<p>Cookie（クッキー）とは、サーバーがクライアント（ブラウザ）に保存させる<strong>小さなテキストデータ</strong>です。サーバーはレスポンスの <code>Set-Cookie</code> ヘッダーでCookieを設定し、ブラウザは以降のリクエストで <code>Cookie</code> ヘッダーとして自動的に返送します。</p>\n<pre><code># サーバーがCookieを設定（レスポンス）\nHTTP/1.1 200 OK\nSet-Cookie: session_id=a1b2c3d4; Path=/; HttpOnly; Secure; SameSite=Lax\n\n# ブラウザがCookieを返送（次回以降のリクエスト）\nGET /dashboard HTTP/1.1\nHost: example.com\nCookie: session_id=a1b2c3d4</code></pre>\n<p>Cookieの主な用途：</p>\n<ul>\n  <li><strong>セッション管理</strong>：ログイン状態の維持</li>\n  <li><strong>ユーザー設定</strong>：テーマ（ダークモード）、言語設定</li>\n  <li><strong>トラッキング</strong>：アクセス解析（Google Analytics等）</li>\n  <li><strong>CSRF対策</strong>：CSRFトークンの保存</li>\n</ul>\n\n<h2>Cookie属性とセキュリティ</h2>\n<p>Cookieには重要な属性があり、設定を誤るとセキュリティリスクになります。</p>\n<pre><code>Set-Cookie: session_id=abc123; Path=/; HttpOnly; Secure; SameSite=Lax; Max-Age=3600</code></pre>\n<ul>\n  <li><strong>HttpOnly</strong>：JavaScriptの <code>document.cookie</code> からアクセス不可。XSS攻撃でCookieを盗まれるのを防ぐ。セッションCookieには必須</li>\n  <li><strong>Secure</strong>：HTTPS通信でのみCookieを送信。HTTP通信での傍受を防ぐ</li>\n  <li><strong>SameSite</strong>：CSRF攻撃対策。<code>Strict</code>（完全禁止）、<code>Lax</code>（GETリンクのみ許可）、<code>None</code>（許可、Secure必須）</li>\n  <li><strong>Path</strong>：Cookieが有効なURLパス。<code>/</code> なら全ページ</li>\n  <li><strong>Max-Age / Expires</strong>：有効期限。セッションCookie（ブラウザを閉じると削除）はMax-Ageを設定しない</li>\n</ul>\n<p>第6回で学ぶHTTPSと組み合わせることで、Cookie通信の安全性が大幅に向上します。</p>\n\n<h2>セッション認証の仕組み</h2>\n<p><strong>セッション認証</strong>は、Cookie + サーバー側のセッションストアを組み合わせた認証方式です。ログインの流れを見てみましょう。</p>\n<ol>\n  <li>ユーザーがID/パスワードをPOSTで送信</li>\n  <li>サーバーが認証情報を検証（<a href=\"/articles/sql-intro\">SQL</a>でDBからユーザー情報を取得）</li>\n  <li>認証成功 → サーバーがセッションIDを生成し、サーバー側ストア（メモリ/Redis/DB）にユーザー情報を保存</li>\n  <li>レスポンスのSet-CookieでセッションIDをブラウザに渡す</li>\n  <li>以降のリクエストでブラウザがCookieとしてセッションIDを自動送信</li>\n  <li>サーバーがセッションIDでストアを検索し、ユーザーを特定</li>\n</ol>\n<pre><code># ログインリクエスト\nPOST /login HTTP/1.1\nContent-Type: application/x-www-form-urlencoded\n\nemail=tanaka@example.com&amp;password=secret123\n\n# ログイン成功レスポンス\nHTTP/1.1 200 OK\nSet-Cookie: session_id=sess_xyz789; HttpOnly; Secure; SameSite=Lax\n\n# 以降の認証が必要なリクエスト\nGET /api/profile HTTP/1.1\nCookie: session_id=sess_xyz789</code></pre>\n<p>セッション認証のメリットは、サーバー側でセッションを無効化（ログアウト・強制切断）できることです。デメリットは、サーバー側にセッションストアが必要で、スケールアウト（複数サーバー）時にセッション共有が課題になることです。</p>\n\n<h2>JWT（JSON Web Token）認証</h2>\n<p><strong>JWT</strong>は、認証情報をトークン自体に含める方式で、サーバー側のセッションストアが不要です。現代のSPA（Single Page Application）やモバイルアプリAPIで主流となっています。</p>\n<p>JWTは3つの部分をドット（.）で連結した文字列です。</p>\n<pre><code>eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.\neyJ1c2VyX2lkIjo0Miwicm9sZSI6InVzZXIiLCJleHAiOjE3MDAwMDAwMDB9.\nSflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c\n\n# 構造：ヘッダー.ペイロード.署名\n# ヘッダー：アルゴリズム情報（Base64）\n# ペイロード：ユーザーID、ロール、有効期限等（Base64、暗号化ではない！）\n# 署名：改ざん検知用（サーバーの秘密鍵で生成）</code></pre>\n<p>JWT認証の流れ：</p>\n<ol>\n  <li>ユーザーがID/パスワードをPOSTで送信</li>\n  <li>サーバーが認証成功 → JWTを生成してレスポンスボディで返す</li>\n  <li>クライアントがJWTを保存（localStorage、sessionStorage、またはメモリ）</li>\n  <li>以降のリクエストで <code>Authorization: Bearer &lt;JWT&gt;</code> ヘッダーを付けて送信</li>\n  <li>サーバーがJWTの署名を検証し、ペイロードからユーザー情報を取得（DBアクセス不要）</li>\n</ol>\n<p>JWTの注意点：ペイロードはBase64エンコードされているだけで<strong>暗号化されていません</strong>。パスワード等の機密情報はJWTに含めないでください。有効期限（exp）を短く設定し、リフレッシュトークンで更新する設計が一般的です。</p>\n\n<h2>Cookie認証 vs JWT認証</h2>\n<p>どちらを選ぶかはアーキテクチャ次第です。</p>\n<table>\n  <tr><th>観点</th><th>Cookie + セッション</th><th>JWT（Bearer Token）</th></tr>\n  <tr><td>状態管理</td><td>サーバー側（ステートフル）</td><td>クライアント側（ステートレス）</td></tr>\n  <tr><td>スケール</td><td>セッション共有が必要</td><td>サーバー間共有不要</td></tr>\n  <tr><td>無効化</td><td>サーバーで即座に可能</td><td>有効期限まで無効化困難</td></tr>\n  <tr><td>向いている用途</td><td>従来型Webアプリ（SSR）</td><td>SPA、モバイルAPI、マイクロサービス</td></tr>\n  <tr><td>CSRF</td><td>SameSite/CSRFトークンで対策必要</td><td>CSRFリスク低（Cookie不使用）</td></tr>\n  <tr><td>XSS</td><td>HttpOnlyでCookie保護</td><td>localStorage保存はXSSで盗まれるリスク</td></tr>\n</table>\n\n<h2>Basic認証</h2>\n<p><strong>Basic認証</strong>は最もシンプルなHTTP認証方式です。ユーザー名とパスワードをコロンで連結し、Base64エンコードしてAuthorizationヘッダーに載せます。</p>\n<pre><code>Authorization: Basic dGFuY2thOnBhc3N3b3Jk\n# dGFuY2thOnBhc3N3b3Jk = Base64(\"tanaka:password\")</code></pre>\n<p>Base64は暗号化ではなくエンコードなので、HTTPSなしでは平文同然です。開発環境の簡易保護や、APIドキュメント（Swagger UI）のアクセス制限程度の用途に留め、本番のユーザー認証にはCookie/JWTを使いましょう。</p>\n\n<h2>OAuth 2.0とソーシャルログイン</h2>\n<p>「Googleでログイン」「GitHubでログイン」は<strong>OAuth 2.0</strong>という認可フレームワークを使っています。OAuth 2.0自体は認証プロトコルではなく「認可（権限委譲）」の仕組みですが、OpenID Connect（OIDC）と組み合わせることでソーシャルログインが実現します。</p>\n<p>OAuth 2.0の流れ（Authorization Code Flow）：</p>\n<ol>\n  <li>アプリがユーザーをGoogle等の認可サーバーにリダイレクト</li>\n  <li>ユーザーがGoogleでログイン・許可</li>\n  <li>認可サーバーがアプリにAuthorization Codeを返す</li>\n  <li>アプリがCodeをAccess Tokenに交換</li>\n  <li>Access TokenでGoogle API（ユーザー情報取得等）を呼び出す</li>\n</ol>\n<p>OAuth 2.0の詳細は本コースの範囲外ですが、「外部サービスの認証を借りる仕組み」という概念を頭に入れておきましょう。</p>\n\n<h2>認証エラーの対処</h2>\n<p>認証関連でよく見るHTTPステータスコード：</p>\n<ul>\n  <li><strong>401 Unauthorized</strong>：トークンなし・無効・期限切れ → 再ログイン</li>\n  <li><strong>403 Forbidden</strong>：認証済みだが権限不足 → 権限エラー表示</li>\n</ul>\n<p>デバッグのポイント：DevToolsのApplicationタブでCookieを確認、NetworkタブでAuthorizationヘッダーの有無を確認、JWTの場合は <a href=\"https://jwt.io\">jwt.io</a> でペイロードをデコードして有効期限（exp）を確認します。</p>\n\n<h2>まとめ：認証方式は用途で選ぶ</h2>\n<p>HTTPはステートレスですが、Cookie・セッション・JWTにより状態を維持できます。従来型WebアプリにはCookie+セッション、SPA/モバイルAPIにはJWT、開発環境の簡易保護にはBasic認証が向いています。いずれの方式もHTTPS（第6回）との組み合わせが必須です。次回はHTTPSとTLSの仕組みを学びます。</p>",
+  "conclusion": "HTTPはステートレスですが、Cookie+セッションまたはJWTでログイン状態を維持できます。Cookie+セッションはサーバー側で状態管理・即座の無効化が可能。JWTはステートレスでスケールしやすいが無効化が困難。いずれもHTTPS必須。401=未認証、403=権限不足。",
+  "tags": [
+    "HTTP",
+    "Cookie",
+    "セッション",
+    "JWT",
+    "認証",
+    "ログイン",
+    "セキュリティ"
+  ],
+  "category": "HTTP",
+  "theme": "http - HTTP・Web API入門",
+  "status": "published",
+  "createdAt": "2026-05-30T05:14:37.527Z",
+  "updatedAt": "2026-05-30T05:15:43.698Z",
+  "publishedAt": "2026-05-30T05:14:37.527Z",
+  "metaTitle": "Cookie・セッション・JWT認証の基礎【HTTP入門 第5回】｜HTTP入門 | StackShelf",
+  "metaDescription": "Cookie、セッションID、JWT（JSON Web Token）の仕組みを具体例で解説。Webアプリのログイン・認証の基礎を初心者向けにわかりやすく説明します。",
+  "ogTitle": "Cookie・セッション・認証の基礎",
+  "ogDescription": "HTTP認証の3方式——Cookie+セッション、JWT、Basic認証——を具体例で解説します。",
+  "knowledge": {
+    "topic": "http",
+    "courseId": "http",
+    "episode": 5
+  },
+  "faq": [
+    {
+      "question": "JWTをlocalStorageに保存するのは安全ですか？",
+      "answer": "XSS（クロスサイトスクリプティング）攻撃でlocalStorageのJWTが盗まれるリスクがあります。HttpOnly CookieにJWTを保存する方式（BFF パターン）や、メモリ上のみ保持する方式がより安全です。localStorageは利便性とのトレードオフです。"
+    },
+    {
+      "question": "セッションCookieとJWT、どちらが初心者向きですか？",
+      "answer": "Cookie+セッションの方が概念が直感的で、Flask/Django/Railsなどのフレームワークが標準サポートしています。SPA開発やAPI連携を学ぶならJWTも並行して理解しておくと良いでしょう。"
+    },
+    {
+      "question": "ログアウト時にJWTはどう無効化しますか？",
+      "answer": "JWTは有効期限までサーバー側で無効化できません。対策として①有効期限を短く（15分等）設定しリフレッシュトークンで更新、②JWTブラックリスト（Redis等）を運用、③Cookie+セッション方式を使う、のいずれかを選びます。"
+    },
+    {
+      "question": "SameSite=LaxとStrictの使い分けは？",
+      "answer": "Strictは外部サイトからのリンククリックでもCookieを送らない（最も安全）。LaxはGETリンク（<a>タグ）からの遷移ではCookieを送る（一般的なWebアプリ向け）。決済サイト等はStrict、通常のWebアプリはLaxが推奨です。"
+    },
+    {
+      "question": "Cookieは何件まで保存できますか？",
+      "answer": "ブラウザごとに異なりますが、一般的に1ドメインあたり50〜150個、1Cookieあたり4KB程度が目安です。大量のCookieはリクエストヘッダーを肥大化させるため、必要最小限に留めましょう。"
+    }
+  ],
+  "nextEpisodeHint": "次回は、HTTPSとTLS（Transport Layer Security）の仕組みを解説します。なぜ暗号化が必要か、HTTPとHTTPSの違いを学びましょう。",
+  "nextAction": "次回はHTTPSとTLS（Transport Layer Security）の仕組みを解説します。CookieやJWTを安全に送るために不可欠な暗号化通信の基礎を学びましょう。",
+  "internalLinkCandidates": [
+    {
+      "slug": "http-https-tls",
+      "title": "HTTPSとTLSの仕組み",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "http-practice",
+      "title": "実践：公開APIを叩いてみる",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "http-debugging",
+      "title": "CORS・エラー・デバッグ",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "http-fetch-tools",
+      "title": "curlとDevToolsでAPIを試す",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "http-rest-api",
+      "title": "REST APIの設計原則",
+      "reason": "同じ講座の関連回です"
+    }
+  ],
+  "ogImage": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+  "canonical": "https://ai-site-iota-nine.vercel.app/article/http-cookies-session",
+  "jsonLd": {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@context": "https://schema.org",
+        "@type": "TechArticle",
+        "headline": "Cookie・セッション・認証の基礎",
+        "description": "【HTTP初心者向け】Cookie、セッションID、JWT（JSON Web Token）の仕組みを具体例で解説。Webアプリのログイン・認証の基礎を初心者向けにわかりやすく説明します。 図解・具体例つきで丁寧に解説します。",
+        "datePublished": "2026-05-30T05:14:37.527Z",
+        "dateModified": "2026-05-30T05:15:43.698Z",
+        "author": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
+        },
+        "image": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+        "inLanguage": "ja",
+        "wordCount": 3838,
+        "mainEntityOfPage": {
+          "@type": "WebPage",
+          "@id": "https://ai-site-iota-nine.vercel.app/article/http-cookies-session"
+        },
+        "keywords": "HTTP, Cookie, セッション, JWT, 認証, ログイン, セキュリティ",
+        "articleSection": "HTTP",
+        "url": "https://ai-site-iota-nine.vercel.app/article/http-cookies-session",
+        "learningResourceType": "tutorial",
+        "educationalLevel": "beginner"
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "ホーム",
+            "item": "https://ai-site-iota-nine.vercel.app/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "http",
+            "item": "https://ai-site-iota-nine.vercel.app/knowledge/http"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "HTTP・Web API入門",
+            "item": "https://ai-site-iota-nine.vercel.app/course/http/http"
+          },
+          {
+            "@type": "ListItem",
+            "position": 4,
+            "name": "Cookie・セッション・認証の基礎",
+            "item": "https://ai-site-iota-nine.vercel.app/article/http-cookies-session"
+          }
+        ]
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "Course",
+        "name": "HTTP・Web API入門",
+        "description": "ブラウザとサーバーの通信、REST API、HTTPSを10ステップで理解。バックエンド学習の前提となるHTTPを具体例で学びます。",
+        "provider": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app"
+        },
+        "url": "https://ai-site-iota-nine.vercel.app/course/http/http",
+        "inLanguage": "ja",
+        "educationalLevel": "beginner",
+        "hasCourseInstance": {
+          "@type": "CourseInstance",
+          "courseMode": "online",
+          "courseWorkload": "PT1H"
+        }
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "JWTをlocalStorageに保存するのは安全ですか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "XSS（クロスサイトスクリプティング）攻撃でlocalStorageのJWTが盗まれるリスクがあります。HttpOnly CookieにJWTを保存する方式（BFF パターン）や、メモリ上のみ保持する方式がより安全です。localStorageは利便性とのトレードオフです。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "セッションCookieとJWT、どちらが初心者向きですか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Cookie+セッションの方が概念が直感的で、Flask/Django/Railsなどのフレームワークが標準サポートしています。SPA開発やAPI連携を学ぶならJWTも並行して理解しておくと良いでしょう。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "ログアウト時にJWTはどう無効化しますか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "JWTは有効期限までサーバー側で無効化できません。対策として①有効期限を短く（15分等）設定しリフレッシュトークンで更新、②JWTブラックリスト（Redis等）を運用、③Cookie+セッション方式を使う、のいずれかを選びます。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "SameSite=LaxとStrictの使い分けは？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Strictは外部サイトからのリンククリックでもCookieを送らない（最も安全）。LaxはGETリンク（<a>タグ）からの遷移ではCookieを送る（一般的なWebアプリ向け）。決済サイト等はStrict、通常のWebアプリはLaxが推奨です。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Cookieは何件まで保存できますか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "ブラウザごとに異なりますが、一般的に1ドメインあたり50〜150個、1Cookieあたり4KB程度が目安です。大量のCookieはリクエストヘッダーを肥大化させるため、必要最小限に留めましょう。"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "breadcrumb": {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "ホーム",
+        "item": "https://ai-site-iota-nine.vercel.app/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "http",
+        "item": "https://ai-site-iota-nine.vercel.app/knowledge/http"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "HTTP・Web API入門",
+        "item": "https://ai-site-iota-nine.vercel.app/course/http/http"
+      },
+      {
+        "@type": "ListItem",
+        "position": 4,
+        "name": "Cookie・セッション・認証の基礎",
+        "item": "https://ai-site-iota-nine.vercel.app/article/http-cookies-session"
+      }
+    ]
+  },
+  "courseSchema": {
+    "@context": "https://schema.org",
+    "@type": "Course",
+    "name": "HTTP・Web API入門",
+    "description": "ブラウザとサーバーの通信、REST API、HTTPSを10ステップで理解。バックエンド学習の前提となるHTTPを具体例で学びます。",
+    "provider": {
+      "@type": "Organization",
+      "name": "StackShelf",
+      "url": "https://ai-site-iota-nine.vercel.app"
+    },
+    "url": "https://ai-site-iota-nine.vercel.app/course/http/http",
+    "inLanguage": "ja",
+    "educationalLevel": "beginner",
+    "hasCourseInstance": {
+      "@type": "CourseInstance",
+      "courseMode": "online",
+      "courseWorkload": "PT1H"
+    }
+  },
+  "faqSchema": {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "JWTをlocalStorageに保存するのは安全ですか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "XSS（クロスサイトスクリプティング）攻撃でlocalStorageのJWTが盗まれるリスクがあります。HttpOnly CookieにJWTを保存する方式（BFF パターン）や、メモリ上のみ保持する方式がより安全です。localStorageは利便性とのトレードオフです。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "セッションCookieとJWT、どちらが初心者向きですか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Cookie+セッションの方が概念が直感的で、Flask/Django/Railsなどのフレームワークが標準サポートしています。SPA開発やAPI連携を学ぶならJWTも並行して理解しておくと良いでしょう。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "ログアウト時にJWTはどう無効化しますか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "JWTは有効期限までサーバー側で無効化できません。対策として①有効期限を短く（15分等）設定しリフレッシュトークンで更新、②JWTブラックリスト（Redis等）を運用、③Cookie+セッション方式を使う、のいずれかを選びます。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "SameSite=LaxとStrictの使い分けは？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Strictは外部サイトからのリンククリックでもCookieを送らない（最も安全）。LaxはGETリンク（<a>タグ）からの遷移ではCookieを送る（一般的なWebアプリ向け）。決済サイト等はStrict、通常のWebアプリはLaxが推奨です。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Cookieは何件まで保存できますか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "ブラウザごとに異なりますが、一般的に1ドメインあたり50〜150個、1Cookieあたり4KB程度が目安です。大量のCookieはリクエストヘッダーを肥大化させるため、必要最小限に留めましょう。"
+        }
+      }
+    ]
+  }
+}

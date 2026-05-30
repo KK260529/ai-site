@@ -1,0 +1,18 @@
+{
+  "シェル": {
+    "definition": "コマンドを解釈・実行するプログラム",
+    "aliases": [
+      "bash"
+    ]
+  },
+  "shebang": {
+    "definition": "スクリプト先頭 #!/bin/bash でインタプリタを指定",
+    "aliases": [
+      "シャバン"
+    ]
+  },
+  "cron": {
+    "definition": "Unix系OSの定期実行スケジューラ",
+    "aliases": []
+  }
+}

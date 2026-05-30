@@ -1,0 +1,317 @@
+{
+  "id": "art_regex_regex-practice",
+  "slug": "regex-practice",
+  "title": "実践：ログとフォーム検証｜正規表現コース総まとめ【入門】",
+  "summary": "ログ解析とフォーム検証を題材に、正規表現の実践パターン、テストの書き方、保守のコツ、次の学習ステップを総まとめします。",
+  "body": "<h2>コースの振り返り</h2>\n<p>ここまでに、リテラルとメタ文字、文字クラス、量詞、アンカー、グループ、先読み、JavaScript API、grep とエディタ——正規表現の<strong>部品</strong>を揃えてきました。最終回では、<strong>ログ解析</strong>と<strong>フォーム検証</strong>の2テーマで、それらをどう組み合わせるかを実践的にまとめます。</p>\n<p>正規表現は「1行で何でもできる魔法」ではなく、<strong>テキストのどこを・何回・どの条件で</strong>探すかを設計する道具です。設計図として小さく書き、テストで確認する習慣が、上級者と初心者の差を生みます。</p>\n\n<h2>実践1：アクセスログの解析</h2>\n<p>典型的なアクセスログの1行（形式はサーバーにより異なります）から、ステータスコードやIPを抜く例です。</p>\n<pre><code># 行全体が 5xx エラー（行頭からステータスが 5xx のパターン・簡易）\ngrep -E '^[^ ]+ [^ ]+ [^ ]+ .*\" [5][0-9]{2} ' access.log\n\n# JavaScript でステータスだけ抽出（キャプチャ例）\nconst line = '192.0.2.1 - - [30/May/2026:10:00:00 +0900] \"GET /api HTTP/1.1\" 500 123';\nconst m = line.match(/\" ([0-9]{3}) /);\nconsole.log(m && m[1]);  // 500</code></pre>\n<p>ログ形式が決まっていないときは、まず <code>head</code> で数行を見て、<strong>固定文字（スペース、引用符）</strong>を頼りにパターンを組み立てます。いきなり複雑な1行を書かず、段階的に grep で絞るのが安全です。</p>\n\n<h2>実践2：アプリケーションログの ERROR 抽出</h2>\n<pre><code># 行頭が ERROR の行\ngrep \"^ERROR\" app.log\n\n# ERROR または WARN（拡張）\ngrep -E \"^(ERROR|WARN)\" app.log\n\n# 特定 trace_id を含む ERROR\ngrep \"^ERROR\" app.log | grep \"trace_id=abc-123\"</code></pre>\n<p>障害対応では「件数」を先に把握します。<code>| wc -l</code> で行数を数え、急増の有無を確認してから中身を読むと効率的です。</p>\n\n<h2>実践3：フォーム検証パターン</h2>\n<p>以下は<strong>学習用の簡易例</strong>です。本番では国・サービスごとの仕様に合わせて調整し、サーバー側でも必ず検証してください。</p>\n<pre><code>// 郵便番号（7桁・ハイフンなし）日本\nconst zip = /^[0-9]{7}$/;\n\n// 電話（10〜11桁・ハイフンなし簡易）\nconst phone = /^0[0-9]{9,10}$/;\n\n// パスワード（8文字以上、英字と数字を含む）\nconst pwd = /^(?=.*[A-Za-z])(?=.*[0-9]).{8,}$/;\n\n// ユーザー名（英字始まり3〜16文字）\nconst user = /^[a-zA-Z][a-zA-Z0-9_]{2,15}$/;</code></pre>\n<p>HTML では <code>pattern</code> 属性と <code>title</code> でヒントを表示し、JavaScript の <code>test()</code> で送信前チェック、API 側で同じルールを再検証する——<strong>三重の防御</strong>が理想です。</p>\n\n<h2>テストケースの作り方</h2>\n<p>正規表現には、<strong>マッチしてほしい例</strong>と<strong>マッチしてほしくない例</strong>の両方を用意します。</p>\n<ul>\n  <li>正常系：典型的な入力、境界値（最小・最大長）</li>\n  <li>異常系：空文字、記号のみ、部分一致しそうな紛らわしい文字列</li>\n  <li>セキュリティ：超長文字列、SQLっぽい文字列（正規表現以外でも防御）</li>\n</ul>\n<pre><code>const cases = [\n  { s: \"1234567\", ok: true },\n  { s: \"123-4567\", ok: false },\n  { s: \"123456\", ok: false },\n];\ncases.forEach(({ s, ok }) =&gt; console.assert(zip.test(s) === ok, s));</code></pre>\n<p>regex101 やユニットテストフレームワークにケースを登録しておくと、パターン変更時の退行を防げます。</p>\n\n<h2>よくある失敗と対策</h2>\n<p><strong>部分マッチで検証が通る</strong> → <code>^</code> <code>$</code> を付ける。</p>\n<p><strong>.* で全部飲む</strong> → 文字クラスで限定、非貪欲 <code>*?</code> を検討。</p>\n<p><strong>メール・URLを1行で完璧に</strong> → 専用ライブラリやサービスを併用。</p>\n<p><strong>コピペしたパターンが動かない</strong> → ツールの方言（grep / JS / Python）を確認。</p>\n<p><strong>読めない巨大パターン</strong> → コメント・分割・名前付きグループ・通常コードへの移行。</p>\n\n<h2>次の学習ステップ</h2>\n<ul>\n  <li><strong>言語別の re / RegExp</strong> — Python や JavaScript で置換・分割まで一通り</li>\n  <li><strong>HTTP・API</strong> — ログの先の Web 通信を理解する</li>\n  <li><strong>Bash</strong> — grep をスクリプトに組み込み自動化</li>\n  <li><strong>セキュリティ</strong> — 入力検証全体（正規表現は一部）</li>\n</ul>\n<p>正規表現は、Linux のログ調査、Git で管理するコードのリファクタ、Web フォームの UX を支える<strong>横断スキル</strong>です。日常のテキスト作業で意識的に使うほど、自然と腕が上がります。</p>\n\n<h2>ミニ課題：自分の環境で試す</h2>\n<p>（1）手元のテキストファイルかサンプルログを1つ用意する。（2）grep で ERROR を含む行を数える。（3）エディタの正規表現検索で、数字列を <code>$1</code> 付きの置換で別形式に変える。（4）ブラウザのコンソールで <code>/^\\d{7}$/.test(\"1234567\")</code> を実行する——この4ステップができれば、コースの内容を実務に接続できています。</p>\n<p>うまくいかないときは、ep02 のエスケープ、ep05 のアンカー、ep09 の方言の違いを振り返ってください。正規表現は一度で完璧に書けなくて当然です。テスターと小さなテストケースを味方につけて、繰り返し調整するプロセスが本体です。</p>\n<p>コース修了後は、HTTP入門で API ログの文脈を深めたり、Markdown入門でドキュメント内のパターン検索を試したり、SQL入門の LIKE と正規表現の違いを比較したりするのもよい発展です。正規表現は単独の特技ではなく、開発全体を速くする基盤スキルとして使い続けてください。</p>\n\n<h2>まとめ：小さく書いて、テストして、段階的に絞る</h2>\n<p>ログでは grep とパイプで粗く絞りから精査し、フォームでは ^ $ と先読みで全体ルールを表現します。どちらも「動いたから終わり」ではなく、テストケースと本番の二重検証をセットにしましょう。このコースで学んだ部品を、あなたのプロジェクトのテキストに当てはめて試すことが、最後の—and 最初の—実践です。</p>",
+  "conclusion": "ログ解析では grep と段階的な絞り込み、フォーム検証では ^ $ と先読みを使った全体チェックが基本です。簡易パターンは学習用と割り切り、本番ではテストケースとサーバー側検証を必須にします。正規表現は横断スキルとして、HTTP・Bash・セキュリティと組み合わせて伸ばしていきましょう。",
+  "tags": [
+    "正規表現",
+    "実践",
+    "ログ",
+    "バリデーション",
+    "regex",
+    "まとめ"
+  ],
+  "category": "正規表現",
+  "theme": "regex - 正規表現入門",
+  "status": "published",
+  "createdAt": "2026-05-30T05:14:31.187Z",
+  "updatedAt": "2026-05-30T05:15:44.172Z",
+  "publishedAt": "2026-05-30T05:14:31.187Z",
+  "metaTitle": "正規表現 実践 | ログ解析・フォーム検証まとめ",
+  "metaDescription": "正規表現入門の総仕上げ。ログ解析・フォーム検証の実践例、テストケース、よくある失敗と次のステップを初心者向けに解説します。",
+  "ogTitle": "実践：ログとフォーム検証",
+  "ogDescription": "正規表現コースの総まとめ。ログとフォーム検証の実践パターンを学びます。",
+  "knowledge": {
+    "topic": "regex",
+    "courseId": "regex",
+    "episode": 10
+  },
+  "faq": [
+    {
+      "question": "ログ形式がバラバラなときは？",
+      "answer": "まず数行を目視し、区切り文字を固定して小さなパターンを試します。JSON ログなら jq など構造化ツールの方が向く場合もあります。"
+    },
+    {
+      "question": "簡易の郵便番号パターンを本番で使えますか？",
+      "answer": "学習用としては有効ですが、新しい郵便番号やハイフン付き入力など仕様変更に弱いです。要件に合わせて見直し、サーバー側でも検証してください。"
+    },
+    {
+      "question": "正規表現のテストはどこで自動化しますか？",
+      "answer": "Jest、pytest、regex101 のテストリスト、社内のスナップショットなど。プロジェクトのCIに数例でも入れると安心です。"
+    },
+    {
+      "question": "このコースの次に何を学ぶべきですか？",
+      "answer": "使う言語の re/RegExp を深め、HTTPでAPIログを読む、Bashで自動化する、のいずれかがおすすめです。用途に近い講座から選んでください。"
+    },
+    {
+      "question": "正規表現が複雑になりすぎたら？",
+      "answer": "パーサ、専用バリデータ、複数の小さなチェック関数に分割することを検討してください。可読性は正しさと同じくらい重要です。"
+    }
+  ],
+  "nextEpisodeHint": "正規表現入門コースはここまでです。HTTP入門やBash入門、Pythonのファイル入門など、テキスト処理の先に進む講座もぜひ続けて学んでください。",
+  "nextAction": "正規表現入門コースはここまでです。HTTP入門やBash入門、Pythonのファイル入門など、テキスト処理の先に進む講座もぜひ続けて学んでください。",
+  "internalLinkCandidates": [
+    {
+      "slug": "regex-intro",
+      "title": "正規表現とは？いつ使うのかを初心者向けに解説【正規表現入門】",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "regex-cli-tools",
+      "title": "grep・エディタ検索での正規表現｜CLIとVS Code活用法【入門】",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "regex-javascript",
+      "title": "JavaScriptでの正規表現｜RegExp・test・match・replace【入門】",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "regex-lookahead",
+      "title": "先読み・後読み（応用）｜正規表現で条件だけチェックする【入門】",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "regex-groups",
+      "title": "グループとキャプチャ｜正規表現の ( ) と置換【入門】",
+      "reason": "同じ講座の関連回です"
+    }
+  ],
+  "ogImage": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+  "canonical": "https://ai-site-iota-nine.vercel.app/article/regex-practice",
+  "jsonLd": {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@context": "https://schema.org",
+        "@type": "TechArticle",
+        "headline": "実践：ログとフォーム検証｜正規表現コース総まとめ【入門】",
+        "description": "【正規表現初心者向け】正規表現入門の総仕上げ。ログ解析・フォーム検証の実践例、テストケース、よくある失敗と次のステップを初心者向けに解説します。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
+        "datePublished": "2026-05-30T05:14:31.187Z",
+        "dateModified": "2026-05-30T05:15:44.172Z",
+        "author": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
+        },
+        "image": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+        "inLanguage": "ja",
+        "wordCount": 2509,
+        "mainEntityOfPage": {
+          "@type": "WebPage",
+          "@id": "https://ai-site-iota-nine.vercel.app/article/regex-practice"
+        },
+        "keywords": "正規表現, 実践, ログ, バリデーション, regex, まとめ",
+        "articleSection": "正規表現",
+        "url": "https://ai-site-iota-nine.vercel.app/article/regex-practice",
+        "learningResourceType": "tutorial",
+        "educationalLevel": "beginner"
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "ホーム",
+            "item": "https://ai-site-iota-nine.vercel.app/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "regex",
+            "item": "https://ai-site-iota-nine.vercel.app/knowledge/regex"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "正規表現入門",
+            "item": "https://ai-site-iota-nine.vercel.app/course/regex/regex"
+          },
+          {
+            "@type": "ListItem",
+            "position": 4,
+            "name": "実践：ログとフォーム検証｜正規表現コース総まとめ【入門】",
+            "item": "https://ai-site-iota-nine.vercel.app/article/regex-practice"
+          }
+        ]
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "Course",
+        "name": "正規表現入門",
+        "description": "ログ解析・バリデーション・置換に必須の正規表現を10ステップで習得。つまずきやすいエスケープや量詞を具体例で解説します。",
+        "provider": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app"
+        },
+        "url": "https://ai-site-iota-nine.vercel.app/course/regex/regex",
+        "inLanguage": "ja",
+        "educationalLevel": "beginner",
+        "hasCourseInstance": {
+          "@type": "CourseInstance",
+          "courseMode": "online",
+          "courseWorkload": "PT1H"
+        }
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "ログ形式がバラバラなときは？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "まず数行を目視し、区切り文字を固定して小さなパターンを試します。JSON ログなら jq など構造化ツールの方が向く場合もあります。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "簡易の郵便番号パターンを本番で使えますか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "学習用としては有効ですが、新しい郵便番号やハイフン付き入力など仕様変更に弱いです。要件に合わせて見直し、サーバー側でも検証してください。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "正規表現のテストはどこで自動化しますか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Jest、pytest、regex101 のテストリスト、社内のスナップショットなど。プロジェクトのCIに数例でも入れると安心です。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "このコースの次に何を学ぶべきですか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "使う言語の re/RegExp を深め、HTTPでAPIログを読む、Bashで自動化する、のいずれかがおすすめです。用途に近い講座から選んでください。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "正規表現が複雑になりすぎたら？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "パーサ、専用バリデータ、複数の小さなチェック関数に分割することを検討してください。可読性は正しさと同じくらい重要です。"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "breadcrumb": {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "ホーム",
+        "item": "https://ai-site-iota-nine.vercel.app/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "regex",
+        "item": "https://ai-site-iota-nine.vercel.app/knowledge/regex"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "正規表現入門",
+        "item": "https://ai-site-iota-nine.vercel.app/course/regex/regex"
+      },
+      {
+        "@type": "ListItem",
+        "position": 4,
+        "name": "実践：ログとフォーム検証｜正規表現コース総まとめ【入門】",
+        "item": "https://ai-site-iota-nine.vercel.app/article/regex-practice"
+      }
+    ]
+  },
+  "courseSchema": {
+    "@context": "https://schema.org",
+    "@type": "Course",
+    "name": "正規表現入門",
+    "description": "ログ解析・バリデーション・置換に必須の正規表現を10ステップで習得。つまずきやすいエスケープや量詞を具体例で解説します。",
+    "provider": {
+      "@type": "Organization",
+      "name": "StackShelf",
+      "url": "https://ai-site-iota-nine.vercel.app"
+    },
+    "url": "https://ai-site-iota-nine.vercel.app/course/regex/regex",
+    "inLanguage": "ja",
+    "educationalLevel": "beginner",
+    "hasCourseInstance": {
+      "@type": "CourseInstance",
+      "courseMode": "online",
+      "courseWorkload": "PT1H"
+    }
+  },
+  "faqSchema": {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "ログ形式がバラバラなときは？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "まず数行を目視し、区切り文字を固定して小さなパターンを試します。JSON ログなら jq など構造化ツールの方が向く場合もあります。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "簡易の郵便番号パターンを本番で使えますか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "学習用としては有効ですが、新しい郵便番号やハイフン付き入力など仕様変更に弱いです。要件に合わせて見直し、サーバー側でも検証してください。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "正規表現のテストはどこで自動化しますか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Jest、pytest、regex101 のテストリスト、社内のスナップショットなど。プロジェクトのCIに数例でも入れると安心です。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "このコースの次に何を学ぶべきですか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "使う言語の re/RegExp を深め、HTTPでAPIログを読む、Bashで自動化する、のいずれかがおすすめです。用途に近い講座から選んでください。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "正規表現が複雑になりすぎたら？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "パーサ、専用バリデータ、複数の小さなチェック関数に分割することを検討してください。可読性は正しさと同じくらい重要です。"
+        }
+      }
+    ]
+  }
+}

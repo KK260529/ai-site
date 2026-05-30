@@ -1,0 +1,318 @@
+{
+  "id": "art_http_http-https-tls",
+  "slug": "http-https-tls",
+  "title": "HTTPSとTLSの仕組み",
+  "summary": "HTTPSとTLS（Transport Layer Security）の仕組みを解説します。なぜ暗号化が必要か、HTTPとHTTPSの違い、証明書の基本を学びましょう。",
+  "body": "<h2>なぜHTTPSが必要なのか</h2>\n<p>HTTP通信は<strong>平文（暗号化なし）</strong>でデータを送受信します。これは、郵便物を封筒に入れずに送るようなものです。同じネットワーク上にいる第三者（攻撃者）が、通信内容を傍受・読み取ることが技術的に可能です。</p>\n<p>傍受されると危険な情報の例：</p>\n<ul>\n  <li>ログインのID/パスワード</li>\n  <li>Cookie（セッションID）——第5回で学んだ認証情報</li>\n  <li>クレジットカード番号、個人情報</li>\n  <li>JWT（Bearer Token）</li>\n  <li>社内APIの機密データ</li>\n</ul>\n<p><strong>HTTPS</strong>（HTTP Secure）は、HTTPに<strong>TLS（Transport Layer Security）</strong>による暗号化を加えた安全な通信方式です。TLSはSSL（Secure Sockets Layer）の後継で、現在はTLS 1.2/1.3が標準です。日常では「SSL」と言うこともありますが、正確にはTLSです。</p>\n\n<h2>HTTPとHTTPSの違い</h2>\n<pre><code># HTTP（平文——傍受可能）\nGET /login HTTP/1.1\nHost: example.com\n\nemail=tanaka@example.com&amp;password=secret123\n↑ この内容がそのままネットワーク上を流れる\n\n# HTTPS（TLS暗号化——傍受しても読めない）\nTLS暗号化されたバイナリデータ...\n↑ 第三者には意味不明なデータに見える</code></pre>\n<p>ブラウザのアドレスバーで確認できます：</p>\n<ul>\n  <li><strong>https://</strong> + 鍵マーク🔒 → 暗号化通信</li>\n  <li><strong>http://</strong> + 「保護されていない通信」警告 → 平文通信</li>\n</ul>\n<p>2020年以降、主要ブラウザ（Chrome、Firefox）はHTTPサイトに「安全でない」警告を表示します。GoogleもHTTPSを検索ランキングの要素に含めており、HTTPSは現代Webの<strong>必須要件</strong>です。</p>\n\n<h2>TLSハンドシェイクの流れ</h2>\n<p>HTTPS通信が始まる前に、クライアントとサーバーは<strong>TLSハンドシェイク</strong>という初期交渉を行います。HTTPリクエストが送られる前の、TCP接続確立直後の処理です。</p>\n<ol>\n  <li><strong>Client Hello</strong>：クライアントが「TLS 1.3を使いたい、対応する暗号方式はこれこれ」と送信</li>\n  <li><strong>Server Hello</strong>：サーバーが暗号方式を選択し、<strong>証明書</strong>を送信</li>\n  <li><strong>証明書検証</strong>：クライアントが証明書の正当性を確認（CA署名、有効期限、ドメイン名）</li>\n  <li><strong>鍵交換</strong>：共通の暗号鍵（セッション鍵）を安全に共有</li>\n  <li><strong>暗号化通信開始</strong>：以降のHTTP通信はすべてこの鍵で暗号化</li>\n</ol>\n<p>TLS 1.3ではハンドシェイクが1往復（RTT）に短縮され、接続確立が高速化されています。初学者は「ハンドシェイク → 暗号鍵共有 → 暗号化HTTP通信」という大枠を理解すれば十分です。</p>\n\n<h2>SSL/TLS証明書とは</h2>\n<p><strong>証明書（Certificate）</strong>は、サーバーの身元を証明するデジタル文書です。「このサーバーは本当に example.com の所有者か？」を第三者（<strong>認証局：CA</strong>）が保証します。</p>\n<p>証明書に含まれる情報：</p>\n<ul>\n  <li>ドメイン名（example.com）</li>\n  <li>組織名</li>\n  <li>公開鍵</li>\n  <li>有効期限</li>\n  <li>CA（認証局）のデジタル署名</li>\n</ul>\n<p>ブラウザは事前にインストールされた<strong>ルートCA</strong>のリストを使って証明書を検証します。検証に失敗すると「この接続ではプライバシーが保護されません」という警告が表示されます。</p>\n<p>証明書の種類：</p>\n<ul>\n  <li><strong>DV（Domain Validation）</strong>：ドメイン所有権のみ確認。無料（Let's Encrypt）。個人サイト・開発向け</li>\n  <li><strong>OV（Organization Validation）</strong>：組織の実在性も確認。企業サイト向け</li>\n  <li><strong>EV（Extended Validation）</strong>：厳格な審査。金融機関等（現在はブラウザでの特別表示は廃止）</li>\n</ul>\n\n<h2>Let's Encrypt：無料SSL証明書</h2>\n<p><strong>Let's Encrypt</strong>は、無料でDV証明書を発行してくれる認証局です。Certbot等のツールで自動取得・自動更新が可能で、個人開発者や小規模サイトでもHTTPSを簡単に導入できます。</p>\n<pre><code># Certbotでnginxに証明書を設定する例（Ubuntu）\nsudo apt install certbot python3-certbot-nginx\nsudo certbot --nginx -d example.com -d www.example.com\n\n# 自動更新（cronまたはsystemd timer）\nsudo certbot renew --dry-run</code></pre>\n<p><a href=\"/articles/nginx-intro\">nginx</a>入門コースの第6回（nginx-ssl）では、nginxでのHTTPS設定を詳しく解説します。<a href=\"/articles/docker-intro\">Docker</a>環境では、リバースプロキシ（nginx、Traefik、Caddy）がLet's Encrypt証明書を自動管理する構成も一般的です。</p>\n\n<h2>HTTPSのポート番号</h2>\n<p>HTTPはデフォルトで<strong>ポート80</strong>、HTTPSは<strong>ポート443</strong>を使用します。URLにポート番号を省略した場合、ブラウザはスキームに応じて自動的に80または443に接続します。</p>\n<pre><code>http://example.com        → example.com:80\nhttps://example.com       → example.com:443\nhttps://example.com:8443  → カスタムポート（開発環境等）</code></pre>\n<p>本番環境では、ポート80（HTTP）へのリクエストを443（HTTPS）にリダイレクトする設定が標準です。nginx設定例：</p>\n<pre><code>server {\n    listen 80;\n    server_name example.com;\n    return 301 https://$host$request_uri;\n}</code></pre>\n\n<h2>HSTS：HTTPS強制</h2>\n<p><strong>HSTS（HTTP Strict Transport Security）</strong>は、ブラウザに「このサイトは必ずHTTPSでアクセスせよ」と指示するレスポンスヘッダーです。</p>\n<pre><code>Strict-Transport-Security: max-age=31536000; includeSubDomains</code></pre>\n<p>HSTSが設定されたサイトでは、ブラウザは最初からHTTPSで接続します。中間者攻撃（SSL Strip）でHTTPにダウングレードされるのを防げます。CookieのSecure属性（第5回）と組み合わせることで、認証情報の安全性が大幅に向上します。</p>\n\n<h2>混合コンテンツ（Mixed Content）問題</h2>\n<p>HTTPSページ内でHTTP（非暗号化）のリソース（画像、JS、CSS）を読み込むと<strong>混合コンテンツ</strong>警告が発生します。ブラウザはセキュリティ上、HTTPリソースの読み込みをブロックする場合があります。</p>\n<p>対策：すべてのリソースURLをHTTPSに統一する。外部リソース（CDN等）もHTTPS対応版を使う。<code>&lt;img src=\"http://...\"&gt;</code> を <code>&lt;img src=\"https://...\"&gt;</code> に変更するだけで解決することが多いです。</p>\n\n<h2>開発環境でのHTTPS</h2>\n<p>ローカル開発では自己署名証明書（Self-Signed Certificate）を使うことがあります。ブラウザは「安全でない」と警告しますが、開発用途では問題ありません。</p>\n<pre><code># mkcertでローカル開発用証明書を作成\nmkcert -install\nmkcert localhost 127.0.0.1 ::1\n\n# 生成されたファイル\n# localhost+2.pem（証明書）\n# localhost+2-key.pem（秘密鍵）</code></pre>\n<p>本番環境では必ずLet's Encrypt等の正式なCAから取得した証明書を使いましょう。</p>\n\n<h2>まとめ：HTTPSは現代Webの必須要件</h2>\n<p>HTTPSはTLSによる暗号化でHTTP通信を保護します。TLSハンドシェイクで暗号鍵を共有し、以降の通信を暗号化。証明書（CA署名）でサーバーの身元を保証。Let's Encryptで無料導入可能。Cookie・JWT・パスワードなど認証情報を安全に送るために不可欠です。次回はREST APIの設計原則を学びます。</p>",
+  "conclusion": "HTTPSはTLSでHTTP通信を暗号化する安全な通信方式です。TLSハンドシェイクで暗号鍵を共有し、CA署名付き証明書でサーバー身元を保証します。Let's Encryptで無料導入可能。Cookie・JWT・パスワード保護のため現代Webでは必須。HSTSでHTTPS強制、混合コンテンツに注意。",
+  "tags": [
+    "HTTPS",
+    "TLS",
+    "SSL",
+    "暗号化",
+    "証明書",
+    "セキュリティ",
+    "HTTP"
+  ],
+  "category": "HTTP",
+  "theme": "http - HTTP・Web API入門",
+  "status": "published",
+  "createdAt": "2026-05-30T05:14:38.955Z",
+  "updatedAt": "2026-05-30T05:14:38.960Z",
+  "publishedAt": "2026-05-30T05:14:38.955Z",
+  "metaTitle": "HTTPSとTLSの仕組みを初心者向けに解説【HTTP入門 第6回】｜HTTP入門 | StackShelf",
+  "metaDescription": "【HTTP初心者向け】HTTPSとTLSの仕組みを初心者向けに解説。暗号化通信の必要性、SSL/TLSハンドシェイク、証明書の役割、HTTPからHTTPSへの移行理由を具体例で説明します。 図解・具体例つきで丁寧に解説します。",
+  "ogTitle": "HTTPSとTLSの仕組み",
+  "ogDescription": "【HTTP初心者向け】【HTTP初心者向け】なぜHTTPSが必要か、TLSがどうやって通信を暗号化するかを、具体例でわかりやすく解説します。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
+  "knowledge": {
+    "topic": "http",
+    "courseId": "http",
+    "episode": 6
+  },
+  "faq": [
+    {
+      "question": "SSLとTLSの違いは何ですか？",
+      "answer": "SSL（Secure Sockets Layer）はTLSの前身で、SSL 3.0以降はTLS 1.0として名称変更されました。現在はTLS 1.2/1.3が標準で、SSL 2.0/3.0は脆弱性があり無効化されています。日常会話では「SSL証明書」と言うこともありますが、技術的にはTLSが正確です。"
+    },
+    {
+      "question": "Let's Encryptの証明書は本番環境で使えますか？",
+      "answer": "はい、DV証明書として本番環境で広く使われています。個人ブログから中規模Webサービスまで問題ありません。有効期限は90日ですが、Certbot等で自動更新できます。EV/OV証明書が必要な金融機関等は別途検討が必要です。"
+    },
+    {
+      "question": "HTTPSにするとサイトが遅くなりますか？",
+      "answer": "TLS 1.3以前はハンドシェイクのオーバーヘッドがありましたが、現在は1 RTT（1往復）に短縮され、HTTP/2/3との組み合わせで全体のパフォーマンスは向上することが多いです。暗号化/復号のCPUコストも現代ハードウェアでは無視できるレベルです。"
+    },
+    {
+      "question": "自己署名証明書を本番で使ってはいけない理由は？",
+      "answer": "自己署名証明書はCAによる身元確認がないため、ブラウザが警告を表示します。攻撃者が同様の自己署名証明書を作成して中間者攻撃を仕掛ける可能性があり、ユーザーが警告を無視する習慣を助長します。本番では必ず正式なCAの証明書を使いましょう。"
+    },
+    {
+      "question": "HTTPからHTTPSへの移行でSEOに影響はありますか？",
+      "answer": "301リダイレクト（HTTP→HTTPS）を正しく設定すれば、SEO評価は新URLに引き継がれます。GoogleはHTTPSをランキングシgnalの一つとしています。Search ConsoleでHTTPS版を登録し、サイトマップもHTTPS URLに更新しましょう。"
+    }
+  ],
+  "nextEpisodeHint": "次回は、REST APIの設計原則——リソース指向、URL設計、HTTPメソッドの使い分け——を解説します。",
+  "nextAction": "次回はREST APIの設計原則——リソース指向、URL設計、HTTPメソッドの使い分け——を解説します。これまで学んだHTTP知識をAPI設計に活かしましょう。",
+  "internalLinkCandidates": [
+    {
+      "slug": "http-cookies-session",
+      "title": "Cookie・セッション・認証の基礎",
+      "reason": "認証情報はHTTPSで保護する必要があります"
+    },
+    {
+      "slug": "http-rest-api",
+      "title": "REST APIの設計原則",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "nginx-ssl",
+      "title": "nginx SSL/TLS（HTTPS）設定",
+      "reason": "nginxでHTTPSを設定する実践的方法"
+    },
+    {
+      "slug": "nginx-intro",
+      "title": "nginxとは？Apacheとの違い",
+      "reason": "WebサーバーでTLS終端を行います"
+    },
+    {
+      "slug": "docker-intro",
+      "title": "Dockerとは？",
+      "reason": "コンテナ環境でのHTTPS設定にも関連します"
+    }
+  ],
+  "ogImage": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+  "canonical": "https://ai-site-iota-nine.vercel.app/article/http-https-tls",
+  "jsonLd": {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@context": "https://schema.org",
+        "@type": "TechArticle",
+        "headline": "HTTPSとTLSの仕組み",
+        "description": "【HTTP初心者向け】HTTPSとTLSの仕組みを初心者向けに解説。暗号化通信の必要性、SSL/TLSハンドシェイク、証明書の役割、HTTPからHTTPSへの移行理由を具体例で説明します。 図解・具体例つきで丁寧に解説します。",
+        "datePublished": "2026-05-30T05:14:38.955Z",
+        "dateModified": "2026-05-30T05:14:38.960Z",
+        "author": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
+        },
+        "image": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+        "inLanguage": "ja",
+        "wordCount": 3188,
+        "mainEntityOfPage": {
+          "@type": "WebPage",
+          "@id": "https://ai-site-iota-nine.vercel.app/article/http-https-tls"
+        },
+        "keywords": "HTTPS, TLS, SSL, 暗号化, 証明書, セキュリティ, HTTP",
+        "articleSection": "HTTP",
+        "url": "https://ai-site-iota-nine.vercel.app/article/http-https-tls",
+        "learningResourceType": "tutorial",
+        "educationalLevel": "beginner"
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "ホーム",
+            "item": "https://ai-site-iota-nine.vercel.app/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "http",
+            "item": "https://ai-site-iota-nine.vercel.app/knowledge/http"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "HTTP・Web API入門",
+            "item": "https://ai-site-iota-nine.vercel.app/course/http/http"
+          },
+          {
+            "@type": "ListItem",
+            "position": 4,
+            "name": "HTTPSとTLSの仕組み",
+            "item": "https://ai-site-iota-nine.vercel.app/article/http-https-tls"
+          }
+        ]
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "Course",
+        "name": "HTTP・Web API入門",
+        "description": "ブラウザとサーバーの通信、REST API、HTTPSを10ステップで理解。バックエンド学習の前提となるHTTPを具体例で学びます。",
+        "provider": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app"
+        },
+        "url": "https://ai-site-iota-nine.vercel.app/course/http/http",
+        "inLanguage": "ja",
+        "educationalLevel": "beginner",
+        "hasCourseInstance": {
+          "@type": "CourseInstance",
+          "courseMode": "online",
+          "courseWorkload": "PT1H"
+        }
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "SSLとTLSの違いは何ですか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "SSL（Secure Sockets Layer）はTLSの前身で、SSL 3.0以降はTLS 1.0として名称変更されました。現在はTLS 1.2/1.3が標準で、SSL 2.0/3.0は脆弱性があり無効化されています。日常会話では「SSL証明書」と言うこともありますが、技術的にはTLSが正確です。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Let's Encryptの証明書は本番環境で使えますか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "はい、DV証明書として本番環境で広く使われています。個人ブログから中規模Webサービスまで問題ありません。有効期限は90日ですが、Certbot等で自動更新できます。EV/OV証明書が必要な金融機関等は別途検討が必要です。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "HTTPSにするとサイトが遅くなりますか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "TLS 1.3以前はハンドシェイクのオーバーヘッドがありましたが、現在は1 RTT（1往復）に短縮され、HTTP/2/3との組み合わせで全体のパフォーマンスは向上することが多いです。暗号化/復号のCPUコストも現代ハードウェアでは無視できるレベルです。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "自己署名証明書を本番で使ってはいけない理由は？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "自己署名証明書はCAによる身元確認がないため、ブラウザが警告を表示します。攻撃者が同様の自己署名証明書を作成して中間者攻撃を仕掛ける可能性があり、ユーザーが警告を無視する習慣を助長します。本番では必ず正式なCAの証明書を使いましょう。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "HTTPからHTTPSへの移行でSEOに影響はありますか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "301リダイレクト（HTTP→HTTPS）を正しく設定すれば、SEO評価は新URLに引き継がれます。GoogleはHTTPSをランキングシgnalの一つとしています。Search ConsoleでHTTPS版を登録し、サイトマップもHTTPS URLに更新しましょう。"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "breadcrumb": {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "ホーム",
+        "item": "https://ai-site-iota-nine.vercel.app/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "http",
+        "item": "https://ai-site-iota-nine.vercel.app/knowledge/http"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "HTTP・Web API入門",
+        "item": "https://ai-site-iota-nine.vercel.app/course/http/http"
+      },
+      {
+        "@type": "ListItem",
+        "position": 4,
+        "name": "HTTPSとTLSの仕組み",
+        "item": "https://ai-site-iota-nine.vercel.app/article/http-https-tls"
+      }
+    ]
+  },
+  "courseSchema": {
+    "@context": "https://schema.org",
+    "@type": "Course",
+    "name": "HTTP・Web API入門",
+    "description": "ブラウザとサーバーの通信、REST API、HTTPSを10ステップで理解。バックエンド学習の前提となるHTTPを具体例で学びます。",
+    "provider": {
+      "@type": "Organization",
+      "name": "StackShelf",
+      "url": "https://ai-site-iota-nine.vercel.app"
+    },
+    "url": "https://ai-site-iota-nine.vercel.app/course/http/http",
+    "inLanguage": "ja",
+    "educationalLevel": "beginner",
+    "hasCourseInstance": {
+      "@type": "CourseInstance",
+      "courseMode": "online",
+      "courseWorkload": "PT1H"
+    }
+  },
+  "faqSchema": {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "SSLとTLSの違いは何ですか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "SSL（Secure Sockets Layer）はTLSの前身で、SSL 3.0以降はTLS 1.0として名称変更されました。現在はTLS 1.2/1.3が標準で、SSL 2.0/3.0は脆弱性があり無効化されています。日常会話では「SSL証明書」と言うこともありますが、技術的にはTLSが正確です。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Let's Encryptの証明書は本番環境で使えますか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "はい、DV証明書として本番環境で広く使われています。個人ブログから中規模Webサービスまで問題ありません。有効期限は90日ですが、Certbot等で自動更新できます。EV/OV証明書が必要な金融機関等は別途検討が必要です。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "HTTPSにするとサイトが遅くなりますか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "TLS 1.3以前はハンドシェイクのオーバーヘッドがありましたが、現在は1 RTT（1往復）に短縮され、HTTP/2/3との組み合わせで全体のパフォーマンスは向上することが多いです。暗号化/復号のCPUコストも現代ハードウェアでは無視できるレベルです。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "自己署名証明書を本番で使ってはいけない理由は？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "自己署名証明書はCAによる身元確認がないため、ブラウザが警告を表示します。攻撃者が同様の自己署名証明書を作成して中間者攻撃を仕掛ける可能性があり、ユーザーが警告を無視する習慣を助長します。本番では必ず正式なCAの証明書を使いましょう。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "HTTPからHTTPSへの移行でSEOに影響はありますか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "301リダイレクト（HTTP→HTTPS）を正しく設定すれば、SEO評価は新URLに引き継がれます。GoogleはHTTPSをランキングシgnalの一つとしています。Search ConsoleでHTTPS版を登録し、サイトマップもHTTPS URLに更新しましょう。"
+        }
+      }
+    ]
+  }
+}

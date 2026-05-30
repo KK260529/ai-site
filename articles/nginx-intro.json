@@ -1,0 +1,317 @@
+{
+  "id": "art_nginx_nginx-intro",
+  "slug": "nginx-intro",
+  "title": "nginxとは？Apacheとの違いをわかりやすく解説【初心者向け】",
+  "summary": "Webサーバー・リバースプロキシとして広く使われるnginx（エンジンエックス）とは何か、Apacheとの違い、どんな場面で選ばれるのかを初心者向けに解説します。",
+  "body": "<h2>nginxとは何か？</h2>\n<p><strong>nginx</strong>（エンジンエックス、発音は「エンジンエックス」）は、2004年にロシアのIgor Sysoev氏が開発した<strong>高性能Webサーバー</strong>です。現在はNginx Inc.（F5 Networks傘下）が開発を続けており、Netflix・GitHub・Cloudflareなど世界中の大規模サービスで採用されています。</p>\n<p>nginxの最大の特徴は、少ないメモリで<strong>大量の同時接続</strong>をさばけることです。Webサイトへのアクセスが集中する「スパイク」にも強く、静的ファイル（HTML・CSS・画像）の配信や、バックエンドアプリの前段に立つ<strong>リバースプロキシ</strong>として使われることが多いです。</p>\n<pre><code># nginxのバージョン確認（インストール後に試してみよう）\nnginx -v\n# 出力例: nginx version: nginx/1.24.0\n\n# 詳細なビルド情報\nnginx -V</code></pre>\n\n<h2>Webサーバーの役割をおさらい</h2>\n<p>ブラウザがWebサイトを表示するとき、裏側では<strong>HTTP</strong>というプロトコルで通信しています。ユーザーが <code>https://example.com</code> にアクセスすると、ブラウザはサーバーに「このページをください」とリクエストを送り、サーバーはHTMLや画像を返します。この「リクエストを受け取り、適切なファイルを返す」役割を担うのがWebサーバーです。</p>\n<p>nginxはそのWebサーバーとして動作しますが、単にファイルを返すだけでなく、以下のような高度な処理も担当できます。</p>\n<ul>\n  <li>複数ドメインのホスト（バーチャルホスト）</li>\n  <li>HTTPS（SSL/TLS）の終端処理</li>\n  <li>Node.jsやPythonアプリへのリクエスト転送（リバースプロキシ）</li>\n  <li>gzip圧縮による転送量の削減</li>\n  <li>アクセス制限・レートリミット</li>\n</ul>\n<pre><code># 最小限のnginx設定イメージ\n# /etc/nginx/nginx.conf の http ブロック内\n\nserver {\n    listen 80;\n    server_name example.com;\n\n    location / {\n        root /var/www/html;\n        index index.html;\n    }\n}</code></pre>\n\n<h2>Apacheとnginxの違い</h2>\n<p>Webサーバーと聞くと、歴史の長い<strong>Apache HTTP Server</strong>（httpd）も有名です。どちらもWebサーバーとして優秀ですが、設計思想と得意分野が異なります。</p>\n<p><strong>Apacheの特徴：</strong>モジュール（mod_rewrite、mod_php等）を組み合わせて柔軟に機能を拡張できます。PHPをApache内蔵で動かす（mod_php）など、1台で完結する構成が昔からよく使われてきました。設定は <code>.htaccess</code> でディレクトリ単位に上書きできるため、レンタルサーバーでは今もApacheが多いです。</p>\n<p><strong>nginxの特徴：</strong>イベント駆動・非同期I/Oのアーキテクチャで、接続1つあたりのメモリ消費が少ないです。静的ファイル配信とリバースプロキシに特に強く、高トラフィックサイトやマイクロサービス構成で主流になっています。PHPやNode.jsはnginx単体では動かさず、別プロセス（php-fpm、Node.jsアプリ）に<strong>プロキシで渡す</strong>のが一般的です。</p>\n<pre><code># Apache: .htaccess でのリライト例\nRewriteEngine On\nRewriteRule ^api/(.*)$ backend.php?path=$1 [L,QSA]\n\n# nginx: 同等の処理を server ブロックで記述\nlocation /api/ {\n    proxy_pass http://127.0.0.1:3000/;\n}</code></pre>\n\n<h2>nginxが選ばれる場面</h2>\n<p>現代のWeb開発現場でnginxが選ばれる典型的な場面を整理します。</p>\n<p><strong>静的サイトの高速配信：</strong>HTML/CSS/画像だけのサイトや、Jamstackで生成した静的ファイルをnginxが直接配信します。CDNのオリジンサーバーとしても使われます。</p>\n<p><strong>リバースプロキシ：</strong>Node.js（Express）、Python（Django/Flask）、Go、Rubyなどのアプリサーバーの前段にnginxを置き、SSL終端・ロードバランシング・キャッシュを担当します。本番環境では「nginx → アプリ」の2層構成が定番です。</p>\n<p><strong>Docker/Kubernetes環境：</strong>コンテナ内でnginxを動かし、複数のマイクロサービスへの入口を1台にまとめる構成も一般的です。Docker Hubの公式nginxイメージはダウンロード数トップクラスです。</p>\n<p><strong>API Gateway的な用途：</strong>パスごとに異なるバックエンドへ振り分けるルーティング（<code>/api/users</code> → ユーザーサービス、<code>/api/orders</code> → 注文サービス）もnginxの得意分野です。</p>\n\n<h2>nginxの基本用語</h2>\n<p>nginxを学ぶ前に、設定ファイルでよく登場する用語を押さえておきましょう。</p>\n<p><strong>master/workerプロセス：</strong>nginxは起動時にmasterプロセスがworkerプロセスを複数起動します。実際のリクエスト処理はworkerが担当し、CPUコア数に合わせてworker数を調整できます。</p>\n<p><strong>serverブロック：</strong>1つのnginxインスタンスで複数サイト（ドメイン）をホストする単位です。Apacheの「VirtualHost」に相当します。</p>\n<p><strong>locationブロック：</strong>URLパスごとに処理を分岐する設定です。<code>location /images/</code> のように書きます。</p>\n<p><strong>upstream：</strong>リバースプロキシ先のサーバー群を定義するブロックです。ロードバランシングに使います。</p>\n<pre><code># 用語の対応関係（設定の骨格）\nhttp {\n    upstream backend {\n        server 127.0.0.1:3000;\n    }\n\n    server {                    # ← サイト（ドメイン）単位\n        listen 80;\n        server_name example.com;\n\n        location / {            # ← URLパス単位\n            proxy_pass http://backend;\n        }\n    }\n}</code></pre>\n\n<h2>nginxを学ぶメリット</h2>\n<p>フロントエンドやバックエンド開発者にとって、nginxの知識は「本番環境で何が起きているか」を理解する鍵になります。ローカルで <code>localhost:3000</code> と動いていたアプリが、本番では <code>https://example.com</code> で公開される——その橋渡しをしているのがnginxです。</p>\n<p>また、Docker Composeで <code>nginx + app + db</code> という3コンテナ構成を組む際にもnginxの設定が必要になります。Web制作（HTML/CSS）の知識、Linuxのコマンド操作、HTTPの仕組みと組み合わせると、設定の意味がより深く理解できます。</p>\n\n<h2>まとめ：nginxはWebの「玄関口」</h2>\n<p>nginxを一言で表すなら「高速・軽量なWebサーバー兼リバースプロキシ」です。Apacheと比べて静的配信とプロキシ処理に特化した設計で、現代のクラウドネイティブ環境で広く使われています。このコースでは、インストールから静的サイト公開、リバースプロキシ、HTTPS設定、トラブルシュートまで、設定例を交えながら8ステップで習得していきます。</p>",
+  "conclusion": "nginxは高性能Webサーバー兼リバースプロキシで、少ないリソースで大量の同時接続をさばけます。Apacheと比べイベント駆動の軽量設計が特徴で、静的ファイル配信・アプリの前段プロキシ・Docker環境の入口として広く使われています。server/location/upstreamなどの基本用語を押さえて、次のステップで実際にインストールしましょう。",
+  "tags": [
+    "nginx",
+    "Webサーバー",
+    "Apache",
+    "リバースプロキシ",
+    "インフラ",
+    "初心者"
+  ],
+  "category": "nginx",
+  "theme": "nginx - nginx入門",
+  "status": "published",
+  "createdAt": "2026-05-30T05:15:00.658Z",
+  "updatedAt": "2026-05-30T05:15:41.709Z",
+  "publishedAt": "2026-05-30T05:15:00.658Z",
+  "metaTitle": "nginxとは？Apacheとの違いと特徴を初心者向けに解説【nginx 入門】｜nginx入門 | StackShe…",
+  "metaDescription": "nginxとは何かを初心者向けにわかりやすく解説。Apacheとの違い、リバースプロキシの役割、nginxが選ばれる理由を設定例つきでゼロから学べます。",
+  "ogTitle": "nginxとは？Apacheとの違いをわかりやすく解説",
+  "ogDescription": "Webサーバーnginxの基本をゼロから解説。Apacheとの違い、リバースプロキシ、静的ファイル配信の仕組みを初心者向けに説明します。",
+  "knowledge": {
+    "topic": "nginx",
+    "courseId": "nginx",
+    "episode": 1
+  },
+  "faq": [
+    {
+      "question": "nginxは無料で使えますか？",
+      "answer": "はい。nginxのオープンソース版（nginx OSS）はBSDライセンスで無料利用できます。商用サポート付きのnginx Plusという有償版もありますが、個人学習・一般的なWebサイト運用にはOSS版で十分です。"
+    },
+    {
+      "question": "nginxとApacheはどちらを選べばよいですか？",
+      "answer": "静的サイト中心・高トラフィック・リバースプロキシ用途ならnginxが向いています。レンタルサーバーで.htaccessが必要、PHPをApache内蔵で動かすレガシー構成ならApacheが選ばれることもあります。近年の新規構築ではnginxが主流です。"
+    },
+    {
+      "question": "nginxはWindowsでも使えますか？",
+      "answer": "Windows版のバイナリも提供されていますが、本番運用はLinuxが圧倒的に多いです。学習目的ならWSL2（Windows Subsystem for Linux）上のUbuntuにインストールする方法がおすすめです。"
+    },
+    {
+      "question": "リバースプロキシとは何ですか？",
+      "answer": "クライアントからのリクエストを受け取り、裏側のアプリサーバー（Node.js等）に転送して、返ってきたレスポンスをクライアントに返す仕組みです。SSL処理やキャッシュをnginxに任せ、アプリはビジネスロジックに集中できます。"
+    },
+    {
+      "question": "nginxを覚えるのに必要な前提知識は？",
+      "answer": "HTTPの基本（リクエスト/レスポンス）、Linuxの基本的なコマンド操作、Webサイトの仕組み（HTML/CSS）があると理解が早いです。Dockerの基礎を知っていると、コンテナ環境でのnginx運用にもスムーズに移れます。"
+    }
+  ],
+  "nextEpisodeHint": "次回は、Ubuntu（WSL2含む）へのnginxインストールと、nginx.confの基本構造・設定ファイルの読み方を実践的に解説します。",
+  "nextAction": "次はUbuntu（WSL2含む）へのnginxインストールと、nginx.confの基本構造・設定ファイルの読み方を実践的に解説します。",
+  "internalLinkCandidates": [
+    {
+      "slug": "nginx-reverse-proxy",
+      "title": "nginxリバースプロキシの設定方法【proxy_pass入門・初心者向け】",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "nginx-practice",
+      "title": "実践：Node.jsアプリの前段にnginxを構築する【総合演習】",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "nginx-logging",
+      "title": "nginxのログとトラブルシューティング入門【502/504エラー対処】",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "nginx-ssl",
+      "title": "nginxでSSL/TLS（HTTPS）を設定する方法【Let's Encrypt入門】",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "nginx-location",
+      "title": "nginxのlocationとルーティング【マッチング優先順位入門】",
+      "reason": "同じ講座の関連回です"
+    }
+  ],
+  "ogImage": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+  "canonical": "https://ai-site-iota-nine.vercel.app/article/nginx-intro",
+  "jsonLd": {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@context": "https://schema.org",
+        "@type": "TechArticle",
+        "headline": "nginxとは？Apacheとの違いをわかりやすく解説【初心者向け】",
+        "description": "【nginx初心者向け】nginxとは何かを初心者向けにわかりやすく解説。Apacheとの違い、リバースプロキシの役割、nginxが選ばれる理由を設定例つきでゼロから学べます。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
+        "datePublished": "2026-05-30T05:15:00.658Z",
+        "dateModified": "2026-05-30T05:15:41.709Z",
+        "author": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
+        },
+        "image": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+        "inLanguage": "ja",
+        "wordCount": 2879,
+        "mainEntityOfPage": {
+          "@type": "WebPage",
+          "@id": "https://ai-site-iota-nine.vercel.app/article/nginx-intro"
+        },
+        "keywords": "nginx, Webサーバー, Apache, リバースプロキシ, インフラ, 初心者",
+        "articleSection": "nginx",
+        "url": "https://ai-site-iota-nine.vercel.app/article/nginx-intro",
+        "learningResourceType": "tutorial",
+        "educationalLevel": "beginner"
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "ホーム",
+            "item": "https://ai-site-iota-nine.vercel.app/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "nginx",
+            "item": "https://ai-site-iota-nine.vercel.app/knowledge/nginx"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "nginx入門",
+            "item": "https://ai-site-iota-nine.vercel.app/course/nginx/nginx"
+          },
+          {
+            "@type": "ListItem",
+            "position": 4,
+            "name": "nginxとは？Apacheとの違いをわかりやすく解説【初心者向け】",
+            "item": "https://ai-site-iota-nine.vercel.app/article/nginx-intro"
+          }
+        ]
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "Course",
+        "name": "nginx入門",
+        "description": "Webサーバー・リバースプロキシnginxを8ステップで習得。日本語の初心者向け解説が少ないテーマを、設定例つきで学びます。",
+        "provider": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app"
+        },
+        "url": "https://ai-site-iota-nine.vercel.app/course/nginx/nginx",
+        "inLanguage": "ja",
+        "educationalLevel": "beginner",
+        "hasCourseInstance": {
+          "@type": "CourseInstance",
+          "courseMode": "online",
+          "courseWorkload": "PT1H"
+        }
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "nginxは無料で使えますか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "はい。nginxのオープンソース版（nginx OSS）はBSDライセンスで無料利用できます。商用サポート付きのnginx Plusという有償版もありますが、個人学習・一般的なWebサイト運用にはOSS版で十分です。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "nginxとApacheはどちらを選べばよいですか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "静的サイト中心・高トラフィック・リバースプロキシ用途ならnginxが向いています。レンタルサーバーで.htaccessが必要、PHPをApache内蔵で動かすレガシー構成ならApacheが選ばれることもあります。近年の新規構築ではnginxが主流です。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "nginxはWindowsでも使えますか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Windows版のバイナリも提供されていますが、本番運用はLinuxが圧倒的に多いです。学習目的ならWSL2（Windows Subsystem for Linux）上のUbuntuにインストールする方法がおすすめです。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "リバースプロキシとは何ですか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "クライアントからのリクエストを受け取り、裏側のアプリサーバー（Node.js等）に転送して、返ってきたレスポンスをクライアントに返す仕組みです。SSL処理やキャッシュをnginxに任せ、アプリはビジネスロジックに集中できます。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "nginxを覚えるのに必要な前提知識は？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "HTTPの基本（リクエスト/レスポンス）、Linuxの基本的なコマンド操作、Webサイトの仕組み（HTML/CSS）があると理解が早いです。Dockerの基礎を知っていると、コンテナ環境でのnginx運用にもスムーズに移れます。"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "breadcrumb": {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "ホーム",
+        "item": "https://ai-site-iota-nine.vercel.app/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "nginx",
+        "item": "https://ai-site-iota-nine.vercel.app/knowledge/nginx"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "nginx入門",
+        "item": "https://ai-site-iota-nine.vercel.app/course/nginx/nginx"
+      },
+      {
+        "@type": "ListItem",
+        "position": 4,
+        "name": "nginxとは？Apacheとの違いをわかりやすく解説【初心者向け】",
+        "item": "https://ai-site-iota-nine.vercel.app/article/nginx-intro"
+      }
+    ]
+  },
+  "courseSchema": {
+    "@context": "https://schema.org",
+    "@type": "Course",
+    "name": "nginx入門",
+    "description": "Webサーバー・リバースプロキシnginxを8ステップで習得。日本語の初心者向け解説が少ないテーマを、設定例つきで学びます。",
+    "provider": {
+      "@type": "Organization",
+      "name": "StackShelf",
+      "url": "https://ai-site-iota-nine.vercel.app"
+    },
+    "url": "https://ai-site-iota-nine.vercel.app/course/nginx/nginx",
+    "inLanguage": "ja",
+    "educationalLevel": "beginner",
+    "hasCourseInstance": {
+      "@type": "CourseInstance",
+      "courseMode": "online",
+      "courseWorkload": "PT1H"
+    }
+  },
+  "faqSchema": {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "nginxは無料で使えますか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "はい。nginxのオープンソース版（nginx OSS）はBSDライセンスで無料利用できます。商用サポート付きのnginx Plusという有償版もありますが、個人学習・一般的なWebサイト運用にはOSS版で十分です。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "nginxとApacheはどちらを選べばよいですか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "静的サイト中心・高トラフィック・リバースプロキシ用途ならnginxが向いています。レンタルサーバーで.htaccessが必要、PHPをApache内蔵で動かすレガシー構成ならApacheが選ばれることもあります。近年の新規構築ではnginxが主流です。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "nginxはWindowsでも使えますか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Windows版のバイナリも提供されていますが、本番運用はLinuxが圧倒的に多いです。学習目的ならWSL2（Windows Subsystem for Linux）上のUbuntuにインストールする方法がおすすめです。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "リバースプロキシとは何ですか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "クライアントからのリクエストを受け取り、裏側のアプリサーバー（Node.js等）に転送して、返ってきたレスポンスをクライアントに返す仕組みです。SSL処理やキャッシュをnginxに任せ、アプリはビジネスロジックに集中できます。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "nginxを覚えるのに必要な前提知識は？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "HTTPの基本（リクエスト/レスポンス）、Linuxの基本的なコマンド操作、Webサイトの仕組み（HTML/CSS）があると理解が早いです。Dockerの基礎を知っていると、コンテナ環境でのnginx運用にもスムーズに移れます。"
+        }
+      }
+    ]
+  }
+}

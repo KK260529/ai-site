@@ -1,0 +1,323 @@
+{
+  "id": "art_regex_regex-anchors",
+  "slug": "regex-anchors",
+  "title": "アンカー ^ $ と単語境界｜正規表現で位置を指定する【入門】",
+  "summary": "正規表現のアンカー ^ $ 、単語境界 \\b \\B 、複数行モードの違いを具体例で解説します。行全体・単語単位のマッチをマスターしましょう。",
+  "body": "<h2>アンカーとは「マッチ位置の条件」</h2>\n<p><strong>アンカー（anchor）</strong>は、文字そのものではなく、<strong>テキストのどの位置でマッチを始め・終えるか</strong>を指定する記号です。代表的なのが <code>^</code>（行または文字列の先頭）と <code>$</code>（行または文字列の末尾）です。</p>\n<p>アンカーがない正規表現は、多くのモードで<strong>部分マッチ</strong>（文字列の途中の一部でも成功）になります。フォームの「入力全体がこの形式か」を検証するときは、<code>^</code> と <code>$</code> で<strong>全体マッチ</strong>を明示するのが基本です。</p>\n\n<h2>^ 行頭・文字列の先頭</h2>\n<p><code>^</code> は、マッチの開始位置が<strong>行の先頭</strong>（または文字列の先頭）であることを要求します。</p>\n<pre><code># パターン: ^ERROR\n# \"ERROR: disk\" → マッチ（行頭）\n# \"Log ERROR\"   → 行頭ではないのでマッチしない（部分検索なら別）\n\n# パターン: ^\\d+\n# 行が数字から始まる場合のみ</code></pre>\n<p>複数行のテキストでは、<strong>各行の先頭</strong>に ^ が効く「複数行モード」（<code>m</code> フラグなど）と、<strong>文字列全体の先頭だけ</strong>に効くモードの違いがあります。JavaScript では <code>/^foo/m</code> で各行を検査できます。</p>\n\n<h2>$ 行末・文字列の末尾</h2>\n<p><code>$</code> は、マッチの終了位置が<strong>行の末尾</strong>（または文字列の末尾）であることを要求します。</p>\n<pre><code># パターン: ok$\n# \"looks ok\" → 末尾の ok にマッチ\n# \"ok computer\" → 末尾ではないのでマッチしない\n\n# 全体が英小文字のみ（簡易）\n^[a-z]+$</code></pre>\n<p>改行文字の直前に $ が効くかは、エンジンとモードに依存します。<code>\\n</code> を含むかどうかでテストして確認しましょう。</p>\n\n<h2>^ ... $ で「行全体」を検証</h2>\n<p>バリデーションでは、よく次の形を使います。</p>\n<pre><code>^パターン$</code></pre>\n<p>たとえば「3桁の数字だけ」なら <code>^\\d{3}$</code> です。<code>\\d{3}</code> だけだと <code>abc123def</code> の <code>123</code> 部分にもマッチしてしまいます。ユーザー入力の<strong>全体</strong>を検証するときは、アンカーを付ける習慣をつけましょう。</p>\n\n<h2>単語境界 \\b と \\B</h2>\n<p><code>\\b</code> は<strong>単語境界（word boundary）</strong>です。単語文字（<code>\\w</code>）と非単語文字の<strong>境目</strong>にマッチします。幅ゼロ（文字を消費しない）なので、「位置のマーカー」だと考えてください。</p>\n<pre><code># パターン: \\bcat\\b\n# \"a cat.\" → cat にマッチ\n# \"category\" → cat 部分にはマッチしない（単語の一部だから）\n\n# パターン: \\bcat\n# 行頭や非単語文字の後の cat</code></pre>\n<p><code>\\B</code> は境界<strong>以外</strong>の位置です。単語の途中での分割など、応用例で使います。</p>\n\n<h2>アンカーと文字クラス内の ^ の混同</h2>\n<p><code>^</code> が<strong>文字クラスの先頭</strong>にあるときは否定 <code>[^abc]</code> です。行頭のアンカーとは別物なので、パターンを読むときは位置に注意してください。</p>\n<pre><code>^[^0-9]+$   # 行全体が数字以外の文字だけ（1文字以上）</code></pre>\n\n<h2>実務例</h2>\n<p><strong>ログレベルで行をフィルタ：</strong> <code>^(ERROR|WARN)</code> で行頭が ERROR または WARN の行。</p>\n<p><strong>コメント行の除外：</strong> <code>^\\s*#</code> で行頭（空白の後）が # の行（シェルや設定ファイル）。</p>\n<p><strong>単語の完全一致検索：</strong> エディタで <code>\\bfunction\\b</code> とすると <code>myfunction</code> は除外し <code>function</code> だけを探しやすいです。</p>\n\n<h2>よくある間違い</h2>\n<p><strong>アンカー忘れ</strong>—— バリデーションで部分マッチを許してしまう。</p>\n<p><strong>$ だけ付けて ^ を忘れる</strong>—— 末尾だけ正しい形式でも、先頭にゴミが残る。</p>\n<p><strong>改行を含む入力</strong>—— 複数行テキストでは <code>^</code> <code>$</code> が「各行」か「全体」かをモードで確認する。</p>\n\n<h2>マルチライン文字列での注意点</h2>\n<p>textarea に複数行が入るフォームでは、<code>^</code> <code>$</code> が「各行」か「全体の先頭末尾」かがモード次第です。JavaScript では <code>m</code> フラグ、grep ではデフォルトで行単位——ツールの仕様を確認し、改行を含むテストデータで試してください。</p>\n<p>「行の途中にだけ現れてほしい」条件は、アンカーではなく単語境界や、否定先読み（応用回）と組み合わせることもあります。まずは <code>^...$</code> で全体検証をマスターし、必要に応じて応用へ進むのがおすすめです。</p>\n\n<h2>設定ファイルと .env の行単位処理</h2>\n<p><code>KEY=value</code> 形式の設定では、<code>^#</code> でコメント行を除外し、<code>^[A-Z_]+=</code> で変数定義行だけを拾うといった使い方ができます。Bash入門や Linux の環境変数の回と合わせると、設定の読み方が一通りつながります。</p>\n<p>Windows のパスを含む行を探すとき、<code>^C:\\\\</code> のようにバックスラッシュを多重エスケープする必要があることもあります。アンカーで行頭を固定してから、パスのパターンを書くと、ログのノイズが減ります。</p>\n\n<h2>検索と検証のモード分け</h2>\n<p>コード内のシンボルを探すときはアンカーなしの部分マッチが便利です。ユーザー入力を検証するときは <code>^...$</code> の全体マッチが必須です。同じ正規表現でも「検索モード」と「検証モード」でアンカーの有無を切り替える——この使い分けを頭に入れておくと、バグの半分は防げます。</p>\n\n<h2>アンカー付きパターンのテンプレート</h2>\n<p>バリデーション用のテンプレートをメモに保存しておくと便利です。数字のみ <code>^\\d+$</code>、英数字のみ <code>^[a-zA-Z0-9]+$</code>、行全体がメール風（超簡易）など。コピー元を信頼できるドキュメントにし、プロジェクトごとに微調整する運用が現実的です。Git で管理すれば、いつ誰がルールを変えたかも追えます。</p>\n<p>モバイルアプリの入力では、ソフトキーボードの種類（数字キーだけ表示など）と正規表現の両方でUXを整えることもあります。アンカーで「全体」が決まっていると、他の画面での再利用もしやすくなります。</p>\n\n<h2>CSV1行とアンカー</h2>\n<p>1行が1レコードのCSVを grep するとき、<code>^id,</code> で id 列から始まる行だけを拾う、<code>,active$</code> で末尾が active の行を拾う——といった使い方ができます。CSV全体のパースは専用ツール向きですが、障害時の「ざっくり1行確認」ではアンカーとカンマの組み合わせがよく効きます。SQL入門の WHERE で行を絞る感覚と、テキストを条件で切り分ける点ではよく似ています。</p>\n\n<h2>まとめ</h2>\n<p>アンカー <code>^</code> <code>$</code> はマッチ位置を行頭・行末に限定し、入力全体の検証には <code>^...$</code> が定番です。単語境界 <code>\\b</code> は単語の切れ目にマッチし、部分文字列ではなく単語単位の検索に便利です。次回は括弧によるグループとキャプチャを学びます。</p>",
+  "conclusion": "アンカー ^ $ はマッチの開始・終了位置を行頭・行末に限定し、^pattern$ で入力全体の形式検証ができます。\\b は単語境界で、cat と category を区別するのに便利です。文字クラス内の ^ は否定なので混同に注意し、複数行テキストではモードの違いを確認しましょう。",
+  "tags": [
+    "正規表現",
+    "アンカー",
+    "^",
+    "$",
+    "\\b",
+    "regex",
+    "初心者"
+  ],
+  "category": "正規表現",
+  "theme": "regex - 正規表現入門",
+  "status": "published",
+  "createdAt": "2026-05-30T05:14:25.830Z",
+  "updatedAt": "2026-05-30T05:14:25.834Z",
+  "publishedAt": "2026-05-30T05:14:25.830Z",
+  "metaTitle": "正規表現 アンカー ^ $ \\b | 行頭・行末・単語境界",
+  "metaDescription": "【正規表現初心者向け】正規表現のアンカー ^ $ と単語境界 \\b を初心者向けに解説。行全体マッチと部分マッチの違い、複数行モードも学べます。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
+  "ogTitle": "アンカー ^ $ と単語境界｜正規表現入門",
+  "ogDescription": "【正規表現初心者向け】【正規表現初心者向け】正規表現のアンカーと単語境界をわかりやすく解説します。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
+  "knowledge": {
+    "topic": "regex",
+    "courseId": "regex",
+    "episode": 5
+  },
+  "faq": [
+    {
+      "question": "部分マッチと全体マッチの違いは？",
+      "answer": "アンカーなしだと文字列の一部がパターンに合えば成功します。フォーム検証では ^ と $ で全体を囲むのが一般的です。"
+    },
+    {
+      "question": "\\b は日本語にも使えますか？",
+      "answer": "\\w の定義に依存します。日本語の単語分割には向かないことが多く、日本語テキストでは別の方法（形態素解析など）が必要な場合があります。"
+    },
+    {
+      "question": "複数行モード（m）とは？",
+      "answer": "^ と $ が文字列全体ではなく各行の先頭・末尾にマッチするモードです。ログの行単位処理で便利です。"
+    },
+    {
+      "question": "$ の前に改行が必要ですか？",
+      "answer": "エンジンによります。\\n を行末として扱うか、文字列終端のみかをドキュメントとテストで確認してください。"
+    },
+    {
+      "question": "アンカーだけの正規表現は有効ですか？",
+      "answer": "^ や $ 単体は「位置」にマッチするため、空マッチや全行マッチのような挙動になります。意図を確認して使いましょう。"
+    }
+  ],
+  "nextEpisodeHint": "次回はグループ ( ) とキャプチャ、後方参照を学びます。マッチした部分を取り出したり、置換で再利用したりできるようになります。",
+  "nextAction": "",
+  "internalLinkCandidates": [
+    {
+      "slug": "regex-quantifiers",
+      "title": "量詞 * + ? {n,m}",
+      "reason": "^\\d+$ のように量詞と組み合わせる"
+    },
+    {
+      "slug": "linux-view-search",
+      "title": "grepで検索",
+      "reason": "行単位のログフィルタに ^ が使える"
+    },
+    {
+      "slug": "bash-intro",
+      "title": "シェルスクリプトとは？",
+      "reason": "設定ファイルの行頭コメント ^# など"
+    },
+    {
+      "slug": "web-forms",
+      "title": "HTMLフォーム",
+      "reason": "クライアント・サーバの入力全体検証"
+    },
+    {
+      "slug": "git-basic-commands",
+      "title": "Git基本コマンド",
+      "reason": "diffの行単位テキスト処理"
+    },
+    {
+      "slug": "python-functions",
+      "title": "関数の定義",
+      "reason": "マッチ結果を関数で処理する流れ"
+    }
+  ],
+  "ogImage": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+  "canonical": "https://ai-site-iota-nine.vercel.app/article/regex-anchors",
+  "jsonLd": {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@context": "https://schema.org",
+        "@type": "TechArticle",
+        "headline": "アンカー ^ $ と単語境界｜正規表現で位置を指定する【入門】",
+        "description": "【正規表現初心者向け】正規表現のアンカー ^ $ と単語境界 \\b を初心者向けに解説。行全体マッチと部分マッチの違い、複数行モードも学べます。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
+        "datePublished": "2026-05-30T05:14:25.830Z",
+        "dateModified": "2026-05-30T05:14:25.834Z",
+        "author": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
+        },
+        "image": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+        "inLanguage": "ja",
+        "wordCount": 2500,
+        "mainEntityOfPage": {
+          "@type": "WebPage",
+          "@id": "https://ai-site-iota-nine.vercel.app/article/regex-anchors"
+        },
+        "keywords": "正規表現, アンカー, ^, $, \\b, regex, 初心者",
+        "articleSection": "正規表現",
+        "url": "https://ai-site-iota-nine.vercel.app/article/regex-anchors",
+        "learningResourceType": "tutorial",
+        "educationalLevel": "beginner"
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "ホーム",
+            "item": "https://ai-site-iota-nine.vercel.app/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "regex",
+            "item": "https://ai-site-iota-nine.vercel.app/knowledge/regex"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "正規表現入門",
+            "item": "https://ai-site-iota-nine.vercel.app/course/regex/regex"
+          },
+          {
+            "@type": "ListItem",
+            "position": 4,
+            "name": "アンカー ^ $ と単語境界｜正規表現で位置を指定する【入門】",
+            "item": "https://ai-site-iota-nine.vercel.app/article/regex-anchors"
+          }
+        ]
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "Course",
+        "name": "正規表現入門",
+        "description": "ログ解析・バリデーション・置換に必須の正規表現を10ステップで習得。つまずきやすいエスケープや量詞を具体例で解説します。",
+        "provider": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app"
+        },
+        "url": "https://ai-site-iota-nine.vercel.app/course/regex/regex",
+        "inLanguage": "ja",
+        "educationalLevel": "beginner",
+        "hasCourseInstance": {
+          "@type": "CourseInstance",
+          "courseMode": "online",
+          "courseWorkload": "PT1H"
+        }
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "部分マッチと全体マッチの違いは？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "アンカーなしだと文字列の一部がパターンに合えば成功します。フォーム検証では ^ と $ で全体を囲むのが一般的です。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "\\b は日本語にも使えますか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "\\w の定義に依存します。日本語の単語分割には向かないことが多く、日本語テキストでは別の方法（形態素解析など）が必要な場合があります。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "複数行モード（m）とは？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "^ と $ が文字列全体ではなく各行の先頭・末尾にマッチするモードです。ログの行単位処理で便利です。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "$ の前に改行が必要ですか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "エンジンによります。\\n を行末として扱うか、文字列終端のみかをドキュメントとテストで確認してください。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "アンカーだけの正規表現は有効ですか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "^ や $ 単体は「位置」にマッチするため、空マッチや全行マッチのような挙動になります。意図を確認して使いましょう。"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "breadcrumb": {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "ホーム",
+        "item": "https://ai-site-iota-nine.vercel.app/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "regex",
+        "item": "https://ai-site-iota-nine.vercel.app/knowledge/regex"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "正規表現入門",
+        "item": "https://ai-site-iota-nine.vercel.app/course/regex/regex"
+      },
+      {
+        "@type": "ListItem",
+        "position": 4,
+        "name": "アンカー ^ $ と単語境界｜正規表現で位置を指定する【入門】",
+        "item": "https://ai-site-iota-nine.vercel.app/article/regex-anchors"
+      }
+    ]
+  },
+  "courseSchema": {
+    "@context": "https://schema.org",
+    "@type": "Course",
+    "name": "正規表現入門",
+    "description": "ログ解析・バリデーション・置換に必須の正規表現を10ステップで習得。つまずきやすいエスケープや量詞を具体例で解説します。",
+    "provider": {
+      "@type": "Organization",
+      "name": "StackShelf",
+      "url": "https://ai-site-iota-nine.vercel.app"
+    },
+    "url": "https://ai-site-iota-nine.vercel.app/course/regex/regex",
+    "inLanguage": "ja",
+    "educationalLevel": "beginner",
+    "hasCourseInstance": {
+      "@type": "CourseInstance",
+      "courseMode": "online",
+      "courseWorkload": "PT1H"
+    }
+  },
+  "faqSchema": {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "部分マッチと全体マッチの違いは？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "アンカーなしだと文字列の一部がパターンに合えば成功します。フォーム検証では ^ と $ で全体を囲むのが一般的です。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "\\b は日本語にも使えますか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "\\w の定義に依存します。日本語の単語分割には向かないことが多く、日本語テキストでは別の方法（形態素解析など）が必要な場合があります。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "複数行モード（m）とは？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "^ と $ が文字列全体ではなく各行の先頭・末尾にマッチするモードです。ログの行単位処理で便利です。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "$ の前に改行が必要ですか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "エンジンによります。\\n を行末として扱うか、文字列終端のみかをドキュメントとテストで確認してください。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "アンカーだけの正規表現は有効ですか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "^ や $ 単体は「位置」にマッチするため、空マッチや全行マッチのような挙動になります。意図を確認して使いましょう。"
+        }
+      }
+    ]
+  }
+}

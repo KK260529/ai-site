@@ -1,0 +1,318 @@
+{
+  "id": "art_bash_bash-practice",
+  "slug": "bash-practice",
+  "title": "【実践】Bashでバックアップスクリプトを作る｜運用自動化の総仕上げ【第10回】",
+  "summary": "これまで学んだ変数・関数・条件分岐・ログ・エラーハンドリング・cron を統合し、本番運用を想定したバックアップスクリプトを完成させます。",
+  "body": "<h2>完成イメージと要件</h2>\n<p>最終回では、次の要件を満たす<strong>バックアップスクリプト</strong>を作ります。</p>\n<ul>\n  <li>指定ディレクトリを tar.gz に圧縮して保存</li>\n  <li>古いバックアップを保持日数で自動削除（世代管理）</li>\n  <li>ログファイルへ成功・失敗を記録</li>\n  <li><code>set -euo pipefail</code> と trap による安全停止</li>\n  <li>設定ファイルまたは環境変数でパスを変更可能</li>\n  <li>cron からの定期実行を想定</li>\n</ul>\n<p>この1本が、これまでの第1〜9回の総復習になります。</p>\n\n<h2>ディレクトリ構成</h2>\n<pre><code>~/backup-tool/\n├── backup.sh          # メインスクリプト\n├── backup.conf        # 設定（任意）\n└── logs/              # ログ出力先</code></pre>\n\n<h2>設定ファイル backup.conf</h2>\n<pre><code># backup.conf — source する設定\nSOURCE_DIR=\"/var/www/html\"\nBACKUP_ROOT=\"/var/backups/myapp\"\nRETENTION_DAYS=14\nLOG_DIR=\"/var/log/backup-tool\"</code></pre>\n\n<h2>メインスクリプト backup.sh（完成版）</h2>\n<pre><code>#!/usr/bin/env bash\n# backup.sh — 本番運用向けバックアップ\nset -euo pipefail\n\nSCRIPT_DIR=\"$(cd \"$(dirname \"${BASH_SOURCE[0]}\")\" &amp;&amp; pwd)\"\nCONFIG=\"${CONFIG:-$SCRIPT_DIR/backup.conf}\"\n\n# --- デフォルト ---\nSOURCE_DIR=\"/home/user/data\"\nBACKUP_ROOT=\"/var/backups\"\nRETENTION_DAYS=7\nLOG_DIR=\"/var/log\"\n\n# --- 設定読み込み ---\nif [ -f \"$CONFIG\" ]; then\n  # shellcheck source=/dev/null\n  source \"$CONFIG\"\nfi\n\n# 環境変数で上書き可能\nSOURCE_DIR=\"${SOURCE_DIR_OVERRIDE:-$SOURCE_DIR}\"\nBACKUP_ROOT=\"${BACKUP_ROOT_OVERRIDE:-$BACKUP_ROOT}\"\nRETENTION_DAYS=\"${RETENTION_DAYS_OVERRIDE:-$RETENTION_DAYS}\"\nLOG_DIR=\"${LOG_DIR_OVERRIDE:-$LOG_DIR}\"\n\nLOG_FILE=\"${LOG_DIR}/backup.log\"\nTIMESTAMP=$(date '+%Y%m%d_%H%M%S')\nHOSTNAME=$(hostname -s 2>/dev/null || echo \"localhost\")\n\nlog() {\n  local level=\"$1\"\n  shift\n  mkdir -p \"$LOG_DIR\"\n  echo \"[$(date '+%Y-%m-%d %H:%M:%S')] [$level] [$HOSTNAME] $*\" | tee -a \"$LOG_FILE\"\n}\n\ndie() {\n  log \"ERROR\" \"$*\"\n  exit 1\n}\n\ncleanup() {\n  local rc=$?\n  if [ \"$rc\" -ne 0 ]; then\n    log \"ERROR\" \"バックアップ異常終了 (exit code=$rc)\"\n  fi\n  exit \"$rc\"\n}\ntrap cleanup EXIT\n\nusage() {\n  cat &lt;&lt;EOF\n使い方: $0 [オプション]\n  -s DIR   バックアップ元（SOURCE_DIR 上書き）\n  -d DIR   保存先ルート（BACKUP_ROOT 上書き）\n  -r DAYS  保持日数（RETENTION_DAYS 上書き）\n  -c FILE  設定ファイル\n  -h       ヘルプ\nEOF\n  exit 0\n}\n\nwhile getopts \":s:d:r:c:h\" opt; do\n  case \"$opt\" in\n    s) SOURCE_DIR=\"$OPTARG\" ;;\n    d) BACKUP_ROOT=\"$OPTARG\" ;;\n    r) RETENTION_DAYS=\"$OPTARG\" ;;\n    c) source \"$OPTARG\" ;;\n    h) usage ;;\n    *) die \"不明なオプション: -$OPTARG\" ;;\n  esac\ndone\n\n# --- 事前チェック ---\ncommand -v tar >/dev/null || die \"tar が見つかりません\"\n[ -d \"$SOURCE_DIR\" ] || die \"ソースがありません: $SOURCE_DIR\"\nmkdir -p \"$BACKUP_ROOT\"\n\nBASENAME=$(basename \"$SOURCE_DIR\")\nARCHIVE_NAME=\"${BASENAME}_${TIMESTAMP}.tar.gz\"\nARCHIVE_PATH=\"${BACKUP_ROOT}/${ARCHIVE_NAME}\"\n\nlog \"INFO\" \"=== バックアップ開始 ===\"\nlog \"INFO\" \"ソース: $SOURCE_DIR\"\nlog \"INFO\" \"出力: $ARCHIVE_PATH\"\nlog \"INFO\" \"保持: ${RETENTION_DAYS}日\"\n\n# --- 圧縮 ---\ntar -czf \"$ARCHIVE_PATH\" -C \"$(dirname \"$SOURCE_DIR\")\" \"$BASENAME\"\n\nSIZE=$(du -h \"$ARCHIVE_PATH\" | cut -f1)\nlog \"INFO\" \"圧縮完了: $ARCHIVE_PATH ($SIZE)\"\n\n# --- 世代管理 ---\nDELETED=0\nwhile IFS= read -r -d '' old; do\n  log \"INFO\" \"古いバックアップ削除: $old\"\n  rm -f \"$old\"\n  DELETED=$((DELETED + 1))\ndone &lt; &lt;(find \"$BACKUP_ROOT\" -name \"${BASENAME}_*.tar.gz\" -mtime +\"$RETENTION_DAYS\" -print0)\n\nlog \"INFO\" \"削除件数: $DELETED\"\nlog \"INFO\" \"=== バックアップ正常終了 ===\"\nexit 0</code></pre>\n\n<h2>動作確認手順</h2>\n<pre><code># 1. テスト用データ作成\nmkdir -p /tmp/demo-site/{css,js}\necho \"hello\" > /tmp/demo-site/index.html\n\n# 2. スクリプト配置\nchmod +x ~/backup-tool/backup.sh\n\n# 3. 手動実行（テスト用パス）\nSOURCE_DIR_OVERRIDE=/tmp/demo-site BACKUP_ROOT_OVERRIDE=/tmp/backups RETENTION_DAYS_OVERRIDE=3   ~/backup-tool/backup.sh\n\n# 4. 成果物確認\nls -lh /tmp/backups/\ncat /var/log/backup.log   # または LOG_DIR 指定先\n\n# 5. リストア確認\nmkdir -p /tmp/restore\ntar -xzf /tmp/backups/demo-site_*.tar.gz -C /tmp/restore\nls -R /tmp/restore</code></pre>\n\n<h2>cron への登録</h2>\n<pre><code># crontab -e\nSHELL=/bin/bash\nPATH=/usr/local/bin:/usr/bin:/bin\nCONFIG=/home/user/backup-tool/backup.conf\n\n# 毎日 3:30 に実行、ログ追記\n30 3 * * * flock -n /var/run/backup.lock /home/user/backup-tool/backup.sh >> /var/log/backup-cron.log 2>&1</code></pre>\n<p><code>flock</code> で前回処理が長引いている場合の重複実行を防ぎます。</p>\n\n<h2>拡張アイデア</h2>\n<p><strong>リモート転送</strong>：アーカイブ作成後に <code>rsync</code> や <code>scp</code> で別サーバーへ送る関数を追加。<strong>通知</strong>：失敗時に <code>mail</code> や Slack Webhook（curl）を trap から呼ぶ。<strong>暗号化</strong>：<code>gpg --encrypt</code> でアーカイブを暗号化。<strong>DBダンプ連携</strong>：<code>mysqldump</code> の出力も同じ tar に含める。</p>\n<pre><code># DB + ファイルの複合バックアップ例（抜粋）\ndump_db() {\n  local out=\"$1/dump.sql\"\n  mysqldump -u backup --single-transaction mydb > \"$out\"\n}\n\nWORK=$(mktemp -d)\ntrap 'rm -rf \"$WORK\"' EXIT\ndump_db \"$WORK\"\ncp -a \"$SOURCE_DIR\" \"$WORK/files\"\ntar -czf \"$ARCHIVE_PATH\" -C \"$WORK\" .</code></pre>\n\n<h2>よくある運用トラブル</h2>\n<p><strong>ディスク満杯</strong>：バックアップ前に <code>df</code> で空き確認し、閾値未満なら die。<strong>権限不足</strong>：cron 実行ユーザーがソース読取・先書込可能か確認。<strong>パスにスペース</strong>：変数は常に <code>\"$VAR\"</code> でクォート。<strong>部分的成功</strong>：tar 警告を無視しない（set -e 有効時は停止）。</p>\n\n<h2>コース総まとめ</h2>\n<p>第1回で shebang と実行権限、第2回で変数と終了コード、第3回で if/case、第4回でループ、第5回で関数、第6回でパイプ、第7回で grep/sed/awk、第8回で cron、第9回で set -e/trap——これらが1本の backup.sh に集約されています。今後は自分の環境（Webルート、DB、ログ）に合わせてカスタマイズし、Git でバージョン管理してチームで共有してください。</p>\n\n<h2>次の学習ステップ</h2>\n<p>Bash 入門後は、<strong>正規表現</strong>でログパターンを強化、<strong>Docker</strong> でコンテナ運用スクリプト、<strong>Python</strong> でより複雑な自動化、<strong>nginx</strong> ログ解析など、用途に応じて隣接スキルを広げると効果的です。</p>\n\n<h2>まとめ</h2>\n<p>実践バックアップスクリプトは、tar 圧縮・世代管理・ログ・エラー処理・設定の外部化・cron 連携をセットにした「運用の最小完成形」です。このテンプレートをベースに、自分のサービスに必要な機能を足していきましょう。</p>",
+  "conclusion": "本番向け Bash バックアップスクリプトは、set -euo pipefail・trap・log 関数・設定ファイル source・tar 圧縮・find による世代削除・cron+flock を組み合わせて構築します。手動テスト後に crontab 登録し、リストア手順も文書化することが運用上の完成です。",
+  "tags": [
+    "Bash",
+    "バックアップ",
+    "実践",
+    "運用",
+    "tar",
+    "cron",
+    "自動化"
+  ],
+  "category": "Bash",
+  "theme": "bash - Bashシェルスクリプト入門",
+  "status": "published",
+  "createdAt": "2026-05-30T05:14:56.915Z",
+  "updatedAt": "2026-05-30T05:14:56.918Z",
+  "publishedAt": "2026-05-30T05:14:56.915Z",
+  "metaTitle": "Bash バックアップスクリプト 実践｜運用自動化チュートリアル",
+  "metaDescription": "【Bash初心者向け】Bashで本番運用向けバックアップスクリプトを作成する実践チュートリアル。tar圧縮、世代管理、ログ、エラー処理、cron登録まで一通り解説します。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
+  "ogTitle": "実践：Bashバックアップスクリプト",
+  "ogDescription": "【Bash初心者向け】【Bash初心者向け】シェルスクリプト入門の総仕上げとして、運用レベルのバックアップ自動化を構築します。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
+  "knowledge": {
+    "topic": "bash",
+    "courseId": "bash",
+    "episode": 10
+  },
+  "faq": [
+    {
+      "question": "tar と rsync のバックアップ使い分けは？",
+      "answer": "tar は特定時点のスナップショットアーカイブ向き、rsync は差分同期・ミラーリング向きです。世代管理アーカイブには tar.gz が定番、リアルタイム同期には rsync です。"
+    },
+    {
+      "question": "バックアップ先をクラウド（S3等）に上げるには？",
+      "answer": "AWS CLI の aws s3 cp、rclone 等をスクリプト末尾に追加します。ローカル世代管理とクラウド冗長化を組み合わせるのが一般的です。"
+    },
+    {
+      "question": "リストア手順はどう残すべきですか？",
+      "answer": "README に tar -xzf の例、必要なユーザー権限、DB ダンプ復元手順を記載し、四半期に1回リストアテストを行うのがベストプラクティスです。"
+    },
+    {
+      "question": "バックアップ中にファイルが変更されたら？",
+      "answer": "完全な一点整合性はファイルシステムスナップショット（LVM/ZFS）や DB の --single-transaction が必要です。静的サイトなら tar 中の変更は許容範囲のことも多いです。"
+    },
+    {
+      "question": "このコースの次におすすめの学習は？",
+      "answer": "regex でログ解析強化、Docker/Kubernetes の CronJob、Python によるインフラ自動化（Ansible 等）など、運用規模に応じて選ぶと良いです。"
+    }
+  ],
+  "nextEpisodeHint": "Bashシェルスクリプト入門コースは全10回で完了です。正規表現・Docker・Python・nginx など関連コースで、自動化と運用の幅をさらに広げていきましょう。",
+  "nextAction": "backup.sh を ~/backup-tool に配置し、/tmp のテストデータで手動実行→リストア確認→crontab に本番スケジュールを登録してください。設定ファイル backup.conf も Git 管理することをおすすめします。",
+  "internalLinkCandidates": [
+    {
+      "slug": "linux-intro",
+      "title": "Linuxとは？コマンドラインの世界へようこそ【初心者向け完全入門】",
+      "reason": "バックアップ運用は Linux サーバー上で行うことが多いです。"
+    },
+    {
+      "slug": "git-intro",
+      "title": "Gitとは？バージョン管理を初めて学ぶ人のための完全入門",
+      "reason": "backup.sh を Git で管理・共有する運用と相性が良いです。"
+    },
+    {
+      "slug": "docker-intro",
+      "title": "Dockerとは？仮想マシンとの違いをわかりやすく解説【初心者向け】",
+      "reason": "ボリュームデータのバックアップや CronJob 連携に発展できます。"
+    },
+    {
+      "slug": "python-intro",
+      "title": "Pythonとは？プログラミング入門の第一歩【完全初心者向け】",
+      "reason": "より複雑なバックアップロジックは Python へ移行する選択肢があります。"
+    },
+    {
+      "slug": "regex-intro",
+      "title": "正規表現とは？いつ使うのか",
+      "reason": "バックアップログの解析やファイルフィルタに正規表現を活用できます。"
+    }
+  ],
+  "ogImage": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+  "canonical": "https://ai-site-iota-nine.vercel.app/article/bash-practice",
+  "jsonLd": {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@context": "https://schema.org",
+        "@type": "TechArticle",
+        "headline": "【実践】Bashでバックアップスクリプトを作る｜運用自動化の総仕上げ【第10回】",
+        "description": "【Bash初心者向け】Bashで本番運用向けバックアップスクリプトを作成する実践チュートリアル。tar圧縮、世代管理、ログ、エラー処理、cron登録まで一通り解説します。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
+        "datePublished": "2026-05-30T05:14:56.915Z",
+        "dateModified": "2026-05-30T05:14:56.918Z",
+        "author": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
+        },
+        "image": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+        "inLanguage": "ja",
+        "wordCount": 3968,
+        "mainEntityOfPage": {
+          "@type": "WebPage",
+          "@id": "https://ai-site-iota-nine.vercel.app/article/bash-practice"
+        },
+        "keywords": "Bash, バックアップ, 実践, 運用, tar, cron, 自動化",
+        "articleSection": "Bash",
+        "url": "https://ai-site-iota-nine.vercel.app/article/bash-practice",
+        "learningResourceType": "tutorial",
+        "educationalLevel": "beginner"
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "ホーム",
+            "item": "https://ai-site-iota-nine.vercel.app/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "bash",
+            "item": "https://ai-site-iota-nine.vercel.app/knowledge/bash"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "Bashシェルスクリプト入門",
+            "item": "https://ai-site-iota-nine.vercel.app/course/bash/bash"
+          },
+          {
+            "@type": "ListItem",
+            "position": 4,
+            "name": "【実践】Bashでバックアップスクリプトを作る｜運用自動化の総仕上げ【第10回】",
+            "item": "https://ai-site-iota-nine.vercel.app/article/bash-practice"
+          }
+        ]
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "Course",
+        "name": "Bashシェルスクリプト入門",
+        "description": "Linux/macOS/WSLで使えるBashスクリプトを10ステップで習得。自動化・運用の第一歩となるニッチスキルを具体例で学びます。",
+        "provider": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app"
+        },
+        "url": "https://ai-site-iota-nine.vercel.app/course/bash/bash",
+        "inLanguage": "ja",
+        "educationalLevel": "beginner",
+        "hasCourseInstance": {
+          "@type": "CourseInstance",
+          "courseMode": "online",
+          "courseWorkload": "PT1H"
+        }
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "tar と rsync のバックアップ使い分けは？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "tar は特定時点のスナップショットアーカイブ向き、rsync は差分同期・ミラーリング向きです。世代管理アーカイブには tar.gz が定番、リアルタイム同期には rsync です。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "バックアップ先をクラウド（S3等）に上げるには？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "AWS CLI の aws s3 cp、rclone 等をスクリプト末尾に追加します。ローカル世代管理とクラウド冗長化を組み合わせるのが一般的です。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "リストア手順はどう残すべきですか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "README に tar -xzf の例、必要なユーザー権限、DB ダンプ復元手順を記載し、四半期に1回リストアテストを行うのがベストプラクティスです。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "バックアップ中にファイルが変更されたら？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "完全な一点整合性はファイルシステムスナップショット（LVM/ZFS）や DB の --single-transaction が必要です。静的サイトなら tar 中の変更は許容範囲のことも多いです。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "このコースの次におすすめの学習は？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "regex でログ解析強化、Docker/Kubernetes の CronJob、Python によるインフラ自動化（Ansible 等）など、運用規模に応じて選ぶと良いです。"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "breadcrumb": {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "ホーム",
+        "item": "https://ai-site-iota-nine.vercel.app/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "bash",
+        "item": "https://ai-site-iota-nine.vercel.app/knowledge/bash"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "Bashシェルスクリプト入門",
+        "item": "https://ai-site-iota-nine.vercel.app/course/bash/bash"
+      },
+      {
+        "@type": "ListItem",
+        "position": 4,
+        "name": "【実践】Bashでバックアップスクリプトを作る｜運用自動化の総仕上げ【第10回】",
+        "item": "https://ai-site-iota-nine.vercel.app/article/bash-practice"
+      }
+    ]
+  },
+  "courseSchema": {
+    "@context": "https://schema.org",
+    "@type": "Course",
+    "name": "Bashシェルスクリプト入門",
+    "description": "Linux/macOS/WSLで使えるBashスクリプトを10ステップで習得。自動化・運用の第一歩となるニッチスキルを具体例で学びます。",
+    "provider": {
+      "@type": "Organization",
+      "name": "StackShelf",
+      "url": "https://ai-site-iota-nine.vercel.app"
+    },
+    "url": "https://ai-site-iota-nine.vercel.app/course/bash/bash",
+    "inLanguage": "ja",
+    "educationalLevel": "beginner",
+    "hasCourseInstance": {
+      "@type": "CourseInstance",
+      "courseMode": "online",
+      "courseWorkload": "PT1H"
+    }
+  },
+  "faqSchema": {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "tar と rsync のバックアップ使い分けは？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "tar は特定時点のスナップショットアーカイブ向き、rsync は差分同期・ミラーリング向きです。世代管理アーカイブには tar.gz が定番、リアルタイム同期には rsync です。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "バックアップ先をクラウド（S3等）に上げるには？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "AWS CLI の aws s3 cp、rclone 等をスクリプト末尾に追加します。ローカル世代管理とクラウド冗長化を組み合わせるのが一般的です。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "リストア手順はどう残すべきですか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "README に tar -xzf の例、必要なユーザー権限、DB ダンプ復元手順を記載し、四半期に1回リストアテストを行うのがベストプラクティスです。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "バックアップ中にファイルが変更されたら？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "完全な一点整合性はファイルシステムスナップショット（LVM/ZFS）や DB の --single-transaction が必要です。静的サイトなら tar 中の変更は許容範囲のことも多いです。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "このコースの次におすすめの学習は？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "regex でログ解析強化、Docker/Kubernetes の CronJob、Python によるインフラ自動化（Ansible 等）など、運用規模に応じて選ぶと良いです。"
+        }
+      }
+    ]
+  }
+}

@@ -83,6 +83,17 @@ function getFeaturedArticles(limit = 6) {
 function getLearningPaths() {
   return [
     {
+      title: "インフラ・ドキュメントコース",
+      description: "Markdown → HTTP → nginx → Bash → 正規表現",
+      steps: [
+        { label: "Markdown", href: "/knowledge/markdown" },
+        { label: "HTTP", href: "/knowledge/http" },
+        { label: "nginx", href: "/knowledge/nginx" },
+        { label: "Bash", href: "/knowledge/bash" },
+        { label: "正規表現", href: "/knowledge/regex" },
+      ],
+    },
+    {
       title: "Web開発コース",
       description: "Python → Git → HTML/CSS → Docker の順で学ぶ",
       steps: [

@@ -1,9 +1,9 @@
 {
   "slug": "java-project-development",
-  "title": "Javaのプロジェクト開発",
-  "summary": "小さな Java プロジェクトを設計・実装・ビルドする流れを学びます。パッケージ構成、Maven/Gradle の概要、テストと README の重要性を解説します。",
-  "body": "<h2>導入</h2><p>これまで学んだ文法・OOP・コレクション・IO を<strong>1つのプロジェクト</strong>にまとめる段階です。実務に近い流れを体験しましょう。</p><h2>プロジェクト構成</h2><pre><code>my-app/\n  src/main/java/com/example/App.java\n  src/test/java/com/example/AppTest.java\n  pom.xml  （Maven の場合）</code></pre><p>パッケージ名は逆ドメイン形式（<code>com.example</code>）が慣例です。</p><h3>ビルドツール</h3><p><strong>Maven</strong> と <strong>Gradle</strong> が主流です。依存ライブラリの取得、コンパイル、テスト、JAR 作成を自動化します。</p><h2>開発の流れ</h2><ol><li>要件を1段落で書く（誰が何をしたいか）</li><li>クラスと責務を紙に分割</li><li>main から動く最小版を作る</li><li>JUnit でテストを追加</li><li>README に実行手順を書く</li></ol><h2>ミニプロジェクト例</h2><p>「TODO をファイル保存する CLI アプリ」なら、<code>Todo</code> モデル、<code>TodoRepository</code>（ファイル IO）、<code>App</code>（CLI）に分けると拡張しやすいです。</p><h3>よくあるつまずき</h3><p>最初から大きな設計を目指すより、<strong>動く最小版</strong>を早く作る方が学習効率が高いです。リファクタリングは後からで構いません。</p><h2>確認方法</h2><p><code>mvn test</code> または <code>gradle test</code> が通る状態を目標にしてください。CI（GitHub Actions 等）は余裕があれば追加します。</p><h2>まとめ</h2><p>プロジェクト開発は「構成・ビルド・テスト・ドキュメント」の4点セットです。小さな完成品を1つ作る経験が、これまでの学習を定着させます。</p>",
-  "conclusion": "Java プロジェクトは標準ディレクトリ構成とビルドツールを使い、最小動作から育てるのが成功の近道です。README とテストを忘れず、オリジナルアプリ制作に挑戦して講座を締めくくりましょう。",
+  "title": "Javaプロジェクト開発｜Maven構成とCLIアプリ",
+  "summary": "Maven/Gradleプロジェクト構造、src/main/java、依存関係、JUnitテスト、実行可能JAR、CLIアプリ開発の流れと失敗例を学びます。",
+  "body": "<h2>結論：Javaプロジェクトはsrc/main/javaにソース、Maven/Gradleで依存とビルドを管理し、テストと実行可能JARで配布する</h2>\n<p>単一ファイルの学習を卒業し、<strong>プロジェクト</strong>として整理します。標準レイアウトに従うと、IDE・CI・他者との協業がスムーズです。</p>\n\n<h2>標準ディレクトリ（Maven）</h2>\n<pre><code>my-app/\n  pom.xml\n  src/main/java/com/example/App.java\n  src/test/java/com/example/AppTest.java\n  src/main/resources/application.properties</code></pre>\n\n<h2>最小 pom.xml</h2>\n<pre><code>&lt;project&gt;\n  &lt;modelVersion&gt;4.0.0&lt;/modelVersion&gt;\n  &lt;groupId&gt;com.example&lt;/groupId&gt;\n  &lt;artifactId&gt;my-app&lt;/artifactId&gt;\n  &lt;version&gt;1.0-SNAPSHOT&lt;/version&gt;\n&lt;/project&gt;</code></pre>\n<p><code>mvn compile</code>、<code>mvn test</code>、<code>mvn package</code> でビルドします。</p>\n\n<h2>CLIアプリ例</h2>\n<pre><code>package com.example;\n\npublic class App {\n    public static void main(String[] args) {\n        if (args.length == 0) {\n            System.err.println(\"Usage: app &lt;name&gt;\");\n            System.exit(1);\n        }\n        System.out.println(\"Hello, \" + args[0]);\n    }\n}</code></pre>\n\n<h2>JUnit 5 テスト</h2>\n<pre><code>@Test\nvoid greets() {\n    assertEquals(\"Hello, Java\", App.greet(\"Java\"));\n}</code></pre>\n\n<h3>失敗例：パッケージとディレクトリ不一致</h3>\n<p><code>package com.example;</code> なのに <code>src/App.java</code> 直下だとコンパイルエラーです。パスは <code>com/example/App.java</code> である必要があります。</p>\n\n<h3>失敗例：classpath なしで java 実行</h3>\n<p>複数クラス・依存JARがある場合、<code>java -jar app.jar</code> または classpath 指定が必要です。</p>\n\n<h2>次のステップ</h2>\n<ul>\n  <li>Spring Boot でWeb API</li>\n  <li>Gradle への移行</li>\n  <li>GitHub Actions で CI</li>\n  <li>Docker 化してデプロイ</li>\n</ul>\n\n<h2>まとめ</h2>\n<p>プロジェクト開発は「構造・ビルド・テスト・配布」の4点セットです。この講座で学んだ文法・OOP・コレクション・Streamを1つのCLIツール（TODO管理やCSV集計など）に統合してみましょう。</p>",
+  "conclusion": "JavaプロジェクトはMaven/Gradle標準レイアウトで管理し、mvn test/packageで品質と成果物を得ます。パッケージとフォルダ不一致、classpath忘れは初学者の典型です。TODO CLIまたはCSV集計ツールをMavenプロジェクトとして完成させましょう。",
   "tags": [
     "Java",
     "プロジェクト",
@@ -13,12 +13,12 @@
   "theme": "java - Java",
   "status": "published",
   "createdAt": "2026-05-29T14:36:45.328Z",
-  "updatedAt": "2026-05-30T05:01:31.982Z",
+  "updatedAt": "2026-05-30T05:18:37.116Z",
   "publishedAt": "2026-05-29T14:36:45.328Z",
-  "metaTitle": "Javaのプロジェクト開発｜プログラミング入門 | StackShelf",
-  "metaDescription": "小さな Java プロジェクトを設計・実装・ビルドする流れを学びます。パッケージ構成、Maven/Gradle の概要、テストと README の重要性を解説します。",
+  "metaTitle": "Javaプロジェクト開発｜Maven・JUnit・CLI | StackShelf",
+  "metaDescription": "JavaのMavenプロジェクト構成、標準ディレクトリ、JUnitテスト、実行可能JARとパッケージの失敗例を解説します。",
   "ogTitle": "Javaのプロジェクト開発",
-  "ogDescription": "小さな Java プロジェクトを設計・実装・ビルドする流れを学びます。パッケージ構成、Maven/Gradle の概要、テストと README の重要性を解説します。",
+  "ogDescription": "Maven構成とCLIアプリ開発の流れを失敗例つきで学べます。",
   "knowledge": {
     "topic": "java",
     "courseId": "java",
@@ -27,26 +27,26 @@
   "faq": [
     {
       "question": "Maven と Gradle はどちら？",
-      "answer": "どちらも主流です。教材や職場に合わせて選べば問題ありません。"
+      "answer": "どちらも主流。Spring Initializrは両方対応。Gradleはスクリプト柔軟、MavenはXMLで明示的。"
     },
     {
-      "question": "IDE は必要？",
-      "answer": "IntelliJ IDEA や Eclipse があると効率的ですが、エディタ+CLI でも可能です。"
+      "question": "IDEなしで開発できる？",
+      "answer": "可能ですが、IntelliJ/VS Codeがあると効率が上がります。CLIビルドも定期的に確認しましょう。"
     },
     {
-      "question": "つまずいたときはどうすればいいですか？",
-      "answer": "エラーメッセージをそのまま検索し、公式ドキュメントを当たってください。小さなステップに分けて再現・確認すると原因を特定しやすくなります。"
+      "question": "実行可能JARの作り方は？",
+      "answer": "maven-shade-pluginやspring-boot-maven-pluginでMain-Classをマニフェストに指定します。"
     },
     {
-      "question": "どのくらいのペースで学べばいいですか？",
-      "answer": "1日30分〜1時間、週に3〜4回のペースが続けやすい目安です。読むだけでなく、必ず手を動かして確認しましょう。"
+      "question": "properties ファイルの読み方は？",
+      "answer": "ClassLoader.getResourceAsStream や @PropertySource（Spring）で読み込みます。"
     },
     {
-      "question": "この記事の内容を忘れないコツは？",
-      "answer": "学んだ直後にメモを残し、翌日にもう一度短時間復習してください。実際のプロジェクトや練習問題に当てはめると記憶に定着しやすくなります。"
+      "question": "この講座のあとは？",
+      "answer": "Spring Boot、JPA、テスト駆動開発、Docker/K8sなど実務スタックへ。基礎はこの20回で十分な土台です。"
     }
   ],
-  "nextEpisodeHint": "講座の総仕上げとして、学んだ内容を組み合わせたオリジナルアプリに挑戦してみましょう。",
+  "nextEpisodeHint": "",
   "canonical": "https://ai-site-iota-nine.vercel.app/article/java-project-development",
   "jsonLd": {
     "@context": "https://schema.org",
@@ -54,10 +54,10 @@
       {
         "@context": "https://schema.org",
         "@type": "TechArticle",
-        "headline": "Javaのプロジェクト開発",
-        "description": "【プログラミング初心者向け】小さな Java プロジェクトを設計・実装・ビルドする流れを学びます。パッケージ構成、Maven/Gradle の概要、テストと README の重要性を解説します。 図解・具体例つきで丁寧に解説します。",
+        "headline": "Javaプロジェクト開発｜Maven構成とCLIアプリ",
+        "description": "JavaのMavenプロジェクト構成、標準ディレクトリ、JUnitテスト、実行可能JARとパッケージの失敗例を解説します。",
         "datePublished": "2026-05-29T14:36:45.328Z",
-        "dateModified": "2026-05-30T05:01:31.982Z",
+        "dateModified": "2026-05-30T05:18:37.116Z",
         "author": {
           "@type": "Organization",
           "name": "StackShelf",
@@ -78,7 +78,7 @@
         },
         "image": "https://ai-site-iota-nine.vercel.app/og-default.svg",
         "inLanguage": "ja",
-        "wordCount": 623,
+        "wordCount": 1133,
         "mainEntityOfPage": {
           "@type": "WebPage",
           "@id": "https://ai-site-iota-nine.vercel.app/article/java-project-development"
@@ -114,7 +114,7 @@
           {
             "@type": "ListItem",
             "position": 4,
-            "name": "Javaのプロジェクト開発",
+            "name": "Javaプロジェクト開発｜Maven構成とCLIアプリ",
             "item": "https://ai-site-iota-nine.vercel.app/article/java-project-development"
           }
         ]
@@ -147,39 +147,39 @@
             "name": "Maven と Gradle はどちら？",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "どちらも主流です。教材や職場に合わせて選べば問題ありません。"
+              "text": "どちらも主流。Spring Initializrは両方対応。Gradleはスクリプト柔軟、MavenはXMLで明示的。"
             }
           },
           {
             "@type": "Question",
-            "name": "IDE は必要？",
+            "name": "IDEなしで開発できる？",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "IntelliJ IDEA や Eclipse があると効率的ですが、エディタ+CLI でも可能です。"
+              "text": "可能ですが、IntelliJ/VS Codeがあると効率が上がります。CLIビルドも定期的に確認しましょう。"
             }
           },
           {
             "@type": "Question",
-            "name": "つまずいたときはどうすればいいですか？",
+            "name": "実行可能JARの作り方は？",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "エラーメッセージをそのまま検索し、公式ドキュメントを当たってください。小さなステップに分けて再現・確認すると原因を特定しやすくなります。"
+              "text": "maven-shade-pluginやspring-boot-maven-pluginでMain-Classをマニフェストに指定します。"
             }
           },
           {
             "@type": "Question",
-            "name": "どのくらいのペースで学べばいいですか？",
+            "name": "properties ファイルの読み方は？",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "1日30分〜1時間、週に3〜4回のペースが続けやすい目安です。読むだけでなく、必ず手を動かして確認しましょう。"
+              "text": "ClassLoader.getResourceAsStream や @PropertySource（Spring）で読み込みます。"
             }
           },
           {
             "@type": "Question",
-            "name": "この記事の内容を忘れないコツは？",
+            "name": "この講座のあとは？",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "学んだ直後にメモを残し、翌日にもう一度短時間復習してください。実際のプロジェクトや練習問題に当てはめると記憶に定着しやすくなります。"
+              "text": "Spring Boot、JPA、テスト駆動開発、Docker/K8sなど実務スタックへ。基礎はこの20回で十分な土台です。"
             }
           }
         ]
@@ -211,7 +211,7 @@
       {
         "@type": "ListItem",
         "position": 4,
-        "name": "Javaのプロジェクト開発",
+        "name": "Javaプロジェクト開発｜Maven構成とCLIアプリ",
         "item": "https://ai-site-iota-nine.vercel.app/article/java-project-development"
       }
     ]
@@ -244,70 +244,70 @@
         "name": "Maven と Gradle はどちら？",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "どちらも主流です。教材や職場に合わせて選べば問題ありません。"
+          "text": "どちらも主流。Spring Initializrは両方対応。Gradleはスクリプト柔軟、MavenはXMLで明示的。"
         }
       },
       {
         "@type": "Question",
-        "name": "IDE は必要？",
+        "name": "IDEなしで開発できる？",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "IntelliJ IDEA や Eclipse があると効率的ですが、エディタ+CLI でも可能です。"
+          "text": "可能ですが、IntelliJ/VS Codeがあると効率が上がります。CLIビルドも定期的に確認しましょう。"
         }
       },
       {
         "@type": "Question",
-        "name": "つまずいたときはどうすればいいですか？",
+        "name": "実行可能JARの作り方は？",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "エラーメッセージをそのまま検索し、公式ドキュメントを当たってください。小さなステップに分けて再現・確認すると原因を特定しやすくなります。"
+          "text": "maven-shade-pluginやspring-boot-maven-pluginでMain-Classをマニフェストに指定します。"
         }
       },
       {
         "@type": "Question",
-        "name": "どのくらいのペースで学べばいいですか？",
+        "name": "properties ファイルの読み方は？",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "1日30分〜1時間、週に3〜4回のペースが続けやすい目安です。読むだけでなく、必ず手を動かして確認しましょう。"
+          "text": "ClassLoader.getResourceAsStream や @PropertySource（Spring）で読み込みます。"
         }
       },
       {
         "@type": "Question",
-        "name": "この記事の内容を忘れないコツは？",
+        "name": "この講座のあとは？",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "学んだ直後にメモを残し、翌日にもう一度短時間復習してください。実際のプロジェクトや練習問題に当てはめると記憶に定着しやすくなります。"
+          "text": "Spring Boot、JPA、テスト駆動開発、Docker/K8sなど実務スタックへ。基礎はこの20回で十分な土台です。"
         }
       }
     ]
   },
+  "nextAction": "Maven archetypeまたはIDEで新規プロジェクトを作成し、引数でファイルパスを受け取るCLI（行数カウント等）をJUnitテスト付きで完成させてください。",
   "internalLinkCandidates": [
     {
-      "slug": "java-functional-programming",
-      "title": "Javaの関数型プログラミング",
-      "reason": "同じ講座の関連回です"
+      "slug": "java-best-practices",
+      "title": "Javaプログラミングのベストプラクティス",
+      "reason": "コード品質"
     },
     {
-      "slug": "java-lambda-expression",
-      "title": "Javaのラムダ式",
-      "reason": "同じ講座の関連回です"
-    },
-    {
-      "slug": "java-stream-api",
-      "title": "JavaのStream API",
-      "reason": "同じ講座の関連回です"
+      "slug": "java-file-input-output",
+      "title": "Javaのファイル入出力",
+      "reason": "CLIでファイル処理"
     },
     {
       "slug": "java-collection-framework",
       "title": "Javaのコレクションフレームワーク",
-      "reason": "同じ講座の関連回です"
+      "reason": "データ保持"
     },
     {
-      "slug": "java-thread-programming",
-      "title": "Javaのスレッドプログラミング",
-      "reason": "同じ講座の関連回です"
+      "slug": "java-exception-handling",
+      "title": "Javaの例外処理",
+      "reason": "CLIのエラー処理"
+    },
+    {
+      "slug": "java-introduction",
+      "title": "Javaとは？オブジェクト指向言語の第一歩",
+      "reason": "講座の最初に戻る"
     }
   ],
-  "nextAction": "講座の総仕上げとして、学んだ内容を組み合わせたオリジナルアプリに挑戦してみましょう。",
   "ogImage": "https://ai-site-iota-nine.vercel.app/og-default.svg"
 }

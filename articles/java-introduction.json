@@ -1,10 +1,10 @@
 {
   "id": "art_1780054613092",
   "slug": "java-introduction",
-  "title": "Javaの基礎",
-  "summary": "Javaを学ぶための基礎を解説します。Javaの特徴や基本的な構造を理解しましょう。",
-  "body": "<h2>導入</h2><p><a href=\"/article/java-inheritance\">Java</a>は<a href=\"/article/java-best-practices\">オブジェクト指向</a>プログラミング言語の一つで、現在最も人気のあるプログラミング言語の一つです。<a href=\"/article/java-inheritance\">Java</a>を学ぶことで、Androidアプリの開発やWebアプリの開発など、幅広い分野で活用できます。このエピソードでは、<a href=\"/article/java-inheritance\">Java</a>の基礎を解説します。</p><h3>なぜ<a href=\"/article/java-inheritance\">Java</a>を学ぶのか</h3><p><a href=\"/article/java-inheritance\">Java</a>を学ぶ理由は、主に以下の二つがあります。まず、<a href=\"/article/java-inheritance\">Java</a>は<a href=\"/article/java-best-practices\">オブジェクト指向</a>プログラミング言語です。<a href=\"/article/java-best-practices\">オブジェクト指向</a>プログラミング言語とは、実世界の物や概念を「オブジェクト」として表現し、それらの関係や動作をプログラムで表現する手法です。<a href=\"/article/java-inheritance\">Java</a>を学ぶことで、<a href=\"/article/java-best-practices\">オブジェクト指向</a>プログラミングの基礎を理解することができます。</p><h2><a href=\"/article/java-inheritance\">Java</a>の特徴</h2><p><a href=\"/article/java-inheritance\">Java</a>には以下のような特徴があります。<ul><li><a href=\"/article/java-best-practices\">オブジェクト指向</a>: <a href=\"/article/java-inheritance\">Java</a>は<a href=\"/article/java-best-practices\">オブジェクト指向</a>プログラミング言語の一つです。</li><li>プラットフォーム独立性: <a href=\"/article/java-inheritance\">Java</a>は、<a href=\"/article/java-inheritance\">Java</a>仮想マシン（JVM）上で動作するため、<a href=\"/article/java-inheritance\">Java</a>で開発したプログラムは、<a href=\"/article/java-inheritance\">Java</a>がインストールされた環境であれば、オペレーティングシステムやハードウェアに依存せずに動作することができます。</li><li>セキュリティ: <a href=\"/article/java-inheritance\">Java</a>には、セキュリティ機能が充実しています。<a href=\"/article/java-inheritance\">Java</a>で開発したプログラムは、サンドボックス内で動作するため、外部のシステムに悪影響を与えることができません。</li></ul></p><h3><a href=\"/article/java-inheritance\">Java</a>の基本的な構造</h3><p><a href=\"/article/java-inheritance\">Java</a>の基本的な構造は、クラスとオブジェクトから成ります。クラスとは、オブジェクトの設計図のようなもので、オブジェクトの属性と動作を定義します。オブジェクトとは、クラスをインスタンス化したもので、実際のデータや動作を表現します。例えば、<code>public class Hoge { ... }</code> というクラスを定義し、<code>Hoge hoge = new Hoge();</code> という式でオブジェクトを生成します。</p><h2><a href=\"/article/java-inheritance\">Java</a>の基本的な文法</h2><p><a href=\"/article/java-inheritance\">Java</a>の基本的な文法は、以下の通りです。<ul><li>変数: <a href=\"/article/java-inheritance\">Java</a>では、変数を宣言するために、<code>int</code>、<code>double</code>、<code>boolean</code>などのキーワードを使用します。</li><li>制御構文: <a href=\"/article/java-inheritance\">Java</a>では、<code>if</code>、<code>else</code>、<code>for</code>、<code>while</code>などのキーワードを使用して、制御構文を記述します。</li><li>関数: <a href=\"/article/java-inheritance\">Java</a>では、<code>public</code>、<code>private</code>などのキーワードを使用して、関数を定義します。</li></ul></p><h3>具体的な例</h3><p>例えば、以下のコードは、<a href=\"/article/java-inheritance\">Java</a>で簡単な計算機を作成する例です。<pre><code>public class Calculator {<br>   public int add(int a, int b) {<br>      return a + b;<br>   }<br>}<br><br>public class Main {<br>   public static void main(String[] args) {<br>      Calculator calculator = new Calculator();<br>      int result = calculator.add(1, 2);<br>      System.out.println(result);<br>   }<br>}</code></pre></p><h2>手順</h2><p><a href=\"/article/java-inheritance\">Java</a>を学ぶには、以下の手順を踏むことができます。<ol><li><a href=\"/article/java-inheritance\">Java</a>の開発環境をセットアップします。EclipseやNetBeansなどのIDEをインストールします。</li><li><a href=\"/article/java-inheritance\">Java</a>の基本的な構文を学びます。変数、データ型、制御構文、関数などを理解します。</li><li><a href=\"/article/java-best-practices\">オブジェクト指向</a>プログラミングの基礎を学びます。クラス、オブジェクト、継承、ポリモーフィズムなどを理解します。</li><li>実践的な問題を解きます。<a href=\"/article/java-inheritance\">Java</a>のプログラムを書き、実行してみます。</li></ol></p><h3>よくあるつまずき</h3><p><a href=\"/article/java-inheritance\">Java</a>を学ぶ際に、よくあるつまずきとして、以下の点があります。<ul><li>クラスとオブジェクトの違いがわからない: クラスはオブジェクトの設計図のようなもので、オブジェクトはクラスをインスタンス化したものです。</li><li>継承とポリモーフィズムの違いがわからない: 継承は、クラスが別のクラスの属性と動作を引き継ぐことです。ポリモーフィズムは、クラスが別のクラスのメソッドをオーバーライドすることです。</li><li>Nullポインター例外が発生する: Nullポインター例外は、Nullのオブジェクトを参照しようとしたときに発生します。オブジェクトを生成する前に、Nullチェックを行う必要があります。</li></ul></p><h2>確認方法</h2><p><a href=\"/article/java-inheritance\">Java</a>の学習状況を確認するには、以下の方法があります。<ul><li>実践的な問題を解く: EclipseやNetBeansなどのIDEで、<a href=\"/article/java-inheritance\">Java</a>のプログラムを書き、実行してみます。</li><li>オンラインの学習リソースを活用する: UdemyやCourseraなどのオンライン学習プラットフォームで、<a href=\"/article/java-inheritance\">Java</a>のコースを受講します。</li><li><a href=\"/article/java-inheritance\">Java</a>のドキュメントを読む: <a href=\"/article/java-inheritance\">Java</a>の公式ドキュメントを読み、<a href=\"/article/java-inheritance\">Java</a>の機能や構文を理解します。</li></ul></p><h2>まとめ</h2><p><a href=\"/article/java-inheritance\">Java</a>の基礎を理解することで、<a href=\"/article/java-best-practices\">オブジェクト指向</a>プログラミング言語の基礎を理解することができます。<a href=\"/article/java-inheritance\">Java</a>の特徴や基本的な構造を理解し、実践的な問題を解くことで、<a href=\"/article/java-inheritance\">Java</a>の学習を進めることができます。</p><h3>次の一歩</h3><p>次の一歩として、<a href=\"/article/java-inheritance\">Java</a>の文法や基本的な構造についてさらに深く学びます。<a href=\"/article/java-inheritance\">Java</a>の標準ライブラリやフレームワークを使用して、実践的なアプリケーションを作成します。</p>",
-  "conclusion": "Javaの基礎を理解することで、オブジェクト指向プログラミング言語の基礎を理解することができます。Javaの特徴や基本的な構造を理解し、実践的な問題を解くことで、Javaの学習を進めることができます。次回は、Javaの文法や基本的な構造についてさらに深く解説します。",
+  "title": "Javaとは？オブジェクト指向言語の第一歩",
+  "summary": "Javaの特徴（JVM・Write Once Run Anywhere）、クラスとオブジェクトの関係、学習ロードマップを具体例と失敗例つきで解説。Android・Web・エンタープライズで使われる理由も押さえます。",
+  "body": "<h2>結論：JavaはJVM上で動くオブジェクト指向言語で、一度書けば多くの環境で実行できる</h2>\n<p><strong>Java</strong>は、1995年にSun Microsystems（現Oracle）が公開したオブジェクト指向プログラミング言語です。ソースコードを<strong>バイトコード</strong>にコンパイルし、<strong>Java仮想マシン（JVM）</strong>上で実行するため、「Write Once, Run Anywhere（一度書けばどこでも動く）」という思想を持ちます。Androidアプリ、Spring BootによるWeb API、大規模バックオフィスシステムなど、実務で広く使われています。</p>\n<p>この講座の第1回では、Javaを学ぶ理由と全体像を押さえます。文法の細部は次回以降で順に学ぶので、まず「Javaプログラムはクラス単位で書く」「mainメソッドから処理が始まる」という骨格だけ理解しておきましょう。</p>\n\n<h2>Javaが選ばれる理由</h2>\n<ul>\n  <li><strong>プラットフォーム独立性</strong>：Windows・macOS・Linuxで同じバイトコードが動く（JVMが必要）</li>\n  <li><strong>豊富な標準ライブラリ</strong>：ファイルI/O、ネットワーク、コレクションなどが最初から揃っている</li>\n  <li><strong>型安全</strong>：コンパイル時に多くのミスを検出でき、大規模開発に向く</li>\n  <li><strong>エコシステム</strong>：Spring、Maven/Gradle、JUnitなど周辺ツールが充実</li>\n</ul>\n\n<h2>最小のJavaプログラム</h2>\n<p>すべてのJavaプログラムは<strong>クラス</strong>の中に書きます。実行の入口は <code>public static void main(String[] args)</code> です。</p>\n<pre><code>public class Hello {\n    public static void main(String[] args) {\n        System.out.println(\"Hello, Java!\");\n    }\n}</code></pre>\n<p>ファイル名は <code>Hello.java</code> と<strong>クラス名と一致</strong>させる必要があります。コンパイルは <code>javac Hello.java</code>、実行は <code>java Hello</code> です（拡張子 .class は付けません）。</p>\n\n<h3>失敗例：ファイル名とpublicクラス名が不一致</h3>\n<pre><code>// ファイル名 Main.java なのにクラス名が Hello\npublic class Hello {\n    public static void main(String[] args) { }\n}</code></pre>\n<p><code>javac</code> 実行時に <code>class Hello is public, should be declared in a file named Hello.java</code> とエラーになります。publicクラスは1ファイル1クラス・名前一致がルールです。</p>\n\n<h2>クラスとオブジェクトの関係</h2>\n<p><strong>クラス</strong>は設計図、<strong>オブジェクト</strong>はその実体（インスタンス）です。後の回で詳しく学びますが、イメージとして次のコードを見てください。</p>\n<pre><code>public class User {\n    String name;\n    void greet() {\n        System.out.println(\"こんにちは、\" + name);\n    }\n}\n\n// 使用側\nUser u = new User();\nu.name = \"Taro\";\nu.greet();</code></pre>\n\n<h3>失敗例：new を忘れて NullPointerException</h3>\n<pre><code>User u;\nu.greet(); // NullPointerException: u は null のまま</code></pre>\n<p>参照型変数は宣言だけではオブジェクトは作られません。必ず <code>new User()</code> で生成するか、別のオブジェクトを代入してください。</p>\n\n<h2>Javaの学習ロードマップ（この講座）</h2>\n<ol>\n  <li>基礎構文・変数・制御構文・メソッド・配列</li>\n  <li>オブジェクト指向（クラス・継承・多態性）</li>\n  <li>例外処理・ファイルI/O・ネットワーク・スレッド</li>\n  <li>コレクション・Stream・ラムダ・関数型の考え方</li>\n  <li>ベストプラクティスとプロジェクト開発</li>\n</ol>\n<p>いきなりすべてを理解しようとせず、小さなプログラムを動かしながら積み上げるのが定着の近道です。</p>\n\n<h2>開発環境の準備</h2>\n<p>JDK（Java Development Kit）17以上をインストールし、<code>java -version</code> と <code>javac -version</code> で確認します。エディタはVS Code + Extension Pack for Java、またはIntelliJ IDEA Community Editionが初心者に人気です。</p>\n\n<h2>まとめ</h2>\n<p>JavaはJVM上で動くオブジェクト指向言語で、クラスとmainメソッドがプログラムの基本単位です。ファイル名とpublicクラス名の一致、参照型の <code>new</code> 忘れは初学者が最初にぶつかる典型エラーです。次回は基礎構文（文・式・コメント・セミコロン）を詳しく学びます。</p>",
+  "conclusion": "JavaはJVM上で動くオブジェクト指向言語で、Android・Web・エンタープライズなど幅広い分野で使われます。プログラムはクラスに書き、mainメソッドから実行します。ファイル名とクラス名の一致、newによるインスタンス生成を最初に押さえ、小さなコードを動かしながら全20回の講座を進めましょう。",
   "tags": [
     "Java",
     "オブジェクト指向",
@@ -14,12 +14,12 @@
   "theme": "java - Java",
   "status": "published",
   "createdAt": "2026-05-29T11:36:53.071Z",
-  "updatedAt": "2026-05-30T05:01:32.571Z",
+  "updatedAt": "2026-05-30T05:18:37.009Z",
   "publishedAt": "2026-05-29T11:36:53.071Z",
-  "metaTitle": "Javaの基礎｜プログラミング入門 | StackShelf",
-  "metaDescription": "Javaを学ぶための基礎を解説します。Javaの特徴や基本的な構造を理解しましょう。",
-  "ogTitle": "Javaの基礎",
-  "ogDescription": "Javaを学ぶための基礎を解説します。Javaの特徴や基本的な構造を理解しましょう。",
+  "metaTitle": "Javaとは？初心者向け入門｜JVMとオブジェクト指向の第一歩 | StackShelf",
+  "metaDescription": "Javaの特徴、JVM、クラスとmainメソッドの基本を初心者向けに解説。ファイル名不一致やNullPointerExceptionなど典型の失敗例も紹介します。",
+  "ogTitle": "Javaとは？オブジェクト指向言語の第一歩",
+  "ogDescription": "JVM・Write Once Run Anywhere・最小プログラムの書き方を失敗例つきで解説します。",
   "knowledge": {
     "topic": "java",
     "courseId": "java",
@@ -27,27 +27,27 @@
   },
   "faq": [
     {
-      "question": "Javaが何であるか",
-      "answer": "Javaはオブジェクト指向プログラミング言語の一つです"
+      "question": "JavaとJavaScriptは同じ言語ですか？",
+      "answer": "いいえ、別物です。名前にJavaが含まれますが、文法・用途・実行環境が異なります。JavaScriptは主にブラウザ向け、Javaはサーバー・アプリ向けと覚えると混乱しにくいです。"
     },
     {
-      "question": "Javaの特徴は何か",
-      "answer": "Javaの特徴は、オブジェクト指向、プラットフォーム独立性、セキュリティです"
+      "question": "Javaを学ぶのに数学は必要ですか？",
+      "answer": "基礎レベルでは四則演算程度で十分です。オブジェクト指向の考え方に慣れることが最初のハードルで、高度な数学は特定分野（ゲーム物理など）で必要になる程度です。"
     },
     {
-      "question": "Javaを学ぶために必要なステップは何か",
-      "answer": "Javaを学ぶには、Javaの開発環境をセットアップし、Javaの基本的な構文を学び、オブジェクト指向プログラミングの基礎を学ぶ必要があります"
+      "question": "JDKとJREの違いは？",
+      "answer": "JRE（Java Runtime Environment）はプログラム実行用、JDKはコンパイラ（javac）や開発ツールを含む開発用キットです。学習・開発にはJDKをインストールしてください。"
     },
     {
-      "question": "JavaのNullポインター例外とは何か",
-      "answer": "Nullポインター例外は、Nullのオブジェクトを参照しようとしたときに発生します"
+      "question": "コンパイルエラーと実行時エラーの違いは？",
+      "answer": "コンパイルエラーは実行前に文法・型の問題で検出されます。実行時エラー（NullPointerExceptionなど）は動かしてから表面化する問題です。"
     },
     {
-      "question": "つまずいたときはどうすればいいですか？",
-      "answer": "エラーメッセージをそのまま検索し、公式ドキュメントを当たってください。小さなステップに分けて再現・確認すると原因を特定しやすくなります。"
+      "question": "Pythonを先に学んだ方がJavaは楽ですか？",
+      "answer": "変数や制御構文の概念は転用できます。ただしJavaは型宣言やクラス構造が厳密なので、最初は冗長に感じるかもしれません。文法の違いを意識しながら進めましょう。"
     }
   ],
-  "nextEpisodeHint": "次回は、Javaの文法や基本的な構造についてさらに深く解説します。",
+  "nextEpisodeHint": "次回はJavaの基礎構文（クラス定義、mainメソッド、文と式、コメント）を学び、Hello Worldを自分の環境でコンパイル・実行してみましょう。",
   "canonical": "https://ai-site-iota-nine.vercel.app/article/java-introduction",
   "jsonLd": {
     "@context": "https://schema.org",
@@ -55,10 +55,10 @@
       {
         "@context": "https://schema.org",
         "@type": "TechArticle",
-        "headline": "Javaの基礎",
-        "description": "【プログラミング初心者向け】Javaを学ぶための基礎を解説します。Javaの特徴や基本的な構造を理解しましょう。 図解・具体例つきで丁寧に解説します。",
+        "headline": "Javaとは？オブジェクト指向言語の第一歩",
+        "description": "Javaの特徴、JVM、クラスとmainメソッドの基本を初心者向けに解説。ファイル名不一致やNullPointerExceptionなど典型の失敗例も紹介します。",
         "datePublished": "2026-05-29T11:36:53.071Z",
-        "dateModified": "2026-05-30T05:01:32.571Z",
+        "dateModified": "2026-05-30T05:18:37.009Z",
         "author": {
           "@type": "Organization",
           "name": "StackShelf",
@@ -79,7 +79,7 @@
         },
         "image": "https://ai-site-iota-nine.vercel.app/og-default.svg",
         "inLanguage": "ja",
-        "wordCount": 2085,
+        "wordCount": 1806,
         "mainEntityOfPage": {
           "@type": "WebPage",
           "@id": "https://ai-site-iota-nine.vercel.app/article/java-introduction"
@@ -115,7 +115,7 @@
           {
             "@type": "ListItem",
             "position": 4,
-            "name": "Javaの基礎",
+            "name": "Javaとは？オブジェクト指向言語の第一歩",
             "item": "https://ai-site-iota-nine.vercel.app/article/java-introduction"
           }
         ]
@@ -145,42 +145,42 @@
         "mainEntity": [
           {
             "@type": "Question",
-            "name": "Javaが何であるか",
+            "name": "JavaとJavaScriptは同じ言語ですか？",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "Javaはオブジェクト指向プログラミング言語の一つです"
+              "text": "いいえ、別物です。名前にJavaが含まれますが、文法・用途・実行環境が異なります。JavaScriptは主にブラウザ向け、Javaはサーバー・アプリ向けと覚えると混乱しにくいです。"
             }
           },
           {
             "@type": "Question",
-            "name": "Javaの特徴は何か",
+            "name": "Javaを学ぶのに数学は必要ですか？",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "Javaの特徴は、オブジェクト指向、プラットフォーム独立性、セキュリティです"
+              "text": "基礎レベルでは四則演算程度で十分です。オブジェクト指向の考え方に慣れることが最初のハードルで、高度な数学は特定分野（ゲーム物理など）で必要になる程度です。"
             }
           },
           {
             "@type": "Question",
-            "name": "Javaを学ぶために必要なステップは何か",
+            "name": "JDKとJREの違いは？",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "Javaを学ぶには、Javaの開発環境をセットアップし、Javaの基本的な構文を学び、オブジェクト指向プログラミングの基礎を学ぶ必要があります"
+              "text": "JRE（Java Runtime Environment）はプログラム実行用、JDKはコンパイラ（javac）や開発ツールを含む開発用キットです。学習・開発にはJDKをインストールしてください。"
             }
           },
           {
             "@type": "Question",
-            "name": "JavaのNullポインター例外とは何か",
+            "name": "コンパイルエラーと実行時エラーの違いは？",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "Nullポインター例外は、Nullのオブジェクトを参照しようとしたときに発生します"
+              "text": "コンパイルエラーは実行前に文法・型の問題で検出されます。実行時エラー（NullPointerExceptionなど）は動かしてから表面化する問題です。"
             }
           },
           {
             "@type": "Question",
-            "name": "つまずいたときはどうすればいいですか？",
+            "name": "Pythonを先に学んだ方がJavaは楽ですか？",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "エラーメッセージをそのまま検索し、公式ドキュメントを当たってください。小さなステップに分けて再現・確認すると原因を特定しやすくなります。"
+              "text": "変数や制御構文の概念は転用できます。ただしJavaは型宣言やクラス構造が厳密なので、最初は冗長に感じるかもしれません。文法の違いを意識しながら進めましょう。"
             }
           }
         ]
@@ -212,7 +212,7 @@
       {
         "@type": "ListItem",
         "position": 4,
-        "name": "Javaの基礎",
+        "name": "Javaとは？オブジェクト指向言語の第一歩",
         "item": "https://ai-site-iota-nine.vercel.app/article/java-introduction"
       }
     ]
@@ -242,73 +242,73 @@
     "mainEntity": [
       {
         "@type": "Question",
-        "name": "Javaが何であるか",
+        "name": "JavaとJavaScriptは同じ言語ですか？",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Javaはオブジェクト指向プログラミング言語の一つです"
+          "text": "いいえ、別物です。名前にJavaが含まれますが、文法・用途・実行環境が異なります。JavaScriptは主にブラウザ向け、Javaはサーバー・アプリ向けと覚えると混乱しにくいです。"
         }
       },
       {
         "@type": "Question",
-        "name": "Javaの特徴は何か",
+        "name": "Javaを学ぶのに数学は必要ですか？",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Javaの特徴は、オブジェクト指向、プラットフォーム独立性、セキュリティです"
+          "text": "基礎レベルでは四則演算程度で十分です。オブジェクト指向の考え方に慣れることが最初のハードルで、高度な数学は特定分野（ゲーム物理など）で必要になる程度です。"
         }
       },
       {
         "@type": "Question",
-        "name": "Javaを学ぶために必要なステップは何か",
+        "name": "JDKとJREの違いは？",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Javaを学ぶには、Javaの開発環境をセットアップし、Javaの基本的な構文を学び、オブジェクト指向プログラミングの基礎を学ぶ必要があります"
+          "text": "JRE（Java Runtime Environment）はプログラム実行用、JDKはコンパイラ（javac）や開発ツールを含む開発用キットです。学習・開発にはJDKをインストールしてください。"
         }
       },
       {
         "@type": "Question",
-        "name": "JavaのNullポインター例外とは何か",
+        "name": "コンパイルエラーと実行時エラーの違いは？",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Nullポインター例外は、Nullのオブジェクトを参照しようとしたときに発生します"
+          "text": "コンパイルエラーは実行前に文法・型の問題で検出されます。実行時エラー（NullPointerExceptionなど）は動かしてから表面化する問題です。"
         }
       },
       {
         "@type": "Question",
-        "name": "つまずいたときはどうすればいいですか？",
+        "name": "Pythonを先に学んだ方がJavaは楽ですか？",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "エラーメッセージをそのまま検索し、公式ドキュメントを当たってください。小さなステップに分けて再現・確認すると原因を特定しやすくなります。"
+          "text": "変数や制御構文の概念は転用できます。ただしJavaは型宣言やクラス構造が厳密なので、最初は冗長に感じるかもしれません。文法の違いを意識しながら進めましょう。"
         }
       }
     ]
   },
+  "nextAction": "JDKをインストールし、Hello.java を作成して javac と java で実行してください。java -version の出力もメモしておくと、後のトラブルシュートに役立ちます。",
   "internalLinkCandidates": [
     {
-      "slug": "java-project-development",
-      "title": "Javaのプロジェクト開発",
-      "reason": "同じ講座の関連回です"
+      "slug": "java-syntax",
+      "title": "Javaの基礎構文",
+      "reason": "同じ講座の次の回です"
     },
     {
-      "slug": "java-functional-programming",
-      "title": "Javaの関数型プログラミング",
-      "reason": "同じ講座の関連回です"
+      "slug": "java-variables",
+      "title": "Javaの変数とデータ型",
+      "reason": "基礎構文の次に学ぶデータの扱い"
     },
     {
-      "slug": "java-lambda-expression",
-      "title": "Javaのラムダ式",
-      "reason": "同じ講座の関連回です"
+      "slug": "java-classes",
+      "title": "Javaのクラスとオブジェクト",
+      "reason": "オブジェクト指向の核心"
     },
     {
-      "slug": "java-stream-api",
-      "title": "JavaのStream API",
-      "reason": "同じ講座の関連回です"
+      "slug": "java-exception-handling",
+      "title": "Javaの例外処理",
+      "reason": "実行時エラーの扱い方"
     },
     {
-      "slug": "java-collection-framework",
-      "title": "Javaのコレクションフレームワーク",
-      "reason": "同じ講座の関連回です"
+      "slug": "java-best-practices",
+      "title": "Javaプログラミングのベストプラクティス",
+      "reason": "実務向けの書き方"
     }
   ],
-  "nextAction": "次はJavaの文法や基本的な構造についてさらに深く解説します。",
   "ogImage": "https://ai-site-iota-nine.vercel.app/og-default.svg"
 }

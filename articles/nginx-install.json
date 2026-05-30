@@ -1,0 +1,317 @@
+{
+  "id": "art_nginx_nginx-install",
+  "slug": "nginx-install",
+  "title": "nginxのインストールと基本設定【Ubuntu/WSL2対応・初心者向け】",
+  "summary": "Ubuntu（WSL2含む）へのnginxインストール手順と、nginx.confの基本構造・主要ディレクティブを初心者向けに解説します。",
+  "body": "<h2>インストール前の環境確認</h2>\n<p>nginxはLinux上での運用が最も一般的です。Windowsユーザーは<strong>WSL2（Windows Subsystem for Linux）</strong>上のUbuntuを使うのがおすすめです。WSL2が未セットアップの場合は、PowerShell（管理者）で <code>wsl --install</code> を実行してUbuntuをインストールしてください。</p>\n<p>本記事ではUbuntu 22.04 LTSを前提に解説します。macOSの場合はHomebrew（<code>brew install nginx</code>）でもインストールできますが、設定ファイルのパスが異なる点に注意してください。</p>\n<pre><code># OSとカーネル情報の確認\nlsb_release -a\nuname -a\n\n# ポート80/443が空いているか確認（既存Webサーバーがないか）\nsudo ss -tlnp | grep -E ':80|:443'</code></pre>\n\n<h2>Ubuntuへのnginxインストール</h2>\n<p>Ubuntuでは公式パッケージリポジトリからnginxをインストールできます。手順は次の通りです。</p>\n<pre><code># パッケージ一覧を更新\nsudo apt update\n\n# nginxをインストール\nsudo apt install nginx -y\n\n# インストール確認\nnginx -v\n# 出力例: nginx version: nginx/1.18.0 (Ubuntu)\n\n# サービスの状態確認\nsudo systemctl status nginx</code></pre>\n<p>インストールが成功すると、nginxは自動的に起動し、デフォルトのウェルカムページが表示されます。ブラウザで <code>http://localhost</code>（WSL2の場合はWindows側ブラウザから <code>http://127.0.0.1</code>）にアクセスして「Welcome to nginx!」が表示されればOKです。</p>\n\n<h2>nginxの起動・停止・再起動</h2>\n<p>nginxはsystemdでサービス管理します。設定変更後は <code>reload</code>（ダウンタイムなし）か <code>restart</code>（完全再起動）を使います。</p>\n<pre><code># 起動\nsudo systemctl start nginx\n\n# 停止\nsudo systemctl stop nginx\n\n# 再起動（一瞬接続が切れる）\nsudo systemctl restart nginx\n\n# 設定再読み込み（推奨・接続を維持）\nsudo systemctl reload nginx\n\n# 自動起動を有効化\nsudo systemctl enable nginx</code></pre>\n<p>設定ファイルに文法エラーがある状態で <code>restart</code> すると起動に失敗します。変更前に必ず <code>nginx -t</code> でテストしましょう。</p>\n<pre><code># 設定ファイルの文法チェック（必ず実行）\nsudo nginx -t\n# 出力例:\n# nginx: the configuration file /etc/nginx/nginx.conf syntax is ok\n# nginx: configuration file /etc/nginx/nginx.conf test is successful</code></pre>\n\n<h2>nginx.confの基本構造</h2>\n<p>nginxの設定は<strong>ディレクティブ</strong>（指令）の集合体です。主要な設定ファイルは <code>/etc/nginx/nginx.conf</code> で、サイトごとの設定は <code>/etc/nginx/sites-available/</code> と <code>/etc/nginx/sites-enabled/</code> に置くのがUbuntuの慣習です。</p>\n<pre><code># /etc/nginx/nginx.conf の骨格\n\nuser www-data;\nworker_processes auto;\npid /run/nginx.pid;\n\nevents {\n    worker_connections 768;\n}\n\nhttp {\n    include /etc/nginx/mime.types;\n    default_type application/octet-stream;\n\n    sendfile on;\n    keepalive_timeout 65;\n\n    # サイト設定を読み込む\n    include /etc/nginx/conf.d/*.conf;\n    include /etc/nginx/sites-enabled/*;\n}</code></pre>\n<p>設定の階層構造を理解することが重要です。</p>\n<ul>\n  <li><strong>mainコンテキスト</strong>：nginx.confの最上位（worker_processes等）</li>\n  <li><strong>eventsコンテキスト</strong>：接続処理の設定</li>\n  <li><strong>httpコンテキスト</strong>：Webサーバー全体の設定</li>\n  <li><strong>serverコンテキスト</strong>：仮想ホスト（1サイト）の設定</li>\n  <li><strong>locationコンテキスト</strong>：URLパスごとの設定</li>\n</ul>\n\n<h2>最初のserverブロックを書いてみる</h2>\n<p>Ubuntuのデフォルト設定（<code>/etc/nginx/sites-enabled/default</code>）を編集して、自分のサイト設定に近い形を確認しましょう。まずはバックアップを取ります。</p>\n<pre><code># デフォルト設定のバックアップ\nsudo cp /etc/nginx/sites-available/default /etc/nginx/sites-available/default.bak\n\n# 設定ファイルを編集\nsudo nano /etc/nginx/sites-available/default</code></pre>\n<pre><code># /etc/nginx/sites-available/default の例\n\nserver {\n    listen 80 default_server;\n    listen [::]:80 default_server;\n\n    # アクセスするドメイン名（ローカルなら _ または localhost）\n    server_name localhost;\n\n    # ドキュメントルート（公開するファイルの場所）\n    root /var/www/html;\n    index index.html index.htm;\n\n    location / {\n        # ファイルがなければ404、ディレクトリならindexを探す\n        try_files $uri $uri/ =404;\n    }\n}</code></pre>\n<pre><code># テストHTMLを配置\necho '&lt;h1&gt;Hello nginx!&lt;/h1&gt;' | sudo tee /var/www/html/index.html\n\n# 設定テスト → 反映\nsudo nginx -t\nsudo systemctl reload nginx</code></pre>\n\n<h2>主要ディレクティブの解説</h2>\n<p>よく使うディレクティブを整理します。設定ファイルを読むときの辞書として使ってください。</p>\n<p><strong>listen：</strong>待ち受けるポートとプロトコル。<code>listen 80;</code> はHTTP、<code>listen 443 ssl;</code> はHTTPSです。</p>\n<p><strong>server_name：</strong>このserverブロックが応答するドメイン名。<code>server_name example.com www.example.com;</code> のように複数指定できます。</p>\n<p><strong>root：</strong>ファイルのルートディレクトリ。<code>location /images/</code> 内で別のrootを指定すれば、パスごとに異なるフォルダを公開できます。</p>\n<p><strong>index：</strong>ディレクトリにアクセスしたときに返すデフォルトファイル名。</p>\n<p><strong>try_files：</strong>リクエストURIに対応するファイルを順に探す。<code>try_files $uri $uri/ =404;</code> は「ファイル→ディレクトリ→404」の順です。</p>\n<pre><code># カスタムエラーページの設定例\nserver {\n    listen 80;\n    server_name localhost;\n    root /var/www/html;\n\n    error_page 404 /404.html;\n    location = /404.html {\n        internal;\n    }\n\n    error_page 500 502 503 504 /50x.html;\n    location = /50x.html {\n        root /usr/share/nginx/html;\n    }\n}</code></pre>\n\n<h2>設定ファイルの管理のコツ</h2>\n<p>本番環境では、1サイト1ファイルで管理するのが一般的です。Ubuntuでは <code>sites-available</code> に設定を置き、<code>sites-enabled</code> へシンボリックリンクで有効化します。</p>\n<pre><code># 新しいサイト設定を作成\nsudo nano /etc/nginx/sites-available/my-site.conf\n\n# 有効化（シンボリックリンク）\nsudo ln -s /etc/nginx/sites-available/my-site.conf /etc/nginx/sites-enabled/\n\n# 不要なデフォルトサイトを無効化\nsudo rm /etc/nginx/sites-enabled/default\n\n# 反映\nsudo nginx -t && sudo systemctl reload nginx</code></pre>\n<p>設定変更の鉄則は「<strong>編集 → nginx -t → reload</strong>」の3ステップです。<code>nginx -t</code> を飛ばすと、文法エラーでnginx全体が停止するリスクがあります。</p>\n\n<h2>まとめ：インストールから基本設定まで</h2>\n<p>nginxのインストールは <code>apt install nginx</code> で完了し、設定の中心は <code>nginx.conf</code> と <code>sites-available</code> 内のserverブロックです。listen・server_name・root・location を理解すれば、最低限のWebサーバーとして動かせます。次回は、この設定を使って静的サイトを本格的に公開する方法を学びます。</p>",
+  "conclusion": "Ubuntu/WSL2へのnginxインストールは apt install nginx で完了します。nginx.conf の http→server→location 階層を理解し、変更時は必ず nginx -t で文法チェックしてから systemctl reload で反映しましょう。sites-available/sites-enabled による設定管理がUbuntuの標準パターンです。",
+  "tags": [
+    "nginx",
+    "インストール",
+    "Ubuntu",
+    "WSL2",
+    "nginx.conf",
+    "初心者"
+  ],
+  "category": "nginx",
+  "theme": "nginx - nginx入門",
+  "status": "published",
+  "createdAt": "2026-05-30T05:15:01.865Z",
+  "updatedAt": "2026-05-30T05:15:41.455Z",
+  "publishedAt": "2026-05-30T05:15:01.865Z",
+  "metaTitle": "nginxインストール方法：Ubuntu/WSL2と基本設定【nginx 入門 初心者】 | StackShelf",
+  "metaDescription": "nginxをUbuntu・WSL2にインストールする手順とnginx.confの基本構造を初心者向けに解説。起動・停止・設定テストまで丁寧にガイドします。",
+  "ogTitle": "nginxのインストールと基本設定",
+  "ogDescription": "Ubuntu/WSL2へのnginxインストールとnginx.confの読み方を初心者向けに解説。",
+  "knowledge": {
+    "topic": "nginx",
+    "courseId": "nginx",
+    "episode": 2
+  },
+  "faq": [
+    {
+      "question": "nginx -t でエラーが出た場合はどうすればよいですか？",
+      "answer": "エラーメッセージにファイル名と行番号が表示されます。該当行のセミコロン漏れ、波括弧の不一致、ディレクティブ名の typo がよくある原因です。バックアップから復元するか、エラー行を修正して再度 nginx -t を実行してください。"
+    },
+    {
+      "question": "WSL2でブラウザからlocalhostにアクセスできません。",
+      "answer": "WSL2では localhost がWindows側にフォワードされることが多いですが、環境によっては http://127.0.0.1 や WSL2のIPアドレス（ip addr show で確認）を試してください。Windowsファイアウォールがブロックしている場合もあります。"
+    },
+    {
+      "question": "403 Forbidden が表示されます。",
+      "answer": "root で指定したディレクトリの読み取り権限、index.html の存在、ディレクトリの実行権限（x）を確認してください。nginx の worker プロセスは www-data ユーザーで動くため、そのユーザーがファイルを読める必要があります。"
+    },
+    {
+      "question": "worker_processes auto とは何ですか？",
+      "answer": "CPUコア数に合わせてworkerプロセス数を自動設定する指定です。通常は auto のままで問題ありません。高負荷環境では worker_connections との組み合わせでチューニングします。"
+    },
+    {
+      "question": "設定変更を反映するには restart と reload どちらを使うべきですか？",
+      "answer": "通常は reload が推奨です。既存の接続を維持したまま新しい設定を読み込めます。nginx バイナリ自体のアップデート後や、reload で反映されない変更があった場合のみ restart を使います。"
+    }
+  ],
+  "nextEpisodeHint": "次回は、HTML/CSS/画像からなる静的サイトをnginxで公開する手順と、キャッシュ・gzip圧縮などのパフォーマンス設定を学びます。",
+  "nextAction": "次はHTML/CSS/画像からなる静的サイトをnginxで公開する手順と、キャッシュ・gzip圧縮などのパフォーマンス設定を学びます。",
+  "internalLinkCandidates": [
+    {
+      "slug": "nginx-logging",
+      "title": "nginxのログとトラブルシューティング入門【502/504エラー対処】",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "nginx-ssl",
+      "title": "nginxでSSL/TLS（HTTPS）を設定する方法【Let's Encrypt入門】",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "nginx-location",
+      "title": "nginxのlocationとルーティング【マッチング優先順位入門】",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "nginx-reverse-proxy",
+      "title": "nginxリバースプロキシの設定方法【proxy_pass入門・初心者向け】",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "nginx-static-site",
+      "title": "nginxで静的サイトを公開する方法【HTML/CSS配信・初心者向け】",
+      "reason": "同じ講座の関連回です"
+    }
+  ],
+  "ogImage": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+  "canonical": "https://ai-site-iota-nine.vercel.app/article/nginx-install",
+  "jsonLd": {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@context": "https://schema.org",
+        "@type": "TechArticle",
+        "headline": "nginxのインストールと基本設定【Ubuntu/WSL2対応・初心者向け】",
+        "description": "【nginx初心者向け】nginxをUbuntu・WSL2にインストールする手順とnginx.confの基本構造を初心者向けに解説。起動・停止・設定テストまで丁寧にガイドします。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
+        "datePublished": "2026-05-30T05:15:01.865Z",
+        "dateModified": "2026-05-30T05:15:41.455Z",
+        "author": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
+        },
+        "image": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+        "inLanguage": "ja",
+        "wordCount": 3642,
+        "mainEntityOfPage": {
+          "@type": "WebPage",
+          "@id": "https://ai-site-iota-nine.vercel.app/article/nginx-install"
+        },
+        "keywords": "nginx, インストール, Ubuntu, WSL2, nginx.conf, 初心者",
+        "articleSection": "nginx",
+        "url": "https://ai-site-iota-nine.vercel.app/article/nginx-install",
+        "learningResourceType": "tutorial",
+        "educationalLevel": "beginner"
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "ホーム",
+            "item": "https://ai-site-iota-nine.vercel.app/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "nginx",
+            "item": "https://ai-site-iota-nine.vercel.app/knowledge/nginx"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "nginx入門",
+            "item": "https://ai-site-iota-nine.vercel.app/course/nginx/nginx"
+          },
+          {
+            "@type": "ListItem",
+            "position": 4,
+            "name": "nginxのインストールと基本設定【Ubuntu/WSL2対応・初心者向け】",
+            "item": "https://ai-site-iota-nine.vercel.app/article/nginx-install"
+          }
+        ]
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "Course",
+        "name": "nginx入門",
+        "description": "Webサーバー・リバースプロキシnginxを8ステップで習得。日本語の初心者向け解説が少ないテーマを、設定例つきで学びます。",
+        "provider": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app"
+        },
+        "url": "https://ai-site-iota-nine.vercel.app/course/nginx/nginx",
+        "inLanguage": "ja",
+        "educationalLevel": "beginner",
+        "hasCourseInstance": {
+          "@type": "CourseInstance",
+          "courseMode": "online",
+          "courseWorkload": "PT1H"
+        }
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "nginx -t でエラーが出た場合はどうすればよいですか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "エラーメッセージにファイル名と行番号が表示されます。該当行のセミコロン漏れ、波括弧の不一致、ディレクティブ名の typo がよくある原因です。バックアップから復元するか、エラー行を修正して再度 nginx -t を実行してください。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "WSL2でブラウザからlocalhostにアクセスできません。",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "WSL2では localhost がWindows側にフォワードされることが多いですが、環境によっては http://127.0.0.1 や WSL2のIPアドレス（ip addr show で確認）を試してください。Windowsファイアウォールがブロックしている場合もあります。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "403 Forbidden が表示されます。",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "root で指定したディレクトリの読み取り権限、index.html の存在、ディレクトリの実行権限（x）を確認してください。nginx の worker プロセスは www-data ユーザーで動くため、そのユーザーがファイルを読める必要があります。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "worker_processes auto とは何ですか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "CPUコア数に合わせてworkerプロセス数を自動設定する指定です。通常は auto のままで問題ありません。高負荷環境では worker_connections との組み合わせでチューニングします。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "設定変更を反映するには restart と reload どちらを使うべきですか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "通常は reload が推奨です。既存の接続を維持したまま新しい設定を読み込めます。nginx バイナリ自体のアップデート後や、reload で反映されない変更があった場合のみ restart を使います。"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "breadcrumb": {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "ホーム",
+        "item": "https://ai-site-iota-nine.vercel.app/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "nginx",
+        "item": "https://ai-site-iota-nine.vercel.app/knowledge/nginx"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "nginx入門",
+        "item": "https://ai-site-iota-nine.vercel.app/course/nginx/nginx"
+      },
+      {
+        "@type": "ListItem",
+        "position": 4,
+        "name": "nginxのインストールと基本設定【Ubuntu/WSL2対応・初心者向け】",
+        "item": "https://ai-site-iota-nine.vercel.app/article/nginx-install"
+      }
+    ]
+  },
+  "courseSchema": {
+    "@context": "https://schema.org",
+    "@type": "Course",
+    "name": "nginx入門",
+    "description": "Webサーバー・リバースプロキシnginxを8ステップで習得。日本語の初心者向け解説が少ないテーマを、設定例つきで学びます。",
+    "provider": {
+      "@type": "Organization",
+      "name": "StackShelf",
+      "url": "https://ai-site-iota-nine.vercel.app"
+    },
+    "url": "https://ai-site-iota-nine.vercel.app/course/nginx/nginx",
+    "inLanguage": "ja",
+    "educationalLevel": "beginner",
+    "hasCourseInstance": {
+      "@type": "CourseInstance",
+      "courseMode": "online",
+      "courseWorkload": "PT1H"
+    }
+  },
+  "faqSchema": {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "nginx -t でエラーが出た場合はどうすればよいですか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "エラーメッセージにファイル名と行番号が表示されます。該当行のセミコロン漏れ、波括弧の不一致、ディレクティブ名の typo がよくある原因です。バックアップから復元するか、エラー行を修正して再度 nginx -t を実行してください。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "WSL2でブラウザからlocalhostにアクセスできません。",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "WSL2では localhost がWindows側にフォワードされることが多いですが、環境によっては http://127.0.0.1 や WSL2のIPアドレス（ip addr show で確認）を試してください。Windowsファイアウォールがブロックしている場合もあります。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "403 Forbidden が表示されます。",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "root で指定したディレクトリの読み取り権限、index.html の存在、ディレクトリの実行権限（x）を確認してください。nginx の worker プロセスは www-data ユーザーで動くため、そのユーザーがファイルを読める必要があります。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "worker_processes auto とは何ですか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "CPUコア数に合わせてworkerプロセス数を自動設定する指定です。通常は auto のままで問題ありません。高負荷環境では worker_connections との組み合わせでチューニングします。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "設定変更を反映するには restart と reload どちらを使うべきですか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "通常は reload が推奨です。既存の接続を維持したまま新しい設定を読み込めます。nginx バイナリ自体のアップデート後や、reload で反映されない変更があった場合のみ restart を使います。"
+        }
+      }
+    ]
+  }
+}

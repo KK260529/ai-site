@@ -1,0 +1,30 @@
+{
+  "topic": "nginx",
+  "coreConcepts": [
+    {
+      "id": "nginx-intro",
+      "title": "nginxとは？Apacheとの違い",
+      "summary": "nginx入門の第1回で学ぶ内容"
+    },
+    {
+      "id": "nginx-install",
+      "title": "インストールと基本設定",
+      "summary": "nginx入門の第2回で学ぶ内容"
+    },
+    {
+      "id": "nginx-static-site",
+      "title": "静的サイトの公開",
+      "summary": "nginx入門の第3回で学ぶ内容"
+    },
+    {
+      "id": "nginx-reverse-proxy",
+      "title": "リバースプロキシの設定",
+      "summary": "nginx入門の第4回で学ぶ内容"
+    },
+    {
+      "id": "nginx-location",
+      "title": "locationとルーティング",
+      "summary": "nginx入門の第5回で学ぶ内容"
+    }
+  ]
+}

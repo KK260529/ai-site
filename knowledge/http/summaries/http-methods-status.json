@@ -1,0 +1,13 @@
+{
+  "slug": "http-methods-status",
+  "courseId": "http",
+  "episode": 3,
+  "summaryMemory": [
+    "GET=取得、POST=作成、PUT=完全更新、PATCH=部分更新、DELETE=削除",
+    "2xx=成功、3xx=リダイレクト、4xx=クライアントエラー、5xx=サーバーエラー",
+    "401=未認証、403=権限不足。4xxはクライアント側、5xxはサーバー側の問題",
+    "GETは安全・冪等。POSTは冪等でない。PUT/DELETEは冪等"
+  ],
+  "nextEpisodeHint": "次回は、Content-Type、Authorization、Cache-ControlなどHTTPヘッダーの役割とよく使う項目を詳しく解説します。",
+  "updatedAt": "2026-05-30T05:14:35.327Z"
+}

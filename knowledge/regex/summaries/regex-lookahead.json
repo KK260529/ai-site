@@ -1,0 +1,13 @@
+{
+  "slug": "regex-lookahead",
+  "courseId": "regex",
+  "episode": 7,
+  "summaryMemory": [
+    "先読み (?= ) (?! ) は右側の条件を幅ゼロでチェック",
+    "後読み (?<= ) (?<! ) は左側の条件（JSはES2018+）",
+    "マッチ結果に含めず条件だけ付けられる",
+    "パスワード検証や除外に使うが複雑化に注意"
+  ],
+  "nextEpisodeHint": "次回は JavaScript の RegExp リテラル、test/match/replace、フラグ g i m u など、ブラウザと Node での具体的な使い方を学びます。",
+  "updatedAt": "2026-05-30T05:14:27.596Z"
+}

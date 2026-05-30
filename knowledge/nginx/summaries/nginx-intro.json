@@ -1,0 +1,13 @@
+{
+  "slug": "nginx-intro",
+  "courseId": "nginx",
+  "episode": 1,
+  "summaryMemory": [
+    "nginxは高性能Webサーバー兼リバースプロキシで、大量の同時接続を少ないメモリで処理できる",
+    "Apacheはモジュール拡張が得意、nginxは静的配信とプロキシ処理に特化した軽量設計",
+    "serverブロック（サイト単位）とlocationブロック（URLパス単位）が設定の基本構造",
+    "本番ではnginx→アプリサーバー（Node.js等）の2層構成が定番"
+  ],
+  "nextEpisodeHint": "次回は、Ubuntu（WSL2含む）へのnginxインストールと、nginx.confの基本構造・設定ファイルの読み方を実践的に解説します。",
+  "updatedAt": "2026-05-30T05:15:00.661Z"
+}

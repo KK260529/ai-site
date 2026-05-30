@@ -1,0 +1,13 @@
+{
+  "slug": "bash-conditionals",
+  "courseId": "bash",
+  "episode": 3,
+  "summaryMemory": [
+    "if [ 条件 ]; then ... elif ... else ... fi",
+    "-f/-d/-e/-r/-w/-x でファイル・権限を判定",
+    "文字列は =、数値は -eq/-ne/-lt などを使う",
+    "case 値 in パターン) ... ;; esac で選択肢分岐"
+  ],
+  "nextEpisodeHint": "次回は for ループと while ループを学び、複数ファイルの一括処理やユーザー入力の待ち受けを実装できるようにします。",
+  "updatedAt": "2026-05-30T05:14:48.463Z"
+}

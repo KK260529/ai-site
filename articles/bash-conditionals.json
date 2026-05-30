@@ -1,0 +1,317 @@
+{
+  "id": "art_bash_bash-conditionals",
+  "slug": "bash-conditionals",
+  "title": "Bashのifとtestによる条件分岐｜ファイル判定・文字列比較をマスター【第3回】",
+  "summary": "Bashスクリプトの if 文、[ ] と [[ ]] による test、ファイル存在チェック、文字列・数値比較、case 文の使い方を具体例で解説します。",
+  "body": "<h2>if 文の基本構造</h2>\n<p>Bashでは <code>if</code> 文で条件に応じて処理を分岐します。条件は <code>test</code> コマンド（<code>[ ]</code> 形式）または <code>[[ ]]</code> で書き、<strong>終了コード0なら真</strong>、<strong>非0なら偽</strong>と評価されます。</p>\n<pre><code>#!/usr/bin/env bash\nENV=\"${1:-development}\"\n\nif [ \"$ENV\" = \"production\" ]; then\n  echo \"本番モードで実行します\"\nelif [ \"$ENV\" = \"staging\" ]; then\n  echo \"ステージング環境です\"\nelse\n  echo \"開発モード: $ENV\"\nfi\n\necho \"処理完了\"</code></pre>\n<p><code>then</code> と <code>fi</code> は if の開始・終了を示すキーワードです（if を逆にした綴り）。<code>elif</code> で追加条件、<code>else</code> でそれ以外を処理します。文字列比較では <code>=</code> を使い、変数は <code>\"$VAR\"</code> のようにクォートして空文字やスペースによる事故を防ぎます。</p>\n\n<h2>test と [ ] のファイル判定</h2>\n<p>運用スクリプトで最も多いのが<strong>ファイル・ディレクトリの存在確認</strong>です。<code>[ ]</code> の中に test のオプションを書きます。</p>\n<pre><code>#!/usr/bin/env bash\nFILE=\"$1\"\n\nif [ -z \"$FILE\" ]; then\n  echo \"ファイルパスを指定してください\" >&2\n  exit 1\nfi\n\nif [ ! -e \"$FILE\" ]; then\n  echo \"存在しません: $FILE\" >&2\n  exit 1\nfi\n\nif [ -f \"$FILE\" ]; then\n  echo \"通常ファイル: $FILE\"\n  echo \"サイズ: $(stat -c%s \"$FILE\" 2>/dev/null || stat -f%z \"$FILE\") bytes\"\nelif [ -d \"$FILE\" ]; then\n  echo \"ディレクトリ: $FILE\"\nelif [ -L \"$FILE\" ]; then\n  echo \"シンボリックリンク: $FILE\"\nfi\n\n# 読み取り可能か\nif [ -r \"$FILE\" ]; then\n  echo \"読み取り可能\"\nfi\n\n# 空ファイルか\nif [ -s \"$FILE\" ]; then\n  echo \"中身あり\"\nelse\n  echo \"空ファイル\"\nfi</code></pre>\n<p>主要なファイルテスト：<code>-e</code> 存在、<code>-f</code> 通常ファイル、<code>-d</code> ディレクトリ、<code>-L</code> シンボリックリンク、<code>-r/-w/-x</code> 読書実行権、<code>-s</code> サイズ非ゼロ、<code>-z</code> 文字列が空。</p>\n\n<h2>文字列・数値の比較</h2>\n<pre><code>#!/usr/bin/env bash\nname=\"$1\"\nage=\"$2\"\n\n# 文字列: 空かどうか\nif [ -z \"$name\" ]; then\n  echo \"名前が空です\" >&2\n  exit 1\nfi\n\n# 文字列: 等しい・異なる\nif [ \"$name\" = \"admin\" ]; then\n  echo \"管理者ユーザー\"\nfi\n\nif [ \"$name\" != \"guest\" ]; then\n  echo \"ゲスト以外\"\nfi\n\n# 数値比較（整数）\nif [ \"$age\" -ge 18 ]; then\n  echo \"成人\"\nelse\n  echo \"未成年\"\nfi\n\n# -eq 等しい, -ne 異なる, -lt より小, -le 以下, -gt より大, -ge 以上\ncount=0\nif [ \"$count\" -eq 0 ]; then\n  echo \"件数ゼロ\"\nfi</code></pre>\n<p>文字列比較に <code>-eq</code> を使うと予期しない結果になるため、数値には <code>-eq</code> 系、文字列には <code>=</code> 系を使い分けてください。</p>\n\n<h2>[[ ]] 拡張テスト</h2>\n<p>Bash固有の <code>[[ ]]</code> はパターンマッチや正規表現、<code>&amp;&amp;</code> <code>||</code> が使えて読みやすいです。</p>\n<pre><code>#!/usr/bin/env bash\nfilename=\"$1\"\n\n# パターンマッチ（ワイルドカード）\nif [[ \"$filename\" == *.log ]]; then\n  echo \"ログファイルです\"\nfi\n\nif [[ \"$filename\" == backup_* ]]; then\n  echo \"バックアップ系ファイル\"\nfi\n\n# 正規表現（=~）\nif [[ \"$filename\" =~ ^[0-9]{4}-[0-9]{2}-[0-9]{2}.txt$ ]]; then\n  echo \"日付形式のtxt: $filename\"\nfi\n\n# 複合条件\nif [[ -f \"$filename\" &amp;&amp; -r \"$filename\" ]]; then\n  echo \"読める通常ファイル\"\nfi</code></pre>\n\n<h2>論理演算：&amp;&amp; と ||</h2>\n<p>コマンド列でも条件分岐の代わりに短い書き方ができます。</p>\n<pre><code>#!/usr/bin/env bash\n# 成功時だけ次を実行\nmkdir -p /tmp/myapp &amp;&amp; echo \"ディレクトリ作成OK\"\n\n# 失敗時だけメッセージ\ngrep -q \"ERROR\" app.log || echo \"ERROR行なし\"\n\n# ファイルがなければ作成\n[ -f config.local ] || cp config.example config.local\n\n# 複合\n[ -d \"$BACKUP_DIR\" ] &amp;&amp; [ -w \"$BACKUP_DIR\" ] &amp;&amp; echo \"バックアップDir OK\"</code></pre>\n\n<h2>case 文で値の分岐</h2>\n<p>固定の選択肢が多いときは <code>case</code> が簡潔です。メニューやコマンド名の振り分けに向いています。</p>\n<pre><code>#!/usr/bin/env bash\n# 使い方: ./service.sh start|stop|status\n\nACTION=\"${1:-status}\"\n\ncase \"$ACTION\" in\n  start)\n    echo \"サービスを起動...\"\n    ;;\n  stop)\n    echo \"サービスを停止...\"\n    ;;\n  status)\n    echo \"状態を確認...\"\n    ;;\n  restart)\n    echo \"再起動...\"\n    \"$0\" stop\n    \"$0\" start\n    ;;\n  *)\n    echo \"使い方: $0 {start|stop|status|restart}\" >&2\n    exit 1\n    ;;\nesac</code></pre>\n<p><code>*</code> はどのパターンにも一致しない場合のデフォルトです。パターンは <code>|</code> で複数指定できます（例：<code>start|begin)</code>）。</p>\n\n<h2>実践：デプロイ前チェックスクリプト</h2>\n<pre><code>#!/usr/bin/env bash\nset -u\n\nREQUIRED_FILES=(\"package.json\" \"Dockerfile\" \".env.example\")\nERRORS=0\n\nfor f in \"${REQUIRED_FILES[@]}\"; do\n  if [ ! -f \"$f\" ]; then\n    echo \"[NG] 必須ファイルなし: $f\" >&2\n    ERRORS=$((ERRORS + 1))\n  else\n    echo \"[OK] $f\"\n  fi\ndone\n\nif ! command -v docker &gt;/dev/null 2&gt;&amp;1; then\n  echo \"[NG] docker コマンドが見つかりません\" >&2\n  ERRORS=$((ERRORS + 1))\nfi\n\nif [ \"$ERRORS\" -gt 0 ]; then\n  echo \"チェック失敗: $ERRORS 件\" >&2\n  exit 1\nfi\n\necho \"デプロイ前チェック: すべてOK\"\nexit 0</code></pre>\n\n<h2>よくある落とし穴</h2>\n<p><strong>[ と ] の前後にスペース</strong>が必要です（<code>[ -f \"$f\" ]</code>）。<strong>未クォートの変数</strong>は空のとき構文エラーになります（<code>[ -n \"$var\" ]</code>）。<strong>数値と文字列の演算子混同</strong>に注意。<code>[ \"$a\" = \"$b\" ]</code> と <code>[ \"$a\" -eq \"$b\" ]</code> は別物です。</p>\n\n<h2>まとめ</h2>\n<p>if と test でスクリプトに「判断」を持たせられます。ファイル判定は運用の基本、case はコマンド振り分けに便利です。次回は for・while ループで、複数ファイルやリストを順に処理する方法を学びます。</p>",
+  "conclusion": "Bashの if 文は [ ] または [[ ]] で条件を書き、終了コード0で真と判定します。-f/-d/-e でファイル判定、=/-eq で文字列・数値比較、case で値の分岐ができます。変数は必ずクォートし、数値比較と文字列比較の演算子を混同しないことが重要です。",
+  "tags": [
+    "Bash",
+    "if",
+    "test",
+    "条件分岐",
+    "case",
+    "シェルスクリプト"
+  ],
+  "category": "Bash",
+  "theme": "bash - Bashシェルスクリプト入門",
+  "status": "published",
+  "createdAt": "2026-05-30T05:14:48.463Z",
+  "updatedAt": "2026-05-30T05:15:42.871Z",
+  "publishedAt": "2026-05-30T05:14:48.463Z",
+  "metaTitle": "Bash if test 条件分岐 の書き方｜シェルスクリプト入門",
+  "metaDescription": "Bashの if 文、test コマンド、[ ] によるファイル判定・文字列比較・数値比較を初心者向けに解説。case 文の基本も具体例で学べます。",
+  "ogTitle": "Bashのifとtestによる条件分岐",
+  "ogDescription": "スクリプトに分岐ロジックを組み込むための if・test・case を解説します。",
+  "knowledge": {
+    "topic": "bash",
+    "courseId": "bash",
+    "episode": 3
+  },
+  "faq": [
+    {
+      "question": "[ ] と [[ ]] はどちらを使うべきですか？",
+      "answer": "Bash専用スクリプトなら [[ ]] が安全で機能も多いです。POSIX sh 互換が必要なら [ ] を使います。本コースは Bash 前提なので [[ ]] を積極的に使って問題ありません。"
+    },
+    {
+      "question": "if [ $var = foo ] でエラーになるのはなぜ？",
+      "answer": "var が空だと [ = foo ] となり構文エラーになります。[ \"$var\" = foo ] のようにクォートしてください。-n \"$var\" で空チェックを先に行うのも有効です。"
+    },
+    {
+      "question": "浮動小数点数の比較はできますか？",
+      "answer": "Bashの [ ] では整数のみです。小数比較には bc や awk を使います。例: if (( $(echo \"$a > $b\" | bc -l) )); then ..."
+    },
+    {
+      "question": "command -v と which の違いは？",
+      "answer": "command -v は POSIX 準拠で、エイリアスや関数も正しく検出します。which は環境によって挙動が異なるため、スクリプトでは command -v を推奨します。"
+    },
+    {
+      "question": "複数条件を1行で書けますか？",
+      "answer": "[ ] 内では -a（AND）-o（OR）もありますが、[[ cond1 && cond2 ]] や2つの [ ] を && でつなぐ方が読みやすいです。"
+    }
+  ],
+  "nextEpisodeHint": "次回は for ループと while ループを学び、複数ファイルの一括処理やユーザー入力の待ち受けを実装できるようにします。",
+  "nextAction": "deploy-check.sh を作成し、必須ファイル3つの存在確認と docker コマンドの有無を if で判定してから exit 0/1 するようにして実行してみてください。",
+  "internalLinkCandidates": [
+    {
+      "slug": "bash-pipes-scripts",
+      "title": "Bashのパイプとコマンド置換｜CLIを組み合わせるデータ処理【第6回】",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "bash-functions",
+      "title": "Bash関数の定義と使い方｜再利用可能なスクリプトを書く【第5回】",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "bash-loops",
+      "title": "Bashのfor・whileループ完全ガイド｜一括処理と対話入力【シェルスクリプト第4回】",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "bash-variables",
+      "title": "Bashの変数・引数・終了コードをマスターする【シェルスクリプト入門第2回】",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "bash-intro",
+      "title": "Bashシェルスクリプトとは？自動化の第一歩をわかりやすく解説【初心者向け】",
+      "reason": "同じ講座の関連回です"
+    }
+  ],
+  "ogImage": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+  "canonical": "https://ai-site-iota-nine.vercel.app/article/bash-conditionals",
+  "jsonLd": {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@context": "https://schema.org",
+        "@type": "TechArticle",
+        "headline": "Bashのifとtestによる条件分岐｜ファイル判定・文字列比較をマスター【第3回】",
+        "description": "【Bash初心者向け】Bashの if 文、test コマンド、[ ] によるファイル判定・文字列比較・数値比較を初心者向けに解説。case 文の基本も具体例で学べます。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
+        "datePublished": "2026-05-30T05:14:48.463Z",
+        "dateModified": "2026-05-30T05:15:42.871Z",
+        "author": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
+        },
+        "image": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+        "inLanguage": "ja",
+        "wordCount": 2906,
+        "mainEntityOfPage": {
+          "@type": "WebPage",
+          "@id": "https://ai-site-iota-nine.vercel.app/article/bash-conditionals"
+        },
+        "keywords": "Bash, if, test, 条件分岐, case, シェルスクリプト",
+        "articleSection": "Bash",
+        "url": "https://ai-site-iota-nine.vercel.app/article/bash-conditionals",
+        "learningResourceType": "tutorial",
+        "educationalLevel": "beginner"
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "ホーム",
+            "item": "https://ai-site-iota-nine.vercel.app/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "bash",
+            "item": "https://ai-site-iota-nine.vercel.app/knowledge/bash"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "Bashシェルスクリプト入門",
+            "item": "https://ai-site-iota-nine.vercel.app/course/bash/bash"
+          },
+          {
+            "@type": "ListItem",
+            "position": 4,
+            "name": "Bashのifとtestによる条件分岐｜ファイル判定・文字列比較をマスター【第3回】",
+            "item": "https://ai-site-iota-nine.vercel.app/article/bash-conditionals"
+          }
+        ]
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "Course",
+        "name": "Bashシェルスクリプト入門",
+        "description": "Linux/macOS/WSLで使えるBashスクリプトを10ステップで習得。自動化・運用の第一歩となるニッチスキルを具体例で学びます。",
+        "provider": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app"
+        },
+        "url": "https://ai-site-iota-nine.vercel.app/course/bash/bash",
+        "inLanguage": "ja",
+        "educationalLevel": "beginner",
+        "hasCourseInstance": {
+          "@type": "CourseInstance",
+          "courseMode": "online",
+          "courseWorkload": "PT1H"
+        }
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "[ ] と [[ ]] はどちらを使うべきですか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Bash専用スクリプトなら [[ ]] が安全で機能も多いです。POSIX sh 互換が必要なら [ ] を使います。本コースは Bash 前提なので [[ ]] を積極的に使って問題ありません。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "if [ $var = foo ] でエラーになるのはなぜ？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "var が空だと [ = foo ] となり構文エラーになります。[ \"$var\" = foo ] のようにクォートしてください。-n \"$var\" で空チェックを先に行うのも有効です。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "浮動小数点数の比較はできますか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Bashの [ ] では整数のみです。小数比較には bc や awk を使います。例: if (( $(echo \"$a > $b\" | bc -l) )); then ..."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "command -v と which の違いは？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "command -v は POSIX 準拠で、エイリアスや関数も正しく検出します。which は環境によって挙動が異なるため、スクリプトでは command -v を推奨します。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "複数条件を1行で書けますか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "[ ] 内では -a（AND）-o（OR）もありますが、[[ cond1 && cond2 ]] や2つの [ ] を && でつなぐ方が読みやすいです。"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "breadcrumb": {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "ホーム",
+        "item": "https://ai-site-iota-nine.vercel.app/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "bash",
+        "item": "https://ai-site-iota-nine.vercel.app/knowledge/bash"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "Bashシェルスクリプト入門",
+        "item": "https://ai-site-iota-nine.vercel.app/course/bash/bash"
+      },
+      {
+        "@type": "ListItem",
+        "position": 4,
+        "name": "Bashのifとtestによる条件分岐｜ファイル判定・文字列比較をマスター【第3回】",
+        "item": "https://ai-site-iota-nine.vercel.app/article/bash-conditionals"
+      }
+    ]
+  },
+  "courseSchema": {
+    "@context": "https://schema.org",
+    "@type": "Course",
+    "name": "Bashシェルスクリプト入門",
+    "description": "Linux/macOS/WSLで使えるBashスクリプトを10ステップで習得。自動化・運用の第一歩となるニッチスキルを具体例で学びます。",
+    "provider": {
+      "@type": "Organization",
+      "name": "StackShelf",
+      "url": "https://ai-site-iota-nine.vercel.app"
+    },
+    "url": "https://ai-site-iota-nine.vercel.app/course/bash/bash",
+    "inLanguage": "ja",
+    "educationalLevel": "beginner",
+    "hasCourseInstance": {
+      "@type": "CourseInstance",
+      "courseMode": "online",
+      "courseWorkload": "PT1H"
+    }
+  },
+  "faqSchema": {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "[ ] と [[ ]] はどちらを使うべきですか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Bash専用スクリプトなら [[ ]] が安全で機能も多いです。POSIX sh 互換が必要なら [ ] を使います。本コースは Bash 前提なので [[ ]] を積極的に使って問題ありません。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "if [ $var = foo ] でエラーになるのはなぜ？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "var が空だと [ = foo ] となり構文エラーになります。[ \"$var\" = foo ] のようにクォートしてください。-n \"$var\" で空チェックを先に行うのも有効です。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "浮動小数点数の比較はできますか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Bashの [ ] では整数のみです。小数比較には bc や awk を使います。例: if (( $(echo \"$a > $b\" | bc -l) )); then ..."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "command -v と which の違いは？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "command -v は POSIX 準拠で、エイリアスや関数も正しく検出します。which は環境によって挙動が異なるため、スクリプトでは command -v を推奨します。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "複数条件を1行で書けますか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "[ ] 内では -a（AND）-o（OR）もありますが、[[ cond1 && cond2 ]] や2つの [ ] を && でつなぐ方が読みやすいです。"
+        }
+      }
+    ]
+  }
+}

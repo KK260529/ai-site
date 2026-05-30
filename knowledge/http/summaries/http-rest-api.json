@@ -1,0 +1,13 @@
+{
+  "slug": "http-rest-api",
+  "courseId": "http",
+  "episode": 7,
+  "summaryMemory": [
+    "REST APIはリソース（名詞）をURLで表現し、HTTPメソッドで操作する",
+    "URLは複数形名詞（/users）、動詞はHTTPメソッドが担う",
+    "レスポンスはJSON形式、エラーもJSON + 適切なステータスコード",
+    "バージョニングは /api/v1/ パス方式が最もシンプル"
+  ],
+  "nextEpisodeHint": "次回は、curlコマンドとブラウザDevToolsを使って実際にAPIを呼び出す方法を hands-on で学びます。",
+  "updatedAt": "2026-05-30T05:14:39.977Z"
+}

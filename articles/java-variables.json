@@ -1,10 +1,10 @@
 {
   "id": "art_1780054184531",
   "slug": "java-variables",
-  "title": "Javaの変数とデータ型",
-  "summary": "Javaでは、変数を使用してデータを格納し、データ型を指定してデータの種類を定義します。このエピソードでは、Javaの変数とデータ型について学びます。",
-  "body": "<h2>Javaの変数</h2><p>Javaでは、変数を使用してデータを格納します。変数は、データを格納するためのメモリ上の領域です。変数を宣言するには、データ型と変数名を指定します。</p><h3>変数の宣言</h3><p>変数の宣言は、次のように行います。</p><pre><code>int x = 10;</code></pre><p>この例では、整数型の変数xを宣言し、値10を代入しています。</p><h2>Javaのデータ型</h2><p>Javaには、次のデータ型があります。</p><ul><li>整数型(int)</li><li>浮動小数点型(float、double)</li><li>文字型(char)</li><li>論理型(boolean)</li></ul><h3>データ型の使用</h3><p>データ型を使用して、変数の種類を定義します。次の例では、整数型の変数xと浮動小数点型の変数yを宣言しています。</p><pre><code>int x = 10;<br>double y = 3.14;</code></pre>",
-  "conclusion": "このエピソードでは、Javaの変数とデータ型について学びました。変数を使用してデータを格納し、データ型を指定してデータの種類を定義することができます。次のエピソードでは、制御構文について学びます。",
+  "title": "Javaの変数とデータ型｜intからStringまで",
+  "summary": "Javaのプリミティブ型と参照型、変数宣言・初期化、型変換、final定数の書き方を学びます。精度落ちや未初期化変数などよくある失敗例も解説します。",
+  "body": "<h2>結論：Javaの変数は「型＋名前」で宣言し、プリミティブ型と参照型を使い分ける</h2>\n<p>Javaは<strong>静的型付け</strong>言語です。変数を使う前に<strong>データ型</strong>を宣言し、コンパイラが型の整合性をチェックします。整数は <code>int</code>、小数は <code>double</code>、真偽値は <code>boolean</code>、文字列は参照型の <code>String</code> が基本です。</p>\n\n<h2>プリミティブ型の一覧</h2>\n<ul>\n  <li><code>byte</code> / <code>short</code> / <code>int</code> / <code>long</code> — 整数</li>\n  <li><code>float</code> / <code>double</code> — 浮動小数点</li>\n  <li><code>char</code> — 1文字（シングルクォート）</li>\n  <li><code>boolean</code> — true / false</li>\n</ul>\n<pre><code>int age = 25;\ndouble price = 980.5;\nboolean active = true;\nchar grade = 'A';\nString name = \"Hanako\";</code></pre>\n\n<h2>変数宣言と初期化</h2>\n<pre><code>int count;        // 宣言のみ（ローカル変数は未初期化のまま使えない）\ncount = 0;        // 代入\nfinal int MAX = 100; // 定数（再代入不可）</code></pre>\n\n<h3>失敗例：ローカル変数の未初期化</h3>\n<pre><code>int x;\nSystem.out.println(x); // コンパイルエラー: variable x might not have been initialized</code></pre>\n<p>フィールド（クラスのメンバー）はデフォルト値（intなら0）が入りますが、<strong>メソッド内のローカル変数</strong>は使う前に必ず初期化が必要です。</p>\n\n<h2>型変換（キャスト）</h2>\n<pre><code>int a = 10;\ndouble b = a;      // 暗黙の拡大変換 OK\nint c = (int) 3.9; // 明示的キャスト — 小数点以下切り捨てで 3</code></pre>\n\n<h3>失敗例：精度の落ちる暗黙変換を見落とす</h3>\n<pre><code>int total = 5;\nint count = 2;\ndouble avg = total / count; // 2.0 になる（整数除算が先）</code></pre>\n<p>小数結果が欲しい場合は <code>(double) total / count</code> のように<strong>先にキャスト</strong>します。</p>\n\n<h2>String は参照型</h2>\n<p><code>String</code> はクラス型で、<code>==</code> は参照の同一性、<code>equals()</code> は内容の等価性を比較します。</p>\n<pre><code>String s1 = new String(\"hi\");\nString s2 = new String(\"hi\");\nSystem.out.println(s1 == s2);      // false\nSystem.out.println(s1.equals(s2)); // true</code></pre>\n\n<h3>失敗例：== で文字列比較</h3>\n<p>ユーザー入力や外部データとの比較では必ず <code>equals</code> を使います。<code>\"abc\" == input</code> はバグの温床です。</p>\n\n<h2>var による型推論（Java 10+）</h2>\n<pre><code>var list = new ArrayList&lt;String&gt;(); // 右辺から型を推論</code></pre>\n<p>ローカル変数限定です。可読性を損ねない範囲で使いましょう。</p>\n\n<h2>まとめ</h2>\n<p>Javaの変数は型を明示して宣言し、ローカル変数は使用前に初期化が必須です。整数除算・Stringの==比較・キャスト忘れは初学者がよく踏む罠です。次回はif/for/whileでプログラムの流れを制御します。</p>",
+  "conclusion": "Javaの変数はint・double・boolean・Stringなど型付きで宣言し、finalで定数化できます。ローカル変数の未初期化、整数除算による精度落ち、Stringの==比較は典型の失敗例です。小さな計算プログラムを書いて型と初期化を体で覚えましょう。",
   "tags": [
     "Java",
     "変数",
@@ -14,12 +14,12 @@
   "theme": "java - Java",
   "status": "published",
   "createdAt": "2026-05-29T11:29:44.525Z",
-  "updatedAt": "2026-05-30T05:01:33.164Z",
+  "updatedAt": "2026-05-30T05:18:37.022Z",
   "publishedAt": "2026-05-29T11:29:44.525Z",
-  "metaTitle": "Javaの変数とデータ型｜プログラミング入門 | StackShelf",
-  "metaDescription": "Javaの変数とデータ型について学びます。変数を使用してデータを格納し、データ型を指定してデータの種類を定義します。",
+  "metaTitle": "Java変数とデータ型｜int・String・型変換を初心者向け解説 | StackShelf",
+  "metaDescription": "Javaのプリミティブ型、String、変数宣言、型変換、final定数を具体例で解説。未初期化変数や整数除算の失敗例も押さえられます。",
   "ogTitle": "Javaの変数とデータ型",
-  "ogDescription": "Javaの変数とデータ型について学びます。変数を使用してデータを格納し、データ型を指定してデータの種類を定義します。",
+  "ogDescription": "型宣言・初期化・キャスト・String比較の典型ミスを失敗例つきで学べます。",
   "knowledge": {
     "topic": "java",
     "courseId": "java",
@@ -27,27 +27,27 @@
   },
   "faq": [
     {
-      "question": "Javaの変数を宣言するにはどうすればよいですか？",
-      "answer": "Javaの変数を宣言するには、データ型と変数名を指定します。例：int x = 10;"
+      "question": "int と long はいつ使い分けますか？",
+      "answer": "通常のカウンタや年齢はintで足ります。数十億を超える値やタイムスタンプ（ミリ秒）ではlongを使い、リテラル末尾にLを付けます。"
     },
     {
-      "question": "つまずいたときはどうすればいいですか？",
-      "answer": "エラーメッセージをそのまま検索し、公式ドキュメントを当たってください。小さなステップに分けて再現・確認すると原因を特定しやすくなります。"
+      "question": "float と double の違いは？",
+      "answer": "doubleの方が精度が高く、Javaでは小数リテラルはデフォルトでdoubleです。金額計算ではBigDecimalの検討も必要です。"
     },
     {
-      "question": "どのくらいのペースで学べばいいですか？",
-      "answer": "1日30分〜1時間、週に3〜4回のペースが続けやすい目安です。読むだけでなく、必ず手を動かして確認しましょう。"
+      "question": "String はプリミティブ型ではないのですか？",
+      "answer": "参照型です。ただしリテラル記法（\"text\"）で書け、不変（immutable）オブジェクトとして扱われます。"
     },
     {
-      "question": "この記事の内容を忘れないコツは？",
-      "answer": "学んだ直後にメモを残し、翌日にもう一度短時間復習してください。実際のプロジェクトや練習問題に当てはめると記憶に定着しやすくなります。"
+      "question": "null はプリミティブに代入できますか？",
+      "answer": "できません。nullは参照型専用で、int x = null; はコンパイルエラーになります。"
     },
     {
-      "question": "参考にすべき公式リソースはありますか？",
-      "answer": "各技術の公式ドキュメントが最も正確です。本記事で概要を掴んだら、公式の用語集やチュートリアルで詳細を確認しましょう。"
+      "question": "定数はなぜ final を使うのですか？",
+      "answer": "再代入を防ぎ意図を明確にします。マジックナンバーをfinal定数に置き換えると可読性と保守性が上がります。"
     }
   ],
-  "nextEpisodeHint": "次のエピソードでは、Javaの制御構文について学びます。",
+  "nextEpisodeHint": "次回はif・switch・for・whileの制御構文を学び、条件分岐と繰り返しをプログラムに組み込みます。",
   "canonical": "https://ai-site-iota-nine.vercel.app/article/java-variables",
   "jsonLd": {
     "@context": "https://schema.org",
@@ -55,10 +55,10 @@
       {
         "@context": "https://schema.org",
         "@type": "TechArticle",
-        "headline": "Javaの変数とデータ型",
-        "description": "【プログラミング初心者向け】Javaの変数とデータ型について学びます。変数を使用してデータを格納し、データ型を指定してデータの種類を定義します。 図解・具体例つきで丁寧に解説します。",
+        "headline": "Javaの変数とデータ型｜intからStringまで",
+        "description": "Javaのプリミティブ型、String、変数宣言、型変換、final定数を具体例で解説。未初期化変数や整数除算の失敗例も押さえられます。",
         "datePublished": "2026-05-29T11:29:44.525Z",
-        "dateModified": "2026-05-30T05:01:33.164Z",
+        "dateModified": "2026-05-30T05:18:37.022Z",
         "author": {
           "@type": "Organization",
           "name": "StackShelf",
@@ -79,7 +79,7 @@
         },
         "image": "https://ai-site-iota-nine.vercel.app/og-default.svg",
         "inLanguage": "ja",
-        "wordCount": 301,
+        "wordCount": 1184,
         "mainEntityOfPage": {
           "@type": "WebPage",
           "@id": "https://ai-site-iota-nine.vercel.app/article/java-variables"
@@ -115,7 +115,7 @@
           {
             "@type": "ListItem",
             "position": 4,
-            "name": "Javaの変数とデータ型",
+            "name": "Javaの変数とデータ型｜intからStringまで",
             "item": "https://ai-site-iota-nine.vercel.app/article/java-variables"
           }
         ]
@@ -145,42 +145,42 @@
         "mainEntity": [
           {
             "@type": "Question",
-            "name": "Javaの変数を宣言するにはどうすればよいですか？",
+            "name": "int と long はいつ使い分けますか？",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "Javaの変数を宣言するには、データ型と変数名を指定します。例：int x = 10;"
+              "text": "通常のカウンタや年齢はintで足ります。数十億を超える値やタイムスタンプ（ミリ秒）ではlongを使い、リテラル末尾にLを付けます。"
             }
           },
           {
             "@type": "Question",
-            "name": "つまずいたときはどうすればいいですか？",
+            "name": "float と double の違いは？",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "エラーメッセージをそのまま検索し、公式ドキュメントを当たってください。小さなステップに分けて再現・確認すると原因を特定しやすくなります。"
+              "text": "doubleの方が精度が高く、Javaでは小数リテラルはデフォルトでdoubleです。金額計算ではBigDecimalの検討も必要です。"
             }
           },
           {
             "@type": "Question",
-            "name": "どのくらいのペースで学べばいいですか？",
+            "name": "String はプリミティブ型ではないのですか？",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "1日30分〜1時間、週に3〜4回のペースが続けやすい目安です。読むだけでなく、必ず手を動かして確認しましょう。"
+              "text": "参照型です。ただしリテラル記法（\"text\"）で書け、不変（immutable）オブジェクトとして扱われます。"
             }
           },
           {
             "@type": "Question",
-            "name": "この記事の内容を忘れないコツは？",
+            "name": "null はプリミティブに代入できますか？",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "学んだ直後にメモを残し、翌日にもう一度短時間復習してください。実際のプロジェクトや練習問題に当てはめると記憶に定着しやすくなります。"
+              "text": "できません。nullは参照型専用で、int x = null; はコンパイルエラーになります。"
             }
           },
           {
             "@type": "Question",
-            "name": "参考にすべき公式リソースはありますか？",
+            "name": "定数はなぜ final を使うのですか？",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "各技術の公式ドキュメントが最も正確です。本記事で概要を掴んだら、公式の用語集やチュートリアルで詳細を確認しましょう。"
+              "text": "再代入を防ぎ意図を明確にします。マジックナンバーをfinal定数に置き換えると可読性と保守性が上がります。"
             }
           }
         ]
@@ -212,7 +212,7 @@
       {
         "@type": "ListItem",
         "position": 4,
-        "name": "Javaの変数とデータ型",
+        "name": "Javaの変数とデータ型｜intからStringまで",
         "item": "https://ai-site-iota-nine.vercel.app/article/java-variables"
       }
     ]
@@ -242,73 +242,73 @@
     "mainEntity": [
       {
         "@type": "Question",
-        "name": "Javaの変数を宣言するにはどうすればよいですか？",
+        "name": "int と long はいつ使い分けますか？",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Javaの変数を宣言するには、データ型と変数名を指定します。例：int x = 10;"
+          "text": "通常のカウンタや年齢はintで足ります。数十億を超える値やタイムスタンプ（ミリ秒）ではlongを使い、リテラル末尾にLを付けます。"
         }
       },
       {
         "@type": "Question",
-        "name": "つまずいたときはどうすればいいですか？",
+        "name": "float と double の違いは？",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "エラーメッセージをそのまま検索し、公式ドキュメントを当たってください。小さなステップに分けて再現・確認すると原因を特定しやすくなります。"
+          "text": "doubleの方が精度が高く、Javaでは小数リテラルはデフォルトでdoubleです。金額計算ではBigDecimalの検討も必要です。"
         }
       },
       {
         "@type": "Question",
-        "name": "どのくらいのペースで学べばいいですか？",
+        "name": "String はプリミティブ型ではないのですか？",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "1日30分〜1時間、週に3〜4回のペースが続けやすい目安です。読むだけでなく、必ず手を動かして確認しましょう。"
+          "text": "参照型です。ただしリテラル記法（\"text\"）で書け、不変（immutable）オブジェクトとして扱われます。"
         }
       },
       {
         "@type": "Question",
-        "name": "この記事の内容を忘れないコツは？",
+        "name": "null はプリミティブに代入できますか？",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "学んだ直後にメモを残し、翌日にもう一度短時間復習してください。実際のプロジェクトや練習問題に当てはめると記憶に定着しやすくなります。"
+          "text": "できません。nullは参照型専用で、int x = null; はコンパイルエラーになります。"
         }
       },
       {
         "@type": "Question",
-        "name": "参考にすべき公式リソースはありますか？",
+        "name": "定数はなぜ final を使うのですか？",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "各技術の公式ドキュメントが最も正確です。本記事で概要を掴んだら、公式の用語集やチュートリアルで詳細を確認しましょう。"
+          "text": "再代入を防ぎ意図を明確にします。マジックナンバーをfinal定数に置き換えると可読性と保守性が上がります。"
         }
       }
     ]
   },
+  "nextAction": "年齢・身長・名前を変数に持つ Profile クラスのmainで、BMI計算をdoubleキャスト付きで実装し、String比較はequalsを使ってみてください。",
   "internalLinkCandidates": [
     {
-      "slug": "java-project-development",
-      "title": "Javaのプロジェクト開発",
-      "reason": "同じ講座の関連回です"
+      "slug": "java-syntax",
+      "title": "Javaの基礎構文",
+      "reason": "文法の前提"
     },
     {
-      "slug": "java-functional-programming",
-      "title": "Javaの関数型プログラミング",
-      "reason": "同じ講座の関連回です"
+      "slug": "java-control-structures",
+      "title": "Java制御構文の基礎",
+      "reason": "同じ講座の次の回"
     },
     {
-      "slug": "java-lambda-expression",
-      "title": "Javaのラムダ式",
-      "reason": "同じ講座の関連回です"
+      "slug": "java-arrays",
+      "title": "Javaの配列",
+      "reason": "複数データの扱い"
     },
     {
-      "slug": "java-stream-api",
-      "title": "JavaのStream API",
-      "reason": "同じ講座の関連回です"
+      "slug": "java-classes",
+      "title": "Javaのクラスとオブジェクト",
+      "reason": "フィールドとしての変数"
     },
     {
-      "slug": "java-collection-framework",
-      "title": "Javaのコレクションフレームワーク",
-      "reason": "同じ講座の関連回です"
+      "slug": "java-best-practices",
+      "title": "Javaプログラミングのベストプラクティス",
+      "reason": "命名と定数化"
     }
   ],
-  "nextAction": "次のエピソードでは、Javaの制御構文について学びます。",
   "ogImage": "https://ai-site-iota-nine.vercel.app/og-default.svg"
 }

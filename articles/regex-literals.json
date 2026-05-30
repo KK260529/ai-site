@@ -1,0 +1,317 @@
+{
+  "id": "art_regex_regex-literals",
+  "slug": "regex-literals",
+  "title": "リテラルとメタ文字の基本｜正規表現の . とエスケープ【初心者向け】",
+  "summary": "正規表現で「そのままの文字（リテラル）」と「特別な意味を持つメタ文字」の違い、ドットやバックスラッシュのエスケープを具体例で解説します。",
+  "body": "<h2>リテラルとは「そのまま探す文字」</h2>\n<p>正規表現における<strong>リテラル（literal）</strong>とは、特別な意味を持たず、<strong>書いた文字そのもの</strong>にマッチする部分のことです。たとえばパターン <code>hello</code> は、文字列の中の <code>hello</code> という連続した5文字にだけマッチします。</p>\n<p>多くの英数字は、デフォルトではリテラルとして扱われます。日本語のひらがな・漢字も、UTF-8などで文字列が正しく扱える環境なら、リテラルとして検索できます（環境によってはエンコーディング設定が必要です）。</p>\n<pre><code># パターン: cat\n# マッチする例: \"I have a cat\" → cat 部分\n# マッチしない例: \"catalog\" の先頭3文字だけでは「単語cat」とは限らない（後で境界を学ぶ）</code></pre>\n\n<h2>メタ文字とは「パターン用の特別記号」</h2>\n<p>一方、<strong>メタ文字（metacharacter）</strong>は、正規表現エンジンにとって<strong>特別な意味</strong>を持つ記号です。代表的なメタ文字には次があります。</p>\n<ul>\n  <li><code>.</code> — 改行以外の任意の1文字</li>\n  <li><code>*</code> <code>+</code> <code>?</code> — 直前の要素の繰り返し（量詞）</li>\n  <li><code>[</code> <code>]</code> — 文字クラスの開始・終了</li>\n  <li><code>(</code> <code>)</code> — グループ</li>\n  <li><code>^</code> <code>$</code> — 行の先頭・末尾（アンカー）</li>\n  <li><code>\\</code> — エスケープ</li>\n</ul>\n<p>メタ文字を「普通の記号」として検索したいときは、<strong>バックスラッシュでエスケープ</strong>します。たとえばドット文字 <code>.</code> そのものを探すには <code>\\.</code> と書きます（言語やツールによってバックスラッシュの書き方が1本か2本か変わるので、後の JavaScript の回でも確認します）。</p>\n\n<h2>ドット . ：任意の1文字</h2>\n<p>メタ文字の中で最初に押さえるべきは <code>.</code>（ドット）です。<strong>改行文字を除く、任意の1文字</strong>にマッチします。</p>\n<pre><code># パターン: c.t\n# マッチ: \"cat\", \"cut\", \"c9t\" など c + 何か1文字 + t\n\n# パターン: ...\n# マッチ: 任意の3文字連続（\"abc\", \"a1!\" など）</code></pre>\n<p>注意点：<code>.</code> は「何でもよい1文字」であり、「0文字」や「残り全部」ではありません。ファイル名の拡張子を抜き出すような用途では、後で学ぶ文字クラス <code>[^.]+</code> の方が安全なことが多いです。</p>\n\n<h2>エスケープ \\ の基本</h2>\n<p>バックスラッシュ <code>\\</code> は、直後の文字に「特別扱いをやめさせる」または「特別な意味を与える」ために使います。</p>\n<p><strong>メタ文字をリテラルとして探す例：</strong></p>\n<pre><code>\\.+\\+\\?     # + ? など記号そのもの（ツールにより \\ の数が変わる）\n\\.             # ドット1文字そのもの\n\\( \\)         # 括弧そのもの</code></pre>\n<p><strong>逆に、普通の文字に特別な意味を与える例</strong>（方言による）もあります。たとえば <code>\\d</code> は「数字1文字」、<code>\\s</code> は「空白文字」など、エスケープ＋英字でショートカットが定義されています。これらは「プリ定義文字クラス」と呼ばれ、次回以降の文字クラスの回と関連します。</p>\n\n<h2>文字列と正規表現の「二重エスケープ」問題</h2>\n<p>プログラミング言語の中に正規表現を書くとき、<strong>文字列リテラルのエスケープ</strong>と<strong>正規表現のエスケープ</strong>が重なることがあります。</p>\n<p>JavaScript の例：</p>\n<pre><code>// 正規表現リテラルなら \\ は1本でよいことが多い\n/\\d+/\n\n// 文字列から RegExp を作ると、\\\\ と書く必要がある場合がある\nnew RegExp(\"\\\\d+\")</code></pre>\n<p>つまずいたら「正規表現として何を書きたいか」を紙に書き、それを言語の文字列にどう埋め込むかを分けて考えると整理しやすくなります。</p>\n\n<h2>よくある間違いと対処</h2>\n<p><strong>間違い1：URLやファイルパスを . なしで書く</strong>—— <code>example.com</code> のパターンを <code>example.com</code> と書くと、ドットは「任意の1文字」なので <code>exampleXcom</code> にもマッチしてしまいます。ドットをリテラルにするなら <code>example\\.com</code> です。</p>\n<p><strong>間違い2：バックスラッシュの数が合わない</strong>—— 意図せず「エスケープのエスケープ」になり、パターンが壊れます。テスターで1行ずつ試しましょう。</p>\n<p><strong>間違い3：すべてを . でつなぐ</strong>—— <code>.*</code> は強力ですが、貪欲にマッチしすぎて意図しない範囲を飲み込むことがあります（量詞の回で詳しく説明します）。</p>\n\n<h2>リテラルとメタ文字の見分け方のコツ</h2>\n<p>チートシートに「メタ文字一覧」がある場合は、一覧にない文字はだいたいリテラルです。迷ったら、<strong>エスケープしてリテラル扱いにする</strong>と安全なことが多いです（一部の方言では不要なエスケープがエラーになることもあるので、テスターで確認）。</p>\n<p>実務では、メールアドレスやURLのような<strong>厳密な形式</strong>を1つの巨大な正規表現で書くより、小さなパターンに分けて検証する方が保守しやすいです。今回学んだ「リテラルかメタか」の区別が、その第一歩になります。</p>\n\n<h2>練習イメージ</h2>\n<p>エディタの検索を正規表現モードにし、次を試してみてください。</p>\n<ol>\n  <li>パターン <code>version</code> で README から version を含む行を探す（純リテラル）</li>\n  <li>パターン <code>v1\\.0</code> でバージョン表記を探す（ドットをエスケープ）</li>\n  <li>パターン <code>a.c</code> と <code>a\\.c</code> の違いを、適当なテキストで比較する</li>\n</ol>\n\n<h2>ツール別のエスケープ早見表（イメージ）</h2>\n<p>同じ「ドット1文字」を探す場合でも、書き方が変わります。grep の基本モードでは <code>\\.</code>、JavaScript のリテラルでは <code>\\.</code>、文字列から RegExp を作ると <code>\\\\.</code> になることがあります。つまずいたら、まず<strong>正規表現として何を表したいか</strong>をメモし、それを各ツールの表に写すと整理しやすくなります。</p>\n<p>オンラインの正規表現テスターでは、フレーバーを JavaScript や PCRE に合わせて選ぶと、本番環境に近い結果が得られます。テスターで動いたパターンを、そのまま grep に貼ると動かない——そういうときは、今回学んだリテラルとメタ文字の区別から見直してください。</p>\n<p>また、検索対象のテキストにタブや全角スペースが混ざっていると、見た目は同じでもマッチしないことがあります。リテラル <code> </code> は半角スペース1文字だけなので、全角スペース U+3000 とは別物です。データの前処理（トリム、正規化）と正規表現の組み合わせも、実務では重要なテーマです。</p>\n\n<h2>まとめ</h2>\n<p>リテラルは書いた通りの文字にマッチし、メタ文字は <code>.</code> <code>*</code> などパターン用の特別記号です。メタ文字を文字として扱うには <code>\\</code> でエスケープします。プログラム内に書くときは、文字列のエスケープと正規表現のエスケープが重ならないよう注意しましょう。次回は <code>[]</code> を使った文字クラスを学びます。</p>",
+  "conclusion": "正規表現では英数字の多くがリテラルとしてそのままマッチし、. * ? などはメタ文字として特別な意味を持ちます。ドットは任意の1文字、メタ文字を文字として探すときはバックスラッシュでエスケープします。プログラムの文字列に埋め込むときは二重エスケープに注意し、テスターで確認する習慣をつけましょう。",
+  "tags": [
+    "正規表現",
+    "リテラル",
+    "メタ文字",
+    "エスケープ",
+    "regex",
+    "初心者"
+  ],
+  "category": "正規表現",
+  "theme": "regex - 正規表現入門",
+  "status": "published",
+  "createdAt": "2026-05-30T05:14:22.879Z",
+  "updatedAt": "2026-05-30T05:15:44.821Z",
+  "publishedAt": "2026-05-30T05:14:22.879Z",
+  "metaTitle": "正規表現 リテラルとメタ文字 | . とエスケープの基本",
+  "metaDescription": "正規表現のリテラルとメタ文字を初心者向けに解説。. 任意の1文字、\\ エスケープ、よくある間違いと対処法を具体例で学びます。",
+  "ogTitle": "リテラルとメタ文字の基本｜正規表現入門",
+  "ogDescription": "正規表現のリテラルとメタ文字、エスケープのルールをわかりやすく解説します。",
+  "knowledge": {
+    "topic": "regex",
+    "courseId": "regex",
+    "episode": 2
+  },
+  "faq": [
+    {
+      "question": "ドット . は常に「任意の1文字」ですか？",
+      "answer": "多くの方言でそうです。ただし [ ] の中ではリテラルのドットになるなど例外があるため、文脈に注意してください。"
+    },
+    {
+      "question": "日本語も正規表現で検索できますか？",
+      "answer": "UTF-8などUnicodeを扱える環境なら、ひらがな・漢字もリテラルとして検索できます。古いバイト列前提のツールでは文字化けに注意が必要です。"
+    },
+    {
+      "question": "バックスラッシュは何本書けばいいですか？",
+      "answer": "ツールと言語によります。正規表現リテラル（/pattern/）と文字列（\"pattern\"）で必要な本数が違うため、マッチしないときはテスターかドキュメントで確認してください。"
+    },
+    {
+      "question": "メタ文字をすべて覚える必要がありますか？",
+      "answer": "いいえ。よく使う . * ? [] () ^ $ から順に覚え、必要になったら \\d などを追加すれば十分です。"
+    },
+    {
+      "question": "リテラルだけの正規表現は意味がありますか？",
+      "answer": "あります。単純な文字列検索でも、正規表現モードにすると後から量詞やアンカーを足しやすく、エディタやgrepと同じ考え方で統一できます。"
+    }
+  ],
+  "nextEpisodeHint": "次回は文字クラス [ ] を学びます。[0-9] や [^abc] のように「この中から1文字」を指定する方法で、. より安全にパターンを書けるようになります。",
+  "nextAction": "次は文字クラス [ ] を学びます。[0-9] や [^abc] のように「この中から1文字」を指定する方法で、. より安全にパターンを書けるようになります。",
+  "internalLinkCandidates": [
+    {
+      "slug": "regex-javascript",
+      "title": "JavaScriptでの正規表現｜RegExp・test・match・replace【入門】",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "regex-groups",
+      "title": "グループとキャプチャ｜正規表現の ( ) と置換【入門】",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "regex-anchors",
+      "title": "アンカー ^ $ と単語境界｜正規表現で位置を指定する【入門】",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "regex-quantifiers",
+      "title": "量詞 * + ? {n,m}｜正規表現の繰り返しをマスター【入門】",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "regex-character-classes",
+      "title": "文字クラス [] と否定｜正規表現で使える文字の範囲指定【入門】",
+      "reason": "同じ講座の関連回です"
+    }
+  ],
+  "ogImage": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+  "canonical": "https://ai-site-iota-nine.vercel.app/article/regex-literals",
+  "jsonLd": {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@context": "https://schema.org",
+        "@type": "TechArticle",
+        "headline": "リテラルとメタ文字の基本｜正規表現の . とエスケープ【初心者向け】",
+        "description": "【正規表現初心者向け】正規表現のリテラルとメタ文字を初心者向けに解説。. 任意の1文字、\\ エスケープ、よくある間違いと対処法を具体例で学びます。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
+        "datePublished": "2026-05-30T05:14:22.879Z",
+        "dateModified": "2026-05-30T05:15:44.821Z",
+        "author": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
+        },
+        "image": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+        "inLanguage": "ja",
+        "wordCount": 2515,
+        "mainEntityOfPage": {
+          "@type": "WebPage",
+          "@id": "https://ai-site-iota-nine.vercel.app/article/regex-literals"
+        },
+        "keywords": "正規表現, リテラル, メタ文字, エスケープ, regex, 初心者",
+        "articleSection": "正規表現",
+        "url": "https://ai-site-iota-nine.vercel.app/article/regex-literals",
+        "learningResourceType": "tutorial",
+        "educationalLevel": "beginner"
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "ホーム",
+            "item": "https://ai-site-iota-nine.vercel.app/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "regex",
+            "item": "https://ai-site-iota-nine.vercel.app/knowledge/regex"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "正規表現入門",
+            "item": "https://ai-site-iota-nine.vercel.app/course/regex/regex"
+          },
+          {
+            "@type": "ListItem",
+            "position": 4,
+            "name": "リテラルとメタ文字の基本｜正規表現の . とエスケープ【初心者向け】",
+            "item": "https://ai-site-iota-nine.vercel.app/article/regex-literals"
+          }
+        ]
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "Course",
+        "name": "正規表現入門",
+        "description": "ログ解析・バリデーション・置換に必須の正規表現を10ステップで習得。つまずきやすいエスケープや量詞を具体例で解説します。",
+        "provider": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app"
+        },
+        "url": "https://ai-site-iota-nine.vercel.app/course/regex/regex",
+        "inLanguage": "ja",
+        "educationalLevel": "beginner",
+        "hasCourseInstance": {
+          "@type": "CourseInstance",
+          "courseMode": "online",
+          "courseWorkload": "PT1H"
+        }
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "ドット . は常に「任意の1文字」ですか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "多くの方言でそうです。ただし [ ] の中ではリテラルのドットになるなど例外があるため、文脈に注意してください。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "日本語も正規表現で検索できますか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "UTF-8などUnicodeを扱える環境なら、ひらがな・漢字もリテラルとして検索できます。古いバイト列前提のツールでは文字化けに注意が必要です。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "バックスラッシュは何本書けばいいですか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "ツールと言語によります。正規表現リテラル（/pattern/）と文字列（\"pattern\"）で必要な本数が違うため、マッチしないときはテスターかドキュメントで確認してください。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "メタ文字をすべて覚える必要がありますか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "いいえ。よく使う . * ? [] () ^ $ から順に覚え、必要になったら \\d などを追加すれば十分です。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "リテラルだけの正規表現は意味がありますか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "あります。単純な文字列検索でも、正規表現モードにすると後から量詞やアンカーを足しやすく、エディタやgrepと同じ考え方で統一できます。"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "breadcrumb": {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "ホーム",
+        "item": "https://ai-site-iota-nine.vercel.app/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "regex",
+        "item": "https://ai-site-iota-nine.vercel.app/knowledge/regex"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "正規表現入門",
+        "item": "https://ai-site-iota-nine.vercel.app/course/regex/regex"
+      },
+      {
+        "@type": "ListItem",
+        "position": 4,
+        "name": "リテラルとメタ文字の基本｜正規表現の . とエスケープ【初心者向け】",
+        "item": "https://ai-site-iota-nine.vercel.app/article/regex-literals"
+      }
+    ]
+  },
+  "courseSchema": {
+    "@context": "https://schema.org",
+    "@type": "Course",
+    "name": "正規表現入門",
+    "description": "ログ解析・バリデーション・置換に必須の正規表現を10ステップで習得。つまずきやすいエスケープや量詞を具体例で解説します。",
+    "provider": {
+      "@type": "Organization",
+      "name": "StackShelf",
+      "url": "https://ai-site-iota-nine.vercel.app"
+    },
+    "url": "https://ai-site-iota-nine.vercel.app/course/regex/regex",
+    "inLanguage": "ja",
+    "educationalLevel": "beginner",
+    "hasCourseInstance": {
+      "@type": "CourseInstance",
+      "courseMode": "online",
+      "courseWorkload": "PT1H"
+    }
+  },
+  "faqSchema": {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "ドット . は常に「任意の1文字」ですか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "多くの方言でそうです。ただし [ ] の中ではリテラルのドットになるなど例外があるため、文脈に注意してください。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "日本語も正規表現で検索できますか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "UTF-8などUnicodeを扱える環境なら、ひらがな・漢字もリテラルとして検索できます。古いバイト列前提のツールでは文字化けに注意が必要です。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "バックスラッシュは何本書けばいいですか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "ツールと言語によります。正規表現リテラル（/pattern/）と文字列（\"pattern\"）で必要な本数が違うため、マッチしないときはテスターかドキュメントで確認してください。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "メタ文字をすべて覚える必要がありますか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "いいえ。よく使う . * ? [] () ^ $ から順に覚え、必要になったら \\d などを追加すれば十分です。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "リテラルだけの正規表現は意味がありますか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "あります。単純な文字列検索でも、正規表現モードにすると後から量詞やアンカーを足しやすく、エディタやgrepと同じ考え方で統一できます。"
+        }
+      }
+    ]
+  }
+}

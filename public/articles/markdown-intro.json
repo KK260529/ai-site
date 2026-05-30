@@ -1,0 +1,316 @@
+{
+  "id": "art_markdown_markdown-intro",
+  "slug": "markdown-intro",
+  "title": "Markdownとは？技術文書を書く理由と全体像",
+  "summary": "MarkdownはREADME・設計書・ブログで使われる軽量マークアップ言語です。WordやHTMLとの違い、技術ドキュメントで選ばれる理由を、具体例と失敗例つきで解説します。",
+  "body": "<h2>結論：Markdownは「書きやすく、読みやすく、共有しやすい」文書形式</h2>\n<p>Markdown（マークダウン）は、見出しやリスト、コードなどを<strong>記号だけで表現する</strong>軽量マークアップ言語です。GitHubのREADME、社内Wiki、ブログ、API仕様書など、エンジニアが日常的に触れる文書の多くがMarkdown（またはそれに近い形式）で書かれています。Wordのように装飾パネルを触るのではなく、テキストエディタに <code># 見出し</code> のように打ち込むだけで構造化できるのが最大の利点です。</p>\n<p>日本語で体系的に学べる教材はまだ少なく、「記号の意味がわからない」「プレビューと表示が違う」といったつまずきが多いテーマです。この講座では、実務でよくある失敗例を交えながら、8ステップで読める・書ける・共有できるレベルまで進めます。</p>\n\n<h2>Markdownが生まれた背景</h2>\n<p>2004年頃、ジョン・グルーバー（John Gruber）とアーロン・スワーツ（Aaron Swartz）によって設計されました。目的は<strong>メールや掲示板で読みやすいプレーンテキスト</strong>を、最小限の記法で構造化することでした。当時から「HTMLを直接書くほどではないが、装飾のない文章だけでは伝わらない」というニーズがあり、今もその思想は変わっていません。</p>\n<p>現在では、GitHub・Notion・Qiita・Zenn・Slack・Discordなど、多くのサービスがMarkdown（または独自拡張を加えた派生）を採用しています。ツールごとに細部の解釈が異なる点には注意が必要ですが、基本記法は共通しているため、一度覚えれば転用しやすいスキルです。</p>\n\n<h2>Word・HTML・Markdownの使い分け</h2>\n<p>「どれを使えばいいのか」は初学者がよく検索する疑問です。結論から言うと、用途で選び分けます。</p>\n<ul>\n  <li><strong>Word</strong>：契約書・提出用レポートなど、厳密なレイアウトと承認フローが必要な文書</li>\n  <li><strong>HTML</strong>：Webページとして配信し、CSSやJavaScriptと組み合わせる本番サイト</li>\n  <li><strong>Markdown</strong>：リポジトリ内の説明、開発者向け手順書、変更履歴と一緒に管理したい文書</li>\n</ul>\n<p>技術プロジェクトでは、ソースコードと同じGitリポジトリに <code>README.md</code> を置き、プルリクエストでレビューする文化が一般的です。Wordファイルをメールで送り合うより、差分（diff）が見えるMarkdownの方がチーム開発と相性が良いのです。</p>\n\n<h3>よくある失敗：「全部Wordで書いてから貼る」</h3>\n<p>社内手順をWordで作り、Wikiにコピペすると、フォントや表の書式が崩れ、リンクやコードが壊れることがよくあります。最初から <code>.md</code> ファイルとして書き、リポジトリやWikiに置く方が、長期的な更新コストは下がります。</p>\n\n<h2>Markdownファイルの見た目</h2>\n<p>拡張子は通常 <code>.md</code> または <code>.markdown</code> です。中身はほぼプレーンテキストなので、メモ帳でも開けます。次の例は、これから学ぶ記法の「予告編」です。</p>\n<pre><code># プロジェクト名\n\nこのリポジトリは**サンプルAPI**のクライアントです。\n\n## 必要条件\n\n- Node.js 18 以上\n- npm 9 以上\n\n## インストール\n\n```bash\nnpm install\nnpm run build\n```</code></pre>\n<p>左側は人間が編集しやすいテキスト、右側（プレビュー）では見出しや太字、コードブロックに変換されます。変換の仕組みは「パーサー」と呼ばれるプログラムが担い、GitHub上では自動的にHTML表示に変換されます。</p>\n\n<h2>技術ドキュメントでMarkdownが選ばれる理由</h2>\n<p>実務の現場でMarkdownが好まれる理由は、次の4点に集約できます。</p>\n<ol>\n  <li><strong>バージョン管理と相性が良い</strong>：Gitで差分が読みやすく、誰がいつ何を直したか追える</li>\n  <li><strong>コードとの同居</strong>：同じフォルダに <code>src/</code> と <code>docs/</code> を置ける</li>\n  <li><strong>執筆の速さ</strong>：装飾より内容に集中できる</li>\n  <li><strong>ツールエコシステム</strong>：Lint、静的サイト生成（MkDocs、Docusaurus）、CIでの自動チェックがしやすい</li>\n</ol>\n<p>新卒研修や副業開発でも、「READMEが読みにくい」プロジェクトは信頼を損ないがちです。コードの品質と同様に、入口となる説明文の品質も採用・コントリビューションの判断材料になります。</p>\n\n<h2>Flavored Markdown（方言）に注意</h2>\n<p>「CommonMark」「GitHub Flavored Markdown（GFM）」「独自Wiki記法」など、方言と呼べるバリエーションがあります。例えば表の書き方、チェックボックス、数式の有無はサービス依存です。基本記法（見出し・リスト・強調・リンク・コード）を押さえれば、どの環境でも8割は動きます。プレビューが想定と違うときは、まず<strong>そのサービスのドキュメント</strong>を確認する習慣をつけましょう。</p>\n\n<h2>誰がMarkdownを使っているか</h2>\n<p>フロントエンド・バックエンド・インフラ・データ分析など、職種を問わず「説明文をリポジトリやWikiに残す」場面でMarkdownが使われます。新卒の研修課題、副業のOSS、社内ツールの手順書まで、<strong>コードを書く人なら一度はREADMEを直す</strong>機会があります。英語の公式ドキュメントが多い分、日本語で「つまずきポイントまで書かれた」入門が少ないのも、この講座を用意した理由です。</p>\n\n<h2>よく検索される疑問への短答</h2>\n<ul>\n  <li><strong>Markdownは難しい？</strong> — 基本記法は20種類ほど。1日で触り始められます</li>\n  <li><strong>Wordより劣る？</strong> — 印刷レイアウトではWordが有利。変更履歴とコード同居ではMarkdownが有利</li>\n  <li><strong>無料？</strong> — 仕様・ツールともに無料で使えるものがほとんどです</li>\n  <li><strong>就職に役立つ？</strong> — READMEや設計メモを読み書きできることは、実務・面接双方で評価されやすいです</li>\n</ul>\n\n<h2>この講座で身につくこと</h2>\n<p>全8回で、基本記法からREADMEの実践、ドキュメント構成、エディタ・Lint、最終的なプロジェクトREADME作成までを扱います。プログラミング経験がなくても、テキストを書いたことがあれば十分です。GitやLinuxの基礎があると、実践編がスムーズですが、必須ではありません。</p>\n<p>学習のコツは「読むだけ」ではなく、毎回1つずつ <code>.md</code> ファイルを手元で作り、プレビューで確認することです。記号を1つ変えるたびに表示が変わるため、体験が早いです。第2回以降は、前回のファイルに追記していく形でも構いません。</p>\n\n<h2>まとめ</h2>\n<p>Markdownは、技術文書を<strong>速く・協力しやすく・長く保守しやすく</strong>書くための標準的な選択肢です。WordやHTMLを置き換えるものではなく、開発とドキュメントを同じワークフローに載せるための道具と捉えてください。次回から、見出し・段落・強調の基本記法に入ります。</p>",
+  "conclusion": "Markdownは記号で構造を表す軽量マークアップ言語で、READMEや設計書など技術文書の事実上の標準です。Wordは厳密なレイアウト向け、HTMLはWeb配信向け、MarkdownはGitで管理する説明文向けと使い分けます。サービスごとに方言があるため、基本を押さえたうえでプレビューで確認する習慣が大切です。手を動かしながら8回で実務レベルまで進めましょう。",
+  "tags": [
+    "Markdown",
+    "技術ドキュメント",
+    "README",
+    "GitHub",
+    "初心者"
+  ],
+  "category": "Markdown",
+  "theme": "markdown - Markdown & 技術ドキュメント入門",
+  "status": "published",
+  "createdAt": "2026-05-30T05:14:13.114Z",
+  "updatedAt": "2026-05-30T05:14:13.121Z",
+  "publishedAt": "2026-05-30T05:14:13.114Z",
+  "metaTitle": "Markdownとは？技術ドキュメント入門【初心者向け】｜Markdown入門 | StackShelf",
+  "metaDescription": "【Markdown初心者向け】Markdownの意味、Word・HTMLとの違い、GitHub READMEで使う理由を初心者向けに解説。技術文書を書き始める第一歩として読めます。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
+  "ogTitle": "Markdownとは？技術文書を書く理由",
+  "ogDescription": "【Markdown初心者向け】【Markdown初心者向け】READMEや設計書に使うMarkdownの全体像を、具体例と失敗例つきでわかりやすく解説します。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
+  "knowledge": {
+    "topic": "markdown",
+    "courseId": "markdown",
+    "episode": 1
+  },
+  "faq": [
+    {
+      "question": "Markdownはプログラミング言語ですか？",
+      "answer": "いいえ。実行可能なプログラムではなく、文書の構造を記述するマークアップ言語です。ただし、コードブロック内にプログラムを貼ることはでき、技術文書との相性が良い形式です。"
+    },
+    {
+      "question": "MarkdownとHTMLはどちらを先に学ぶべきですか？",
+      "answer": "READMEや社内ドキュメントを書く目的ならMarkdownを先に学ぶのが効率的です。Webページ制作やフロントエンド開発が目的なら、並行してHTML/CSSを学ぶとよいでしょう。"
+    },
+    {
+      "question": ".md ファイルはどのアプリで開けますか？",
+      "answer": "VS Code、Typora、メモ帳など任意のテキストエディタで開けます。プレビュー付きで見るならVS Codeの「Markdownプレビュー」が無料で手軽です。"
+    },
+    {
+      "question": "日本語で書いても問題ありませんか？",
+      "answer": "問題ありません。UTF-8で保存すれば、見出し・本文・コードコメントすべて日本語で記述できます。文字化けする場合はファイルの文字コード設定を確認してください。"
+    },
+    {
+      "question": "Markdownを覚えるのにどのくらいかかりますか？",
+      "answer": "基本記法（見出し・リスト・強調・リンク・コード）は数時間の練習で使い始められます。READMEを1本作り切る経験を1回積めば、日常のドキュメント執筆には十分なレベルに達します。"
+    }
+  ],
+  "nextEpisodeHint": "次回は、見出し（#〜######）、段落、太字・斜体・打ち消し線など、文章の骨格を作る基本記法を実例つきで学びます。",
+  "nextAction": "手元に sample.md を作り、# タイトル と一段落だけ書いてVS Codeのプレビューで表示を確認してください。記号1つで見た目が変わる体験が、学習の土台になります。",
+  "internalLinkCandidates": [
+    {
+      "slug": "git-intro",
+      "title": "Gitとは？バージョン管理入門",
+      "reason": "READMEは多くの場合Gitリポジトリで管理するため、バージョン管理の基礎とセットで学ぶと理解が深まります"
+    },
+    {
+      "slug": "web-intro",
+      "title": "Webサイトの仕組み入門",
+      "reason": "MarkdownがHTMLに変換されてWeb上に表示される流れを、Webの基礎と関連づけられます"
+    },
+    {
+      "slug": "linux-intro",
+      "title": "Linuxとは？入門",
+      "reason": "サーバー上のドキュメントやCLIツールのヘルプもテキスト中心で、Linux学習と相性が良いです"
+    },
+    {
+      "slug": "python-intro",
+      "title": "Python入門",
+      "reason": "プロジェクトの説明文とコードを同じリポジトリで扱う場面が多く、Python学習者にとってREADME作成は実践的です"
+    },
+    {
+      "slug": "docker-intro",
+      "title": "Docker入門",
+      "reason": "Docker公式イメージもREADME.mdで使い方を説明しており、コンテナ学習とドキュメント執筆が直結します"
+    }
+  ],
+  "ogImage": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+  "canonical": "https://ai-site-iota-nine.vercel.app/article/markdown-intro",
+  "jsonLd": {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@context": "https://schema.org",
+        "@type": "TechArticle",
+        "headline": "Markdownとは？技術文書を書く理由と全体像",
+        "description": "【Markdown初心者向け】Markdownの意味、Word・HTMLとの違い、GitHub READMEで使う理由を初心者向けに解説。技術文書を書き始める第一歩として読めます。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
+        "datePublished": "2026-05-30T05:14:13.114Z",
+        "dateModified": "2026-05-30T05:14:13.121Z",
+        "author": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
+        },
+        "image": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+        "inLanguage": "ja",
+        "wordCount": 2711,
+        "mainEntityOfPage": {
+          "@type": "WebPage",
+          "@id": "https://ai-site-iota-nine.vercel.app/article/markdown-intro"
+        },
+        "keywords": "Markdown, 技術ドキュメント, README, GitHub, 初心者",
+        "articleSection": "Markdown",
+        "url": "https://ai-site-iota-nine.vercel.app/article/markdown-intro",
+        "learningResourceType": "tutorial",
+        "educationalLevel": "beginner"
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "ホーム",
+            "item": "https://ai-site-iota-nine.vercel.app/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "markdown",
+            "item": "https://ai-site-iota-nine.vercel.app/knowledge/markdown"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "Markdown & 技術ドキュメント入門",
+            "item": "https://ai-site-iota-nine.vercel.app/course/markdown/markdown"
+          },
+          {
+            "@type": "ListItem",
+            "position": 4,
+            "name": "Markdownとは？技術文書を書く理由と全体像",
+            "item": "https://ai-site-iota-nine.vercel.app/article/markdown-intro"
+          }
+        ]
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "Course",
+        "name": "Markdown & 技術ドキュメント入門",
+        "description": "README・設計書・ブログに使えるMarkdownを8ステップで習得。日本語の体系的入門が少ないテーマを、具体例と失敗例つきで学びます。",
+        "provider": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app"
+        },
+        "url": "https://ai-site-iota-nine.vercel.app/course/markdown/markdown",
+        "inLanguage": "ja",
+        "educationalLevel": "beginner",
+        "hasCourseInstance": {
+          "@type": "CourseInstance",
+          "courseMode": "online",
+          "courseWorkload": "PT1H"
+        }
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "Markdownはプログラミング言語ですか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "いいえ。実行可能なプログラムではなく、文書の構造を記述するマークアップ言語です。ただし、コードブロック内にプログラムを貼ることはでき、技術文書との相性が良い形式です。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "MarkdownとHTMLはどちらを先に学ぶべきですか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "READMEや社内ドキュメントを書く目的ならMarkdownを先に学ぶのが効率的です。Webページ制作やフロントエンド開発が目的なら、並行してHTML/CSSを学ぶとよいでしょう。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": ".md ファイルはどのアプリで開けますか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "VS Code、Typora、メモ帳など任意のテキストエディタで開けます。プレビュー付きで見るならVS Codeの「Markdownプレビュー」が無料で手軽です。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "日本語で書いても問題ありませんか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "問題ありません。UTF-8で保存すれば、見出し・本文・コードコメントすべて日本語で記述できます。文字化けする場合はファイルの文字コード設定を確認してください。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Markdownを覚えるのにどのくらいかかりますか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "基本記法（見出し・リスト・強調・リンク・コード）は数時間の練習で使い始められます。READMEを1本作り切る経験を1回積めば、日常のドキュメント執筆には十分なレベルに達します。"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "breadcrumb": {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "ホーム",
+        "item": "https://ai-site-iota-nine.vercel.app/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "markdown",
+        "item": "https://ai-site-iota-nine.vercel.app/knowledge/markdown"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "Markdown & 技術ドキュメント入門",
+        "item": "https://ai-site-iota-nine.vercel.app/course/markdown/markdown"
+      },
+      {
+        "@type": "ListItem",
+        "position": 4,
+        "name": "Markdownとは？技術文書を書く理由と全体像",
+        "item": "https://ai-site-iota-nine.vercel.app/article/markdown-intro"
+      }
+    ]
+  },
+  "courseSchema": {
+    "@context": "https://schema.org",
+    "@type": "Course",
+    "name": "Markdown & 技術ドキュメント入門",
+    "description": "README・設計書・ブログに使えるMarkdownを8ステップで習得。日本語の体系的入門が少ないテーマを、具体例と失敗例つきで学びます。",
+    "provider": {
+      "@type": "Organization",
+      "name": "StackShelf",
+      "url": "https://ai-site-iota-nine.vercel.app"
+    },
+    "url": "https://ai-site-iota-nine.vercel.app/course/markdown/markdown",
+    "inLanguage": "ja",
+    "educationalLevel": "beginner",
+    "hasCourseInstance": {
+      "@type": "CourseInstance",
+      "courseMode": "online",
+      "courseWorkload": "PT1H"
+    }
+  },
+  "faqSchema": {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "Markdownはプログラミング言語ですか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "いいえ。実行可能なプログラムではなく、文書の構造を記述するマークアップ言語です。ただし、コードブロック内にプログラムを貼ることはでき、技術文書との相性が良い形式です。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "MarkdownとHTMLはどちらを先に学ぶべきですか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "READMEや社内ドキュメントを書く目的ならMarkdownを先に学ぶのが効率的です。Webページ制作やフロントエンド開発が目的なら、並行してHTML/CSSを学ぶとよいでしょう。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": ".md ファイルはどのアプリで開けますか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "VS Code、Typora、メモ帳など任意のテキストエディタで開けます。プレビュー付きで見るならVS Codeの「Markdownプレビュー」が無料で手軽です。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "日本語で書いても問題ありませんか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "問題ありません。UTF-8で保存すれば、見出し・本文・コードコメントすべて日本語で記述できます。文字化けする場合はファイルの文字コード設定を確認してください。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Markdownを覚えるのにどのくらいかかりますか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "基本記法（見出し・リスト・強調・リンク・コード）は数時間の練習で使い始められます。READMEを1本作り切る経験を1回積めば、日常のドキュメント執筆には十分なレベルに達します。"
+        }
+      }
+    ]
+  }
+}

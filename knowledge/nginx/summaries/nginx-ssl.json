@@ -1,0 +1,13 @@
+{
+  "slug": "nginx-ssl",
+  "courseId": "nginx",
+  "episode": 6,
+  "summaryMemory": [
+    "HTTPSは443番ポートでSSL/TLS暗号化通信を行う",
+    "Let's Encrypt + certbot で無料SSL証明書を取得・自動更新",
+    "ssl_certificate と ssl_certificate_key がSSL設定の核心",
+    "リバースプロキシ構成ではnginxでSSL終端しX-Forwarded-Protoを転送"
+  ],
+  "nextEpisodeHint": "次回は、nginxのアクセスログ・エラーログの読み方、ログフォーマットのカスタマイズ、502/504等のエラー調査手法を学びます。",
+  "updatedAt": "2026-05-30T05:15:07.209Z"
+}

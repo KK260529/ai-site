@@ -1,0 +1,317 @@
+{
+  "id": "art_regex_regex-groups",
+  "slug": "regex-groups",
+  "title": "グループとキャプチャ｜正規表現の ( ) と置換【入門】",
+  "summary": "正規表現のキャプチャグループ ( ) 、非キャプチャ (?: ) 、後方参照、置換での $1 や $1 の使い方を具体例で解説します。",
+  "body": "<h2>グループとは「まとめて1要素にする」</h2>\n<p>丸括弧 <code>( )</code> で囲んだ部分を<strong>グループ（group）</strong>といい、量詞を「複数文字のまとまり」にかけたり、マッチした部分を<strong>キャプチャ（記憶）</strong>したりできます。</p>\n<pre><code># (ab)+ → ab, abab, ababab ... にマッチ\n# a+ だけだと aaa などで、ab の繰り返しではない\n\n# (\\d{4})-(\\d{2})-(\\d{2}) → 日付の年・月・日をそれぞれキャプチャ</code></pre>\n\n<h2>キャプチャグループの番号</h2>\n<p>左から順に、開き括弧 <code>(</code> ごとに番号が付きます（1始まりが一般的）。マッチ後、プログラムや置換で<strong>1番目のグループ</strong> <strong>2番目のグループ</strong>…として参照できます。</p>\n<pre><code># 文字列: \"price: 1200 yen\"\n# パターン: (\\d+) (\\w+)\n# グループ1: 1200, グループ2: yen（例・方言により取得方法は異なる）</code></pre>\n<p>JavaScript では <code>match()</code> の戻り値や <code>exec()</code> の配列、置換の <code>$1</code> <code>$2</code> でアクセスします（次回以降の実装回でコード例を扱います）。</p>\n\n<h2>非キャプチャグループ (?: )</h2>\n<p>グループ化だけしたいが、番号を消費したくないときは <strong>(?: ... )</strong> を使います。量詞をまとめにかけるだけのときに便利です。</p>\n<pre><code>(?:https?://)www\\.example\\.com\n# http/https の部分はキャプチャしない</code></pre>\n<p>複雑なパターンでは、キャプチャが増えすぎると番号がずれてバグの原因になるため、不要な括弧は <code>(?:)</code> にする習慣が有用です。</p>\n\n<h2>後方参照（バックリファレンス）</h2>\n<p>同じパターン内で、<strong>すでにキャプチャした部分と同じ文字列</strong>を再度マッチさせるには、後方参照を使います。多くの方言で <code>\\1</code> は1番グループ、<code>\\2</code> は2番グループです。</p>\n<pre><code># 同じ単語が2回続く（簡易例）\n(\\w+) \\1\n# \"hello hello\" → OK\n\n# HTMLタグの対（非常に簡略・実務では不向きな場合あり）\n&lt;(\\w+)&gt;.*?&lt;/\\1&gt;</code></pre>\n<p>入れ子のグループでは番号の付け方に注意が必要です。エンジンのドキュメントで「番号のルール」を確認しましょう。</p>\n\n<h2>置換でのキャプチャの利用</h2>\n<p>エディタや <code>replace</code> では、マッチ全体を置換文字列に埋め込めます。</p>\n<pre><code># 検索: (\\d{4})/(\\d{2})/(\\d{2})\n# 置換: $3-$2-$1  （YYYY/MM/DD → DD-MM-YYYY のイメージ）\n\n# JavaScript: '2024/05/30'.replace(/(\\d+)\\/(\\d+)\\/(\\d+)/, '$3-$2-$1')</code></pre>\n<p>置換文字列の <code>$1</code> と、正規表現内の <code>\\1</code> は<strong>文脈が違う</strong>ので混同しないようにします。言語によっては <code>$1</code> の代わりに <code>\\g{1}</code> などを使います。</p>\n\n<h2>選択（OR）とグループ |</h2>\n<p>パイプ <code>|</code> は<strong>または（OR）</strong>です。グループと組み合わせると強力です。</p>\n<pre><code>^(Mr|Ms|Dr)\\.\\s+\\w+\n# 行頭が敬称のいずれかで始まる\n\n(cat|dog)s\n# cats または dogs</code></pre>\n<p><code>|</code> の結合順序（優先順位）に注意し、意図しない範囲に OR が広がる場合は括弧で囲みます。</p>\n\n<h2>名前付きキャプチャ（概要）</h2>\n<p>現代の JavaScript などでは <code>(?&lt;year&gt;\\d{4})</code> のような<strong>名前付きグループ</strong>が使えます。番号より読みやすく、保守しやすいパターンになります。</p>\n<pre><code>/(?&lt;year&gt;\\d{4})-(?&lt;month&gt;\\d{2})-(?&lt;day&gt;\\d{2})/</code></pre>\n<p>対応していない古い環境では番号付きキャプチャにフォールバックします。</p>\n\n<h2>よくある間違い</h2>\n<p><strong>括弧の付け忘れ</strong>—— <code>ab|cd+</code> の優先順位は意図と違うことがある。</p>\n<p><strong>キャプチャしすぎ</strong>—— すべて ( ) にすると置換の番号がわからなくなる。不要なら (?: ) を使う。</p>\n<p><strong>後方参照の対象ミス</strong>—— グループがマッチしていないと \\1 も失敗する。</p>\n\n<h2>実務での置換ワークフロー</h2>\n<p>VS Code で「日付形式を一括変更」するような作業では、検索にキャプチャ付きパターン、置換に <code>$1</code> を並べたテンプレートを使います。作業前に Git でコミットし、置換後に diff を確認する習慣が、事故を防ぎます。置換プレビュー機能があるエディタでは、適用前に件数を確認しましょう。</p>\n<p>プログラムから置換する場合も、同じグループ番号の考え方が使えます。JavaScript では <code>String.prototype.replace</code>、Python では <code>re.sub</code> で、抽出した部分を並べ替えたり、大文字化したりできます。</p>\n\n<h2>ログからフィールドを抜く例</h2>\n<pre><code># パターン: user_id=([0-9]+)\n# マッチ例: \"user_id=42 logged in\" → グループ1は 42\n\n# 複数グループ: ([0-9]{4})-([0-9]{2})-([0-9]{2})\n# 日付の年月日を別々に取得</code></pre>\n<p>抽出した値をデータベースに保存したり、集計したりするときは、キャプチャした文字列をトリム（前後空白削除）するのを忘れないでください。グループは「マッチした生の文字列」です。</p>\n\n<h2>ネストしたグループの番号</h2>\n<p>括弧の中に括弧があると、開き括弧の順に番号が振られます。入れ子が深いパターンは読みにくいので、可能ならフラットにするか、名前付きグループ（JavaScript ES2018+）で意味づけします。置換で <code>$10</code> と <code>$1</code>+「0文字」が区別できない方言もあるため、9個を超えるキャプチャは避けるのが無難です。</p>\n\n<h2>置換のプレビューで事故を防ぐ</h2>\n<p>本番データで一括置換する前に、同じパターンで「マッチ件数だけ」を確認する習慣をつけましょう。VS Code では置換ダイアログに件数が表示されます。0件や想定外の数千件なら、グループ番号やエスケープのミスを疑います。Git のワークツリーが汚れている状態でも、置換前に <code>git status</code> で未コミット変更を確認すると安心です。小さなリポジトリならブランチを切ってから置換すると、PR で差分レビューもできます。</p>\n\n<h2>ドキュメントへのコピー</h2>\n<p>よく使う「検索パターン＋置換テンプレート」は、Markdown の README や社内 Wiki にコードブロックで残しておくと、新人が同じ作業を再現しやすくなります。markdown-intro で学ぶコードブロックの書き方と相性がよい習慣です。</p>\n\n<h2>まとめ</h2>\n<p>グループ ( ) は繰り返しの単位とキャプチャの両方に使います。非キャプチャ (?: ) で番号を節約し、置換では $1 などで抽出した部分を再利用できます。次回は先読み・後読みという、キャプチャせずに条件だけ付ける応用技法を学びます。</p>",
+  "conclusion": "括弧グループは量詞の適用範囲を広げ、キャプチャでマッチ部分を番号付きで保持します。不要なキャプチャは (?: ) にし、置換では $1 などで並べ替えや整形ができます。後方参照 \\1 で同じ部分の繰り返しも表現できますが、複雑なHTMLには向きません。",
+  "tags": [
+    "正規表現",
+    "グループ",
+    "キャプチャ",
+    "置換",
+    "regex",
+    "初心者"
+  ],
+  "category": "正規表現",
+  "theme": "regex - 正規表現入門",
+  "status": "published",
+  "createdAt": "2026-05-30T05:14:26.634Z",
+  "updatedAt": "2026-05-30T05:15:44.492Z",
+  "publishedAt": "2026-05-30T05:14:26.634Z",
+  "metaTitle": "正規表現 グループ キャプチャ | ( ) と置換",
+  "metaDescription": "正規表現のグループとキャプチャを初心者向けに解説。括弧での抽出、後方参照、エディタ置換の $1 も具体例で学べます。",
+  "ogTitle": "グループとキャプチャ｜正規表現入門",
+  "ogDescription": "正規表現のグループ、キャプチャ、置換での参照をわかりやすく解説します。",
+  "knowledge": {
+    "topic": "regex",
+    "courseId": "regex",
+    "episode": 6
+  },
+  "faq": [
+    {
+      "question": "キャプチャグループはいくつまで使えますか？",
+      "answer": "実装により上限がありますが、実務では少数に抑え、名前付きグループで可読性を上げるのがおすすめです。"
+    },
+    {
+      "question": "(?: ) と ( ) の違いは？",
+      "answer": "(?: ) はグループ化のみでキャプチャしません。( ) はマッチ部分を番号付きで記憶します。"
+    },
+    {
+      "question": "置換の $1 と正規表現内の \\1 は同じですか？",
+      "answer": "参照するのは同じグループですが、$1 は置換文字列側、\\1 はパターン内の後方参照という文脈が異なります。"
+    },
+    {
+      "question": "| はどこまで OR になりますか？",
+      "answer": "優先順位によります。曖昧なときは括弧で囲んで意図を明確にしてください。"
+    },
+    {
+      "question": "名前付きグループはどこで使えますか？",
+      "answer": "ES2018 以降の JavaScript、多くのモダン言語でサポートされています。古い環境では番号付きに頼ります。"
+    }
+  ],
+  "nextEpisodeHint": "次回は先読み・後読みを学びます。マッチ結果に含めずに「この前後にある条件だけ」をチェックする技法です。",
+  "nextAction": "次は先読み・後読みを学びます。マッチ結果に含めずに「この前後にある条件だけ」をチェックする技法です。",
+  "internalLinkCandidates": [
+    {
+      "slug": "regex-javascript",
+      "title": "JavaScriptでの正規表現｜RegExp・test・match・replace【入門】",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "regex-anchors",
+      "title": "アンカー ^ $ と単語境界｜正規表現で位置を指定する【入門】",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "regex-quantifiers",
+      "title": "量詞 * + ? {n,m}｜正規表現の繰り返しをマスター【入門】",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "regex-character-classes",
+      "title": "文字クラス [] と否定｜正規表現で使える文字の範囲指定【入門】",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "regex-literals",
+      "title": "リテラルとメタ文字の基本｜正規表現の . とエスケープ【初心者向け】",
+      "reason": "同じ講座の関連回です"
+    }
+  ],
+  "ogImage": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+  "canonical": "https://ai-site-iota-nine.vercel.app/article/regex-groups",
+  "jsonLd": {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@context": "https://schema.org",
+        "@type": "TechArticle",
+        "headline": "グループとキャプチャ｜正規表現の ( ) と置換【入門】",
+        "description": "【正規表現初心者向け】【正規表現初心者向け】正規表現のグループとキャプチャを初心者向けに解説。括弧での抽出、後方参照、エディタ置換の $1 も具体例で学べます。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
+        "datePublished": "2026-05-30T05:14:26.634Z",
+        "dateModified": "2026-05-30T05:15:44.492Z",
+        "author": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
+        },
+        "image": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+        "inLanguage": "ja",
+        "wordCount": 2623,
+        "mainEntityOfPage": {
+          "@type": "WebPage",
+          "@id": "https://ai-site-iota-nine.vercel.app/article/regex-groups"
+        },
+        "keywords": "正規表現, グループ, キャプチャ, 置換, regex, 初心者",
+        "articleSection": "正規表現",
+        "url": "https://ai-site-iota-nine.vercel.app/article/regex-groups",
+        "learningResourceType": "tutorial",
+        "educationalLevel": "beginner"
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "ホーム",
+            "item": "https://ai-site-iota-nine.vercel.app/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "regex",
+            "item": "https://ai-site-iota-nine.vercel.app/knowledge/regex"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "正規表現入門",
+            "item": "https://ai-site-iota-nine.vercel.app/course/regex/regex"
+          },
+          {
+            "@type": "ListItem",
+            "position": 4,
+            "name": "グループとキャプチャ｜正規表現の ( ) と置換【入門】",
+            "item": "https://ai-site-iota-nine.vercel.app/article/regex-groups"
+          }
+        ]
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "Course",
+        "name": "正規表現入門",
+        "description": "ログ解析・バリデーション・置換に必須の正規表現を10ステップで習得。つまずきやすいエスケープや量詞を具体例で解説します。",
+        "provider": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app"
+        },
+        "url": "https://ai-site-iota-nine.vercel.app/course/regex/regex",
+        "inLanguage": "ja",
+        "educationalLevel": "beginner",
+        "hasCourseInstance": {
+          "@type": "CourseInstance",
+          "courseMode": "online",
+          "courseWorkload": "PT1H"
+        }
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "キャプチャグループはいくつまで使えますか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "実装により上限がありますが、実務では少数に抑え、名前付きグループで可読性を上げるのがおすすめです。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "(?: ) と ( ) の違いは？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "(?: ) はグループ化のみでキャプチャしません。( ) はマッチ部分を番号付きで記憶します。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "置換の $1 と正規表現内の \\1 は同じですか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "参照するのは同じグループですが、$1 は置換文字列側、\\1 はパターン内の後方参照という文脈が異なります。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "| はどこまで OR になりますか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "優先順位によります。曖昧なときは括弧で囲んで意図を明確にしてください。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "名前付きグループはどこで使えますか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "ES2018 以降の JavaScript、多くのモダン言語でサポートされています。古い環境では番号付きに頼ります。"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "breadcrumb": {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "ホーム",
+        "item": "https://ai-site-iota-nine.vercel.app/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "regex",
+        "item": "https://ai-site-iota-nine.vercel.app/knowledge/regex"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "正規表現入門",
+        "item": "https://ai-site-iota-nine.vercel.app/course/regex/regex"
+      },
+      {
+        "@type": "ListItem",
+        "position": 4,
+        "name": "グループとキャプチャ｜正規表現の ( ) と置換【入門】",
+        "item": "https://ai-site-iota-nine.vercel.app/article/regex-groups"
+      }
+    ]
+  },
+  "courseSchema": {
+    "@context": "https://schema.org",
+    "@type": "Course",
+    "name": "正規表現入門",
+    "description": "ログ解析・バリデーション・置換に必須の正規表現を10ステップで習得。つまずきやすいエスケープや量詞を具体例で解説します。",
+    "provider": {
+      "@type": "Organization",
+      "name": "StackShelf",
+      "url": "https://ai-site-iota-nine.vercel.app"
+    },
+    "url": "https://ai-site-iota-nine.vercel.app/course/regex/regex",
+    "inLanguage": "ja",
+    "educationalLevel": "beginner",
+    "hasCourseInstance": {
+      "@type": "CourseInstance",
+      "courseMode": "online",
+      "courseWorkload": "PT1H"
+    }
+  },
+  "faqSchema": {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "キャプチャグループはいくつまで使えますか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "実装により上限がありますが、実務では少数に抑え、名前付きグループで可読性を上げるのがおすすめです。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "(?: ) と ( ) の違いは？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "(?: ) はグループ化のみでキャプチャしません。( ) はマッチ部分を番号付きで記憶します。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "置換の $1 と正規表現内の \\1 は同じですか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "参照するのは同じグループですが、$1 は置換文字列側、\\1 はパターン内の後方参照という文脈が異なります。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "| はどこまで OR になりますか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "優先順位によります。曖昧なときは括弧で囲んで意図を明確にしてください。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "名前付きグループはどこで使えますか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "ES2018 以降の JavaScript、多くのモダン言語でサポートされています。古い環境では番号付きに頼ります。"
+        }
+      }
+    ]
+  }
+}

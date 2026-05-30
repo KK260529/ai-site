@@ -1,0 +1,16 @@
+{
+  "nginx": {
+    "definition": "高性能Webサーバー・リバースプロキシソフトウェア",
+    "aliases": [
+      "エンジンエックス"
+    ]
+  },
+  "リバースプロキシ": {
+    "definition": "クライアントとサーバー間でリクエストを中継する仕組み",
+    "aliases": []
+  },
+  "upstream": {
+    "definition": "nginxが転送先とするバックエンドサーバー群",
+    "aliases": []
+  }
+}

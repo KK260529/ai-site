@@ -2,9 +2,9 @@
   "id": "art_web_web-lists-tables",
   "slug": "web-lists-tables",
   "title": "リストと表の作り方：ul・ol・li・tableタグをわかりやすく解説",
-  "summary": "HTMLの箇条書きリスト（ul/li）・番号付きリスト（ol/li）・定義リスト（dl/dt/dd）とテーブル（table/tr/td/th）の書き方をweb制作 入門として解説します。",
-  "body": "<h2>HTMLのリスト：3種類を使い分ける</h2>\n<p>Webページで「箇条書き」や「手順リスト」を表示するとき、HTMLには3種類のリストタグが用意されています。</p>\n<ul>\n  <li><strong>ul（Unordered List）</strong>：順番に意味がない箇条書きリスト（● や ■ などの記号）</li>\n  <li><strong>ol（Ordered List）</strong>：順番に意味がある番号付きリスト（1, 2, 3...）</li>\n  <li><strong>dl（Description List）</strong>：用語とその説明をセットにした定義リスト</li>\n</ul>\n<p>それぞれのリストの中には <code>&lt;li&gt;</code>（List Item）タグで各項目を書きます。どのリストを使うべきか迷ったときは「順番が変わっても意味が変わらなければul、順番が大事ならol」と判断しましょう。</p>\n\n<h2>ulタグ：箇条書きリストの作り方</h2>\n<p>順番に意味のないリストには <code>&lt;ul&gt;</code> タグを使います。料理の材料、メニュー項目、特徴の列挙などに適しています。</p>\n<pre><code>&lt;!-- 箇条書きリストの基本 --&gt;\n&lt;ul&gt;\n  &lt;li&gt;HTML&lt;/li&gt;\n  &lt;li&gt;CSS&lt;/li&gt;\n  &lt;li&gt;JavaScript&lt;/li&gt;\n&lt;/ul&gt;\n\n&lt;!-- ネスト（入れ子）リスト --&gt;\n&lt;ul&gt;\n  &lt;li&gt;フロントエンド\n    &lt;ul&gt;\n      &lt;li&gt;HTML&lt;/li&gt;\n      &lt;li&gt;CSS&lt;/li&gt;\n      &lt;li&gt;JavaScript&lt;/li&gt;\n    &lt;/ul&gt;\n  &lt;/li&gt;\n  &lt;li&gt;バックエンド\n    &lt;ul&gt;\n      &lt;li&gt;Python&lt;/li&gt;\n      &lt;li&gt;Node.js&lt;/li&gt;\n    &lt;/ul&gt;\n  &lt;/li&gt;\n&lt;/ul&gt;</code></pre>\n<p>デフォルトでは黒い丸（●）が各項目の前に表示されます。CSSの <code>list-style-type</code> プロパティで記号の種類（丸・四角・なし など）を変更できます。</p>\n\n<h2>olタグ：番号付きリストの作り方</h2>\n<p>手順・ランキング・順序が大事なリストには <code>&lt;ol&gt;</code> タグを使います。</p>\n<pre><code>&lt;!-- 番号付きリスト --&gt;\n&lt;ol&gt;\n  &lt;li&gt;VS Codeをインストールする&lt;/li&gt;\n  &lt;li&gt;index.htmlファイルを作成する&lt;/li&gt;\n  &lt;li&gt;基本テンプレートを書く&lt;/li&gt;\n  &lt;li&gt;ブラウザで確認する&lt;/li&gt;\n&lt;/ol&gt;\n\n&lt;!-- 番号のスタート位置を変える --&gt;\n&lt;ol start=\"5\"&gt;\n  &lt;li&gt;5番目から始まります&lt;/li&gt;\n  &lt;li&gt;6番目&lt;/li&gt;\n&lt;/ol&gt;\n\n&lt;!-- アルファベット表示 --&gt;\n&lt;ol type=\"A\"&gt;\n  &lt;li&gt;Aから始まるリスト&lt;/li&gt;\n  &lt;li&gt;B&lt;/li&gt;\n  &lt;li&gt;C&lt;/li&gt;\n&lt;/ol&gt;</code></pre>\n<p><code>type</code> 属性で番号の種類（<code>1</code>: 数字, <code>A</code>: 大文字, <code>a</code>: 小文字, <code>I</code>: ローマ数字大文字, <code>i</code>: ローマ数字小文字）を変えられます。ただし見た目の変更はCSSを使う方が柔軟性が高いです。</p>\n\n<h2>dlタグ：定義リストの使い方</h2>\n<p>用語（<code>dt</code>）とその説明（<code>dd</code>）をセットで表示する定義リストは、用語集・FAQ・仕様一覧などに適しています。</p>\n<pre><code>&lt;!-- 定義リスト --&gt;\n&lt;dl&gt;\n  &lt;dt&gt;HTML&lt;/dt&gt;\n  &lt;dd&gt;HyperText Markup Languageの略。Webページの構造を定義するマークアップ言語。&lt;/dd&gt;\n\n  &lt;dt&gt;CSS&lt;/dt&gt;\n  &lt;dd&gt;Cascading Style Sheetsの略。Webページの見た目を定義するスタイルシート言語。&lt;/dd&gt;\n\n  &lt;dt&gt;JavaScript&lt;/dt&gt;\n  &lt;dd&gt;Webページにインタラクティブな動作を追加するプログラミング言語。&lt;/dd&gt;\n&lt;/dl&gt;</code></pre>\n<p>dlタグはあまり使われないように思われますが、HTMLのセマンティクス的には用語と説明の関係を表す最も適切なタグです。FAQページや仕様書などで活用しましょう。</p>\n\n<h2>tableタグ：HTMLで表を作る基本</h2>\n<p>データをグリッド状の表（テーブル）で表示するには <code>&lt;table&gt;</code> タグを使います。関連する複数のタグが組み合わさって表を構成します。</p>\n<pre><code>&lt;table&gt;\n  &lt;thead&gt;\n    &lt;tr&gt;\n      &lt;th&gt;名前&lt;/th&gt;\n      &lt;th&gt;年齢&lt;/th&gt;\n      &lt;th&gt;職業&lt;/th&gt;\n    &lt;/tr&gt;\n  &lt;/thead&gt;\n  &lt;tbody&gt;\n    &lt;tr&gt;\n      &lt;td&gt;田中 太郎&lt;/td&gt;\n      &lt;td&gt;28&lt;/td&gt;\n      &lt;td&gt;エンジニア&lt;/td&gt;\n    &lt;/tr&gt;\n    &lt;tr&gt;\n      &lt;td&gt;鈴木 花子&lt;/td&gt;\n      &lt;td&gt;25&lt;/td&gt;\n      &lt;td&gt;デザイナー&lt;/td&gt;\n    &lt;/tr&gt;\n  &lt;/tbody&gt;\n&lt;/table&gt;</code></pre>\n<p>各タグの役割を整理しましょう。</p>\n<ul>\n  <li><code>&lt;table&gt;</code>：テーブル全体を囲む</li>\n  <li><code>&lt;thead&gt;</code>：ヘッダー行のグループ（省略可だが書くことを推奨）</li>\n  <li><code>&lt;tbody&gt;</code>：データ行のグループ（省略可だが書くことを推奨）</li>\n  <li><code>&lt;tfoot&gt;</code>：フッター行のグループ（合計行などに使用）</li>\n  <li><code>&lt;tr&gt;</code>（Table Row）：1行を表す</li>\n  <li><code>&lt;th&gt;</code>（Table Header）：見出しセル（デフォルトで太字・中央揃え）</li>\n  <li><code>&lt;td&gt;</code>（Table Data）：データセル</li>\n</ul>\n\n<h2>テーブルのセル結合：colspan・rowspan</h2>\n<p>複数のセルをまとめて1つのセルにする「セル結合」は、<code>colspan</code>（横方向の結合）と <code>rowspan</code>（縦方向の結合）属性で実現します。</p>\n<pre><code>&lt;table border=\"1\"&gt;\n  &lt;thead&gt;\n    &lt;tr&gt;\n      &lt;th colspan=\"2\"&gt;氏名&lt;/th&gt; &lt;!-- 2列分を1つに --&gt;\n      &lt;th&gt;スコア&lt;/th&gt;\n    &lt;/tr&gt;\n  &lt;/thead&gt;\n  &lt;tbody&gt;\n    &lt;tr&gt;\n      &lt;td&gt;山田&lt;/td&gt;\n      &lt;td&gt;一郎&lt;/td&gt;\n      &lt;td rowspan=\"2\"&gt;同点&lt;/td&gt; &lt;!-- 2行分を1つに --&gt;\n    &lt;/tr&gt;\n    &lt;tr&gt;\n      &lt;td&gt;佐藤&lt;/td&gt;\n      &lt;td&gt;次郎&lt;/td&gt;\n    &lt;/tr&gt;\n  &lt;/tbody&gt;\n&lt;/table&gt;</code></pre>\n<p>セル結合を使うと複雑なレイアウトを表で表現できます。ただし、セルの数が合わなくなるミスをしやすいので、結合後に各行のセル数が正しくなっているか確認する習慣をつけましょう。</p>\n\n<h2>テーブルのscopeとcaption：アクセシビリティ向上</h2>\n<p>テーブルをアクセシブルにするための属性も覚えておきましょう。</p>\n<pre><code>&lt;table&gt;\n  &lt;caption&gt;2024年第1四半期 売上レポート&lt;/caption&gt;\n  &lt;thead&gt;\n    &lt;tr&gt;\n      &lt;th scope=\"col\"&gt;月&lt;/th&gt;\n      &lt;th scope=\"col\"&gt;売上（万円）&lt;/th&gt;\n      &lt;th scope=\"col\"&gt;前月比&lt;/th&gt;\n    &lt;/tr&gt;\n  &lt;/thead&gt;\n  &lt;tbody&gt;\n    &lt;tr&gt;\n      &lt;th scope=\"row\"&gt;1月&lt;/th&gt;\n      &lt;td&gt;500&lt;/td&gt;\n      &lt;td&gt;+10%&lt;/td&gt;\n    &lt;/tr&gt;\n    &lt;tr&gt;\n      &lt;th scope=\"row\"&gt;2月&lt;/th&gt;\n      &lt;td&gt;480&lt;/td&gt;\n      &lt;td&gt;-4%&lt;/td&gt;\n    &lt;/tr&gt;\n  &lt;/tbody&gt;\n&lt;/table&gt;</code></pre>\n<p><code>&lt;caption&gt;</code> はテーブルのタイトルを指定します。スクリーンリーダーがテーブルの内容を説明するときに使われます。<code>scope=\"col\"</code> は列の見出し、<code>scope=\"row\"</code> は行の見出しであることを示し、スクリーンリーダーがデータを正しく読み上げるのに役立ちます。</p>\n\n<h2>テーブルをレイアウト目的で使ってはいけない</h2>\n<p>かつてのWebデザインでは、複雑なレイアウトを実現するためにtableタグが乱用されていました。しかし現代では<strong>テーブルはデータの表示にのみ使い、レイアウト目的には使わない</strong>というのが絶対的なルールです。</p>\n<p>レイアウトにはCSSのFlexboxやGridを使います。テーブルをレイアウトに使うと以下の問題が発生します。</p>\n<ul>\n  <li>スクリーンリーダーが「これはデータテーブルです」と読み上げてしまい、視覚障害者が混乱する</li>\n  <li>モバイル対応（レスポンシブデザイン）が非常に難しくなる</li>\n  <li>HTMLが複雑になりメンテナンスが困難になる</li>\n</ul>\n<p>html css 初心者はこの原則を最初から守る習慣をつけましょう。</p>\n\n<h2>まとめ：リストとテーブルの使い分け</h2>\n<p>ulは順序なしリスト、olは順序ありリスト、dlは定義リストです。tableはデータを表形式で表示するためのものです。レイアウト目的でtableタグを使うのは現代ではNG。それぞれのタグを正しい目的に使うことが、意味のある（セマンティックな）HTMLの基本です。web制作 入門として、タグを意味で選ぶ習慣を早い段階から身につけましょう。</p>",
-  "conclusion": "ulは順番なしリスト、olは番号付きリスト、dlは定義リストに使います。tableはデータ表示専用で、レイアウト目的での使用は現代ではNGです。theadやtbodyでテーブルを構造化し、captionやscope属性でアクセシビリティを高めることが良いHTML制作の習慣です。",
+  "summary": "ul/ol/liリスト、dl/dt/dd定義リスト、table/tr/th/tdテーブルの書き方を解説。表データのアクセシビリティ（th scope）も紹介します。",
+  "body": "<h2>結論：リストはul/ol、表データはtable/tr/th/tdでマークアップする</h2>\n<p>順不同の箇条書きは <code>&lt;ul&gt;&lt;li&gt;</code>、番号付きは <code>&lt;ol&gt;&lt;li&gt;</code>、用語と説明は <code>&lt;dl&gt;&lt;dt&gt;&lt;dd&gt;</code> です。表形式データは <code>table &gt; tr &gt; th/td</code> で構造化し、<strong>th</strong> に見出しを付けます。</p>\n\n<h2>HTMLのリスト：3種類を使い分ける</h2>\n<p>Webページで「箇条書き」や「手順リスト」を表示するとき、HTMLには3種類のリストタグが用意されています。</p>\n<ul>\n  <li><strong>ul（Unordered List）</strong>：順番に意味がない箇条書きリスト（● や ■ などの記号）</li>\n  <li><strong>ol（Ordered List）</strong>：順番に意味がある番号付きリスト（1, 2, 3...）</li>\n  <li><strong>dl（Description List）</strong>：用語とその説明をセットにした定義リスト</li>\n</ul>\n<p>それぞれのリストの中には <code>&lt;li&gt;</code>（List Item）タグで各項目を書きます。どのリストを使うべきか迷ったときは「順番が変わっても意味が変わらなければul、順番が大事ならol」と判断しましょう。</p>\n\n<h2>ulタグ：箇条書きリストの作り方</h2>\n<p>順番に意味のないリストには <code>&lt;ul&gt;</code> タグを使います。料理の材料、メニュー項目、特徴の列挙などに適しています。</p>\n<pre><code>&lt;!-- 箇条書きリストの基本 --&gt;\n&lt;ul&gt;\n  &lt;li&gt;HTML&lt;/li&gt;\n  &lt;li&gt;CSS&lt;/li&gt;\n  &lt;li&gt;JavaScript&lt;/li&gt;\n&lt;/ul&gt;\n\n&lt;!-- ネスト（入れ子）リスト --&gt;\n&lt;ul&gt;\n  &lt;li&gt;フロントエンド\n    &lt;ul&gt;\n      &lt;li&gt;HTML&lt;/li&gt;\n      &lt;li&gt;CSS&lt;/li&gt;\n      &lt;li&gt;JavaScript&lt;/li&gt;\n    &lt;/ul&gt;\n  &lt;/li&gt;\n  &lt;li&gt;バックエンド\n    &lt;ul&gt;\n      &lt;li&gt;Python&lt;/li&gt;\n      &lt;li&gt;Node.js&lt;/li&gt;\n    &lt;/ul&gt;\n  &lt;/li&gt;\n&lt;/ul&gt;</code></pre>\n<p>デフォルトでは黒い丸（●）が各項目の前に表示されます。CSSの <code>list-style-type</code> プロパティで記号の種類（丸・四角・なし など）を変更できます。</p>\n\n<h2>olタグ：番号付きリストの作り方</h2>\n<p>手順・ランキング・順序が大事なリストには <code>&lt;ol&gt;</code> タグを使います。</p>\n<pre><code>&lt;!-- 番号付きリスト --&gt;\n&lt;ol&gt;\n  &lt;li&gt;VS Codeをインストールする&lt;/li&gt;\n  &lt;li&gt;index.htmlファイルを作成する&lt;/li&gt;\n  &lt;li&gt;基本テンプレートを書く&lt;/li&gt;\n  &lt;li&gt;ブラウザで確認する&lt;/li&gt;\n&lt;/ol&gt;\n\n&lt;!-- 番号のスタート位置を変える --&gt;\n&lt;ol start=\"5\"&gt;\n  &lt;li&gt;5番目から始まります&lt;/li&gt;\n  &lt;li&gt;6番目&lt;/li&gt;\n&lt;/ol&gt;\n\n&lt;!-- アルファベット表示 --&gt;\n&lt;ol type=\"A\"&gt;\n  &lt;li&gt;Aから始まるリスト&lt;/li&gt;\n  &lt;li&gt;B&lt;/li&gt;\n  &lt;li&gt;C&lt;/li&gt;\n&lt;/ol&gt;</code></pre>\n<p><code>type</code> 属性で番号の種類（<code>1</code>: 数字, <code>A</code>: 大文字, <code>a</code>: 小文字, <code>I</code>: ローマ数字大文字, <code>i</code>: ローマ数字小文字）を変えられます。ただし見た目の変更はCSSを使う方が柔軟性が高いです。</p>\n\n<h2>dlタグ：定義リストの使い方</h2>\n<p>用語（<code>dt</code>）とその説明（<code>dd</code>）をセットで表示する定義リストは、用語集・FAQ・仕様一覧などに適しています。</p>\n<pre><code>&lt;!-- 定義リスト --&gt;\n&lt;dl&gt;\n  &lt;dt&gt;HTML&lt;/dt&gt;\n  &lt;dd&gt;HyperText Markup Languageの略。Webページの構造を定義するマークアップ言語。&lt;/dd&gt;\n\n  &lt;dt&gt;CSS&lt;/dt&gt;\n  &lt;dd&gt;Cascading Style Sheetsの略。Webページの見た目を定義するスタイルシート言語。&lt;/dd&gt;\n\n  &lt;dt&gt;JavaScript&lt;/dt&gt;\n  &lt;dd&gt;Webページにインタラクティブな動作を追加するプログラミング言語。&lt;/dd&gt;\n&lt;/dl&gt;</code></pre>\n<p>dlタグはあまり使われないように思われますが、HTMLのセマンティクス的には用語と説明の関係を表す最も適切なタグです。FAQページや仕様書などで活用しましょう。</p>\n\n<h2>tableタグ：HTMLで表を作る基本</h2>\n<p>データをグリッド状の表（テーブル）で表示するには <code>&lt;table&gt;</code> タグを使います。関連する複数のタグが組み合わさって表を構成します。</p>\n<pre><code>&lt;table&gt;\n  &lt;thead&gt;\n    &lt;tr&gt;\n      &lt;th&gt;名前&lt;/th&gt;\n      &lt;th&gt;年齢&lt;/th&gt;\n      &lt;th&gt;職業&lt;/th&gt;\n    &lt;/tr&gt;\n  &lt;/thead&gt;\n  &lt;tbody&gt;\n    &lt;tr&gt;\n      &lt;td&gt;田中 太郎&lt;/td&gt;\n      &lt;td&gt;28&lt;/td&gt;\n      &lt;td&gt;エンジニア&lt;/td&gt;\n    &lt;/tr&gt;\n    &lt;tr&gt;\n      &lt;td&gt;鈴木 花子&lt;/td&gt;\n      &lt;td&gt;25&lt;/td&gt;\n      &lt;td&gt;デザイナー&lt;/td&gt;\n    &lt;/tr&gt;\n  &lt;/tbody&gt;\n&lt;/table&gt;</code></pre>\n<p>各タグの役割を整理しましょう。</p>\n<ul>\n  <li><code>&lt;table&gt;</code>：テーブル全体を囲む</li>\n  <li><code>&lt;thead&gt;</code>：ヘッダー行のグループ（省略可だが書くことを推奨）</li>\n  <li><code>&lt;tbody&gt;</code>：データ行のグループ（省略可だが書くことを推奨）</li>\n  <li><code>&lt;tfoot&gt;</code>：フッター行のグループ（合計行などに使用）</li>\n  <li><code>&lt;tr&gt;</code>（Table Row）：1行を表す</li>\n  <li><code>&lt;th&gt;</code>（Table Header）：見出しセル（デフォルトで太字・中央揃え）</li>\n  <li><code>&lt;td&gt;</code>（Table Data）：データセル</li>\n</ul>\n\n<h2>テーブルのセル結合：colspan・rowspan</h2>\n<p>複数のセルをまとめて1つのセルにする「セル結合」は、<code>colspan</code>（横方向の結合）と <code>rowspan</code>（縦方向の結合）属性で実現します。</p>\n<pre><code>&lt;table border=\"1\"&gt;\n  &lt;thead&gt;\n    &lt;tr&gt;\n      &lt;th colspan=\"2\"&gt;氏名&lt;/th&gt; &lt;!-- 2列分を1つに --&gt;\n      &lt;th&gt;スコア&lt;/th&gt;\n    &lt;/tr&gt;\n  &lt;/thead&gt;\n  &lt;tbody&gt;\n    &lt;tr&gt;\n      &lt;td&gt;山田&lt;/td&gt;\n      &lt;td&gt;一郎&lt;/td&gt;\n      &lt;td rowspan=\"2\"&gt;同点&lt;/td&gt; &lt;!-- 2行分を1つに --&gt;\n    &lt;/tr&gt;\n    &lt;tr&gt;\n      &lt;td&gt;佐藤&lt;/td&gt;\n      &lt;td&gt;次郎&lt;/td&gt;\n    &lt;/tr&gt;\n  &lt;/tbody&gt;\n&lt;/table&gt;</code></pre>\n<p>セル結合を使うと複雑なレイアウトを表で表現できます。ただし、セルの数が合わなくなるミスをしやすいので、結合後に各行のセル数が正しくなっているか確認する習慣をつけましょう。</p>\n\n<h2>テーブルのscopeとcaption：アクセシビリティ向上</h2>\n<p>テーブルをアクセシブルにするための属性も覚えておきましょう。</p>\n<pre><code>&lt;table&gt;\n  &lt;caption&gt;2024年第1四半期 売上レポート&lt;/caption&gt;\n  &lt;thead&gt;\n    &lt;tr&gt;\n      &lt;th scope=\"col\"&gt;月&lt;/th&gt;\n      &lt;th scope=\"col\"&gt;売上（万円）&lt;/th&gt;\n      &lt;th scope=\"col\"&gt;前月比&lt;/th&gt;\n    &lt;/tr&gt;\n  &lt;/thead&gt;\n  &lt;tbody&gt;\n    &lt;tr&gt;\n      &lt;th scope=\"row\"&gt;1月&lt;/th&gt;\n      &lt;td&gt;500&lt;/td&gt;\n      &lt;td&gt;+10%&lt;/td&gt;\n    &lt;/tr&gt;\n    &lt;tr&gt;\n      &lt;th scope=\"row\"&gt;2月&lt;/th&gt;\n      &lt;td&gt;480&lt;/td&gt;\n      &lt;td&gt;-4%&lt;/td&gt;\n    &lt;/tr&gt;\n  &lt;/tbody&gt;\n&lt;/table&gt;</code></pre>\n<p><code>&lt;caption&gt;</code> はテーブルのタイトルを指定します。スクリーンリーダーがテーブルの内容を説明するときに使われます。<code>scope=\"col\"</code> は列の見出し、<code>scope=\"row\"</code> は行の見出しであることを示し、スクリーンリーダーがデータを正しく読み上げるのに役立ちます。</p>\n\n<h2>テーブルをレイアウト目的で使ってはいけない</h2>\n<p>かつてのWebデザインでは、複雑なレイアウトを実現するためにtableタグが乱用されていました。しかし現代では<strong>テーブルはデータの表示にのみ使い、レイアウト目的には使わない</strong>というのが絶対的なルールです。</p>\n<p>レイアウトにはCSSのFlexboxやGridを使います。テーブルをレイアウトに使うと以下の問題が発生します。</p>\n<ul>\n  <li>スクリーンリーダーが「これはデータテーブルです」と読み上げてしまい、視覚障害者が混乱する</li>\n  <li>モバイル対応（レスポンシブデザイン）が非常に難しくなる</li>\n  <li>HTMLが複雑になりメンテナンスが困難になる</li>\n</ul>\n<p>html css 初心者はこの原則を最初から守る習慣をつけましょう。</p>\n\n<h2>つまずきやすいポイント・失敗例</h2>\n<h3>失敗例：レイアウト目的にtableを使う</h3>\n<p>表は「表形式データ」専用です。ページ全体のレイアウトにはCSS（Flexbox等）を使いましょう（旧来の手法は非推奨）。</p>\n<h3>失敗例：liの外にテキストを直接書く</h3>\n<p>リスト項目は必ずliの中に入れます。ul/olの直接の子はliのみが正しい構造です。</p>\n\n<h2>まとめ：リストとテーブルの使い分け</h2>\n<p>ulは順序なしリスト、olは順序ありリスト、dlは定義リストです。tableはデータを表形式で表示するためのものです。レイアウト目的でtableタグを使うのは現代ではNG。それぞれのタグを正しい目的に使うことが、意味のある（セマンティックな）HTMLの基本です。web制作 入門として、タグを意味で選ぶ習慣を早い段階から身につけましょう。</p>",
+  "conclusion": "箇条書きはul/li、番号付きはol/li、用語説明はdl/dt/dd、表形式データはtable/tr/th/tdで表現します。表にはthで見出しセルを付け、scope属性で行/列の関係を明示しましょう。",
   "tags": [
     "HTML",
     "ul",
@@ -20,12 +20,12 @@
   "theme": "web - HTML/CSS Web制作入門",
   "status": "published",
   "createdAt": "2026-05-30T04:13:19.435Z",
-  "updatedAt": "2026-05-30T05:01:28.515Z",
+  "updatedAt": "2026-05-30T05:23:48.787Z",
   "publishedAt": "2026-05-30T04:13:19.435Z",
   "metaTitle": "HTMLリスト（ul・ol・li）とテーブル（table）の作り方【html css 初心者】 | StackShelf",
-  "metaDescription": "HTMLのul・ol・liタグでリスト作成、table・tr・td・thタグで表を作る方法をhtml css 初心者向けに解説。定義リストや表の結合も説明します。",
+  "metaDescription": "HTMLのリスト（ul/ol/dl）とテーブル（table/tr/th/td）の書き方、表のアクセシビリティを初心者向けに解説します。",
   "ogTitle": "HTMLリストと表の作り方：ul・ol・li・tableタグ完全解説",
-  "ogDescription": "箇条書きリスト・番号付きリスト・HTMLテーブルの作り方をゼロから解説。初心者向けに構造を丁寧に説明します。",
+  "ogDescription": "リストと表のHTMLマークアップを具体例で学べます。",
   "knowledge": {
     "topic": "web",
     "courseId": "web",
@@ -33,24 +33,24 @@
   },
   "faq": [
     {
-      "question": "ナビゲーションメニューにはulとolどちらを使うべきですか？",
-      "answer": "ナビゲーションメニューはulを使うのが一般的です。メニュー項目の順番は基本的に変わっても意味は変わらないため、順序なしリストが適しています。また、navタグと組み合わせてセマンティックに書くのがベストプラクティスです。"
+      "question": "ulとolの使い分けは？",
+      "answer": "順序が重要ならol（手順・ランキング）、順不同ならul（機能一覧・メリット列挙）です。"
     },
     {
-      "question": "テーブルのborder属性は使っていいですか？",
-      "answer": "border属性はHTMLの見た目の制御なので、現代のweb制作ではCSSでborderを指定するのがベストプラクティスです。サンプルコードの学習目的では使っても問題ありませんが、実際のサイト制作ではCSSでスタイリングしましょう。"
+      "question": "tableにborderはHTML属性？",
+      "answer": "HTMLのborder属性は非推奨です。CSSのborderで装飾しましょう。"
     },
     {
-      "question": "リストの記号（●や数字）を消すにはどうしますか？",
-      "answer": "CSSで「list-style: none;」を指定すると記号が消えます。ナビゲーションメニューを作るときによく使います。また、「list-style-type: square;」で四角、「list-style-type: decimal;」で数字など、記号の種類をCSSで変更できます。"
+      "question": "colspan/rowspanとは？",
+      "answer": "セルを横（colspan）・縦（rowspan）に結合する属性です。複雑な表で使います。"
     },
     {
-      "question": "テーブルとFlexbox、どちらを使えばいいですか？",
-      "answer": "データを表形式で表示する場合はtableを使います。レイアウト（ページの構成・並べ方）にはFlexboxかGridを使います。例えばスプレッドシートのようなデータはtable、ナビゲーションバーやカード一覧のレイアウトはFlexboxが適しています。"
+      "question": "ネストしたリストは書ける？",
+      "answer": "liの中にul/olを入れることで階層リストが作れます。"
     },
     {
       "question": "HTML/CSSだけでWebサイトは作れますか？",
-      "answer": "静的なページなら可能です。フォーム送信やユーザー認証など動的な機能には、後から JavaScript やサーバー側の技術が必要になります。"
+      "answer": "静的ページなら可能です。"
     }
   ],
   "nextEpisodeHint": "次回からいよいよCSSを学びます。セレクタ・color・font-sizeなどCSSの基本構文と、HTMLにCSSを適用する3つの方法（インライン・スタイルタグ・外部ファイル）を解説します。",
@@ -63,9 +63,9 @@
         "@context": "https://schema.org",
         "@type": "TechArticle",
         "headline": "リストと表の作り方：ul・ol・li・tableタグをわかりやすく解説",
-        "description": "【Web開発初心者向け】HTMLのul・ol・liタグでリスト作成、table・tr・td・thタグで表を作る方法をhtml css 初心者向けに解説。定義リストや表の結合も説明します。 図解・具体例つきで丁寧に解説します。",
+        "description": "HTMLのリスト（ul/ol/dl）とテーブル（table/tr/th/td）の書き方、表のアクセシビリティを初心者向けに解説します。",
         "datePublished": "2026-05-30T04:13:19.435Z",
-        "dateModified": "2026-05-30T05:01:28.515Z",
+        "dateModified": "2026-05-30T05:23:48.787Z",
         "author": {
           "@type": "Organization",
           "name": "StackShelf",
@@ -86,7 +86,7 @@
         },
         "image": "https://ai-site-iota-nine.vercel.app/og-default.svg",
         "inLanguage": "ja",
-        "wordCount": 4256,
+        "wordCount": 4592,
         "mainEntityOfPage": {
           "@type": "WebPage",
           "@id": "https://ai-site-iota-nine.vercel.app/article/web-lists-tables"
@@ -152,34 +152,34 @@
         "mainEntity": [
           {
             "@type": "Question",
-            "name": "ナビゲーションメニューにはulとolどちらを使うべきですか？",
+            "name": "ulとolの使い分けは？",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "ナビゲーションメニューはulを使うのが一般的です。メニュー項目の順番は基本的に変わっても意味は変わらないため、順序なしリストが適しています。また、navタグと組み合わせてセマンティックに書くのがベストプラクティスです。"
+              "text": "順序が重要ならol（手順・ランキング）、順不同ならul（機能一覧・メリット列挙）です。"
             }
           },
           {
             "@type": "Question",
-            "name": "テーブルのborder属性は使っていいですか？",
+            "name": "tableにborderはHTML属性？",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "border属性はHTMLの見た目の制御なので、現代のweb制作ではCSSでborderを指定するのがベストプラクティスです。サンプルコードの学習目的では使っても問題ありませんが、実際のサイト制作ではCSSでスタイリングしましょう。"
+              "text": "HTMLのborder属性は非推奨です。CSSのborderで装飾しましょう。"
             }
           },
           {
             "@type": "Question",
-            "name": "リストの記号（●や数字）を消すにはどうしますか？",
+            "name": "colspan/rowspanとは？",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "CSSで「list-style: none;」を指定すると記号が消えます。ナビゲーションメニューを作るときによく使います。また、「list-style-type: square;」で四角、「list-style-type: decimal;」で数字など、記号の種類をCSSで変更できます。"
+              "text": "セルを横（colspan）・縦（rowspan）に結合する属性です。複雑な表で使います。"
             }
           },
           {
             "@type": "Question",
-            "name": "テーブルとFlexbox、どちらを使えばいいですか？",
+            "name": "ネストしたリストは書ける？",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "データを表形式で表示する場合はtableを使います。レイアウト（ページの構成・並べ方）にはFlexboxかGridを使います。例えばスプレッドシートのようなデータはtable、ナビゲーションバーやカード一覧のレイアウトはFlexboxが適しています。"
+              "text": "liの中にul/olを入れることで階層リストが作れます。"
             }
           },
           {
@@ -187,7 +187,7 @@
             "name": "HTML/CSSだけでWebサイトは作れますか？",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "静的なページなら可能です。フォーム送信やユーザー認証など動的な機能には、後から JavaScript やサーバー側の技術が必要になります。"
+              "text": "静的ページなら可能です。"
             }
           }
         ]
@@ -249,34 +249,34 @@
     "mainEntity": [
       {
         "@type": "Question",
-        "name": "ナビゲーションメニューにはulとolどちらを使うべきですか？",
+        "name": "ulとolの使い分けは？",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "ナビゲーションメニューはulを使うのが一般的です。メニュー項目の順番は基本的に変わっても意味は変わらないため、順序なしリストが適しています。また、navタグと組み合わせてセマンティックに書くのがベストプラクティスです。"
+          "text": "順序が重要ならol（手順・ランキング）、順不同ならul（機能一覧・メリット列挙）です。"
         }
       },
       {
         "@type": "Question",
-        "name": "テーブルのborder属性は使っていいですか？",
+        "name": "tableにborderはHTML属性？",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "border属性はHTMLの見た目の制御なので、現代のweb制作ではCSSでborderを指定するのがベストプラクティスです。サンプルコードの学習目的では使っても問題ありませんが、実際のサイト制作ではCSSでスタイリングしましょう。"
+          "text": "HTMLのborder属性は非推奨です。CSSのborderで装飾しましょう。"
         }
       },
       {
         "@type": "Question",
-        "name": "リストの記号（●や数字）を消すにはどうしますか？",
+        "name": "colspan/rowspanとは？",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "CSSで「list-style: none;」を指定すると記号が消えます。ナビゲーションメニューを作るときによく使います。また、「list-style-type: square;」で四角、「list-style-type: decimal;」で数字など、記号の種類をCSSで変更できます。"
+          "text": "セルを横（colspan）・縦（rowspan）に結合する属性です。複雑な表で使います。"
         }
       },
       {
         "@type": "Question",
-        "name": "テーブルとFlexbox、どちらを使えばいいですか？",
+        "name": "ネストしたリストは書ける？",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "データを表形式で表示する場合はtableを使います。レイアウト（ページの構成・並べ方）にはFlexboxかGridを使います。例えばスプレッドシートのようなデータはtable、ナビゲーションバーやカード一覧のレイアウトはFlexboxが適しています。"
+          "text": "liの中にul/olを入れることで階層リストが作れます。"
         }
       },
       {
@@ -284,7 +284,7 @@
         "name": "HTML/CSSだけでWebサイトは作れますか？",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "静的なページなら可能です。フォーム送信やユーザー認証など動的な機能には、後から JavaScript やサーバー側の技術が必要になります。"
+          "text": "静的ページなら可能です。"
         }
       }
     ]
@@ -316,5 +316,5 @@
       "reason": "同じ講座の関連回です"
     }
   ],
-  "nextAction": "次回からいよいよCSSを学びます。セレクタ・color・font-sizeなどCSSの基本構文と、HTMLにCSSを適用する3つの方法（インライン・スタイルタグ・外部ファイル）を解説します。"
+  "nextAction": "ulで3項目の箇条書き、tableで3行3列の表（1行目はth）を作成し、ブラウザで表示を確認してください。"
 }

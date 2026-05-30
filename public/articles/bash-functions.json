@@ -1,0 +1,317 @@
+{
+  "id": "art_bash_bash-functions",
+  "slug": "bash-functions",
+  "title": "Bash関数の定義と使い方｜再利用可能なスクリプトを書く【第5回】",
+  "summary": "Bashスクリプトの関数定義、引数、local 変数、return と終了コード、source による読み込みを具体例で解説します。",
+  "body": "<h2>関数の基本構文</h2>\n<p>Bashでは<strong>関数（function）</strong>を定義して、同じ処理を名前付きで何度も呼び出せます。長大なスクリプトを「意味のある塊」に分割すると、読みやすさとテスト容易性が大きく向上します。</p>\n<pre><code>#!/usr/bin/env bash\n\n# 関数定義（function キーワードは省略可）\ngreet() {\n  echo \"こんにちは、$1さん\"\n}\n\ngreet \"Tanaka\"\ngreet \"Suzuki\"\n\n# function キーワード付き\nfunction log_info() {\n  echo \"[INFO] $(date '+%H:%M:%S') $*\"\n}\n\nlog_info \"バックアップ開始\"\nlog_info \"対象\" \"/var/www\"</code></pre>\n<p>関数内では <code>$1</code> <code>$2</code> … が<strong>関数の引数</strong>になります（スクリプト全体の引数とは別）。すべての引数は <code>$@</code> でも参照できます。</p>\n\n<h2>local でローカル変数</h2>\n<p>関数内で代入した変数は、デフォルトでは<strong>グローバル</strong>（スクリプト全体に影響）です。意図しない上書きを防ぐため <code>local</code> を使います。</p>\n<pre><code>#!/usr/bin/env bash\n\ncounter=0\n\nincrement() {\n  local counter=\"${1:-1}\"\n  counter=$((counter + 1))\n  echo \"関数内 counter=$counter\"\n}\n\nincrement 5\necho \"グローバル counter=$counter\"  # 0 のまま\n\n# 悪い例: local なし\nbad_add() {\n  total=$((total + 1))  # グローバル total を変更\n}</code></pre>\n\n<h2>return と終了コード</h2>\n<p><code>return N</code> は関数の終了コードを 0〜255 で設定します（整数のみ）。文字列や大きな値を「返す」用途には向きません。結果は<strong>echo してコマンド置換</strong>で受け取るパターンが一般的です。</p>\n<pre><code>#!/usr/bin/env bash\n\nis_port_open() {\n  local host=\"$1\"\n  local port=\"$2\"\n  if timeout 1 bash -c \"echo >/dev/tcp/$host/$port\" 2>/dev/null; then\n    return 0\n  else\n    return 1\n  fi\n}\n\nif is_port_open \"127.0.0.1\" 22; then\n  echo \"SSHポート開いています\"\nelse\n  echo \"SSHポート閉じています\"\nfi\n\n# 値を返す慣習: echo + コマンド置換\nget_timestamp() {\n  date '+%Y%m%d_%H%M%S'\n}\n\nbackup_name=\"backup_$(get_timestamp).tar.gz\"\necho \"ファイル名: $backup_name\"</code></pre>\n\n<h2>デフォルト引数と引数チェック</h2>\n<pre><code>#!/usr/bin/env bash\n\nusage() {\n  echo \"使い方: $0 &lt;source_dir&gt; [dest_dir]\" >&2\n  exit 1\n}\n\ncopy_tree() {\n  local src=\"$1\"\n  local dest=\"${2:-./backup}\"\n\n  if [ -z \"$src\" ] || [ ! -d \"$src\" ]; then\n    echo \"無効なソース: $src\" >&2\n    return 1\n  fi\n\n  mkdir -p \"$dest\"\n  cp -a \"$src/.\" \"$dest/\"\n  echo \"コピー完了: $src → $dest\"\n  return 0\n}\n\n[ $# -lt 1 ] && usage\ncopy_tree \"$1\" \"$2\"</code></pre>\n\n<h2>再帰的な関数</h2>\n<pre><code>#!/usr/bin/env bash\n\n# ディレクトリ内の .sh ファイル数を再帰カウント\ncount_sh_files() {\n  local dir=\"$1\"\n  local count=0\n  local entry\n\n  for entry in \"$dir\"/*; do\n    [ -e \"$entry\" ] || continue\n    if [ -d \"$entry\" ]; then\n      count=$((count + $(count_sh_files \"$entry\")))\n    elif [[ \"$entry\" == *.sh ]]; then\n      count=$((count + 1))\n    fi\n  done\n\n  echo \"$count\"\n}\n\ntotal=$(count_sh_files \".\")\necho \"合計 .sh ファイル: $total\"</code></pre>\n<p>深い再帰はスタック制限に当たることがあるため、可能なら <code>find</code> を使う方が安全です。</p>\n\n<h2>source でライブラリを分割</h2>\n<p>共通関数は別ファイルに切り出し、<code>source</code>（<code>.</code>）で読み込みます。</p>\n<pre><code># lib/log.sh\nlog_info()  { echo \"[INFO]  $*\"; }\nlog_warn()  { echo \"[WARN]  $*\" >&2; }\nlog_error() { echo \"[ERROR] $*\" >&2; }\n\n# main.sh\n#!/usr/bin/env bash\nSCRIPT_DIR=\"$(cd \"$(dirname \"${BASH_SOURCE[0]}\")\" &amp;&amp; pwd)\"\nsource \"$SCRIPT_DIR/lib/log.sh\"\n\nlog_info \"処理開始\"\nlog_warn \"ディスク使用率 85%\"\nlog_error \"接続失敗\" && exit 1</code></pre>\n<p><code>${BASH_SOURCE[0]}</code> はスクリプト自身のパスを取得するための変数で、source されたファイルでも呼び出し元のパスを追跡できます（<code>$0</code> は source 時にライブラリ側を指すことがある）。</p>\n\n<h2>export -f で関数を子プロセスへ</h2>\n<pre><code>#!/usr/bin/env bash\n\nrun_remote() {\n  local cmd=\"$1\"\n  ssh user@host \"$cmd\"\n}\n\n# 通常の関数は子シェルに渡らない。parallel 等では export -f が必要な場合あり\nexport -f run_remote 2>/dev/null || true</code></pre>\n<p>日常のスクリプトでは export -f はあまり使いませんが、GNU parallel で Bash 関数をワーカーに渡すときに必要になることがあります。</p>\n\n<h2>実践：ログ付きバックアップ関数</h2>\n<pre><code>#!/usr/bin/env bash\nset -u\n\nLOG_FILE=\"${LOG_FILE:-/tmp/backup.log}\"\n\nlog() {\n  local level=\"$1\"\n  shift\n  echo \"[$(date '+%Y-%m-%d %H:%M:%S')] [$level] $*\" | tee -a \"$LOG_FILE\"\n}\n\ndo_backup() {\n  local src=\"$1\"\n  local archive=\"$2\"\n\n  log \"INFO\" \"バックアップ開始: $src\"\n  if tar -czf \"$archive\" -C \"$(dirname \"$src\")\" \"$(basename \"$src\")\"; then\n    log \"INFO\" \"成功: $archive ($(du -h \"$archive\" | cut -f1))\"\n    return 0\n  else\n    log \"ERROR\" \"失敗: $src\"\n    return 1\n  fi\n}\n\nmain() {\n  local target=\"${1:-/var/www/html}\"\n  local out=\"${2:-/tmp/backup_$(date +%Y%m%d).tar.gz}\"\n  do_backup \"$target\" \"$out\"\n}\n\nmain \"$@\"</code></pre>\n\n<h2>設計のヒント</h2>\n<p>1関数1責務、関数名は動詞から（<code>create_backup</code> <code>validate_input</code>）、20行を超えたら分割を検討。main 関数を置いて末尾を <code>main \"$@\"</code> にすると、source しても即実行されないライブラリにもできます（<code>if [[ \"${BASH_SOURCE[0]}\" == \"${0}\" ]]; then main \"$@\"; fi</code>）。</p>\n\n<h2>まとめ</h2>\n<p>関数でスクリプトを構造化し、local で変数スコープを守り、return と echo で結果を返します。source で共通ライブラリを共有できます。次回はパイプとコマンド置換を深掘りし、関数と組み合わせたデータ処理を学びます。</p>",
+  "conclusion": "Bash関数は name() { ... } で定義し、$1 以降が関数引数です。local でローカル変数を宣言し、return で終了コード（0〜255）を返します。値の受け渡しは echo と $(func) が一般的。source で lib/*.sh を読み込み、main \"$@\" パターンでエントリポイントを整理できます。",
+  "tags": [
+    "Bash",
+    "関数",
+    "local",
+    "return",
+    "source",
+    "シェルスクリプト"
+  ],
+  "category": "Bash",
+  "theme": "bash - Bashシェルスクリプト入門",
+  "status": "published",
+  "createdAt": "2026-05-30T05:14:50.854Z",
+  "updatedAt": "2026-05-30T05:14:50.859Z",
+  "publishedAt": "2026-05-30T05:14:50.854Z",
+  "metaTitle": "Bash 関数 の書き方｜local・return・source 入門",
+  "metaDescription": "【Bash初心者向け】Bashスクリプトの関数定義、引数、local変数、return、ライブラリファイルの source 読み込みを初心者向けに解説します。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
+  "ogTitle": "Bash関数の定義と使い方",
+  "ogDescription": "【Bash初心者向け】【Bash初心者向け】スクリプトを関数でモジュール化し、保守しやすくする方法を解説します。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
+  "knowledge": {
+    "topic": "bash",
+    "courseId": "bash",
+    "episode": 5
+  },
+  "faq": [
+    {
+      "question": "関数と外部スクリプトの使い分けは？",
+      "answer": "同じプロジェクト内の共通処理は source する関数、独立したCLIツールは実行可能な別スクリプトに分けるのが一般的です。"
+    },
+    {
+      "question": "return で文字列を返せますか？",
+      "answer": "return は 0〜255 の整数のみです。文字列は echo で標準出力に出し、result=$(myfunc) で受け取ります。"
+    },
+    {
+      "question": "関数内で exit してもよいですか？",
+      "answer": "ライブラリ関数では exit は呼び出し元ごと終了させるため避け、return 1 で失敗を伝えます。main スクリプトの最上位でのみ exit を使うのが無難です。"
+    },
+    {
+      "question": "local は関数外で使えますか？",
+      "answer": "関数外で local を使うとエラーになります。スクリプトトップレベルの変数は local 不要（グローバル）です。"
+    },
+    {
+      "question": "再帰の深さに制限はありますか？",
+      "answer": "Bashの関数呼び出しスタックには上限があり、深いディレクトリ木の再帰は失敗することがあります。find などの専用コマンドを検討してください。"
+    }
+  ],
+  "nextEpisodeHint": "次回はパイプとコマンド置換を使い、複数コマンドを1行でつなぐデータ処理パターンを学びます。",
+  "nextAction": "lib/log.sh に log_info/log_error を定義し、main.sh から source してバックアップ処理を関数 do_backup に分離して実行してみてください。",
+  "internalLinkCandidates": [
+    {
+      "slug": "python-functions",
+      "title": "Pythonの関数（def）をマスターする【入門第6回】",
+      "reason": "関数による処理の再利用という考え方は Python と共通です。"
+    },
+    {
+      "slug": "linux-environment",
+      "title": "環境変数・.bashrc・PATHの仕組みを理解する【Linux設定入門】",
+      "reason": ".bashrc でも関数定義がよく使われます。"
+    },
+    {
+      "slug": "git-intro",
+      "title": "Gitとは？バージョン管理を初めて学ぶ人のための完全入門",
+      "reason": "共通シェル関数をリポジトリで共有する運用と相性が良いです。"
+    },
+    {
+      "slug": "docker-intro",
+      "title": "Dockerとは？仮想マシンとの違いをわかりやすく解説【初心者向け】",
+      "reason": "entrypoint スクリプトも関数で整理することが多いです。"
+    },
+    {
+      "slug": "regex-intro",
+      "title": "正規表現とは？いつ使うのか",
+      "reason": "関数内でのパターンマッチ検証に正規表現を使います。"
+    }
+  ],
+  "ogImage": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+  "canonical": "https://ai-site-iota-nine.vercel.app/article/bash-functions",
+  "jsonLd": {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@context": "https://schema.org",
+        "@type": "TechArticle",
+        "headline": "Bash関数の定義と使い方｜再利用可能なスクリプトを書く【第5回】",
+        "description": "【Bash初心者向け】Bashスクリプトの関数定義、引数、local変数、return、ライブラリファイルの source 読み込みを初心者向けに解説します。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
+        "datePublished": "2026-05-30T05:14:50.854Z",
+        "dateModified": "2026-05-30T05:14:50.859Z",
+        "author": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
+        },
+        "image": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+        "inLanguage": "ja",
+        "wordCount": 3166,
+        "mainEntityOfPage": {
+          "@type": "WebPage",
+          "@id": "https://ai-site-iota-nine.vercel.app/article/bash-functions"
+        },
+        "keywords": "Bash, 関数, local, return, source, シェルスクリプト",
+        "articleSection": "Bash",
+        "url": "https://ai-site-iota-nine.vercel.app/article/bash-functions",
+        "learningResourceType": "tutorial",
+        "educationalLevel": "beginner"
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "ホーム",
+            "item": "https://ai-site-iota-nine.vercel.app/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "bash",
+            "item": "https://ai-site-iota-nine.vercel.app/knowledge/bash"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "Bashシェルスクリプト入門",
+            "item": "https://ai-site-iota-nine.vercel.app/course/bash/bash"
+          },
+          {
+            "@type": "ListItem",
+            "position": 4,
+            "name": "Bash関数の定義と使い方｜再利用可能なスクリプトを書く【第5回】",
+            "item": "https://ai-site-iota-nine.vercel.app/article/bash-functions"
+          }
+        ]
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "Course",
+        "name": "Bashシェルスクリプト入門",
+        "description": "Linux/macOS/WSLで使えるBashスクリプトを10ステップで習得。自動化・運用の第一歩となるニッチスキルを具体例で学びます。",
+        "provider": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app"
+        },
+        "url": "https://ai-site-iota-nine.vercel.app/course/bash/bash",
+        "inLanguage": "ja",
+        "educationalLevel": "beginner",
+        "hasCourseInstance": {
+          "@type": "CourseInstance",
+          "courseMode": "online",
+          "courseWorkload": "PT1H"
+        }
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "関数と外部スクリプトの使い分けは？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "同じプロジェクト内の共通処理は source する関数、独立したCLIツールは実行可能な別スクリプトに分けるのが一般的です。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "return で文字列を返せますか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "return は 0〜255 の整数のみです。文字列は echo で標準出力に出し、result=$(myfunc) で受け取ります。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "関数内で exit してもよいですか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "ライブラリ関数では exit は呼び出し元ごと終了させるため避け、return 1 で失敗を伝えます。main スクリプトの最上位でのみ exit を使うのが無難です。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "local は関数外で使えますか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "関数外で local を使うとエラーになります。スクリプトトップレベルの変数は local 不要（グローバル）です。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "再帰の深さに制限はありますか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Bashの関数呼び出しスタックには上限があり、深いディレクトリ木の再帰は失敗することがあります。find などの専用コマンドを検討してください。"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "breadcrumb": {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "ホーム",
+        "item": "https://ai-site-iota-nine.vercel.app/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "bash",
+        "item": "https://ai-site-iota-nine.vercel.app/knowledge/bash"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "Bashシェルスクリプト入門",
+        "item": "https://ai-site-iota-nine.vercel.app/course/bash/bash"
+      },
+      {
+        "@type": "ListItem",
+        "position": 4,
+        "name": "Bash関数の定義と使い方｜再利用可能なスクリプトを書く【第5回】",
+        "item": "https://ai-site-iota-nine.vercel.app/article/bash-functions"
+      }
+    ]
+  },
+  "courseSchema": {
+    "@context": "https://schema.org",
+    "@type": "Course",
+    "name": "Bashシェルスクリプト入門",
+    "description": "Linux/macOS/WSLで使えるBashスクリプトを10ステップで習得。自動化・運用の第一歩となるニッチスキルを具体例で学びます。",
+    "provider": {
+      "@type": "Organization",
+      "name": "StackShelf",
+      "url": "https://ai-site-iota-nine.vercel.app"
+    },
+    "url": "https://ai-site-iota-nine.vercel.app/course/bash/bash",
+    "inLanguage": "ja",
+    "educationalLevel": "beginner",
+    "hasCourseInstance": {
+      "@type": "CourseInstance",
+      "courseMode": "online",
+      "courseWorkload": "PT1H"
+    }
+  },
+  "faqSchema": {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "関数と外部スクリプトの使い分けは？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "同じプロジェクト内の共通処理は source する関数、独立したCLIツールは実行可能な別スクリプトに分けるのが一般的です。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "return で文字列を返せますか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "return は 0〜255 の整数のみです。文字列は echo で標準出力に出し、result=$(myfunc) で受け取ります。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "関数内で exit してもよいですか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "ライブラリ関数では exit は呼び出し元ごと終了させるため避け、return 1 で失敗を伝えます。main スクリプトの最上位でのみ exit を使うのが無難です。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "local は関数外で使えますか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "関数外で local を使うとエラーになります。スクリプトトップレベルの変数は local 不要（グローバル）です。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "再帰の深さに制限はありますか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Bashの関数呼び出しスタックには上限があり、深いディレクトリ木の再帰は失敗することがあります。find などの専用コマンドを検討してください。"
+        }
+      }
+    ]
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "slug": "http-cookies-session",
+  "courseId": "http",
+  "episode": 5,
+  "summaryMemory": [
+    "HTTPはステートレス。Cookie+セッションまたはJWTで状態を維持",
+    "Cookie属性：HttpOnly（XSS対策）、Secure（HTTPS必須）、SameSite（CSRF対策）",
+    "JWTはヘッダー.ペイロード.署名の3部分。ペイロードは暗号化されていない",
+    "401=未認証（再ログイン）、403=権限不足"
+  ],
+  "nextEpisodeHint": "次回は、HTTPSとTLS（Transport Layer Security）の仕組みを解説します。なぜ暗号化が必要か、HTTPとHTTPSの違いを学びましょう。",
+  "updatedAt": "2026-05-30T05:14:37.528Z"
+}

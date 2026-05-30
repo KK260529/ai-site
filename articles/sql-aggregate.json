@@ -2,9 +2,9 @@
   "id": "art_sql_sql-aggregate",
   "slug": "sql-aggregate",
   "title": "COUNT/SUM/AVG/MIN/MAX｜SQL集計関数の完全ガイド",
-  "summary": "SQLの集計関数（COUNT・SUM・AVG・MIN・MAX）を徹底解説。データ件数の集計・合計・平均・最小・最大値の取得など、データ分析に必須のsql 使い方をSQLiteサンプルで習得しましょう。",
-  "body": "<h2>集計関数とは？データを集計・分析する</h2>\n<p>集計関数（Aggregate Function）とは、複数の行のデータをまとめて1つの結果を返す関数です。「商品の件数を数えたい」「売上の合計を出したい」「平均価格を知りたい」といった分析ニーズに答える、SQLの強力な機能です。</p>\n<p>SQLiteで使える主要な集計関数は5つです。</p>\n<ul>\n  <li><strong>COUNT</strong>：行数（件数）を数える</li>\n  <li><strong>SUM</strong>：数値の合計を計算する</li>\n  <li><strong>AVG</strong>：数値の平均を計算する</li>\n  <li><strong>MIN</strong>：最小値を取得する</li>\n  <li><strong>MAX</strong>：最大値を取得する</li>\n</ul>\n<p>これらの集計関数をマスターすれば、ExcelのSUMやAVERAGE関数と同様のことを、数百万件のデータに対して高速に実行できるようになります。</p>\n\n<h2>学習用データの準備</h2>\n<p>集計関数の学習のために、売上データを用意しましょう。</p>\n<pre><code>-- 売上テーブルを作成\nCREATE TABLE sales (\n  id          INTEGER PRIMARY KEY AUTOINCREMENT,\n  product_name TEXT   NOT NULL,\n  category    TEXT    NOT NULL,\n  amount      INTEGER NOT NULL,\n  quantity    INTEGER NOT NULL DEFAULT 1,\n  sale_date   TEXT    NOT NULL\n);\n\n-- サンプルデータを挿入\nINSERT INTO sales (product_name, category, amount, quantity, sale_date) VALUES\n  ('りんご',  '果物',   150,  3, '2024-01-05'),\n  ('バナナ',  '果物',    80,  5, '2024-01-05'),\n  ('にんじん','野菜',    90,  2, '2024-01-06'),\n  ('牛乳',   '乳製品',  200,  1, '2024-01-06'),\n  ('りんご',  '果物',   150,  2, '2024-01-07'),\n  ('チーズ',  '乳製品', 350,  1, '2024-01-08'),\n  ('バナナ',  '果物',    80,  4, '2024-01-08'),\n  ('ほうれん草','野菜', 100,  3, '2024-01-09'),\n  ('ヨーグルト','乳製品',180, 2, '2024-01-09'),\n  ('食パン',  'パン',   250,  1, '2024-01-10');</code></pre>\n\n<h2>COUNT：データの件数を数える</h2>\n<p><code>COUNT</code> はテーブル内のレコード件数や、特定カラムの値が存在する件数を返します。</p>\n<pre><code>-- テーブルの全件数を取得\nSELECT COUNT(*) FROM sales;\n-- 出力: 10\n\n-- COUNT(*) と COUNT(カラム名) の違い\n-- COUNT(*) → NULLを含むすべての行を数える\n-- COUNT(カラム名) → そのカラムがNULLでない行だけを数える\n\n-- カテゴリ別の件数をCOUNTで取得（GROUP BYと組み合わせ：詳細は次回）\nSELECT category, COUNT(*) AS 件数\nFROM sales\nGROUP BY category;\n\n-- 出力:\n-- category | 件数\n-- ---------+----\n-- 果物     |    4\n-- 乳製品   |    3\n-- 野菜     |    2\n-- パン     |    1\n\n-- DISTINCTとCOUNTの組み合わせ（ユニークなカテゴリ数）\nSELECT COUNT(DISTINCT category) AS カテゴリ数 FROM sales;\n-- 出力: 4\n\n-- NULLの扱いを確認するテスト\nINSERT INTO sales (product_name, category, amount, quantity, sale_date)\nVALUES ('サンプル', '果物', NULL, 1, '2024-01-11');  -- amountをNULLに\n\nSELECT COUNT(*) AS 全件, COUNT(amount) AS amount有効件数 FROM sales;\n-- 全件: 11, amount有効件数: 10（NULLの1件は除外）</code></pre>\n\n<h2>SUM：合計を計算する</h2>\n<p><code>SUM</code> は数値カラムの合計値を返します。NULL値は無視されます。</p>\n<pre><code>-- 売上金額の合計\nSELECT SUM(amount) AS 売上合計 FROM sales;\n-- 出力: 1430 (150+80+90+200+150+350+80+100+180+50)\n\n-- 数量×金額で実際の売上額を計算してSUM\nSELECT SUM(amount * quantity) AS 総売上 FROM sales;\n-- 出力: (150*3 + 80*5 + 90*2 + 200*1 + 150*2 + 350*1 + 80*4 + 100*3 + 180*2 + 250*1)\n--      = 450 + 400 + 180 + 200 + 300 + 350 + 320 + 300 + 360 + 250 = 3110\n\n-- WHERE句と組み合わせてカテゴリ別の合計\nSELECT SUM(amount * quantity) AS 果物の総売上\nFROM sales\nWHERE category = '果物';\n-- 出力: 450 + 400 + 300 + 320 = 1470\n\n-- 日付範囲を指定した合計（特定期間の売上）\nSELECT SUM(amount * quantity) AS 期間売上\nFROM sales\nWHERE sale_date BETWEEN '2024-01-05' AND '2024-01-07';</code></pre>\n\n<h2>AVG：平均値を計算する</h2>\n<p><code>AVG</code> は数値カラムの平均値を返します。NULL値は無視されます。</p>\n<pre><code>-- 売上金額の平均\nSELECT AVG(amount) AS 平均価格 FROM sales;\n-- 出力: 143.0 （NULLは除外した10件での平均）\n\n-- SQLiteのAVGは浮動小数点を返す\n-- 整数に丸めたい場合はROUNDを使う\nSELECT ROUND(AVG(amount), 2) AS 平均価格_小数2桁 FROM sales;\nSELECT CAST(AVG(amount) AS INTEGER) AS 平均価格_整数 FROM sales;\n\n-- カテゴリ別の平均価格\nSELECT category, ROUND(AVG(amount), 0) AS 平均価格\nFROM sales\nGROUP BY category\nORDER BY 平均価格 DESC;\n\n-- 出力:\n-- category | 平均価格\n-- ---------+---------\n-- 乳製品   |      243\n-- パン     |      250\n-- 果物     |      115\n-- 野菜     |       95</code></pre>\n\n<h2>MIN・MAX：最小値・最大値を取得する</h2>\n<p><code>MIN</code> は最小値、<code>MAX</code> は最大値を返します。数値だけでなく、文字列（アルファベット/五十音順）や日付（最古/最新）にも使えます。</p>\n<pre><code>-- 最低価格と最高価格を一度に取得\nSELECT\n  MIN(amount) AS 最低価格,\n  MAX(amount) AS 最高価格,\n  MAX(amount) - MIN(amount) AS 価格差\nFROM sales;\n\n-- 出力:\n-- 最低価格 | 最高価格 | 価格差\n-- --------+---------+-------\n--       80 |      350 |    270\n\n-- 最新・最古の売上日を取得\nSELECT\n  MIN(sale_date) AS 最初の売上日,\n  MAX(sale_date) AS 最後の売上日\nFROM sales;\n\n-- 出力:\n-- 最初の売上日 | 最後の売上日\n-- -----------+-----------\n-- 2024-01-05  | 2024-01-10\n\n-- カテゴリ別の最高価格商品名（サブクエリを使う）\nSELECT category, product_name, amount\nFROM sales\nWHERE (category, amount) IN (\n  SELECT category, MAX(amount) FROM sales GROUP BY category\n);</code></pre>\n\n<h2>複数の集計関数を組み合わせる</h2>\n<p>1つのSELECT文で複数の集計関数を同時に使えます。</p>\n<pre><code>-- 総合サマリーを一度に取得\nSELECT\n  COUNT(*)                      AS 総件数,\n  COUNT(DISTINCT product_name)  AS 商品種類,\n  COUNT(DISTINCT category)      AS カテゴリ数,\n  SUM(amount * quantity)        AS 総売上,\n  ROUND(AVG(amount), 0)         AS 平均単価,\n  MIN(amount)                   AS 最低単価,\n  MAX(amount)                   AS 最高単価\nFROM sales;\n\n-- 出力（1行で多くの情報が得られる）:\n-- 総件数 | 商品種類 | カテゴリ数 | 総売上 | 平均単価 | 最低単価 | 最高単価\n-- ------+----------+-----------+--------+---------+---------+---------\n--    10 |        8 |          4 |   3110 |      143 |       80 |      350\n\n-- JOINと組み合わせた集計\n-- 注文テーブルとユーザー別の集計（例）\nSELECT\n  user_name,\n  COUNT(*) AS 注文回数,\n  SUM(p.price * o.quantity) AS 合計購入金額\nFROM orders AS o\nINNER JOIN products AS p ON o.product_id = p.id\nGROUP BY user_name\nORDER BY 合計購入金額 DESC;</code></pre>",
-  "conclusion": "SQLの集計関数5種類（COUNT・SUM・AVG・MIN・MAX）を使うことで、テーブルのデータを集計・分析できます。COUNT(*)は全件数、COUNT(カラム名)はNULL除外の件数を返します。SUM・AVGもNULLを無視します。AVGは浮動小数点を返すためROUNDで丸めるテクニックも覚えておきましょう。これらをWHEREやGROUP BYと組み合わせることで、強力なデータ分析クエリが書けるようになります。",
+  "summary": "COUNT・SUM・AVG・MIN・MAXの5つの集計関数を解説。NULLの扱い、ROUND、WHEREとの組み合わせをSQLite例で習得します。",
+  "body": "<h2>結論：集計関数で「件数・合計・平均・最小・最大」を一発で求める</h2>\n<p><strong>COUNT</strong>（件数）、<strong>SUM</strong>（合計）、<strong>AVG</strong>（平均）、<strong>MIN/MAX</strong>（最小/最大）が基本5種です。<code>COUNT(*)</code> は行数全体、<code>COUNT(列)</code> はNULLを除いた件数です。AVGは浮動小数点になるため <code>ROUND(AVG(price), 0)</code> で丸めることもあります。</p>\n\n<h2>集計関数とは？データを集計・分析する</h2>\n<p>集計関数（Aggregate Function）とは、複数の行のデータをまとめて1つの結果を返す関数です。「商品の件数を数えたい」「売上の合計を出したい」「平均価格を知りたい」といった分析ニーズに答える、SQLの強力な機能です。</p>\n<p>SQLiteで使える主要な集計関数は5つです。</p>\n<ul>\n  <li><strong>COUNT</strong>：行数（件数）を数える</li>\n  <li><strong>SUM</strong>：数値の合計を計算する</li>\n  <li><strong>AVG</strong>：数値の平均を計算する</li>\n  <li><strong>MIN</strong>：最小値を取得する</li>\n  <li><strong>MAX</strong>：最大値を取得する</li>\n</ul>\n<p>これらの集計関数をマスターすれば、ExcelのSUMやAVERAGE関数と同様のことを、数百万件のデータに対して高速に実行できるようになります。</p>\n\n<h2>学習用データの準備</h2>\n<p>集計関数の学習のために、売上データを用意しましょう。</p>\n<pre><code>-- 売上テーブルを作成\nCREATE TABLE sales (\n  id          INTEGER PRIMARY KEY AUTOINCREMENT,\n  product_name TEXT   NOT NULL,\n  category    TEXT    NOT NULL,\n  amount      INTEGER NOT NULL,\n  quantity    INTEGER NOT NULL DEFAULT 1,\n  sale_date   TEXT    NOT NULL\n);\n\n-- サンプルデータを挿入\nINSERT INTO sales (product_name, category, amount, quantity, sale_date) VALUES\n  ('りんご',  '果物',   150,  3, '2024-01-05'),\n  ('バナナ',  '果物',    80,  5, '2024-01-05'),\n  ('にんじん','野菜',    90,  2, '2024-01-06'),\n  ('牛乳',   '乳製品',  200,  1, '2024-01-06'),\n  ('りんご',  '果物',   150,  2, '2024-01-07'),\n  ('チーズ',  '乳製品', 350,  1, '2024-01-08'),\n  ('バナナ',  '果物',    80,  4, '2024-01-08'),\n  ('ほうれん草','野菜', 100,  3, '2024-01-09'),\n  ('ヨーグルト','乳製品',180, 2, '2024-01-09'),\n  ('食パン',  'パン',   250,  1, '2024-01-10');</code></pre>\n\n<h2>COUNT：データの件数を数える</h2>\n<p><code>COUNT</code> はテーブル内のレコード件数や、特定カラムの値が存在する件数を返します。</p>\n<pre><code>-- テーブルの全件数を取得\nSELECT COUNT(*) FROM sales;\n-- 出力: 10\n\n-- COUNT(*) と COUNT(カラム名) の違い\n-- COUNT(*) → NULLを含むすべての行を数える\n-- COUNT(カラム名) → そのカラムがNULLでない行だけを数える\n\n-- カテゴリ別の件数をCOUNTで取得（GROUP BYと組み合わせ：詳細は次回）\nSELECT category, COUNT(*) AS 件数\nFROM sales\nGROUP BY category;\n\n-- 出力:\n-- category | 件数\n-- ---------+----\n-- 果物     |    4\n-- 乳製品   |    3\n-- 野菜     |    2\n-- パン     |    1\n\n-- DISTINCTとCOUNTの組み合わせ（ユニークなカテゴリ数）\nSELECT COUNT(DISTINCT category) AS カテゴリ数 FROM sales;\n-- 出力: 4\n\n-- NULLの扱いを確認するテスト\nINSERT INTO sales (product_name, category, amount, quantity, sale_date)\nVALUES ('サンプル', '果物', NULL, 1, '2024-01-11');  -- amountをNULLに\n\nSELECT COUNT(*) AS 全件, COUNT(amount) AS amount有効件数 FROM sales;\n-- 全件: 11, amount有効件数: 10（NULLの1件は除外）</code></pre>\n\n<h2>SUM：合計を計算する</h2>\n<p><code>SUM</code> は数値カラムの合計値を返します。NULL値は無視されます。</p>\n<pre><code>-- 売上金額の合計\nSELECT SUM(amount) AS 売上合計 FROM sales;\n-- 出力: 1430 (150+80+90+200+150+350+80+100+180+50)\n\n-- 数量×金額で実際の売上額を計算してSUM\nSELECT SUM(amount * quantity) AS 総売上 FROM sales;\n-- 出力: (150*3 + 80*5 + 90*2 + 200*1 + 150*2 + 350*1 + 80*4 + 100*3 + 180*2 + 250*1)\n--      = 450 + 400 + 180 + 200 + 300 + 350 + 320 + 300 + 360 + 250 = 3110\n\n-- WHERE句と組み合わせてカテゴリ別の合計\nSELECT SUM(amount * quantity) AS 果物の総売上\nFROM sales\nWHERE category = '果物';\n-- 出力: 450 + 400 + 300 + 320 = 1470\n\n-- 日付範囲を指定した合計（特定期間の売上）\nSELECT SUM(amount * quantity) AS 期間売上\nFROM sales\nWHERE sale_date BETWEEN '2024-01-05' AND '2024-01-07';</code></pre>\n\n<h2>AVG：平均値を計算する</h2>\n<p><code>AVG</code> は数値カラムの平均値を返します。NULL値は無視されます。</p>\n<pre><code>-- 売上金額の平均\nSELECT AVG(amount) AS 平均価格 FROM sales;\n-- 出力: 143.0 （NULLは除外した10件での平均）\n\n-- SQLiteのAVGは浮動小数点を返す\n-- 整数に丸めたい場合はROUNDを使う\nSELECT ROUND(AVG(amount), 2) AS 平均価格_小数2桁 FROM sales;\nSELECT CAST(AVG(amount) AS INTEGER) AS 平均価格_整数 FROM sales;\n\n-- カテゴリ別の平均価格\nSELECT category, ROUND(AVG(amount), 0) AS 平均価格\nFROM sales\nGROUP BY category\nORDER BY 平均価格 DESC;\n\n-- 出力:\n-- category | 平均価格\n-- ---------+---------\n-- 乳製品   |      243\n-- パン     |      250\n-- 果物     |      115\n-- 野菜     |       95</code></pre>\n\n<h2>MIN・MAX：最小値・最大値を取得する</h2>\n<p><code>MIN</code> は最小値、<code>MAX</code> は最大値を返します。数値だけでなく、文字列（アルファベット/五十音順）や日付（最古/最新）にも使えます。</p>\n<pre><code>-- 最低価格と最高価格を一度に取得\nSELECT\n  MIN(amount) AS 最低価格,\n  MAX(amount) AS 最高価格,\n  MAX(amount) - MIN(amount) AS 価格差\nFROM sales;\n\n-- 出力:\n-- 最低価格 | 最高価格 | 価格差\n-- --------+---------+-------\n--       80 |      350 |    270\n\n-- 最新・最古の売上日を取得\nSELECT\n  MIN(sale_date) AS 最初の売上日,\n  MAX(sale_date) AS 最後の売上日\nFROM sales;\n\n-- 出力:\n-- 最初の売上日 | 最後の売上日\n-- -----------+-----------\n-- 2024-01-05  | 2024-01-10\n\n-- カテゴリ別の最高価格商品名（サブクエリを使う）\nSELECT category, product_name, amount\nFROM sales\nWHERE (category, amount) IN (\n  SELECT category, MAX(amount) FROM sales GROUP BY category\n);</code></pre>\n\n<h2>複数の集計関数を組み合わせる</h2>\n<p>1つのSELECT文で複数の集計関数を同時に使えます。</p>\n<pre><code>-- 総合サマリーを一度に取得\nSELECT\n  COUNT(*)                      AS 総件数,\n  COUNT(DISTINCT product_name)  AS 商品種類,\n  COUNT(DISTINCT category)      AS カテゴリ数,\n  SUM(amount * quantity)        AS 総売上,\n  ROUND(AVG(amount), 0)         AS 平均単価,\n  MIN(amount)                   AS 最低単価,\n  MAX(amount)                   AS 最高単価\nFROM sales;\n\n-- 出力（1行で多くの情報が得られる）:\n-- 総件数 | 商品種類 | カテゴリ数 | 総売上 | 平均単価 | 最低単価 | 最高単価\n-- ------+----------+-----------+--------+---------+---------+---------\n--    10 |        8 |          4 |   3110 |      143 |       80 |      350\n\n-- JOINと組み合わせた集計\n-- 注文テーブルとユーザー別の集計（例）\nSELECT\n  user_name,\n  COUNT(*) AS 注文回数,\n  SUM(p.price * o.quantity) AS 合計購入金額\nFROM orders AS o\nINNER JOIN products AS p ON o.product_id = p.id\nGROUP BY user_name\nORDER BY 合計購入金額 DESC;</code></pre>\n\n<h2>つまずきやすいポイント・失敗例</h2>\n<h3>失敗例：COUNT(列)とCOUNT(*)の結果差を忘れる</h3>\n<p>NULLが含まれる列では COUNT(列) &lt; COUNT(*) になります。全行数なら COUNT(*) を使いましょう。</p>\n<h3>失敗例：集計関数と通常カラムを混在させる</h3>\n<p>GROUP BYなしで <code>SELECT name, COUNT(*)</code> は多くのDBでエラーです。グループ化が必要な場合は次回のGROUP BYを使います。</p>",
+  "conclusion": "集計関数は複数行を1つの値にまとめます。COUNT(*)は全件、COUNT(列)はNULL除外、SUM/AVGもNULLを無視します。WHEREで絞ってから集計する流れを身につけましょう。",
   "tags": [
     "SQL",
     "COUNT",
@@ -18,12 +18,12 @@
   "theme": "sql - SQL・データベース入門",
   "status": "published",
   "createdAt": "2026-05-30T04:13:11.727Z",
-  "updatedAt": "2026-05-30T05:01:29.109Z",
+  "updatedAt": "2026-05-30T05:23:47.860Z",
   "publishedAt": "2026-05-30T04:13:11.727Z",
   "metaTitle": "COUNT SUM AVG MIN MAX｜sql 初心者向け集計関数完全ガイド",
-  "metaDescription": "SQLの集計関数をsql 初心者向けに解説。COUNT件数・SUM合計・AVG平均・MIN最小・MAX最大のsql 使い方を豊富なSQLiteサンプルで学べます。データ分析の基礎を身につけましょう。",
+  "metaDescription": "SQL集計関数COUNT/SUM/AVG/MIN/MAXの使い方とNULLの扱いをSQLite例付きで解説。よくある誤解とROUNDの活用法を紹介します。",
   "ogTitle": "COUNT/SUM/AVG/MIN/MAX｜SQL集計関数完全ガイド",
-  "ogDescription": "SQLの集計関数5種類をゼロから丁寧に解説。データ分析に必須のスキルを習得しましょう。",
+  "ogDescription": "データ件数・合計・平均を求める集計関数を具体例で学べます。",
   "knowledge": {
     "topic": "sql",
     "courseId": "sql",
@@ -31,24 +31,24 @@
   },
   "faq": [
     {
-      "question": "COUNT(*)とCOUNT(id)の違いは何ですか？",
-      "answer": "COUNT(*)はNULLを含むすべての行を数えます。COUNT(カラム名)は指定したカラムがNULLでない行だけを数えます。idカラムにNULLが入ることは通常ないため、COUNT(*)とCOUNT(id)はほぼ同じ結果になります。NULLを含む可能性があるカラムをCOUNTする場合はこの違いを意識しましょう。"
+      "question": "COUNT(*)とCOUNT(1)の違いは？",
+      "answer": "SQLiteでは実質同じです。どちらも行数を数え、パフォーマンス差は通常無視できます。"
     },
     {
-      "question": "AVGで整数の平均を取得したいのですが小数になります",
-      "answer": "SQLiteのAVGは常に浮動小数点を返します。整数に丸めるにはROUND(AVG(カラム), 0)かCAST(AVG(カラム) AS INTEGER)を使います。ROUNDの第2引数は小数点以下の桁数で、0なら整数、2なら小数点2桁になります。"
+      "question": "AVGの結果が小数になるのは正常？",
+      "answer": "はい。整数列でもAVGは浮動小数点を返します。ROUNDで丸めて表示しましょう。"
     },
     {
-      "question": "NULLが含まれるカラムをSUM/AVGすると結果はどうなりますか？",
-      "answer": "NULL値は無視されて計算されます。例えば5件のデータで1件がNULLの場合、SUMは4件の合計、AVGは4件の平均（5で割らない）を返します。これはNULLを0として扱うExcelとは動作が異なる点に注意しましょう。NULLを0として扱いたい場合はCOALESCE(カラム, 0)でNULLを0に変換してから計算します。"
+      "question": "SUMがNULLになるのはなぜ？",
+      "answer": "対象行が0件、またはすべてNULLの場合です。COALESCE(SUM(x), 0) で0に置き換えることもあります。"
     },
     {
-      "question": "集計関数はWHERE句と一緒に使えますか？",
-      "answer": "はい、使えます。WHERE句で先にデータを絞り込み、その後集計関数が適用されます。例えば「SELECT SUM(amount) FROM sales WHERE category = '果物'」で果物カテゴリの合計額を取得できます。集計後の結果に条件を付けたい場合（例：合計が1000以上のカテゴリのみ）はHAVING句を使います。HAVINGについては次回学びます。"
+      "question": "集計前にWHEREで絞れる？",
+      "answer": "はい。<code>SELECT AVG(price) FROM products WHERE category='果物'</code> のように先に行を絞ってから集計します。"
     },
     {
       "question": "SQLはどんな場面で使いますか？",
-      "answer": "Webアプリのユーザー情報保存、売上分析、ログ集計など、データを保存・検索・集計したい場面で使います。Excelの大量データ版と考えるとイメージしやすいです。"
+      "answer": "売上合計、平均単価、在庫数、アクティブユーザー数など、レポート・ダッシュボード作成に必須です。"
     }
   ],
   "nextEpisodeHint": "次回はGROUP BYでカテゴリ別・日付別などのグループ集計、HAVINGで集計後の絞り込み、ORDER BYで並び替えを組み合わせる方法を学びます。",
@@ -61,9 +61,9 @@
         "@context": "https://schema.org",
         "@type": "TechArticle",
         "headline": "COUNT/SUM/AVG/MIN/MAX｜SQL集計関数の完全ガイド",
-        "description": "SQLの集計関数をsql 初心者向けに解説。COUNT件数・SUM合計・AVG平均・MIN最小・MAX最大のsql 使い方を豊富なSQLiteサンプルで学べます。データ分析の基礎を身につけましょう。 図解・具体例つきで丁寧に解説します。",
+        "description": "SQL集計関数COUNT/SUM/AVG/MIN/MAXの使い方とNULLの扱いをSQLite例付きで解説。よくある誤解とROUNDの活用法を紹介します。",
         "datePublished": "2026-05-30T04:13:11.727Z",
-        "dateModified": "2026-05-30T05:01:29.109Z",
+        "dateModified": "2026-05-30T05:23:47.860Z",
         "author": {
           "@type": "Organization",
           "name": "StackShelf",
@@ -84,7 +84,7 @@
         },
         "image": "https://ai-site-iota-nine.vercel.app/og-default.svg",
         "inLanguage": "ja",
-        "wordCount": 3602,
+        "wordCount": 3955,
         "mainEntityOfPage": {
           "@type": "WebPage",
           "@id": "https://ai-site-iota-nine.vercel.app/article/sql-aggregate"
@@ -150,34 +150,34 @@
         "mainEntity": [
           {
             "@type": "Question",
-            "name": "COUNT(*)とCOUNT(id)の違いは何ですか？",
+            "name": "COUNT(*)とCOUNT(1)の違いは？",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "COUNT(*)はNULLを含むすべての行を数えます。COUNT(カラム名)は指定したカラムがNULLでない行だけを数えます。idカラムにNULLが入ることは通常ないため、COUNT(*)とCOUNT(id)はほぼ同じ結果になります。NULLを含む可能性があるカラムをCOUNTする場合はこの違いを意識しましょう。"
+              "text": "SQLiteでは実質同じです。どちらも行数を数え、パフォーマンス差は通常無視できます。"
             }
           },
           {
             "@type": "Question",
-            "name": "AVGで整数の平均を取得したいのですが小数になります",
+            "name": "AVGの結果が小数になるのは正常？",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "SQLiteのAVGは常に浮動小数点を返します。整数に丸めるにはROUND(AVG(カラム), 0)かCAST(AVG(カラム) AS INTEGER)を使います。ROUNDの第2引数は小数点以下の桁数で、0なら整数、2なら小数点2桁になります。"
+              "text": "はい。整数列でもAVGは浮動小数点を返します。ROUNDで丸めて表示しましょう。"
             }
           },
           {
             "@type": "Question",
-            "name": "NULLが含まれるカラムをSUM/AVGすると結果はどうなりますか？",
+            "name": "SUMがNULLになるのはなぜ？",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "NULL値は無視されて計算されます。例えば5件のデータで1件がNULLの場合、SUMは4件の合計、AVGは4件の平均（5で割らない）を返します。これはNULLを0として扱うExcelとは動作が異なる点に注意しましょう。NULLを0として扱いたい場合はCOALESCE(カラム, 0)でNULLを0に変換してから計算します。"
+              "text": "対象行が0件、またはすべてNULLの場合です。COALESCE(SUM(x), 0) で0に置き換えることもあります。"
             }
           },
           {
             "@type": "Question",
-            "name": "集計関数はWHERE句と一緒に使えますか？",
+            "name": "集計前にWHEREで絞れる？",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "はい、使えます。WHERE句で先にデータを絞り込み、その後集計関数が適用されます。例えば「SELECT SUM(amount) FROM sales WHERE category = '果物'」で果物カテゴリの合計額を取得できます。集計後の結果に条件を付けたい場合（例：合計が1000以上のカテゴリのみ）はHAVING句を使います。HAVINGについては次回学びます。"
+              "text": "はい。<code>SELECT AVG(price) FROM products WHERE category='果物'</code> のように先に行を絞ってから集計します。"
             }
           },
           {
@@ -185,7 +185,7 @@
             "name": "SQLはどんな場面で使いますか？",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "Webアプリのユーザー情報保存、売上分析、ログ集計など、データを保存・検索・集計したい場面で使います。Excelの大量データ版と考えるとイメージしやすいです。"
+              "text": "売上合計、平均単価、在庫数、アクティブユーザー数など、レポート・ダッシュボード作成に必須です。"
             }
           }
         ]
@@ -247,34 +247,34 @@
     "mainEntity": [
       {
         "@type": "Question",
-        "name": "COUNT(*)とCOUNT(id)の違いは何ですか？",
+        "name": "COUNT(*)とCOUNT(1)の違いは？",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "COUNT(*)はNULLを含むすべての行を数えます。COUNT(カラム名)は指定したカラムがNULLでない行だけを数えます。idカラムにNULLが入ることは通常ないため、COUNT(*)とCOUNT(id)はほぼ同じ結果になります。NULLを含む可能性があるカラムをCOUNTする場合はこの違いを意識しましょう。"
+          "text": "SQLiteでは実質同じです。どちらも行数を数え、パフォーマンス差は通常無視できます。"
         }
       },
       {
         "@type": "Question",
-        "name": "AVGで整数の平均を取得したいのですが小数になります",
+        "name": "AVGの結果が小数になるのは正常？",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "SQLiteのAVGは常に浮動小数点を返します。整数に丸めるにはROUND(AVG(カラム), 0)かCAST(AVG(カラム) AS INTEGER)を使います。ROUNDの第2引数は小数点以下の桁数で、0なら整数、2なら小数点2桁になります。"
+          "text": "はい。整数列でもAVGは浮動小数点を返します。ROUNDで丸めて表示しましょう。"
         }
       },
       {
         "@type": "Question",
-        "name": "NULLが含まれるカラムをSUM/AVGすると結果はどうなりますか？",
+        "name": "SUMがNULLになるのはなぜ？",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "NULL値は無視されて計算されます。例えば5件のデータで1件がNULLの場合、SUMは4件の合計、AVGは4件の平均（5で割らない）を返します。これはNULLを0として扱うExcelとは動作が異なる点に注意しましょう。NULLを0として扱いたい場合はCOALESCE(カラム, 0)でNULLを0に変換してから計算します。"
+          "text": "対象行が0件、またはすべてNULLの場合です。COALESCE(SUM(x), 0) で0に置き換えることもあります。"
         }
       },
       {
         "@type": "Question",
-        "name": "集計関数はWHERE句と一緒に使えますか？",
+        "name": "集計前にWHEREで絞れる？",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "はい、使えます。WHERE句で先にデータを絞り込み、その後集計関数が適用されます。例えば「SELECT SUM(amount) FROM sales WHERE category = '果物'」で果物カテゴリの合計額を取得できます。集計後の結果に条件を付けたい場合（例：合計が1000以上のカテゴリのみ）はHAVING句を使います。HAVINGについては次回学びます。"
+          "text": "はい。<code>SELECT AVG(price) FROM products WHERE category='果物'</code> のように先に行を絞ってから集計します。"
         }
       },
       {
@@ -282,7 +282,7 @@
         "name": "SQLはどんな場面で使いますか？",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Webアプリのユーザー情報保存、売上分析、ログ集計など、データを保存・検索・集計したい場面で使います。Excelの大量データ版と考えるとイメージしやすいです。"
+          "text": "売上合計、平均単価、在庫数、アクティブユーザー数など、レポート・ダッシュボード作成に必須です。"
         }
       }
     ]
@@ -314,5 +314,5 @@
       "reason": "同じ講座の関連回です"
     }
   ],
-  "nextAction": "次はGROUP BYでカテゴリ別・日付別などのグループ集計、HAVINGで集計後の絞り込み、ORDER BYで並び替えを組み合わせる方法を学びます。"
+  "nextAction": "SELECT COUNT(*), AVG(price), MAX(price) FROM products; と SELECT category, COUNT(*) FROM products GROUP BY category; の違いを実行して確認してください（GROUP BYは次回詳述）。"
 }

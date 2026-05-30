@@ -1,9 +1,9 @@
 {
   "slug": "java-syntax",
-  "title": "Javaの基礎構文",
-  "summary": "Javaプログラムの骨格となる基礎構文を学びます。クラス定義、mainメソッド、文と式、コメント、セミコロンの役割を押さえましょう。",
-  "body": "<h2>導入</h2><p>前回は Java の全体像を学びました。今回は実際にコードを書くための<strong>基礎構文</strong>を押さえます。構文は「文法」にあたり、ここを理解するとエラーメッセージの意味も読み取れるようになります。</p><h3>この回のゴール</h3><p>最小限の Java プログラムを読み書きでき、コンパイル・実行の流れを説明できる状態を目指します。</p><h2>最小の Java プログラム</h2><p>Java では処理を<strong>クラス</strong>の中に書きます。実行の入口は <code>main</code> メソッドです。</p><pre><code>public class Hello {\n    public static void main(String[] args) {\n        System.out.println(\"Hello, Java!\");\n    }\n}</code></pre><p><code>public class Hello</code> はクラス名を宣言しています。ファイル名は <code>Hello.java</code> と一致させる必要があります。</p><h3>main メソッドの意味</h3><p><code>public static void main(String[] args)</code> は JVM が最初に呼び出すメソッドです。アプリの起動点と覚えてください。</p><h2>文・式・セミコロン</h2><p>Java では<strong>1文の末尾にセミコロン</strong>が必要です。忘れるとコンパイルエラーになります。</p><pre><code>int a = 1;\nint b = 2;\nSystem.out.println(a + b);</code></pre><h3>よくある誤解</h3><p>Python のようにインデントだけでブロックを表すことはできません。処理のまとまりは必ず <code>{ }</code> で囲みます。</p><h2>コメントの書き方</h2><p>コード中にメモを残す方法が2種類あります。</p><ul><li>行コメント: <code>// 1行だけ</code></li><li>ブロックコメント: <code>/* 複数行 */</code></li></ul><p>コメントは実行されません。学習中は「なぜこう書いたか」を日本語で残すと復習に役立ちます。</p><h2>ブロックとインデント</h2><p><code>if</code> や <code>for</code> などの制御構文は <code>{ }</code> で範囲を決めます。インデントは必須ではありませんが、可読性のために4スペース程度で揃えるのが一般的です。</p><pre><code>if (true) {\n    System.out.println(\"条件が真\");\n}</code></pre><h3>確認方法</h3><p>上記の Hello プログラムを保存し、<code>javac Hello.java</code> でコンパイル、<code>java Hello</code> で実行してみてください。画面に <code>Hello, Java!</code> と表示されれば成功です。</p><h2>まとめ</h2><p>Java の基礎構文は「クラス → main → 文」という流れで理解できます。セミコロンとブロックのルールを守れば、次の回から変数や制御構文をスムーズに学べます。</p>",
-  "conclusion": "Java の基礎構文では、クラス定義・main メソッド・セミコロン・ブロックの4点が中心です。最小プログラムを自分で書き、コンパイルと実行まで体験しておきましょう。次回は変数とデータ型で、プログラムに値を保持する方法を学びます。",
+  "title": "Javaの基礎構文｜クラス・main・文と式",
+  "summary": "Javaプログラムの骨格となる基礎構文を学びます。クラス定義、mainメソッド、文と式、コメント、セミコロンの役割とコンパイルエラーの典型例を押さえます。",
+  "body": "<h2>結論：Javaは「クラス → mainメソッド → 文」の順で読み、文末にセミコロンが必須</h2>\n<p>Javaのプログラムはすべて<strong>クラス</strong>の中に記述します。実行開始点は <code>public static void main(String[] args)</code> で、ここから<strong>文（statement）</strong>が上から順に実行されます。1文の終わりには<strong>セミコロン（;）</strong>が必要です。この3点（クラス・main・セミコロン）を守れれば、最小プログラムは動きます。</p>\n\n<h2>クラス定義の構造</h2>\n<pre><code>public class App {\n    // フィールド（データ）\n    static int count = 0;\n\n    // メソッド（処理）\n    public static void main(String[] args) {\n        count++;\n        System.out.println(\"count = \" + count);\n    }\n}</code></pre>\n<p><code>public</code> は外部からアクセス可能、<code>static</code> はインスタンスなしで呼べる、<code>void</code> は戻り値なし、という意味です。mainは JVM が特別扱いするエントリポイントです。</p>\n\n<h2>文と式</h2>\n<p><strong>式（expression）</strong>は値を生み出します（例：<code>1 + 2</code>、<code>\"hello\"</code>）。<strong>文</strong>は処理の単位で、代入・メソッド呼び出し・制御構文などです。</p>\n<pre><code>int x = 10;              // 宣言と初期化の文\nSystem.out.println(x); // メソッド呼び出しの文\nx = x + 1;             // 代入の文</code></pre>\n\n<h3>失敗例：セミコロン忘れ</h3>\n<pre><code>int x = 10\nSystem.out.println(x)</code></pre>\n<p>コンパイル時に <code>';' expected</code> と表示されます。エラーの行番号を手がかりに、直前の行のセミコロンを確認してください。</p>\n\n<h2>コメントの書き方</h2>\n<pre><code>// 1行コメント\n/* 複数行\n   コメント */\n/** ドキュメントコメント（Javadoc用） */</code></pre>\n<p>コメントはコンパイル結果に含まれません。意図や前提条件を書く習慣をつけましょう。</p>\n\n<h2>識別子と命名規則</h2>\n<ul>\n  <li>クラス名：<code>UpperCamelCase</code>（例：<code>UserService</code>）</li>\n  <li>メソッド・変数：<code>lowerCamelCase</code>（例：<code>getUserName</code>）</li>\n  <li>定数：<code>UPPER_SNAKE_CASE</code>（例：<code>MAX_SIZE</code>）</li>\n</ul>\n\n<h3>失敗例：予約語を変数名に使う</h3>\n<pre><code>int class = 1; // コンパイルエラー: class は予約語</code></pre>\n\n<h2>コンパイルと実行の流れ</h2>\n<pre><code>javac App.java   # App.class を生成\njava App         # JVM が main を実行</code></pre>\n<p>クラスパス（-cp）やパッケージ（package）は後の回で扱います。今は単一ファイルで試しましょう。</p>\n\n<h2>まとめ</h2>\n<p>Javaの基礎構文はクラス内にmainを置き、文の末尾にセミコロンを付けることから始まります。セミコロン忘れ・予約語の誤使用・ファイル名不一致は初学者の三大コンパイルエラーです。次回は変数とデータ型で、データをプログラムに載せる方法を学びます。</p>",
+  "conclusion": "Javaプログラムはクラスにmainメソッドを定義し、文をセミコロンで区切って書きます。コメントと命名規則を守ると可読性が上がり、コンパイルエラーは行番号とメッセージを手がかりに修正できます。Hello Worldを自分でコンパイル・実行した経験を次の変数の学習に活かしましょう。",
   "tags": [
     "Java",
     "構文",
@@ -13,12 +13,12 @@
   "theme": "java - Java",
   "status": "published",
   "createdAt": "2026-05-29T14:36:44.692Z",
-  "updatedAt": "2026-05-30T05:01:32.497Z",
+  "updatedAt": "2026-05-30T05:18:37.067Z",
   "publishedAt": "2026-05-29T14:36:44.692Z",
-  "metaTitle": "Javaの基礎構文｜プログラミング入門 | StackShelf",
-  "metaDescription": "Javaプログラムの骨格となる基礎構文を学びます。クラス定義、mainメソッド、文と式、コメント、セミコロンの役割を押さえましょう。",
+  "metaTitle": "Java基礎構文｜クラス・main・セミコロンを初心者向け解説 | StackShelf",
+  "metaDescription": "Javaのクラス定義、mainメソッド、文と式、コメントの書き方を具体例で解説。セミコロン忘れなど典型のコンパイルエラーも紹介します。",
   "ogTitle": "Javaの基礎構文",
-  "ogDescription": "Javaプログラムの骨格となる基礎構文を学びます。クラス定義、mainメソッド、文と式、コメント、セミコロンの役割を押さえましょう。",
+  "ogDescription": "クラス・main・セミコロンとコンパイルエラーの対処を失敗例つきで学べます。",
   "knowledge": {
     "topic": "java",
     "courseId": "java",
@@ -26,27 +26,27 @@
   },
   "faq": [
     {
-      "question": "ファイル名とクラス名は一致が必要？",
-      "answer": "public クラスはファイル名と一致させる必要があります。"
+      "question": "mainメソッドは必ず必要ですか？",
+      "answer": "コンソールアプリを起動するときは必要です。ライブラリとして使うクラスにはmainは不要で、Spring Bootなどは別の起動方法を使います。"
     },
     {
-      "question": "セミコロンを忘れると？",
-      "answer": "コンパイルエラーになり、プログラムは動きません。"
+      "question": "String[] args とは何ですか？",
+      "answer": "コマンドライン引数を受け取る配列です。java App foo bar と実行すると args[0] が foo になります。"
     },
     {
-      "question": "つまずいたときはどうすればいいですか？",
-      "answer": "エラーメッセージをそのまま検索し、公式ドキュメントを当たってください。小さなステップに分けて再現・確認すると原因を特定しやすくなります。"
+      "question": "public class は1ファイルに1つだけ？",
+      "answer": "publicクラスは1ファイルに1つで、ファイル名と一致させる必要があります。非publicクラスは同一ファイルに複数置けます。"
     },
     {
-      "question": "どのくらいのペースで学べばいいですか？",
-      "answer": "1日30分〜1時間、週に3〜4回のペースが続けやすい目安です。読むだけでなく、必ず手を動かして確認しましょう。"
+      "question": "System.out.println と print の違いは？",
+      "answer": "println は末尾に改行を付け、print は改行しません。ログや出力の見た目を整えるときに使い分けます。"
     },
     {
-      "question": "この記事の内容を忘れないコツは？",
-      "answer": "学んだ直後にメモを残し、翌日にもう一度短時間復習してください。実際のプロジェクトや練習問題に当てはめると記憶に定着しやすくなります。"
+      "question": "エディタで自動整形すべきですか？",
+      "answer": "はい。インデントやセミコロンの見落としを減らせます。保存時フォーマットを有効にし、プロジェクトのスタイルガイドに合わせましょう。"
     }
   ],
-  "nextEpisodeHint": "次回は変数とデータ型について学び、プログラムにデータを扱う仕組みを理解します。",
+  "nextEpisodeHint": "次回は変数とデータ型について学び、int・double・boolean・String の宣言と初期化を練習します。",
   "canonical": "https://ai-site-iota-nine.vercel.app/article/java-syntax",
   "jsonLd": {
     "@context": "https://schema.org",
@@ -54,10 +54,10 @@
       {
         "@context": "https://schema.org",
         "@type": "TechArticle",
-        "headline": "Javaの基礎構文",
-        "description": "【プログラミング初心者向け】Javaプログラムの骨格となる基礎構文を学びます。クラス定義、mainメソッド、文と式、コメント、セミコロンの役割を押さえましょう。 図解・具体例つきで丁寧に解説します。",
+        "headline": "Javaの基礎構文｜クラス・main・文と式",
+        "description": "Javaのクラス定義、mainメソッド、文と式、コメントの書き方を具体例で解説。セミコロン忘れなど典型のコンパイルエラーも紹介します。",
         "datePublished": "2026-05-29T14:36:44.692Z",
-        "dateModified": "2026-05-30T05:01:32.497Z",
+        "dateModified": "2026-05-30T05:18:37.067Z",
         "author": {
           "@type": "Organization",
           "name": "StackShelf",
@@ -78,7 +78,7 @@
         },
         "image": "https://ai-site-iota-nine.vercel.app/og-default.svg",
         "inLanguage": "ja",
-        "wordCount": 955,
+        "wordCount": 1137,
         "mainEntityOfPage": {
           "@type": "WebPage",
           "@id": "https://ai-site-iota-nine.vercel.app/article/java-syntax"
@@ -114,7 +114,7 @@
           {
             "@type": "ListItem",
             "position": 4,
-            "name": "Javaの基礎構文",
+            "name": "Javaの基礎構文｜クラス・main・文と式",
             "item": "https://ai-site-iota-nine.vercel.app/article/java-syntax"
           }
         ]
@@ -144,42 +144,42 @@
         "mainEntity": [
           {
             "@type": "Question",
-            "name": "ファイル名とクラス名は一致が必要？",
+            "name": "mainメソッドは必ず必要ですか？",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "public クラスはファイル名と一致させる必要があります。"
+              "text": "コンソールアプリを起動するときは必要です。ライブラリとして使うクラスにはmainは不要で、Spring Bootなどは別の起動方法を使います。"
             }
           },
           {
             "@type": "Question",
-            "name": "セミコロンを忘れると？",
+            "name": "String[] args とは何ですか？",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "コンパイルエラーになり、プログラムは動きません。"
+              "text": "コマンドライン引数を受け取る配列です。java App foo bar と実行すると args[0] が foo になります。"
             }
           },
           {
             "@type": "Question",
-            "name": "つまずいたときはどうすればいいですか？",
+            "name": "public class は1ファイルに1つだけ？",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "エラーメッセージをそのまま検索し、公式ドキュメントを当たってください。小さなステップに分けて再現・確認すると原因を特定しやすくなります。"
+              "text": "publicクラスは1ファイルに1つで、ファイル名と一致させる必要があります。非publicクラスは同一ファイルに複数置けます。"
             }
           },
           {
             "@type": "Question",
-            "name": "どのくらいのペースで学べばいいですか？",
+            "name": "System.out.println と print の違いは？",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "1日30分〜1時間、週に3〜4回のペースが続けやすい目安です。読むだけでなく、必ず手を動かして確認しましょう。"
+              "text": "println は末尾に改行を付け、print は改行しません。ログや出力の見た目を整えるときに使い分けます。"
             }
           },
           {
             "@type": "Question",
-            "name": "この記事の内容を忘れないコツは？",
+            "name": "エディタで自動整形すべきですか？",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "学んだ直後にメモを残し、翌日にもう一度短時間復習してください。実際のプロジェクトや練習問題に当てはめると記憶に定着しやすくなります。"
+              "text": "はい。インデントやセミコロンの見落としを減らせます。保存時フォーマットを有効にし、プロジェクトのスタイルガイドに合わせましょう。"
             }
           }
         ]
@@ -211,7 +211,7 @@
       {
         "@type": "ListItem",
         "position": 4,
-        "name": "Javaの基礎構文",
+        "name": "Javaの基礎構文｜クラス・main・文と式",
         "item": "https://ai-site-iota-nine.vercel.app/article/java-syntax"
       }
     ]
@@ -241,73 +241,73 @@
     "mainEntity": [
       {
         "@type": "Question",
-        "name": "ファイル名とクラス名は一致が必要？",
+        "name": "mainメソッドは必ず必要ですか？",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "public クラスはファイル名と一致させる必要があります。"
+          "text": "コンソールアプリを起動するときは必要です。ライブラリとして使うクラスにはmainは不要で、Spring Bootなどは別の起動方法を使います。"
         }
       },
       {
         "@type": "Question",
-        "name": "セミコロンを忘れると？",
+        "name": "String[] args とは何ですか？",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "コンパイルエラーになり、プログラムは動きません。"
+          "text": "コマンドライン引数を受け取る配列です。java App foo bar と実行すると args[0] が foo になります。"
         }
       },
       {
         "@type": "Question",
-        "name": "つまずいたときはどうすればいいですか？",
+        "name": "public class は1ファイルに1つだけ？",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "エラーメッセージをそのまま検索し、公式ドキュメントを当たってください。小さなステップに分けて再現・確認すると原因を特定しやすくなります。"
+          "text": "publicクラスは1ファイルに1つで、ファイル名と一致させる必要があります。非publicクラスは同一ファイルに複数置けます。"
         }
       },
       {
         "@type": "Question",
-        "name": "どのくらいのペースで学べばいいですか？",
+        "name": "System.out.println と print の違いは？",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "1日30分〜1時間、週に3〜4回のペースが続けやすい目安です。読むだけでなく、必ず手を動かして確認しましょう。"
+          "text": "println は末尾に改行を付け、print は改行しません。ログや出力の見た目を整えるときに使い分けます。"
         }
       },
       {
         "@type": "Question",
-        "name": "この記事の内容を忘れないコツは？",
+        "name": "エディタで自動整形すべきですか？",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "学んだ直後にメモを残し、翌日にもう一度短時間復習してください。実際のプロジェクトや練習問題に当てはめると記憶に定着しやすくなります。"
+          "text": "はい。インデントやセミコロンの見落としを減らせます。保存時フォーマットを有効にし、プロジェクトのスタイルガイドに合わせましょう。"
         }
       }
     ]
   },
+  "nextAction": "App.java にコメント・変数・println を追加し、意図的にセミコロンを1つ消してコンパイルエラーを確認してから直してください。",
   "internalLinkCandidates": [
     {
-      "slug": "java-project-development",
-      "title": "Javaのプロジェクト開発",
-      "reason": "同じ講座の関連回です"
+      "slug": "java-introduction",
+      "title": "Javaとは？オブジェクト指向言語の第一歩",
+      "reason": "講座の前の回"
     },
     {
-      "slug": "java-functional-programming",
-      "title": "Javaの関数型プログラミング",
-      "reason": "同じ講座の関連回です"
+      "slug": "java-variables",
+      "title": "Javaの変数とデータ型",
+      "reason": "同じ講座の次の回"
     },
     {
-      "slug": "java-lambda-expression",
-      "title": "Javaのラムダ式",
-      "reason": "同じ講座の関連回です"
+      "slug": "java-control-structures",
+      "title": "Java制御構文の基礎",
+      "reason": "文の流れを制御する"
     },
     {
-      "slug": "java-stream-api",
-      "title": "JavaのStream API",
-      "reason": "同じ講座の関連回です"
+      "slug": "java-functions",
+      "title": "Javaの関数",
+      "reason": "メソッドの詳細"
     },
     {
-      "slug": "java-collection-framework",
-      "title": "Javaのコレクションフレームワーク",
-      "reason": "同じ講座の関連回です"
+      "slug": "java-best-practices",
+      "title": "Javaプログラミングのベストプラクティス",
+      "reason": "命名と可読性"
     }
   ],
-  "nextAction": "次は変数とデータ型について学び、プログラムにデータを扱う仕組みを理解します。",
   "ogImage": "https://ai-site-iota-nine.vercel.app/og-default.svg"
 }

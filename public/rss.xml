@@ -5,8 +5,422 @@
     <link>https://ai-site-iota-nine.vercel.app</link>
     <description>StackShelf — Linux・Git・Java・Python など、初心者にもわかる技術まとめ。AI編集と構造化メモリで組み立てた学習サイト。</description>
     <language>ja</language>
-    <lastBuildDate>Sat, 30 May 2026 04:13:35 GMT</lastBuildDate>
+    <lastBuildDate>Sat, 30 May 2026 05:15:09 GMT</lastBuildDate>
     <atom:link href="https://ai-site-iota-nine.vercel.app/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>実践：Node.jsアプリの前段にnginxを構築する【総合演習】</title>
+      <link>https://ai-site-iota-nine.vercel.app/article/nginx-practice</link>
+      <guid isPermaLink="true">https://ai-site-iota-nine.vercel.app/article/nginx-practice</guid>
+      <description>【nginx初心者向け】Node.jsアプリの前段にnginxを構築する実践演習。静的配信・APIプロキシ・gzip・キャッシュ・ログ設定を組み合わせた本番構成を初心者向けに解説。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。</description>
+      <category>nginx</category>
+      <pubDate>Sat, 30 May 2026 05:15:09 GMT</pubDate>
+      <enclosure url="https://ai-site-iota-nine.vercel.app/og-default.svg" type="image/svg+xml"/>
+    </item>
+    <item>
+      <title>nginxのログとトラブルシューティング入門【502/504エラー対処】</title>
+      <link>https://ai-site-iota-nine.vercel.app/article/nginx-logging</link>
+      <guid isPermaLink="true">https://ai-site-iota-nine.vercel.app/article/nginx-logging</guid>
+      <description>【nginx初心者向け】nginxのアクセスログ・エラーログの見方と502/504/403エラーの対処法を初心者向けに解説。log_format、tail、grepを使った調査手法まで。 図解・具体例つきで丁寧に解説します。</description>
+      <category>nginx</category>
+      <pubDate>Sat, 30 May 2026 05:15:08 GMT</pubDate>
+      <enclosure url="https://ai-site-iota-nine.vercel.app/og-default.svg" type="image/svg+xml"/>
+    </item>
+    <item>
+      <title>nginxでSSL/TLS（HTTPS）を設定する方法【Let&apos;s Encrypt入門】</title>
+      <link>https://ai-site-iota-nine.vercel.app/article/nginx-ssl</link>
+      <guid isPermaLink="true">https://ai-site-iota-nine.vercel.app/article/nginx-ssl</guid>
+      <description>【nginx初心者向け】nginxでHTTPS（SSL/TLS）を設定する方法を初心者向けに解説。Let&apos;s Encrypt・certbotでの証明書取得、nginx設定、自動更新まで設定例つき。 図解・具体例つきで丁寧に解説します。</description>
+      <category>nginx</category>
+      <pubDate>Sat, 30 May 2026 05:15:07 GMT</pubDate>
+      <enclosure url="https://ai-site-iota-nine.vercel.app/og-default.svg" type="image/svg+xml"/>
+    </item>
+    <item>
+      <title>nginxのlocationとルーティング【マッチング優先順位入門】</title>
+      <link>https://ai-site-iota-nine.vercel.app/article/nginx-location</link>
+      <guid isPermaLink="true">https://ai-site-iota-nine.vercel.app/article/nginx-location</guid>
+      <description>【nginx初心者向け】nginxのlocationブロックのマッチングルール（=, ^~, ~, 通常）とURLルーティング設計を初心者向けに解説。alias/rootの違いも設定例つき。 図解・具体例つきで丁寧に解説します。</description>
+      <category>nginx</category>
+      <pubDate>Sat, 30 May 2026 05:15:05 GMT</pubDate>
+      <enclosure url="https://ai-site-iota-nine.vercel.app/og-default.svg" type="image/svg+xml"/>
+    </item>
+    <item>
+      <title>nginxリバースプロキシの設定方法【proxy_pass入門・初心者向け】</title>
+      <link>https://ai-site-iota-nine.vercel.app/article/nginx-reverse-proxy</link>
+      <guid isPermaLink="true">https://ai-site-iota-nine.vercel.app/article/nginx-reverse-proxy</guid>
+      <description>【nginx初心者向け】nginxのリバースプロキシ設定（proxy_pass）を初心者向けに解説。Node.js/Pythonアプリへの転送、ヘッダー設定、WebSocket対応まで設定例つき。 図解・具体例つきで丁寧に解説します。</description>
+      <category>nginx</category>
+      <pubDate>Sat, 30 May 2026 05:15:04 GMT</pubDate>
+      <enclosure url="https://ai-site-iota-nine.vercel.app/og-default.svg" type="image/svg+xml"/>
+    </item>
+    <item>
+      <title>nginxで静的サイトを公開する方法【HTML/CSS配信・初心者向け】</title>
+      <link>https://ai-site-iota-nine.vercel.app/article/nginx-static-site</link>
+      <guid isPermaLink="true">https://ai-site-iota-nine.vercel.app/article/nginx-static-site</guid>
+      <description>【nginx初心者向け】nginxで静的Webサイト（HTML/CSS/画像）を公開する方法を初心者向けに解説。root設定、gzip圧縮、キャッシュヘッダー、セキュリティ設定まで設定例つき。 図解・具体例つきで丁寧に解説します。</description>
+      <category>nginx</category>
+      <pubDate>Sat, 30 May 2026 05:15:03 GMT</pubDate>
+      <enclosure url="https://ai-site-iota-nine.vercel.app/og-default.svg" type="image/svg+xml"/>
+    </item>
+    <item>
+      <title>nginxのインストールと基本設定【Ubuntu/WSL2対応・初心者向け】</title>
+      <link>https://ai-site-iota-nine.vercel.app/article/nginx-install</link>
+      <guid isPermaLink="true">https://ai-site-iota-nine.vercel.app/article/nginx-install</guid>
+      <description>【nginx初心者向け】nginxをUbuntu・WSL2にインストールする手順とnginx.confの基本構造を初心者向けに解説。起動・停止・設定テストまで丁寧にガイドします。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。</description>
+      <category>nginx</category>
+      <pubDate>Sat, 30 May 2026 05:15:01 GMT</pubDate>
+      <enclosure url="https://ai-site-iota-nine.vercel.app/og-default.svg" type="image/svg+xml"/>
+    </item>
+    <item>
+      <title>nginxとは？Apacheとの違いをわかりやすく解説【初心者向け】</title>
+      <link>https://ai-site-iota-nine.vercel.app/article/nginx-intro</link>
+      <guid isPermaLink="true">https://ai-site-iota-nine.vercel.app/article/nginx-intro</guid>
+      <description>【nginx初心者向け】nginxとは何かを初心者向けにわかりやすく解説。Apacheとの違い、リバースプロキシの役割、nginxが選ばれる理由を設定例つきでゼロから学べます。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。</description>
+      <category>nginx</category>
+      <pubDate>Sat, 30 May 2026 05:15:00 GMT</pubDate>
+      <enclosure url="https://ai-site-iota-nine.vercel.app/og-default.svg" type="image/svg+xml"/>
+    </item>
+    <item>
+      <title>Bash バックアップスクリプト 実践｜運用自動化チュートリアル</title>
+      <link>https://ai-site-iota-nine.vercel.app/article/bash-practice</link>
+      <guid isPermaLink="true">https://ai-site-iota-nine.vercel.app/article/bash-practice</guid>
+      <description>【Bash初心者向け】Bashで本番運用向けバックアップスクリプトを作成する実践チュートリアル。tar圧縮、世代管理、ログ、エラー処理、cron登録まで一通り解説します。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。</description>
+      <category>Bash</category>
+      <pubDate>Sat, 30 May 2026 05:14:56 GMT</pubDate>
+      <enclosure url="https://ai-site-iota-nine.vercel.app/og-default.svg" type="image/svg+xml"/>
+    </item>
+    <item>
+      <title>Bashの set -e とエラーハンドリング｜安全なスクリプトを書く【第9回】</title>
+      <link>https://ai-site-iota-nine.vercel.app/article/bash-error-handling</link>
+      <guid isPermaLink="true">https://ai-site-iota-nine.vercel.app/article/bash-error-handling</guid>
+      <description>【Bash初心者向け】Bashスクリプトの set -e、set -u、pipefail、trap によるエラーハンドリングを解説。本番運用で失敗を見逃さないスクリプトの書き方を学べます。 図解・具体例つきで丁寧に解説します。</description>
+      <category>Bash</category>
+      <pubDate>Sat, 30 May 2026 05:14:55 GMT</pubDate>
+      <enclosure url="https://ai-site-iota-nine.vercel.app/og-default.svg" type="image/svg+xml"/>
+    </item>
+    <item>
+      <title>cron crontab 定期実行 の書き方｜Bashスクリプト</title>
+      <link>https://ai-site-iota-nine.vercel.app/article/bash-cron</link>
+      <guid isPermaLink="true">https://ai-site-iota-nine.vercel.app/article/bash-cron</guid>
+      <description>【Bash初心者向け】Bashスクリプトを cron で定期実行する方法を解説。crontab の書式、PATH問題、ログリダイレクト、安全な運用のコツを具体例で学べます。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。</description>
+      <category>Bash</category>
+      <pubDate>Sat, 30 May 2026 05:14:54 GMT</pubDate>
+      <enclosure url="https://ai-site-iota-nine.vercel.app/og-default.svg" type="image/svg+xml"/>
+    </item>
+    <item>
+      <title>Bash grep sed awk 入門｜ログ解析・テキスト処理</title>
+      <link>https://ai-site-iota-nine.vercel.app/article/bash-file-processing</link>
+      <guid isPermaLink="true">https://ai-site-iota-nine.vercel.app/article/bash-file-processing</guid>
+      <description>【Bash初心者向け】Bashスクリプトでの grep・sed・awk の使い方を初心者向けに解説。ログからの ERROR 抽出、一括置換、列集計の具体例付き。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。</description>
+      <category>Bash</category>
+      <pubDate>Sat, 30 May 2026 05:14:53 GMT</pubDate>
+      <enclosure url="https://ai-site-iota-nine.vercel.app/og-default.svg" type="image/svg+xml"/>
+    </item>
+    <item>
+      <title>Bash パイプ コマンド置換 の使い方｜シェルスクリプト</title>
+      <link>https://ai-site-iota-nine.vercel.app/article/bash-pipes-scripts</link>
+      <guid isPermaLink="true">https://ai-site-iota-nine.vercel.app/article/bash-pipes-scripts</guid>
+      <description>Bashスクリプトのパイプ、$(command)、here doc、process substitution、xargs を具体例で解説。grep|sort|wc などの組み合わせ例も載せています。 図解・具体例つきで丁寧に解説します。</description>
+      <category>Bash</category>
+      <pubDate>Sat, 30 May 2026 05:14:52 GMT</pubDate>
+      <enclosure url="https://ai-site-iota-nine.vercel.app/og-default.svg" type="image/svg+xml"/>
+    </item>
+    <item>
+      <title>Bash 関数 の書き方｜local・return・source 入門</title>
+      <link>https://ai-site-iota-nine.vercel.app/article/bash-functions</link>
+      <guid isPermaLink="true">https://ai-site-iota-nine.vercel.app/article/bash-functions</guid>
+      <description>【Bash初心者向け】Bashスクリプトの関数定義、引数、local変数、return、ライブラリファイルの source 読み込みを初心者向けに解説します。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。</description>
+      <category>Bash</category>
+      <pubDate>Sat, 30 May 2026 05:14:50 GMT</pubDate>
+      <enclosure url="https://ai-site-iota-nine.vercel.app/og-default.svg" type="image/svg+xml"/>
+    </item>
+    <item>
+      <title>Bash for while ループ の書き方｜一括処理・シェルスクリプト</title>
+      <link>https://ai-site-iota-nine.vercel.app/article/bash-loops</link>
+      <guid isPermaLink="true">https://ai-site-iota-nine.vercel.app/article/bash-loops</guid>
+      <description>【Bash初心者向け】Bashの for・while・until ループ、break/continue、seq と配列の走査を初心者向けに解説。複数ファイルの一括処理例も載せています。 図解・具体例つきで丁寧に解説します。</description>
+      <category>Bash</category>
+      <pubDate>Sat, 30 May 2026 05:14:49 GMT</pubDate>
+      <enclosure url="https://ai-site-iota-nine.vercel.app/og-default.svg" type="image/svg+xml"/>
+    </item>
+    <item>
+      <title>Bash if test 条件分岐 の書き方｜シェルスクリプト入門</title>
+      <link>https://ai-site-iota-nine.vercel.app/article/bash-conditionals</link>
+      <guid isPermaLink="true">https://ai-site-iota-nine.vercel.app/article/bash-conditionals</guid>
+      <description>【Bash初心者向け】Bashの if 文、test コマンド、[ ] によるファイル判定・文字列比較・数値比較を初心者向けに解説。case 文の基本も具体例で学べます。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。</description>
+      <category>Bash</category>
+      <pubDate>Sat, 30 May 2026 05:14:48 GMT</pubDate>
+      <enclosure url="https://ai-site-iota-nine.vercel.app/og-default.svg" type="image/svg+xml"/>
+    </item>
+    <item>
+      <title>Bash 変数 引数 終了コード の使い方｜シェルスクリプト入門</title>
+      <link>https://ai-site-iota-nine.vercel.app/article/bash-variables</link>
+      <guid isPermaLink="true">https://ai-site-iota-nine.vercel.app/article/bash-variables</guid>
+      <description>【Bash初心者向け】Bashスクリプトの変数、コマンドライン引数、終了コード（exit status）を初心者向けに解説。$1 $# $? の意味と実践例を具体例で学べます。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。</description>
+      <category>Bash</category>
+      <pubDate>Sat, 30 May 2026 05:14:47 GMT</pubDate>
+      <enclosure url="https://ai-site-iota-nine.vercel.app/og-default.svg" type="image/svg+xml"/>
+    </item>
+    <item>
+      <title>Bashシェルスクリプトとは？自動化の第一歩をわかりやすく解説【初心者向け】</title>
+      <link>https://ai-site-iota-nine.vercel.app/article/bash-intro</link>
+      <guid isPermaLink="true">https://ai-site-iota-nine.vercel.app/article/bash-intro</guid>
+      <description>【Bash初心者向け】Bashシェルスクリプトとは何かを初心者向けにわかりやすく解説。シェルとスクリプトの違い、.shファイルの作り方、実行権限の付け方まで具体例で学べます。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。</description>
+      <category>Bash</category>
+      <pubDate>Sat, 30 May 2026 05:14:46 GMT</pubDate>
+      <enclosure url="https://ai-site-iota-nine.vercel.app/og-default.svg" type="image/svg+xml"/>
+    </item>
+    <item>
+      <title>実践：公開APIを叩いてみる</title>
+      <link>https://ai-site-iota-nine.vercel.app/article/http-practice</link>
+      <guid isPermaLink="true">https://ai-site-iota-nine.vercel.app/article/http-practice</guid>
+      <description>JSONPlaceholderの公開APIをcurl・fetch API・DevToolsで実際に叩く hands-on 実践。GET/POST/PUT/DELETE、エラーハンドリング、API連携の一連の流れを体験します。</description>
+      <category>HTTP</category>
+      <pubDate>Sat, 30 May 2026 05:14:43 GMT</pubDate>
+      <enclosure url="https://ai-site-iota-nine.vercel.app/og-default.svg" type="image/svg+xml"/>
+    </item>
+    <item>
+      <title>CORS・エラー・デバッグ</title>
+      <link>https://ai-site-iota-nine.vercel.app/article/http-debugging</link>
+      <guid isPermaLink="true">https://ai-site-iota-nine.vercel.app/article/http-debugging</guid>
+      <description>CORSの仕組みと解決法、HTTPエラー（4xx/5xx）のデバッグ技法を解説。Access-Control-Allow-Origin、プリフライトリクエスト、Network タブでの問題切り分けを学びます。 図解・具体例つきで丁寧に解説します。</description>
+      <category>HTTP</category>
+      <pubDate>Sat, 30 May 2026 05:14:42 GMT</pubDate>
+      <enclosure url="https://ai-site-iota-nine.vercel.app/og-default.svg" type="image/svg+xml"/>
+    </item>
+    <item>
+      <title>curlとDevToolsでAPIを試す</title>
+      <link>https://ai-site-iota-nine.vercel.app/article/http-fetch-tools</link>
+      <guid isPermaLink="true">https://ai-site-iota-nine.vercel.app/article/http-fetch-tools</guid>
+      <description>curlコマンドとChrome DevToolsでHTTPリクエストを送りAPIを試す方法を解説。GET/POST/PUT/DELETE、ヘッダー設定、JSON送信、レスポンス確認を hands-on で学びます。 図解・具体例つきで丁寧に解説します。</description>
+      <category>HTTP</category>
+      <pubDate>Sat, 30 May 2026 05:14:41 GMT</pubDate>
+      <enclosure url="https://ai-site-iota-nine.vercel.app/og-default.svg" type="image/svg+xml"/>
+    </item>
+    <item>
+      <title>REST APIの設計原則</title>
+      <link>https://ai-site-iota-nine.vercel.app/article/http-rest-api</link>
+      <guid isPermaLink="true">https://ai-site-iota-nine.vercel.app/article/http-rest-api</guid>
+      <description>【HTTP初心者向け】REST APIの設計原則を具体例で解説。リソース指向URL、HTTPメソッドの使い分け、JSONレスポンス形式、APIバージョニング、エラーレスポンス設計を学びます。 図解・具体例つきで丁寧に解説します。</description>
+      <category>HTTP</category>
+      <pubDate>Sat, 30 May 2026 05:14:39 GMT</pubDate>
+      <enclosure url="https://ai-site-iota-nine.vercel.app/og-default.svg" type="image/svg+xml"/>
+    </item>
+    <item>
+      <title>HTTPSとTLSの仕組み</title>
+      <link>https://ai-site-iota-nine.vercel.app/article/http-https-tls</link>
+      <guid isPermaLink="true">https://ai-site-iota-nine.vercel.app/article/http-https-tls</guid>
+      <description>【HTTP初心者向け】HTTPSとTLSの仕組みを初心者向けに解説。暗号化通信の必要性、SSL/TLSハンドシェイク、証明書の役割、HTTPからHTTPSへの移行理由を具体例で説明します。 図解・具体例つきで丁寧に解説します。</description>
+      <category>HTTP</category>
+      <pubDate>Sat, 30 May 2026 05:14:38 GMT</pubDate>
+      <enclosure url="https://ai-site-iota-nine.vercel.app/og-default.svg" type="image/svg+xml"/>
+    </item>
+    <item>
+      <title>Cookie・セッション・認証の基礎</title>
+      <link>https://ai-site-iota-nine.vercel.app/article/http-cookies-session</link>
+      <guid isPermaLink="true">https://ai-site-iota-nine.vercel.app/article/http-cookies-session</guid>
+      <description>【HTTP初心者向け】Cookie、セッションID、JWT（JSON Web Token）の仕組みを具体例で解説。Webアプリのログイン・認証の基礎を初心者向けにわかりやすく説明します。 図解・具体例つきで丁寧に解説します。</description>
+      <category>HTTP</category>
+      <pubDate>Sat, 30 May 2026 05:14:37 GMT</pubDate>
+      <enclosure url="https://ai-site-iota-nine.vercel.app/og-default.svg" type="image/svg+xml"/>
+    </item>
+    <item>
+      <title>HTTPヘッダーの役割とよく使う項目</title>
+      <link>https://ai-site-iota-nine.vercel.app/article/http-headers</link>
+      <guid isPermaLink="true">https://ai-site-iota-nine.vercel.app/article/http-headers</guid>
+      <description>Content-Type、Authorization、Cache-Control、CORS関連ヘッダーなど、HTTP開発で必須のヘッダーを具体例と表で解説。API開発の実務知識を身につけます。 図解・具体例つきで丁寧に解説します。</description>
+      <category>HTTP</category>
+      <pubDate>Sat, 30 May 2026 05:14:36 GMT</pubDate>
+      <enclosure url="https://ai-site-iota-nine.vercel.app/og-default.svg" type="image/svg+xml"/>
+    </item>
+    <item>
+      <title>HTTPメソッドとステータスコード完全ガイド</title>
+      <link>https://ai-site-iota-nine.vercel.app/article/http-methods-status</link>
+      <guid isPermaLink="true">https://ai-site-iota-nine.vercel.app/article/http-methods-status</guid>
+      <description>【HTTP初心者向け】GET/POST/PUT/DELETE/PATCHの使い分けと、2xx/3xx/4xx/5xxステータスコードの意味を具体例で解説。REST API設計の基本をマスターします。 図解・具体例つきで丁寧に解説します。</description>
+      <category>HTTP</category>
+      <pubDate>Sat, 30 May 2026 05:14:35 GMT</pubDate>
+      <enclosure url="https://ai-site-iota-nine.vercel.app/og-default.svg" type="image/svg+xml"/>
+    </item>
+    <item>
+      <title>HTTPリクエストとレスポンスの構造を完全理解する</title>
+      <link>https://ai-site-iota-nine.vercel.app/article/http-request-response</link>
+      <guid isPermaLink="true">https://ai-site-iota-nine.vercel.app/article/http-request-response</guid>
+      <description>【HTTP初心者向け】HTTPリクエストとレスポンスの4要素（行・ヘッダー・ボディ）を実際のメッセージ例で解説。GET/POSTの違い、生のHTTPメッセージの読み方を学びます。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。</description>
+      <category>HTTP</category>
+      <pubDate>Sat, 30 May 2026 05:14:34 GMT</pubDate>
+      <enclosure url="https://ai-site-iota-nine.vercel.app/og-default.svg" type="image/svg+xml"/>
+    </item>
+    <item>
+      <title>HTTPとは？Webの通信の仕組みを初心者向けに解説</title>
+      <link>https://ai-site-iota-nine.vercel.app/article/http-intro</link>
+      <guid isPermaLink="true">https://ai-site-iota-nine.vercel.app/article/http-intro</guid>
+      <description>【HTTP初心者向け】HTTPとは何かを初心者向けにわかりやすく解説。クライアント・サーバーモデル、URLの構造、HTTP通信の流れを具体例で説明します。Web API学習の第一歩。 図解・具体例つきで丁寧に解説します。</description>
+      <category>HTTP</category>
+      <pubDate>Sat, 30 May 2026 05:14:33 GMT</pubDate>
+      <enclosure url="https://ai-site-iota-nine.vercel.app/og-default.svg" type="image/svg+xml"/>
+    </item>
+    <item>
+      <title>実践：ログとフォーム検証｜正規表現コース総まとめ【入門】</title>
+      <link>https://ai-site-iota-nine.vercel.app/article/regex-practice</link>
+      <guid isPermaLink="true">https://ai-site-iota-nine.vercel.app/article/regex-practice</guid>
+      <description>【正規表現初心者向け】正規表現入門の総仕上げ。ログ解析・フォーム検証の実践例、テストケース、よくある失敗と次のステップを初心者向けに解説します。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。</description>
+      <category>正規表現</category>
+      <pubDate>Sat, 30 May 2026 05:14:31 GMT</pubDate>
+      <enclosure url="https://ai-site-iota-nine.vercel.app/og-default.svg" type="image/svg+xml"/>
+    </item>
+    <item>
+      <title>grep・エディタ検索での正規表現｜CLIとVS Code活用法【入門】</title>
+      <link>https://ai-site-iota-nine.vercel.app/article/regex-cli-tools</link>
+      <guid isPermaLink="true">https://ai-site-iota-nine.vercel.app/article/regex-cli-tools</guid>
+      <description>【正規表現初心者向け】grep・ripgrep・VS Code検索での正規表現を初心者向けに解説。ログ解析、一括置換、-E -P オプションの違いも学べます。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。</description>
+      <category>正規表現</category>
+      <pubDate>Sat, 30 May 2026 05:14:30 GMT</pubDate>
+      <enclosure url="https://ai-site-iota-nine.vercel.app/og-default.svg" type="image/svg+xml"/>
+    </item>
+    <item>
+      <title>JavaScriptでの正規表現｜RegExp・test・match・replace【入門】</title>
+      <link>https://ai-site-iota-nine.vercel.app/article/regex-javascript</link>
+      <guid isPermaLink="true">https://ai-site-iota-nine.vercel.app/article/regex-javascript</guid>
+      <description>【正規表現初心者向け】JavaScriptでの正規表現を初心者向けに解説。/pattern/flags、test、match、replace、フラグ g i m とエスケープの注意点を学べます。 図解・具体例つきで丁寧に解説します。</description>
+      <category>正規表現</category>
+      <pubDate>Sat, 30 May 2026 05:14:29 GMT</pubDate>
+      <enclosure url="https://ai-site-iota-nine.vercel.app/og-default.svg" type="image/svg+xml"/>
+    </item>
+    <item>
+      <title>先読み・後読み（応用）｜正規表現で条件だけチェックする【入門】</title>
+      <link>https://ai-site-iota-nine.vercel.app/article/regex-lookahead</link>
+      <guid isPermaLink="true">https://ai-site-iota-nine.vercel.app/article/regex-lookahead</guid>
+      <description>【正規表現初心者向け】正規表現の先読み・後読みを初心者向けに解説。?= ?! ?&lt;= ?&lt;! の違い、パスワード条件や価格の抽出例も具体例で学べます。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。</description>
+      <category>正規表現</category>
+      <pubDate>Sat, 30 May 2026 05:14:27 GMT</pubDate>
+      <enclosure url="https://ai-site-iota-nine.vercel.app/og-default.svg" type="image/svg+xml"/>
+    </item>
+    <item>
+      <title>グループとキャプチャ｜正規表現の ( ) と置換【入門】</title>
+      <link>https://ai-site-iota-nine.vercel.app/article/regex-groups</link>
+      <guid isPermaLink="true">https://ai-site-iota-nine.vercel.app/article/regex-groups</guid>
+      <description>【正規表現初心者向け】【正規表現初心者向け】正規表現のグループとキャプチャを初心者向けに解説。括弧での抽出、後方参照、エディタ置換の $1 も具体例で学べます。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。</description>
+      <category>正規表現</category>
+      <pubDate>Sat, 30 May 2026 05:14:26 GMT</pubDate>
+      <enclosure url="https://ai-site-iota-nine.vercel.app/og-default.svg" type="image/svg+xml"/>
+    </item>
+    <item>
+      <title>アンカー ^ $ と単語境界｜正規表現で位置を指定する【入門】</title>
+      <link>https://ai-site-iota-nine.vercel.app/article/regex-anchors</link>
+      <guid isPermaLink="true">https://ai-site-iota-nine.vercel.app/article/regex-anchors</guid>
+      <description>【正規表現初心者向け】正規表現のアンカー ^ $ と単語境界 \b を初心者向けに解説。行全体マッチと部分マッチの違い、複数行モードも学べます。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。</description>
+      <category>正規表現</category>
+      <pubDate>Sat, 30 May 2026 05:14:25 GMT</pubDate>
+      <enclosure url="https://ai-site-iota-nine.vercel.app/og-default.svg" type="image/svg+xml"/>
+    </item>
+    <item>
+      <title>量詞 * + ? {n,m}｜正規表現の繰り返しをマスター【入門】</title>
+      <link>https://ai-site-iota-nine.vercel.app/article/regex-quantifiers</link>
+      <guid isPermaLink="true">https://ai-site-iota-nine.vercel.app/article/regex-quantifiers</guid>
+      <description>【正規表現初心者向け】正規表現の量詞を初心者向けに解説。* 0回以上、+ 1回以上、? 0か1回、{n,m} 回数指定と貪欲マッチの注意点を学べます。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。</description>
+      <category>正規表現</category>
+      <pubDate>Sat, 30 May 2026 05:14:24 GMT</pubDate>
+      <enclosure url="https://ai-site-iota-nine.vercel.app/og-default.svg" type="image/svg+xml"/>
+    </item>
+    <item>
+      <title>文字クラス [] と否定｜正規表現で使える文字の範囲指定【入門】</title>
+      <link>https://ai-site-iota-nine.vercel.app/article/regex-character-classes</link>
+      <guid isPermaLink="true">https://ai-site-iota-nine.vercel.app/article/regex-character-classes</guid>
+      <description>【正規表現初心者向け】正規表現の文字クラス [abc] [0-9] [^x] を初心者向けに解説。プリ定義クラス \d \s と . との違いも具体例で学べます。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。</description>
+      <category>正規表現</category>
+      <pubDate>Sat, 30 May 2026 05:14:23 GMT</pubDate>
+      <enclosure url="https://ai-site-iota-nine.vercel.app/og-default.svg" type="image/svg+xml"/>
+    </item>
+    <item>
+      <title>リテラルとメタ文字の基本｜正規表現の . とエスケープ【初心者向け】</title>
+      <link>https://ai-site-iota-nine.vercel.app/article/regex-literals</link>
+      <guid isPermaLink="true">https://ai-site-iota-nine.vercel.app/article/regex-literals</guid>
+      <description>【正規表現初心者向け】正規表現のリテラルとメタ文字を初心者向けに解説。. 任意の1文字、\ エスケープ、よくある間違いと対処法を具体例で学びます。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。</description>
+      <category>正規表現</category>
+      <pubDate>Sat, 30 May 2026 05:14:22 GMT</pubDate>
+      <enclosure url="https://ai-site-iota-nine.vercel.app/og-default.svg" type="image/svg+xml"/>
+    </item>
+    <item>
+      <title>正規表現とは？いつ使うのかを初心者向けに解説【正規表現入門】</title>
+      <link>https://ai-site-iota-nine.vercel.app/article/regex-intro</link>
+      <guid isPermaLink="true">https://ai-site-iota-nine.vercel.app/article/regex-intro</guid>
+      <description>【正規表現初心者向け】正規表現入門の第一歩。正規表現とは何か、ログ解析・バリデーション・検索置換での使い道をゼロから丁寧に説明。regex 初心者必読。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。</description>
+      <category>正規表現</category>
+      <pubDate>Sat, 30 May 2026 05:14:21 GMT</pubDate>
+      <enclosure url="https://ai-site-iota-nine.vercel.app/og-default.svg" type="image/svg+xml"/>
+    </item>
+    <item>
+      <title>実践：プロジェクトREADMEを一から作る｜Markdown総仕上げ</title>
+      <link>https://ai-site-iota-nine.vercel.app/article/markdown-practice</link>
+      <guid isPermaLink="true">https://ai-site-iota-nine.vercel.app/article/markdown-practice</guid>
+      <description>【Markdown初心者向け】Markdown講座の総仕上げとして、プロジェクトREADMEを一から作る手順、チェックリスト、仕上げ時の失敗例を具体例で解説します。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。</description>
+      <category>Markdown</category>
+      <pubDate>Sat, 30 May 2026 05:14:19 GMT</pubDate>
+      <enclosure url="https://ai-site-iota-nine.vercel.app/og-default.svg" type="image/svg+xml"/>
+    </item>
+    <item>
+      <title>エディタ・プレビュー・Lint｜Markdown執筆を効率化するツール</title>
+      <link>https://ai-site-iota-nine.vercel.app/article/markdown-tools</link>
+      <guid isPermaLink="true">https://ai-site-iota-nine.vercel.app/article/markdown-tools</guid>
+      <description>【Markdown初心者向け】VS CodeでのMarkdown執筆、markdownlint・Prettier設定、プレビューとMkDocsなど静的サイト生成の選び方を具体例で解説します。 図解・具体例つきで丁寧に解説します。</description>
+      <category>Markdown</category>
+      <pubDate>Sat, 30 May 2026 05:14:18 GMT</pubDate>
+      <enclosure url="https://ai-site-iota-nine.vercel.app/og-default.svg" type="image/svg+xml"/>
+    </item>
+    <item>
+      <title>技術ドキュメントの構成設計｜読まれるMarkdownの組み立て方</title>
+      <link>https://ai-site-iota-nine.vercel.app/article/markdown-docs-structure</link>
+      <guid isPermaLink="true">https://ai-site-iota-nine.vercel.app/article/markdown-docs-structure</guid>
+      <description>【Markdown初心者向け】Markdownで設計書・運用手順・ADRを整理する方法、docsフォルダ構成、読者別の書き分けとドキュメント負債の防ぎ方を解説します。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。</description>
+      <category>Markdown</category>
+      <pubDate>Sat, 30 May 2026 05:14:17 GMT</pubDate>
+      <enclosure url="https://ai-site-iota-nine.vercel.app/og-default.svg" type="image/svg+xml"/>
+    </item>
+    <item>
+      <title>GitHub READMEの書き方｜公開リポジトリの顔を整える</title>
+      <link>https://ai-site-iota-nine.vercel.app/article/markdown-github-readme</link>
+      <guid isPermaLink="true">https://ai-site-iota-nine.vercel.app/article/markdown-github-readme</guid>
+      <description>【Markdown初心者向け】GitHub README.mdの構成、バッジ、目次、ライセンス表記、コントリビューションガイドの書き方と失敗例を具体例で解説します。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。</description>
+      <category>Markdown</category>
+      <pubDate>Sat, 30 May 2026 05:14:16 GMT</pubDate>
+      <enclosure url="https://ai-site-iota-nine.vercel.app/og-default.svg" type="image/svg+xml"/>
+    </item>
+    <item>
+      <title>コードブロックと表｜Markdownで技術内容を正確に書く</title>
+      <link>https://ai-site-iota-nine.vercel.app/article/markdown-code-tables</link>
+      <guid isPermaLink="true">https://ai-site-iota-nine.vercel.app/article/markdown-code-tables</guid>
+      <description>【Markdown初心者向け】Markdownのインラインコード、```によるコードブロック、シンタックスハイライト、表の書き方とよくある崩れを具体例で解説します。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。</description>
+      <category>Markdown</category>
+      <pubDate>Sat, 30 May 2026 05:14:16 GMT</pubDate>
+      <enclosure url="https://ai-site-iota-nine.vercel.app/og-default.svg" type="image/svg+xml"/>
+    </item>
+    <item>
+      <title>リスト・リンク・画像｜Markdownで情報を整理する</title>
+      <link>https://ai-site-iota-nine.vercel.app/article/markdown-lists-links</link>
+      <guid isPermaLink="true">https://ai-site-iota-nine.vercel.app/article/markdown-lists-links</guid>
+      <description>【Markdown初心者向け】Markdownの箇条書き、番号リスト、リンク・画像の記法とネストのルール、相対パスの失敗例を具体例で解説します。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。</description>
+      <category>Markdown</category>
+      <pubDate>Sat, 30 May 2026 05:14:14 GMT</pubDate>
+      <enclosure url="https://ai-site-iota-nine.vercel.app/og-default.svg" type="image/svg+xml"/>
+    </item>
+    <item>
+      <title>見出し・段落・強調の基本｜Markdown記法入門</title>
+      <link>https://ai-site-iota-nine.vercel.app/article/markdown-basic-syntax</link>
+      <guid isPermaLink="true">https://ai-site-iota-nine.vercel.app/article/markdown-basic-syntax</guid>
+      <description>【Markdown初心者向け】Markdownの見出しレベル、段落の空行ルール、太字・斜体の記法と失敗例を具体例で解説。markdown 書き方の基礎を固めます。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。</description>
+      <category>Markdown</category>
+      <pubDate>Sat, 30 May 2026 05:14:13 GMT</pubDate>
+      <enclosure url="https://ai-site-iota-nine.vercel.app/og-default.svg" type="image/svg+xml"/>
+    </item>
+    <item>
+      <title>Markdownとは？技術文書を書く理由と全体像</title>
+      <link>https://ai-site-iota-nine.vercel.app/article/markdown-intro</link>
+      <guid isPermaLink="true">https://ai-site-iota-nine.vercel.app/article/markdown-intro</guid>
+      <description>【Markdown初心者向け】Markdownの意味、Word・HTMLとの違い、GitHub READMEで使う理由を初心者向けに解説。技術文書を書き始める第一歩として読めます。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。</description>
+      <category>Markdown</category>
+      <pubDate>Sat, 30 May 2026 05:14:13 GMT</pubDate>
+      <enclosure url="https://ai-site-iota-nine.vercel.app/og-default.svg" type="image/svg+xml"/>
+    </item>
     <item>
       <title>Node.js・Python WebアプリをDockerコンテナ化する実践ガイド</title>
       <link>https://ai-site-iota-nine.vercel.app/article/docker-webapp-practice</link>
@@ -281,7 +695,7 @@
       <title>Linux 実践コマンド集｜現場で使える linux コマンド テクニック総まとめ</title>
       <link>https://ai-site-iota-nine.vercel.app/article/linux-commands-practice</link>
       <guid isPermaLink="true">https://ai-site-iota-nine.vercel.app/article/linux-commands-practice</guid>
-      <description>【Linux初心者向け】linux コマンドの実践テクニックを総まとめ。find xargs ssh apt シェルスクリプト基礎まで、現場で使えるターミナル 使い方をすべて解説します。 図解・具体例つきで丁寧に解説します。</description>
+      <description>Linuxコマンド総合演習：ログ確認・ディスク調査・ファイル操作の実践例を解説。本番での危険操作やコマンド記録の失敗例も紹介します。</description>
       <category>Linux</category>
       <pubDate>Sat, 30 May 2026 04:13:06 GMT</pubDate>
       <enclosure url="https://ai-site-iota-nine.vercel.app/og-default.svg" type="image/svg+xml"/>
@@ -290,7 +704,7 @@
       <title>env export .bashrc PATH の使い方｜Linux 環境変数 シェル設定</title>
       <link>https://ai-site-iota-nine.vercel.app/article/linux-environment</link>
       <guid isPermaLink="true">https://ai-site-iota-nine.vercel.app/article/linux-environment</guid>
-      <description>【Linux初心者向け】linux コマンドの env export .bashrc PATH の使い方をわかりやすく解説。環境変数の設定とシェルのカスタマイズをマスターしましょう。 図解・具体例つきで丁寧に解説します。</description>
+      <description>Linuxの環境変数、export、PATH、.bashrcの設定を解説。PATH上書きや設定反映忘れなど、つまずきポイントを失敗例付きで紹介します。</description>
       <category>Linux</category>
       <pubDate>Sat, 30 May 2026 04:13:06 GMT</pubDate>
       <enclosure url="https://ai-site-iota-nine.vercel.app/og-default.svg" type="image/svg+xml"/>
@@ -299,7 +713,7 @@
       <title>パイプ（|）とリダイレクト（&gt; &gt;&gt; 2&gt;&amp;1）の使い方【Linux中級】</title>
       <link>https://ai-site-iota-nine.vercel.app/article/linux-pipe-redirect</link>
       <guid isPermaLink="true">https://ai-site-iota-nine.vercel.app/article/linux-pipe-redirect</guid>
-      <description>【Linux初心者向け】linux コマンドのパイプ（|）とリダイレクト（&gt; &gt;&gt; 2&gt;&amp;1）の使い方をわかりやすく解説。コマンドを組み合わせて強力なデータ処理をマスターしましょう。 図解・具体例つきで丁寧に解説します。</description>
+      <description>Linuxのパイプ（|）とリダイレクト（&gt; &gt;&gt; 2&gt;&amp;1）を解説。上書き消去やstderrの取りこぼしなど、つまずきやすい失敗例を具体例で紹介します。</description>
       <category>Linux</category>
       <pubDate>Sat, 30 May 2026 04:13:05 GMT</pubDate>
       <enclosure url="https://ai-site-iota-nine.vercel.app/og-default.svg" type="image/svg+xml"/>
@@ -308,7 +722,7 @@
       <title>ps top kill jobs の使い方｜Linux プロセス管理 コマンド 解説</title>
       <link>https://ai-site-iota-nine.vercel.app/article/linux-processes</link>
       <guid isPermaLink="true">https://ai-site-iota-nine.vercel.app/article/linux-processes</guid>
-      <description>【Linux初心者向け】ps top kill jobs コマンドの使い方をわかりやすく解説。linux コマンドでのプロセス確認・監視・終了方法をマスターしましょう。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。</description>
+      <description>ps・top・kill・jobsによるLinuxプロセス管理を解説。kill -9の乱用やバックグラウンドジョブの見落としなど失敗例を具体例で紹介します。</description>
       <category>Linux</category>
       <pubDate>Sat, 30 May 2026 04:13:05 GMT</pubDate>
       <enclosure url="https://ai-site-iota-nine.vercel.app/og-default.svg" type="image/svg+xml"/>
@@ -317,7 +731,7 @@
       <title>chmod chown の使い方｜Linux ファイル権限 rwx パーミッション解説</title>
       <link>https://ai-site-iota-nine.vercel.app/article/linux-permissions</link>
       <guid isPermaLink="true">https://ai-site-iota-nine.vercel.app/article/linux-permissions</guid>
-      <description>【Linux初心者向け】chmod chown コマンドの使い方をわかりやすく解説。linux コマンドでのファイル権限（rwx）設定、所有者変更、sudoの基本をマスターしましょう。 図解・具体例つきで丁寧に解説します。</description>
+      <description>Linuxのrwx権限、chmod・chownの使い方を解説。777の乱用や実行権限忘れなど、初心者がつまずく失敗例を具体例で紹介します。</description>
       <category>Linux</category>
       <pubDate>Sat, 30 May 2026 04:13:04 GMT</pubDate>
       <enclosure url="https://ai-site-iota-nine.vercel.app/og-default.svg" type="image/svg+xml"/>
@@ -326,7 +740,7 @@
       <title>cat less head tail grep の使い方｜Linux ファイル表示・検索コマンド</title>
       <link>https://ai-site-iota-nine.vercel.app/article/linux-view-search</link>
       <guid isPermaLink="true">https://ai-site-iota-nine.vercel.app/article/linux-view-search</guid>
-      <description>【Linux初心者向け】cat less head tail grep コマンドの使い方をわかりやすく解説。linux コマンドでファイルの表示・検索をマスターしましょう。ログ確認にも役立ちます。 図解・具体例つきで丁寧に解説します。</description>
+      <description>cat・less・grep・head・tailによるLinuxの表示と検索を解説。巨大ファイルのcatやgrepの区別など、つまずきポイントを失敗例付きで紹介します。</description>
       <category>Linux</category>
       <pubDate>Sat, 30 May 2026 04:13:03 GMT</pubDate>
       <enclosure url="https://ai-site-iota-nine.vercel.app/og-default.svg" type="image/svg+xml"/>
@@ -335,7 +749,7 @@
       <title>touch cp mv rm nano の使い方｜Linux ファイル操作 コマンド</title>
       <link>https://ai-site-iota-nine.vercel.app/article/linux-file-operations</link>
       <guid isPermaLink="true">https://ai-site-iota-nine.vercel.app/article/linux-file-operations</guid>
-      <description>【Linux初心者向け】touch cp mv rm nano コマンドの使い方を初心者向けに解説。linux コマンドでファイルの作成・コピー・移動・削除・編集をマスターしましょう。 図解・具体例つきで丁寧に解説します。</description>
+      <description>touch・cp・mv・rm・nanoによるLinuxファイル操作を解説。rmの危険性や上書きの失敗例など、実務で注意すべき点を具体例で紹介します。</description>
       <category>Linux</category>
       <pubDate>Sat, 30 May 2026 04:13:03 GMT</pubDate>
       <enclosure url="https://ai-site-iota-nine.vercel.app/og-default.svg" type="image/svg+xml"/>
@@ -344,7 +758,7 @@
       <title>ls cd pwd mkdir の使い方｜Linux ファイル操作 コマンド 入門</title>
       <link>https://ai-site-iota-nine.vercel.app/article/linux-files-directories</link>
       <guid isPermaLink="true">https://ai-site-iota-nine.vercel.app/article/linux-files-directories</guid>
-      <description>【Linux初心者向け】ls cd pwd mkdir コマンドの使い方をわかりやすく解説。linux コマンドでディレクトリの移動・作成・確認をマスターしましょう。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。</description>
+      <description>ls・cd・pwd・mkdirの使い方とLinuxディレクトリ構造を解説。pwd忘れやパスのクォート漏れなど、初心者の失敗例を具体例で紹介します。</description>
       <category>Linux</category>
       <pubDate>Sat, 30 May 2026 04:13:02 GMT</pubDate>
       <enclosure url="https://ai-site-iota-nine.vercel.app/og-default.svg" type="image/svg+xml"/>
@@ -353,7 +767,7 @@
       <title>ターミナルの開き方と基本操作｜linux コマンド ターミナル 使い方</title>
       <link>https://ai-site-iota-nine.vercel.app/article/linux-terminal-basics</link>
       <guid isPermaLink="true">https://ai-site-iota-nine.vercel.app/article/linux-terminal-basics</guid>
-      <description>【Linux初心者向け】ターミナルの開き方からカーソル移動・コマンド履歴・タブ補完まで、ターミナル 使い方の基本を初心者向けにわかりやすく解説します。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。</description>
+      <description>Linuxターミナルの開き方、カーソル移動、履歴・Tab補完の基本操作を解説。入力効率のつまずきポイントと失敗例を具体例で紹介します。</description>
       <category>Linux</category>
       <pubDate>Sat, 30 May 2026 04:13:01 GMT</pubDate>
       <enclosure url="https://ai-site-iota-nine.vercel.app/og-default.svg" type="image/svg+xml"/>
@@ -362,7 +776,7 @@
       <title>Linuxとは？コマンドラインの世界へようこそ【初心者向け完全入門】</title>
       <link>https://ai-site-iota-nine.vercel.app/article/linux-intro</link>
       <guid isPermaLink="true">https://ai-site-iota-nine.vercel.app/article/linux-intro</guid>
-      <description>【Linux初心者向け】Linuxとは何かを初心者向けにわかりやすく解説。linux コマンドの基礎、ターミナル 使い方、Linuxが使われる理由まで丁寧に説明します。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。</description>
+      <description>Linuxとは何か、CLIの基本、WSLでの試し方を初心者向けに解説。distroの違いやコマンド暗記の罠など、つまずきポイントも紹介します。</description>
       <category>Linux</category>
       <pubDate>Sat, 30 May 2026 04:13:01 GMT</pubDate>
       <enclosure url="https://ai-site-iota-nine.vercel.app/og-default.svg" type="image/svg+xml"/>
@@ -371,7 +785,7 @@
       <title>実践：CLI TODOツールを作ろう</title>
       <link>https://ai-site-iota-nine.vercel.app/article/python-mini-project</link>
       <guid isPermaLink="true">https://ai-site-iota-nine.vercel.app/article/python-mini-project</guid>
-      <description>Python入門の総まとめ：クラス・JSON保存・例外処理・ループを組み合わせたCLI TODOツールを作成します。コードをステップバイステップで解説し、Pythonの実践力を身につけます。 図解・具体例つきで丁寧に解説します。</description>
+      <description>Python入門の総仕上げ：CLI TODOツールをステップごとに構築。クラス・JSON保存・例外処理を組み合わせ、つまずきやすい進め方の失敗例も解説します。</description>
       <category>Python</category>
       <pubDate>Sat, 30 May 2026 04:13:00 GMT</pubDate>
       <enclosure url="https://ai-site-iota-nine.vercel.app/og-default.svg" type="image/svg+xml"/>
@@ -380,7 +794,7 @@
       <title>クラスの基礎（class, __init__, メソッド）</title>
       <link>https://ai-site-iota-nine.vercel.app/article/python-classes</link>
       <guid isPermaLink="true">https://ai-site-iota-nine.vercel.app/article/python-classes</guid>
-      <description>Python入門：classによるオブジェクト指向プログラミングを初心者向けに解説。__init__コンストラクタ・インスタンスメソッド・継承・カプセル化まで豊富なコード例で学べます。 図解・具体例つきで丁寧に解説します。</description>
+      <description>Pythonのclass・__init__・メソッドによるオブジェクト指向の基礎を解説。self忘れやクラスとインスタンスの混同など失敗例を具体例で紹介します。</description>
       <category>Python</category>
       <pubDate>Sat, 30 May 2026 04:12:59 GMT</pubDate>
       <enclosure url="https://ai-site-iota-nine.vercel.app/og-default.svg" type="image/svg+xml"/>
@@ -389,7 +803,7 @@
       <title>例外処理（try/except）</title>
       <link>https://ai-site-iota-nine.vercel.app/article/python-exceptions</link>
       <guid isPermaLink="true">https://ai-site-iota-nine.vercel.app/article/python-exceptions</guid>
-      <description>Python入門：try/except例外処理を初心者向けにわかりやすく解説。よくある例外の種類・except/else/finally・raise・カスタム例外まで豊富なコード例で学べます。 図解・具体例つきで丁寧に解説します。</description>
+      <description>Pythonのtry/except例外処理を解説。よくある例外の種類、exceptの書き方、握りつぶしの失敗例をコード例付きで紹介します。</description>
       <category>Python</category>
       <pubDate>Sat, 30 May 2026 04:12:59 GMT</pubDate>
       <enclosure url="https://ai-site-iota-nine.vercel.app/og-default.svg" type="image/svg+xml"/>
@@ -398,7 +812,7 @@
       <title>モジュールとパッケージ（import, pip install）</title>
       <link>https://ai-site-iota-nine.vercel.app/article/python-modules</link>
       <guid isPermaLink="true">https://ai-site-iota-nine.vercel.app/article/python-modules</guid>
-      <description>Python入門：import文の使い方・標準ライブラリ・pipでのライブラリインストール・仮想環境を初心者向けに解説。os・sys・datetime・randomなど便利モジュールの使い方も紹介します。 図解・具体例つきで丁寧に解説します。</description>
+      <description>Pythonのimport・標準ライブラリ・pip installを解説。ModuleNotFoundErrorや仮想環境の必要性など、つまずきポイントを失敗例付きで紹介します。</description>
       <category>Python</category>
       <pubDate>Sat, 30 May 2026 04:12:58 GMT</pubDate>
       <enclosure url="https://ai-site-iota-nine.vercel.app/og-default.svg" type="image/svg+xml"/>
@@ -407,7 +821,7 @@
       <title>ファイルの読み書き（open, read, write）</title>
       <link>https://ai-site-iota-nine.vercel.app/article/python-file-io</link>
       <guid isPermaLink="true">https://ai-site-iota-nine.vercel.app/article/python-file-io</guid>
-      <description>Python入門：open()関数でのファイル読み書きを初心者向けに解説。withブロック・r/w/aモード・テキストファイル・CSVファイルの操作を豊富なコード例付きで説明します。 図解・具体例つきで丁寧に解説します。</description>
+      <description>Pythonのopen()・read()・write()とwithブロックによるファイル操作を解説。encoding指定やclose忘れなど失敗例を具体例付きで紹介します。</description>
       <category>Python</category>
       <pubDate>Sat, 30 May 2026 04:12:58 GMT</pubDate>
       <enclosure url="https://ai-site-iota-nine.vercel.app/og-default.svg" type="image/svg+xml"/>
@@ -416,7 +830,7 @@
       <title>リストと辞書</title>
       <link>https://ai-site-iota-nine.vercel.app/article/python-list-dict</link>
       <guid isPermaLink="true">https://ai-site-iota-nine.vercel.app/article/python-list-dict</guid>
-      <description>【Python初心者向け】Python入門：リスト（list）と辞書（dict）の作成・追加・削除・検索を初心者向けに解説。スライス・内包表記・よく使うメソッドも豊富なコード例付きで説明します。 図解・具体例つきで丁寧に解説します。</description>
+      <description>Pythonのリストと辞書の作成・追加・検索・スライスを解説。KeyErrorやループ中の削除など、つまずきやすい失敗例を具体例で紹介します。</description>
       <category>Python</category>
       <pubDate>Sat, 30 May 2026 04:12:57 GMT</pubDate>
       <enclosure url="https://ai-site-iota-nine.vercel.app/og-default.svg" type="image/svg+xml"/>
@@ -425,7 +839,7 @@
       <title>関数の定義と使い方（def, 引数, return）</title>
       <link>https://ai-site-iota-nine.vercel.app/article/python-functions</link>
       <guid isPermaLink="true">https://ai-site-iota-nine.vercel.app/article/python-functions</guid>
-      <description>【Python初心者向け】Python入門：def文による関数の定義・引数・return文をわかりやすく解説。デフォルト引数・キーワード引数・可変長引数・スコープまで豊富なコード例で学べます。 図解・具体例つきで丁寧に解説します。</description>
+      <description>Pythonのdef・引数・returnによる関数定義を解説。return忘れやデフォルト引数の罠など、実務で起きやすい失敗例をコード例付きで紹介します。</description>
       <category>Python</category>
       <pubDate>Sat, 30 May 2026 04:12:56 GMT</pubDate>
       <enclosure url="https://ai-site-iota-nine.vercel.app/og-default.svg" type="image/svg+xml"/>
@@ -434,7 +848,7 @@
       <title>for/while ループ</title>
       <link>https://ai-site-iota-nine.vercel.app/article/python-loops</link>
       <guid isPermaLink="true">https://ai-site-iota-nine.vercel.app/article/python-loops</guid>
-      <description>Python入門：for文・while文のループ処理を初心者向けにわかりやすく解説。range()・break・continue・enumerate()・zip()まで豊富なコード例付きで説明します。 図解・具体例つきで丁寧に解説します。</description>
+      <description>Pythonのfor・whileループ、range()・break・continueを解説。無限ループやrange()の範囲など、初心者のつまずきポイントを失敗例付きで紹介します。</description>
       <category>Python</category>
       <pubDate>Sat, 30 May 2026 04:12:55 GMT</pubDate>
       <enclosure url="https://ai-site-iota-nine.vercel.app/og-default.svg" type="image/svg+xml"/>
@@ -443,7 +857,7 @@
       <title>条件分岐 if/elif/else</title>
       <link>https://ai-site-iota-nine.vercel.app/article/python-conditions</link>
       <guid isPermaLink="true">https://ai-site-iota-nine.vercel.app/article/python-conditions</guid>
-      <description>【Python初心者向け】Python入門：if・elif・elseの条件分岐を初心者向けにわかりやすく解説。比較演算子・論理演算子・ネスト・三項演算子まで豊富なコード例で学べます。 図解・具体例つきで丁寧に解説します。</description>
+      <description>Pythonのif・elif・else条件分岐を解説。比較演算子・論理演算子・インデントの注意点と、初心者がつまずく失敗例をコード例付きで紹介します。</description>
       <category>Python</category>
       <pubDate>Sat, 30 May 2026 04:12:55 GMT</pubDate>
       <enclosure url="https://ai-site-iota-nine.vercel.app/og-default.svg" type="image/svg+xml"/>
@@ -452,7 +866,7 @@
       <title>変数とデータ型（int, float, str, bool）</title>
       <link>https://ai-site-iota-nine.vercel.app/article/python-variables</link>
       <guid isPermaLink="true">https://ai-site-iota-nine.vercel.app/article/python-variables</guid>
-      <description>【Python初心者向け】Python入門：変数の宣言と代入、int・float・str・boolの4つの基本データ型を初心者向けにわかりやすく解説。type()関数や型変換の使い方も紹介します。 図解・具体例つきで丁寧に解説します。</description>
+      <description>Pythonの変数と4つの基本データ型（int・float・str・bool）を解説。type()による型確認、型変換、f文字列の使い方とよくある失敗例を紹介します。</description>
       <category>Python</category>
       <pubDate>Sat, 30 May 2026 04:12:54 GMT</pubDate>
       <enclosure url="https://ai-site-iota-nine.vercel.app/og-default.svg" type="image/svg+xml"/>
@@ -461,7 +875,7 @@
       <title>Pythonのインストールと動作確認</title>
       <link>https://ai-site-iota-nine.vercel.app/article/python-install</link>
       <guid isPermaLink="true">https://ai-site-iota-nine.vercel.app/article/python-install</guid>
-      <description>PythonをWindowsとMacにインストールする手順をスクリーンショット付きで解説。python --versionで動作確認し、Hello Worldを実行するまでをわかりやすく説明します。 図解・具体例つきで丁寧に解説します。</description>
+      <description>PythonのWindows・Macインストール手順と動作確認。PATH設定の注意点、python3の使い分け、Hello World実行までを具体例で解説します。</description>
       <category>Python</category>
       <pubDate>Sat, 30 May 2026 04:12:54 GMT</pubDate>
       <enclosure url="https://ai-site-iota-nine.vercel.app/og-default.svg" type="image/svg+xml"/>
@@ -470,7 +884,7 @@
       <title>Pythonとは？プログラミングの第一歩</title>
       <link>https://ai-site-iota-nine.vercel.app/article/python-intro</link>
       <guid isPermaLink="true">https://ai-site-iota-nine.vercel.app/article/python-intro</guid>
-      <description>【Python初心者向け】Python入門の第一歩。Pythonの特徴・歴史・用途をわかりやすく解説。初心者がプログラミングを始めるのにPythonが最適な理由を詳しく紹介します。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。</description>
+      <description>Pythonとは何かを初心者向けに解説。特徴・用途・Python 3の前提を押さえ、プログラミング入門の第一歩として学ぶ理由を具体例付きで説明します。</description>
       <category>Python</category>
       <pubDate>Sat, 30 May 2026 04:12:54 GMT</pubDate>
       <enclosure url="https://ai-site-iota-nine.vercel.app/og-default.svg" type="image/svg+xml"/>

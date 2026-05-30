@@ -1,0 +1,14 @@
+{
+  "slug": "markdown-tools",
+  "courseId": "markdown",
+  "episode": 7,
+  "summaryMemory": [
+    "基本はVS Code＋プレビュー＋markdownlint、GitHubでも最終確認",
+    "markdownlintは必要なルールだけOFF、全無効は避ける",
+    "PrettierはproseWrap preserveが日本語向きのことが多い",
+    "大規模文書はMkDocs等のSSGでdocs/からサイト化",
+    "CIでlintとリンク切れチェックをPR時に実行できる"
+  ],
+  "nextEpisodeHint": "最終回では、架空または実プロジェクトのREADMEをゼロから組み立て、チェックリストで品質を確認する実践課題に取り組みます。",
+  "updatedAt": "2026-05-30T05:14:18.706Z"
+}

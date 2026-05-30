@@ -1,0 +1,13 @@
+{
+  "slug": "http-headers",
+  "courseId": "http",
+  "episode": 4,
+  "summaryMemory": [
+    "Content-Typeはボディの形式（application/json等）を指定する最重要ヘッダー",
+    "Authorization: Bearer <token> が現代APIの主流認証方式",
+    "Cache-Controlでキャッシュ方針を制御（機密APIはno-store）",
+    "CORSヘッダー（Access-Control-Allow-Origin等）でクロスオリジンアクセスを制御"
+  ],
+  "nextEpisodeHint": "次回は、Cookie・セッション・JWT認証の仕組みと、Webアプリでのログイン実装の基礎を解説します。",
+  "updatedAt": "2026-05-30T05:14:36.530Z"
+}

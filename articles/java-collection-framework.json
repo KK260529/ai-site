@@ -1,9 +1,9 @@
 {
   "slug": "java-collection-framework",
-  "title": "Javaのコレクションフレームワーク",
-  "summary": "List、Set、Map の使い分けと ArrayList、HashMap の基本操作を学びます。ジェネリクス付きコレクションの書き方も押さえます。",
-  "body": "<h2>導入</h2><p>複数のデータをまとめて扱う仕組みが<strong>コレクションフレームワーク</strong>です。配列より柔軟で、標準 API が豊富です。</p><h2>List（リスト）</h2><pre><code>List&lt;String&gt; names = new ArrayList&lt;&gt;();\nnames.add(\"Java\");\nnames.add(\"Kotlin\");\nSystem.out.println(names.get(0));</code></pre><p>順序があり、同じ要素を許容します。インデックスでアクセスできます。</p><h3>Set（セット）</h3><pre><code>Set&lt;Integer&gt; ids = new HashSet&lt;&gt;();\nids.add(1);\nids.add(1);\nSystem.out.println(ids.size()); // 1</code></pre><p>重複を許しません。存在確認に向いています。</p><h2>Map（マップ）</h2><pre><code>Map&lt;String, Integer&gt; scores = new HashMap&lt;&gt;();\nscores.put(\"Alice\", 90);\nscores.put(\"Bob\", 85);\nSystem.out.println(scores.get(\"Alice\"));</code></pre><p>キーと値のペアでデータを管理します。辞書のようなイメージです。</p><h2>使い分けの目安</h2><ul><li>順序付きリスト → ArrayList</li><li>重複排除 → HashSet</li><li>ID からオブジェクト検索 → HashMap</li></ul><h3>よくある誤解</h3><p>配列と List は似ていますが、List はサイズ可変で便利なメソッドが多いです。新規コードでは List を優先することが多いです。</p><h2>確認方法</h2><p>小さな単語カウンタを Map で作り、入力単語の出現回数を数えてみてください。</p><h2>まとめ</h2><p>コレクションは Java 実務の中心です。List / Set / Map の特性を理解し、ジェネリクス付きで型安全に使いましょう。</p>",
-  "conclusion": "コレクションフレームワークでは List・Set・Map の違いが最重要です。ArrayList と HashMap を自由に使えるよう練習し、次回の Stream API へ進みましょう。",
+  "title": "Javaコレクション｜List・Set・Mapの使い分け",
+  "summary": "Collection FrameworkのList/Set/Map、ArrayList/HashMap/HashSet、ジェネリクス、イテレーションと失敗例（ConcurrentModificationException等）を学びます。",
+  "body": "<h2>結論：Listは順序付き重複可、Setは重複不可、Mapはキーと値のペア</h2>\n<p><code>java.util</code> のコレクションはデータ構造を標準APIで扱う仕組みです。型安全のため<strong>ジェネリクス</strong> <code>List&lt;String&gt;</code> を使います。</p>\n\n<h2>List — ArrayList</h2>\n<pre><code>List&lt;String&gt; names = new ArrayList&lt;&gt;();\nnames.add(\"Alice\");\nnames.add(\"Bob\");\nnames.get(0); // Alice\nnames.size();</code></pre>\n\n<h2>Set — HashSet</h2>\n<pre><code>Set&lt;Integer&gt; ids = new HashSet&lt;&gt;();\nids.add(1);\nids.add(1); // 重複は無視\nids.size(); // 1</code></pre>\n\n<h2>Map — HashMap</h2>\n<pre><code>Map&lt;String, Integer&gt; scores = new HashMap&lt;&gt;();\nscores.put(\"Taro\", 90);\nscores.get(\"Taro\");\nscores.getOrDefault(\"Unknown\", 0);</code></pre>\n\n<h3>失敗例：ループ中のremove</h3>\n<pre><code>for (String s : list) {\n    if (s.isEmpty()) list.remove(s); // ConcurrentModificationException\n}</code></pre>\n<p><code>iterator.remove()</code> や <code>removeIf</code> を使います。</p>\n\n<h3>失敗例：生の型（raw type）</h3>\n<pre><code>List list = new ArrayList(); // 非推奨: 型安全でない</code></pre>\n\n<h2>まとめ</h2>\n<p>用途に応じてList/Set/Mapを選び、ジェネリクスで型を固定します。次回はStream APIで宣言的にコレクションを処理します。</p>",
+  "conclusion": "JavaコレクションはArrayList/HashSet/HashMapが基本で、ジェネリクスで型安全に扱います。拡張for中のremoveとraw typeは典型の失敗です。単語リストの重複除去やスコアMapを作って操作を試しましょう。",
   "tags": [
     "Java",
     "コレクション",
@@ -13,12 +13,12 @@
   "theme": "java - Java",
   "status": "published",
   "createdAt": "2026-05-29T14:36:45.024Z",
-  "updatedAt": "2026-05-30T05:01:32.237Z",
+  "updatedAt": "2026-05-30T05:18:37.092Z",
   "publishedAt": "2026-05-29T14:36:45.024Z",
-  "metaTitle": "Javaのコレクションフレームワーク｜プログラミング入門 | StackShelf",
-  "metaDescription": "List、Set、Map の使い分けと ArrayList、HashMap の基本操作を学びます。ジェネリクス付きコレクションの書き方も押さえます。",
+  "metaTitle": "Javaコレクション入門｜List・Set・Map | StackShelf",
+  "metaDescription": "JavaのArrayList/HashMap/HashSet、ジェネリクス、ConcurrentModificationExceptionなど失敗例を解説します。",
   "ogTitle": "Javaのコレクションフレームワーク",
-  "ogDescription": "List、Set、Map の使い分けと ArrayList、HashMap の基本操作を学びます。ジェネリクス付きコレクションの書き方も押さえます。",
+  "ogDescription": "List/Set/Mapの使い分けと典型ミスを学べます。",
   "knowledge": {
     "topic": "java",
     "courseId": "java",
@@ -26,27 +26,27 @@
   },
   "faq": [
     {
-      "question": "ArrayList と LinkedList の違いは？",
-      "answer": "ArrayList は末尾追加が速く、LinkedList は先頭付近の挿入削除に向く場合があります。"
+      "question": "ArrayList と LinkedList？",
+      "answer": "ArrayListは末尾追加・ランダムアクセスが速い。LinkedListは先頭挿入に有利だが多くの場合ArrayListで十分。"
     },
     {
-      "question": "null は入れられる？",
-      "answer": "多くの実装では null を許容しますが、設計上は避けることが多いです。"
+      "question": "HashMap のキーに mutable オブジェクトは？",
+      "answer": "equals/hashCodeが変わると検索不能になる。キーは不変（String等）が安全。"
     },
     {
-      "question": "つまずいたときはどうすればいいですか？",
-      "answer": "エラーメッセージをそのまま検索し、公式ドキュメントを当たってください。小さなステップに分けて再現・確認すると原因を特定しやすくなります。"
+      "question": "TreeMap/TreeSet は？",
+      "answer": "ソート順を保つ。Comparable/Comparatorが必要。"
     },
     {
-      "question": "どのくらいのペースで学べばいいですか？",
-      "answer": "1日30分〜1時間、週に3〜4回のペースが続けやすい目安です。読むだけでなく、必ず手を動かして確認しましょう。"
+      "question": "Collections.unmodifiableList は？",
+      "answer": "ラッパーで変更禁止。Java 9+はList.copyOfで不変コピー。"
     },
     {
-      "question": "この記事の内容を忘れないコツは？",
-      "answer": "学んだ直後にメモを残し、翌日にもう一度短時間復習してください。実際のプロジェクトや練習問題に当てはめると記憶に定着しやすくなります。"
+      "question": "null は許容？",
+      "answer": "HashMap/HashSet/ArrayListはnull可（1要素）。Hashtable等は不可。設計で方針を決めます。"
     }
   ],
-  "nextEpisodeHint": "次回は Stream API で、コレクションを宣言的に処理する方法を学びます。",
+  "nextEpisodeHint": "次回はStream APIでfilter/map/collectを学び、コレクション処理を宣言的に書きます。",
   "canonical": "https://ai-site-iota-nine.vercel.app/article/java-collection-framework",
   "jsonLd": {
     "@context": "https://schema.org",
@@ -54,10 +54,10 @@
       {
         "@context": "https://schema.org",
         "@type": "TechArticle",
-        "headline": "Javaのコレクションフレームワーク",
-        "description": "【プログラミング初心者向け】List、Set、Map の使い分けと ArrayList、HashMap の基本操作を学びます。ジェネリクス付きコレクションの書き方も押さえます。 図解・具体例つきで丁寧に解説します。",
+        "headline": "Javaコレクション｜List・Set・Mapの使い分け",
+        "description": "JavaのArrayList/HashMap/HashSet、ジェネリクス、ConcurrentModificationExceptionなど失敗例を解説します。",
         "datePublished": "2026-05-29T14:36:45.024Z",
-        "dateModified": "2026-05-30T05:01:32.237Z",
+        "dateModified": "2026-05-30T05:18:37.092Z",
         "author": {
           "@type": "Organization",
           "name": "StackShelf",
@@ -78,7 +78,7 @@
         },
         "image": "https://ai-site-iota-nine.vercel.app/og-default.svg",
         "inLanguage": "ja",
-        "wordCount": 746,
+        "wordCount": 725,
         "mainEntityOfPage": {
           "@type": "WebPage",
           "@id": "https://ai-site-iota-nine.vercel.app/article/java-collection-framework"
@@ -114,7 +114,7 @@
           {
             "@type": "ListItem",
             "position": 4,
-            "name": "Javaのコレクションフレームワーク",
+            "name": "Javaコレクション｜List・Set・Mapの使い分け",
             "item": "https://ai-site-iota-nine.vercel.app/article/java-collection-framework"
           }
         ]
@@ -144,42 +144,42 @@
         "mainEntity": [
           {
             "@type": "Question",
-            "name": "ArrayList と LinkedList の違いは？",
+            "name": "ArrayList と LinkedList？",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "ArrayList は末尾追加が速く、LinkedList は先頭付近の挿入削除に向く場合があります。"
+              "text": "ArrayListは末尾追加・ランダムアクセスが速い。LinkedListは先頭挿入に有利だが多くの場合ArrayListで十分。"
             }
           },
           {
             "@type": "Question",
-            "name": "null は入れられる？",
+            "name": "HashMap のキーに mutable オブジェクトは？",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "多くの実装では null を許容しますが、設計上は避けることが多いです。"
+              "text": "equals/hashCodeが変わると検索不能になる。キーは不変（String等）が安全。"
             }
           },
           {
             "@type": "Question",
-            "name": "つまずいたときはどうすればいいですか？",
+            "name": "TreeMap/TreeSet は？",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "エラーメッセージをそのまま検索し、公式ドキュメントを当たってください。小さなステップに分けて再現・確認すると原因を特定しやすくなります。"
+              "text": "ソート順を保つ。Comparable/Comparatorが必要。"
             }
           },
           {
             "@type": "Question",
-            "name": "どのくらいのペースで学べばいいですか？",
+            "name": "Collections.unmodifiableList は？",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "1日30分〜1時間、週に3〜4回のペースが続けやすい目安です。読むだけでなく、必ず手を動かして確認しましょう。"
+              "text": "ラッパーで変更禁止。Java 9+はList.copyOfで不変コピー。"
             }
           },
           {
             "@type": "Question",
-            "name": "この記事の内容を忘れないコツは？",
+            "name": "null は許容？",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "学んだ直後にメモを残し、翌日にもう一度短時間復習してください。実際のプロジェクトや練習問題に当てはめると記憶に定着しやすくなります。"
+              "text": "HashMap/HashSet/ArrayListはnull可（1要素）。Hashtable等は不可。設計で方針を決めます。"
             }
           }
         ]
@@ -211,7 +211,7 @@
       {
         "@type": "ListItem",
         "position": 4,
-        "name": "Javaのコレクションフレームワーク",
+        "name": "Javaコレクション｜List・Set・Mapの使い分け",
         "item": "https://ai-site-iota-nine.vercel.app/article/java-collection-framework"
       }
     ]
@@ -241,73 +241,73 @@
     "mainEntity": [
       {
         "@type": "Question",
-        "name": "ArrayList と LinkedList の違いは？",
+        "name": "ArrayList と LinkedList？",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "ArrayList は末尾追加が速く、LinkedList は先頭付近の挿入削除に向く場合があります。"
+          "text": "ArrayListは末尾追加・ランダムアクセスが速い。LinkedListは先頭挿入に有利だが多くの場合ArrayListで十分。"
         }
       },
       {
         "@type": "Question",
-        "name": "null は入れられる？",
+        "name": "HashMap のキーに mutable オブジェクトは？",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "多くの実装では null を許容しますが、設計上は避けることが多いです。"
+          "text": "equals/hashCodeが変わると検索不能になる。キーは不変（String等）が安全。"
         }
       },
       {
         "@type": "Question",
-        "name": "つまずいたときはどうすればいいですか？",
+        "name": "TreeMap/TreeSet は？",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "エラーメッセージをそのまま検索し、公式ドキュメントを当たってください。小さなステップに分けて再現・確認すると原因を特定しやすくなります。"
+          "text": "ソート順を保つ。Comparable/Comparatorが必要。"
         }
       },
       {
         "@type": "Question",
-        "name": "どのくらいのペースで学べばいいですか？",
+        "name": "Collections.unmodifiableList は？",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "1日30分〜1時間、週に3〜4回のペースが続けやすい目安です。読むだけでなく、必ず手を動かして確認しましょう。"
+          "text": "ラッパーで変更禁止。Java 9+はList.copyOfで不変コピー。"
         }
       },
       {
         "@type": "Question",
-        "name": "この記事の内容を忘れないコツは？",
+        "name": "null は許容？",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "学んだ直後にメモを残し、翌日にもう一度短時間復習してください。実際のプロジェクトや練習問題に当てはめると記憶に定着しやすくなります。"
+          "text": "HashMap/HashSet/ArrayListはnull可（1要素）。Hashtable等は不可。設計で方針を決めます。"
         }
       }
     ]
   },
+  "nextAction": "List<String>から空文字をremoveIfで除去し、Map<String,Integer>で単語出現回数をカウントしてください。",
   "internalLinkCandidates": [
     {
-      "slug": "java-project-development",
-      "title": "Javaのプロジェクト開発",
-      "reason": "同じ講座の関連回です"
-    },
-    {
-      "slug": "java-functional-programming",
-      "title": "Javaの関数型プログラミング",
-      "reason": "同じ講座の関連回です"
-    },
-    {
-      "slug": "java-lambda-expression",
-      "title": "Javaのラムダ式",
-      "reason": "同じ講座の関連回です"
+      "slug": "java-arrays",
+      "title": "Javaの配列",
+      "reason": "固定長 vs 可変長"
     },
     {
       "slug": "java-stream-api",
       "title": "JavaのStream API",
-      "reason": "同じ講座の関連回です"
+      "reason": "同じ講座の次の回"
     },
     {
-      "slug": "java-thread-programming",
-      "title": "Javaのスレッドプログラミング",
-      "reason": "同じ講座の関連回です"
+      "slug": "java-lambda-expression",
+      "title": "Javaのラムダ式",
+      "reason": "Streamと組み合わせ"
+    },
+    {
+      "slug": "java-best-practices",
+      "title": "Javaプログラミングのベストプラクティス",
+      "reason": "型安全"
+    },
+    {
+      "slug": "java-functional-programming",
+      "title": "Javaの関数型プログラミング",
+      "reason": "不変コレクション"
     }
   ],
-  "nextAction": "次は Stream API で、コレクションを宣言的に処理する方法を学びます。",
   "ogImage": "https://ai-site-iota-nine.vercel.app/og-default.svg"
 }

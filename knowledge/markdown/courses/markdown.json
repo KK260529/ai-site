@@ -1,0 +1,49 @@
+{
+  "courseId": "markdown",
+  "title": "Markdown & 技術ドキュメント入門",
+  "description": "README・設計書・ブログに使えるMarkdownを8ステップで習得。日本語の体系的入門が少ないテーマを、具体例と失敗例つきで学びます。",
+  "target": "ドキュメント執筆・GitHub利用者",
+  "topic": "markdown",
+  "episodes": [
+    {
+      "episode": 1,
+      "title": "Markdownとは？技術文書を書く理由",
+      "slug": "markdown-intro"
+    },
+    {
+      "episode": 2,
+      "title": "見出し・段落・強調の基本",
+      "slug": "markdown-basic-syntax"
+    },
+    {
+      "episode": 3,
+      "title": "リスト・リンク・画像",
+      "slug": "markdown-lists-links"
+    },
+    {
+      "episode": 4,
+      "title": "コードブロックと表",
+      "slug": "markdown-code-tables"
+    },
+    {
+      "episode": 5,
+      "title": "GitHub READMEの書き方",
+      "slug": "markdown-github-readme"
+    },
+    {
+      "episode": 6,
+      "title": "技術ドキュメントの構成設計",
+      "slug": "markdown-docs-structure"
+    },
+    {
+      "episode": 7,
+      "title": "エディタ・プレビュー・Lintツール",
+      "slug": "markdown-tools"
+    },
+    {
+      "episode": 8,
+      "title": "実践：プロジェクトREADMEを作る",
+      "slug": "markdown-practice"
+    }
+  ]
+}

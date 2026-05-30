@@ -1,0 +1,13 @@
+{
+  "slug": "nginx-install",
+  "courseId": "nginx",
+  "episode": 2,
+  "summaryMemory": [
+    "Ubuntuでは apt install nginx でインストール、systemctl で起動・停止・reload",
+    "設定変更前は必ず nginx -t で文法チェックしてから reload",
+    "nginx.conf の階層は main → events → http → server → location",
+    "Ubuntuでは sites-available に設定を置き sites-enabled で有効化"
+  ],
+  "nextEpisodeHint": "次回は、HTML/CSS/画像からなる静的サイトをnginxで公開する手順と、キャッシュ・gzip圧縮などのパフォーマンス設定を学びます。",
+  "updatedAt": "2026-05-30T05:15:01.866Z"
+}

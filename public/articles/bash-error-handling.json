@@ -1,0 +1,317 @@
+{
+  "id": "art_bash_bash-error-handling",
+  "slug": "bash-error-handling",
+  "title": "Bashの set -e とエラーハンドリング｜安全なスクリプトを書く【第9回】",
+  "summary": "set -euo pipefail、trap、エラー時のクリーンアップ、意図的なエラー無視、デバッグ用 set -x を解説。本番運用向けの堅牢なスクリプトの書き方を学びます。",
+  "body": "<h2>なぜエラーハンドリングが必要か</h2>\n<p>Bashスクリプトは、コマンドが失敗しても<strong>デフォルトでは実行を続けます</strong>。バックアップの途中で <code>tar</code> が失敗し、後続の <code>rm</code> だけが動いてデータを消してしまう——本番環境ではこうした事故が実際に起きます。エラーハンドリングは「失敗を即座に検知し、安全に止める」仕組みです。</p>\n<pre><code>#!/usr/bin/env bash\n# デフォルト: 失敗しても続行（危険な例）\nfalse\necho \"この行も実行される（終了コードは最後の echo=0）\"</code></pre>\n\n<h2>set -e（ errexit ）</h2>\n<p><code>set -e</code> は、<strong>パイプライン以外</strong>のコマンドが非0終了コードを返した時点でスクリプトを終了します。</p>\n<pre><code>#!/usr/bin/env bash\nset -e\n\nfalse\necho \"到達しない\"\n\n# 条件式は set -e の対象外（意図的）\nif false; then\n  echo \"no\"\nfi\n\n# 短絡評価も安全\nfalse || echo \"失敗を捕捉\"\n\n# 明示的に無視\nfalse || true\necho \"|| true のあとは続行\"</code></pre>\n<p>多くの運用スクリプトは先頭で <code>set -e</code> を有効にします。関数内でも基本的に有効です。</p>\n\n<h2>set -u（ nounset ）</h2>\n<p>未定義の変数を参照すると即終了します。タイポによる空展開を防ぎます。</p>\n<pre><code>#!/usr/bin/env bash\nset -u\n\necho \"$UNDEFINED_VAR\"   # エラーで終了\n\n# デフォルト値構文なら安全\necho \"${UNDEFINED_VAR:-default}\"</code></pre>\n<p><code>set -eu</code> の組み合わせがよく使われます。</p>\n\n<h2>set -o pipefail</h2>\n<p>パイプの<strong>どれか1つでも失敗</strong>したら全体を失敗とみなします。 <code>set -e</code> だけではパイプ左側の失敗が見逃されがちです。</p>\n<pre><code>#!/usr/bin/env bash\nset -euo pipefail\n\n# grep がマッチ0件で1を返す → pipefail で全体失敗\ngrep \"NOTEXIST\" /etc/hosts | wc -l\necho \"到達しない\"\n\n# マッチ optional なら\ngrep \"optional\" /etc/hosts | wc -l || true</code></pre>\n<p>本番スクリプトの定番は <strong><code>set -euo pipefail</code></strong> です（shebang の直後）。</p>\n\n<h2>trap：終了時のクリーンアップ</h2>\n<p><code>trap</code> はシグナルや EXIT 時にコマンドを実行します。一時ファイル削除、ロック解除、障害通知に使います。</p>\n<pre><code>#!/usr/bin/env bash\nset -euo pipefail\n\nTMPDIR=\"\"\ncleanup() {\n  local code=$?\n  if [ -n \"$TMPDIR\" ] &amp;&amp; [ -d \"$TMPDIR\" ]; then\n    rm -rf \"$TMPDIR\"\n    echo \"一時Dir削除: $TMPDIR\"\n  fi\n  exit \"$code\"\n}\ntrap cleanup EXIT\n\nTMPDIR=$(mktemp -d)\necho \"作業Dir: $TMPDIR\"\n# 処理...\n# 正常終了でもエラー終了でも cleanup が走る</code></pre>\n<p><code>trap 'cleanup' EXIT INT TERM</code> のように複数シグナルを指定できます。Ctrl+C（INT）でも片付けできます。</p>\n\n<h2>エラー時のメッセージとログ</h2>\n<pre><code>#!/usr/bin/env bash\nset -euo pipefail\n\nlog() { echo \"[$(date '+%H:%M:%S')] $*\"; }\ndie() { log \"ERROR: $*\" >&2; exit 1; }\n\nrequire_cmd() {\n  command -v \"$1\" >/dev/null 2>&1 || die \"コマンドが必要: $1\"\n}\n\nrequire_cmd tar\nrequire_cmd gzip\n\nSOURCE=\"${1:-}\"\n[ -n \"$SOURCE\" ] || die \"使い方: $0 &lt;dir&gt;\"\n[ -d \"$SOURCE\" ] || die \"ディレクトリがありません: $SOURCE\"\n\nlog \"バックアップ: $SOURCE\"</code></pre>\n\n<h2>意図的に set -e を無効にする</h2>\n<pre><code>#!/usr/bin/env bash\nset -e\n\n# サブシェル内だけ -e 無効\nif ! output=$(false 2>&1); then\n  echo \"失敗を期待通り処理: $output\"\nfi\n\n# set +e で一時的に無効\nset +e\nmight_fail\ncode=$?\nset -e\n[ \"$code\" -eq 0 ] || die \"might_fail が失敗: $code\"</code></pre>\n\n<h2>デバッグ：set -x</h2>\n<p><code>set -x</code> は実行するコマンドを <code>+ command</code> 形式で表示します。本番障害調査や開発時に有効です。</p>\n<pre><code>#!/usr/bin/env bash\nset -euo pipefail\n\ndebug() {\n  if [ \"${DEBUG:-0}\" = \"1\" ]; then\n    set -x\n  fi\n}\n\ndebug\nVAR=\"test\"\necho \"$VAR\"\n\n# 実行: DEBUG=1 ./script.sh</code></pre>\n<p><code>bash -x script.sh</code> でファイル全体をトレースすることもできます。</p>\n\n<h2>終了コードの設計</h2>\n<pre><code>#!/usr/bin/env bash\nset -euo pipefail\n\nreadonly EXIT_OK=0\nreadonly EXIT_USAGE=1\nreadonly EXIT_RUNTIME=2\n\nmain() {\n  [ $# -ge 1 ] || { echo \"使い方: $0 file\"; return \"$EXIT_USAGE\"; }\n  process \"$1\" || return \"$EXIT_RUNTIME\"\n  return \"$EXIT_OK\"\n}\n\nmain \"$@\"\nexit $?</code></pre>\n<p>呼び出し元（cron、CI）が終了コードで分岐できるよう、意味を決めておきます。</p>\n\n<h2>実践：堅牢なデプロイスクリプト骨格</h2>\n<pre><code>#!/usr/bin/env bash\nset -euo pipefail\n\nSCRIPT_DIR=\"$(cd \"$(dirname \"${BASH_SOURCE[0]}\")\" &amp;&amp; pwd)\"\nAPP_DIR=\"${APP_DIR:-/opt/myapp}\"\nLOCK_FILE=\"/var/run/deploy.lock\"\n\nlog() { echo \"[$(date '+%Y-%m-%d %H:%M:%S')] $*\"; }\n\ncleanup() {\n  local rc=$?\n  rm -f \"$LOCK_FILE\"\n  [ \"$rc\" -ne 0 ] &amp;&amp; log \"デプロイ失敗 (exit $rc)\" >&2\n  exit \"$rc\"\n}\ntrap cleanup EXIT\n\nexec 9>\"$LOCK_FILE\"\nflock -n 9 || { log \"他デプロイ実行中\"; exit 3; }\n\nlog \"デプロイ開始\"\ncd \"$APP_DIR\"\ngit pull origin main\nnpm ci --omit=dev\nnpm run build\nsudo systemctl reload myapp\nlog \"デプロイ完了\"</code></pre>\n\n<h2>まとめ</h2>\n<p><code>set -euo pipefail</code> を標準に、<code>trap</code> で後片付け、<code>die</code> 関数で明示的失敗を伝えます。次回はこれまでの知識を統合した<strong>バックアップスクリプト</strong>を完成させます。</p>",
+  "conclusion": "堅牢な Bash スクリプトは set -euo pipefail で未定義変数・コマンド失敗・パイプ失敗を即検知し、trap EXIT でクリーンアップします。意図的な失敗許容は || true や if ! cmd、デバッグは set -x または bash -x。die 関数と意味のある exit コードで運用・CI 連携をしやすくします。",
+  "tags": [
+    "Bash",
+    "set -e",
+    "pipefail",
+    "trap",
+    "エラーハンドリング",
+    "デバッグ"
+  ],
+  "category": "Bash",
+  "theme": "bash - Bashシェルスクリプト入門",
+  "status": "published",
+  "createdAt": "2026-05-30T05:14:55.791Z",
+  "updatedAt": "2026-05-30T05:14:55.795Z",
+  "publishedAt": "2026-05-30T05:14:55.791Z",
+  "metaTitle": "Bash set -e pipefail trap エラーハンドリング｜Bash入門 | StackShelf",
+  "metaDescription": "【Bash初心者向け】Bashスクリプトの set -e、set -u、pipefail、trap によるエラーハンドリングを解説。本番運用で失敗を見逃さないスクリプトの書き方を学べます。 図解・具体例つきで丁寧に解説します。",
+  "ogTitle": "Bashのset -eとエラーハンドリング",
+  "ogDescription": "【Bash初心者向け】【Bash初心者向け】スクリプトが途中で黙って失敗しないための設定とパターンを解説します。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
+  "knowledge": {
+    "topic": "bash",
+    "courseId": "bash",
+    "episode": 9
+  },
+  "faq": [
+    {
+      "question": "set -e でも if の中の false は止まりませんか？",
+      "answer": "はい。if/while の条件部分、|| や && の短絡評価は set -e の対象外として設計されています。"
+    },
+    {
+      "question": "pipefail なしでパイプ左の失敗を検知するには？",
+      "answer": "PIPESTATUS 配列を使います。cmd1 | cmd2; [ \"${PIPESTATUS[0]}\" -eq 0 ]。ただし pipefail の方が簡潔です。"
+    },
+    {
+      "question": "trap と finally（他言語）の対応は？",
+      "answer": "trap cleanup EXIT が try/finally に近い役割です。EXIT は正常終了・exit・エラー終了のいずれでも呼ばれます。"
+    },
+    {
+      "question": "set -e を全体に入れると困る場面は？",
+      "answer": "grep で0件、test で条件確認、任意コマンドの試行など「失敗が正常」なケースです。|| true や if で囲みます。"
+    },
+    {
+      "question": "errexit は POSIX sh でも使えますか？",
+      "answer": "set -e は POSIX ですが、pipefail と nounset (-u) の挙動は Bash 依存部分があります。本コースは Bash 前提です。"
+    }
+  ],
+  "nextEpisodeHint": "最終回ではバックアップスクリプトを総仕上げし、変数・関数・ログ・エラー処理・cron 登録まで一通り実践します。",
+  "nextAction": "set -euo pipefail と trap cleanup EXIT 付きの小さなスクリプトを書き、mktemp で作ったDirが成功・失敗どちらでも削除されることを確認してください。DEBUG=1 で set -x も試しましょう。",
+  "internalLinkCandidates": [
+    {
+      "slug": "python-exceptions",
+      "title": "Pythonの例外処理（try/except）【入門第10回】",
+      "reason": "他言語のエラー処理と対比して理解が深まります。"
+    },
+    {
+      "slug": "git-intro",
+      "title": "Gitとは？バージョン管理を初めて学ぶ人のための完全入門",
+      "reason": "CI ではスクリプトの終了コードでジョブ成否が決まります。"
+    },
+    {
+      "slug": "docker-intro",
+      "title": "Dockerとは？仮想マシンとの違いをわかりやすく解説【初心者向け】",
+      "reason": "Dockerfile RUN でも set -e がデフォルトで有効です。"
+    },
+    {
+      "slug": "linux-processes",
+      "title": "プロセス管理（ps/top/kill/nohup）【Linux入門】",
+      "reason": "trap INT/TERM とシグナルの理解に関連します。"
+    },
+    {
+      "slug": "linux-intro",
+      "title": "Linuxとは？コマンドラインの世界へようこそ【初心者向け完全入門】",
+      "reason": "終了コードの Unix 慣習は Linux CLI の基礎です。"
+    }
+  ],
+  "ogImage": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+  "canonical": "https://ai-site-iota-nine.vercel.app/article/bash-error-handling",
+  "jsonLd": {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@context": "https://schema.org",
+        "@type": "TechArticle",
+        "headline": "Bashの set -e とエラーハンドリング｜安全なスクリプトを書く【第9回】",
+        "description": "【Bash初心者向け】Bashスクリプトの set -e、set -u、pipefail、trap によるエラーハンドリングを解説。本番運用で失敗を見逃さないスクリプトの書き方を学べます。 図解・具体例つきで丁寧に解説します。",
+        "datePublished": "2026-05-30T05:14:55.791Z",
+        "dateModified": "2026-05-30T05:14:55.795Z",
+        "author": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
+        },
+        "image": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+        "inLanguage": "ja",
+        "wordCount": 2790,
+        "mainEntityOfPage": {
+          "@type": "WebPage",
+          "@id": "https://ai-site-iota-nine.vercel.app/article/bash-error-handling"
+        },
+        "keywords": "Bash, set -e, pipefail, trap, エラーハンドリング, デバッグ",
+        "articleSection": "Bash",
+        "url": "https://ai-site-iota-nine.vercel.app/article/bash-error-handling",
+        "learningResourceType": "tutorial",
+        "educationalLevel": "beginner"
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "ホーム",
+            "item": "https://ai-site-iota-nine.vercel.app/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "bash",
+            "item": "https://ai-site-iota-nine.vercel.app/knowledge/bash"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "Bashシェルスクリプト入門",
+            "item": "https://ai-site-iota-nine.vercel.app/course/bash/bash"
+          },
+          {
+            "@type": "ListItem",
+            "position": 4,
+            "name": "Bashの set -e とエラーハンドリング｜安全なスクリプトを書く【第9回】",
+            "item": "https://ai-site-iota-nine.vercel.app/article/bash-error-handling"
+          }
+        ]
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "Course",
+        "name": "Bashシェルスクリプト入門",
+        "description": "Linux/macOS/WSLで使えるBashスクリプトを10ステップで習得。自動化・運用の第一歩となるニッチスキルを具体例で学びます。",
+        "provider": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app"
+        },
+        "url": "https://ai-site-iota-nine.vercel.app/course/bash/bash",
+        "inLanguage": "ja",
+        "educationalLevel": "beginner",
+        "hasCourseInstance": {
+          "@type": "CourseInstance",
+          "courseMode": "online",
+          "courseWorkload": "PT1H"
+        }
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "set -e でも if の中の false は止まりませんか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "はい。if/while の条件部分、|| や && の短絡評価は set -e の対象外として設計されています。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "pipefail なしでパイプ左の失敗を検知するには？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "PIPESTATUS 配列を使います。cmd1 | cmd2; [ \"${PIPESTATUS[0]}\" -eq 0 ]。ただし pipefail の方が簡潔です。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "trap と finally（他言語）の対応は？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "trap cleanup EXIT が try/finally に近い役割です。EXIT は正常終了・exit・エラー終了のいずれでも呼ばれます。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "set -e を全体に入れると困る場面は？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "grep で0件、test で条件確認、任意コマンドの試行など「失敗が正常」なケースです。|| true や if で囲みます。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "errexit は POSIX sh でも使えますか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "set -e は POSIX ですが、pipefail と nounset (-u) の挙動は Bash 依存部分があります。本コースは Bash 前提です。"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "breadcrumb": {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "ホーム",
+        "item": "https://ai-site-iota-nine.vercel.app/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "bash",
+        "item": "https://ai-site-iota-nine.vercel.app/knowledge/bash"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "Bashシェルスクリプト入門",
+        "item": "https://ai-site-iota-nine.vercel.app/course/bash/bash"
+      },
+      {
+        "@type": "ListItem",
+        "position": 4,
+        "name": "Bashの set -e とエラーハンドリング｜安全なスクリプトを書く【第9回】",
+        "item": "https://ai-site-iota-nine.vercel.app/article/bash-error-handling"
+      }
+    ]
+  },
+  "courseSchema": {
+    "@context": "https://schema.org",
+    "@type": "Course",
+    "name": "Bashシェルスクリプト入門",
+    "description": "Linux/macOS/WSLで使えるBashスクリプトを10ステップで習得。自動化・運用の第一歩となるニッチスキルを具体例で学びます。",
+    "provider": {
+      "@type": "Organization",
+      "name": "StackShelf",
+      "url": "https://ai-site-iota-nine.vercel.app"
+    },
+    "url": "https://ai-site-iota-nine.vercel.app/course/bash/bash",
+    "inLanguage": "ja",
+    "educationalLevel": "beginner",
+    "hasCourseInstance": {
+      "@type": "CourseInstance",
+      "courseMode": "online",
+      "courseWorkload": "PT1H"
+    }
+  },
+  "faqSchema": {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "set -e でも if の中の false は止まりませんか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "はい。if/while の条件部分、|| や && の短絡評価は set -e の対象外として設計されています。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "pipefail なしでパイプ左の失敗を検知するには？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "PIPESTATUS 配列を使います。cmd1 | cmd2; [ \"${PIPESTATUS[0]}\" -eq 0 ]。ただし pipefail の方が簡潔です。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "trap と finally（他言語）の対応は？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "trap cleanup EXIT が try/finally に近い役割です。EXIT は正常終了・exit・エラー終了のいずれでも呼ばれます。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "set -e を全体に入れると困る場面は？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "grep で0件、test で条件確認、任意コマンドの試行など「失敗が正常」なケースです。|| true や if で囲みます。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "errexit は POSIX sh でも使えますか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "set -e は POSIX ですが、pipefail と nounset (-u) の挙動は Bash 依存部分があります。本コースは Bash 前提です。"
+        }
+      }
+    ]
+  }
+}

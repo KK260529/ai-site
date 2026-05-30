@@ -1,0 +1,316 @@
+{
+  "id": "art_markdown_markdown-lists-links",
+  "slug": "markdown-lists-links",
+  "title": "リスト・リンク・画像｜Markdownで情報を整理する",
+  "summary": "箇条書き・番号付きリスト、ネスト、リンク・画像の記法と相対パス・URLの失敗例を解説。READMEで壊れやすいリンク対策も紹介します。",
+  "body": "<h2>結論：リストは - か 1.、リンクは [表示](URL)、画像は ! を先頭に</h2>\n<p>技術文書では、手順や要件を<strong>リスト</strong>で整理し、参照先へ<strong>リンク</strong>で誘導し、スクリーンショットを<strong>画像</strong>で補足します。Markdownではリストが行頭の <code>-</code> や <code>1.</code>、リンクが <code>[表示テキスト](URL)</code>、画像が先頭に <code>!</code> を付けた同形式で書けます。この3つを正しく書けると、READMEの情報設計の大半が完成します。</p>\n\n<h2>箇条書きリスト（Unordered List）</h2>\n<p>行頭に <code>-</code>、<code>*</code>、<code>+</code> のいずれかとスペース1つを付けます。表示上は同じことが多いですが、1文書内では記号を統一しましょう。</p>\n<pre><code>- Node.js 18 以上\n- npm または pnpm\n- Git（任意）</code></pre>\n<p>ネスト（入れ子）は、子項目の行頭を<strong>スペース2〜4つ</strong>（環境により2または4が推奨）インデントします。</p>\n<pre><code>- フロントエンド\n  - React\n  - Vue\n- バックエンド\n  - Express\n  - FastAPI</code></pre>\n\n<h3>失敗例：インデントがタブとスペース混在</h3>\n<p>エディタによってタブがスペース幅に変換され、ネストが崩れて平坦なリストになることがあります。プロジェクトで「スペース2」などルールを決め、エディタの「タブをスペースに変換」を有効にすると安全です。</p>\n\n<h2>番号付きリスト（Ordered List）</h2>\n<p>行頭に <code>1.</code> <code>2.</code> のように数字とピリオド、スペースを書きます。実は<strong>数字は自動で連番になる</strong>ため、次のようにすべて <code>1.</code> でも表示は1,2,3になります（メンテナンスしやすい書き方）。</p>\n<pre><code>1. リポジトリをクローンする\n1. 依存関係をインストールする\n1. 開発サーバーを起動する</code></pre>\n<p>手順書では番号リスト、要件の羅列では箇条書きと使い分けると、読者が「順序があるか」すぐ判断できます。</p>\n\n<h3>リストの中に段落やコードを入れる</h3>\n<p>項目の続きを書くときは、リストマーカー行より深くインデントします。コードブロックを入れる場合も、リスト全体に対してインデントが必要です（次回のコードブロック回で詳述）。</p>\n\n<h2>リンク（Link）</h2>\n<p>基本形は次のとおりです。</p>\n<pre><code>[表示テキスト](https://example.com/docs)\n[同じリポジトリの別ファイル](./docs/setup.md)\n[ページ内の見出しへ](#インストール)</code></pre>\n<p>URLをそのまま見せたい場合は角括弧で囲みます。</p>\n<pre><code>&lt;https://github.com/user/repo&gt;</code></pre>\n<p>参考リンク集の末尾にまとめる「リンクだけの行」もよく使われます。</p>\n\n<h3>失敗例：相対パスの基準を間違える</h3>\n<p><code>README.md</code> がリポジトリ直下にあるとき、<code>./docs/guide.md</code> はリポジトリルート基準です。一方、<code>docs/README.md</code> から同じファイルへリンクする場合は <code>./guide.md</code> になります。GitHub上でリンクをクリックして404になったら、<strong>そのファイルの場所からの相対パス</strong>を再計算してください。</p>\n\n<h3>失敗例：URLにスペースや日本語</h3>\n<p>未エンコードのURLは壊れます。ブラウザのアドレスバーからコピーするか、パスに日本語がある場合は適切にエンコードされたURLを使いましょう。</p>\n\n<h2>画像（Image）</h2>\n<p>リンクの先頭に <code>!</code> を付けます。</p>\n<pre><code>![代替テキスト](./images/architecture.png)\n![スクリーンショット](https://example.com/ss.png)</code></pre>\n<p><strong>代替テキスト（alt）</strong>は、画像が読み込めないときやスクリーンリーダー用に表示されます。「image1」ではなく「ログイン画面のスクリーンショット」のように内容を書くのがアクセシビリティの基本です。</p>\n\n<h3>GitHubでの画像の置き方</h3>\n<ul>\n  <li>リポジトリ内に <code>docs/images/</code> などフォルダを作り相対パスで参照</li>\n  <li>IssueやPRのコメントに画像をドラッグすると、一時URLが生成される（長期ドキュメントには不向きな場合あり）</li>\n  <li>大きすぎる画像はリポジトリが肥大化するため、外部ストレージ＋リンクも検討</li>\n</ul>\n\n<h3>失敗例：代替テキストを空にする</h3>\n<pre><code>![](logo.png)</code></pre>\n<p>動きますが、何の画像か伝わりません。最低限の説明を alt に入れてください。</p>\n\n<h2>参照形式のリンク（応用）</h2>\n<p>同じURLを何度も使う文書では、参照を後ろにまとめられます。</p>\n<pre><code>詳細は[公式ドキュメント][doc]を参照してください。\n\n[doc]: https://example.com/docs \"タイトル（任意）\"</code></pre>\n<p>長いREADMEの末尾でリンク定義を一覧にすると、本文がすっきりします。</p>\n\n<h2>タスクリスト（GFM）</h2>\n<p>GitHubではチェックボックス付きリストが使えます。</p>\n<pre><code>- [x] 設計レビュー完了\n- [ ] テスト追加\n- [ ] ドキュメント更新</code></pre>\n<p>PRの説明やIssueテンプレートで進捗を可視化するのに便利です。すべてのMarkdown環境でサポートされているわけではない点に注意してください。</p>\n\n<h2>実務でのリスト・リンク設計</h2>\n<p>READMEの「使い方」は番号リスト、「機能一覧」は箇条書き、「関連リンク」は末尾にまとめる、というパターンがよく使われます。リンクテキストは「こちら」ではなく「インストール手順（公式）」のように、クリック先が想像できる文言にします。</p>\n<p>社内Wikiに貼る場合、社外URLがブロックされることもあるため、重要手順はリポジトリ内のMarkdownに残す運用が安全です。</p>\n\n<h2>アンカーリンク（同一ページ内）</h2>\n<p>長い1ファイルの文書では、見出しへジャンプするリンクが便利です。GitHubでは見出しから自動生成されたIDに、<code>#見出しテキスト</code> の形式でリンクします。スペースはハイフンになるなど、環境ごとにルールが異なるため、プレビューでクリック確認が確実です。目次を手動で書く場合は、見出し文言を変えたら目次も直す必要があります。</p>\n\n<h2>練習課題（10分）</h2>\n<p>架空の「セットアップ手順」として、番号リスト3ステップ、各ステップ下に箇条書きの注意1つ、外部ドキュメントへのリンク1つ、リポジトリ内画像（パスは <code>./img/sample.png</code> でよい）1つを含むMarkdownを書いてください。リンクと画像のパスが、ファイルの置き場所から見て正しいかをプレビューで確認することが目的です。</p>\n\n<h2>まとめ</h2>\n<p>リストは <code>-</code> または <code>1.</code> で始め、ネストはインデントを揃える。リンクは <code>[テキスト](URL)</code>、画像は <code>![alt](URL)</code>。相対パスは「今書いているファイルの位置」基準で組み立て、リンクはGitHub上でクリック確認する習慣をつけましょう。次回はコードブロックと表を扱います。</p>",
+  "conclusion": "リストは箇条書きが-、番号付きが1.で、ネストはインデントを統一して作ります。リンクは[表示](URL)、画像は先頭に!を付け、altには内容を書きます。相対パスミスとタブ混在がREADMEで最も多い不具合なので、保存場所を意識しプレビューとGitHub上のクリックで確認してください。",
+  "tags": [
+    "Markdown",
+    "リスト",
+    "リンク",
+    "画像",
+    "README"
+  ],
+  "category": "Markdown",
+  "theme": "markdown - Markdown & 技術ドキュメント入門",
+  "status": "published",
+  "createdAt": "2026-05-30T05:14:14.904Z",
+  "updatedAt": "2026-05-30T05:15:45.769Z",
+  "publishedAt": "2026-05-30T05:14:14.904Z",
+  "metaTitle": "Markdown リスト・リンク・画像の書き方【実践】｜Markdown入門 | StackShelf",
+  "metaDescription": "Markdownの箇条書き、番号リスト、リンク・画像の記法とネストのルール、相対パスの失敗例を具体例で解説します。",
+  "ogTitle": "Markdown：リスト・リンク・画像",
+  "ogDescription": "リストのネスト、リンクと画像の書き方、よくあるパスの失敗をわかりやすく解説します。",
+  "knowledge": {
+    "topic": "markdown",
+    "courseId": "markdown",
+    "episode": 3
+  },
+  "faq": [
+    {
+      "question": "リストの記号は - と * どちらがよいですか？",
+      "answer": "どちらでも同じ表示になることが多いです。文書内で一つに統一すれば十分です。チームでLintルールがある場合はそれに従ってください。"
+    },
+    {
+      "question": "リンクを新しいタブで開きたい",
+      "answer": "純粋なMarkdownだけではtarget=_blankは指定できません。HTMLの<a>タグを埋め込む方法（方言依存）や、静的サイトジェネレーターの拡張を使う場合があります。GitHub READMEでは通常そのまま同一タブで開きます。"
+    },
+    {
+      "question": "画像サイズを指定できますか？",
+      "answer": "標準Markdownにはサイズ指定がありません。HTMLの<img width=...>を使うか、外部ホストのURLパラメータに頼る方法があります。READMEでは大きすぎる画像を避け、適切な解像度で保存する方が確実です。"
+    },
+    {
+      "question": "番号リストの途中に箇条書きを挟める？",
+      "answer": "できます。番号項目の下にインデントした箇条書きを置くのが一般的です。インデント量を揃えないと番号がリセットされたように見えることがあるのでプレビューで確認してください。"
+    },
+    {
+      "question": "メールアドレスのリンクは？",
+      "answer": "[問い合わせ](mailto:support@example.com) の形式で書けます。表示テキストを分かりやすくし、スパム対策が必要な公開READMEでは画像化やフォーム誘導も検討されます。"
+    }
+  ],
+  "nextEpisodeHint": "次回は、フェンス付きコードブロック、インラインコード、表（table）の書き方と、シンタックスハイライトの指定方法を学びます。",
+  "nextAction": "READMEに「必要条件」を箇条書き3項目、「セットアップ手順」を番号リスト3ステップで書き、公式ドキュメントへのリンク1つを追加してGitHubまたはプレビューでクリック確認してください。",
+  "internalLinkCandidates": [
+    {
+      "slug": "markdown-practice",
+      "title": "実践：プロジェクトREADMEを一から作る｜Markdown総仕上げ",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "markdown-github-readme",
+      "title": "GitHub READMEの書き方｜公開リポジトリの顔を整える",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "markdown-code-tables",
+      "title": "コードブロックと表｜Markdownで技術内容を正確に書く",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "markdown-intro",
+      "title": "Markdownとは？技術文書を書く理由と全体像",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "markdown-tools",
+      "title": "エディタ・プレビュー・Lint｜Markdown執筆を効率化するツール",
+      "reason": "同じ講座の関連回です"
+    }
+  ],
+  "ogImage": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+  "canonical": "https://ai-site-iota-nine.vercel.app/article/markdown-lists-links",
+  "jsonLd": {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@context": "https://schema.org",
+        "@type": "TechArticle",
+        "headline": "リスト・リンク・画像｜Markdownで情報を整理する",
+        "description": "【Markdown初心者向け】Markdownの箇条書き、番号リスト、リンク・画像の記法とネストのルール、相対パスの失敗例を具体例で解説します。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
+        "datePublished": "2026-05-30T05:14:14.904Z",
+        "dateModified": "2026-05-30T05:15:45.769Z",
+        "author": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
+        },
+        "image": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+        "inLanguage": "ja",
+        "wordCount": 2621,
+        "mainEntityOfPage": {
+          "@type": "WebPage",
+          "@id": "https://ai-site-iota-nine.vercel.app/article/markdown-lists-links"
+        },
+        "keywords": "Markdown, リスト, リンク, 画像, README",
+        "articleSection": "Markdown",
+        "url": "https://ai-site-iota-nine.vercel.app/article/markdown-lists-links",
+        "learningResourceType": "tutorial",
+        "educationalLevel": "beginner"
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "ホーム",
+            "item": "https://ai-site-iota-nine.vercel.app/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "markdown",
+            "item": "https://ai-site-iota-nine.vercel.app/knowledge/markdown"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "Markdown & 技術ドキュメント入門",
+            "item": "https://ai-site-iota-nine.vercel.app/course/markdown/markdown"
+          },
+          {
+            "@type": "ListItem",
+            "position": 4,
+            "name": "リスト・リンク・画像｜Markdownで情報を整理する",
+            "item": "https://ai-site-iota-nine.vercel.app/article/markdown-lists-links"
+          }
+        ]
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "Course",
+        "name": "Markdown & 技術ドキュメント入門",
+        "description": "README・設計書・ブログに使えるMarkdownを8ステップで習得。日本語の体系的入門が少ないテーマを、具体例と失敗例つきで学びます。",
+        "provider": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app"
+        },
+        "url": "https://ai-site-iota-nine.vercel.app/course/markdown/markdown",
+        "inLanguage": "ja",
+        "educationalLevel": "beginner",
+        "hasCourseInstance": {
+          "@type": "CourseInstance",
+          "courseMode": "online",
+          "courseWorkload": "PT1H"
+        }
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "リストの記号は - と * どちらがよいですか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "どちらでも同じ表示になることが多いです。文書内で一つに統一すれば十分です。チームでLintルールがある場合はそれに従ってください。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "リンクを新しいタブで開きたい",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "純粋なMarkdownだけではtarget=_blankは指定できません。HTMLの<a>タグを埋め込む方法（方言依存）や、静的サイトジェネレーターの拡張を使う場合があります。GitHub READMEでは通常そのまま同一タブで開きます。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "画像サイズを指定できますか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "標準Markdownにはサイズ指定がありません。HTMLの<img width=...>を使うか、外部ホストのURLパラメータに頼る方法があります。READMEでは大きすぎる画像を避け、適切な解像度で保存する方が確実です。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "番号リストの途中に箇条書きを挟める？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "できます。番号項目の下にインデントした箇条書きを置くのが一般的です。インデント量を揃えないと番号がリセットされたように見えることがあるのでプレビューで確認してください。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "メールアドレスのリンクは？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "[問い合わせ](mailto:support@example.com) の形式で書けます。表示テキストを分かりやすくし、スパム対策が必要な公開READMEでは画像化やフォーム誘導も検討されます。"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "breadcrumb": {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "ホーム",
+        "item": "https://ai-site-iota-nine.vercel.app/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "markdown",
+        "item": "https://ai-site-iota-nine.vercel.app/knowledge/markdown"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "Markdown & 技術ドキュメント入門",
+        "item": "https://ai-site-iota-nine.vercel.app/course/markdown/markdown"
+      },
+      {
+        "@type": "ListItem",
+        "position": 4,
+        "name": "リスト・リンク・画像｜Markdownで情報を整理する",
+        "item": "https://ai-site-iota-nine.vercel.app/article/markdown-lists-links"
+      }
+    ]
+  },
+  "courseSchema": {
+    "@context": "https://schema.org",
+    "@type": "Course",
+    "name": "Markdown & 技術ドキュメント入門",
+    "description": "README・設計書・ブログに使えるMarkdownを8ステップで習得。日本語の体系的入門が少ないテーマを、具体例と失敗例つきで学びます。",
+    "provider": {
+      "@type": "Organization",
+      "name": "StackShelf",
+      "url": "https://ai-site-iota-nine.vercel.app"
+    },
+    "url": "https://ai-site-iota-nine.vercel.app/course/markdown/markdown",
+    "inLanguage": "ja",
+    "educationalLevel": "beginner",
+    "hasCourseInstance": {
+      "@type": "CourseInstance",
+      "courseMode": "online",
+      "courseWorkload": "PT1H"
+    }
+  },
+  "faqSchema": {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "リストの記号は - と * どちらがよいですか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "どちらでも同じ表示になることが多いです。文書内で一つに統一すれば十分です。チームでLintルールがある場合はそれに従ってください。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "リンクを新しいタブで開きたい",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "純粋なMarkdownだけではtarget=_blankは指定できません。HTMLの<a>タグを埋め込む方法（方言依存）や、静的サイトジェネレーターの拡張を使う場合があります。GitHub READMEでは通常そのまま同一タブで開きます。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "画像サイズを指定できますか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "標準Markdownにはサイズ指定がありません。HTMLの<img width=...>を使うか、外部ホストのURLパラメータに頼る方法があります。READMEでは大きすぎる画像を避け、適切な解像度で保存する方が確実です。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "番号リストの途中に箇条書きを挟める？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "できます。番号項目の下にインデントした箇条書きを置くのが一般的です。インデント量を揃えないと番号がリセットされたように見えることがあるのでプレビューで確認してください。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "メールアドレスのリンクは？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "[問い合わせ](mailto:support@example.com) の形式で書けます。表示テキストを分かりやすくし、スパム対策が必要な公開READMEでは画像化やフォーム誘導も検討されます。"
+        }
+      }
+    ]
+  }
+}

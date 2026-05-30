@@ -1,0 +1,317 @@
+{
+  "id": "art_http_http-headers",
+  "slug": "http-headers",
+  "title": "HTTPヘッダーの役割とよく使う項目",
+  "summary": "Content-Type、Accept、Authorization、Cache-Controlなど、HTTP開発で毎日使うヘッダーの意味と使い方を具体例で解説します。",
+  "body": "<h2>HTTPヘッダーとは</h2>\n<p>HTTPヘッダーは、リクエストやレスポンスに付加される<strong>メタ情報（付加情報）</strong>です。ボディの「中身」ではなく、「どんな形式か」「誰が送ったか」「どうキャッシュするか」といった情報を相手に伝えます。</p>\n<p>ヘッダーは <code>名前: 値</code> の形式で1行1項目書かれます。大文字小文字は区別されません（<code>Content-Type</code> と <code>content-type</code> は同じ）。第2回で学んだように、ヘッダーとボディの間には空行が入ります。</p>\n<p>HTTPヘッダーは数百種類存在しますが、日常開発で頻繁に使うのは20種類程度です。ここでは実務で必須のヘッダーをリクエスト・レスポンス別に解説します。</p>\n\n<h2>Content-Type：データ形式の指定</h2>\n<p><strong>Content-Type</strong>は、ボディのデータ形式（MIMEタイプ）を指定する最も重要なヘッダーです。サーバーはこのヘッダーを見てボディの解析方法を決めます。</p>\n<pre><code># よく使うContent-Type\nContent-Type: application/json          # JSON形式\nContent-Type: application/json; charset=UTF-8  # JSON + 文字コード指定\nContent-Type: application/x-www-form-urlencoded  # HTMLフォーム形式\nContent-Type: multipart/form-data       # ファイルアップロード\nContent-Type: text/html; charset=UTF-8   # HTML\nContent-Type: text/plain               # プレーンテキスト</code></pre>\n<p>API開発では <code>application/json</code> が圧倒的に多いです。<a href=\"/articles/python-intro\">Python</a>のFlaskやFastAPI、Node.jsのExpressなど、多くのWebフレームワークはJSONリクエストを自動的にパースしますが、Content-Typeが正しく設定されていないとボディが空として扱われることがあります。</p>\n<p><strong>charset</strong>の指定も重要です。日本語を含むJSONやHTMLでは <code>charset=UTF-8</code> を明示しないと文字化けする場合があります。</p>\n\n<h2>Accept：受け取れる形式の指定</h2>\n<p><strong>Accept</strong>は、クライアントが「どんな形式のレスポンスを受け取れるか」をサーバーに伝えるリクエストヘッダーです。</p>\n<pre><code>Accept: application/json\nAccept: text/html,application/json;q=0.9,*/*;q=0.8\nAccept: application/json, text/plain</code></pre>\n<p><code>q=0.9</code> は優先度（quality factor）で、1.0が最高、0が最低です。上記の例では HTMLを優先（q=1.0）、JSONを次点（q=0.9）、それ以外も可（q=0.8）という意味です。</p>\n<p>API専用クライアント（curl、Postman、fetch API）は通常 <code>Accept: application/json</code> を送ります。ブラウザは <code>text/html</code> を優先するため、同じURLでもAcceptヘッダーによって返される形式が変わるAPI設計（Content Negotiation）もあります。</p>\n\n<h2>Authorization：認証情報の送信</h2>\n<p><strong>Authorization</strong>ヘッダーは、リクエストの送信者が誰かを証明するために使います。主な方式は次の3つです。</p>\n<pre><code># Bearer Token（JWT等）——最も一般的\nAuthorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...\n\n# Basic認証（ユーザー名:パスワードをBase64エンコード）\nAuthorization: Basic dGFuY2thOnBhc3N3b3Jk\n\n# API Key\nAuthorization: ApiKey your-api-key-here</code></pre>\n<p>現代のWeb APIでは <strong>Bearer Token</strong>（JWT: JSON Web Token）が主流です。ログインAPIでトークンを取得し、以降のリクエストに <code>Authorization: Bearer &lt;token&gt;</code> を付けて送ります。第5回でCookie・セッション認証との違いも解説します。</p>\n<p>401 Unauthorized が返された場合、まずAuthorizationヘッダーの有無・トークンの有効期限を確認しましょう。</p>\n\n<h2>Cache-Control：キャッシュの制御</h2>\n<p><strong>Cache-Control</strong>は、レスポンスをどれだけキャッシュしてよいかを制御するヘッダーです。Webページの表示速度に直結する重要な設定です。</p>\n<pre><code># レスポンスヘッダーの例\nCache-Control: no-cache           # キャッシュ前にサーバー確認必須\nCache-Control: no-store           # キャッシュ禁止（機密データ向け）\nCache-Control: max-age=3600       # 3600秒（1時間）キャッシュ可能\nCache-Control: public, max-age=86400  # 誰でも24時間キャッシュ可\nCache-Control: private, max-age=3600  # ブラウザのみ1時間キャッシュ</code></pre>\n<p>静的ファイル（CSS、JS、画像）は長い max-age を設定し、APIレスポンス（ユーザー情報など）は <code>no-store</code> や短い max-age を設定するのが一般的です。<a href=\"/articles/nginx-intro\">nginx</a>でもCache-Controlヘッダーを設定・上書きできます。</p>\n\n<h2>Cookie / Set-Cookie：状態の保持</h2>\n<p><strong>Set-Cookie</strong>（レスポンスヘッダー）は、サーバーがクライアントにCookieを設定する指示です。<strong>Cookie</strong>（リクエストヘッダー）は、クライアントが保存したCookieをサーバーに返送します。</p>\n<pre><code># レスポンス：Cookieを設定\nSet-Cookie: session_id=abc123; Path=/; HttpOnly; Secure; SameSite=Lax\n\n# リクエスト：Cookieを返送\nCookie: session_id=abc123; theme=dark</code></pre>\n<p>Cookie属性の意味：</p>\n<ul>\n  <li><strong>HttpOnly</strong>：JavaScriptからアクセス不可（XSS対策）</li>\n  <li><strong>Secure</strong>：HTTPS通信でのみ送信</li>\n  <li><strong>SameSite</strong>：CSRF対策（Lax/Strict/None）</li>\n  <li><strong>Path</strong>：Cookieが有効なパス</li>\n  <li><strong>Max-Age / Expires</strong>：有効期限</li>\n</ul>\n<p>第5回でCookie・セッション認証を詳しく解説します。</p>\n\n<h2>CORS関連ヘッダー</h2>\n<p>ブラウザから別ドメインのAPIを呼び出すとき、<strong>CORS（Cross-Origin Resource Sharing）</strong>の設定が必要です。第9回で詳述しますが、関連ヘッダーをここで紹介します。</p>\n<pre><code># サーバー側レスポンスヘッダー\nAccess-Control-Allow-Origin: https://example.com\nAccess-Control-Allow-Methods: GET, POST, PUT, DELETE\nAccess-Control-Allow-Headers: Content-Type, Authorization\nAccess-Control-Allow-Credentials: true</code></pre>\n<p><code>Access-Control-Allow-Origin: *</code> はすべてのオリジンを許可しますが、Cookieを使う場合は具体的なドメインを指定する必要があります。</p>\n\n<h2>その他の重要ヘッダー</h2>\n<p><strong>Host</strong>（リクエスト）：接続先ホスト名。HTTP/1.1では必須。1つのIPに複数サイトがある場合の識別に使う。</p>\n<p><strong>User-Agent</strong>（リクエスト）：クライアントの種類・バージョン。ブラウザ名やcurlなどが入る。</p>\n<p><strong>Location</strong>（レスポンス）：3xxリダイレクト先URL。301/302レスポンスで使用。</p>\n<p><strong>ETag</strong>（レスポンス）：リソースのバージョン識別子。304 Not Modified判定に使う。</p>\n<p><strong>Content-Length</strong>：ボディのバイト数。HTTP/1.1で使用。</p>\n<p><strong>Transfer-Encoding: chunked</strong>：ボディをチャンク分割して送信。サイズ不明時に使用。</p>\n<p><strong>X-Request-ID / X-Correlation-ID</strong>：リクエストの追跡ID。分散システムのログ相関に使う。</p>\n\n<h2>カスタムヘッダーの注意点</h2>\n<p><code>X-</code> プレフィックス付きのカスタムヘッダー（<code>X-API-Key</code>、<code>X-Request-ID</code> など）は歴史的に使われてきましたが、現在はプレフィックスなしの名前も許可されています。</p>\n<p>ブラウザのJavaScript（fetch API）から設定できるヘッダーは<strong>制限</strong>されています。Authorization、Content-Type など「安全なヘッダー」のみ設定可能で、Host や Cookie はブラウザが自動設定します。curlやPostmanなどのツールでは自由にヘッダーを追加できます。</p>\n\n<h2>実践：ヘッダー設定のチェックリスト</h2>\n<p>API開発でレスポンスヘッダーを設定する際のチェックリストです。</p>\n<pre><code># APIレスポンスの基本ヘッダー\nContent-Type: application/json; charset=UTF-8  # 必須\nCache-Control: no-store                          # 機密API向け\n\n# 認証が必要なAPI\n# → クライアント側で Authorization: Bearer &lt;token&gt; を送る\n\n# CORSが必要な場合（フロントとAPIのドメインが異なる）\nAccess-Control-Allow-Origin: https://frontend.example.com\nAccess-Control-Allow-Credentials: true\n\n# 本番環境のセキュリティヘッダー（nginx等で設定）\nStrict-Transport-Security: max-age=31536000\nX-Content-Type-Options: nosniff\nX-Frame-Options: DENY</code></pre>\n\n<h2>まとめ：ヘッダーはHTTPの「付加情報レイヤー」</h2>\n<p>HTTPヘッダーは、データ本体（ボディ）以外の重要な情報を伝える仕組みです。Content-Typeで形式を、Authorizationで認証を、Cache-Controlでキャッシュ方針を、CORSヘッダーでクロスオリジンアクセスを制御します。DevToolsのNetworkタブでヘッダーを確認する習慣をつけ、API開発ではレスポンスヘッダーの設定を意識しましょう。次回はCookie・セッション・認証の基礎を学びます。</p>",
+  "conclusion": "HTTPヘッダーはリクエスト・レスポンスに付加されるメタ情報です。Content-Type（データ形式）、Accept（受け取れる形式）、Authorization（認証）、Cache-Control（キャッシュ）、Set-Cookie/Cookie（状態保持）、CORSヘッダー（クロスオリジン）が実務で最重要。DevToolsでヘッダーを確認する習慣をつけましょう。",
+  "tags": [
+    "HTTP",
+    "ヘッダー",
+    "Content-Type",
+    "Authorization",
+    "Cache-Control",
+    "CORS"
+  ],
+  "category": "HTTP",
+  "theme": "http - HTTP・Web API入門",
+  "status": "published",
+  "createdAt": "2026-05-30T05:14:36.530Z",
+  "updatedAt": "2026-05-30T05:14:36.536Z",
+  "publishedAt": "2026-05-30T05:14:36.530Z",
+  "metaTitle": "HTTPヘッダーの役割とよく使う項目【HTTP入門 第4回】｜HTTP入門 | StackShelf",
+  "metaDescription": "Content-Type、Authorization、Cache-Control、CORS関連ヘッダーなど、HTTP開発で必須のヘッダーを具体例と表で解説。API開発の実務知識を身につけます。 図解・具体例つきで丁寧に解説します。",
+  "ogTitle": "HTTPヘッダーの役割とよく使う項目",
+  "ogDescription": "【HTTP初心者向け】【HTTP初心者向け】HTTPヘッダーの種類と使い方を、リクエスト・レスポンス別に具体例で解説します。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
+  "knowledge": {
+    "topic": "http",
+    "courseId": "http",
+    "episode": 4
+  },
+  "faq": [
+    {
+      "question": "Content-Typeを設定し忘れるとどうなりますか？",
+      "answer": "サーバーがボディを正しく解析できず、400 Bad Requestや空のボディとして扱われることがあります。JSON APIでは必ず Content-Type: application/json をリクエスト・レスポンス両方に設定しましょう。"
+    },
+    {
+      "question": "AuthorizationとCookie認証はどちらが良いですか？",
+      "answer": "SPA（React/Vue等）やモバイルアプリではBearer Token（Authorizationヘッダー）が主流です。従来のWebアプリ（サーバーサイドレンダリング）ではCookie+セッションが使われます。API設計ではBearer Token、ブラウザベースのログインではCookieが一般的です。"
+    },
+    {
+      "question": "Cache-Control: no-cacheとno-storeの違いは？",
+      "answer": "no-cacheは「キャッシュはするが、使用前にサーバーに確認する（304判定）」です。no-storeは「キャッシュ自体を禁止する」です。パスワードや個人情報を含むAPIレスポンスにはno-storeを使いましょう。"
+    },
+    {
+      "question": "Access-Control-Allow-Origin: * は安全ですか？",
+      "answer": "公開API（認証不要・読み取り専用）では問題ありません。認証が必要なAPIやCookieを使う場合は、具体的なドメインを指定する必要があります。* と Allow-Credentials: true は同時に使えません。"
+    },
+    {
+      "question": "カスタムヘッダーはどう命名すべきですか？",
+      "answer": "X-プレフィックスは非推奨になりましたが、既存システムでは広く使われています。新規では X-Request-ID のように意味が明確な名前を使いましょう。HTTP標準ヘッダーと名前が衝突しないよう注意してください。"
+    }
+  ],
+  "nextEpisodeHint": "次回は、Cookie・セッション・JWT認証の仕組みと、Webアプリでのログイン実装の基礎を解説します。",
+  "nextAction": "次回はCookie・セッション・JWT認証の仕組みと、Webアプリでのログイン実装の基礎を解説します。認証はHTTPアプリ開発の核心部分です。",
+  "internalLinkCandidates": [
+    {
+      "slug": "http-methods-status",
+      "title": "HTTPメソッドとステータスコード完全ガイド",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "http-cookies-session",
+      "title": "Cookie・セッション・認証の基礎",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "http-debugging",
+      "title": "CORS・エラー・デバッグ",
+      "reason": "CORSヘッダーの詳細は第9回で解説します"
+    },
+    {
+      "slug": "nginx-intro",
+      "title": "nginxとは？Apacheとの違い",
+      "reason": "nginxでCache-Controlやセキュリティヘッダーを設定します"
+    },
+    {
+      "slug": "web-forms",
+      "title": "HTMLフォームの作り方",
+      "reason": "フォーム送信時のContent-Typeはapplication/x-www-form-urlencoded"
+    }
+  ],
+  "ogImage": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+  "canonical": "https://ai-site-iota-nine.vercel.app/article/http-headers",
+  "jsonLd": {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@context": "https://schema.org",
+        "@type": "TechArticle",
+        "headline": "HTTPヘッダーの役割とよく使う項目",
+        "description": "Content-Type、Authorization、Cache-Control、CORS関連ヘッダーなど、HTTP開発で必須のヘッダーを具体例と表で解説。API開発の実務知識を身につけます。 図解・具体例つきで丁寧に解説します。",
+        "datePublished": "2026-05-30T05:14:36.530Z",
+        "dateModified": "2026-05-30T05:14:36.536Z",
+        "author": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
+        },
+        "image": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+        "inLanguage": "ja",
+        "wordCount": 4305,
+        "mainEntityOfPage": {
+          "@type": "WebPage",
+          "@id": "https://ai-site-iota-nine.vercel.app/article/http-headers"
+        },
+        "keywords": "HTTP, ヘッダー, Content-Type, Authorization, Cache-Control, CORS",
+        "articleSection": "HTTP",
+        "url": "https://ai-site-iota-nine.vercel.app/article/http-headers",
+        "learningResourceType": "tutorial",
+        "educationalLevel": "beginner"
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "ホーム",
+            "item": "https://ai-site-iota-nine.vercel.app/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "http",
+            "item": "https://ai-site-iota-nine.vercel.app/knowledge/http"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "HTTP・Web API入門",
+            "item": "https://ai-site-iota-nine.vercel.app/course/http/http"
+          },
+          {
+            "@type": "ListItem",
+            "position": 4,
+            "name": "HTTPヘッダーの役割とよく使う項目",
+            "item": "https://ai-site-iota-nine.vercel.app/article/http-headers"
+          }
+        ]
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "Course",
+        "name": "HTTP・Web API入門",
+        "description": "ブラウザとサーバーの通信、REST API、HTTPSを10ステップで理解。バックエンド学習の前提となるHTTPを具体例で学びます。",
+        "provider": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app"
+        },
+        "url": "https://ai-site-iota-nine.vercel.app/course/http/http",
+        "inLanguage": "ja",
+        "educationalLevel": "beginner",
+        "hasCourseInstance": {
+          "@type": "CourseInstance",
+          "courseMode": "online",
+          "courseWorkload": "PT1H"
+        }
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "Content-Typeを設定し忘れるとどうなりますか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "サーバーがボディを正しく解析できず、400 Bad Requestや空のボディとして扱われることがあります。JSON APIでは必ず Content-Type: application/json をリクエスト・レスポンス両方に設定しましょう。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "AuthorizationとCookie認証はどちらが良いですか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "SPA（React/Vue等）やモバイルアプリではBearer Token（Authorizationヘッダー）が主流です。従来のWebアプリ（サーバーサイドレンダリング）ではCookie+セッションが使われます。API設計ではBearer Token、ブラウザベースのログインではCookieが一般的です。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Cache-Control: no-cacheとno-storeの違いは？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "no-cacheは「キャッシュはするが、使用前にサーバーに確認する（304判定）」です。no-storeは「キャッシュ自体を禁止する」です。パスワードや個人情報を含むAPIレスポンスにはno-storeを使いましょう。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Access-Control-Allow-Origin: * は安全ですか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "公開API（認証不要・読み取り専用）では問題ありません。認証が必要なAPIやCookieを使う場合は、具体的なドメインを指定する必要があります。* と Allow-Credentials: true は同時に使えません。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "カスタムヘッダーはどう命名すべきですか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "X-プレフィックスは非推奨になりましたが、既存システムでは広く使われています。新規では X-Request-ID のように意味が明確な名前を使いましょう。HTTP標準ヘッダーと名前が衝突しないよう注意してください。"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "breadcrumb": {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "ホーム",
+        "item": "https://ai-site-iota-nine.vercel.app/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "http",
+        "item": "https://ai-site-iota-nine.vercel.app/knowledge/http"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "HTTP・Web API入門",
+        "item": "https://ai-site-iota-nine.vercel.app/course/http/http"
+      },
+      {
+        "@type": "ListItem",
+        "position": 4,
+        "name": "HTTPヘッダーの役割とよく使う項目",
+        "item": "https://ai-site-iota-nine.vercel.app/article/http-headers"
+      }
+    ]
+  },
+  "courseSchema": {
+    "@context": "https://schema.org",
+    "@type": "Course",
+    "name": "HTTP・Web API入門",
+    "description": "ブラウザとサーバーの通信、REST API、HTTPSを10ステップで理解。バックエンド学習の前提となるHTTPを具体例で学びます。",
+    "provider": {
+      "@type": "Organization",
+      "name": "StackShelf",
+      "url": "https://ai-site-iota-nine.vercel.app"
+    },
+    "url": "https://ai-site-iota-nine.vercel.app/course/http/http",
+    "inLanguage": "ja",
+    "educationalLevel": "beginner",
+    "hasCourseInstance": {
+      "@type": "CourseInstance",
+      "courseMode": "online",
+      "courseWorkload": "PT1H"
+    }
+  },
+  "faqSchema": {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "Content-Typeを設定し忘れるとどうなりますか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "サーバーがボディを正しく解析できず、400 Bad Requestや空のボディとして扱われることがあります。JSON APIでは必ず Content-Type: application/json をリクエスト・レスポンス両方に設定しましょう。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "AuthorizationとCookie認証はどちらが良いですか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "SPA（React/Vue等）やモバイルアプリではBearer Token（Authorizationヘッダー）が主流です。従来のWebアプリ（サーバーサイドレンダリング）ではCookie+セッションが使われます。API設計ではBearer Token、ブラウザベースのログインではCookieが一般的です。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Cache-Control: no-cacheとno-storeの違いは？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "no-cacheは「キャッシュはするが、使用前にサーバーに確認する（304判定）」です。no-storeは「キャッシュ自体を禁止する」です。パスワードや個人情報を含むAPIレスポンスにはno-storeを使いましょう。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Access-Control-Allow-Origin: * は安全ですか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "公開API（認証不要・読み取り専用）では問題ありません。認証が必要なAPIやCookieを使う場合は、具体的なドメインを指定する必要があります。* と Allow-Credentials: true は同時に使えません。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "カスタムヘッダーはどう命名すべきですか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "X-プレフィックスは非推奨になりましたが、既存システムでは広く使われています。新規では X-Request-ID のように意味が明確な名前を使いましょう。HTTP標準ヘッダーと名前が衝突しないよう注意してください。"
+        }
+      }
+    ]
+  }
+}

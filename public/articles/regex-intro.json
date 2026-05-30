@@ -1,0 +1,322 @@
+{
+  "id": "art_regex_regex-intro",
+  "slug": "regex-intro",
+  "title": "正規表現とは？いつ使うのかを初心者向けに解説【正規表現入門】",
+  "summary": "正規表現（Regular Expression）の基本概念、なぜテキスト処理で必要か、どんな場面で使うかを初心者向けにわかりやすく解説します。プログラミング学習の第一歩として正規表現の全体像を掴みましょう。",
+  "body": "<h2>正規表現（Regular Expression）とは何か</h2>\n<p>正規表現（せいきひょうげん、英語では <strong>Regular Expression</strong>、略して <strong>regex</strong> や <strong>regexp</strong>）とは、<strong>文字列のパターンを記述するためのミニ言語</strong>です。「メールアドらしい形」「日付らしい形」「数字だけ」といった条件を、短い記号の並びで表現できます。</p>\n<p>たとえば「@マークの前後に英数字がある文字列」を探したいとき、プログラムで1文字ずつ条件分岐を書くのは大変です。正規表現なら <code>[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}</code> のように、パターンを1行で書けます。最初は記号が多くて難しく見えますが、部品ごとに分解して学べば、誰でも読めるようになります。</p>\n<pre><code># イメージ：「cat」という文字列を含む行を探す（多くのツールで共通）\ncat\n\n# より厳密に「cat だけの単語」を探す例（後の回で詳しく学びます）\n\\bcat\\b</code></pre>\n\n<h2>なぜ正規表現を学ぶのか</h2>\n<p>現代の開発では、あらゆるデータが<strong>テキスト</strong>として流れます。Webアプリのログ、CSV、JSON、フォーム入力、設定ファイル、コマンドの出力…。これらから「欲しい行だけ」「エラーコードだけ」「メールアドレスだけ」を取り出す作業は日常です。</p>\n<p>正規表現を知っていると、次のような作業が劇的に速くなります。</p>\n<ul>\n  <li><strong>ログの絞り込み：</strong>エラーレベル ERROR の行だけを抽出する</li>\n  <li><strong>フォーム検証：</strong>電話番号・郵便番号・パスワード強度をチェックする</li>\n  <li><strong>一括置換：</strong>エディタやIDEで、命名規則に合わせて変数名をまとめて直す</li>\n  <li><strong>データ整形：</strong>不要な空白や記号を削除し、分析用にきれいにする</li>\n</ul>\n<p>Python、JavaScript、Java、PHP、Rubyなど、ほぼすべてのプログラミング言語が正規表現を標準またはライブラリでサポートしています。Linuxの <code>grep</code>、エディタの検索、データベースの一部機能でも同じ考え方が使われます。</p>\n\n<h2>正規表現が活躍する具体例</h2>\n<p><strong>Webフォームの入力チェック</strong>では、ユーザーが入力した文字列が期待する形式かを確認します。「半角数字10桁の電話番号」「@を含むメールアドレス」などは、正規表現で表現するのが一般的です。ブラウザの <code>input type=\"email\"</code> も、内部では似たパターン判定を行っています。</p>\n<p><strong>ログ解析</strong>では、サーバーに毎秒大量の行が記録されます。障害調査のとき、「HTTP 500 が含まれる行」「特定のIPアドレスからのアクセス」だけを抜き出す必要があります。正規表現と <code>grep</code> を組み合わせると、ターミナル上で素早く原因を追えます。</p>\n<p><strong>テキストエディタの検索・置換</strong>では、VS CodeやVim、Notepad++などが正規表現モードを提供しています。リファクタリングで「変数名の接頭辞を一括変更」するような作業も、パターンを書けば数秒で終わります。</p>\n<pre><code># 日付らしい部分を探すイメージ（YYYY-MM-DD）\n\\d{4}-\\d{2}-\\d{2}</code></pre>\n\n<h2>正規表現の「方言」について知っておくこと</h2>\n<p>正規表現には、歴史的にいくつかの<strong>方言（フレーバー）</strong>があります。POSIX、Perl互換（PCRE）、JavaScript、Pythonの <code>re</code> モジュールなど、細かい挙動が異なることがあります。</p>\n<p>初心者がつまずきやすいのは「同じ記号でも環境によって意味が違う」ケースです。たとえば <code>\\d</code>（数字1文字）は多くの現代の実装で使えますが、古いツールでは使えないこともあります。このコースでは、<strong>まず共通して使える基本</strong>を学び、後半で JavaScript や grep など環境別の違いにも触れます。</p>\n<p>大切なのは「完璧な1本の正規表現を暗記する」ことではなく、<strong>パターンを部品に分解して読む力</strong>を身につけることです。文字クラス、量詞、アンカー、グループ——これらの部品の意味がわかれば、どの環境でも応用できます。</p>\n\n<h2>正規表現を学ぶ前にあると便利なこと</h2>\n<p>正規表現は単体の言語ではなく、<strong>他のツールの中で使う</strong>ものです。次のような基礎があると、学習がスムーズです。</p>\n<ul>\n  <li><strong>テキストエディタ：</strong>検索ボックスで文字列を探した経験</li>\n  <li><strong>コマンドライン：</strong>LinuxやmacOS、WSLで <code>grep</code> やファイルを開いた経験</li>\n  <li><strong>プログラミングの基本：</strong>変数、文字列、条件分岐がわかること</li>\n</ul>\n<p>まだプログラミングを始めたばかりでも大丈夫です。このコースは、記号の意味から順に、具体例と失敗例を交えて進めます。わからない記号が出てきたら、オンラインの「正規表現テスター」にパターンと文字列を入力して、マッチする部分を視覚的に確認するのがおすすめです。</p>\n\n<h2>よくある誤解と正しい考え方</h2>\n<p><strong>誤解1：「正規表現は暗記ゲーム」</strong>——実務では、よく使うパターンはコピー＆調整で十分なことが多いです。自分でゼロから書く前に、信頼できるチートシートやテスターで動作確認しましょう。</p>\n<p><strong>誤解2：「複雑なパターンほど優れている」</strong>——読みにくい巨大な1行は、バグの温床です。小さなパターンに分ける、コメント（言語によっては可能）を付ける、テストケースを用意するのがプロのやり方です。</p>\n<p><strong>誤解3：「すべての文字列処理に正規表現」</strong>——HTMLやJSONのパース、複雑な自然言語処理には向きません。構造化データには専用のパーサやライブラリを使うのが正解です。正規表現は<strong>行単位・フィールド単位のテキスト</strong>に向いています。</p>\n\n<h2>このコースで学ぶ10ステップ</h2>\n<ol>\n  <li>正規表現の概要と使い道（今回）</li>\n  <li>リテラルとメタ文字（<code>.</code> <code>\\</code> など）</li>\n  <li>文字クラス <code>[]</code> と否定</li>\n  <li>量詞 <code>*</code> <code>+</code> <code>?</code> <code>{n,m}</code></li>\n  <li>アンカー <code>^</code> <code>$</code> と単語境界</li>\n  <li>グループとキャプチャ</li>\n  <li>先読み・後読み（応用）</li>\n  <li>JavaScriptでの正規表現</li>\n  <li>grep・エディタ検索での活用</li>\n  <li>実践：ログとフォーム検証</li>\n</ol>\n<p>各回は前の内容を積み上げる構成です。手を動かしてエディタやブラウザのコンソールで試しながら進めてください。</p>\n\n<h2>まとめ：正規表現はテキストの「検索設計図」</h2>\n<p>正規表現は、文字列の<strong>パターンを短く記述するための道具</strong>です。ログ解析、フォーム検証、一括置換など、開発のあらゆる場面で登場します。最初は記号が多く感じますが、部品ごとに理解すれば、どの言語・ツールでも応用できる強力なスキルになります。このコースで、基礎から実践まで体系的に学んでいきましょう。</p>",
+  "conclusion": "正規表現は文字列のパターンを記述するミニ言語で、ログ解析・フォーム検証・検索置換など開発のあちこちで使われます。方言の違いはありますが、文字クラス・量詞・アンカーなどの部品を理解すればどの環境でも応用できます。暗記より「分解して読む力」とテスターでの確認が上達の近道です。",
+  "tags": [
+    "正規表現",
+    "regex",
+    "テキスト処理",
+    "初心者",
+    "検索",
+    "バリデーション"
+  ],
+  "category": "正規表現",
+  "theme": "regex - 正規表現入門",
+  "status": "published",
+  "createdAt": "2026-05-30T05:14:21.512Z",
+  "updatedAt": "2026-05-30T05:14:21.523Z",
+  "publishedAt": "2026-05-30T05:14:21.512Z",
+  "metaTitle": "正規表現とは？使い道と基本を初心者向けに解説 | 正規表現入門",
+  "metaDescription": "【正規表現初心者向け】正規表現入門の第一歩。正規表現とは何か、ログ解析・バリデーション・検索置換での使い道をゼロから丁寧に説明。regex 初心者必読。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
+  "ogTitle": "正規表現とは？いつ使うのかをわかりやすく解説",
+  "ogDescription": "【正規表現初心者向け】【正規表現初心者向け】正規表現の基本と使い道を初心者向けに解説。テキスト検索・置換・フォーム検証での活用法を学びます。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
+  "knowledge": {
+    "topic": "regex",
+    "courseId": "regex",
+    "episode": 1
+  },
+  "faq": [
+    {
+      "question": "正規表現はプログラミング言語ですか？",
+      "answer": "独立したプログラミング言語ではなく、多くの言語やツールに組み込まれた「パターン記述の記法」です。Pythonのre、JavaScriptのRegExp、grepなどがそれぞれ解釈して実行します。"
+    },
+    {
+      "question": "正規表現を覚えるのにどのくらいかかりますか？",
+      "answer": "基本的な文字クラスと量詞は数日〜1週間で使えるようになります。実務レベルでは、よく使うパターンをテスターで試しながら3〜4週間続けると自然に身につきます。"
+    },
+    {
+      "question": "初心者はどこから始めるべきですか？",
+      "answer": "まず「リテラル（普通の文字）」と「.（任意の1文字）」から始め、次に [] 文字クラス、* + 量詞の順がおすすめです。このコースもその順序で解説しています。"
+    },
+    {
+      "question": "正規表現でHTMLをパースしてもいいですか？",
+      "answer": "一般的には推奨されません。HTMLは入れ子構造が複雑で、正規表現だけでは壊れやすいです。DOMパーサや専用ライブラリを使いましょう。"
+    },
+    {
+      "question": "学習に便利なツールはありますか？",
+      "answer": "regex101.com や開発者ツールのコンソール、VS Codeの正規表現検索など、パターンと文字列を入力してマッチを可視化できるツールが役立ちます。"
+    }
+  ],
+  "nextEpisodeHint": "次回は、リテラル（そのままの文字）とメタ文字（. \\ * など）の違いを学びます。エスケープのルールを理解すると、記号を文字として扱うかパターンとして扱うかがはっきりします。",
+  "nextAction": "",
+  "internalLinkCandidates": [
+    {
+      "slug": "python-intro",
+      "title": "Pythonとは？プログラミングの第一歩",
+      "reason": "Pythonのreモジュールで正規表現を使う前提知識としておすすめ"
+    },
+    {
+      "slug": "linux-intro",
+      "title": "Linuxとは？オープンソースOSの基本",
+      "reason": "grepやsedで正規表現を使うためのコマンドライン基礎"
+    },
+    {
+      "slug": "bash-intro",
+      "title": "シェルスクリプトとは？",
+      "reason": "シェル上でパターンマッチや置換を行う際の土台になる"
+    },
+    {
+      "slug": "git-intro",
+      "title": "Gitとは？バージョン管理の基本",
+      "reason": "ログやdiffのテキストを扱う開発フローと相性が良い"
+    },
+    {
+      "slug": "web-intro",
+      "title": "Web開発とは？HTML/CSSの世界",
+      "reason": "ブラウザでのフォーム検証やJavaScript連携の文脈で役立つ"
+    },
+    {
+      "slug": "linux-view-search",
+      "title": "ファイルの表示と検索（cat, grep）",
+      "reason": "grepと正規表現の組み合わせを学ぶ前のステップ"
+    }
+  ],
+  "ogImage": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+  "canonical": "https://ai-site-iota-nine.vercel.app/article/regex-intro",
+  "jsonLd": {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@context": "https://schema.org",
+        "@type": "TechArticle",
+        "headline": "正規表現とは？いつ使うのかを初心者向けに解説【正規表現入門】",
+        "description": "【正規表現初心者向け】正規表現入門の第一歩。正規表現とは何か、ログ解析・バリデーション・検索置換での使い道をゼロから丁寧に説明。regex 初心者必読。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
+        "datePublished": "2026-05-30T05:14:21.512Z",
+        "dateModified": "2026-05-30T05:14:21.523Z",
+        "author": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
+        },
+        "image": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+        "inLanguage": "ja",
+        "wordCount": 2533,
+        "mainEntityOfPage": {
+          "@type": "WebPage",
+          "@id": "https://ai-site-iota-nine.vercel.app/article/regex-intro"
+        },
+        "keywords": "正規表現, regex, テキスト処理, 初心者, 検索, バリデーション",
+        "articleSection": "正規表現",
+        "url": "https://ai-site-iota-nine.vercel.app/article/regex-intro",
+        "learningResourceType": "tutorial",
+        "educationalLevel": "beginner"
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "ホーム",
+            "item": "https://ai-site-iota-nine.vercel.app/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "regex",
+            "item": "https://ai-site-iota-nine.vercel.app/knowledge/regex"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "正規表現入門",
+            "item": "https://ai-site-iota-nine.vercel.app/course/regex/regex"
+          },
+          {
+            "@type": "ListItem",
+            "position": 4,
+            "name": "正規表現とは？いつ使うのかを初心者向けに解説【正規表現入門】",
+            "item": "https://ai-site-iota-nine.vercel.app/article/regex-intro"
+          }
+        ]
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "Course",
+        "name": "正規表現入門",
+        "description": "ログ解析・バリデーション・置換に必須の正規表現を10ステップで習得。つまずきやすいエスケープや量詞を具体例で解説します。",
+        "provider": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app"
+        },
+        "url": "https://ai-site-iota-nine.vercel.app/course/regex/regex",
+        "inLanguage": "ja",
+        "educationalLevel": "beginner",
+        "hasCourseInstance": {
+          "@type": "CourseInstance",
+          "courseMode": "online",
+          "courseWorkload": "PT1H"
+        }
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "正規表現はプログラミング言語ですか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "独立したプログラミング言語ではなく、多くの言語やツールに組み込まれた「パターン記述の記法」です。Pythonのre、JavaScriptのRegExp、grepなどがそれぞれ解釈して実行します。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "正規表現を覚えるのにどのくらいかかりますか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "基本的な文字クラスと量詞は数日〜1週間で使えるようになります。実務レベルでは、よく使うパターンをテスターで試しながら3〜4週間続けると自然に身につきます。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "初心者はどこから始めるべきですか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "まず「リテラル（普通の文字）」と「.（任意の1文字）」から始め、次に [] 文字クラス、* + 量詞の順がおすすめです。このコースもその順序で解説しています。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "正規表現でHTMLをパースしてもいいですか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "一般的には推奨されません。HTMLは入れ子構造が複雑で、正規表現だけでは壊れやすいです。DOMパーサや専用ライブラリを使いましょう。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "学習に便利なツールはありますか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "regex101.com や開発者ツールのコンソール、VS Codeの正規表現検索など、パターンと文字列を入力してマッチを可視化できるツールが役立ちます。"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "breadcrumb": {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "ホーム",
+        "item": "https://ai-site-iota-nine.vercel.app/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "regex",
+        "item": "https://ai-site-iota-nine.vercel.app/knowledge/regex"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "正規表現入門",
+        "item": "https://ai-site-iota-nine.vercel.app/course/regex/regex"
+      },
+      {
+        "@type": "ListItem",
+        "position": 4,
+        "name": "正規表現とは？いつ使うのかを初心者向けに解説【正規表現入門】",
+        "item": "https://ai-site-iota-nine.vercel.app/article/regex-intro"
+      }
+    ]
+  },
+  "courseSchema": {
+    "@context": "https://schema.org",
+    "@type": "Course",
+    "name": "正規表現入門",
+    "description": "ログ解析・バリデーション・置換に必須の正規表現を10ステップで習得。つまずきやすいエスケープや量詞を具体例で解説します。",
+    "provider": {
+      "@type": "Organization",
+      "name": "StackShelf",
+      "url": "https://ai-site-iota-nine.vercel.app"
+    },
+    "url": "https://ai-site-iota-nine.vercel.app/course/regex/regex",
+    "inLanguage": "ja",
+    "educationalLevel": "beginner",
+    "hasCourseInstance": {
+      "@type": "CourseInstance",
+      "courseMode": "online",
+      "courseWorkload": "PT1H"
+    }
+  },
+  "faqSchema": {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "正規表現はプログラミング言語ですか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "独立したプログラミング言語ではなく、多くの言語やツールに組み込まれた「パターン記述の記法」です。Pythonのre、JavaScriptのRegExp、grepなどがそれぞれ解釈して実行します。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "正規表現を覚えるのにどのくらいかかりますか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "基本的な文字クラスと量詞は数日〜1週間で使えるようになります。実務レベルでは、よく使うパターンをテスターで試しながら3〜4週間続けると自然に身につきます。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "初心者はどこから始めるべきですか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "まず「リテラル（普通の文字）」と「.（任意の1文字）」から始め、次に [] 文字クラス、* + 量詞の順がおすすめです。このコースもその順序で解説しています。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "正規表現でHTMLをパースしてもいいですか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "一般的には推奨されません。HTMLは入れ子構造が複雑で、正規表現だけでは壊れやすいです。DOMパーサや専用ライブラリを使いましょう。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "学習に便利なツールはありますか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "regex101.com や開発者ツールのコンソール、VS Codeの正規表現検索など、パターンと文字列を入力してマッチを可視化できるツールが役立ちます。"
+        }
+      }
+    ]
+  }
+}

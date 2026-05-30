@@ -1,0 +1,17 @@
+{
+  "topic": "regex",
+  "title": "正規表現入門",
+  "description": "ログ解析・バリデーション・置換に必須の正規表現を10ステップで習得。つまずきやすいエスケープや量詞を具体例で解説します。",
+  "beginnerPath": [
+    "regex-intro",
+    "regex-literals",
+    "regex-character-classes",
+    "regex-quantifiers",
+    "regex-anchors",
+    "regex-groups",
+    "regex-lookahead",
+    "regex-javascript",
+    "regex-cli-tools",
+    "regex-practice"
+  ]
+}

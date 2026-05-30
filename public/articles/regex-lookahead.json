@@ -1,0 +1,322 @@
+{
+  "id": "art_regex_regex-lookahead",
+  "slug": "regex-lookahead",
+  "title": "先読み・後読み（応用）｜正規表現で条件だけチェックする【入門】",
+  "summary": "正規表現の先読み (?= ) 、否定先読み (?! ) 、後読み (?<= ) 、否定後読み (?<! ) を具体例で解説。キャプチャせずに条件を付ける応用技法を学びます。",
+  "body": "<h2>先読み・後読みとは何か</h2>\n<p><strong>先読み（lookahead）</strong>と<strong>後読み（lookbehind）</strong>は、マッチ結果に<strong>文字を含めず</strong>、その位置の<strong>前後にある文字列が条件を満たすかだけ</strong>を調べる技法です。英語では lookaround とまとめて呼ばれることもあります。</p>\n<p>たとえば「数字の直後に円記号がある3桁」だけを探したいが、マッチ結果には数字だけ欲しい——こういうときに、通常のキャプチャだけでは不便な場面で活きます。</p>\n\n<h2>肯定先読み (?=...)</h2>\n<p><code>(?=パターン)</code> は、<strong>この位置の右側（先）にパターンが続く</strong>ことを要求します。マッチ幅はゼロで、右側の文字は消費しません。</p>\n<pre><code># 数字3桁のうち、直後に「円」があるもの（数字部分だけマッチさせたい場合の一例）\n\\d{3}(?=円)\n# \"1200円\" の 120 の部分の手前位置で先読みが成功\n\n# パスワードに英字と数字の両方（全体検証の一部として）\n^(?=.*[a-zA-Z])(?=.*\\d).{8,}$</code></pre>\n<p>複数の <code>(?=...)</code> を並べると、「すべての条件を満たす」AND のような検査ができます。パスワードポリシーの簡易チェックでよく見る形です。</p>\n\n<h2>否定先読み (?!...)</h2>\n<p><code>(?!パターン)</code> は、<strong>右側にパターンが続かない</strong>ことを要求します。</p>\n<pre><code># \"cat\" だが \"category\" の cat ではない（後続が egory でない）\ncat(?!egory)\n\n# 拡張子 .tmp 以外のファイル名（簡易）\n^[^.]+(?!\\.tmp$)</code></pre>\n<p>「〜で終わらない」「〜の直後ではない」という除外条件を、全体を書き直さずに付けられます。</p>\n\n<h2>肯定後読み (?&lt;=...) と否定後読み (?&lt;!...)</h2>\n<p>後読みは<strong>左側（後ろ）</strong>の条件を見ます。JavaScript は ES2018 から<strong>後読み</strong>をサポートしています（ブラウザ・Nodeのバージョンに注意）。</p>\n<pre><code># 円マークの直後の数字（円はマッチに含めないイメージ）\n(?&lt;=¥)\\d+\n\n# 否定後読み: 行頭が # でない（コメント行除外の一部）\n(?&lt;!^)#  ※ 実際のログ形式に合わせて調整が必要</code></pre>\n<p>可変長の後読みが使えない方言もあるため、ドキュメントを確認してください。</p>\n\n<h2>なぜキャプチャではなく先読みか</h2>\n<p>キャプチャグループでも「前後の条件」を表現できる場合がありますが、<strong>置換や抽出の対象に余計な部分が入る</strong>ことがあります。先読み・後読みは条件だけを付け、メインのマッチ部分をシンプルに保てます。</p>\n<p>また、複数条件を AND 的に重ねるパスワード検証では、肯定先読みの連鎖が読みやすいことがあります。</p>\n\n<h2>実務に近い例</h2>\n<p><strong>価格リストから税込みだけ：</strong> 行によっては <code>(?=.*税込)</code> のような行全体への先読みと組み合わせます（データ形式次第）。</p>\n<p><strong>メールのドメイン部分だけ（簡易）：</strong> 完全なメール検証は複雑なため、学習用に <code>(?&lt;=@)[\\w.-]+</code> のように @ の後ろを後読みで区切る例があります。本番では専用バリデータ推奨です。</p>\n<p><strong>重複単語の検出：</strong> <code>\\b(\\w+)\\s+\\1\\b</code> は後方参照の例ですが、先読みと組み合わせた除外パターンも設計できます。</p>\n\n<h2>つまずきポイント</h2>\n<p><strong>対応していない環境</strong>—— 古いブラウザやツールでは後読みが使えません。代替としてキャプチャや2段階の処理を検討します。</p>\n<p><strong>可変長の制限</strong>—— 一部エンジンは後読みの長さに制限があります。</p>\n<p><strong>読みやすさ</strong>—— 先読みが3つ以上並ぶと初心者には難しいので、コメントやテスト、関数への分割を検討しましょう。</p>\n\n<h2>先読みを使うかどうかの判断基準</h2>\n<p>次のようなときは先読みを検討します。（1）マッチ結果に条件部分を含めたくない、（2）複数の独立した条件をANDで付けたい、（3）除外条件だけを追加したい。逆に、抽出した部分をそのまま使うなら通常のキャプチャの方が単純なことが多いです。</p>\n<p>チームでパターンを共有するときは、先読みが3つ以上連なると読み手が苦労します。コメント、テストケース、または「正規表現＋通常の if 文」への分割を検討し、半年後の自分が読めるかどうかを基準にしてください。</p>\n\n<h2>Python との対応（参考）</h2>\n<p>Python の <code>re</code> モジュールでも <code>(?=...)</code> <code>(?!...)</code> が使えます。後読みは <code>(?&lt;=...)</code> <code>(?&lt;!...)</code> です。JavaScript 入門の前に Python でテキスト処理を学んでいる方は、同じ記法で試せるので、regex101 で Python フレーバーを選んで比較するのも有効です。</p>\n<p>先読みは応用技法ですが、パスワードポリシー1行で書ける便利さから、チュートリアルやサンプルコードに頻出します。読めないときは、<code>(?=.*[A-Z])</code> を「どこかに大文字が1文字以上ある」と日本語に訳してから理解する練習をしてください。</p>\n\n<h2>先読みなしで書く代替</h2>\n<p>「英字と数字を含む8文字以上」を、先読みなしで書くと複数の <code>if</code> と <code>test</code> に分かれます。可読性と一行での表現力のトレードオフです。チームのコーディング規約で「正規表現は1行まで」などのルールがある場合は、先読みの多用を避ける判断もあります。</p>\n\n<h2>段階的な学習パス</h2>\n<p>先読みは必須ではありません。まずキャプチャとアンカーで十分な検証が書けるようになってから、パスワードルールのサンプルで <code>(?=.*[0-9])</code> を1つずつ足してみてください。理解が追いつかないパターンは、コメント付きでチームに質問し、regex101 の説明機能と照らし合わせると学習効率が上がります。本番の認証機能では、正規表現に加えて漏洩パスワードリストのチェックなど、多層防御を検討するのが一般的です。</p>\n\n<h2>セキュリティメモ</h2>\n<p>先読みを含む複雑なパターンも、ユーザー入力をそのまま結合して実行すると ReDoS のリスクがあります。認証まわりでは正規表現に加え、レート制限やロックアウトなど、別レイヤーの対策をセットにしてください。次回は JavaScript の <code>test()</code> で、ここまでのパターンを実際に動かします。</p>\n\n<h2>まとめ</h2>\n<p>先読み <code>(?= ) (?! )</code> は右側の条件、後読み <code>(?&lt;= ) (?&lt;! )</code> は左側の条件を、マッチ文字列に含めずにチェックします。パスワードルールや除外条件で威力を発揮しますが、環境対応と可読性に注意してください。次回は JavaScript 固有の書き方と API に焦点を当てます。</p>",
+  "conclusion": "先読み・後読みはマッチに文字を含めず、位置の前後の条件だけを検査する応用技法です。?= は肯定、?! は否定の先読み、?<= ?<! は後読みです。パスワードの複数条件や除外に便利ですが、環境のサポートと可読性に注意し、複雑になりすぎたら通常のコードに分離しましょう。",
+  "tags": [
+    "正規表現",
+    "先読み",
+    "後読み",
+    "lookahead",
+    "regex",
+    "応用"
+  ],
+  "category": "正規表現",
+  "theme": "regex - 正規表現入門",
+  "status": "published",
+  "createdAt": "2026-05-30T05:14:27.596Z",
+  "updatedAt": "2026-05-30T05:14:27.599Z",
+  "publishedAt": "2026-05-30T05:14:27.596Z",
+  "metaTitle": "正規表現 先読み 後読み | ルックアhead ルックビハインド",
+  "metaDescription": "【正規表現初心者向け】正規表現の先読み・後読みを初心者向けに解説。?= ?! ?<= ?<! の違い、パスワード条件や価格の抽出例も具体例で学べます。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
+  "ogTitle": "先読み・後読み｜正規表現応用",
+  "ogDescription": "【正規表現初心者向け】【正規表現初心者向け】正規表現の先読み・後読みをわかりやすく解説。条件だけをチェックする応用技法です。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
+  "knowledge": {
+    "topic": "regex",
+    "courseId": "regex",
+    "episode": 7
+  },
+  "faq": [
+    {
+      "question": "先読みは初心者に必要ですか？",
+      "answer": "必須ではありませんが、パスワード検証や「直後に円がある数字」などでよく登場します。基本（文字クラス・量詞・アンカー）の後に学ぶのがおすすめです。"
+    },
+    {
+      "question": "JavaScriptで後読みは使えますか？",
+      "answer": "ES2018 以降の RegExp でサポートされています。古い環境では使えないため、対象バージョンを確認してください。"
+    },
+    {
+      "question": "先読みとキャプチャの違いは？",
+      "answer": "先読みは幅ゼロで結果に含まれません。キャプチャはマッチした部分を記憶し、置換や参照に使います。"
+    },
+    {
+      "question": "複数の (?= ) はANDですか？",
+      "answer": "同じ位置ですべて成功する必要があるため、AND的に働くことが多いです。ただしパターン全体の構造次第なのでテストが必要です。"
+    },
+    {
+      "question": "否定先読み (?! ) の例は？",
+      "answer": "cat(?!egory) で category の cat を除外するなど、「この後に続かない」条件を付けられます。"
+    }
+  ],
+  "nextEpisodeHint": "次回は JavaScript の RegExp リテラル、test/match/replace、フラグ g i m u など、ブラウザと Node での具体的な使い方を学びます。",
+  "nextAction": "",
+  "internalLinkCandidates": [
+    {
+      "slug": "regex-groups",
+      "title": "グループとキャプチャ",
+      "reason": "先読みと対比してキャプチャの復習"
+    },
+    {
+      "slug": "web-forms",
+      "title": "HTMLフォーム",
+      "reason": "パスワード・メールのクライアント検証"
+    },
+    {
+      "slug": "web-intro",
+      "title": "Web開発とは？",
+      "reason": "ブラウザ上のJavaScript文脈"
+    },
+    {
+      "slug": "python-exceptions",
+      "title": "例外処理",
+      "reason": "検証失敗時のエラーハンドリング"
+    },
+    {
+      "slug": "web-first-html",
+      "title": "最初のHTMLページ",
+      "reason": "次回のJS・フォーム検証への土台"
+    },
+    {
+      "slug": "regex-javascript",
+      "title": "JavaScriptでの正規表現",
+      "reason": "次回エピソードへの導線"
+    }
+  ],
+  "ogImage": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+  "canonical": "https://ai-site-iota-nine.vercel.app/article/regex-lookahead",
+  "jsonLd": {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@context": "https://schema.org",
+        "@type": "TechArticle",
+        "headline": "先読み・後読み（応用）｜正規表現で条件だけチェックする【入門】",
+        "description": "【正規表現初心者向け】正規表現の先読み・後読みを初心者向けに解説。?= ?! ?<= ?<! の違い、パスワード条件や価格の抽出例も具体例で学べます。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
+        "datePublished": "2026-05-30T05:14:27.596Z",
+        "dateModified": "2026-05-30T05:14:27.599Z",
+        "author": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
+        },
+        "image": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+        "inLanguage": "ja",
+        "wordCount": 2529,
+        "mainEntityOfPage": {
+          "@type": "WebPage",
+          "@id": "https://ai-site-iota-nine.vercel.app/article/regex-lookahead"
+        },
+        "keywords": "正規表現, 先読み, 後読み, lookahead, regex, 応用",
+        "articleSection": "正規表現",
+        "url": "https://ai-site-iota-nine.vercel.app/article/regex-lookahead",
+        "learningResourceType": "tutorial",
+        "educationalLevel": "beginner"
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "ホーム",
+            "item": "https://ai-site-iota-nine.vercel.app/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "regex",
+            "item": "https://ai-site-iota-nine.vercel.app/knowledge/regex"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "正規表現入門",
+            "item": "https://ai-site-iota-nine.vercel.app/course/regex/regex"
+          },
+          {
+            "@type": "ListItem",
+            "position": 4,
+            "name": "先読み・後読み（応用）｜正規表現で条件だけチェックする【入門】",
+            "item": "https://ai-site-iota-nine.vercel.app/article/regex-lookahead"
+          }
+        ]
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "Course",
+        "name": "正規表現入門",
+        "description": "ログ解析・バリデーション・置換に必須の正規表現を10ステップで習得。つまずきやすいエスケープや量詞を具体例で解説します。",
+        "provider": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app"
+        },
+        "url": "https://ai-site-iota-nine.vercel.app/course/regex/regex",
+        "inLanguage": "ja",
+        "educationalLevel": "beginner",
+        "hasCourseInstance": {
+          "@type": "CourseInstance",
+          "courseMode": "online",
+          "courseWorkload": "PT1H"
+        }
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "先読みは初心者に必要ですか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "必須ではありませんが、パスワード検証や「直後に円がある数字」などでよく登場します。基本（文字クラス・量詞・アンカー）の後に学ぶのがおすすめです。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "JavaScriptで後読みは使えますか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "ES2018 以降の RegExp でサポートされています。古い環境では使えないため、対象バージョンを確認してください。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "先読みとキャプチャの違いは？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "先読みは幅ゼロで結果に含まれません。キャプチャはマッチした部分を記憶し、置換や参照に使います。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "複数の (?= ) はANDですか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "同じ位置ですべて成功する必要があるため、AND的に働くことが多いです。ただしパターン全体の構造次第なのでテストが必要です。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "否定先読み (?! ) の例は？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "cat(?!egory) で category の cat を除外するなど、「この後に続かない」条件を付けられます。"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "breadcrumb": {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "ホーム",
+        "item": "https://ai-site-iota-nine.vercel.app/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "regex",
+        "item": "https://ai-site-iota-nine.vercel.app/knowledge/regex"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "正規表現入門",
+        "item": "https://ai-site-iota-nine.vercel.app/course/regex/regex"
+      },
+      {
+        "@type": "ListItem",
+        "position": 4,
+        "name": "先読み・後読み（応用）｜正規表現で条件だけチェックする【入門】",
+        "item": "https://ai-site-iota-nine.vercel.app/article/regex-lookahead"
+      }
+    ]
+  },
+  "courseSchema": {
+    "@context": "https://schema.org",
+    "@type": "Course",
+    "name": "正規表現入門",
+    "description": "ログ解析・バリデーション・置換に必須の正規表現を10ステップで習得。つまずきやすいエスケープや量詞を具体例で解説します。",
+    "provider": {
+      "@type": "Organization",
+      "name": "StackShelf",
+      "url": "https://ai-site-iota-nine.vercel.app"
+    },
+    "url": "https://ai-site-iota-nine.vercel.app/course/regex/regex",
+    "inLanguage": "ja",
+    "educationalLevel": "beginner",
+    "hasCourseInstance": {
+      "@type": "CourseInstance",
+      "courseMode": "online",
+      "courseWorkload": "PT1H"
+    }
+  },
+  "faqSchema": {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "先読みは初心者に必要ですか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "必須ではありませんが、パスワード検証や「直後に円がある数字」などでよく登場します。基本（文字クラス・量詞・アンカー）の後に学ぶのがおすすめです。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "JavaScriptで後読みは使えますか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "ES2018 以降の RegExp でサポートされています。古い環境では使えないため、対象バージョンを確認してください。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "先読みとキャプチャの違いは？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "先読みは幅ゼロで結果に含まれません。キャプチャはマッチした部分を記憶し、置換や参照に使います。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "複数の (?= ) はANDですか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "同じ位置ですべて成功する必要があるため、AND的に働くことが多いです。ただしパターン全体の構造次第なのでテストが必要です。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "否定先読み (?! ) の例は？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "cat(?!egory) で category の cat を除外するなど、「この後に続かない」条件を付けられます。"
+        }
+      }
+    ]
+  }
+}

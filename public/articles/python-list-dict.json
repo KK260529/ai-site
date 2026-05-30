@@ -3,7 +3,7 @@
   "slug": "python-list-dict",
   "title": "リストと辞書",
   "summary": "Pythonで最もよく使うデータ構造、リスト（list）と辞書（dict）の使い方を解説します。要素の追加・削除・検索・スライスなど、実践的な操作を豊富なコード例で学びましょう。",
-  "body": "\n<h2>リスト（list）とは？</h2>\n<p>リストとは、複数の値を順番に並べて管理するデータ構造です。1つの変数に複数の値をまとめて保存できます。買い物リスト、生徒の成績一覧、センサーの計測値の集まりなど、「同じ種類のデータが複数ある」場面でリストを使います。</p>\n<p>Pythonのリストは角カッコ <code>[]</code> を使って作ります。</p>\n<pre><code># リストの作成\nfruits = [\"apple\", \"banana\", \"cherry\"]\nscores = [85, 92, 78, 65, 100]\nempty = []  # 空のリスト\nmixed = [1, \"hello\", True, 3.14]  # 異なる型も混在可能\n\nprint(fruits)   # ['apple', 'banana', 'cherry']\nprint(len(fruits))  # 3（要素数）</code></pre>\n\n<h2>リストの要素へのアクセス</h2>\n<p>リストの要素には「インデックス（添字）」を使ってアクセスします。インデックスは <strong>0から始まります</strong>。</p>\n<pre><code>fruits = [\"apple\", \"banana\", \"cherry\", \"date\", \"elderberry\"]\n\nprint(fruits[0])   # apple（最初の要素）\nprint(fruits[1])   # banana\nprint(fruits[-1])  # elderberry（最後の要素）\nprint(fruits[-2])  # date（後ろから2番目）\n\n# 要素の変更\nfruits[1] = \"blueberry\"\nprint(fruits)  # ['apple', 'blueberry', 'cherry', 'date', 'elderberry']</code></pre>\n\n<h3>スライスで部分リストを取得</h3>\n<pre><code>numbers = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]\n\nprint(numbers[2:5])   # [2, 3, 4]（インデックス2〜4）\nprint(numbers[:4])    # [0, 1, 2, 3]（先頭から4つ）\nprint(numbers[6:])    # [6, 7, 8, 9]（6番目から末尾）\nprint(numbers[::2])   # [0, 2, 4, 6, 8]（1つおきに取得）\nprint(numbers[::-1])  # [9, 8, 7, 6, 5, 4, 3, 2, 1, 0]（逆順）</code></pre>\n\n<h2>リストのよく使うメソッド</h2>\n<p>リストには便利なメソッド（操作）が多数用意されています。</p>\n<pre><code>fruits = [\"apple\", \"banana\"]\n\n# 末尾に追加\nfruits.append(\"cherry\")\nprint(fruits)  # ['apple', 'banana', 'cherry']\n\n# 指定位置に挿入\nfruits.insert(1, \"blueberry\")\nprint(fruits)  # ['apple', 'blueberry', 'banana', 'cherry']\n\n# 末尾の要素を取り出して削除\nlast = fruits.pop()\nprint(last)    # cherry\nprint(fruits)  # ['apple', 'blueberry', 'banana']\n\n# 指定インデックスの要素を削除\nfruits.pop(0)\nprint(fruits)  # ['blueberry', 'banana']\n\n# 値を指定して削除\nfruits.remove(\"banana\")\nprint(fruits)  # ['blueberry']\n\n# 別のリストを結合\nfruits.extend([\"cherry\", \"date\"])\nprint(fruits)  # ['blueberry', 'cherry', 'date']\n\n# リストの複製（コピー）\ncopy = fruits.copy()\n\n# 並び替え（元のリストを変更）\nnums = [3, 1, 4, 1, 5, 9, 2, 6]\nnums.sort()\nprint(nums)  # [1, 1, 2, 3, 4, 5, 6, 9]\nnums.sort(reverse=True)  # 降順\nprint(nums)  # [9, 6, 5, 4, 3, 2, 1, 1]\n\n# 元のリストを変えずに並び替え\noriginal = [3, 1, 4, 1, 5]\nsorted_nums = sorted(original)\nprint(original)    # [3, 1, 4, 1, 5]（変わらない）\nprint(sorted_nums) # [1, 1, 3, 4, 5]\n\n# 要素の検索\nprint(\"cherry\" in fruits)  # True\nprint(fruits.index(\"cherry\"))  # 0（最初に一致したインデックス）\nprint(fruits.count(\"cherry\"))  # 1（出現回数）</code></pre>\n\n<h2>辞書（dict）とは？</h2>\n<p>辞書は「キー（key）」と「値（value）」のペアでデータを管理するデータ構造です。「名前から電話番号を調べる電話帳」のようなイメージです。リストがインデックス（番号）でアクセスするのに対し、辞書はキー（名前）でアクセスします。</p>\n<pre><code># 辞書の作成\nperson = {\n    \"name\": \"田中太郎\",\n    \"age\": 25,\n    \"city\": \"東京\",\n    \"is_student\": False\n}\n\nprint(person)\nprint(person[\"name\"])  # 田中太郎\nprint(person[\"age\"])   # 25</code></pre>\n\n<h2>辞書の操作</h2>\n<pre><code>person = {\"name\": \"田中\", \"age\": 25}\n\n# 要素の追加・変更\nperson[\"email\"] = \"tanaka@example.com\"  # 新しいキーを追加\nperson[\"age\"] = 26  # 既存の値を変更\nprint(person)\n\n# キーが存在するか確認\nprint(\"name\" in person)    # True\nprint(\"phone\" in person)   # False\n\n# 安全に値を取得（キーがない場合のデフォルト値を指定）\ncity = person.get(\"city\", \"不明\")\nprint(city)  # 不明（cityキーがないのでデフォルト値）\n\n# 要素の削除\ndel person[\"email\"]\nremoved = person.pop(\"age\")  # 削除した値を返す\nprint(removed)  # 26</code></pre>\n\n<h3>辞書のループ処理</h3>\n<pre><code>scores = {\"国語\": 85, \"数学\": 92, \"英語\": 78, \"理科\": 90}\n\n# キーだけをループ\nfor subject in scores:\n    print(subject)\n\n# 値だけをループ\nfor score in scores.values():\n    print(score)\n\n# キーと値を同時にループ（最もよく使う）\nfor subject, score in scores.items():\n    print(f\"{subject}: {score}点\")\n# 国語: 85点\n# 数学: 92点\n# 英語: 78点\n# 理科: 90点\n\n# 全キーをリストで取得\nprint(list(scores.keys()))    # ['国語', '数学', '英語', '理科']\n# 全値をリストで取得\nprint(list(scores.values()))  # [85, 92, 78, 90]</code></pre>\n\n<h2>リストと辞書のネスト</h2>\n<p>リストや辞書の中にリストや辞書を入れることができます。複雑なデータを表現するときに使います。</p>\n<pre><code># 辞書のリスト\nstudents = [\n    {\"name\": \"田中\", \"score\": 85},\n    {\"name\": \"鈴木\", \"score\": 92},\n    {\"name\": \"佐藤\", \"score\": 78}\n]\n\nfor student in students:\n    print(f\"{student['name']}: {student['score']}点\")\n\n# 辞書の中にリスト\nperson = {\n    \"name\": \"田中\",\n    \"hobbies\": [\"読書\", \"ゲーム\", \"料理\"],\n    \"scores\": {\"国語\": 85, \"数学\": 90}\n}\n\nprint(person[\"hobbies\"][0])       # 読書\nprint(person[\"scores\"][\"数学\"])   # 90</code></pre>\n\n<h2>タプル（tuple）も覚えておこう</h2>\n<p>タプルはリストに似ていますが、一度作ったら変更できない（イミュータブルな）データ構造です。丸カッコ <code>()</code> を使います。</p>\n<pre><code># タプルの作成\npoint = (3, 5)\nrgb = (255, 128, 0)\nsingle = (42,)  # 要素1つのタプルはカンマが必要\n\nprint(point[0])  # 3（インデックスでアクセスできる）\n\n# 変更はできない（エラーになる）\n# point[0] = 10  # TypeError\n\n# タプルのアンパック（よく使うテクニック）\nx, y = point\nprint(f\"x={x}, y={y}\")  # x=3, y=5\n\n# 関数の複数戻り値はタプルで返される\ndef get_range(numbers):\n    return min(numbers), max(numbers)\n\nlow, high = get_range([3, 1, 7, 4, 9])\nprint(f\"最小: {low}, 最大: {high}\")</code></pre>\n\n<h2>辞書内包表記</h2>\n<p>リスト内包表記と同様に、辞書も内包表記で生成できます。</p>\n<pre><code># 通常の辞書の作成\nsquares = {}\nfor i in range(1, 6):\n    squares[i] = i ** 2\nprint(squares)  # {1: 1, 2: 4, 3: 9, 4: 16, 5: 25}\n\n# 辞書内包表記で1行に\nsquares = {i: i ** 2 for i in range(1, 6)}\nprint(squares)  # {1: 1, 2: 4, 3: 9, 4: 16, 5: 25}\n\n# 条件付き\neven_squares = {i: i ** 2 for i in range(1, 11) if i % 2 == 0}\nprint(even_squares)  # {2: 4, 4: 16, 6: 36, 8: 64, 10: 100}</code></pre>\n",
+  "body": "<h2>結論：list は順序付き集合、dict はキーと値のペア</h2>\n<p>リスト <code>[]</code> はインデックスで要素にアクセスし、辞書 <code>{}</code> はキーで値を取り出します。append・pop・get などのメソッドとスライスを押さえると、実データの扱いが一気に楽になります。</p>\n\n<h2>リスト（list）とは？</h2>\n<p>リストとは、複数の値を順番に並べて管理するデータ構造です。1つの変数に複数の値をまとめて保存できます。買い物リスト、生徒の成績一覧、センサーの計測値の集まりなど、「同じ種類のデータが複数ある」場面でリストを使います。</p>\n<p>Pythonのリストは角カッコ <code>[]</code> を使って作ります。</p>\n<pre><code># リストの作成\nfruits = [\"apple\", \"banana\", \"cherry\"]\nscores = [85, 92, 78, 65, 100]\nempty = []  # 空のリスト\nmixed = [1, \"hello\", True, 3.14]  # 異なる型も混在可能\n\nprint(fruits)   # ['apple', 'banana', 'cherry']\nprint(len(fruits))  # 3（要素数）</code></pre>\n\n<h2>リストの要素へのアクセス</h2>\n<p>リストの要素には「インデックス（添字）」を使ってアクセスします。インデックスは <strong>0から始まります</strong>。</p>\n<pre><code>fruits = [\"apple\", \"banana\", \"cherry\", \"date\", \"elderberry\"]\n\nprint(fruits[0])   # apple（最初の要素）\nprint(fruits[1])   # banana\nprint(fruits[-1])  # elderberry（最後の要素）\nprint(fruits[-2])  # date（後ろから2番目）\n\n# 要素の変更\nfruits[1] = \"blueberry\"\nprint(fruits)  # ['apple', 'blueberry', 'cherry', 'date', 'elderberry']</code></pre>\n\n<h3>スライスで部分リストを取得</h3>\n<pre><code>numbers = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]\n\nprint(numbers[2:5])   # [2, 3, 4]（インデックス2〜4）\nprint(numbers[:4])    # [0, 1, 2, 3]（先頭から4つ）\nprint(numbers[6:])    # [6, 7, 8, 9]（6番目から末尾）\nprint(numbers[::2])   # [0, 2, 4, 6, 8]（1つおきに取得）\nprint(numbers[::-1])  # [9, 8, 7, 6, 5, 4, 3, 2, 1, 0]（逆順）</code></pre>\n\n<h2>リストのよく使うメソッド</h2>\n<p>リストには便利なメソッド（操作）が多数用意されています。</p>\n<pre><code>fruits = [\"apple\", \"banana\"]\n\n# 末尾に追加\nfruits.append(\"cherry\")\nprint(fruits)  # ['apple', 'banana', 'cherry']\n\n# 指定位置に挿入\nfruits.insert(1, \"blueberry\")\nprint(fruits)  # ['apple', 'blueberry', 'banana', 'cherry']\n\n# 末尾の要素を取り出して削除\nlast = fruits.pop()\nprint(last)    # cherry\nprint(fruits)  # ['apple', 'blueberry', 'banana']\n\n# 指定インデックスの要素を削除\nfruits.pop(0)\nprint(fruits)  # ['blueberry', 'banana']\n\n# 値を指定して削除\nfruits.remove(\"banana\")\nprint(fruits)  # ['blueberry']\n\n# 別のリストを結合\nfruits.extend([\"cherry\", \"date\"])\nprint(fruits)  # ['blueberry', 'cherry', 'date']\n\n# リストの複製（コピー）\ncopy = fruits.copy()\n\n# 並び替え（元のリストを変更）\nnums = [3, 1, 4, 1, 5, 9, 2, 6]\nnums.sort()\nprint(nums)  # [1, 1, 2, 3, 4, 5, 6, 9]\nnums.sort(reverse=True)  # 降順\nprint(nums)  # [9, 6, 5, 4, 3, 2, 1, 1]\n\n# 元のリストを変えずに並び替え\noriginal = [3, 1, 4, 1, 5]\nsorted_nums = sorted(original)\nprint(original)    # [3, 1, 4, 1, 5]（変わらない）\nprint(sorted_nums) # [1, 1, 3, 4, 5]\n\n# 要素の検索\nprint(\"cherry\" in fruits)  # True\nprint(fruits.index(\"cherry\"))  # 0（最初に一致したインデックス）\nprint(fruits.count(\"cherry\"))  # 1（出現回数）</code></pre>\n\n<h2>辞書（dict）とは？</h2>\n<p>辞書は「キー（key）」と「値（value）」のペアでデータを管理するデータ構造です。「名前から電話番号を調べる電話帳」のようなイメージです。リストがインデックス（番号）でアクセスするのに対し、辞書はキー（名前）でアクセスします。</p>\n<pre><code># 辞書の作成\nperson = {\n    \"name\": \"田中太郎\",\n    \"age\": 25,\n    \"city\": \"東京\",\n    \"is_student\": False\n}\n\nprint(person)\nprint(person[\"name\"])  # 田中太郎\nprint(person[\"age\"])   # 25</code></pre>\n\n<h2>辞書の操作</h2>\n<pre><code>person = {\"name\": \"田中\", \"age\": 25}\n\n# 要素の追加・変更\nperson[\"email\"] = \"tanaka@example.com\"  # 新しいキーを追加\nperson[\"age\"] = 26  # 既存の値を変更\nprint(person)\n\n# キーが存在するか確認\nprint(\"name\" in person)    # True\nprint(\"phone\" in person)   # False\n\n# 安全に値を取得（キーがない場合のデフォルト値を指定）\ncity = person.get(\"city\", \"不明\")\nprint(city)  # 不明（cityキーがないのでデフォルト値）\n\n# 要素の削除\ndel person[\"email\"]\nremoved = person.pop(\"age\")  # 削除した値を返す\nprint(removed)  # 26</code></pre>\n\n<h3>辞書のループ処理</h3>\n<pre><code>scores = {\"国語\": 85, \"数学\": 92, \"英語\": 78, \"理科\": 90}\n\n# キーだけをループ\nfor subject in scores:\n    print(subject)\n\n# 値だけをループ\nfor score in scores.values():\n    print(score)\n\n# キーと値を同時にループ（最もよく使う）\nfor subject, score in scores.items():\n    print(f\"{subject}: {score}点\")\n# 国語: 85点\n# 数学: 92点\n# 英語: 78点\n# 理科: 90点\n\n# 全キーをリストで取得\nprint(list(scores.keys()))    # ['国語', '数学', '英語', '理科']\n# 全値をリストで取得\nprint(list(scores.values()))  # [85, 92, 78, 90]</code></pre>\n\n<h2>リストと辞書のネスト</h2>\n<p>リストや辞書の中にリストや辞書を入れることができます。複雑なデータを表現するときに使います。</p>\n<pre><code># 辞書のリスト\nstudents = [\n    {\"name\": \"田中\", \"score\": 85},\n    {\"name\": \"鈴木\", \"score\": 92},\n    {\"name\": \"佐藤\", \"score\": 78}\n]\n\nfor student in students:\n    print(f\"{student['name']}: {student['score']}点\")\n\n# 辞書の中にリスト\nperson = {\n    \"name\": \"田中\",\n    \"hobbies\": [\"読書\", \"ゲーム\", \"料理\"],\n    \"scores\": {\"国語\": 85, \"数学\": 90}\n}\n\nprint(person[\"hobbies\"][0])       # 読書\nprint(person[\"scores\"][\"数学\"])   # 90</code></pre>\n\n<h2>タプル（tuple）も覚えておこう</h2>\n<p>タプルはリストに似ていますが、一度作ったら変更できない（イミュータブルな）データ構造です。丸カッコ <code>()</code> を使います。</p>\n<pre><code># タプルの作成\npoint = (3, 5)\nrgb = (255, 128, 0)\nsingle = (42,)  # 要素1つのタプルはカンマが必要\n\nprint(point[0])  # 3（インデックスでアクセスできる）\n\n# 変更はできない（エラーになる）\n# point[0] = 10  # TypeError\n\n# タプルのアンパック（よく使うテクニック）\nx, y = point\nprint(f\"x={x}, y={y}\")  # x=3, y=5\n\n# 関数の複数戻り値はタプルで返される\ndef get_range(numbers):\n    return min(numbers), max(numbers)\n\nlow, high = get_range([3, 1, 7, 4, 9])\nprint(f\"最小: {low}, 最大: {high}\")</code></pre>\n\n<h2>辞書内包表記</h2>\n<p>リスト内包表記と同様に、辞書も内包表記で生成できます。</p>\n<pre><code># 通常の辞書の作成\nsquares = {}\nfor i in range(1, 6):\n    squares[i] = i ** 2\nprint(squares)  # {1: 1, 2: 4, 3: 9, 4: 16, 5: 25}\n\n# 辞書内包表記で1行に\nsquares = {i: i ** 2 for i in range(1, 6)}\nprint(squares)  # {1: 1, 2: 4, 3: 9, 4: 16, 5: 25}\n\n# 条件付き\neven_squares = {i: i ** 2 for i in range(1, 11) if i % 2 == 0}\nprint(even_squares)  # {2: 4, 4: 16, 6: 36, 8: 64, 10: 100}</code></pre>\n\n<h2>つまずきやすいポイント・失敗例</h2>\n<h3>失敗例：存在しないキーで KeyError</h3>\n<p><code>d[\"missing\"]</code> はキーがなければエラーです。安全に取るなら <code>d.get(\"missing\", デフォルト)</code> を使いましょう。</p>\n<h3>失敗例：リストをループ中に remove する</h3>\n<p>走査中に要素を削除するとインデックスがずれ、要素を飛ばすことがあります。コピーをループするか、リスト内包表記で新リストを作る方法が安全です。</p>\n<pre><code>scores = [85, 92, 78]\nscores.append(100)\nprint(scores[0])  # 85\n\nuser = {\"name\": \"太郎\", \"age\": 20}\nprint(user.get(\"email\", \"未設定\"))</code></pre>",
   "conclusion": "リストと辞書はPythonプログラミングで最も頻繁に使うデータ構造です。リストは順序付きのデータを管理し、辞書はキーと値のペアで構造化されたデータを管理します。両者を使いこなせれば、複雑な現実世界のデータをPythonで柔軟に扱えるようになります。次はファイルの読み書きを学びます。",
   "tags": [
     "python",
@@ -18,12 +18,12 @@
   "theme": "python - Python 入門",
   "status": "published",
   "createdAt": "2026-05-30T04:12:57.486Z",
-  "updatedAt": "2026-05-30T04:12:57.501Z",
+  "updatedAt": "2026-05-30T05:17:16.247Z",
   "publishedAt": "2026-05-30T04:12:57.486Z",
   "metaTitle": "Python リスト 辞書 list dict 入門 | Python入門",
-  "metaDescription": "【Python初心者向け】Python入門：リスト（list）と辞書（dict）の作成・追加・削除・検索を初心者向けに解説。スライス・内包表記・よく使うメソッドも豊富なコード例付きで説明します。 図解・具体例つきで丁寧に解説します。",
+  "metaDescription": "Pythonのリストと辞書の作成・追加・検索・スライスを解説。KeyErrorやループ中の削除など、つまずきやすい失敗例を具体例で紹介します。",
   "ogTitle": "Python リストと辞書（list/dict）| Python入門",
-  "ogDescription": "【Python初心者向け】Pythonのリストと辞書を初心者向けに解説。追加・削除・検索・スライス・メソッドの使い方を豊富なコード例で学べます。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
+  "ogDescription": "Pythonのリストと辞書を初心者向けに解説。追加・削除・検索・スライス・メソッドの使い方を豊富なコード例で学べます。",
   "knowledge": {
     "topic": "python",
     "courseId": "python",
@@ -41,6 +41,14 @@
     {
       "question": "リストのコピーは = で代入するだけでいいですか？",
       "answer": "いいえ。`b = a` とすると b と a は同じリストを参照するので、どちらか一方を変更するともう一方も変わります。独立したコピーを作るには `b = a.copy()` または `b = a[:]` を使ってください。"
+    },
+    {
+      "question": "プログラミング未経験でもPythonは学べますか？",
+      "answer": "はい。Pythonは文法が比較的シンプルで、エラーメッセージも読みやすい言語です。小さなプログラムから手を動かしながら進めましょう。"
+    },
+    {
+      "question": "エラーが出たときの対処法は？",
+      "answer": "エラーメッセージの最終行（例外名と説明）を読み、該当行のコードを確認してください。print() で変数の中身を表示するのも有効です。"
     }
   ],
   "nextEpisodeHint": "次回はファイルの読み書きを学びます。open()関数・read()/write()・withブロックを使って、テキストファイルやCSVファイルをPythonで操作する方法を解説します。",
@@ -53,9 +61,9 @@
         "@context": "https://schema.org",
         "@type": "TechArticle",
         "headline": "リストと辞書",
-        "description": "【Python初心者向け】Python入門：リスト（list）と辞書（dict）の作成・追加・削除・検索を初心者向けに解説。スライス・内包表記・よく使うメソッドも豊富なコード例付きで説明します。 図解・具体例つきで丁寧に解説します。",
+        "description": "Pythonのリストと辞書の作成・追加・検索・スライスを解説。KeyErrorやループ中の削除など、つまずきやすい失敗例を具体例で紹介します。",
         "datePublished": "2026-05-30T04:12:57.486Z",
-        "dateModified": "2026-05-30T04:12:57.501Z",
+        "dateModified": "2026-05-30T05:17:16.247Z",
         "author": {
           "@type": "Organization",
           "name": "StackShelf",
@@ -76,7 +84,7 @@
         },
         "image": "https://ai-site-iota-nine.vercel.app/og-default.svg",
         "inLanguage": "ja",
-        "wordCount": 3843,
+        "wordCount": 4260,
         "mainEntityOfPage": {
           "@type": "WebPage",
           "@id": "https://ai-site-iota-nine.vercel.app/article/python-list-dict"
@@ -163,6 +171,22 @@
               "@type": "Answer",
               "text": "いいえ。`b = a` とすると b と a は同じリストを参照するので、どちらか一方を変更するともう一方も変わります。独立したコピーを作るには `b = a.copy()` または `b = a[:]` を使ってください。"
             }
+          },
+          {
+            "@type": "Question",
+            "name": "プログラミング未経験でもPythonは学べますか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "はい。Pythonは文法が比較的シンプルで、エラーメッセージも読みやすい言語です。小さなプログラムから手を動かしながら進めましょう。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "エラーが出たときの対処法は？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "エラーメッセージの最終行（例外名と説明）を読み、該当行のコードを確認してください。print() で変数の中身を表示するのも有効です。"
+            }
           }
         ]
       }
@@ -244,7 +268,51 @@
           "@type": "Answer",
           "text": "いいえ。`b = a` とすると b と a は同じリストを参照するので、どちらか一方を変更するともう一方も変わります。独立したコピーを作るには `b = a.copy()` または `b = a[:]` を使ってください。"
         }
+      },
+      {
+        "@type": "Question",
+        "name": "プログラミング未経験でもPythonは学べますか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "はい。Pythonは文法が比較的シンプルで、エラーメッセージも読みやすい言語です。小さなプログラムから手を動かしながら進めましょう。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "エラーが出たときの対処法は？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "エラーメッセージの最終行（例外名と説明）を読み、該当行のコードを確認してください。print() で変数の中身を表示するのも有効です。"
+        }
       }
     ]
-  }
+  },
+  "internalLinkCandidates": [
+    {
+      "slug": "python-classes",
+      "title": "クラスの基礎（class, __init__, メソッド）",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "python-exceptions",
+      "title": "例外処理（try/except）",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "python-modules",
+      "title": "モジュールとパッケージ（import, pip install）",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "python-file-io",
+      "title": "ファイルの読み書き（open, read, write）",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "python-functions",
+      "title": "関数の定義と使い方（def, 引数, return）",
+      "reason": "同じ講座の関連回です"
+    }
+  ],
+  "nextAction": "次はファイルの読み書きを学びます。open()関数・read()/write()・withブロックを使って、テキストファイルやCSVファイルをPythonで操作する方法を解説します。"
 }

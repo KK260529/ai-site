@@ -1,0 +1,13 @@
+{
+  "slug": "bash-practice",
+  "courseId": "bash",
+  "episode": 10,
+  "summaryMemory": [
+    "backup.sh は tar 圧縮 + find 世代削除 + ログ + set -euo pipefail",
+    "設定は backup.conf と環境変数で上書き可能に",
+    "cron 登録時は flock と絶対パス、ログリダイレクト必須",
+    "リストア手順の文書化と定期テストが運用完成の条件"
+  ],
+  "nextEpisodeHint": "Bashシェルスクリプト入門コースは全10回で完了です。正規表現・Docker・Python・nginx など関連コースで、自動化と運用の幅をさらに広げていきましょう。",
+  "updatedAt": "2026-05-30T05:14:56.915Z"
+}

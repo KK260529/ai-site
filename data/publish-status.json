@@ -1,14 +1,14 @@
 {
   "siteUrl": "https://ai-site-iota-nine.vercel.app",
   "nodeEnv": "production",
-  "sitemapUpdatedAt": "2026-05-30T05:02:33.539Z",
-  "rssUpdatedAt": "2026-05-30T05:02:33.645Z",
-  "robotsUpdatedAt": "2026-05-30T05:02:33.646Z",
+  "sitemapUpdatedAt": "2026-05-30T05:24:17.761Z",
+  "rssUpdatedAt": "2026-05-30T05:24:17.916Z",
+  "robotsUpdatedAt": "2026-05-30T05:24:17.917Z",
   "lastPublish": {
-    "slug": "docker-webapp-practice",
-    "title": "Node.js・Python WebアプリをDockerコンテナ化する実践ガイド",
-    "url": "https://ai-site-iota-nine.vercel.app/article/docker-webapp-practice",
-    "at": "2026-05-30T04:13:35.289Z"
+    "slug": "nginx-practice",
+    "title": "実践：Node.jsアプリの前段にnginxを構築する【総合演習】",
+    "url": "https://ai-site-iota-nine.vercel.app/article/nginx-practice",
+    "at": "2026-05-30T05:15:09.728Z"
   },
   "sitemapUrl": "https://ai-site-iota-nine.vercel.app/sitemap.xml",
   "rssUrl": "https://ai-site-iota-nine.vercel.app/rss.xml",

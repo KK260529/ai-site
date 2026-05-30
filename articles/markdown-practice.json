@@ -1,0 +1,316 @@
+{
+  "id": "art_markdown_markdown-practice",
+  "slug": "markdown-practice",
+  "title": "実践：プロジェクトREADMEを一から作る｜Markdown総仕上げ",
+  "summary": "これまでの記法と構成を統合し、サンプルAPIプロジェクトのREADMEをゼロから作成する手順と品質チェックリスト、よくある仕上げミスを解説します。",
+  "body": "<h2>結論：テンプレートから始め、動かす→読む人の目線で削る</h2>\n<p>最終回は<strong>手を動かしてREADMEを1本完成させる</strong>実践です。記法（見出し・リスト・コード・表・リンク）と構成（入口・手順・ライセンス）、ツール（プレビュー・Lint）を統合します。結論から言うと、完成の流れは「最小テンプレートを書く → コマンドを実際に実行して確認 → 初見の人の目線で冗長部分を削る」の3ステップです。このサイクルを1回回せば、以降のプロジェクトでも同じ型でREADMEを量産できます。</p>\n\n<h2>題材：架空のCLIツール「mdlint-demo」</h2>\n<p>例として、Markdownファイルの行数を数える小さなCLIツールのREADMEを作ります。あなたの実プロジェクトに置き換えても、手順は同じです。</p>\n\n<h2>ステップ1：骨格だけ書く（5分）</h2>\n<pre><code># mdlint-demo\n\nMarkdownファイルの行数を表示するCLIツールです。\n\n## 必要条件\n\n- Node.js 18+\n- npm 9+\n\n## インストール\n\n（ここにコマンド）\n\n## 使い方\n\n（ここにコマンド）\n\n## ライセンス\n\nMIT</code></pre>\n<p>この段階では装飾やバッジは不要です。<strong>見出しの階層だけ正しい</strong>状態を作ることが目的です。</p>\n\n<h2>ステップ2：コマンドを埋め、実行して確認（15分）</h2>\n<pre><code>## インストール\n\n```bash\ngit clone https://github.com/example/mdlint-demo.git\ncd mdlint-demo\nnpm install\nnpm link\n```\n\n## 使い方\n\n```bash\nmdlint-demo README.md\n# 出力例: README.md: 42 lines\n```</code></pre>\n<p>ここで多くの人が失敗するのは、<strong>実行していないコマンド</strong>を書くことです。OSやバージョンが違うと失敗します。あなたの環境で動いたコマンドだけを残し、前提は「必要条件」に書きます。</p>\n\n<h2>ステップ3：表とリンクで補足（10分）</h2>\n<pre><code>## オプション\n\n| オプション | 説明 |\n| --- | --- |\n| --json | JSON形式で出力 |\n| -h, --help | ヘルプを表示 |\n\n## 関連リンク\n\n- [Markdown記法（本サイト）](/articles/markdown-intro)\n- [Issue報告](https://github.com/example/mdlint-demo/issues)</code></pre>\n<p>表は3列程度に抑え、リンク文言は具体名にします。相対パスはリポジトリ内の実在ファイルを指すようにします。</p>\n\n<h2>ステップ4：Lintとプレビュー（5分）</h2>\n<p>markdownlintの警告を解消し、VS CodeプレビューとGitHub（またはGitHub風プレビュー）で次を確認します。</p>\n<ul>\n  <li>見出しが1つ（#）で、## が論理順</li>\n  <li>コードブロックに言語名がある</li>\n  <li>表の列数が揃っている</li>\n  <li>リンクをクリックして目的のページに届く</li>\n</ul>\n\n<h2>ステップ5：初見レビューで削る（10分）</h2>\n<p>同僚や未来の自分が「5分で動かせるか」で読み返し、重複段落・古いバッジ・関係ない歴史を削除します。READMEは<strong>短いほど読まれる</strong>傾向があります。詳細は <code>docs/</code> へ移す判断もここで行います。</p>\n\n<h2>完成例（抜粋）</h2>\n<pre><code># mdlint-demo\n\nREADMEや設計書の行数を素早く確認するCLIです。\n\n## 必要条件\n\n- Node.js 18 以上\n\n## インストール\n\n```bash\nnpm install -g mdlint-demo\n```\n\n## 使い方\n\n```bash\nmdlint-demo path/to/file.md\n```\n\n## ライセンス\n\nMIT — 詳細は [LICENSE](LICENSE) を参照してください。</code></pre>\n\n<h2>品質チェックリスト（提出前に全項目）</h2>\n<ol>\n  <li>プロジェクト名と一行説明がある</li>\n  <li>インストール手順がコピペで動く（自分で試した）</li>\n  <li>最小の使用例が1つある</li>\n  <li>秘密情報・個人メールが含まれていない</li>\n  <li>ライセンス表記とLICENSEファイルが一致</li>\n  <li>リンク・画像が404になっていない</li>\n  <li>markdownlintの重大な警告がない</li>\n  <li>英語/日本語の混在方針が意図どおり</li>\n</ol>\n\n<h2>よくある仕上げミス</h2>\n<ul>\n  <li><strong>「準備中」セクションが残る</strong>：公開前に空見出しを削除</li>\n  <li><strong>スクリーンショットだけで手順がない</strong>：画像は補助、手順はテキストとコードで</li>\n  <li><strong>貢献方法がREADMEに長すぎる</strong>：CONTRIBUTING.mdへ分離</li>\n  <li><strong>バージョン表記が本文とpackage.jsonで不一致</strong>：どちらかを正として揃える</li>\n</ul>\n\n<h2>ペアレビューでREADMEを磨く</h2>\n<p>可能なら、同僚や学習仲間に「5分だけREADMEを読んで、どこで詰まったか」を聞いてもらいます。本人では気づかない前提不足（Nodeのインストール方法がない、環境変数の例がない）が見つかります。フィードバックはIssueやコメントではなく、Markdownのdiffとして残すと、ドキュメント改善の履歴にもなります。</p>\n\n<h2>この講座のあとに学ぶとよいこと</h2>\n<p>Markdownは入口にすぎません。Gitでレビュー文化を学ぶ、静的サイトでdocsサイトを公開する、API仕様をOpenAPIで自動生成する、といった次のステップがあります。本講座で作ったREADMEを、実際のリポジトリの最初のPRとして出すのが最も効果的な定着方法です。</p>\n\n<h2>CHANGELOGとSECURITY.md</h2>\n<p>公開OSSでは、READMEに加えて <code>CHANGELOG.md</code>（変更履歴）と <code>SECURITY.md</code>（脆弱性報告窓口）があると信頼感が増します。本講座のチェックリストに「セキュリティ連絡先があるか」を加えてもよいでしょう。個人練習では省略して構いません。</p>\n\n<h2>ポートフォリオとして見せるとき</h2>\n<p>就職・転職活動では、GitHubプロフィールのピン留めリポジトリと、そのREADMEの最初の3行が強く印象に残ります。スクリーンショット・デモGIF・「何ができるか」を先に書き、技術スタックは表で短くまとめる構成が効果的です。READMEだけ整えてコードが空、という状態は避け、最小でも動くコードとセットで示しましょう。</p>\n\n<h2>まとめ</h2>\n<p>実践では、骨格→動作確認済みコマンド→表とリンク→Lint→初見レビューの順で仕上げます。チェックリスト8項目を満たせば、公開リポジトリとして十分な入口品質に達しています。お疲れさまでした。Markdown & 技術ドキュメント入門の全8回はここで完了です。</p>",
+  "conclusion": "総仕上げでは、READMEの骨格を先に作り、実行確認済みのコマンドだけを載せ、表とリンクで補足したうえでLintと初見レビューで削ぎ落とします。チェックリストで秘密情報・ライセンス・リンク切れを確認すれば公開可能な品質になります。実プロジェクトのREADMEをPRとして出すことが、いちばん確実な定着です。",
+  "tags": [
+    "Markdown",
+    "README",
+    "実践",
+    "プロジェクト",
+    "チェックリスト"
+  ],
+  "category": "Markdown",
+  "theme": "markdown - Markdown & 技術ドキュメント入門",
+  "status": "published",
+  "createdAt": "2026-05-30T05:14:19.531Z",
+  "updatedAt": "2026-05-30T05:15:45.093Z",
+  "publishedAt": "2026-05-30T05:14:19.531Z",
+  "metaTitle": "実践：プロジェクトREADME作成【Markdown総仕上げ】｜Markdown入門 | StackShelf",
+  "metaDescription": "Markdown講座の総仕上げとして、プロジェクトREADMEを一から作る手順、チェックリスト、仕上げ時の失敗例を具体例で解説します。",
+  "ogTitle": "実践：プロジェクトREADMEを作る",
+  "ogDescription": "Markdown入門の総仕上げ。READMEを一から組み立てる手順と品質チェックを解説します。",
+  "knowledge": {
+    "topic": "markdown",
+    "courseId": "markdown",
+    "episode": 8
+  },
+  "faq": [
+    {
+      "question": "個人開発でもREADMEは必要ですか？",
+      "answer": "未来の自分へのメモとしても価値があります。数ヶ月後にセットアップ手順を忘れることを防ぎ、ポートフォリオとして見せるときも説明コストが下がります。"
+    },
+    {
+      "question": "READMEが長くなりすぎたら？",
+      "answer": "インストールと最小使用例だけREADMEに残し、設計・API・FAQはdocs/へ移します。READMEの目次からリンクする構成に切り替えてください。"
+    },
+    {
+      "question": "まだコードが未完成でもREADMEを書く？",
+      "answer": "早期に骨格だけ書くと設計の抜けに気づきやすいです。未実装部分は「予定」と明記するか、実装後に更新するIssueを立てると誠実です。"
+    },
+    {
+      "question": "チェックリストはチームで共有すべき？",
+      "answer": "CONTRIBUTING.mdやPRテンプレートに同じ項目を貼ると、レビュー基準が揃います。本回の8項目を出発点に、プロジェクト固有の項目を追加するのがよいでしょう。"
+    },
+    {
+      "question": "次に学ぶおすすめのテーマは？",
+      "answer": "Git/GitHubでのPRレビュー、docsサイト構築（MkDocs）、OpenAPIによるAPIドキュメント自動生成のいずれかが、Markdownスキルを実務レベルに伸ばす近道です。"
+    }
+  ],
+  "nextEpisodeHint": "Markdown講座は全8回で完了です。次はGit入門でリポジトリ運用を学ぶか、Web入門でHTML/CSSと組み合わせたドキュメント公開に進むのがおすすめです。",
+  "nextAction": "自分のプロジェクト（または練習用リポジトリ）にREADME.mdを作成し、本回のチェックリスト8項目をすべて満たしたらGitHubにpushするか、ローカルで完成版として保存してください。",
+  "internalLinkCandidates": [
+    {
+      "slug": "markdown-github-readme",
+      "title": "GitHub READMEの書き方｜公開リポジトリの顔を整える",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "markdown-code-tables",
+      "title": "コードブロックと表｜Markdownで技術内容を正確に書く",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "markdown-lists-links",
+      "title": "リスト・リンク・画像｜Markdownで情報を整理する",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "markdown-intro",
+      "title": "Markdownとは？技術文書を書く理由と全体像",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "markdown-tools",
+      "title": "エディタ・プレビュー・Lint｜Markdown執筆を効率化するツール",
+      "reason": "同じ講座の関連回です"
+    }
+  ],
+  "ogImage": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+  "canonical": "https://ai-site-iota-nine.vercel.app/article/markdown-practice",
+  "jsonLd": {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@context": "https://schema.org",
+        "@type": "TechArticle",
+        "headline": "実践：プロジェクトREADMEを一から作る｜Markdown総仕上げ",
+        "description": "【Markdown初心者向け】Markdown講座の総仕上げとして、プロジェクトREADMEを一から作る手順、チェックリスト、仕上げ時の失敗例を具体例で解説します。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
+        "datePublished": "2026-05-30T05:14:19.531Z",
+        "dateModified": "2026-05-30T05:15:45.093Z",
+        "author": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
+        },
+        "image": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+        "inLanguage": "ja",
+        "wordCount": 2525,
+        "mainEntityOfPage": {
+          "@type": "WebPage",
+          "@id": "https://ai-site-iota-nine.vercel.app/article/markdown-practice"
+        },
+        "keywords": "Markdown, README, 実践, プロジェクト, チェックリスト",
+        "articleSection": "Markdown",
+        "url": "https://ai-site-iota-nine.vercel.app/article/markdown-practice",
+        "learningResourceType": "tutorial",
+        "educationalLevel": "beginner"
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "ホーム",
+            "item": "https://ai-site-iota-nine.vercel.app/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "markdown",
+            "item": "https://ai-site-iota-nine.vercel.app/knowledge/markdown"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "Markdown & 技術ドキュメント入門",
+            "item": "https://ai-site-iota-nine.vercel.app/course/markdown/markdown"
+          },
+          {
+            "@type": "ListItem",
+            "position": 4,
+            "name": "実践：プロジェクトREADMEを一から作る｜Markdown総仕上げ",
+            "item": "https://ai-site-iota-nine.vercel.app/article/markdown-practice"
+          }
+        ]
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "Course",
+        "name": "Markdown & 技術ドキュメント入門",
+        "description": "README・設計書・ブログに使えるMarkdownを8ステップで習得。日本語の体系的入門が少ないテーマを、具体例と失敗例つきで学びます。",
+        "provider": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app"
+        },
+        "url": "https://ai-site-iota-nine.vercel.app/course/markdown/markdown",
+        "inLanguage": "ja",
+        "educationalLevel": "beginner",
+        "hasCourseInstance": {
+          "@type": "CourseInstance",
+          "courseMode": "online",
+          "courseWorkload": "PT1H"
+        }
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "個人開発でもREADMEは必要ですか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "未来の自分へのメモとしても価値があります。数ヶ月後にセットアップ手順を忘れることを防ぎ、ポートフォリオとして見せるときも説明コストが下がります。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "READMEが長くなりすぎたら？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "インストールと最小使用例だけREADMEに残し、設計・API・FAQはdocs/へ移します。READMEの目次からリンクする構成に切り替えてください。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "まだコードが未完成でもREADMEを書く？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "早期に骨格だけ書くと設計の抜けに気づきやすいです。未実装部分は「予定」と明記するか、実装後に更新するIssueを立てると誠実です。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "チェックリストはチームで共有すべき？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "CONTRIBUTING.mdやPRテンプレートに同じ項目を貼ると、レビュー基準が揃います。本回の8項目を出発点に、プロジェクト固有の項目を追加するのがよいでしょう。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "次に学ぶおすすめのテーマは？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Git/GitHubでのPRレビュー、docsサイト構築（MkDocs）、OpenAPIによるAPIドキュメント自動生成のいずれかが、Markdownスキルを実務レベルに伸ばす近道です。"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "breadcrumb": {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "ホーム",
+        "item": "https://ai-site-iota-nine.vercel.app/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "markdown",
+        "item": "https://ai-site-iota-nine.vercel.app/knowledge/markdown"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "Markdown & 技術ドキュメント入門",
+        "item": "https://ai-site-iota-nine.vercel.app/course/markdown/markdown"
+      },
+      {
+        "@type": "ListItem",
+        "position": 4,
+        "name": "実践：プロジェクトREADMEを一から作る｜Markdown総仕上げ",
+        "item": "https://ai-site-iota-nine.vercel.app/article/markdown-practice"
+      }
+    ]
+  },
+  "courseSchema": {
+    "@context": "https://schema.org",
+    "@type": "Course",
+    "name": "Markdown & 技術ドキュメント入門",
+    "description": "README・設計書・ブログに使えるMarkdownを8ステップで習得。日本語の体系的入門が少ないテーマを、具体例と失敗例つきで学びます。",
+    "provider": {
+      "@type": "Organization",
+      "name": "StackShelf",
+      "url": "https://ai-site-iota-nine.vercel.app"
+    },
+    "url": "https://ai-site-iota-nine.vercel.app/course/markdown/markdown",
+    "inLanguage": "ja",
+    "educationalLevel": "beginner",
+    "hasCourseInstance": {
+      "@type": "CourseInstance",
+      "courseMode": "online",
+      "courseWorkload": "PT1H"
+    }
+  },
+  "faqSchema": {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "個人開発でもREADMEは必要ですか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "未来の自分へのメモとしても価値があります。数ヶ月後にセットアップ手順を忘れることを防ぎ、ポートフォリオとして見せるときも説明コストが下がります。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "READMEが長くなりすぎたら？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "インストールと最小使用例だけREADMEに残し、設計・API・FAQはdocs/へ移します。READMEの目次からリンクする構成に切り替えてください。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "まだコードが未完成でもREADMEを書く？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "早期に骨格だけ書くと設計の抜けに気づきやすいです。未実装部分は「予定」と明記するか、実装後に更新するIssueを立てると誠実です。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "チェックリストはチームで共有すべき？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "CONTRIBUTING.mdやPRテンプレートに同じ項目を貼ると、レビュー基準が揃います。本回の8項目を出発点に、プロジェクト固有の項目を追加するのがよいでしょう。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "次に学ぶおすすめのテーマは？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Git/GitHubでのPRレビュー、docsサイト構築（MkDocs）、OpenAPIによるAPIドキュメント自動生成のいずれかが、Markdownスキルを実務レベルに伸ばす近道です。"
+        }
+      }
+    ]
+  }
+}

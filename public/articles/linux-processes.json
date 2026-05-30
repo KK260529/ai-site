@@ -3,7 +3,7 @@
   "slug": "linux-processes",
   "title": "ps/top/kill/jobs でLinuxのプロセスを管理する【完全解説】",
   "summary": "Linuxで実行中のプロセスを確認するps、リアルタイム監視するtop/htop、プロセスを終了させるkill、バックグラウンド実行を管理するjobsの使い方を解説します。",
-  "body": "<h2>プロセスとは何か？</h2>\n<p>Linuxで何かプログラムを実行すると、それは<strong>プロセス</strong>として管理されます。プロセスとは「実行中のプログラムのインスタンス」のことです。1つのプログラムを複数起動すれば、複数のプロセスが生まれます。各プロセスには固有の識別番号（<strong>PID：Process ID</strong>）が割り当てられます。</p>\n<p>Linuxはマルチプロセスシステムで、多数のプロセスが並行して動いています。システムが重くなったり、アプリが固まったりしたとき、プロセス管理コマンドを使って原因を特定し、問題のあるプロセスを終了させることができます。</p>\n\n<h2>ps：プロセス一覧を表示する</h2>\n<p><code>ps</code>（Process Status）は実行中のプロセスの情報を表示するコマンドです。引数なしで実行すると現在のターミナルセッションのプロセスだけを表示します。</p>\n<pre><code># 現在のシェルに関連するプロセスを表示\nps\n\n# 全プロセスを詳細表示（よく使う組み合わせ）\nps aux\n\n# 全プロセスをBSD形式で表示\nps -ef\n\n# 特定のプロセス名で絞り込む\nps aux | grep nginx\n\n# プロセスをCPU使用率でソート（降順）\nps aux --sort=-%cpu | head -10\n\n# プロセスをメモリ使用率でソート（降順）\nps aux --sort=-%mem | head -10</code></pre>\n\n<h3>ps aux の出力の読み方</h3>\n<pre><code>USER       PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND\nroot         1  0.0  0.1 168680 13456 ?        Ss   09:00   0:01 /sbin/init\nubuntu    1234  2.5  0.8 456789 87654 pts/0    S+   10:00   0:30 python3 app.py</code></pre>\n<ul>\n  <li><strong>USER</strong>：プロセスの実行ユーザー</li>\n  <li><strong>PID</strong>：プロセスID（kill などで使う）</li>\n  <li><strong>%CPU</strong>：CPU使用率</li>\n  <li><strong>%MEM</strong>：メモリ使用率</li>\n  <li><strong>STAT</strong>：プロセスの状態（S=スリープ、R=実行中、Z=ゾンビ）</li>\n  <li><strong>COMMAND</strong>：実行コマンド</li>\n</ul>\n\n<h2>top：システムをリアルタイムで監視する</h2>\n<p><code>top</code> はCPU・メモリ使用率の高いプロセスをリアルタイムで表示するコマンドです。システムの負荷状況を一目で把握できます。</p>\n<pre><code># top を起動（デフォルト3秒間隔で更新）\ntop\n\n# 更新間隔を1秒に設定して起動\ntop -d 1\n\n# 特定ユーザーのプロセスのみ表示\ntop -u ubuntu\n\n# バッチモードで1回だけ出力（スクリプトで便利）\ntop -bn1 | head -20</code></pre>\n\n<h3>top の操作キー</h3>\n<ul>\n  <li><kbd>q</kbd>：topを終了</li>\n  <li><kbd>k</kbd>：プロセスを終了（PIDを入力）</li>\n  <li><kbd>P</kbd>：CPU使用率でソート</li>\n  <li><kbd>M</kbd>：メモリ使用率でソート</li>\n  <li><kbd>1</kbd>：CPUコアごとの使用率を表示</li>\n  <li><kbd>h</kbd>：ヘルプを表示</li>\n</ul>\n<pre><code># htop（colorful で使いやすい top の代替）\n# インストール（なければ）\nsudo apt install htop\n\n# htop を起動\nhtop</code></pre>\n<p><code>htop</code> は <code>top</code> を改良したツールで、カラー表示、マウス操作対応、より直感的なインターフェースが特徴です。インストールできる環境では htop を使うと作業がより楽になります。</p>\n\n<h2>kill：プロセスを終了させる</h2>\n<p><code>kill</code> コマンドはプロセスにシグナルを送信するコマンドです。デフォルトでは SIGTERM（正常終了要求）を送信します。</p>\n\n<h3>主要なシグナル</h3>\n<ul>\n  <li><strong>SIGTERM（15）</strong>：正常終了要求。プロセスが後処理を行ってから終了（デフォルト）</li>\n  <li><strong>SIGKILL（9）</strong>：強制終了。プロセスを即座に終了（後処理なし）</li>\n  <li><strong>SIGHUP（1）</strong>：設定ファイル再読み込みに使われる（Nginxなど）</li>\n  <li><strong>SIGSTOP（19）</strong>：プロセスを一時停止</li>\n  <li><strong>SIGCONT（18）</strong>：停止中のプロセスを再開</li>\n</ul>\n<pre><code># プロセスを PID で終了（SIGTERM）\nkill 1234\n\n# 強制終了（SIGKILL、-9 は最終手段）\nkill -9 1234\n\n# シグナル番号の代わりに名前でも指定できる\nkill -TERM 1234\nkill -KILL 1234\n\n# プロセス名で一括終了（killall）\nkillall nginx\n\n# コマンド名にマッチするプロセスを終了（pkill）\npkill -f \"python3 app.py\"\n\n# PID を調べてからkill\nps aux | grep nginx\nkill 5678</code></pre>\n\n<h3>kill -9 はいつ使うか</h3>\n<p><code>kill -9</code>（SIGKILL）はプロセスが <code>kill</code>（SIGTERM）に応答しない場合の最終手段です。SIGKILL はプロセスがキャッチできないため、必ず強制終了されますが、ファイルへの書き込み途中などで使うとデータが破損する可能性があります。</p>\n\n<h2>jobs / fg / bg：バックグラウンドプロセスの管理</h2>\n<p>コマンドの末尾に <code>&</code> を付けるとバックグラウンドで実行できます。<code>jobs</code>、<code>fg</code>、<code>bg</code> コマンドでバックグラウンドプロセスを管理します。</p>\n<pre><code># バックグラウンドで実行\nsleep 100 &\n# 出力: [1] 1234 （ジョブ番号とPID）\n\n# ジョブ一覧を表示\njobs\n# 出力:\n# [1]+  Running                 sleep 100 &\n\n# バックグラウンドのジョブをフォアグラウンドに戻す\nfg %1  # ジョブ番号1をフォアグラウンドへ\n\n# フォアグラウンドのプロセスをバックグラウンドに送る\n# まず Ctrl+Z で一時停止してから\nbg %1  # バックグラウンドで再開\n\n# バックグラウンドジョブを終了\nkill %1  # ジョブ番号で指定\n</code></pre>\n\n<h3>nohup：ターミナルを閉じてもプロセスを継続する</h3>\n<pre><code># ターミナルを閉じても継続するコマンド\nnohup python3 server.py &\n\n# 出力は nohup.out に書き込まれる\ntail -f nohup.out\n\n# disown でジョブをシェルから切り離す\nsleep 1000 &\ndisown %1</code></pre>\n\n<h2>メモリ・CPU使用状況の確認</h2>\n<pre><code># メモリ使用量の概要を表示\nfree -h\n# 出力例:\n#               total        used        free      shared  buff/cache   available\n# Mem:           7.7G        2.1G        3.4G        256M        2.2G        5.1G\n\n# システム稼働時間と負荷平均\nuptime\n# 出力例: 10:30:00 up 2 days, 3:25, 1 user, load average: 0.52, 0.48, 0.45\n\n# ディスク使用量を確認\ndf -h\n\n# 特定ディレクトリのサイズを確認\ndu -sh ~/projects/</code></pre>\n\n<h2>まとめ：プロセス管理コマンド早見表</h2>\n<ul>\n  <li><code>ps aux</code>：全プロセスを一覧表示</li>\n  <li><code>top</code> / <code>htop</code>：リアルタイムシステム監視</li>\n  <li><code>kill PID</code>：プロセスを正常終了（<code>kill -9</code> は強制終了の最終手段）</li>\n  <li><code>killall 名前</code> / <code>pkill 名前</code>：名前でプロセスを終了</li>\n  <li><code>jobs</code> / <code>fg</code> / <code>bg</code>：バックグラウンドジョブ管理</li>\n  <li><code>free -h</code>：メモリ使用量確認</li>\n</ul>",
+  "body": "<h2>結論：ps/top でプロセス確認、kill で停止、jobs/fg/bg でジョブ管理</h2>\n<p>動いているプログラムはプロセスとしてOSが管理します。応答しないプロセスは <code>kill PID</code>、強制終了は <code>kill -9 PID</code>（最終手段）です。</p>\n\n<h2>プロセスとは何か？</h2>\n<p>Linuxで何かプログラムを実行すると、それは<strong>プロセス</strong>として管理されます。プロセスとは「実行中のプログラムのインスタンス」のことです。1つのプログラムを複数起動すれば、複数のプロセスが生まれます。各プロセスには固有の識別番号（<strong>PID：Process ID</strong>）が割り当てられます。</p>\n<p>Linuxはマルチプロセスシステムで、多数のプロセスが並行して動いています。システムが重くなったり、アプリが固まったりしたとき、プロセス管理コマンドを使って原因を特定し、問題のあるプロセスを終了させることができます。</p>\n\n<h2>ps：プロセス一覧を表示する</h2>\n<p><code>ps</code>（Process Status）は実行中のプロセスの情報を表示するコマンドです。引数なしで実行すると現在のターミナルセッションのプロセスだけを表示します。</p>\n<pre><code># 現在のシェルに関連するプロセスを表示\nps\n\n# 全プロセスを詳細表示（よく使う組み合わせ）\nps aux\n\n# 全プロセスをBSD形式で表示\nps -ef\n\n# 特定のプロセス名で絞り込む\nps aux | grep nginx\n\n# プロセスをCPU使用率でソート（降順）\nps aux --sort=-%cpu | head -10\n\n# プロセスをメモリ使用率でソート（降順）\nps aux --sort=-%mem | head -10</code></pre>\n\n<h3>ps aux の出力の読み方</h3>\n<pre><code>USER       PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND\nroot         1  0.0  0.1 168680 13456 ?        Ss   09:00   0:01 /sbin/init\nubuntu    1234  2.5  0.8 456789 87654 pts/0    S+   10:00   0:30 python3 app.py</code></pre>\n<ul>\n  <li><strong>USER</strong>：プロセスの実行ユーザー</li>\n  <li><strong>PID</strong>：プロセスID（kill などで使う）</li>\n  <li><strong>%CPU</strong>：CPU使用率</li>\n  <li><strong>%MEM</strong>：メモリ使用率</li>\n  <li><strong>STAT</strong>：プロセスの状態（S=スリープ、R=実行中、Z=ゾンビ）</li>\n  <li><strong>COMMAND</strong>：実行コマンド</li>\n</ul>\n\n<h2>top：システムをリアルタイムで監視する</h2>\n<p><code>top</code> はCPU・メモリ使用率の高いプロセスをリアルタイムで表示するコマンドです。システムの負荷状況を一目で把握できます。</p>\n<pre><code># top を起動（デフォルト3秒間隔で更新）\ntop\n\n# 更新間隔を1秒に設定して起動\ntop -d 1\n\n# 特定ユーザーのプロセスのみ表示\ntop -u ubuntu\n\n# バッチモードで1回だけ出力（スクリプトで便利）\ntop -bn1 | head -20</code></pre>\n\n<h3>top の操作キー</h3>\n<ul>\n  <li><kbd>q</kbd>：topを終了</li>\n  <li><kbd>k</kbd>：プロセスを終了（PIDを入力）</li>\n  <li><kbd>P</kbd>：CPU使用率でソート</li>\n  <li><kbd>M</kbd>：メモリ使用率でソート</li>\n  <li><kbd>1</kbd>：CPUコアごとの使用率を表示</li>\n  <li><kbd>h</kbd>：ヘルプを表示</li>\n</ul>\n<pre><code># htop（colorful で使いやすい top の代替）\n# インストール（なければ）\nsudo apt install htop\n\n# htop を起動\nhtop</code></pre>\n<p><code>htop</code> は <code>top</code> を改良したツールで、カラー表示、マウス操作対応、より直感的なインターフェースが特徴です。インストールできる環境では htop を使うと作業がより楽になります。</p>\n\n<h2>kill：プロセスを終了させる</h2>\n<p><code>kill</code> コマンドはプロセスにシグナルを送信するコマンドです。デフォルトでは SIGTERM（正常終了要求）を送信します。</p>\n\n<h3>主要なシグナル</h3>\n<ul>\n  <li><strong>SIGTERM（15）</strong>：正常終了要求。プロセスが後処理を行ってから終了（デフォルト）</li>\n  <li><strong>SIGKILL（9）</strong>：強制終了。プロセスを即座に終了（後処理なし）</li>\n  <li><strong>SIGHUP（1）</strong>：設定ファイル再読み込みに使われる（Nginxなど）</li>\n  <li><strong>SIGSTOP（19）</strong>：プロセスを一時停止</li>\n  <li><strong>SIGCONT（18）</strong>：停止中のプロセスを再開</li>\n</ul>\n<pre><code># プロセスを PID で終了（SIGTERM）\nkill 1234\n\n# 強制終了（SIGKILL、-9 は最終手段）\nkill -9 1234\n\n# シグナル番号の代わりに名前でも指定できる\nkill -TERM 1234\nkill -KILL 1234\n\n# プロセス名で一括終了（killall）\nkillall nginx\n\n# コマンド名にマッチするプロセスを終了（pkill）\npkill -f \"python3 app.py\"\n\n# PID を調べてからkill\nps aux | grep nginx\nkill 5678</code></pre>\n\n<h3>kill -9 はいつ使うか</h3>\n<p><code>kill -9</code>（SIGKILL）はプロセスが <code>kill</code>（SIGTERM）に応答しない場合の最終手段です。SIGKILL はプロセスがキャッチできないため、必ず強制終了されますが、ファイルへの書き込み途中などで使うとデータが破損する可能性があります。</p>\n\n<h2>jobs / fg / bg：バックグラウンドプロセスの管理</h2>\n<p>コマンドの末尾に <code>&</code> を付けるとバックグラウンドで実行できます。<code>jobs</code>、<code>fg</code>、<code>bg</code> コマンドでバックグラウンドプロセスを管理します。</p>\n<pre><code># バックグラウンドで実行\nsleep 100 &\n# 出力: [1] 1234 （ジョブ番号とPID）\n\n# ジョブ一覧を表示\njobs\n# 出力:\n# [1]+  Running                 sleep 100 &\n\n# バックグラウンドのジョブをフォアグラウンドに戻す\nfg %1  # ジョブ番号1をフォアグラウンドへ\n\n# フォアグラウンドのプロセスをバックグラウンドに送る\n# まず Ctrl+Z で一時停止してから\nbg %1  # バックグラウンドで再開\n\n# バックグラウンドジョブを終了\nkill %1  # ジョブ番号で指定\n</code></pre>\n\n<h3>nohup：ターミナルを閉じてもプロセスを継続する</h3>\n<pre><code># ターミナルを閉じても継続するコマンド\nnohup python3 server.py &\n\n# 出力は nohup.out に書き込まれる\ntail -f nohup.out\n\n# disown でジョブをシェルから切り離す\nsleep 1000 &\ndisown %1</code></pre>\n\n<h2>メモリ・CPU使用状況の確認</h2>\n<pre><code># メモリ使用量の概要を表示\nfree -h\n# 出力例:\n#               total        used        free      shared  buff/cache   available\n# Mem:           7.7G        2.1G        3.4G        256M        2.2G        5.1G\n\n# システム稼働時間と負荷平均\nuptime\n# 出力例: 10:30:00 up 2 days, 3:25, 1 user, load average: 0.52, 0.48, 0.45\n\n# ディスク使用量を確認\ndf -h\n\n# 特定ディレクトリのサイズを確認\ndu -sh ~/projects/</code></pre>\n\n<h2>つまずきやすいポイント・失敗例</h2>\n<h3>失敗例：いきなり kill -9 する</h3>\n<p>データ保存の機会がなくなる場合があります。まず <code>kill PID</code>（SIGTERM）を試しましょう。</p>\n<h3>失敗例：バックグラウンドジョブを忘れる</h3>\n<p><code>jobs</code> で一覧、<code>fg %1</code> で前面に戻せます。</p>\n<pre><code>ps aux | grep python\ntop\nkill 12345\njobs</code></pre>\n\n<h2>まとめ：プロセス管理コマンド早見表</h2>\n<ul>\n  <li><code>ps aux</code>：全プロセスを一覧表示</li>\n  <li><code>top</code> / <code>htop</code>：リアルタイムシステム監視</li>\n  <li><code>kill PID</code>：プロセスを正常終了（<code>kill -9</code> は強制終了の最終手段）</li>\n  <li><code>killall 名前</code> / <code>pkill 名前</code>：名前でプロセスを終了</li>\n  <li><code>jobs</code> / <code>fg</code> / <code>bg</code>：バックグラウンドジョブ管理</li>\n  <li><code>free -h</code>：メモリ使用量確認</li>\n</ul>",
   "conclusion": "プロセス管理はLinuxシステム管理の重要なスキルです。ps aux でプロセスを把握し、top でリアルタイム監視し、kill で問題のあるプロセスを終了させます。バックグラウンド実行（&）とjobs/fg/bgを活用すると、複数の作業を並行して進められます。nohup でターミナルを閉じても処理を継続させることも覚えておきましょう。",
   "tags": [
     "Linux",
@@ -17,12 +17,12 @@
   "theme": "linux - Linux コマンドライン入門",
   "status": "published",
   "createdAt": "2026-05-30T04:13:05.161Z",
-  "updatedAt": "2026-05-30T04:13:05.170Z",
+  "updatedAt": "2026-05-30T05:17:18.516Z",
   "publishedAt": "2026-05-30T04:13:05.161Z",
   "metaTitle": "ps top kill jobs の使い方｜Linux プロセス管理 コマンド 解説",
-  "metaDescription": "【Linux初心者向け】ps top kill jobs コマンドの使い方をわかりやすく解説。linux コマンドでのプロセス確認・監視・終了方法をマスターしましょう。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
+  "metaDescription": "ps・top・kill・jobsによるLinuxプロセス管理を解説。kill -9の乱用やバックグラウンドジョブの見落としなど失敗例を具体例で紹介します。",
   "ogTitle": "ps/top/kill/jobs でLinuxのプロセス管理をマスター",
-  "ogDescription": "【Linux初心者向け】【Linux初心者向け】Linuxでプロセスを監視・制御する必須コマンドを初心者向けに解説します。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
+  "ogDescription": "Linuxでプロセスを監視・制御する必須コマンドを初心者向けに解説します。",
   "knowledge": {
     "topic": "linux",
     "courseId": "linux",
@@ -44,6 +44,10 @@
     {
       "question": "load averageの数値はどう解釈すればいいですか？",
       "answer": "1分・5分・15分の平均実行待ちプロセス数を示します。CPUコア数と比べて判断します。1コアのCPUで load average が1.0なら100%使用中、0.5なら50%使用中です。4コアCPUなら4.0が100%利用に相当します。"
+    },
+    {
+      "question": "Linuxコマンドは覚えきれません",
+      "answer": "すべて覚える必要はありません。よく使う10〜20個を繰り返し使い、分からないときは man コマンドや --help で調べる習慣をつけましょう。"
     }
   ],
   "nextEpisodeHint": "次回は、Linuxの強力な機能であるパイプ（|）とリダイレクト（>、>>、2>&1）の使い方を学びます。コマンドを組み合わせてデータを処理する方法を習得しましょう。",
@@ -56,9 +60,9 @@
         "@context": "https://schema.org",
         "@type": "TechArticle",
         "headline": "ps/top/kill/jobs でLinuxのプロセスを管理する【完全解説】",
-        "description": "【Linux初心者向け】ps top kill jobs コマンドの使い方をわかりやすく解説。linux コマンドでのプロセス確認・監視・終了方法をマスターしましょう。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
+        "description": "ps・top・kill・jobsによるLinuxプロセス管理を解説。kill -9の乱用やバックグラウンドジョブの見落としなど失敗例を具体例で紹介します。",
         "datePublished": "2026-05-30T04:13:05.161Z",
-        "dateModified": "2026-05-30T04:13:05.170Z",
+        "dateModified": "2026-05-30T05:17:18.516Z",
         "author": {
           "@type": "Organization",
           "name": "StackShelf",
@@ -79,7 +83,7 @@
         },
         "image": "https://ai-site-iota-nine.vercel.app/og-default.svg",
         "inLanguage": "ja",
-        "wordCount": 2648,
+        "wordCount": 2907,
         "mainEntityOfPage": {
           "@type": "WebPage",
           "@id": "https://ai-site-iota-nine.vercel.app/article/linux-processes"
@@ -174,6 +178,14 @@
               "@type": "Answer",
               "text": "1分・5分・15分の平均実行待ちプロセス数を示します。CPUコア数と比べて判断します。1コアのCPUで load average が1.0なら100%使用中、0.5なら50%使用中です。4コアCPUなら4.0が100%利用に相当します。"
             }
+          },
+          {
+            "@type": "Question",
+            "name": "Linuxコマンドは覚えきれません",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "すべて覚える必要はありません。よく使う10〜20個を繰り返し使い、分からないときは man コマンドや --help で調べる習慣をつけましょう。"
+            }
           }
         ]
       }
@@ -263,7 +275,43 @@
           "@type": "Answer",
           "text": "1分・5分・15分の平均実行待ちプロセス数を示します。CPUコア数と比べて判断します。1コアのCPUで load average が1.0なら100%使用中、0.5なら50%使用中です。4コアCPUなら4.0が100%利用に相当します。"
         }
+      },
+      {
+        "@type": "Question",
+        "name": "Linuxコマンドは覚えきれません",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "すべて覚える必要はありません。よく使う10〜20個を繰り返し使い、分からないときは man コマンドや --help で調べる習慣をつけましょう。"
+        }
       }
     ]
-  }
+  },
+  "internalLinkCandidates": [
+    {
+      "slug": "linux-commands-practice",
+      "title": "Linux実践コマンド集｜現場で使えるテクニック総まとめ【完全版】",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "linux-pipe-redirect",
+      "title": "パイプ（|）とリダイレクト（> >> 2>&1）の使い方【Linux中級】",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "linux-view-search",
+      "title": "cat/less/head/tail/grep でファイルを表示・検索する【Linux入門】",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "linux-files-directories",
+      "title": "ls/cd/pwd/mkdir でファイルとディレクトリを操作する【Linux基礎】",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "linux-environment",
+      "title": "環境変数・.bashrc・PATHの仕組みを理解する【Linux設定入門】",
+      "reason": "同じ講座の関連回です"
+    }
+  ],
+  "nextAction": "次はLinuxの強力な機能であるパイプ（|）とリダイレクト（>、>>、2>&1）の使い方を学びます。コマンドを組み合わせてデータを処理する方法を習得しましょう。"
 }

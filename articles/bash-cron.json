@@ -1,0 +1,317 @@
+{
+  "id": "art_bash_bash-cron",
+  "slug": "bash-cron",
+  "title": "cronとcrontabでBashスクリプトを定期実行する【シェルスクリプト第8回】",
+  "summary": "cron の仕組み、crontab の書き方、環境変数と PATH の注意点、ログ出力、systemd timer との比較を具体例で解説します。",
+  "body": "<h2>cron とは</h2>\n<p><strong>cron</strong>は、Linux/macOS に標準で入っている<strong>スケジューラ（デーモン）</strong>です。指定した時刻・間隔でコマンドやスクリプトを自動実行します。バックアップ、ログローテーション、ヘルスチェック、レポート生成など、「決まった時間に動かす」処理の定番です。</p>\n<pre><code># cron デーモンの状態確認（systemd）\nsystemctl status cron    # Debian/Ubuntu\nsystemctl status crond   # RHEL/CentOS\n\n# cron が動いているか\nps aux | grep -E '[c]ron'</code></pre>\n\n<h2>crontab の基本</h2>\n<p>各ユーザーが持つ<strong>crontab（cron table）</strong>にスケジュールを登録します。<code>crontab -e</code> で編集、<code>crontab -l</code> で一覧表示、<code>crontab -r</code> で全削除（注意）です。</p>\n<pre><code># 自分の crontab を編集\ncrontab -e\n\n# 一覧表示\ncrontab -l\n\n# ファイルから一括登録\ncrontab mycron.txt</code></pre>\n\n<h2>時刻指定の書式（5フィールド）</h2>\n<pre><code># 分 時 日 月 曜日  コマンド\n#  *  *  *  *  *\n#  |  |  |  |  |\n#  |  |  |  |  +-- 曜日 (0-7, 0と7=日曜)\n#  |  |  |  +----- 月 (1-12)\n#  |  |  +-------- 日 (1-31)\n#  |  +----------- 時 (0-23)\n#  +-------------- 分 (0-59)\n\n# 毎日 午前3時15分にバックアップ\n15 3 * * * /home/user/scripts/backup.sh\n\n# 5分ごと\n*/5 * * * * /home/user/scripts/healthcheck.sh\n\n# 平日 9時〜18時、毎時0分\n0 9-18 * * 1-5 /home/user/scripts/hourly-report.sh\n\n# 毎週日曜 2:30\n30 2 * * 0 /home/user/scripts/weekly-cleanup.sh\n\n# 毎月1日 0:00\n0 0 1 * * /home/user/scripts/monthly-archive.sh</code></pre>\n<p><code>*</code> は「毎」、<code>*/n</code> は n 分/n 時間ごと、<code>1-5</code> は範囲、<code>1,15</code> は列挙です。</p>\n\n<h2>スクリプト実行のベストプラクティス</h2>\n<pre><code># crontab の例（推奨パターン）\nSHELL=/bin/bash\nPATH=/usr/local/bin:/usr/bin:/bin\nMAILTO=admin@example.com\n\n# ログへ stdout/stderr 両方\n15 3 * * * /home/user/scripts/backup.sh >> /var/log/backup.log 2>&1\n\n# ロックファイルで重複実行防止\n*/10 * * * * flock -n /tmp/sync.lock /home/user/scripts/sync.sh</code></pre>\n<p>cron 環境は<strong>対話シェルより PATH が狭い</strong>ことが多いです。スクリプト内で <code>#!/usr/bin/env bash</code> を書き、必要なら crontab 先頭で <code>PATH=</code> を明示します。コマンドは<strong>絶対パス</strong>推奨。</p>\n\n<h2>backup.sh の例（cron 向け）</h2>\n<pre><code>#!/usr/bin/env bash\n# /home/user/scripts/backup.sh\nset -euo pipefail\n\nBACKUP_DIR=\"/var/backups/myapp\"\nSOURCE=\"/var/www/html\"\nLOG_TAG=\"[backup]\"\n\nmkdir -p \"$BACKUP_DIR\"\narchive=\"${BACKUP_DIR}/backup_$(date +%Y%m%d_%H%M%S).tar.gz\"\n\necho \"$(date '+%Y-%m-%d %H:%M:%S') $LOG_TAG 開始\"\ntar -czf \"$archive\" -C \"$(dirname \"$SOURCE\")\" \"$(basename \"$SOURCE\")\"\necho \"$(date '+%Y-%m-%d %H:%M:%S') $LOG_TAG 完了: $archive\"\n\n# 30日より古いアーカイブを削除\nfind \"$BACKUP_DIR\" -name 'backup_*.tar.gz' -mtime +30 -delete</code></pre>\n\n<h2>環境変数と作業ディレクトリ</h2>\n<p>cron ジョブのカレントディレクトリは often ユーザーのホームまたは <code>/</code> です。スクリプト内で <code>cd</code> するか、crontab で設定します。</p>\n<pre><code># crontab 内\nHOME=/home/deploy\nWORKDIR=/opt/myapp\n\n0 2 * * * cd \"$WORKDIR\" &amp;&amp; ./scripts/nightly.sh</code></pre>\n<p>API キーなどは crontab に直書きせず、権限600の設定ファイルを source するか、systemd の EnvironmentFile を検討します。</p>\n\n<h2>メール通知とログ</h2>\n<p>デフォルトでは cron はジョブの stdout/stderr をユーザーにメールします（MTA 設定が必要）。サーバーではメールより<strong>ログファイル</strong>が一般的です。</p>\n<pre><code># 成功・失敗とも1ファイルへ\n* * * * * /path/script.sh >> /var/log/cron-script.log 2>&1\n\n# 日付付きログ（logrotate と組み合わせ）\n0 4 * * * /path/script.sh >> /var/log/script-$(date +%Y%m%d).log 2>&1</code></pre>\n<p>crontab 内の <code>%</code> は改行と解釈されるため、<code>date</code> では <code>%</code> とエスケープします。</p>\n\n<h2>重複実行の防止：flock</h2>\n<pre><code>#!/usr/bin/env bash\n# flock 版 sync.sh を cron から:\n# */5 * * * * flock -n /var/run/sync.lock /opt/scripts/sync.sh\n\nLOCK=\"/var/run/myjob.lock\"\nexec 200>\"$LOCK\"\nflock -n 200 || { echo \"既に実行中\"; exit 0; }\n\necho \"処理開始...\"\nsleep 60\necho \"処理完了\"</code></pre>\n<p>前回の実行が長引いているとき、重ねて起動しないようにします。</p>\n\n<h2>/etc/cron.d と systemd timer</h2>\n<p>システム全体のジョブは <code>/etc/crontab</code> や <code>/etc/cron.d/</code> に置きます（root 権限）。最近の distro では <strong>systemd timer</strong> も選択肢です。</p>\n<pre><code># systemd timer の例（概要）\n# /etc/systemd/system/backup.timer\n[Unit]\nDescription=Daily backup\n\n[Timer]\nOnCalendar=*-*-* 03:15:00\nPersistent=true\n\n[Install]\nWantedBy=timers.target</code></pre>\n<p>timer はログが journalctl で見やすく、依存関係の管理もしやすい一方、cron の方が単純なケースでは設定が速いです。</p>\n\n<h2>トラブルシュート</h2>\n<pre><code># cron ログ（Ubuntu）\ngrep CRON /var/log/syslog | tail -20\n\n# スクリプトを手動実行（cron と同じユーザーで）\nsudo -u backupuser /home/backupuser/scripts/backup.sh\n\n# 実行権限と shebang 確認\nls -l /path/script.sh\nhead -1 /path/script.sh</code></pre>\n\n<h2>まとめ</h2>\n<p>crontab の5フィールドで時刻を指定し、絶対パス・PATH・ログリダイレクト・flock をセットで設計すると安全です。次回は set -e や trap によるエラーハンドリングを学び、cron から呼ばれるスクリプトの信頼性を高めます。</p>",
+  "conclusion": "cron は crontab に「分 時 日 月 曜日 コマンド」を登録して定期実行する仕組みです。スクリプトは絶対パス指定、PATH 明示、>> log 2>&1 でログ化、flock で重複防止が鉄則。cron 環境は対話シェルと異なるため、手動実行と同じユーザー・同じ条件でテストすることが重要です。",
+  "tags": [
+    "Bash",
+    "cron",
+    "crontab",
+    "定期実行",
+    "運用",
+    "自動化"
+  ],
+  "category": "Bash",
+  "theme": "bash - Bashシェルスクリプト入門",
+  "status": "published",
+  "createdAt": "2026-05-30T05:14:54.468Z",
+  "updatedAt": "2026-05-30T05:15:42.278Z",
+  "publishedAt": "2026-05-30T05:14:54.468Z",
+  "metaTitle": "cron crontab 定期実行 の書き方｜Bashスクリプト",
+  "metaDescription": "Bashスクリプトを cron で定期実行する方法を解説。crontab の書式、PATH問題、ログリダイレクト、安全な運用のコツを具体例で学べます。",
+  "ogTitle": "cronでBashスクリプトを定期実行",
+  "ogDescription": "crontab の設定から運用上の落とし穴まで、定期実行をマスターします。",
+  "knowledge": {
+    "topic": "bash",
+    "courseId": "bash",
+    "episode": 8
+  },
+  "faq": [
+    {
+      "question": "crontab が動かないとき最初に確認することは？",
+      "answer": "① cron デーモン起動 ② スクリプトの実行権限と shebang ③ 絶対パス ④ PATH ⑤ 手動実行でエラーが出ないか ⑥ syslog の CRON ログです。"
+    },
+    {
+      "question": "cron と at コマンドの違いは？",
+      "answer": "cron は繰り返しスケジュール、at は1回だけ未来の指定時刻に実行します。単発の遅延実行には at が向いています。"
+    },
+    {
+      "question": "root の crontab と一般ユーザーの違いは？",
+      "answer": "root crontab はシステム全体の保守（ログローテート等）に使います。アプリのバックアップは専用ユーザーで実行し、権限を最小化するのが安全です。"
+    },
+    {
+      "question": "Docker コンテナ内で cron は使えますか？",
+      "answer": "可能ですが、コンテナは通常1プロセス前提のため、cron デーモンを別途起動するか、ホストの cron から docker exec で実行する設計もあります。Kubernetes では CronJob リソースが一般的です。"
+    },
+    {
+      "question": "タイムゾーンはどうなりますか？",
+      "answer": "cron はサーバーのシステムタイムゾーンに従います。TZ=Asia/Tokyo を crontab 先頭に書く方法もありますが、サーバー設定を統一する方が混乱が少ないです。"
+    }
+  ],
+  "nextEpisodeHint": "次回は set -e、set -u、pipefail、trap によるエラーハンドリングを学び、定期実行されるスクリプトの堅牢性を高めます。",
+  "nextAction": "backup.sh を作成し、crontab -e で5分ごと（テスト用）に実行、ログファイルへ出力する行を追加して動作確認してください。テスト後はスケジュールを本番用に変更しましょう。",
+  "internalLinkCandidates": [
+    {
+      "slug": "bash-practice",
+      "title": "【実践】Bashでバックアップスクリプトを作る｜運用自動化の総仕上げ【第10回】",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "bash-intro",
+      "title": "Bashシェルスクリプトとは？自動化の第一歩をわかりやすく解説【初心者向け】",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "bash-error-handling",
+      "title": "Bashの set -e とエラーハンドリング｜安全なスクリプトを書く【第9回】",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "bash-file-processing",
+      "title": "Bashでgrep・sed・awk入門｜ログ解析とテキスト加工【第7回】",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "bash-pipes-scripts",
+      "title": "Bashのパイプとコマンド置換｜CLIを組み合わせるデータ処理【第6回】",
+      "reason": "同じ講座の関連回です"
+    }
+  ],
+  "ogImage": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+  "canonical": "https://ai-site-iota-nine.vercel.app/article/bash-cron",
+  "jsonLd": {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@context": "https://schema.org",
+        "@type": "TechArticle",
+        "headline": "cronとcrontabでBashスクリプトを定期実行する【シェルスクリプト第8回】",
+        "description": "【Bash初心者向け】Bashスクリプトを cron で定期実行する方法を解説。crontab の書式、PATH問題、ログリダイレクト、安全な運用のコツを具体例で学べます。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
+        "datePublished": "2026-05-30T05:14:54.468Z",
+        "dateModified": "2026-05-30T05:15:42.278Z",
+        "author": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
+        },
+        "image": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+        "inLanguage": "ja",
+        "wordCount": 3036,
+        "mainEntityOfPage": {
+          "@type": "WebPage",
+          "@id": "https://ai-site-iota-nine.vercel.app/article/bash-cron"
+        },
+        "keywords": "Bash, cron, crontab, 定期実行, 運用, 自動化",
+        "articleSection": "Bash",
+        "url": "https://ai-site-iota-nine.vercel.app/article/bash-cron",
+        "learningResourceType": "tutorial",
+        "educationalLevel": "beginner"
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "ホーム",
+            "item": "https://ai-site-iota-nine.vercel.app/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "bash",
+            "item": "https://ai-site-iota-nine.vercel.app/knowledge/bash"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "Bashシェルスクリプト入門",
+            "item": "https://ai-site-iota-nine.vercel.app/course/bash/bash"
+          },
+          {
+            "@type": "ListItem",
+            "position": 4,
+            "name": "cronとcrontabでBashスクリプトを定期実行する【シェルスクリプト第8回】",
+            "item": "https://ai-site-iota-nine.vercel.app/article/bash-cron"
+          }
+        ]
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "Course",
+        "name": "Bashシェルスクリプト入門",
+        "description": "Linux/macOS/WSLで使えるBashスクリプトを10ステップで習得。自動化・運用の第一歩となるニッチスキルを具体例で学びます。",
+        "provider": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app"
+        },
+        "url": "https://ai-site-iota-nine.vercel.app/course/bash/bash",
+        "inLanguage": "ja",
+        "educationalLevel": "beginner",
+        "hasCourseInstance": {
+          "@type": "CourseInstance",
+          "courseMode": "online",
+          "courseWorkload": "PT1H"
+        }
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "crontab が動かないとき最初に確認することは？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "① cron デーモン起動 ② スクリプトの実行権限と shebang ③ 絶対パス ④ PATH ⑤ 手動実行でエラーが出ないか ⑥ syslog の CRON ログです。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "cron と at コマンドの違いは？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "cron は繰り返しスケジュール、at は1回だけ未来の指定時刻に実行します。単発の遅延実行には at が向いています。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "root の crontab と一般ユーザーの違いは？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "root crontab はシステム全体の保守（ログローテート等）に使います。アプリのバックアップは専用ユーザーで実行し、権限を最小化するのが安全です。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Docker コンテナ内で cron は使えますか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "可能ですが、コンテナは通常1プロセス前提のため、cron デーモンを別途起動するか、ホストの cron から docker exec で実行する設計もあります。Kubernetes では CronJob リソースが一般的です。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "タイムゾーンはどうなりますか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "cron はサーバーのシステムタイムゾーンに従います。TZ=Asia/Tokyo を crontab 先頭に書く方法もありますが、サーバー設定を統一する方が混乱が少ないです。"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "breadcrumb": {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "ホーム",
+        "item": "https://ai-site-iota-nine.vercel.app/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "bash",
+        "item": "https://ai-site-iota-nine.vercel.app/knowledge/bash"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "Bashシェルスクリプト入門",
+        "item": "https://ai-site-iota-nine.vercel.app/course/bash/bash"
+      },
+      {
+        "@type": "ListItem",
+        "position": 4,
+        "name": "cronとcrontabでBashスクリプトを定期実行する【シェルスクリプト第8回】",
+        "item": "https://ai-site-iota-nine.vercel.app/article/bash-cron"
+      }
+    ]
+  },
+  "courseSchema": {
+    "@context": "https://schema.org",
+    "@type": "Course",
+    "name": "Bashシェルスクリプト入門",
+    "description": "Linux/macOS/WSLで使えるBashスクリプトを10ステップで習得。自動化・運用の第一歩となるニッチスキルを具体例で学びます。",
+    "provider": {
+      "@type": "Organization",
+      "name": "StackShelf",
+      "url": "https://ai-site-iota-nine.vercel.app"
+    },
+    "url": "https://ai-site-iota-nine.vercel.app/course/bash/bash",
+    "inLanguage": "ja",
+    "educationalLevel": "beginner",
+    "hasCourseInstance": {
+      "@type": "CourseInstance",
+      "courseMode": "online",
+      "courseWorkload": "PT1H"
+    }
+  },
+  "faqSchema": {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "crontab が動かないとき最初に確認することは？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "① cron デーモン起動 ② スクリプトの実行権限と shebang ③ 絶対パス ④ PATH ⑤ 手動実行でエラーが出ないか ⑥ syslog の CRON ログです。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "cron と at コマンドの違いは？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "cron は繰り返しスケジュール、at は1回だけ未来の指定時刻に実行します。単発の遅延実行には at が向いています。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "root の crontab と一般ユーザーの違いは？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "root crontab はシステム全体の保守（ログローテート等）に使います。アプリのバックアップは専用ユーザーで実行し、権限を最小化するのが安全です。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Docker コンテナ内で cron は使えますか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "可能ですが、コンテナは通常1プロセス前提のため、cron デーモンを別途起動するか、ホストの cron から docker exec で実行する設計もあります。Kubernetes では CronJob リソースが一般的です。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "タイムゾーンはどうなりますか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "cron はサーバーのシステムタイムゾーンに従います。TZ=Asia/Tokyo を crontab 先頭に書く方法もありますが、サーバー設定を統一する方が混乱が少ないです。"
+        }
+      }
+    ]
+  }
+}

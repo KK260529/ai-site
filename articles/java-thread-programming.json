@@ -1,9 +1,9 @@
 {
   "slug": "java-thread-programming",
-  "title": "Javaのスレッドプログラミング",
-  "summary": "Thread と Runnable を使った並行処理の基礎を学びます。スレッドの起動、共有データの注意点、ExecutorService の概要を解説します。",
-  "body": "<h2>導入</h2><p>ダウンロードと UI 更新を同時に行うなど、<strong>並行処理</strong>は現代アプリの基本です。Java ではスレッドで複数処理を同時進行させられます。</p><h2>Runnable と Thread</h2><pre><code>Runnable task = () -> {\n    System.out.println(\"worker: \" + Thread.currentThread().getName());\n};\nThread t = new Thread(task);\nt.start();\nt.join();</code></pre><p><code>start()</code> で新しいスレッドが動き、<code>join()</code> で終了を待ちます。</p><h3>run と start の違い</h3><p><code>run()</code> を直接呼ぶと新スレッドは作られず、普通のメソッド呼び出しになります。必ず <code>start()</code> を使います。</p><h2>共有データへの注意</h2><p>複数スレッドが同じ変数を更新すると、結果が不定になることがあります。</p><pre><code>synchronized (lock) {\n    count++;\n}</code></pre><p>重要な更新は <code>synchronized</code> ブロックや <code>AtomicInteger</code> などで保護します。</p><h2>ExecutorService</h2><pre><code>ExecutorService pool = Executors.newFixedThreadPool(4);\npool.submit(() -> System.out.println(\"task\"));\npool.shutdown();</code></pre><p>スレッドを毎回作らず、プールで再利用するのが実務的です。</p><h3>確認方法</h3><p>2つのスレッドでカウンタを増やす実験をし、synchronized なし/ありで結果が変わることを確認してください。</p><h2>まとめ</h2><p>スレッドは強力ですが、共有状態の管理が難所です。Runnable→start→join の流れと同期の必要性をセットで覚えましょう。</p>",
-  "conclusion": "Java スレッドの基本は Runnable、start、join です。共有データは同期が必要で、実務では ExecutorService を使う場面が多いです。次回は List や Map の標準実装であるコレクションフレームワークを学びます。",
+  "title": "Javaスレッド入門｜Thread・Runnable・並行処理",
+  "summary": "Thread/Runnable、スレッド起動、共有変数の競合、synchronized概要、ExecutorServiceの基本と失敗例を学びます。",
+  "body": "<h2>結論：Javaの並行処理はThreadまたはExecutorServiceでタスクを並列実行し、共有状態には同期が必要</h2>\n<p>1つのJVMプロセス内で<strong>スレッド</strong>を複数起動し、I/O待ちやCPU処理を重ねられます。ただし<strong>同じ変数を同時に書き換える</strong>とデータ競合（race condition）が起きます。</p>\n\n<h2>Runnable でタスク定義</h2>\n<pre><code>Runnable task = () -> {\n    System.out.println(Thread.currentThread().getName() + \" running\");\n};\nThread t = new Thread(task, \"worker-1\");\nt.start();\nt.join(); // 終了待ち</code></pre>\n\n<h2>ExecutorService</h2>\n<pre><code>try (var pool = Executors.newFixedThreadPool(4)) {\n    pool.submit(() -> System.out.println(\"job\"));\n}</code></pre>\n<p>スレッドプールは作成コストを抑え、リソースを管理しやすくします。</p>\n\n<h3>失敗例：run() を直接呼ぶ</h3>\n<pre><code>Thread t = new Thread(task);\nt.run(); // 新スレッドではなく呼び出し元スレッドで実行</code></pre>\n<p>必ず <code>start()</code> を使います。</p>\n\n<h3>失敗例：同期なしのカウンタ</h3>\n<pre><code>int count = 0;\n// 複数スレッドが count++ → 期待より小さい値になることがある</code></pre>\n<p><code>synchronized</code>、<code>AtomicInteger</code>、不変オブジェクトなどで対策します（詳細は並行処理の専門書へ）。</p>\n\n<h2>まとめ</h2>\n<p>スレッドは start で起動、共有状態は慎重に。ExecutorServiceでプール管理が実務的です。次回はコレクションフレームワークでデータ構造APIを学びます。</p>",
+  "conclusion": "JavaのスレッドはRunnableをThread.start()で起動し、ExecutorServiceでプール管理します。run()の誤用と同期なし共有変数は典型のバグです。2スレッドでカウンタを増やし、同期あり/なしの差を観察してみましょう。",
   "tags": [
     "Java",
     "スレッド",
@@ -13,12 +13,12 @@
   "theme": "java - Java",
   "status": "published",
   "createdAt": "2026-05-29T14:36:44.937Z",
-  "updatedAt": "2026-05-30T05:01:32.306Z",
+  "updatedAt": "2026-05-30T05:18:37.075Z",
   "publishedAt": "2026-05-29T14:36:44.937Z",
-  "metaTitle": "Javaのスレッドプログラミング｜プログラミング入門 | StackShelf",
-  "metaDescription": "Thread と Runnable を使った並行処理の基礎を学びます。スレッドの起動、共有データの注意点、ExecutorService の概要を解説します。",
+  "metaTitle": "Javaスレッド入門｜Thread・ExecutorService | StackShelf",
+  "metaDescription": "JavaのThread/Runnable、start vs run、ExecutorService、データ競合の失敗例を初心者向けに解説します。",
   "ogTitle": "Javaのスレッドプログラミング",
-  "ogDescription": "Thread と Runnable を使った並行処理の基礎を学びます。スレッドの起動、共有データの注意点、ExecutorService の概要を解説します。",
+  "ogDescription": "並行処理の第一歩と典型バグを失敗例つきで学べます。",
   "knowledge": {
     "topic": "java",
     "courseId": "java",
@@ -26,27 +26,27 @@
   },
   "faq": [
     {
-      "question": "sleep 中の例外は？",
-      "answer": "InterruptedException がスローされるため try-catch が必要です。"
+      "question": "プロセスとスレッドの違いは？",
+      "answer": "プロセスは独立したメモリ空間、スレッドは同一プロセス内でメモリを共有します。"
     },
     {
-      "question": "デーモンスレッドとは？",
-      "answer": "JVM 終了時に自動停止するスレッドです。setDaemon(true) で指定します。"
+      "question": "sleep と wait の違いは？",
+      "answer": "sleepは時間指定で待機、waitはオブジェクトのロック待ち。用途が異なります。"
     },
     {
-      "question": "つまずいたときはどうすればいいですか？",
-      "answer": "エラーメッセージをそのまま検索し、公式ドキュメントを当たってください。小さなステップに分けて再現・確認すると原因を特定しやすくなります。"
+      "question": "デーモンスレッドは？",
+      "answer": "setDaemon(true)でJVM終了時に自動終了。バックグラウンド作業向け。"
     },
     {
-      "question": "どのくらいのペースで学べばいいですか？",
-      "answer": "1日30分〜1時間、週に3〜4回のペースが続けやすい目安です。読むだけでなく、必ず手を動かして確認しましょう。"
+      "question": "Virtual Thread（Java 21+）は？",
+      "answer": "軽量スレッドで大量I/O待ちに有利。従来Threadとの使い分けが進んでいます。"
     },
     {
-      "question": "この記事の内容を忘れないコツは？",
-      "answer": "学んだ直後にメモを残し、翌日にもう一度短時間復習してください。実際のプロジェクトや練習問題に当てはめると記憶に定着しやすくなります。"
+      "question": "並行と並列の違いは？",
+      "answer": "並行は論理的同時実行、並列は物理的多核での同時実行。Javaは両方を扱えます。"
     }
   ],
-  "nextEpisodeHint": "次回はコレクションフレームワークで、データ構造の標準 API を学びます。",
+  "nextEpisodeHint": "次回はList/Set/MapとArrayList/HashMapの使い分けを学びます。",
   "canonical": "https://ai-site-iota-nine.vercel.app/article/java-thread-programming",
   "jsonLd": {
     "@context": "https://schema.org",
@@ -54,10 +54,10 @@
       {
         "@context": "https://schema.org",
         "@type": "TechArticle",
-        "headline": "Javaのスレッドプログラミング",
-        "description": "【プログラミング初心者向け】Thread と Runnable を使った並行処理の基礎を学びます。スレッドの起動、共有データの注意点、ExecutorService の概要を解説します。 図解・具体例つきで丁寧に解説します。",
+        "headline": "Javaスレッド入門｜Thread・Runnable・並行処理",
+        "description": "JavaのThread/Runnable、start vs run、ExecutorService、データ競合の失敗例を初心者向けに解説します。",
         "datePublished": "2026-05-29T14:36:44.937Z",
-        "dateModified": "2026-05-30T05:01:32.306Z",
+        "dateModified": "2026-05-30T05:18:37.075Z",
         "author": {
           "@type": "Organization",
           "name": "StackShelf",
@@ -78,7 +78,7 @@
         },
         "image": "https://ai-site-iota-nine.vercel.app/og-default.svg",
         "inLanguage": "ja",
-        "wordCount": 706,
+        "wordCount": 721,
         "mainEntityOfPage": {
           "@type": "WebPage",
           "@id": "https://ai-site-iota-nine.vercel.app/article/java-thread-programming"
@@ -114,7 +114,7 @@
           {
             "@type": "ListItem",
             "position": 4,
-            "name": "Javaのスレッドプログラミング",
+            "name": "Javaスレッド入門｜Thread・Runnable・並行処理",
             "item": "https://ai-site-iota-nine.vercel.app/article/java-thread-programming"
           }
         ]
@@ -144,42 +144,42 @@
         "mainEntity": [
           {
             "@type": "Question",
-            "name": "sleep 中の例外は？",
+            "name": "プロセスとスレッドの違いは？",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "InterruptedException がスローされるため try-catch が必要です。"
+              "text": "プロセスは独立したメモリ空間、スレッドは同一プロセス内でメモリを共有します。"
             }
           },
           {
             "@type": "Question",
-            "name": "デーモンスレッドとは？",
+            "name": "sleep と wait の違いは？",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "JVM 終了時に自動停止するスレッドです。setDaemon(true) で指定します。"
+              "text": "sleepは時間指定で待機、waitはオブジェクトのロック待ち。用途が異なります。"
             }
           },
           {
             "@type": "Question",
-            "name": "つまずいたときはどうすればいいですか？",
+            "name": "デーモンスレッドは？",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "エラーメッセージをそのまま検索し、公式ドキュメントを当たってください。小さなステップに分けて再現・確認すると原因を特定しやすくなります。"
+              "text": "setDaemon(true)でJVM終了時に自動終了。バックグラウンド作業向け。"
             }
           },
           {
             "@type": "Question",
-            "name": "どのくらいのペースで学べばいいですか？",
+            "name": "Virtual Thread（Java 21+）は？",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "1日30分〜1時間、週に3〜4回のペースが続けやすい目安です。読むだけでなく、必ず手を動かして確認しましょう。"
+              "text": "軽量スレッドで大量I/O待ちに有利。従来Threadとの使い分けが進んでいます。"
             }
           },
           {
             "@type": "Question",
-            "name": "この記事の内容を忘れないコツは？",
+            "name": "並行と並列の違いは？",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "学んだ直後にメモを残し、翌日にもう一度短時間復習してください。実際のプロジェクトや練習問題に当てはめると記憶に定着しやすくなります。"
+              "text": "並行は論理的同時実行、並列は物理的多核での同時実行。Javaは両方を扱えます。"
             }
           }
         ]
@@ -211,7 +211,7 @@
       {
         "@type": "ListItem",
         "position": 4,
-        "name": "Javaのスレッドプログラミング",
+        "name": "Javaスレッド入門｜Thread・Runnable・並行処理",
         "item": "https://ai-site-iota-nine.vercel.app/article/java-thread-programming"
       }
     ]
@@ -241,73 +241,73 @@
     "mainEntity": [
       {
         "@type": "Question",
-        "name": "sleep 中の例外は？",
+        "name": "プロセスとスレッドの違いは？",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "InterruptedException がスローされるため try-catch が必要です。"
+          "text": "プロセスは独立したメモリ空間、スレッドは同一プロセス内でメモリを共有します。"
         }
       },
       {
         "@type": "Question",
-        "name": "デーモンスレッドとは？",
+        "name": "sleep と wait の違いは？",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "JVM 終了時に自動停止するスレッドです。setDaemon(true) で指定します。"
+          "text": "sleepは時間指定で待機、waitはオブジェクトのロック待ち。用途が異なります。"
         }
       },
       {
         "@type": "Question",
-        "name": "つまずいたときはどうすればいいですか？",
+        "name": "デーモンスレッドは？",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "エラーメッセージをそのまま検索し、公式ドキュメントを当たってください。小さなステップに分けて再現・確認すると原因を特定しやすくなります。"
+          "text": "setDaemon(true)でJVM終了時に自動終了。バックグラウンド作業向け。"
         }
       },
       {
         "@type": "Question",
-        "name": "どのくらいのペースで学べばいいですか？",
+        "name": "Virtual Thread（Java 21+）は？",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "1日30分〜1時間、週に3〜4回のペースが続けやすい目安です。読むだけでなく、必ず手を動かして確認しましょう。"
+          "text": "軽量スレッドで大量I/O待ちに有利。従来Threadとの使い分けが進んでいます。"
         }
       },
       {
         "@type": "Question",
-        "name": "この記事の内容を忘れないコツは？",
+        "name": "並行と並列の違いは？",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "学んだ直後にメモを残し、翌日にもう一度短時間復習してください。実際のプロジェクトや練習問題に当てはめると記憶に定着しやすくなります。"
+          "text": "並行は論理的同時実行、並列は物理的多核での同時実行。Javaは両方を扱えます。"
         }
       }
     ]
   },
+  "nextAction": "FixedThreadPool(2)で10タスクをsubmitし、各タスクがスレッド名を出力する様子を観察してください。",
   "internalLinkCandidates": [
     {
-      "slug": "java-project-development",
-      "title": "Javaのプロジェクト開発",
-      "reason": "同じ講座の関連回です"
-    },
-    {
-      "slug": "java-functional-programming",
-      "title": "Javaの関数型プログラミング",
-      "reason": "同じ講座の関連回です"
-    },
-    {
-      "slug": "java-lambda-expression",
-      "title": "Javaのラムダ式",
-      "reason": "同じ講座の関連回です"
-    },
-    {
-      "slug": "java-stream-api",
-      "title": "JavaのStream API",
-      "reason": "同じ講座の関連回です"
+      "slug": "java-network-programming",
+      "title": "Javaのネットワークプログラミング",
+      "reason": "サーバーの並行接続"
     },
     {
       "slug": "java-collection-framework",
       "title": "Javaのコレクションフレームワーク",
-      "reason": "同じ講座の関連回です"
+      "reason": "同じ講座の次の回"
+    },
+    {
+      "slug": "java-stream-api",
+      "title": "JavaのStream API",
+      "reason": "parallelStream"
+    },
+    {
+      "slug": "java-exception-handling",
+      "title": "Javaの例外処理",
+      "reason": "InterruptedException"
+    },
+    {
+      "slug": "java-functional-programming",
+      "title": "Javaの関数型プログラミング",
+      "reason": "不変データと並行"
     }
   ],
-  "nextAction": "次はコレクションフレームワークで、データ構造の標準 API を学びます。",
   "ogImage": "https://ai-site-iota-nine.vercel.app/og-default.svg"
 }

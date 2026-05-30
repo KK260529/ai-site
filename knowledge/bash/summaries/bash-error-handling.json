@@ -1,0 +1,13 @@
+{
+  "slug": "bash-error-handling",
+  "courseId": "bash",
+  "episode": 9,
+  "summaryMemory": [
+    "set -euo pipefail を shebang 直後に置くのが定番",
+    "trap cleanup EXIT で一時ファイル削除・ロック解除",
+    "die 関数でエラーメッセージと exit を統一",
+    "set -x / bash -x で実行トレース、DEBUG=1 パターンも有用"
+  ],
+  "nextEpisodeHint": "最終回ではバックアップスクリプトを総仕上げし、変数・関数・ログ・エラー処理・cron 登録まで一通り実践します。",
+  "updatedAt": "2026-05-30T05:14:55.791Z"
+}

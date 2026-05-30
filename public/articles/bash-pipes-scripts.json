@@ -1,0 +1,317 @@
+{
+  "id": "art_bash_bash-pipes-scripts",
+  "slug": "bash-pipes-scripts",
+  "title": "Bashのパイプとコマンド置換｜CLIを組み合わせるデータ処理【第6回】",
+  "summary": "Bashスクリプトでのパイプ（|）、コマンド置換（$()）、プロセス置換、here document、xargs の実践的な使い方を解説します。",
+  "body": "<h2>パイプの復習とスクリプトでの活用</h2>\n<p><strong>パイプ（|）</strong>は、左のコマンドの標準出力を右のコマンドの標準入力に渡します。Bashスクリプトでは、一時ファイルを作らずにデータを変換・集計できる強力な手段です。Linux入門で学んだパイプを、スクリプト全体の設計に組み込みます。</p>\n<pre><code>#!/usr/bin/env bash\n# アクセスログから404エラーのIP上位5件\nLOG=\"${1:-access.log}\"\n\ngrep ' 404 ' \"$LOG\"   | awk '{print $1}'   | sort   | uniq -c   | sort -rn   | head -5</code></pre>\n<p>各コマンドは1つの仕事だけを担当し、パイプで連結します。これがUnixの「1プログラム1機能」の思想です。</p>\n\n<h2>コマンド置換 $( )</h2>\n<p>コマンドの出力を文字列として変数や引数に埋め込みます。</p>\n<pre><code>#!/usr/bin/env bash\ntoday=$(date '+%Y-%m-%d')\nbranch=$(git rev-parse --abbrev-ref HEAD 2>/dev/null || echo \"none\")\ndisk_free=$(df -h / | awk 'NR==2 {print $4}')\n\necho \"日付: $today / ブランチ: $branch / 空き: $disk_free\"\n\n# ネストも可能\necho \"プロジェクト: $(basename \"$(pwd)\")\"\n\n# 複数行（改行含む）を変数に\nfiles=$(ls -1)\necho \"ファイル一覧:\"\necho \"$files\"</code></pre>\n<p>古い書式 <code>`command`</code> も動きますが、ネストが読みにくいため <code>$()</code> を推奨します。</p>\n\n<h2>here document（ヒアドキュメント）</h2>\n<p>スクリプト内に複数行のテキストを埋め込む構文です。設定ファイル生成やSQL、メール本文のテンプレートに使います。</p>\n<pre><code>#!/usr/bin/env bash\nAPP_NAME=\"myapp\"\nPORT=8080\n\ncat &lt;&lt;EOF > nginx-snippet.conf\nserver {\n    listen 80;\n    server_name ${APP_NAME}.example.com;\n    location / {\n        proxy_pass http://127.0.0.1:${PORT};\n    }\n}\nEOF\n\necho \"生成: nginx-snippet.conf\"\n\n# 変数を展開しない（リテラル）\ncat &lt;&lt;'EOF'\necho $HOME は展開されません\nEOF</code></pre>\n<p><code>&lt;&lt;EOF</code> は変数展開あり、<code>&lt;&lt;'EOF'</code> はなし。終了マーカー <code>EOF</code> は行頭から書きます。</p>\n\n<h2>here string</h2>\n<pre><code>#!/usr/bin/env bash\n# 1行を標準入力として渡す\ngrep \"error\" &lt;&lt;&lt; \"$(cat syslog.txt)\"\n\n# 変数の内容をコマンドに渡す\ndata=\"line1 line2 line3\"\nwc -w &lt;&lt;&lt; \"$data\"</code></pre>\n\n<h2>プロセス置換 &lt;( ) と &gt;( )</h2>\n<p>パイプでは右側がサブシェルになる問題を避けたり、2つのストリームを同時にコマンドに渡すときに使います。</p>\n<pre><code>#!/usr/bin/env bash\n# 2ファイルの差分（ソート済み行）\ndiff &lt;(sort file1.txt) &lt;(sort file2.txt)\n\n# while ループでサブシェル問題を回避\nwhile IFS= read -r line; do\n  echo \"処理: $line\"\ndone &lt; &lt;(find . -name \"*.log\")\n\n# tee でファイルとパイプ両方へ\nsome_command | tee &gt;(grep ERROR > errors.log) &gt;(grep WARN > warns.log) > all.log</code></pre>\n\n<h2>xargs：リストをコマンド引数に</h2>\n<p><code>find</code> や <code>echo</code> の出力を、<code>rm</code> や <code>wc</code> などの引数として渡します。ファイル名にスペースがある場合は <code>-0</code> と <code>find -print0</code> を組み合わせます。</p>\n<pre><code>#!/usr/bin/env bash\n# 空の .tmp ファイルを削除\nfind /tmp/myapp -name '*.tmp' -print0 | xargs -0 rm -f\n\n# 並列実行（-P）\nfind ./src -name '*.js' -print0 | xargs -0 -P 4 -I {} wc -l {}\n\n# 引数が多すぎる場合の分割（xargs が自動でバッチ化）\necho {1..1000} | xargs -n 50 echo</code></pre>\n\n<h2>tee：画面とファイルへ同時出力</h2>\n<pre><code>#!/usr/bin/env bash\nLOG=\"deploy.log\"\n\n{\n  echo \"=== デプロイ開始 $(date) ===\"\n  npm run build\n  npm test\n  echo \"=== 完了 ===\"\n} 2>&1 | tee -a \"$LOG\"\n\n# パイプの途中でログ保存\ncurl -s https://api.example.com/status | tee status.json | jq .</code></pre>\n\n<h2>実践：ディスク使用量アラート</h2>\n<pre><code>#!/usr/bin/env bash\nTHRESHOLD=\"${1:-90}\"\n\nalert_if_high() {\n  local mount=\"$1\"\n  local use_pct\n  use_pct=$(df \"$mount\" | awk 'NR==2 {gsub(/%/,\"\"); print $5}')\n\n  if [ -n \"$use_pct\" ] &amp;&amp; [ \"$use_pct\" -ge \"$THRESHOLD\" ]; then\n    echo \"警告: $mount 使用率 ${use_pct}% (閾値 ${THRESHOLD}%)\" >&2\n    df -h \"$mount\"\n    return 1\n  fi\n  echo \"OK: $mount ${use_pct}%\"\n  return 0\n}\n\nfailed=0\nfor m in / /var /home; do\n  alert_if_high \"$m\" || failed=$((failed + 1))\ndone\n\nexit $failed</code></pre>\n\n<h2>パイプラインの終了コード</h2>\n<p>パイプ全体の終了コードは<strong>最後のコマンド</strong>のものだけが <code>$?</code> に残ります（デフォルト）。すべての成功を確認したい場合は <code>set -o pipefail</code> を有効にします（次回以降で詳述）。</p>\n<pre><code>#!/usr/bin/env bash\nset -o pipefail\n\nfalse | true\necho \"pipefail なしなら 0、ありなら 1: $?\"\n\ngrep nonexistent /etc/hosts | wc -l\necho \"存在しない grep 後の終了コード: $?\"</code></pre>\n\n<h2>まとめ</h2>\n<p>パイプでコマンドを連鎖し、<code>$()</code> で出力を変数に、here doc で複数行テキストを生成し、xargs で引数リストを処理します。これらを関数と組み合わせれば、短いスクリプトで強力なデータ処理が可能です。次回は grep・sed・awk をスクリプトに組み込むファイル処理を学びます。</p>",
+  "conclusion": "Bashではパイプ（|）でコマンドを連結し、$(command) で出力を変数に取り込みます。here document で設定ファイル等を生成し、process substitution < <(cmd) でサブシェル問題を回避、find -print0 | xargs -0 で安全に一括処理できます。set -o pipefail でパイプ全体の成否判定が可能です。",
+  "tags": [
+    "Bash",
+    "パイプ",
+    "コマンド置換",
+    "xargs",
+    "here document",
+    "シェルスクリプト"
+  ],
+  "category": "Bash",
+  "theme": "bash - Bashシェルスクリプト入門",
+  "status": "published",
+  "createdAt": "2026-05-30T05:14:52.094Z",
+  "updatedAt": "2026-05-30T05:14:52.100Z",
+  "publishedAt": "2026-05-30T05:14:52.094Z",
+  "metaTitle": "Bash パイプ コマンド置換 の使い方｜シェルスクリプト",
+  "metaDescription": "Bashスクリプトのパイプ、$(command)、here doc、process substitution、xargs を具体例で解説。grep|sort|wc などの組み合わせ例も載せています。 図解・具体例つきで丁寧に解説します。",
+  "ogTitle": "Bashのパイプとコマンド置換",
+  "ogDescription": "【Bash初心者向け】【Bash初心者向け】Unix哲学「小さな道具をつなぐ」をBashスクリプトで実践する方法を解説します。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
+  "knowledge": {
+    "topic": "bash",
+    "courseId": "bash",
+    "episode": 6
+  },
+  "faq": [
+    {
+      "question": "パイプとリダイレクト（>）の違いは？",
+      "answer": "パイプはコマンド間でデータを渡し、> はファイルに書き出します。2>&1 で stderr も同じ行き先にできます。"
+    },
+    {
+      "question": "コマンド置換で出力が huge な場合は？",
+      "answer": "変数に全部載せるとメモリを消費します。while read ループや直接パイプでストリーム処理する方が安全です。"
+    },
+    {
+      "question": "xargs と find -exec の違いは？",
+      "answer": "どちらも find の結果をコマンドに渡します。-exec {} \\; は1件ずつ、xargs はまとめて渡せます。スペース含むファイル名は -0/-print0 必須です。"
+    },
+    {
+      "question": "here doc の EOF をインデントできますか？",
+      "answer": "<<-EOF とすると行頭のタブを無視できます。スクリプト内の見た目を整えるときに便利です。"
+    },
+    {
+      "question": "jq は Bash に必須ですか？",
+      "answer": "必須ではありませんが、JSON API の処理では jq とパイプの組み合わせが非常に強力です。未インストールなら awk/sed で代替するか jq を入れます。"
+    }
+  ],
+  "nextEpisodeHint": "次回は grep・sed・awk を使ったファイル処理を、スクリプトに組み込む方法を学びます。",
+  "nextAction": "access.log（または適当なテキスト）から grep|sort|uniq -c|sort -rn|head で頻出行を抽出するワンライナーをスクリプトに書き、here doc で nginx 設定片を生成してみてください。",
+  "internalLinkCandidates": [
+    {
+      "slug": "linux-pipe-redirect",
+      "title": "パイプ（|）とリダイレクト（> >> 2>&1）の使い方【Linux中級】",
+      "reason": "パイプとリダイレクトの Linux 入門版として前提になります。"
+    },
+    {
+      "slug": "linux-view-search",
+      "title": "ファイルの中身を表示・検索する（cat/less/grep/find）【Linux入門】",
+      "reason": "パイプでつなぐ grep/find の基礎です。"
+    },
+    {
+      "slug": "regex-intro",
+      "title": "正規表現とは？いつ使うのか",
+      "reason": "grep や awk のパターン指定に正規表現を使います。"
+    },
+    {
+      "slug": "docker-intro",
+      "title": "Dockerとは？仮想マシンとの違いをわかりやすく解説【初心者向け】",
+      "reason": "docker logs | grep など運用パイプと直結します。"
+    },
+    {
+      "slug": "python-intro",
+      "title": "Pythonとは？プログラミング入門の第一歩【完全初心者向け】",
+      "reason": "複雑なパイプ処理は Python に委譲する選択肢もあります。"
+    }
+  ],
+  "ogImage": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+  "canonical": "https://ai-site-iota-nine.vercel.app/article/bash-pipes-scripts",
+  "jsonLd": {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@context": "https://schema.org",
+        "@type": "TechArticle",
+        "headline": "Bashのパイプとコマンド置換｜CLIを組み合わせるデータ処理【第6回】",
+        "description": "Bashスクリプトのパイプ、$(command)、here doc、process substitution、xargs を具体例で解説。grep|sort|wc などの組み合わせ例も載せています。 図解・具体例つきで丁寧に解説します。",
+        "datePublished": "2026-05-30T05:14:52.094Z",
+        "dateModified": "2026-05-30T05:14:52.100Z",
+        "author": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
+        },
+        "image": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+        "inLanguage": "ja",
+        "wordCount": 2728,
+        "mainEntityOfPage": {
+          "@type": "WebPage",
+          "@id": "https://ai-site-iota-nine.vercel.app/article/bash-pipes-scripts"
+        },
+        "keywords": "Bash, パイプ, コマンド置換, xargs, here document, シェルスクリプト",
+        "articleSection": "Bash",
+        "url": "https://ai-site-iota-nine.vercel.app/article/bash-pipes-scripts",
+        "learningResourceType": "tutorial",
+        "educationalLevel": "beginner"
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "ホーム",
+            "item": "https://ai-site-iota-nine.vercel.app/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "bash",
+            "item": "https://ai-site-iota-nine.vercel.app/knowledge/bash"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "Bashシェルスクリプト入門",
+            "item": "https://ai-site-iota-nine.vercel.app/course/bash/bash"
+          },
+          {
+            "@type": "ListItem",
+            "position": 4,
+            "name": "Bashのパイプとコマンド置換｜CLIを組み合わせるデータ処理【第6回】",
+            "item": "https://ai-site-iota-nine.vercel.app/article/bash-pipes-scripts"
+          }
+        ]
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "Course",
+        "name": "Bashシェルスクリプト入門",
+        "description": "Linux/macOS/WSLで使えるBashスクリプトを10ステップで習得。自動化・運用の第一歩となるニッチスキルを具体例で学びます。",
+        "provider": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app"
+        },
+        "url": "https://ai-site-iota-nine.vercel.app/course/bash/bash",
+        "inLanguage": "ja",
+        "educationalLevel": "beginner",
+        "hasCourseInstance": {
+          "@type": "CourseInstance",
+          "courseMode": "online",
+          "courseWorkload": "PT1H"
+        }
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "パイプとリダイレクト（>）の違いは？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "パイプはコマンド間でデータを渡し、> はファイルに書き出します。2>&1 で stderr も同じ行き先にできます。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "コマンド置換で出力が huge な場合は？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "変数に全部載せるとメモリを消費します。while read ループや直接パイプでストリーム処理する方が安全です。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "xargs と find -exec の違いは？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "どちらも find の結果をコマンドに渡します。-exec {} \\; は1件ずつ、xargs はまとめて渡せます。スペース含むファイル名は -0/-print0 必須です。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "here doc の EOF をインデントできますか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "<<-EOF とすると行頭のタブを無視できます。スクリプト内の見た目を整えるときに便利です。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "jq は Bash に必須ですか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "必須ではありませんが、JSON API の処理では jq とパイプの組み合わせが非常に強力です。未インストールなら awk/sed で代替するか jq を入れます。"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "breadcrumb": {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "ホーム",
+        "item": "https://ai-site-iota-nine.vercel.app/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "bash",
+        "item": "https://ai-site-iota-nine.vercel.app/knowledge/bash"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "Bashシェルスクリプト入門",
+        "item": "https://ai-site-iota-nine.vercel.app/course/bash/bash"
+      },
+      {
+        "@type": "ListItem",
+        "position": 4,
+        "name": "Bashのパイプとコマンド置換｜CLIを組み合わせるデータ処理【第6回】",
+        "item": "https://ai-site-iota-nine.vercel.app/article/bash-pipes-scripts"
+      }
+    ]
+  },
+  "courseSchema": {
+    "@context": "https://schema.org",
+    "@type": "Course",
+    "name": "Bashシェルスクリプト入門",
+    "description": "Linux/macOS/WSLで使えるBashスクリプトを10ステップで習得。自動化・運用の第一歩となるニッチスキルを具体例で学びます。",
+    "provider": {
+      "@type": "Organization",
+      "name": "StackShelf",
+      "url": "https://ai-site-iota-nine.vercel.app"
+    },
+    "url": "https://ai-site-iota-nine.vercel.app/course/bash/bash",
+    "inLanguage": "ja",
+    "educationalLevel": "beginner",
+    "hasCourseInstance": {
+      "@type": "CourseInstance",
+      "courseMode": "online",
+      "courseWorkload": "PT1H"
+    }
+  },
+  "faqSchema": {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "パイプとリダイレクト（>）の違いは？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "パイプはコマンド間でデータを渡し、> はファイルに書き出します。2>&1 で stderr も同じ行き先にできます。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "コマンド置換で出力が huge な場合は？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "変数に全部載せるとメモリを消費します。while read ループや直接パイプでストリーム処理する方が安全です。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "xargs と find -exec の違いは？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "どちらも find の結果をコマンドに渡します。-exec {} \\; は1件ずつ、xargs はまとめて渡せます。スペース含むファイル名は -0/-print0 必須です。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "here doc の EOF をインデントできますか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "<<-EOF とすると行頭のタブを無視できます。スクリプト内の見た目を整えるときに便利です。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "jq は Bash に必須ですか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "必須ではありませんが、JSON API の処理では jq とパイプの組み合わせが非常に強力です。未インストールなら awk/sed で代替するか jq を入れます。"
+        }
+      }
+    ]
+  }
+}

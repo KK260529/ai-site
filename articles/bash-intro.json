@@ -1,0 +1,317 @@
+{
+  "id": "art_bash_bash-intro",
+  "slug": "bash-intro",
+  "title": "Bashシェルスクリプトとは？自動化の第一歩をわかりやすく解説【初心者向け】",
+  "summary": "Bashシェルスクリプトとは何か、なぜ作業自動化に欠かせないのかを初心者向けに解説。シェルとスクリプトの関係、最初のhello.shの書き方まで丁寧に学びます。",
+  "body": "<h2>Bashシェルスクリプトとは何か？</h2>\n<p><strong>Bashシェルスクリプト</strong>とは、LinuxやmacOS、WSL（Windows Subsystem for Linux）のターミナルで使う<strong>Bash（Bourne Again SHell）</strong>というシェルに、複数のコマンドをまとめて実行させるためのテキストファイルです。1行ずつ手で打っていたコマンドをファイルに書いておけば、<code>./script.sh</code> の1回の実行で同じ作業を何度でも再現できます。</p>\n<p>「bash 使い方」「シェルスクリプト 初心者」で検索してこの記事にたどり着いた方は、Linuxコマンドを少し触ったあと「毎回同じ作業を繰り返すのが面倒」と感じ始めた段階かもしれません。Bashスクリプトは、その繰り返し作業を<strong>プログラムとして保存する</strong>技術です。デプロイ前のチェック、ログの整理、バックアップ、開発環境のセットアップなど、現場では毎日のように使われています。</p>\n\n<h2>シェルとスクリプトの関係</h2>\n<p>ターミナルを開くと <code>bash</code> や <code>zsh</code> などの<strong>シェル</strong>が起動します。シェルはあなたが入力した文字列を解釈し、OSにコマンドを伝える<strong>通訳役</strong>です。対話的に1コマンドずつ実行するのが通常の使い方ですが、コマンド列をファイルに書いてシェルに読み込ませると、それが<strong>シェルスクリプト</strong>になります。</p>\n<p>Linuxサーバーの多くではデフォルトシェルがBashです。macOSのターミナルも以前はBashが標準でした（現在はzshがデフォルトですが、Bashスクリプトはそのまま動きます）。WindowsユーザーはWSLやGit Bashで同じ文法を学べます。本コースでは<strong>Bashの文法</strong>に絞って解説します。</p>\n<pre><code># 現在使用中のシェルを確認\necho $SHELL\n# 出力例: /bin/bash\n\n# Bashのバージョン確認\nbash --version\n# 出力例: GNU bash, version 5.2.15(1)-release</code></pre>\n\n<h2>なぜシェルスクリプトを学ぶのか</h2>\n<p>GUI操作だけでは、次のような作業は非効率です。</p>\n<ul>\n  <li>毎朝、ログファイルを圧縮して古いものを削除する</li>\n  <li>テスト実行 → ビルド → デプロイの一連の手順を間違えずに繰り返す</li>\n  <li>100台のサーバーに同じ設定変更を適用する</li>\n  <li>CSVを整形してレポート用の集計ファイルを作る</li>\n</ul>\n<p>これらはすべて「決まったコマンドの順序」をテキストファイルに書けば自動化できます。スクリプトは<strong>再現性</strong>と<strong>共有</strong>の両方を提供します。手順がテキストなのでGitで履歴管理でき、チーム全員が同じ手順を実行できます。PythonやNode.jsより起動が速く、OSに最初から入っているコマンドだけで完結できる場面も多いのがBashの強みです。</p>\n\n<h2>最初のスクリプト hello.sh を作る</h2>\n<p>実際に動くスクリプトを作成してみましょう。ホームディレクトリに <code>scripts</code> フォルダを作り、そこにファイルを置くのがおすすめです。</p>\n<pre><code># 作業用ディレクトリを作成\nmkdir -p ~/scripts\ncd ~/scripts\n\n# エディタで hello.sh を作成（nano でも vim でも可）\ncat &lt;&lt;'EOF' > hello.sh\n#!/usr/bin/env bash\n# 最初のBashスクリプト\necho \"Hello, Bash!\"\necho \"今日の日付: $(date '+%Y-%m-%d')\"\nEOF</code></pre>\n<p>1行目の <code>#!/usr/bin/env bash</code> は<strong>shebang（シーバン）</strong>と呼ばれ、「このファイルをBashで実行してください」とOSに伝える目印です。2行目以降が実際のコマンドです。 <code>#</code> で始まる行はコメントで、実行されません。</p>\n\n<h2>実行権限とスクリプトの起動方法</h2>\n<p>Linuxでは「読み取り可能」なだけではプログラムとして実行できません。<strong>実行権限（x）</strong>を付ける必要があります。</p>\n<pre><code># 実行権限を付与\nchmod +x hello.sh\n\n# ファイルの権限を確認（-rwxr-xr-x の x が実行権限）\nls -l hello.sh\n\n# スクリプトを実行（./ はカレントディレクトリを意味する）\n./hello.sh\n# 出力例:\n# Hello, Bash!\n# 今日の日付: 2026-05-30\n\n# 実行権限がなくても bash コマンドで直接実行できる\nbash hello.sh</code></pre>\n<p><code>./hello.sh</code> と書くのは、カレントディレクトリがPATHに含まれていないためです。PATH上のコマンド（<code>ls</code> など）は名前だけで実行できますが、自作スクリプトは <code>./</code> を付けるか、絶対パスで指定します。</p>\n\n<h2>対話シェルとスクリプト実行の違い</h2>\n<p>ターミナルで直接Bashを使う<strong>対話モード</strong>と、ファイルを読み込んで一気に実行する<strong>非対話モード</strong>では、いくつか挙動が異なります。スクリプト内ではプロンプトへの入力待ちがない前提で書く必要があります。また、対話シェルで設定した環境変数がスクリプトに引き継がれる場合と、クリーンな環境から始まる場合があります。後の回で詳しく扱う <code>set</code> コマンドは、スクリプトの安全な実行に関わる重要な設定です。</p>\n<pre><code># 対話シェルで変数を設定\nexport MY_NAME=\"Taro\"\n\n# スクリプト内で参照（後の回で詳述）\ncat &lt;&lt;'EOF' > greet.sh\n#!/usr/bin/env bash\necho \"こんにちは、${MY_NAME:-ゲスト}さん\"\nEOF\nchmod +x greet.sh\n./greet.sh</code></pre>\n\n<h2>Bashスクリプトが活躍する場面</h2>\n<p><strong>CI/CDパイプライン</strong>：GitHub ActionsやGitLab CIの多くは、ジョブの中でBashスクリプトを実行します。テスト、ビルド、デプロイの各ステップは <code>run: |</code> 以下にシェルコマンドが並びます。</p>\n<p><strong>Docker</strong>：Dockerfileの <code>RUN</code> 命令は内部的にシェルで実行されます。コンテナ起動時の <code>ENTRYPOINT</code> や <code>CMD</code> もBashスクリプトでラップすることが多いです。</p>\n<p><strong>サーバー運用</strong>：cronによる定期実行、ログローテーション、バックアップ、監視アラートの送信など、インフラ現場の定番はBashです。</p>\n<p><strong>開発補助</strong>：リポジトリのセットアップ、依存関係のインストール、ローカルDBの初期化を <code>setup.sh</code> にまとめる例もよく見ます。</p>\n\n<h2>他の言語との使い分け</h2>\n<p>複雑なデータ処理や大規模アプリにはPythonやGoの方が向いています。しかし「既存コマンドを組み合わせる」「短い自動化」「起動スクリプト」といった用途ではBashが最も軽量で適切です。多くのエンジニアは<strong>Bashで運用・自動化、Pythonでロジック</strong>という棲み分けをしています。Linuxコマンドに慣れたうえでBashを学ぶと、両方の力が掛け算で効いてきます。</p>\n\n<h2>このコースで学ぶこと</h2>\n<p>全10回で、変数・条件分岐・ループ・関数・パイプ・ファイル処理・cron・エラーハンドリングまで順に学び、最終回では<strong>バックアップスクリプト</strong>を完成させます。各回に実行可能なサンプルコードを載せているので、WSLやLinux環境で手を動かしながら進めてください。</p>\n\n<h2>まとめ：Bashスクリプトは「コマンドのレシピ集」</h2>\n<p>Bashシェルスクリプトは、ターミナルで打つコマンドをファイルにまとめたものです。shebangでインタプリタを指定し、<code>chmod +x</code> で実行権限を付けて <code>./script.sh</code> で動かします。作業の自動化・再現性・チーム共有という三つの目的を、追加インストールなしで実現できるのが最大の魅力です。次回は変数・引数・終了コードを学び、スクリプトを「固定の手順」から「入力に応じて変わるプログラム」へ進化させていきましょう。</p>",
+  "conclusion": "Bashシェルスクリプトは、Bashシェルに読み込ませるコマンド列をテキストファイルに書いたものです。shebang（#!/usr/bin/env bash）と実行権限（chmod +x）を設定すれば ./script.sh で何度でも同じ作業を再現できます。CI/CD、Docker、サーバー運用、開発環境構築など幅広い場面で使われる、エンジニアの自動化スキルの第一歩です。",
+  "tags": [
+    "Bash",
+    "シェルスクリプト",
+    "Linux",
+    "自動化",
+    "初心者",
+    "CLI"
+  ],
+  "category": "Bash",
+  "theme": "bash - Bashシェルスクリプト入門",
+  "status": "published",
+  "createdAt": "2026-05-30T05:14:46.047Z",
+  "updatedAt": "2026-05-30T05:15:43.152Z",
+  "publishedAt": "2026-05-30T05:14:46.047Z",
+  "metaTitle": "Bashシェルスクリプトとは？自動化入門を初心者向けに解説【bash 使い方】｜Bash入門 | StackShelf",
+  "metaDescription": "Bashシェルスクリプトとは何かを初心者向けにわかりやすく解説。シェルとスクリプトの違い、.shファイルの作り方、実行権限の付け方まで具体例で学べます。",
+  "ogTitle": "Bashシェルスクリプトとは？自動化の第一歩",
+  "ogDescription": "Bashシェルスクリプトの基本概念と最初のスクリプト作成手順をゼロから解説します。",
+  "knowledge": {
+    "topic": "bash",
+    "courseId": "bash",
+    "episode": 1
+  },
+  "faq": [
+    {
+      "question": "Bashとzshのスクリプトは同じですか？",
+      "answer": "基本的な文法はほぼ同じですが、一部の拡張機能（配列操作やプロンプト設定など）では差があります。互換性を重視するなら #!/usr/bin/env bash を明示し、POSIXに近い書き方を心がけると安全です。"
+    },
+    {
+      "question": "Windowsだけの環境でもBashスクリプトは学べますか？",
+      "answer": "WSL2にUbuntuを入れる方法が最も本格的です。Git Bashでも基本的なスクリプトは動きますが、パスや権限の挙動がLinuxと異なる部分があるため、本番に近い学習にはWSLを推奨します。"
+    },
+    {
+      "question": "拡張子 .sh は必須ですか？",
+      "answer": "必須ではありません。実行可能なファイルであれば拡張子なしでも動きます。ただし .sh にしておくとエディタのシンタックスハイライトや、ファイル種別の識別がしやすくなります。"
+    },
+    {
+      "question": "シェルスクリプトとPythonスクリプトはどちらを選べばいいですか？",
+      "answer": "既存のCLIコマンド（grep、tar、gitなど）を組み合わせる短い自動化ならBash、複雑な計算・API連携・ライブラリが必要な処理ならPythonが向いています。両方使えると場面に応じて最適な選択ができます。"
+    },
+    {
+      "question": "スクリプトが動かないとき最初に確認することは？",
+      "answer": "① shebang の行があるか ② chmod +x で実行権限があるか ③ ./script.sh のようにパスを指定しているか ④ bash -x script.sh で1行ずつトレースしてエラー箇所を特定する、の4点を確認してください。"
+    }
+  ],
+  "nextEpisodeHint": "次回は変数・コマンドライン引数・終了コード（exit status）を学びます。スクリプトに「入力」を渡し、成功・失敗を判定できるようにしていきましょう。",
+  "nextAction": "WSLまたはLinux環境で ~/scripts ディレクトリを作り、hello.sh を作成して chmod +x のあと ./hello.sh を実行してみてください。echo $SHELL と bash --version も合わせて確認すると、自分の環境が把握できます。",
+  "internalLinkCandidates": [
+    {
+      "slug": "bash-practice",
+      "title": "【実践】Bashでバックアップスクリプトを作る｜運用自動化の総仕上げ【第10回】",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "bash-cron",
+      "title": "cronとcrontabでBashスクリプトを定期実行する【シェルスクリプト第8回】",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "bash-pipes-scripts",
+      "title": "Bashのパイプとコマンド置換｜CLIを組み合わせるデータ処理【第6回】",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "bash-functions",
+      "title": "Bash関数の定義と使い方｜再利用可能なスクリプトを書く【第5回】",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "bash-loops",
+      "title": "Bashのfor・whileループ完全ガイド｜一括処理と対話入力【シェルスクリプト第4回】",
+      "reason": "同じ講座の関連回です"
+    }
+  ],
+  "ogImage": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+  "canonical": "https://ai-site-iota-nine.vercel.app/article/bash-intro",
+  "jsonLd": {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@context": "https://schema.org",
+        "@type": "TechArticle",
+        "headline": "Bashシェルスクリプトとは？自動化の第一歩をわかりやすく解説【初心者向け】",
+        "description": "【Bash初心者向け】Bashシェルスクリプトとは何かを初心者向けにわかりやすく解説。シェルとスクリプトの違い、.shファイルの作り方、実行権限の付け方まで具体例で学べます。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
+        "datePublished": "2026-05-30T05:14:46.047Z",
+        "dateModified": "2026-05-30T05:15:43.152Z",
+        "author": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
+        },
+        "image": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+        "inLanguage": "ja",
+        "wordCount": 3056,
+        "mainEntityOfPage": {
+          "@type": "WebPage",
+          "@id": "https://ai-site-iota-nine.vercel.app/article/bash-intro"
+        },
+        "keywords": "Bash, シェルスクリプト, Linux, 自動化, 初心者, CLI",
+        "articleSection": "Bash",
+        "url": "https://ai-site-iota-nine.vercel.app/article/bash-intro",
+        "learningResourceType": "tutorial",
+        "educationalLevel": "beginner"
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "ホーム",
+            "item": "https://ai-site-iota-nine.vercel.app/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "bash",
+            "item": "https://ai-site-iota-nine.vercel.app/knowledge/bash"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "Bashシェルスクリプト入門",
+            "item": "https://ai-site-iota-nine.vercel.app/course/bash/bash"
+          },
+          {
+            "@type": "ListItem",
+            "position": 4,
+            "name": "Bashシェルスクリプトとは？自動化の第一歩をわかりやすく解説【初心者向け】",
+            "item": "https://ai-site-iota-nine.vercel.app/article/bash-intro"
+          }
+        ]
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "Course",
+        "name": "Bashシェルスクリプト入門",
+        "description": "Linux/macOS/WSLで使えるBashスクリプトを10ステップで習得。自動化・運用の第一歩となるニッチスキルを具体例で学びます。",
+        "provider": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app"
+        },
+        "url": "https://ai-site-iota-nine.vercel.app/course/bash/bash",
+        "inLanguage": "ja",
+        "educationalLevel": "beginner",
+        "hasCourseInstance": {
+          "@type": "CourseInstance",
+          "courseMode": "online",
+          "courseWorkload": "PT1H"
+        }
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "Bashとzshのスクリプトは同じですか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "基本的な文法はほぼ同じですが、一部の拡張機能（配列操作やプロンプト設定など）では差があります。互換性を重視するなら #!/usr/bin/env bash を明示し、POSIXに近い書き方を心がけると安全です。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Windowsだけの環境でもBashスクリプトは学べますか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "WSL2にUbuntuを入れる方法が最も本格的です。Git Bashでも基本的なスクリプトは動きますが、パスや権限の挙動がLinuxと異なる部分があるため、本番に近い学習にはWSLを推奨します。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "拡張子 .sh は必須ですか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "必須ではありません。実行可能なファイルであれば拡張子なしでも動きます。ただし .sh にしておくとエディタのシンタックスハイライトや、ファイル種別の識別がしやすくなります。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "シェルスクリプトとPythonスクリプトはどちらを選べばいいですか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "既存のCLIコマンド（grep、tar、gitなど）を組み合わせる短い自動化ならBash、複雑な計算・API連携・ライブラリが必要な処理ならPythonが向いています。両方使えると場面に応じて最適な選択ができます。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "スクリプトが動かないとき最初に確認することは？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "① shebang の行があるか ② chmod +x で実行権限があるか ③ ./script.sh のようにパスを指定しているか ④ bash -x script.sh で1行ずつトレースしてエラー箇所を特定する、の4点を確認してください。"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "breadcrumb": {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "ホーム",
+        "item": "https://ai-site-iota-nine.vercel.app/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "bash",
+        "item": "https://ai-site-iota-nine.vercel.app/knowledge/bash"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "Bashシェルスクリプト入門",
+        "item": "https://ai-site-iota-nine.vercel.app/course/bash/bash"
+      },
+      {
+        "@type": "ListItem",
+        "position": 4,
+        "name": "Bashシェルスクリプトとは？自動化の第一歩をわかりやすく解説【初心者向け】",
+        "item": "https://ai-site-iota-nine.vercel.app/article/bash-intro"
+      }
+    ]
+  },
+  "courseSchema": {
+    "@context": "https://schema.org",
+    "@type": "Course",
+    "name": "Bashシェルスクリプト入門",
+    "description": "Linux/macOS/WSLで使えるBashスクリプトを10ステップで習得。自動化・運用の第一歩となるニッチスキルを具体例で学びます。",
+    "provider": {
+      "@type": "Organization",
+      "name": "StackShelf",
+      "url": "https://ai-site-iota-nine.vercel.app"
+    },
+    "url": "https://ai-site-iota-nine.vercel.app/course/bash/bash",
+    "inLanguage": "ja",
+    "educationalLevel": "beginner",
+    "hasCourseInstance": {
+      "@type": "CourseInstance",
+      "courseMode": "online",
+      "courseWorkload": "PT1H"
+    }
+  },
+  "faqSchema": {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "Bashとzshのスクリプトは同じですか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "基本的な文法はほぼ同じですが、一部の拡張機能（配列操作やプロンプト設定など）では差があります。互換性を重視するなら #!/usr/bin/env bash を明示し、POSIXに近い書き方を心がけると安全です。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Windowsだけの環境でもBashスクリプトは学べますか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "WSL2にUbuntuを入れる方法が最も本格的です。Git Bashでも基本的なスクリプトは動きますが、パスや権限の挙動がLinuxと異なる部分があるため、本番に近い学習にはWSLを推奨します。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "拡張子 .sh は必須ですか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "必須ではありません。実行可能なファイルであれば拡張子なしでも動きます。ただし .sh にしておくとエディタのシンタックスハイライトや、ファイル種別の識別がしやすくなります。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "シェルスクリプトとPythonスクリプトはどちらを選べばいいですか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "既存のCLIコマンド（grep、tar、gitなど）を組み合わせる短い自動化ならBash、複雑な計算・API連携・ライブラリが必要な処理ならPythonが向いています。両方使えると場面に応じて最適な選択ができます。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "スクリプトが動かないとき最初に確認することは？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "① shebang の行があるか ② chmod +x で実行権限があるか ③ ./script.sh のようにパスを指定しているか ④ bash -x script.sh で1行ずつトレースしてエラー箇所を特定する、の4点を確認してください。"
+        }
+      }
+    ]
+  }
+}

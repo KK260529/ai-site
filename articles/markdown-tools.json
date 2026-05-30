@@ -1,0 +1,316 @@
+{
+  "id": "art_markdown_markdown-tools",
+  "slug": "markdown-tools",
+  "title": "エディタ・プレビュー・Lint｜Markdown執筆を効率化するツール",
+  "summary": "VS CodeのMarkdown機能、markdownlint、Prettier、プレビュー拡張、静的サイト生成の選び方と、ツール設定でつまずく失敗例を解説します。",
+  "body": "<h2>結論：VS Code＋プレビュー＋markdownlintが最もコスパの良い基本セット</h2>\n<p>Markdownはプレーンテキストなので高価な専用ソフトは不要です。実務では<strong>VS Code（無料）</strong>で書き、<strong>プレビュー</strong>で見た目を確認し、<strong>markdownlint</strong>で体裁のルール違反を検出する構成が最も普及しています。結論として、まずこの3点を揃え、必要になったらPrettierや静的サイトジェネレーターを足す段階的な導入がおすすめです。</p>\n\n<h2>VS Codeでの基本操作</h2>\n<ul>\n  <li><strong>プレビュー</strong>：<code>Ctrl+Shift+V</code>（Mac: <code>Cmd+Shift+V</code>）</li>\n  <li><strong>横並びプレビュー</strong>：<code>Ctrl+K</code> のあと <code>V</code></li>\n  <li><strong>アウトライン</strong>：見出し一覧からジャンプ（長文執筆に便利）</li>\n  <li><strong>スニペット</strong>：よく使う表やコードブロックを短縮入力</li>\n</ul>\n<p>拡張機能「Markdown All in One」は、目次自動生成・リストの続き入力・ショートカット補強などで人気があります。必須ではありませんが、READMEが長い場合は導入価値があります。</p>\n\n<h3>失敗例：プレビューとGitHub表示の差を見ない</h3>\n<p>VS Codeのプレビューは概ねGitHubに近いですが、表やHTML埋め込み、数式などは差が出ます。重要なREADMEは<strong>GitHub上でも最終確認</strong>する習慣を残してください。</p>\n\n<h2>markdownlint</h2>\n<p>見出しの飛ばし、行末スペース、リストのインデントなどを静的にチェックするLintです。VS Code拡張「markdownlint」を入れると、保存時や編集中に警告が出ます。</p>\n<pre><code>// .markdownlint.json の例（プロジェクトルート）\n{\n  \"MD013\": false,\n  \"MD033\": false,\n  \"MD041\": false\n}</code></pre>\n<p><code>MD013</code> は1行の長さ制限、<code>MD033</code> はインラインHTML禁止、<code>MD041</code> はファイル先頭をH1にするルールです。日本語READMEでは1行長制限が厳しすぎるため、チームでOFFにすることが多いです。<strong>ルールを無効化する理由をREADMEかコメントに残す</strong>と、後からの混乱が減ります。</p>\n\n<h3>失敗例：Lintを全部無効にして意味がなくなる</h3>\n<p>すべてのルールをOFFにすると、見出しレベルの乱れやリンクの空括弧など、本当に直したい問題も見逃します。よく引っかかるルールだけ調整し、残りは守るバランスが現実的です。</p>\n\n<h2>Prettier</h2>\n<p>PrettierはMarkdownにも対応し、リストや折り返しを一定のスタイルに揃えます。チームで「保存時にPrettier」にすると、PRのdiffが記号の有無ではなく内容の変更に集中できます。</p>\n<pre><code>// .prettierrc の例\n{\n  \"proseWrap\": \"preserve\",\n  \"printWidth\": 80\n}</code></pre>\n<p>日本語文書で <code>proseWrap: always</code> にすると、意図しない位置で改行が入ることがあるため、<code>preserve</code> を選ぶチームが多いです。</p>\n\n<h2>WYSIWYGエディタ（Typoraなど）</h2>\n<p>Typora、MarkText、Obsidianなどは、編集とプレビューが一体化した体験を提供します。ブログや個人メモには向きますが、<strong>チームのGit運用ではVS Code＋Lintの方が再現性が高い</strong>ことが多いです。好みのツールで下書きし、最終版をVS CodeでLintする、という併用もあります。</p>\n\n<h2>静的サイトジェネレーター（SSG）</h2>\n<p>複数のMarkdownから検索可能なドキュメントサイトを作るときはSSGを使います。</p>\n<ul>\n  <li><strong>MkDocs</strong>：Python系プロジェクトと相性が良く、設定がシンプル</li>\n  <li><strong>Docusaurus</strong>：Reactエコシステム、バージョン分岐が強い</li>\n  <li><strong>VitePress</strong>：Vue系、高速ビルド</li>\n</ul>\n<p>いずれも <code>docs/</code> 内のMarkdownからHTMLサイトを生成し、GitHub PagesやNetlifyにデプロイできます。READMEはリポジトリ入口、SSGは製品マニュアル本体、という住み分けが一般的です。</p>\n\n<h2>CIでのドキュメントチェック</h2>\n<p>GitHub Actionsで markdownlint やリンク切れチェック（markdown-link-check）を走らせる例があります。</p>\n<pre><code># 概念例: PR時に docs 内の Markdown を lint\n- run: npx markdownlint-cli2 \"docs/**/*.md\"</code></pre>\n<p>リンク切れは、ファイル移動や見出し変更のたびに起きます。CIで検出すると、利用者が404に遭遇する前に直せます。</p>\n\n<h2>拡張機能の選び方（VS Code）</h2>\n<p>最低限は標準のMarkdownプレビューと markdownlint です。加えて、Markdown All in One（目次生成・リスト補完）、Paste Image（画像の保存とパス挿入）などがよく使われます。拡張を入れすぎると設定が競合することがあるため、チームでは推奨リストをCONTRIBUTINGに5行程度で書いておくとトラブルが減ります。</p>\n\n<h2>執筆効率の小技</h2>\n<ol>\n  <li>スニペットに「新規How-toテンプレート」を登録する</li>\n  <li>コマンドはターミナルで実行し、出力をそのまま貼らず要約する</li>\n  <li>スクリーンショットは同じ幅に揃え、altを必ず書く</li>\n  <li>大きな変更は「何を」「なぜ」がわかるコミットメッセージにする</li>\n</ol>\n\n<h2>設定ファイルをリポジトリに置く</h2>\n<p><code>.markdownlint.json</code> と <code>.prettierrc</code> をコミットすると、全員が同じルールで執筆できます。READMEに「ドキュメントの書き方」セクションを3行足し、Lintの実行方法（<code>npx markdownlint-cli2 \"**/*.md\"</code>）を書いておくと、新メンバーのオンボーディングが速くなります。</p>\n\n<h2>ローカルでMkDocsを試す（任意）</h2>\n<p>Pythonが入っている環境なら、<code>pip install mkdocs</code> のあと <code>mkdocs new .</code> で雛形ができます。<code>docs/index.md</code> を編集し <code>mkdocs serve</code> でブラウザプレビューすると、複数ページ構成の感覚がつかめます。本講座では必須ではありませんが、docs/設計を学んだあとの次の一歩として試す価値があります。</p>\n\n<h2>まとめ</h2>\n<p>ツール選びは、VS Code＋プレビュー＋markdownlintを土台に、チーム規模に応じてPrettierとCI、公開範囲に応じてSSGを追加する形が扱いやすいです。次回は、これまでの総合としてプロジェクトREADMEを一から作る実践に入ります。</p>",
+  "conclusion": "Markdown執筆の基本セットはVS Code、プレビュー、markdownlintです。ルールは必要なものだけ調整し、GitHub上での最終表示確認を忘れません。チームではPrettierとCIで体裁とリンクを守り、大規模文書はMkDocsなどSSGでdocs/からサイト化します。",
+  "tags": [
+    "Markdown",
+    "VS Code",
+    "markdownlint",
+    "Prettier",
+    "MkDocs"
+  ],
+  "category": "Markdown",
+  "theme": "markdown - Markdown & 技術ドキュメント入門",
+  "status": "published",
+  "createdAt": "2026-05-30T05:14:18.706Z",
+  "updatedAt": "2026-05-30T05:15:45.178Z",
+  "publishedAt": "2026-05-30T05:14:18.706Z",
+  "metaTitle": "Markdown エディタ・Lint・プレビューツール【実務】｜Markdown入門 | StackShelf",
+  "metaDescription": "VS CodeでのMarkdown執筆、markdownlint・Prettier設定、プレビューとMkDocsなど静的サイト生成の選び方を具体例で解説します。",
+  "ogTitle": "Markdown執筆ツール入門",
+  "ogDescription": "エディタ、Lint、プレビュー、サイト生成ツールでMarkdown品質を上げる方法を解説します。",
+  "knowledge": {
+    "topic": "markdown",
+    "courseId": "markdown",
+    "episode": 7
+  },
+  "faq": [
+    {
+      "question": "VS Code以外の無料エディタは？",
+      "answer": "Vim、Neovim、ZedなどでもMarkdownは書けます。プレビューやLint統合の手軽さではVS Codeが初心者に向きます。既にVimを使っている場合は、markdown-preview.nvimなどのプラグインを検討してください。"
+    },
+    {
+      "question": "markdownlintの警告が多すぎる",
+      "answer": ".markdownlint.jsonでプロジェクトに合わないルールだけOFFにします。日本語では行長制限MD013を切る例が多いです。一度に全部消さないことが大切です。"
+    },
+    {
+      "question": "Obsidianのノートをそのまま公開できる？",
+      "answer": "内部リンクやプラグイン記法は標準Markdownと異なる部分があるため、そのままでは崩れることがあります。公開用にはエクスポートやコピー後に記法を直す工程が必要です。"
+    },
+    {
+      "question": "PDF出力はどうする？",
+      "answer": "PandocでMarkdownからPDF変換する方法、SSGのPDFプラグイン、印刷用CSSなどがあります。社内提出がPDF必須なら、正本をMarkdownにするかWordにするかを決めてからツールを選びます。"
+    },
+    {
+      "question": "スマホでMarkdownを書きたい",
+      "answer": "Working Copy（iOS）やMarkor（Android）などがありますが、長文の技術文書はPCの方が効率が良いです。メモ程度ならモバイル、本番ドキュメントはPCという分担が現実的です。"
+    }
+  ],
+  "nextEpisodeHint": "最終回では、架空または実プロジェクトのREADMEをゼロから組み立て、チェックリストで品質を確認する実践課題に取り組みます。",
+  "nextAction": "VS Codeにmarkdownlint拡張を入れ、既存の.mdを1つ開いて警告を1つずつ直し、修正後にプレビューと横並び表示で見出し・表・コードが意図どおりか確認してください。",
+  "internalLinkCandidates": [
+    {
+      "slug": "markdown-practice",
+      "title": "実践：プロジェクトREADMEを一から作る｜Markdown総仕上げ",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "markdown-docs-structure",
+      "title": "技術ドキュメントの構成設計｜読まれるMarkdownの組み立て方",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "markdown-github-readme",
+      "title": "GitHub READMEの書き方｜公開リポジトリの顔を整える",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "markdown-code-tables",
+      "title": "コードブロックと表｜Markdownで技術内容を正確に書く",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "markdown-lists-links",
+      "title": "リスト・リンク・画像｜Markdownで情報を整理する",
+      "reason": "同じ講座の関連回です"
+    }
+  ],
+  "ogImage": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+  "canonical": "https://ai-site-iota-nine.vercel.app/article/markdown-tools",
+  "jsonLd": {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@context": "https://schema.org",
+        "@type": "TechArticle",
+        "headline": "エディタ・プレビュー・Lint｜Markdown執筆を効率化するツール",
+        "description": "【Markdown初心者向け】VS CodeでのMarkdown執筆、markdownlint・Prettier設定、プレビューとMkDocsなど静的サイト生成の選び方を具体例で解説します。 図解・具体例つきで丁寧に解説します。",
+        "datePublished": "2026-05-30T05:14:18.706Z",
+        "dateModified": "2026-05-30T05:15:45.178Z",
+        "author": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
+        },
+        "image": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+        "inLanguage": "ja",
+        "wordCount": 2583,
+        "mainEntityOfPage": {
+          "@type": "WebPage",
+          "@id": "https://ai-site-iota-nine.vercel.app/article/markdown-tools"
+        },
+        "keywords": "Markdown, VS Code, markdownlint, Prettier, MkDocs",
+        "articleSection": "Markdown",
+        "url": "https://ai-site-iota-nine.vercel.app/article/markdown-tools",
+        "learningResourceType": "tutorial",
+        "educationalLevel": "beginner"
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "ホーム",
+            "item": "https://ai-site-iota-nine.vercel.app/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "markdown",
+            "item": "https://ai-site-iota-nine.vercel.app/knowledge/markdown"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "Markdown & 技術ドキュメント入門",
+            "item": "https://ai-site-iota-nine.vercel.app/course/markdown/markdown"
+          },
+          {
+            "@type": "ListItem",
+            "position": 4,
+            "name": "エディタ・プレビュー・Lint｜Markdown執筆を効率化するツール",
+            "item": "https://ai-site-iota-nine.vercel.app/article/markdown-tools"
+          }
+        ]
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "Course",
+        "name": "Markdown & 技術ドキュメント入門",
+        "description": "README・設計書・ブログに使えるMarkdownを8ステップで習得。日本語の体系的入門が少ないテーマを、具体例と失敗例つきで学びます。",
+        "provider": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app"
+        },
+        "url": "https://ai-site-iota-nine.vercel.app/course/markdown/markdown",
+        "inLanguage": "ja",
+        "educationalLevel": "beginner",
+        "hasCourseInstance": {
+          "@type": "CourseInstance",
+          "courseMode": "online",
+          "courseWorkload": "PT1H"
+        }
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "VS Code以外の無料エディタは？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Vim、Neovim、ZedなどでもMarkdownは書けます。プレビューやLint統合の手軽さではVS Codeが初心者に向きます。既にVimを使っている場合は、markdown-preview.nvimなどのプラグインを検討してください。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "markdownlintの警告が多すぎる",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": ".markdownlint.jsonでプロジェクトに合わないルールだけOFFにします。日本語では行長制限MD013を切る例が多いです。一度に全部消さないことが大切です。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Obsidianのノートをそのまま公開できる？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "内部リンクやプラグイン記法は標準Markdownと異なる部分があるため、そのままでは崩れることがあります。公開用にはエクスポートやコピー後に記法を直す工程が必要です。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "PDF出力はどうする？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "PandocでMarkdownからPDF変換する方法、SSGのPDFプラグイン、印刷用CSSなどがあります。社内提出がPDF必須なら、正本をMarkdownにするかWordにするかを決めてからツールを選びます。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "スマホでMarkdownを書きたい",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Working Copy（iOS）やMarkor（Android）などがありますが、長文の技術文書はPCの方が効率が良いです。メモ程度ならモバイル、本番ドキュメントはPCという分担が現実的です。"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "breadcrumb": {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "ホーム",
+        "item": "https://ai-site-iota-nine.vercel.app/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "markdown",
+        "item": "https://ai-site-iota-nine.vercel.app/knowledge/markdown"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "Markdown & 技術ドキュメント入門",
+        "item": "https://ai-site-iota-nine.vercel.app/course/markdown/markdown"
+      },
+      {
+        "@type": "ListItem",
+        "position": 4,
+        "name": "エディタ・プレビュー・Lint｜Markdown執筆を効率化するツール",
+        "item": "https://ai-site-iota-nine.vercel.app/article/markdown-tools"
+      }
+    ]
+  },
+  "courseSchema": {
+    "@context": "https://schema.org",
+    "@type": "Course",
+    "name": "Markdown & 技術ドキュメント入門",
+    "description": "README・設計書・ブログに使えるMarkdownを8ステップで習得。日本語の体系的入門が少ないテーマを、具体例と失敗例つきで学びます。",
+    "provider": {
+      "@type": "Organization",
+      "name": "StackShelf",
+      "url": "https://ai-site-iota-nine.vercel.app"
+    },
+    "url": "https://ai-site-iota-nine.vercel.app/course/markdown/markdown",
+    "inLanguage": "ja",
+    "educationalLevel": "beginner",
+    "hasCourseInstance": {
+      "@type": "CourseInstance",
+      "courseMode": "online",
+      "courseWorkload": "PT1H"
+    }
+  },
+  "faqSchema": {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "VS Code以外の無料エディタは？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Vim、Neovim、ZedなどでもMarkdownは書けます。プレビューやLint統合の手軽さではVS Codeが初心者に向きます。既にVimを使っている場合は、markdown-preview.nvimなどのプラグインを検討してください。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "markdownlintの警告が多すぎる",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": ".markdownlint.jsonでプロジェクトに合わないルールだけOFFにします。日本語では行長制限MD013を切る例が多いです。一度に全部消さないことが大切です。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Obsidianのノートをそのまま公開できる？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "内部リンクやプラグイン記法は標準Markdownと異なる部分があるため、そのままでは崩れることがあります。公開用にはエクスポートやコピー後に記法を直す工程が必要です。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "PDF出力はどうする？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "PandocでMarkdownからPDF変換する方法、SSGのPDFプラグイン、印刷用CSSなどがあります。社内提出がPDF必須なら、正本をMarkdownにするかWordにするかを決めてからツールを選びます。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "スマホでMarkdownを書きたい",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Working Copy（iOS）やMarkor（Android）などがありますが、長文の技術文書はPCの方が効率が良いです。メモ程度ならモバイル、本番ドキュメントはPCという分担が現実的です。"
+        }
+      }
+    ]
+  }
+}

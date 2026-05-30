@@ -1,0 +1,322 @@
+{
+  "id": "art_regex_regex-quantifiers",
+  "slug": "regex-quantifiers",
+  "title": "量詞 * + ? {n,m}｜正規表現の繰り返しをマスター【入門】",
+  "summary": "正規表現の量詞（クォンティファイア）* + ? {n,m} の意味、貪欲・非貪欲マッチ、直前の要素への適用範囲を具体例で解説します。",
+  "body": "<h2>量詞とは「直前の要素を何回繰り返すか」</h2>\n<p><strong>量詞（quantifier）</strong>は、直前の<strong>1つの要素</strong>（文字、文字クラス、グループ）が<strong>何回繰り返されるか</strong>を指定します。電話番号の桁数、URLの長さ、ログの連続する数字など、「回数」の条件を書くときに必須の部品です。</p>\n<p>量詞が適用されるのは「直前の1要素」だけです。<code>ab+</code> は <code>a</code> の後に <code>b</code> が1回以上、<code>(ab)+</code> は <code>ab</code> のペアが1回以上、という違いがあります（グループは後の回で詳しく）。</p>\n\n<h2>基本の4種類</h2>\n<table>\n<tr><th>記号</th><th>意味</th><th>例</th></tr>\n<tr><td><code>*</code></td><td>0回以上</td><td><code>\\d*</code> 数字が0文字以上</td></tr>\n<tr><td><code>+</code></td><td>1回以上</td><td><code>\\d+</code> 数字が1文字以上</td></tr>\n<tr><td><code>?</code></td><td>0回または1回</td><td><code>https?</code> http または https</td></tr>\n<tr><td><code>{n}</code></td><td>ちょうど n 回</td><td><code>\\d{4}</code> 数字4桁</td></tr>\n<tr><td><code>{n,}</code></td><td>n 回以上</td><td><code>\\w{3,}</code> 3文字以上</td></tr>\n<tr><td><code>{n,m}</code></td><td>n 回以上 m 回以下</td><td><code>\\d{2,4}</code> 2〜4桁</td></tr>\n</table>\n<pre><code># 郵便番号（簡易・7桁）\n\\d{7}\n\n# オプションの s\ncolou?r   # color または colour</code></pre>\n\n<h2>貪欲（greedy）マッチ</h2>\n<p>デフォルトでは、量詞は<strong>できるだけ長く</strong>マッチしようとします。これを<strong>貪欲マッチ</strong>といいます。</p>\n<pre><code># 文字列: &lt;div&gt;hello&lt;/div&gt;&lt;div&gt;world&lt;/div&gt;\n# パターン: &lt;.*&gt;\n# 貪欲だと最初の &lt; から最後の &gt; まで一気にマッチしがち</code></pre>\n<p>HTMLのタグ抽出に <code>.*</code> を使うと壊れやすいのは、この貪欲さが原因のひとつです。タグごとに分ける、専用パーサを使う、より具体的な文字クラス <code>[^&gt;]+</code> を使うなどの対策があります。</p>\n\n<h2>非貪欲（lazy）マッチ</h2>\n<p>量詞の直後に <code>?</code> を付けると、<strong>できるだけ短く</strong>マッチする<strong>非貪欲</strong>（lazy / reluctant）になります（方言により <code>*?</code> <code>+?</code> <code>{n,m}?</code>）。</p>\n<pre><code>&lt;.*?&gt;   # 最短で閉じタグまで（それでもHTML全体には不向きな場合あり）</code></pre>\n<p>「最初の閉じ括弧まで」「最初のカンマまで」といった<strong>最短区切り</strong>が欲しいときに使います。</p>\n\n<h2>量詞と空マッチ</h2>\n<p><code>*</code> は「0回以上」なので、<strong>0文字でもマッチ成功</strong>することがあります。置換や分割のとき、思わぬ空マッチでループがおかしくなる例があります。最低1文字必要なら <code>+</code> を使いましょう。</p>\n<p>「必須だが最大10文字」のような条件は <code>{1,10}</code> のように、下限も明示するのが安全です。</p>\n\n<h2>実践例</h2>\n<p><strong>価格の抽出（簡易）：</strong></p>\n<pre><code>¥\\d+(?:\\.\\d{2})?   # ¥100 や ¥99.99（グループは後回で解説）</code></pre>\n<p><strong>ログのタイムスタンプ：</strong></p>\n<pre><code>\\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2}:\\d{2}</code></pre>\n<p><strong>パスワード長（8〜64文字の英数字）：</strong></p>\n<pre><code>^[a-zA-Z0-9]{8,64}$</code></pre>\n\n<h2>量詞の組み合わせミス</h2>\n<p><strong>\\d**</strong> のように量詞を二重に続けるのは、方言によってはエラーまたは意図不明です。</p>\n<p><strong>.*</strong> だけで終わるパターンは、行全体を飲み込みます。必要なら <code>[^\\n]+</code>（改行以外）や、アンカー <code>$</code> で終端を限定します。</p>\n<p>量詞は<strong>直前の1要素</strong>にだけ効きます。<code>^\\d+$</code> は「行全体が数字のみ」を意味し、<code>^\\d+ $</code> のようにスペースを入れると意味が変わります。</p>\n\n<h2>パフォーマンスのヒント</h2>\n<p>非常に長い文字列に対して、ネストした量詞（たとえば <code>(a+)+</code>）は、一部のエンジンで<strong>正規表現DoS</strong>の原因になることがあります。ユーザー入力をそのまま正規表現に渡す設計は避け、長さ上限を設けましょう。</p>\n\n<h2>量詞とアンカーの組み合わせ（予習）</h2>\n<p><code>^\\d+$</code> は「行全体が1文字以上の数字だけ」を意味します。量詞だけの <code>\\d+</code> では、文中の一部の数字列にもマッチします。フォームの「数字のみ入力」では、次回学ぶ <code>^</code> <code>$</code> とセットで覚えると実務に直結します。</p>\n<p>「ちょうど3回」の <code>{3}</code> は、電話番号の市外局番など固定長に向きます。「2回以上10回以下」の <code>{2,10}</code> は、ユーザー名の長さ制限などに使えます。上限を付けない <code>{2,}</code> は、長すぎる入力を許してしまうので、APIの最大長と合わせて設計してください。</p>\n\n<h2>繰り返しの「最短」と「最長」の感覚</h2>\n<p>貪欲マッチは「できるだけ長く」、非貪欲は「できるだけ短く」です。たとえば引用符で囲まれた文字列を抜く練習では、<code>\"[^\"]*\"</code> のように「ダブルクォート以外」を繰り返す方が、<code>\".*\"</code> より安全なことが多いです。量詞の <code>*</code> は強力ですが、周りの文字クラスで候補を絞ると、意図しないマッチが減ります。</p>\n<p>置換で「連続する空白を1つに」するような処理は <code>\\s+</code> を <code> </code> に置換するパターンで実現できます（エディタや sed、プログラムの replace）。量詞は検索だけでなく、置換の対象範囲を決めるうえでも欠かせません。</p>\n\n<h2>量詞だけでは足りない理由</h2>\n<p>「1文字以上」<code>.+</code> は何でも取れるため、バリデーションには向きません。<code>[0-9]+</code> のように文字クラスとセットで使うのが基本です。また、量詞の前にアンカー <code>^</code> <code>$</code> を付け忘れると、部分マッチで検証が通ってしまいます。量詞・アンカー・文字クラスは三つセットで設計する意識を持ちましょう。</p>\n\n<h2>量詞の読み方トレーニング</h2>\n<p>パターン <code>^[A-Z][a-z]{2,10}$</code> を声に出して読む練習：「行頭から、大文字1文字、その後小文字が2〜10文字、行末まで」。このように日本語に分解できるようになると、他人のパターンも保守できます。新しい量詞を足すときは、既存のテストケースが壊れないか必ず再実行してください。</p>\n<p>量詞は「どれだけ許すか」のビジネスルールそのものです。最大文字数はAPIやDBのカラム長とも整合させ、正規表現だけが緩くて保存時にエラーになる、という齟齬を避けましょう。</p>\n\n<h2>ログでよく見る量詞の例</h2>\n<p>UUID 風のハイフン区切り、連続するスペース、繰り返す ERROR など、ログには「同じ構造の繰り返し」が多く登場します。<code>ERROR(?:\\s+\\S+){0,3}</code> のようにグループと量詞を組み合わせると、メッセージの先頭だけを拾うような絞り込みも可能です（形式はログ次第で調整してください）。</p>\n\n<h2>まとめ</h2>\n<p>量詞 <code>*</code> <code>+</code> <code>?</code> <code>{n,m}</code> は繰り返し回数を制御する核心です。デフォルトは貪欲なので、範囲が広がりすぎるときは非貪欲 <code>*?</code> や、より具体的な文字クラスで絞ります。次回は <code>^</code> <code>$</code> などアンカーで「行のどこでマッチするか」を指定します。</p>",
+  "conclusion": "量詞は直前の要素の繰り返し回数を指定し、* は0回以上、+ は1回以上、? は0か1回、{n,m} で範囲指定できます。デフォルトは貪欲マッチなので、範囲が広がりすぎるときは非貪欲や具体的な文字クラスで調整します。空マッチに注意し、ユーザー入力には長さ上限を設けましょう。",
+  "tags": [
+    "正規表現",
+    "量詞",
+    "クォンティファイア",
+    "regex",
+    "貪欲",
+    "初心者"
+  ],
+  "category": "正規表現",
+  "theme": "regex - 正規表現入門",
+  "status": "published",
+  "createdAt": "2026-05-30T05:14:24.811Z",
+  "updatedAt": "2026-05-30T05:14:24.816Z",
+  "publishedAt": "2026-05-30T05:14:24.811Z",
+  "metaTitle": "正規表現 量詞 * + ? {n,m} | 繰り返しの書き方",
+  "metaDescription": "【正規表現初心者向け】正規表現の量詞を初心者向けに解説。* 0回以上、+ 1回以上、? 0か1回、{n,m} 回数指定と貪欲マッチの注意点を学べます。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
+  "ogTitle": "量詞 * + ? {n,m}｜正規表現入門",
+  "ogDescription": "【正規表現初心者向け】【正規表現初心者向け】正規表現の量詞と繰り返し、貪欲・非貪欲の違いをわかりやすく解説します。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
+  "knowledge": {
+    "topic": "regex",
+    "courseId": "regex",
+    "episode": 4
+  },
+  "faq": [
+    {
+      "question": "* と + はどう使い分けますか？",
+      "answer": "最低1文字必要なら +、0文字（空）も許すなら * です。IDや番号のように空を許さない場合は + が安全です。"
+    },
+    {
+      "question": "非貪欲はいつ使いますか？",
+      "answer": "最初の区切りまで最短でマッチさせたいとき（タグの最短抽出、引用符で囲まれた部分など）に使います。HTML全体の解析には依然として不向きな場合があります。"
+    },
+    {
+      "question": "{n,m} のカンマは必須ですか？",
+      "answer": "{n} はちょうどn回、{n,} はn回以上、{n,m} はn以上m以下です。片方だけの書き方は方言の仕様を確認してください。"
+    },
+    {
+      "question": "量詞は複数の文字にかけられますか？",
+      "answer": "直前の1要素のみです。複数文字の繰り返しは (abc)+ のようにグループで囲みます。"
+    },
+    {
+      "question": "正規表現が遅いときは？",
+      "answer": ".* の乱用、入れ子の量詞、超長文字列を避け、パターンを単純化するか、文字列長の上限を設けてください。"
+    }
+  ],
+  "nextEpisodeHint": "次回はアンカー ^ $ と単語境界 \\b を学びます。「行頭・行末だけ」「単語全体」といった位置の条件を付けられるようになります。",
+  "nextAction": "",
+  "internalLinkCandidates": [
+    {
+      "slug": "regex-character-classes",
+      "title": "文字クラス [] と否定",
+      "reason": "量詞と組み合わせる \\d+ などの基礎"
+    },
+    {
+      "slug": "python-loops",
+      "title": "for/while ループ",
+      "reason": "繰り返しのプログラム概念と対応づけやすい"
+    },
+    {
+      "slug": "sql-aggregate",
+      "title": "集計関数 COUNT/SUM",
+      "reason": "回数・件数を扱うデータ処理の文脈"
+    },
+    {
+      "slug": "linux-pipe-redirect",
+      "title": "パイプとリダイレクト",
+      "reason": "テキストストリームを段階的に処理する流れ"
+    },
+    {
+      "slug": "web-forms",
+      "title": "HTMLフォーム",
+      "reason": "入力桁数・形式チェックに量詞が使われる"
+    },
+    {
+      "slug": "python-intro",
+      "title": "Pythonとは？",
+      "reason": "テキスト処理を学ぶ言語の入門"
+    }
+  ],
+  "ogImage": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+  "canonical": "https://ai-site-iota-nine.vercel.app/article/regex-quantifiers",
+  "jsonLd": {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@context": "https://schema.org",
+        "@type": "TechArticle",
+        "headline": "量詞 * + ? {n,m}｜正規表現の繰り返しをマスター【入門】",
+        "description": "【正規表現初心者向け】正規表現の量詞を初心者向けに解説。* 0回以上、+ 1回以上、? 0か1回、{n,m} 回数指定と貪欲マッチの注意点を学べます。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
+        "datePublished": "2026-05-30T05:14:24.811Z",
+        "dateModified": "2026-05-30T05:14:24.816Z",
+        "author": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
+        },
+        "image": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+        "inLanguage": "ja",
+        "wordCount": 2501,
+        "mainEntityOfPage": {
+          "@type": "WebPage",
+          "@id": "https://ai-site-iota-nine.vercel.app/article/regex-quantifiers"
+        },
+        "keywords": "正規表現, 量詞, クォンティファイア, regex, 貪欲, 初心者",
+        "articleSection": "正規表現",
+        "url": "https://ai-site-iota-nine.vercel.app/article/regex-quantifiers",
+        "learningResourceType": "tutorial",
+        "educationalLevel": "beginner"
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "ホーム",
+            "item": "https://ai-site-iota-nine.vercel.app/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "regex",
+            "item": "https://ai-site-iota-nine.vercel.app/knowledge/regex"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "正規表現入門",
+            "item": "https://ai-site-iota-nine.vercel.app/course/regex/regex"
+          },
+          {
+            "@type": "ListItem",
+            "position": 4,
+            "name": "量詞 * + ? {n,m}｜正規表現の繰り返しをマスター【入門】",
+            "item": "https://ai-site-iota-nine.vercel.app/article/regex-quantifiers"
+          }
+        ]
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "Course",
+        "name": "正規表現入門",
+        "description": "ログ解析・バリデーション・置換に必須の正規表現を10ステップで習得。つまずきやすいエスケープや量詞を具体例で解説します。",
+        "provider": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app"
+        },
+        "url": "https://ai-site-iota-nine.vercel.app/course/regex/regex",
+        "inLanguage": "ja",
+        "educationalLevel": "beginner",
+        "hasCourseInstance": {
+          "@type": "CourseInstance",
+          "courseMode": "online",
+          "courseWorkload": "PT1H"
+        }
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "* と + はどう使い分けますか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "最低1文字必要なら +、0文字（空）も許すなら * です。IDや番号のように空を許さない場合は + が安全です。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "非貪欲はいつ使いますか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "最初の区切りまで最短でマッチさせたいとき（タグの最短抽出、引用符で囲まれた部分など）に使います。HTML全体の解析には依然として不向きな場合があります。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "{n,m} のカンマは必須ですか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "{n} はちょうどn回、{n,} はn回以上、{n,m} はn以上m以下です。片方だけの書き方は方言の仕様を確認してください。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "量詞は複数の文字にかけられますか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "直前の1要素のみです。複数文字の繰り返しは (abc)+ のようにグループで囲みます。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "正規表現が遅いときは？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": ".* の乱用、入れ子の量詞、超長文字列を避け、パターンを単純化するか、文字列長の上限を設けてください。"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "breadcrumb": {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "ホーム",
+        "item": "https://ai-site-iota-nine.vercel.app/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "regex",
+        "item": "https://ai-site-iota-nine.vercel.app/knowledge/regex"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "正規表現入門",
+        "item": "https://ai-site-iota-nine.vercel.app/course/regex/regex"
+      },
+      {
+        "@type": "ListItem",
+        "position": 4,
+        "name": "量詞 * + ? {n,m}｜正規表現の繰り返しをマスター【入門】",
+        "item": "https://ai-site-iota-nine.vercel.app/article/regex-quantifiers"
+      }
+    ]
+  },
+  "courseSchema": {
+    "@context": "https://schema.org",
+    "@type": "Course",
+    "name": "正規表現入門",
+    "description": "ログ解析・バリデーション・置換に必須の正規表現を10ステップで習得。つまずきやすいエスケープや量詞を具体例で解説します。",
+    "provider": {
+      "@type": "Organization",
+      "name": "StackShelf",
+      "url": "https://ai-site-iota-nine.vercel.app"
+    },
+    "url": "https://ai-site-iota-nine.vercel.app/course/regex/regex",
+    "inLanguage": "ja",
+    "educationalLevel": "beginner",
+    "hasCourseInstance": {
+      "@type": "CourseInstance",
+      "courseMode": "online",
+      "courseWorkload": "PT1H"
+    }
+  },
+  "faqSchema": {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "* と + はどう使い分けますか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "最低1文字必要なら +、0文字（空）も許すなら * です。IDや番号のように空を許さない場合は + が安全です。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "非貪欲はいつ使いますか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "最初の区切りまで最短でマッチさせたいとき（タグの最短抽出、引用符で囲まれた部分など）に使います。HTML全体の解析には依然として不向きな場合があります。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "{n,m} のカンマは必須ですか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "{n} はちょうどn回、{n,} はn回以上、{n,m} はn以上m以下です。片方だけの書き方は方言の仕様を確認してください。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "量詞は複数の文字にかけられますか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "直前の1要素のみです。複数文字の繰り返しは (abc)+ のようにグループで囲みます。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "正規表現が遅いときは？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": ".* の乱用、入れ子の量詞、超長文字列を避け、パターンを単純化するか、文字列長の上限を設けてください。"
+        }
+      }
+    ]
+  }
+}

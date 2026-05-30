@@ -1,0 +1,13 @@
+{
+  "slug": "http-https-tls",
+  "courseId": "http",
+  "episode": 6,
+  "summaryMemory": [
+    "HTTPS = HTTP + TLS暗号化。平文HTTPは傍受・改ざんのリスクあり",
+    "TLSハンドシェイク → 暗号鍵共有 → 暗号化HTTP通信",
+    "CA署名付き証明書でサーバー身元を保証。Let's Encryptで無料取得可能",
+    "HSTSでHTTPS強制。混合コンテンツ（HTTPSページ内のHTTPリソース）に注意"
+  ],
+  "nextEpisodeHint": "次回は、REST APIの設計原則——リソース指向、URL設計、HTTPメソッドの使い分け——を解説します。",
+  "updatedAt": "2026-05-30T05:14:38.956Z"
+}

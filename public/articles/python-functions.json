@@ -3,7 +3,7 @@
   "slug": "python-functions",
   "title": "関数の定義と使い方（def, 引数, return）",
   "summary": "Pythonの関数をdef文で定義する方法を解説します。引数・戻り値・デフォルト引数・キーワード引数・可変長引数・スコープなど、関数の全体像を初心者向けに丁寧に説明します。",
-  "body": "\n<h2>関数とは何か？</h2>\n<p>関数とは、ひとまとまりの処理に名前をつけて、何度でも呼び出せるようにしたものです。同じ処理を複数の場所に書く必要がなくなり、コードの重複を排除できます。また、処理に名前がつくことでコードが読みやすくなります。</p>\n<p>Pythonには <code>print()</code>、<code>len()</code>、<code>range()</code> など多くの「組み込み関数」が用意されていますが、自分で関数を定義することもできます。</p>\n<p>関数のメリットをまとめると次のとおりです。</p>\n<ul>\n  <li>コードの重複を避けられる（DRY原則：Don't Repeat Yourself）</li>\n  <li>処理に名前がつくことで意図が明確になる</li>\n  <li>一箇所を修正するだけで全体に反映される</li>\n  <li>テストがしやすくなる</li>\n</ul>\n\n<h2>関数の定義と呼び出し</h2>\n<p>Pythonで関数を定義するには <code>def</code> キーワードを使います。</p>\n<pre><code>def 関数名(引数1, 引数2, ...):\n    処理の内容\n    return 戻り値</code></pre>\n<p>シンプルな例を見てみましょう。</p>\n<pre><code>def greet():\n    print(\"こんにちは！\")\n\n# 関数の呼び出し\ngreet()  # こんにちは！\ngreet()  # こんにちは！（何度でも呼び出せる）</code></pre>\n<p>関数は <strong>定義するだけでは実行されません</strong>。関数名に括弧 <code>()</code> をつけて「呼び出す」ことで初めて実行されます。</p>\n\n<h2>引数を受け取る関数</h2>\n<p>関数には外部から値を渡すことができます。この値を「引数（ひきすう）」と言います。</p>\n<pre><code>def greet(name):\n    print(f\"こんにちは、{name}さん！\")\n\ngreet(\"田中\")  # こんにちは、田中さん！\ngreet(\"佐藤\")  # こんにちは、佐藤さん！\n\n# 複数の引数\ndef add(a, b):\n    result = a + b\n    print(f\"{a} + {b} = {result}\")\n\nadd(3, 5)   # 3 + 5 = 8\nadd(10, 20) # 10 + 20 = 30</code></pre>\n\n<h2>return文で値を返す</h2>\n<p><code>return</code> 文を使うと関数から値を返すことができます。この返ってくる値を「戻り値（もどりち）」または「返り値」と言います。</p>\n<pre><code>def add(a, b):\n    return a + b\n\nresult = add(3, 5)\nprint(result)  # 8\n\n# 戻り値を直接使う\nprint(add(10, 20))  # 30\n\n# 計算に使う\ntotal = add(100, add(50, 25))\nprint(total)  # 175</code></pre>\n<p><code>return</code> に到達するとその時点で関数の処理が終了します。複数の値を返すこともできます。</p>\n<pre><code>def min_max(numbers):\n    return min(numbers), max(numbers)  # タプルとして返される\n\nlow, high = min_max([3, 1, 7, 4, 9, 2])\nprint(f\"最小値: {low}, 最大値: {high}\")  # 最小値: 1, 最大値: 9</code></pre>\n\n<h2>デフォルト引数</h2>\n<p>引数にデフォルト値を設定しておくと、呼び出し時にその引数を省略できます。</p>\n<pre><code>def greet(name, greeting=\"こんにちは\"):\n    print(f\"{greeting}、{name}さん！\")\n\ngreet(\"田中\")              # こんにちは、田中さん！\ngreet(\"鈴木\", \"おはよう\")  # おはよう、鈴木さん！\ngreet(\"佐藤\", \"こんばんは\") # こんばんは、佐藤さん！</code></pre>\n<p><strong>注意：</strong> デフォルト引数は必ずデフォルトなし引数の後に書かなければなりません。<code>def f(x=1, y)</code> はエラーになります。</p>\n\n<h2>キーワード引数</h2>\n<p>引数名を指定して値を渡すことを「キーワード引数」と言います。順序を気にせずに渡せるため、引数が多い関数で特に便利です。</p>\n<pre><code>def introduce(name, age, job):\n    print(f\"名前: {name}、年齢: {age}歳、職業: {job}\")\n\n# 位置引数（順番通りに渡す）\nintroduce(\"田中\", 25, \"エンジニア\")\n\n# キーワード引数（名前で指定）\nintroduce(age=25, job=\"エンジニア\", name=\"田中\")  # 順序が違っても OK\n\n# 混在も可能（位置引数を先に）\nintroduce(\"田中\", job=\"エンジニア\", age=25)</code></pre>\n\n<h2>可変長引数（*args と **kwargs）</h2>\n<p>引数の数が不定の場合は <code>*args</code>（タプルとして受け取る）や <code>**kwargs</code>（辞書として受け取る）を使います。</p>\n<pre><code># *args：任意の数の位置引数\ndef sum_all(*args):\n    total = 0\n    for num in args:\n        total += num\n    return total\n\nprint(sum_all(1, 2, 3))        # 6\nprint(sum_all(1, 2, 3, 4, 5))  # 15\n\n# **kwargs：任意の数のキーワード引数\ndef print_info(**kwargs):\n    for key, value in kwargs.items():\n        print(f\"{key}: {value}\")\n\nprint_info(name=\"田中\", age=25, city=\"東京\")\n# name: 田中\n# age: 25\n# city: 東京</code></pre>\n\n<h2>スコープ（変数の有効範囲）</h2>\n<p>関数の中で定義した変数は、関数の外からはアクセスできません。この変数の有効範囲を「スコープ」と言います。</p>\n<pre><code>def my_function():\n    local_var = \"関数の中の変数\"\n    print(local_var)  # OK\n\nmy_function()\n# print(local_var)  # NameError: この変数は関数の外では存在しない\n\n# グローバル変数（関数の外で定義した変数）はどこからでも読める\nglobal_var = \"グローバル変数\"\n\ndef show_global():\n    print(global_var)  # OK（読み取りのみ）\n\nshow_global()  # グローバル変数</code></pre>\n\n<h3>関数内でグローバル変数を変更するには</h3>\n<pre><code>count = 0\n\ndef increment():\n    global count  # globalキーワードで宣言\n    count += 1\n\nincrement()\nincrement()\nprint(count)  # 2</code></pre>\n<p>グローバル変数の多用は避けましょう。引数と戻り値で値のやり取りをするのが基本です。</p>\n\n<h2>ドキュメント文字列（docstring）</h2>\n<p>関数の説明をコードに書いておくと、他の人（未来の自分も含む）が理解しやすくなります。</p>\n<pre><code>def calculate_bmi(weight, height):\n    \"\"\"\n    BMI（体格指数）を計算する関数。\n\n    Args:\n        weight (float): 体重（キログラム）\n        height (float): 身長（メートル）\n\n    Returns:\n        float: BMI値（小数点第1位に丸め）\n    \"\"\"\n    bmi = weight / (height ** 2)\n    return round(bmi, 1)\n\nprint(calculate_bmi(65, 1.70))  # 22.5</code></pre>\n\n<h2>ラムダ関数（lambda）</h2>\n<p>シンプルな1行の関数は <code>lambda</code> を使って短く書けます。</p>\n<pre><code># 通常の関数\ndef double(x):\n    return x * 2\n\n# ラムダ関数\ndouble = lambda x: x * 2\nprint(double(5))  # 10\n\n# sorted()のkeyとして使うことが多い\nstudents = [(\"田中\", 85), (\"鈴木\", 92), (\"佐藤\", 78)]\nsorted_students = sorted(students, key=lambda s: s[1], reverse=True)\nprint(sorted_students)  # [('鈴木', 92), ('田中', 85), ('佐藤', 78)]</code></pre>\n",
+  "body": "<h2>結論：def で処理に名前をつけ、引数と return で再利用する</h2>\n<p><code>def 関数名(引数):</code> で関数を定義し、<code>return</code> で結果を返します。同じ処理のコピペを避け、修正も1箇所で済むようになります。デフォルト引数やキーワード引数で呼び出しを柔軟にできます。</p>\n\n<h2>関数とは何か？</h2>\n<p>関数とは、ひとまとまりの処理に名前をつけて、何度でも呼び出せるようにしたものです。同じ処理を複数の場所に書く必要がなくなり、コードの重複を排除できます。また、処理に名前がつくことでコードが読みやすくなります。</p>\n<p>Pythonには <code>print()</code>、<code>len()</code>、<code>range()</code> など多くの「組み込み関数」が用意されていますが、自分で関数を定義することもできます。</p>\n<p>関数のメリットをまとめると次のとおりです。</p>\n<ul>\n  <li>コードの重複を避けられる（DRY原則：Don't Repeat Yourself）</li>\n  <li>処理に名前がつくことで意図が明確になる</li>\n  <li>一箇所を修正するだけで全体に反映される</li>\n  <li>テストがしやすくなる</li>\n</ul>\n\n<h2>関数の定義と呼び出し</h2>\n<p>Pythonで関数を定義するには <code>def</code> キーワードを使います。</p>\n<pre><code>def 関数名(引数1, 引数2, ...):\n    処理の内容\n    return 戻り値</code></pre>\n<p>シンプルな例を見てみましょう。</p>\n<pre><code>def greet():\n    print(\"こんにちは！\")\n\n# 関数の呼び出し\ngreet()  # こんにちは！\ngreet()  # こんにちは！（何度でも呼び出せる）</code></pre>\n<p>関数は <strong>定義するだけでは実行されません</strong>。関数名に括弧 <code>()</code> をつけて「呼び出す」ことで初めて実行されます。</p>\n\n<h2>引数を受け取る関数</h2>\n<p>関数には外部から値を渡すことができます。この値を「引数（ひきすう）」と言います。</p>\n<pre><code>def greet(name):\n    print(f\"こんにちは、{name}さん！\")\n\ngreet(\"田中\")  # こんにちは、田中さん！\ngreet(\"佐藤\")  # こんにちは、佐藤さん！\n\n# 複数の引数\ndef add(a, b):\n    result = a + b\n    print(f\"{a} + {b} = {result}\")\n\nadd(3, 5)   # 3 + 5 = 8\nadd(10, 20) # 10 + 20 = 30</code></pre>\n\n<h2>return文で値を返す</h2>\n<p><code>return</code> 文を使うと関数から値を返すことができます。この返ってくる値を「戻り値（もどりち）」または「返り値」と言います。</p>\n<pre><code>def add(a, b):\n    return a + b\n\nresult = add(3, 5)\nprint(result)  # 8\n\n# 戻り値を直接使う\nprint(add(10, 20))  # 30\n\n# 計算に使う\ntotal = add(100, add(50, 25))\nprint(total)  # 175</code></pre>\n<p><code>return</code> に到達するとその時点で関数の処理が終了します。複数の値を返すこともできます。</p>\n<pre><code>def min_max(numbers):\n    return min(numbers), max(numbers)  # タプルとして返される\n\nlow, high = min_max([3, 1, 7, 4, 9, 2])\nprint(f\"最小値: {low}, 最大値: {high}\")  # 最小値: 1, 最大値: 9</code></pre>\n\n<h2>デフォルト引数</h2>\n<p>引数にデフォルト値を設定しておくと、呼び出し時にその引数を省略できます。</p>\n<pre><code>def greet(name, greeting=\"こんにちは\"):\n    print(f\"{greeting}、{name}さん！\")\n\ngreet(\"田中\")              # こんにちは、田中さん！\ngreet(\"鈴木\", \"おはよう\")  # おはよう、鈴木さん！\ngreet(\"佐藤\", \"こんばんは\") # こんばんは、佐藤さん！</code></pre>\n<p><strong>注意：</strong> デフォルト引数は必ずデフォルトなし引数の後に書かなければなりません。<code>def f(x=1, y)</code> はエラーになります。</p>\n\n<h2>キーワード引数</h2>\n<p>引数名を指定して値を渡すことを「キーワード引数」と言います。順序を気にせずに渡せるため、引数が多い関数で特に便利です。</p>\n<pre><code>def introduce(name, age, job):\n    print(f\"名前: {name}、年齢: {age}歳、職業: {job}\")\n\n# 位置引数（順番通りに渡す）\nintroduce(\"田中\", 25, \"エンジニア\")\n\n# キーワード引数（名前で指定）\nintroduce(age=25, job=\"エンジニア\", name=\"田中\")  # 順序が違っても OK\n\n# 混在も可能（位置引数を先に）\nintroduce(\"田中\", job=\"エンジニア\", age=25)</code></pre>\n\n<h2>可変長引数（*args と **kwargs）</h2>\n<p>引数の数が不定の場合は <code>*args</code>（タプルとして受け取る）や <code>**kwargs</code>（辞書として受け取る）を使います。</p>\n<pre><code># *args：任意の数の位置引数\ndef sum_all(*args):\n    total = 0\n    for num in args:\n        total += num\n    return total\n\nprint(sum_all(1, 2, 3))        # 6\nprint(sum_all(1, 2, 3, 4, 5))  # 15\n\n# **kwargs：任意の数のキーワード引数\ndef print_info(**kwargs):\n    for key, value in kwargs.items():\n        print(f\"{key}: {value}\")\n\nprint_info(name=\"田中\", age=25, city=\"東京\")\n# name: 田中\n# age: 25\n# city: 東京</code></pre>\n\n<h2>スコープ（変数の有効範囲）</h2>\n<p>関数の中で定義した変数は、関数の外からはアクセスできません。この変数の有効範囲を「スコープ」と言います。</p>\n<pre><code>def my_function():\n    local_var = \"関数の中の変数\"\n    print(local_var)  # OK\n\nmy_function()\n# print(local_var)  # NameError: この変数は関数の外では存在しない\n\n# グローバル変数（関数の外で定義した変数）はどこからでも読める\nglobal_var = \"グローバル変数\"\n\ndef show_global():\n    print(global_var)  # OK（読み取りのみ）\n\nshow_global()  # グローバル変数</code></pre>\n\n<h3>関数内でグローバル変数を変更するには</h3>\n<pre><code>count = 0\n\ndef increment():\n    global count  # globalキーワードで宣言\n    count += 1\n\nincrement()\nincrement()\nprint(count)  # 2</code></pre>\n<p>グローバル変数の多用は避けましょう。引数と戻り値で値のやり取りをするのが基本です。</p>\n\n<h2>ドキュメント文字列（docstring）</h2>\n<p>関数の説明をコードに書いておくと、他の人（未来の自分も含む）が理解しやすくなります。</p>\n<pre><code>def calculate_bmi(weight, height):\n    \"\"\"\n    BMI（体格指数）を計算する関数。\n\n    Args:\n        weight (float): 体重（キログラム）\n        height (float): 身長（メートル）\n\n    Returns:\n        float: BMI値（小数点第1位に丸め）\n    \"\"\"\n    bmi = weight / (height ** 2)\n    return round(bmi, 1)\n\nprint(calculate_bmi(65, 1.70))  # 22.5</code></pre>\n\n<h2>ラムダ関数（lambda）</h2>\n<p>シンプルな1行の関数は <code>lambda</code> を使って短く書けます。</p>\n<pre><code># 通常の関数\ndef double(x):\n    return x * 2\n\n# ラムダ関数\ndouble = lambda x: x * 2\nprint(double(5))  # 10\n\n# sorted()のkeyとして使うことが多い\nstudents = [(\"田中\", 85), (\"鈴木\", 92), (\"佐藤\", 78)]\nsorted_students = sorted(students, key=lambda s: s[1], reverse=True)\nprint(sorted_students)  # [('鈴木', 92), ('田中', 85), ('佐藤', 78)]</code></pre>\n\n<h2>つまずきやすいポイント・失敗例</h2>\n<h3>失敗例：return を忘れて None が返る</h3>\n<p>計算結果を <code>print</code> だけして <code>return</code> しないと、呼び出し側は <code>None</code> を受け取ります。値を使う場合は <code>return result</code> を書きましょう。</p>\n<h3>失敗例：可変デフォルト引数の罠</h3>\n<p><code>def f(x, lst=[]):</code> のようにリストをデフォルトにすると、呼び出しごとに同じリストが共有されます。通常は <code>lst=None</code> パターンを使います。</p>\n<pre><code>def greet(name):\n    return f\"こんにちは、{name}さん\"\n\nmsg = greet(\"太郎\")\nprint(msg)</code></pre>",
   "conclusion": "関数はプログラムを整理・再利用するための核心的な機能です。def文の基本から、引数の種類・return文・スコープまで理解できれば、より構造的で読みやすいコードが書けるようになります。次のエピソードではリストと辞書という、Pythonで最もよく使うデータ構造を学びます。",
   "tags": [
     "python",
@@ -17,12 +17,12 @@
   "theme": "python - Python 入門",
   "status": "published",
   "createdAt": "2026-05-30T04:12:56.602Z",
-  "updatedAt": "2026-05-30T04:12:56.611Z",
+  "updatedAt": "2026-05-30T05:17:15.954Z",
   "publishedAt": "2026-05-30T04:12:56.602Z",
   "metaTitle": "Python 関数 def 引数 return 入門 | Python入門",
-  "metaDescription": "【Python初心者向け】Python入門：def文による関数の定義・引数・return文をわかりやすく解説。デフォルト引数・キーワード引数・可変長引数・スコープまで豊富なコード例で学べます。 図解・具体例つきで丁寧に解説します。",
+  "metaDescription": "Pythonのdef・引数・returnによる関数定義を解説。return忘れやデフォルト引数の罠など、実務で起きやすい失敗例をコード例付きで紹介します。",
   "ogTitle": "Python 関数 def/引数/return | Python入門",
-  "ogDescription": "【Python初心者向け】Pythonのdef文で関数を定義する方法を初心者向けに解説。引数・戻り値・デフォルト引数・スコープまで丁寧に説明します。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
+  "ogDescription": "Pythonのdef文で関数を定義する方法を初心者向けに解説。引数・戻り値・デフォルト引数・スコープまで丁寧に説明します。",
   "knowledge": {
     "topic": "python",
     "courseId": "python",
@@ -40,6 +40,14 @@
     {
       "question": "*argsと**kwargsの名前は変えられますか？",
       "answer": "はい、*や**のあとの名前は慣習的にargs・kwargsが使われますが、任意の名前にできます（*numbers、**optionsなど）。ただし慣習に従う方がコードを読んだ人が理解しやすいです。"
+    },
+    {
+      "question": "プログラミング未経験でもPythonは学べますか？",
+      "answer": "はい。Pythonは文法が比較的シンプルで、エラーメッセージも読みやすい言語です。小さなプログラムから手を動かしながら進めましょう。"
+    },
+    {
+      "question": "エラーが出たときの対処法は？",
+      "answer": "エラーメッセージの最終行（例外名と説明）を読み、該当行のコードを確認してください。print() で変数の中身を表示するのも有効です。"
     }
   ],
   "nextEpisodeHint": "次回はリストと辞書を学びます。複数のデータをまとめて管理するリスト（[]）と、キーと値のペアで管理する辞書（{}）の作成・操作・メソッドを詳しく解説します。",
@@ -52,9 +60,9 @@
         "@context": "https://schema.org",
         "@type": "TechArticle",
         "headline": "関数の定義と使い方（def, 引数, return）",
-        "description": "【Python初心者向け】Python入門：def文による関数の定義・引数・return文をわかりやすく解説。デフォルト引数・キーワード引数・可変長引数・スコープまで豊富なコード例で学べます。 図解・具体例つきで丁寧に解説します。",
+        "description": "Pythonのdef・引数・returnによる関数定義を解説。return忘れやデフォルト引数の罠など、実務で起きやすい失敗例をコード例付きで紹介します。",
         "datePublished": "2026-05-30T04:12:56.602Z",
-        "dateModified": "2026-05-30T04:12:56.611Z",
+        "dateModified": "2026-05-30T05:17:15.954Z",
         "author": {
           "@type": "Organization",
           "name": "StackShelf",
@@ -75,7 +83,7 @@
         },
         "image": "https://ai-site-iota-nine.vercel.app/og-default.svg",
         "inLanguage": "ja",
-        "wordCount": 2999,
+        "wordCount": 3380,
         "mainEntityOfPage": {
           "@type": "WebPage",
           "@id": "https://ai-site-iota-nine.vercel.app/article/python-functions"
@@ -162,6 +170,22 @@
               "@type": "Answer",
               "text": "はい、*や**のあとの名前は慣習的にargs・kwargsが使われますが、任意の名前にできます（*numbers、**optionsなど）。ただし慣習に従う方がコードを読んだ人が理解しやすいです。"
             }
+          },
+          {
+            "@type": "Question",
+            "name": "プログラミング未経験でもPythonは学べますか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "はい。Pythonは文法が比較的シンプルで、エラーメッセージも読みやすい言語です。小さなプログラムから手を動かしながら進めましょう。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "エラーが出たときの対処法は？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "エラーメッセージの最終行（例外名と説明）を読み、該当行のコードを確認してください。print() で変数の中身を表示するのも有効です。"
+            }
           }
         ]
       }
@@ -243,7 +267,51 @@
           "@type": "Answer",
           "text": "はい、*や**のあとの名前は慣習的にargs・kwargsが使われますが、任意の名前にできます（*numbers、**optionsなど）。ただし慣習に従う方がコードを読んだ人が理解しやすいです。"
         }
+      },
+      {
+        "@type": "Question",
+        "name": "プログラミング未経験でもPythonは学べますか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "はい。Pythonは文法が比較的シンプルで、エラーメッセージも読みやすい言語です。小さなプログラムから手を動かしながら進めましょう。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "エラーが出たときの対処法は？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "エラーメッセージの最終行（例外名と説明）を読み、該当行のコードを確認してください。print() で変数の中身を表示するのも有効です。"
+        }
       }
     ]
-  }
+  },
+  "internalLinkCandidates": [
+    {
+      "slug": "python-classes",
+      "title": "クラスの基礎（class, __init__, メソッド）",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "python-exceptions",
+      "title": "例外処理（try/except）",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "python-modules",
+      "title": "モジュールとパッケージ（import, pip install）",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "python-file-io",
+      "title": "ファイルの読み書き（open, read, write）",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "python-list-dict",
+      "title": "リストと辞書",
+      "reason": "同じ講座の関連回です"
+    }
+  ],
+  "nextAction": "次はリストと辞書を学びます。複数のデータをまとめて管理するリスト（[]）と、キーと値のペアで管理する辞書（{}）の作成・操作・メソッドを詳しく解説します。"
 }

@@ -1,0 +1,17 @@
+{
+  "topic": "http",
+  "title": "HTTP・Web API入門",
+  "description": "ブラウザとサーバーの通信、REST API、HTTPSを10ステップで理解。バックエンド学習の前提となるHTTPを具体例で学びます。",
+  "beginnerPath": [
+    "http-intro",
+    "http-request-response",
+    "http-methods-status",
+    "http-headers",
+    "http-cookies-session",
+    "http-https-tls",
+    "http-rest-api",
+    "http-fetch-tools",
+    "http-debugging",
+    "http-practice"
+  ]
+}

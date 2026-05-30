@@ -1,0 +1,13 @@
+{
+  "slug": "nginx-reverse-proxy",
+  "courseId": "nginx",
+  "episode": 4,
+  "summaryMemory": [
+    "proxy_pass でバックエンドアプリへリクエストを転送する",
+    "Host・X-Real-IP・X-Forwarded-For・X-Forwarded-Proto の転送は必須",
+    "静的ファイルはnginx直接配信、/api/ だけプロキシが定番構成",
+    "502 Bad Gateway はバックエンド未起動か接続失敗が主な原因"
+  ],
+  "nextEpisodeHint": "次回は、locationブロックのマッチング優先順位（完全一致・正規表現・最長プレフィックス）と、複雑なURLルーティングの設計方法を学びます。",
+  "updatedAt": "2026-05-30T05:15:04.430Z"
+}

@@ -1,0 +1,317 @@
+{
+  "id": "art_http_http-request-response",
+  "slug": "http-request-response",
+  "title": "HTTPリクエストとレスポンスの構造を完全理解する",
+  "summary": "HTTPリクエストとレスポンスの内部構造——リクエスト行、ステータス行、ヘッダー、ボディ——を実際のメッセージ例で解説します。",
+  "body": "<h2>HTTPメッセージの全体像</h2>\n<p>前回、HTTPは「クライアントがリクエストを送り、サーバーがレスポンスを返す」プロトコルであることを学びました。今回は、そのリクエストとレスポンスの<strong>中身の構造</strong>を詳しく見ていきます。</p>\n<p>HTTPメッセージは大きく3つの部分に分かれます。</p>\n<ul>\n  <li><strong>開始行（Start Line）</strong>：リクエスト行またはステータス行</li>\n  <li><strong>ヘッダー（Headers）</strong>：メタ情報の一覧</li>\n  <li><strong>ボディ（Body）</strong>：送受信するデータ本体（省略されることもある）</li>\n</ul>\n<p>ヘッダーとボディの間には空行（CRLF：キャリッジリターン＋ラインフィード）が1行入り、ここが「ヘッダーが終わり、ボディが始まる」境界線になります。ブラウザの開発者ツール（DevTools）のNetworkタブを見ると、この構造が視覚的に確認できます。</p>\n\n<h2>HTTPリクエストの構造</h2>\n<p>クライアント（ブラウザなど）がサーバーに送るHTTPリクエストの例を見てみましょう。</p>\n<pre><code>GET /articles/http-intro HTTP/1.1\nHost: example.com\nUser-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64)\nAccept: text/html,application/json\nAccept-Language: ja,en;q=0.9\nConnection: keep-alive\n\n</code></pre>\n<p>1行目が<strong>リクエスト行</strong>です。3つの要素がスペース区切りで並んでいます。</p>\n<ul>\n  <li><strong>メソッド</strong>：<code>GET</code> — データを取得する操作（第3回で詳述）</li>\n  <li><strong>リクエストターゲット</strong>：<code>/articles/http-intro</code> — パス部分</li>\n  <li><strong>HTTPバージョン</strong>：<code>HTTP/1.1</code></li>\n</ul>\n<p>2行目以降が<strong>ヘッダー</strong>です。<code>Host</code> は必須ヘッダーで、どのサーバー（ドメイン）にリクエストを送るかを指定します。1つのIPアドレスに複数のWebサイトが載っている場合、このヘッダーで区別します。</p>\n<p>このGETリクエストにはボディがありません。GETはデータ取得専用のメソッドで、通常ボディを含めません。</p>\n\n<h2>POSTリクエストの例</h2>\n<p>データを送信するPOSTリクエストにはボディが含まれます。</p>\n<pre><code>POST /api/users HTTP/1.1\nHost: api.example.com\nContent-Type: application/json\nContent-Length: 52\nAuthorization: Bearer eyJhbGciOiJIUzI1NiIs...\n\n{\"name\": \"田中太郎\", \"email\": \"tanaka@example.com\"}</code></pre>\n<p><code>Content-Type</code> ヘッダーでボディの形式（ここではJSON）を伝え、<code>Content-Length</code> でボディのバイト数を指定します。ボディ部分 <code>{\"name\": \"田中太郎\", ...}</code> がサーバーに送られるデータ本体です。</p>\n<p>フォーム送信（<a href=\"/articles/web-forms\">Webフォーム</a>）も内部的にはPOSTリクエストです。HTMLの <code>&lt;form method=\"POST\"&gt;</code> を使うと、ブラウザが自動的にHTTP POSTリクエストを組み立ててサーバーに送ります。</p>\n\n<h2>HTTPレスポンスの構造</h2>\n<p>サーバーがクライアントに返すHTTPレスポンスの例です。</p>\n<pre><code>HTTP/1.1 200 OK\nContent-Type: text/html; charset=UTF-8\nContent-Length: 1234\nCache-Control: max-age=3600\nDate: Sat, 30 May 2026 10:00:00 GMT\n\n&lt;!DOCTYPE html&gt;\n&lt;html lang=\"ja\"&gt;\n&lt;head&gt;&lt;title&gt;HTTP入門&lt;/title&gt;&lt;/head&gt;\n&lt;body&gt;&lt;h1&gt;HTTPとは&lt;/h1&gt;&lt;/body&gt;\n&lt;/html&gt;</code></pre>\n<p>1行目が<strong>ステータス行</strong>です。</p>\n<ul>\n  <li><strong>HTTPバージョン</strong>：<code>HTTP/1.1</code></li>\n  <li><strong>ステータスコード</strong>：<code>200</code> — 成功を意味する数値</li>\n  <li><strong>理由フレーズ</strong>：<code>OK</code> — 人間向けの短い説明</li>\n</ul>\n<p>空行の後がHTMLの<strong>ボディ</strong>です。ブラウザはこのHTMLを受け取って画面にレンダリングします。APIの場合はボディにJSONが入ることが多く、<a href=\"/articles/sql-intro\">SQL</a>で取得したデータがJSON形式で返される、という流れが典型的です。</p>\n\n<h2>ステータスコードの概要</h2>\n<p>ステータスコードは3桁の数字で、処理結果を表します。大まかな分類は次のとおりです（第3回で詳述）。</p>\n<ul>\n  <li><strong>1xx</strong>：情報（処理中）</li>\n  <li><strong>2xx</strong>：成功（200 OK、201 Created など）</li>\n  <li><strong>3xx</strong>：リダイレクト（301 Moved Permanently、302 Found など）</li>\n  <li><strong>4xx</strong>：クライアントエラー（400 Bad Request、404 Not Found、401 Unauthorized など）</li>\n  <li><strong>5xx</strong>：サーバーエラー（500 Internal Server Error、503 Service Unavailable など）</li>\n</ul>\n<p>開発中に最もよく見るのは <code>200</code>（成功）、<code>404</code>（ページが見つからない）、<code>500</code>（サーバー内部エラー）の3つです。DevToolsのNetworkタブでは、ステータスコードが色分けされて表示されるので、一目で成功・失敗がわかります。</p>\n\n<h2>ヘッダーの役割</h2>\n<p>ヘッダーはHTTPメッセージの「付加情報」です。リクエストヘッダーとレスポンスヘッダーがあり、それぞれ異なる情報を伝えます。第4回で詳しく解説しますが、ここでは代表的なものを紹介します。</p>\n<p><strong>リクエストヘッダーの例：</strong></p>\n<ul>\n  <li><code>Host</code>：接続先のホスト名（HTTP/1.1では必須）</li>\n  <li><code>User-Agent</code>：クライアントの種類（ブラウザ名・バージョン）</li>\n  <li><code>Accept</code>：受け取れるデータ形式（text/html、application/json など）</li>\n  <li><code>Authorization</code>：認証情報（Bearer トークンなど）</li>\n  <li><code>Cookie</code>：サーバーから以前受け取ったCookieを返送</li>\n</ul>\n<p><strong>レスポンスヘッダーの例：</strong></p>\n<ul>\n  <li><code>Content-Type</code>：ボディの形式と文字コード</li>\n  <li><code>Content-Length</code>：ボディのバイト数</li>\n  <li><code>Cache-Control</code>：キャッシュの有効期限や方針</li>\n  <li><code>Set-Cookie</code>：クライアントにCookieを設定</li>\n  <li><code>Location</code>：リダイレクト先URL（3xxレスポンスで使用）</li>\n</ul>\n\n<h2>DevToolsでHTTPメッセージを確認する</h2>\n<p>Chromeの開発者ツール（F12 → Networkタブ）を使うと、実際のHTTPリクエスト・レスポンスを確認できます。</p>\n<ol>\n  <li>任意のWebページを開き、F12キーでDevToolsを起動</li>\n  <li>Networkタブを選択し、ページをリロード（Ctrl+R）</li>\n  <li>一覧に表示されたリクエストをクリック</li>\n  <li>Headersタブでリクエストヘッダー・レスポンスヘッダーを確認</li>\n  <li>Responseタブでレスポンスボディ（HTML/JSON）を確認</li>\n</ol>\n<p>「General」セクションにはリクエストURL、メソッド、ステータスコードが表示されます。「Request Headers」「Response Headers」セクションでヘッダーの中身を、Responseタブでボディを確認できます。第8回ではcurlコマンドでも同様の確認方法を学びます。</p>\n\n<h2>HTTP/1.1のKeep-Alive</h2>\n<p>HTTP/1.0では1リクエストごとにTCP接続を開閉していましたが、HTTP/1.1では<strong>Keep-Alive</strong>（接続の再利用）が標準です。<code>Connection: keep-alive</code> ヘッダーにより、同じTCP接続で複数のHTTPリクエストを連続して送れます。</p>\n<p>WebページはHTMLだけでなくCSS、JavaScript、画像など多数のリソースを読み込むため、接続を再利用しないと表示が遅くなります。Keep-Aliveにより、1ページの表示に必要な数十〜数百のリクエストを効率的に処理できます。</p>\n\n<h2>まとめ：4要素でHTTPメッセージを読み解く</h2>\n<p>HTTPリクエストは「リクエスト行 + ヘッダー + ボディ（任意）」、HTTPレスポンスは「ステータス行 + ヘッダー + ボディ（任意）」で構成されます。空行がヘッダーとボディの境界です。DevToolsのNetworkタブで実際のメッセージを確認しながら、この構造を頭に入れておきましょう。次回はHTTPメソッドとステータスコードを体系的に学びます。</p>",
+  "conclusion": "HTTPリクエストはリクエスト行・ヘッダー・ボディの3要素、HTTPレスポンスはステータス行・ヘッダー・ボディの3要素で構成されます。空行がヘッダーとボディの境界です。GETはボディなし、POSTはJSONなどのボディ付きが典型です。DevToolsのNetworkタブで実際のHTTPメッセージを確認する習慣をつけましょう。",
+  "tags": [
+    "HTTP",
+    "リクエスト",
+    "レスポンス",
+    "ヘッダー",
+    "Web API",
+    "初心者"
+  ],
+  "category": "HTTP",
+  "theme": "http - HTTP・Web API入門",
+  "status": "published",
+  "createdAt": "2026-05-30T05:14:34.193Z",
+  "updatedAt": "2026-05-30T05:15:43.968Z",
+  "publishedAt": "2026-05-30T05:14:34.193Z",
+  "metaTitle": "HTTPリクエストとレスポンスの構造を解説【HTTP入門 第2回】｜HTTP入門 | StackShelf",
+  "metaDescription": "HTTPリクエストとレスポンスの4要素（行・ヘッダー・ボディ）を実際のメッセージ例で解説。GET/POSTの違い、生のHTTPメッセージの読み方を学びます。",
+  "ogTitle": "HTTPリクエストとレスポンスの構造を完全理解する",
+  "ogDescription": "リクエスト行・ステータス行・ヘッダー・ボディの4要素を、実際のHTTPメッセージ例で丁寧に解説します。",
+  "knowledge": {
+    "topic": "http",
+    "courseId": "http",
+    "episode": 2
+  },
+  "faq": [
+    {
+      "question": "GETリクエストにボディを含めてもいいですか？",
+      "answer": "HTTP仕様上はGETにボディを含めることは禁止されていませんが、多くのサーバー・プロキシ・ライブラリがGETのボディを無視または拒否します。データ取得にはGET、データ送信にはPOST/PUT/PATCHを使うのが慣例です。"
+    },
+    {
+      "question": "Content-LengthとTransfer-Encoding: chunkedの違いは？",
+      "answer": "Content-Lengthはボディのサイズを事前に指定する方式です。Transfer-Encoding: chunkedはボディを小さな塊（チャンク）に分けて逐次送信する方式で、サイズが事前にわからない場合（ストリーミング等）に使います。どちらか一方がレスポンスに含まれます。"
+    },
+    {
+      "question": "HTTP/1.1とHTTP/2でメッセージの見え方は変わりますか？",
+      "answer": "HTTP/2はバイナリ形式でフレームに分割して送信するため、DevToolsで見るとHTTP/1.1風に整形表示されます。概念（メソッド・ステータス・ヘッダー・ボディ）は同じなので、HTTP/1.1の構造理解はHTTP/2でも有効です。"
+    },
+    {
+      "question": "404エラーはどの部分で返されますか？",
+      "answer": "404はレスポンスのステータス行（HTTP/1.1 404 Not Found）で返されます。ボディには「ページが見つかりません」などのHTMLエラーページが入ることが多いです。DevToolsのNetworkタブでステータスコード列を確認すると一目でわかります。"
+    },
+    {
+      "question": "リクエストヘッダーは自分で自由に追加できますか？",
+      "answer": "カスタムヘッダー（X-で始まるものなど）は追加できますが、ブラウザからJavaScriptで設定できるヘッダーは制限されています（セキュリティ上の理由）。AuthorizationやContent-Typeなど、許可されたヘッダーのみfetch API等で設定可能です。"
+    }
+  ],
+  "nextEpisodeHint": "次回は、GET・POST・PUT・DELETEなどのHTTPメソッドと、200・404・500などのステータスコードを体系的に解説します。",
+  "nextAction": "次回はGET・POST・PUT・DELETEなどのHTTPメソッドと、200・404・500などのステータスコードを体系的に解説します。API設計の基本となる重要な概念です。",
+  "internalLinkCandidates": [
+    {
+      "slug": "http-rest-api",
+      "title": "REST APIの設計原則",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "http-headers",
+      "title": "HTTPヘッダーの役割とよく使う項目",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "http-intro",
+      "title": "HTTPとは？Webの通信の仕組みを初心者向けに解説",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "http-practice",
+      "title": "実践：公開APIを叩いてみる",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "http-debugging",
+      "title": "CORS・エラー・デバッグ",
+      "reason": "同じ講座の関連回です"
+    }
+  ],
+  "ogImage": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+  "canonical": "https://ai-site-iota-nine.vercel.app/article/http-request-response",
+  "jsonLd": {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@context": "https://schema.org",
+        "@type": "TechArticle",
+        "headline": "HTTPリクエストとレスポンスの構造を完全理解する",
+        "description": "【HTTP初心者向け】HTTPリクエストとレスポンスの4要素（行・ヘッダー・ボディ）を実際のメッセージ例で解説。GET/POSTの違い、生のHTTPメッセージの読み方を学びます。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
+        "datePublished": "2026-05-30T05:14:34.193Z",
+        "dateModified": "2026-05-30T05:15:43.968Z",
+        "author": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
+        },
+        "image": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+        "inLanguage": "ja",
+        "wordCount": 3387,
+        "mainEntityOfPage": {
+          "@type": "WebPage",
+          "@id": "https://ai-site-iota-nine.vercel.app/article/http-request-response"
+        },
+        "keywords": "HTTP, リクエスト, レスポンス, ヘッダー, Web API, 初心者",
+        "articleSection": "HTTP",
+        "url": "https://ai-site-iota-nine.vercel.app/article/http-request-response",
+        "learningResourceType": "tutorial",
+        "educationalLevel": "beginner"
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "ホーム",
+            "item": "https://ai-site-iota-nine.vercel.app/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "http",
+            "item": "https://ai-site-iota-nine.vercel.app/knowledge/http"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "HTTP・Web API入門",
+            "item": "https://ai-site-iota-nine.vercel.app/course/http/http"
+          },
+          {
+            "@type": "ListItem",
+            "position": 4,
+            "name": "HTTPリクエストとレスポンスの構造を完全理解する",
+            "item": "https://ai-site-iota-nine.vercel.app/article/http-request-response"
+          }
+        ]
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "Course",
+        "name": "HTTP・Web API入門",
+        "description": "ブラウザとサーバーの通信、REST API、HTTPSを10ステップで理解。バックエンド学習の前提となるHTTPを具体例で学びます。",
+        "provider": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app"
+        },
+        "url": "https://ai-site-iota-nine.vercel.app/course/http/http",
+        "inLanguage": "ja",
+        "educationalLevel": "beginner",
+        "hasCourseInstance": {
+          "@type": "CourseInstance",
+          "courseMode": "online",
+          "courseWorkload": "PT1H"
+        }
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "GETリクエストにボディを含めてもいいですか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "HTTP仕様上はGETにボディを含めることは禁止されていませんが、多くのサーバー・プロキシ・ライブラリがGETのボディを無視または拒否します。データ取得にはGET、データ送信にはPOST/PUT/PATCHを使うのが慣例です。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Content-LengthとTransfer-Encoding: chunkedの違いは？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Content-Lengthはボディのサイズを事前に指定する方式です。Transfer-Encoding: chunkedはボディを小さな塊（チャンク）に分けて逐次送信する方式で、サイズが事前にわからない場合（ストリーミング等）に使います。どちらか一方がレスポンスに含まれます。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "HTTP/1.1とHTTP/2でメッセージの見え方は変わりますか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "HTTP/2はバイナリ形式でフレームに分割して送信するため、DevToolsで見るとHTTP/1.1風に整形表示されます。概念（メソッド・ステータス・ヘッダー・ボディ）は同じなので、HTTP/1.1の構造理解はHTTP/2でも有効です。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "404エラーはどの部分で返されますか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "404はレスポンスのステータス行（HTTP/1.1 404 Not Found）で返されます。ボディには「ページが見つかりません」などのHTMLエラーページが入ることが多いです。DevToolsのNetworkタブでステータスコード列を確認すると一目でわかります。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "リクエストヘッダーは自分で自由に追加できますか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "カスタムヘッダー（X-で始まるものなど）は追加できますが、ブラウザからJavaScriptで設定できるヘッダーは制限されています（セキュリティ上の理由）。AuthorizationやContent-Typeなど、許可されたヘッダーのみfetch API等で設定可能です。"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "breadcrumb": {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "ホーム",
+        "item": "https://ai-site-iota-nine.vercel.app/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "http",
+        "item": "https://ai-site-iota-nine.vercel.app/knowledge/http"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "HTTP・Web API入門",
+        "item": "https://ai-site-iota-nine.vercel.app/course/http/http"
+      },
+      {
+        "@type": "ListItem",
+        "position": 4,
+        "name": "HTTPリクエストとレスポンスの構造を完全理解する",
+        "item": "https://ai-site-iota-nine.vercel.app/article/http-request-response"
+      }
+    ]
+  },
+  "courseSchema": {
+    "@context": "https://schema.org",
+    "@type": "Course",
+    "name": "HTTP・Web API入門",
+    "description": "ブラウザとサーバーの通信、REST API、HTTPSを10ステップで理解。バックエンド学習の前提となるHTTPを具体例で学びます。",
+    "provider": {
+      "@type": "Organization",
+      "name": "StackShelf",
+      "url": "https://ai-site-iota-nine.vercel.app"
+    },
+    "url": "https://ai-site-iota-nine.vercel.app/course/http/http",
+    "inLanguage": "ja",
+    "educationalLevel": "beginner",
+    "hasCourseInstance": {
+      "@type": "CourseInstance",
+      "courseMode": "online",
+      "courseWorkload": "PT1H"
+    }
+  },
+  "faqSchema": {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "GETリクエストにボディを含めてもいいですか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "HTTP仕様上はGETにボディを含めることは禁止されていませんが、多くのサーバー・プロキシ・ライブラリがGETのボディを無視または拒否します。データ取得にはGET、データ送信にはPOST/PUT/PATCHを使うのが慣例です。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Content-LengthとTransfer-Encoding: chunkedの違いは？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Content-Lengthはボディのサイズを事前に指定する方式です。Transfer-Encoding: chunkedはボディを小さな塊（チャンク）に分けて逐次送信する方式で、サイズが事前にわからない場合（ストリーミング等）に使います。どちらか一方がレスポンスに含まれます。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "HTTP/1.1とHTTP/2でメッセージの見え方は変わりますか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "HTTP/2はバイナリ形式でフレームに分割して送信するため、DevToolsで見るとHTTP/1.1風に整形表示されます。概念（メソッド・ステータス・ヘッダー・ボディ）は同じなので、HTTP/1.1の構造理解はHTTP/2でも有効です。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "404エラーはどの部分で返されますか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "404はレスポンスのステータス行（HTTP/1.1 404 Not Found）で返されます。ボディには「ページが見つかりません」などのHTMLエラーページが入ることが多いです。DevToolsのNetworkタブでステータスコード列を確認すると一目でわかります。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "リクエストヘッダーは自分で自由に追加できますか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "カスタムヘッダー（X-で始まるものなど）は追加できますが、ブラウザからJavaScriptで設定できるヘッダーは制限されています（セキュリティ上の理由）。AuthorizationやContent-Typeなど、許可されたヘッダーのみfetch API等で設定可能です。"
+        }
+      }
+    ]
+  }
+}

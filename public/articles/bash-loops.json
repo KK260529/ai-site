@@ -1,0 +1,317 @@
+{
+  "id": "art_bash_bash-loops",
+  "slug": "bash-loops",
+  "title": "Bashのfor・whileループ完全ガイド｜一括処理と対話入力【シェルスクリプト第4回】",
+  "summary": "Bashスクリプトの for ループ、while ループ、until、break/continue、シーケンスと配列の走査を具体例で解説します。",
+  "body": "<h2>for ループの基本</h2>\n<p><code>for</code> ループは、リスト内の各要素に対して同じ処理を繰り返します。ファイルの一括リネーム、ログの走査、複数ホストへのコマンド実行など、自動化の核心です。</p>\n<pre><code>#!/usr/bin/env bash\n# 単語リストをループ\nfor fruit in apple banana cherry; do\n  echo \"果物: $fruit\"\ndone\n\n# ワイルドカード展開（*.log が0件なら文字通り *.log が1回）\nfor logfile in logs/*.log; do\n  echo \"処理中: $logfile\"\n  gzip \"$logfile\"\ndone\n\n# C言語風（Bash 3+）\nfor ((i=1; i&lt;=5; i++)); do\n  echo \"カウント: $i\"\ndone</code></pre>\n<p><code>logs/*.log</code> にマッチするファイルがない場合、glob が展開されず <code>logs/*.log</code> という1要素としてループすることがあります。<code>shopt -s nullglob</code> を有効にするか、事前に存在チェックを入れると安全です。</p>\n\n<h2>seq と数値範囲</h2>\n<pre><code>#!/usr/bin/env bash\n# 1から10まで\nfor i in $(seq 1 10); do\n  echo \"行 $i\"\ndone\n\n# 2刻み\nfor i in $(seq 2 2 10); do\n  echo \"偶数: $i\"\ndone\n\n# brace expansion（Bash組み込み、seq不要）\nfor i in {1..5}; do\n  echo \"item-$i\"\ndone\n\n# ゼロ埋め\nfor i in {01..12}; do\n  echo \"月: $i\"\ndone</code></pre>\n\n<h2>while ループ</h2>\n<p><code>while</code> は条件が真の間、処理を繰り返します。ファイルを1行ずつ読む、ユーザー入力を待つ、リトライ処理などに使います。</p>\n<pre><code>#!/usr/bin/env bash\n# カウンタ\ncount=1\nwhile [ \"$count\" -le 3 ]; do\n  echo \"試行 $count\"\n  count=$((count + 1))\ndone\n\n# ファイルを1行ずつ読む（パイプより安全な方法）\nwhile IFS= read -r line; do\n  echo \"行: $line\"\ndone &lt; data.txt\n\n# コマンド出力を1行ずつ\ndocker ps --format '{{.Names}}' | while IFS= read -r name; do\n  echo \"コンテナ: $name\"\ndone</code></pre>\n<p><code>IFS= read -r</code> は行末の空白を保持し、バックスラッシュをエスケープとして解釈しません。<code>-r</code> は必須に近いオプションです。</p>\n\n<h2>until ループ</h2>\n<p><code>until</code> は条件が<strong>偽</strong>の間ループします。while の逆で、「成功するまでリトライ」などに使えます。</p>\n<pre><code>#!/usr/bin/env bash\nmax=5\nattempt=1\n\nuntil curl -sf http://localhost:8080/health &gt;/dev/null; do\n  if [ \"$attempt\" -ge \"$max\" ]; then\n    echo \"ヘルスチェック失敗（${max}回）\" >&2\n    exit 1\n  fi\n  echo \"待機中... ($attempt/$max)\"\n  sleep 2\n  attempt=$((attempt + 1))\ndone\n\necho \"サービス起動確認OK\"</code></pre>\n\n<h2>break と continue</h2>\n<pre><code>#!/usr/bin/env bash\nfor i in {1..10}; do\n  # 偶数はスキップ\n  if [ $((i % 2)) -eq 0 ]; then\n    continue\n  fi\n\n  echo \"奇数: $i\"\n\n  # 7以上でループ終了\n  if [ \"$i\" -ge 7 ]; then\n    break\n  fi\ndone</code></pre>\n<p>ネストしたループでは <code>break 2</code> で2重ループを抜けられます（必要な場面のみ使い、可読性には注意）。</p>\n\n<h2>配列のループ</h2>\n<pre><code>#!/usr/bin/env bash\nservers=(\"web01\" \"web02\" \"db01\")\n\n# 要素を順に\nfor s in \"${servers[@]}\"; do\n  echo \"デプロイ先: $s\"\ndone\n\n# インデックス付き\nfor i in \"${!servers[@]}\"; do\n  echo \"[$i] ${servers[$i]}\"\ndone\n\n# 配列に追加しながらループ（別配列推奨）\nfiles=()\nwhile IFS= read -r -d '' f; do\n  files+=(\"$f\")\ndone &lt; &lt;(find . -name \"*.sh\" -print0)\n\nfor f in \"${files[@]}\"; do\n  echo \"スクリプト: $f\"\ndone</code></pre>\n<p><code>\"${array[@]}\"</code> は各要素を個別の単語として展開します。<code>\"${array[*]}\"</code> は1単語にまとまるため、ループでは <code>@</code> を使います。</p>\n\n<h2>引数リストのループ</h2>\n<pre><code>#!/usr/bin/env bash\n# 使い方: ./process.sh file1.txt file2.txt\n\nif [ $# -eq 0 ]; then\n  echo \"ファイルを1つ以上指定してください\" >&2\n  exit 1\nfi\n\ntotal=0\nfor filepath in \"$@\"; do\n  if [ ! -f \"$filepath\" ]; then\n    echo \"スキップ（存在しない）: $filepath\" >&2\n    continue\n  fi\n  lines=$(wc -l &lt; \"$filepath\")\n  echo \"$filepath: ${lines}行\"\n  total=$((total + lines))\ndone\n\necho \"合計行数: $total\"</code></pre>\n\n<h2>実践：古いログを削除するループ</h2>\n<pre><code>#!/usr/bin/env bash\nLOG_DIR=\"${1:-/var/log/myapp}\"\nDAYS=\"${2:-30}\"\n\nif [ ! -d \"$LOG_DIR\" ]; then\n  echo \"ディレクトリがありません: $LOG_DIR\" >&2\n  exit 1\nfi\n\ndeleted=0\nwhile IFS= read -r -d '' file; do\n  echo \"削除: $file\"\n  rm -f \"$file\"\n  deleted=$((deleted + 1))\ndone &lt; &lt;(find \"$LOG_DIR\" -name \"*.log\" -mtime +\"$DAYS\" -print0)\n\necho \"${DAYS}日より古いログを ${deleted} 件削除しました\"</code></pre>\n\n<h2>無限ループと対話</h2>\n<pre><code>#!/usr/bin/env bash\n# Ctrl+C で終了\nwhile true; do\n  read -rp \"コマンド (q=終了): \" cmd\n  case \"$cmd\" in\n    q|quit|exit) break ;;\n    status) df -h / ;;\n    date) date '+%Y-%m-%d %H:%M:%S' ;;\n    *) echo \"不明: $cmd\" ;;\n  esac\ndone\necho \"終了しました\"</code></pre>\n\n<h2>まとめ</h2>\n<p>for はリストやglobの走査、while は行単位の読み込みや条件待ち、until はリトライに向いています。配列は <code>\"${arr[@]}\"</code> でループし、break/continue で制御します。次回は関数に分割して、同じ処理を名前付きで再利用できるようにします。</p>",
+  "conclusion": "Bashの for ループはリスト・glob・seq で要素を走査し、while/until は条件が満たされる間繰り返します。ファイル読み込みは while IFS= read -r、配列は \"${array[@]}\" でループします。break/continue で制御し、引数 \"$@\" のループで一括処理が実現できます。",
+  "tags": [
+    "Bash",
+    "for",
+    "while",
+    "ループ",
+    "配列",
+    "シェルスクリプト"
+  ],
+  "category": "Bash",
+  "theme": "bash - Bashシェルスクリプト入門",
+  "status": "published",
+  "createdAt": "2026-05-30T05:14:49.791Z",
+  "updatedAt": "2026-05-30T05:14:49.794Z",
+  "publishedAt": "2026-05-30T05:14:49.791Z",
+  "metaTitle": "Bash for while ループ の書き方｜一括処理・シェルスクリプト",
+  "metaDescription": "【Bash初心者向け】Bashの for・while・until ループ、break/continue、seq と配列の走査を初心者向けに解説。複数ファイルの一括処理例も載せています。 図解・具体例つきで丁寧に解説します。",
+  "ogTitle": "Bashのfor・whileループ入門",
+  "ogDescription": "【Bash初心者向け】【Bash初心者向け】繰り返し処理でスクリプトを実用的にする for/while ループを解説します。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
+  "knowledge": {
+    "topic": "bash",
+    "courseId": "bash",
+    "episode": 4
+  },
+  "faq": [
+    {
+      "question": "for f in *.txt でファイルが0件のときどうなりますか？",
+      "answer": "nullglob 無効時は *.txt が文字通り1要素としてループし、意図しない動作になります。shopt -s nullglob を使うか、[ -e \"$f\" ] で存在確認してください。"
+    },
+    {
+      "question": "パイプの while ループで変数が親に残らないのはなぜ？",
+      "answer": "パイプの右側はサブシェルで実行されるため、ループ内の変数変更は親シェルに反映されません。process substitution（< <(cmd)）やリダイレクトで回避できます。"
+    },
+    {
+      "question": "ループ内で cd しても大丈夫？",
+      "answer": "サブシェル ( cd dir && ... ) や pushd/popd を使わないと、スクリプト全体のカレントディレクトリが変わります。可能なら絶対パスを使う方が安全です。"
+    },
+    {
+      "question": "大量ファイルのループで遅い場合は？",
+      "answer": "find -exec や xargs -0 でバッチ処理する方法もあります。ループ内で外部コマンドを毎回起動しないよう、可能なら Bash 組み込みや1回のパイプにまとめます。"
+    },
+    {
+      "question": "read で空行はどう扱われますか？",
+      "answer": "空行も1行として読み込まれます。スキップしたい場合は [ -z \"$line\" ] && continue を入れます。"
+    }
+  ],
+  "nextEpisodeHint": "次回は関数の定義と呼び出し、ローカル変数、戻り値を学び、長いスクリプトを整理できるようにします。",
+  "nextAction": "logs フォルダ内の .txt を for で走査し行数を合計する process.sh を書いて実行してください。seq 1 5 と brace expansion {1..5} も試してみましょう。",
+  "internalLinkCandidates": [
+    {
+      "slug": "linux-view-search",
+      "title": "ファイルの中身を表示・検索する（cat/less/grep/find）【Linux入門】",
+      "reason": "ループと組み合わせる find や grep の基礎です。"
+    },
+    {
+      "slug": "python-loops",
+      "title": "Pythonのfor/whileループをマスターする【入門第5回】",
+      "reason": "ループの考え方は Python と共通です。"
+    },
+    {
+      "slug": "linux-pipe-redirect",
+      "title": "パイプ（|）とリダイレクト（> >> 2>&1）の使い方【Linux中級】",
+      "reason": "while read とパイプの組み合わせで使います。"
+    },
+    {
+      "slug": "docker-intro",
+      "title": "Dockerとは？仮想マシンとの違いをわかりやすく解説【初心者向け】",
+      "reason": "docker ps の出力を while で処理する例と関連します。"
+    },
+    {
+      "slug": "git-intro",
+      "title": "Gitとは？バージョン管理を初めて学ぶ人のための完全入門",
+      "reason": "複数ファイルへの git add をループで自動化する場面があります。"
+    }
+  ],
+  "ogImage": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+  "canonical": "https://ai-site-iota-nine.vercel.app/article/bash-loops",
+  "jsonLd": {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@context": "https://schema.org",
+        "@type": "TechArticle",
+        "headline": "Bashのfor・whileループ完全ガイド｜一括処理と対話入力【シェルスクリプト第4回】",
+        "description": "【Bash初心者向け】Bashの for・while・until ループ、break/continue、seq と配列の走査を初心者向けに解説。複数ファイルの一括処理例も載せています。 図解・具体例つきで丁寧に解説します。",
+        "datePublished": "2026-05-30T05:14:49.791Z",
+        "dateModified": "2026-05-30T05:14:49.794Z",
+        "author": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
+        },
+        "image": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+        "inLanguage": "ja",
+        "wordCount": 2766,
+        "mainEntityOfPage": {
+          "@type": "WebPage",
+          "@id": "https://ai-site-iota-nine.vercel.app/article/bash-loops"
+        },
+        "keywords": "Bash, for, while, ループ, 配列, シェルスクリプト",
+        "articleSection": "Bash",
+        "url": "https://ai-site-iota-nine.vercel.app/article/bash-loops",
+        "learningResourceType": "tutorial",
+        "educationalLevel": "beginner"
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "ホーム",
+            "item": "https://ai-site-iota-nine.vercel.app/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "bash",
+            "item": "https://ai-site-iota-nine.vercel.app/knowledge/bash"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "Bashシェルスクリプト入門",
+            "item": "https://ai-site-iota-nine.vercel.app/course/bash/bash"
+          },
+          {
+            "@type": "ListItem",
+            "position": 4,
+            "name": "Bashのfor・whileループ完全ガイド｜一括処理と対話入力【シェルスクリプト第4回】",
+            "item": "https://ai-site-iota-nine.vercel.app/article/bash-loops"
+          }
+        ]
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "Course",
+        "name": "Bashシェルスクリプト入門",
+        "description": "Linux/macOS/WSLで使えるBashスクリプトを10ステップで習得。自動化・運用の第一歩となるニッチスキルを具体例で学びます。",
+        "provider": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app"
+        },
+        "url": "https://ai-site-iota-nine.vercel.app/course/bash/bash",
+        "inLanguage": "ja",
+        "educationalLevel": "beginner",
+        "hasCourseInstance": {
+          "@type": "CourseInstance",
+          "courseMode": "online",
+          "courseWorkload": "PT1H"
+        }
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "for f in *.txt でファイルが0件のときどうなりますか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "nullglob 無効時は *.txt が文字通り1要素としてループし、意図しない動作になります。shopt -s nullglob を使うか、[ -e \"$f\" ] で存在確認してください。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "パイプの while ループで変数が親に残らないのはなぜ？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "パイプの右側はサブシェルで実行されるため、ループ内の変数変更は親シェルに反映されません。process substitution（< <(cmd)）やリダイレクトで回避できます。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "ループ内で cd しても大丈夫？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "サブシェル ( cd dir && ... ) や pushd/popd を使わないと、スクリプト全体のカレントディレクトリが変わります。可能なら絶対パスを使う方が安全です。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "大量ファイルのループで遅い場合は？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "find -exec や xargs -0 でバッチ処理する方法もあります。ループ内で外部コマンドを毎回起動しないよう、可能なら Bash 組み込みや1回のパイプにまとめます。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "read で空行はどう扱われますか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "空行も1行として読み込まれます。スキップしたい場合は [ -z \"$line\" ] && continue を入れます。"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "breadcrumb": {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "ホーム",
+        "item": "https://ai-site-iota-nine.vercel.app/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "bash",
+        "item": "https://ai-site-iota-nine.vercel.app/knowledge/bash"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "Bashシェルスクリプト入門",
+        "item": "https://ai-site-iota-nine.vercel.app/course/bash/bash"
+      },
+      {
+        "@type": "ListItem",
+        "position": 4,
+        "name": "Bashのfor・whileループ完全ガイド｜一括処理と対話入力【シェルスクリプト第4回】",
+        "item": "https://ai-site-iota-nine.vercel.app/article/bash-loops"
+      }
+    ]
+  },
+  "courseSchema": {
+    "@context": "https://schema.org",
+    "@type": "Course",
+    "name": "Bashシェルスクリプト入門",
+    "description": "Linux/macOS/WSLで使えるBashスクリプトを10ステップで習得。自動化・運用の第一歩となるニッチスキルを具体例で学びます。",
+    "provider": {
+      "@type": "Organization",
+      "name": "StackShelf",
+      "url": "https://ai-site-iota-nine.vercel.app"
+    },
+    "url": "https://ai-site-iota-nine.vercel.app/course/bash/bash",
+    "inLanguage": "ja",
+    "educationalLevel": "beginner",
+    "hasCourseInstance": {
+      "@type": "CourseInstance",
+      "courseMode": "online",
+      "courseWorkload": "PT1H"
+    }
+  },
+  "faqSchema": {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "for f in *.txt でファイルが0件のときどうなりますか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "nullglob 無効時は *.txt が文字通り1要素としてループし、意図しない動作になります。shopt -s nullglob を使うか、[ -e \"$f\" ] で存在確認してください。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "パイプの while ループで変数が親に残らないのはなぜ？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "パイプの右側はサブシェルで実行されるため、ループ内の変数変更は親シェルに反映されません。process substitution（< <(cmd)）やリダイレクトで回避できます。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "ループ内で cd しても大丈夫？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "サブシェル ( cd dir && ... ) や pushd/popd を使わないと、スクリプト全体のカレントディレクトリが変わります。可能なら絶対パスを使う方が安全です。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "大量ファイルのループで遅い場合は？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "find -exec や xargs -0 でバッチ処理する方法もあります。ループ内で外部コマンドを毎回起動しないよう、可能なら Bash 組み込みや1回のパイプにまとめます。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "read で空行はどう扱われますか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "空行も1行として読み込まれます。スキップしたい場合は [ -z \"$line\" ] && continue を入れます。"
+        }
+      }
+    ]
+  }
+}

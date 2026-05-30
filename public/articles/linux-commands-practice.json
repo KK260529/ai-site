@@ -3,7 +3,7 @@
   "slug": "linux-commands-practice",
   "title": "Linux実践コマンド集｜現場で使えるテクニック総まとめ【完全版】",
   "summary": "これまでに学んだLinuxコマンドの総復習と、現場で役立つ実践的なテクニック集です。シェルスクリプトの基礎、find/xargs、ssh、パッケージ管理まで幅広く解説します。",
-  "body": "<h2>これまでの学習を振り返る</h2>\n<p>このコースではLinuxコマンドラインの基礎から応用まで幅広く学んできました。最終回では実践的なシーンで役立つテクニックを総まとめします。単発のコマンドではなく、複数を組み合わせた「実務レベルの使い方」を中心に解説します。</p>\n<pre><code># これまで学んだコマンドの早見表\n# ディレクトリ操作:  pwd, ls, cd, mkdir\n# ファイル操作:      touch, cp, mv, rm, nano\n# 表示・検索:        cat, less, head, tail, grep\n# 権限管理:          chmod, chown, sudo\n# プロセス管理:      ps, top, kill, jobs, fg, bg\n# パイプ・リダイレクト: |, >, >>, 2>&1\n# 環境変数:          env, export, .bashrc, PATH</code></pre>\n\n<h2>find：ファイルを高度に検索する</h2>\n<p><code>find</code> コマンドはディレクトリツリーを再帰的に検索し、条件にマッチするファイルやディレクトリを見つけます。<code>grep</code> がファイルの「内容」を検索するのに対し、<code>find</code> はファイルの「名前・属性・サイズ・日時」などで検索します。</p>\n<pre><code># ファイル名で検索（カレントディレクトリ以下）\nfind . -name \"*.log\"\n\n# 大文字小文字を区別しない検索\nfind . -iname \"*.TXT\"\n\n# ディレクトリのみを検索\nfind . -type d -name \"backup\"\n\n# ファイルのみを検索\nfind . -type f -name \"*.sh\"\n\n# 特定のサイズ以上のファイルを探す（100MB以上）\nfind / -type f -size +100M\n\n# 7日以内に更新されたファイルを探す\nfind . -mtime -7\n\n# 30日以上前に更新されたファイルを探す（ログ整理）\nfind /var/log -mtime +30 -name \"*.log\"\n\n# 権限が 777 のファイルを探す（セキュリティ確認）\nfind / -perm 777 -type f 2>/dev/null</code></pre>\n\n<h3>find と xargs の組み合わせ</h3>\n<pre><code># 見つかったファイルに対してコマンドを実行（-exec）\nfind . -name \"*.bak\" -exec rm {} ;\n\n# xargs を使った方が効率的な場合\nfind . -name \"*.log\" | xargs grep \"ERROR\"\n\n# スペースを含むファイル名を安全に処理する\nfind . -name \"*.txt\" -print0 | xargs -0 wc -l\n\n# 見つかったJSファイルを一覧表示してから圧縮\nfind . -name \"*.js\" | sort | xargs tar czf scripts.tar.gz</code></pre>\n\n<h2>シェルスクリプトの基礎</h2>\n<p>コマンドをファイルにまとめて自動実行できる<strong>シェルスクリプト</strong>は、Linuxの強力な機能の一つです。繰り返し行う作業や複雑な処理を自動化できます。</p>\n<pre><code>#!/bin/bash\n# 上記の「シバン行」はこのスクリプトが bash で実行されることを示す\n\n# 変数の使い方\nNAME=\"Ubuntu\"\nVERSION=22.04\necho \"OS: $NAME $VERSION\"\n\n# if文（条件分岐）\nif [ -f /etc/hosts ]; then\n  echo \"/etc/hosts は存在します\"\nelse\n  echo \"/etc/hosts が見つかりません\"\nfi\n\n# for ループ\nfor i in 1 2 3 4 5; do\n  echo \"番号: $i\"\ndone\n\n# ファイルのリストをループ処理\nfor file in *.txt; do\n  echo \"処理中: $file\"\n  wc -l \"$file\"\ndone</code></pre>\n\n<h3>実用的なシェルスクリプト例</h3>\n<pre><code>#!/bin/bash\n# バックアップスクリプトの例\n\nSOURCE_DIR=\"$HOME/projects\"\nBACKUP_DIR=\"$HOME/backups\"\nDATE=$(date +%Y%m%d_%H%M%S)\nBACKUP_FILE=\"backup_$DATE.tar.gz\"\n\n# バックアップディレクトリがなければ作成\nmkdir -p \"$BACKUP_DIR\"\n\n# アーカイブを作成\ntar czf \"$BACKUP_DIR/$BACKUP_FILE\" \"$SOURCE_DIR\"\n\n# 結果を表示\nif [ $? -eq 0 ]; then\n  echo \"バックアップ成功: $BACKUP_DIR/$BACKUP_FILE\"\n  ls -lh \"$BACKUP_DIR/$BACKUP_FILE\"\nelse\n  echo \"バックアップ失敗\" >&2\n  exit 1\nfi</code></pre>\n\n<h2>パッケージ管理（apt）</h2>\n<p>Ubuntu/Debian系では <code>apt</code> コマンドでソフトウェアのインストール・管理を行います。</p>\n<pre><code># パッケージリストを更新（インストール前に必ず実行）\nsudo apt update\n\n# パッケージをインストール\nsudo apt install tree htop jq\n\n# インストール済みパッケージを更新\nsudo apt upgrade\n\n# パッケージを削除\nsudo apt remove パッケージ名\n\n# パッケージを設定ファイルも含めて完全削除\nsudo apt purge パッケージ名\n\n# 不要な依存パッケージを削除\nsudo apt autoremove\n\n# パッケージを検索\napt search キーワード\n\n# パッケージの情報を確認\napt show nginx</code></pre>\n\n<h2>SSH：リモートサーバーに接続する</h2>\n<p><code>ssh</code>（Secure SHell）はネットワーク越しにリモートサーバーに安全に接続するプロトコルです。クラウドサーバーの管理に欠かせません。</p>\n<pre><code># パスワード認証でSSH接続\nssh username@192.168.1.100\n\n# SSHキーペアを生成（一度だけ実行）\nssh-keygen -t ed25519 -C \"your_email@example.com\"\n\n# 公開鍵をサーバーにコピー（以降パスワード不要）\nssh-copy-id username@server_ip\n\n# 秘密鍵を指定してSSH接続（AWSなど）\nssh -i ~/.ssh/my_key.pem ubuntu@54.123.45.67\n\n# リモートサーバーでコマンドを実行（接続せずに）\nssh username@server \"ls -la /var/www/\"\n\n# ファイルをリモートにコピー（SCP）\nscp local_file.txt username@server:/home/username/\n\n# ディレクトリをリモートに再帰コピー\nscp -r ./project/ username@server:/var/www/</code></pre>\n\n<h2>よく使う実践テクニック集</h2>\n<p>現場でよく使われるコマンドのパターンをまとめます。</p>\n\n<h3>システム情報の確認</h3>\n<pre><code># OSのバージョンを確認\ncat /etc/os-release\nlsb_release -a\n\n# CPUの情報\nnproc          # CPUコア数\ncat /proc/cpuinfo | grep \"model name\" | head -1\n\n# メモリとディスクの使用状況\nfree -h\ndf -h\n\n# ネットワーク設定を確認\nip addr\nip route\ncat /etc/resolv.conf\n\n# 開いているポートを確認\nss -tulnp\nnetstat -tulnp  # 古い方法（net-toolsが必要）</code></pre>\n\n<h3>ログ調査の実践パターン</h3>\n<pre><code># 特定時間帯のログを抽出\ngrep \"2026-05-30 10:\" /var/log/syslog\n\n# エラーレベル別に集計\ngrep -c \"ERROR\" app.log\ngrep -c \"WARN\" app.log\n\n# 最近5分以内のログのみ表示\njournalctl --since \"5 minutes ago\"\n\n# サービスのログをリアルタイム監視\njournalctl -u nginx -f\n\n# ディスクが圧迫されているとき：大きいファイルを探す\ndu -sh /* 2>/dev/null | sort -rh | head -10\nfind / -size +500M -type f 2>/dev/null</code></pre>\n\n<h3>ファイルのアーカイブと圧縮</h3>\n<pre><code># tar で圧縮アーカイブを作成（.tar.gz）\ntar czf archive.tar.gz directory/\n\n# アーカイブを展開\ntar xzf archive.tar.gz\n\n# アーカイブの中身を確認（展開せずに）\ntar tzf archive.tar.gz\n\n# zip ファイルの操作\nzip -r archive.zip directory/\nunzip archive.zip</code></pre>\n\n<h2>Linuxコマンドラインをさらに深めるには</h2>\n<p>このコースで学んだことは Linux の入り口です。さらに深く学ぶための方向性を紹介します。</p>\n<ul>\n  <li><strong>シェルスクリプト</strong>：自動化のために bash スクリプトを書けるようになる</li>\n  <li><strong>awk / sed</strong>：テキスト処理の強力なツール</li>\n  <li><strong>vim</strong>：サーバー環境でも使えるターミナルエディタをマスターする</li>\n  <li><strong>tmux / screen</strong>：複数のターミナルウィンドウをセッション管理する</li>\n  <li><strong>正規表現</strong>：grep や sed をより高度に活用するための必須知識</li>\n  <li><strong>systemd</strong>：サービスの起動・停止・自動起動の管理</li>\n  <li><strong>Docker</strong>：Linuxコンテナを活用した環境構築</li>\n</ul>\n<pre><code># 覚えておくと便利な追加コマンド\nwc -l file.txt        # 行数を数える\nsort file.txt         # ソート\nuniq                  # 重複行を削除\ncut -d, -f1 csv.txt   # 列を抽出\ntr 'a-z' 'A-Z'        # 文字変換\nsed 's/old/new/g'     # テキスト置換\nawk '{print $1}'      # フィールド抽出\ndate +%Y-%m-%d        # 日付フォーマット\ncurl -s URL           # URLのコンテンツを取得\nwget URL              # ファイルをダウンロード</code></pre>\n\n<h2>まとめ：Linuxコマンドライン習得のロードマップ</h2>\n<p>このコースで学んだ内容を振り返り、次のステップへの指針をまとめます。Linuxは使い続けることで自然と身についていくものです。毎日のちょっとした作業をターミナルで行う習慣が、最短で上達する道です。</p>\n<ul>\n  <li><strong>Step 1（入門）</strong>：pwd、ls、cd、mkdir、touch、cp、mv、rm をマスター</li>\n  <li><strong>Step 2（初級）</strong>：grep、less、head、tail、chmod、ps、kill を活用</li>\n  <li><strong>Step 3（中級）</strong>：パイプ・リダイレクト、find、シェルスクリプト基礎</li>\n  <li><strong>Step 4（上級）</strong>：awk、sed、systemd、SSH、Dockerなど本格的なサーバー管理</li>\n</ul>",
+  "body": "<h2>結論：ls/cd/grep/パイプ/権限/プロセスを組み合わせて実務的な作業ができる</h2>\n<p>最終回ではログ確認・ディスク使用量・ファイル一括操作・簡易バックアップなど、現場でよく使うコマンド列を総復習します。単体暗記ではなく<strong>組み合わせ</strong>で覚えるのがコツです。</p>\n\n<h2>これまでの学習を振り返る</h2>\n<p>このコースではLinuxコマンドラインの基礎から応用まで幅広く学んできました。最終回では実践的なシーンで役立つテクニックを総まとめします。単発のコマンドではなく、複数を組み合わせた「実務レベルの使い方」を中心に解説します。</p>\n<pre><code># これまで学んだコマンドの早見表\n# ディレクトリ操作:  pwd, ls, cd, mkdir\n# ファイル操作:      touch, cp, mv, rm, nano\n# 表示・検索:        cat, less, head, tail, grep\n# 権限管理:          chmod, chown, sudo\n# プロセス管理:      ps, top, kill, jobs, fg, bg\n# パイプ・リダイレクト: |, >, >>, 2>&1\n# 環境変数:          env, export, .bashrc, PATH</code></pre>\n\n<h2>find：ファイルを高度に検索する</h2>\n<p><code>find</code> コマンドはディレクトリツリーを再帰的に検索し、条件にマッチするファイルやディレクトリを見つけます。<code>grep</code> がファイルの「内容」を検索するのに対し、<code>find</code> はファイルの「名前・属性・サイズ・日時」などで検索します。</p>\n<pre><code># ファイル名で検索（カレントディレクトリ以下）\nfind . -name \"*.log\"\n\n# 大文字小文字を区別しない検索\nfind . -iname \"*.TXT\"\n\n# ディレクトリのみを検索\nfind . -type d -name \"backup\"\n\n# ファイルのみを検索\nfind . -type f -name \"*.sh\"\n\n# 特定のサイズ以上のファイルを探す（100MB以上）\nfind / -type f -size +100M\n\n# 7日以内に更新されたファイルを探す\nfind . -mtime -7\n\n# 30日以上前に更新されたファイルを探す（ログ整理）\nfind /var/log -mtime +30 -name \"*.log\"\n\n# 権限が 777 のファイルを探す（セキュリティ確認）\nfind / -perm 777 -type f 2>/dev/null</code></pre>\n\n<h3>find と xargs の組み合わせ</h3>\n<pre><code># 見つかったファイルに対してコマンドを実行（-exec）\nfind . -name \"*.bak\" -exec rm {} ;\n\n# xargs を使った方が効率的な場合\nfind . -name \"*.log\" | xargs grep \"ERROR\"\n\n# スペースを含むファイル名を安全に処理する\nfind . -name \"*.txt\" -print0 | xargs -0 wc -l\n\n# 見つかったJSファイルを一覧表示してから圧縮\nfind . -name \"*.js\" | sort | xargs tar czf scripts.tar.gz</code></pre>\n\n<h2>シェルスクリプトの基礎</h2>\n<p>コマンドをファイルにまとめて自動実行できる<strong>シェルスクリプト</strong>は、Linuxの強力な機能の一つです。繰り返し行う作業や複雑な処理を自動化できます。</p>\n<pre><code>#!/bin/bash\n# 上記の「シバン行」はこのスクリプトが bash で実行されることを示す\n\n# 変数の使い方\nNAME=\"Ubuntu\"\nVERSION=22.04\necho \"OS: $NAME $VERSION\"\n\n# if文（条件分岐）\nif [ -f /etc/hosts ]; then\n  echo \"/etc/hosts は存在します\"\nelse\n  echo \"/etc/hosts が見つかりません\"\nfi\n\n# for ループ\nfor i in 1 2 3 4 5; do\n  echo \"番号: $i\"\ndone\n\n# ファイルのリストをループ処理\nfor file in *.txt; do\n  echo \"処理中: $file\"\n  wc -l \"$file\"\ndone</code></pre>\n\n<h3>実用的なシェルスクリプト例</h3>\n<pre><code>#!/bin/bash\n# バックアップスクリプトの例\n\nSOURCE_DIR=\"$HOME/projects\"\nBACKUP_DIR=\"$HOME/backups\"\nDATE=$(date +%Y%m%d_%H%M%S)\nBACKUP_FILE=\"backup_$DATE.tar.gz\"\n\n# バックアップディレクトリがなければ作成\nmkdir -p \"$BACKUP_DIR\"\n\n# アーカイブを作成\ntar czf \"$BACKUP_DIR/$BACKUP_FILE\" \"$SOURCE_DIR\"\n\n# 結果を表示\nif [ $? -eq 0 ]; then\n  echo \"バックアップ成功: $BACKUP_DIR/$BACKUP_FILE\"\n  ls -lh \"$BACKUP_DIR/$BACKUP_FILE\"\nelse\n  echo \"バックアップ失敗\" >&2\n  exit 1\nfi</code></pre>\n\n<h2>パッケージ管理（apt）</h2>\n<p>Ubuntu/Debian系では <code>apt</code> コマンドでソフトウェアのインストール・管理を行います。</p>\n<pre><code># パッケージリストを更新（インストール前に必ず実行）\nsudo apt update\n\n# パッケージをインストール\nsudo apt install tree htop jq\n\n# インストール済みパッケージを更新\nsudo apt upgrade\n\n# パッケージを削除\nsudo apt remove パッケージ名\n\n# パッケージを設定ファイルも含めて完全削除\nsudo apt purge パッケージ名\n\n# 不要な依存パッケージを削除\nsudo apt autoremove\n\n# パッケージを検索\napt search キーワード\n\n# パッケージの情報を確認\napt show nginx</code></pre>\n\n<h2>SSH：リモートサーバーに接続する</h2>\n<p><code>ssh</code>（Secure SHell）はネットワーク越しにリモートサーバーに安全に接続するプロトコルです。クラウドサーバーの管理に欠かせません。</p>\n<pre><code># パスワード認証でSSH接続\nssh username@192.168.1.100\n\n# SSHキーペアを生成（一度だけ実行）\nssh-keygen -t ed25519 -C \"your_email@example.com\"\n\n# 公開鍵をサーバーにコピー（以降パスワード不要）\nssh-copy-id username@server_ip\n\n# 秘密鍵を指定してSSH接続（AWSなど）\nssh -i ~/.ssh/my_key.pem ubuntu@54.123.45.67\n\n# リモートサーバーでコマンドを実行（接続せずに）\nssh username@server \"ls -la /var/www/\"\n\n# ファイルをリモートにコピー（SCP）\nscp local_file.txt username@server:/home/username/\n\n# ディレクトリをリモートに再帰コピー\nscp -r ./project/ username@server:/var/www/</code></pre>\n\n<h2>よく使う実践テクニック集</h2>\n<p>現場でよく使われるコマンドのパターンをまとめます。</p>\n\n<h3>システム情報の確認</h3>\n<pre><code># OSのバージョンを確認\ncat /etc/os-release\nlsb_release -a\n\n# CPUの情報\nnproc          # CPUコア数\ncat /proc/cpuinfo | grep \"model name\" | head -1\n\n# メモリとディスクの使用状況\nfree -h\ndf -h\n\n# ネットワーク設定を確認\nip addr\nip route\ncat /etc/resolv.conf\n\n# 開いているポートを確認\nss -tulnp\nnetstat -tulnp  # 古い方法（net-toolsが必要）</code></pre>\n\n<h3>ログ調査の実践パターン</h3>\n<pre><code># 特定時間帯のログを抽出\ngrep \"2026-05-30 10:\" /var/log/syslog\n\n# エラーレベル別に集計\ngrep -c \"ERROR\" app.log\ngrep -c \"WARN\" app.log\n\n# 最近5分以内のログのみ表示\njournalctl --since \"5 minutes ago\"\n\n# サービスのログをリアルタイム監視\njournalctl -u nginx -f\n\n# ディスクが圧迫されているとき：大きいファイルを探す\ndu -sh /* 2>/dev/null | sort -rh | head -10\nfind / -size +500M -type f 2>/dev/null</code></pre>\n\n<h3>ファイルのアーカイブと圧縮</h3>\n<pre><code># tar で圧縮アーカイブを作成（.tar.gz）\ntar czf archive.tar.gz directory/\n\n# アーカイブを展開\ntar xzf archive.tar.gz\n\n# アーカイブの中身を確認（展開せずに）\ntar tzf archive.tar.gz\n\n# zip ファイルの操作\nzip -r archive.zip directory/\nunzip archive.zip</code></pre>\n\n<h2>Linuxコマンドラインをさらに深めるには</h2>\n<p>このコースで学んだことは Linux の入り口です。さらに深く学ぶための方向性を紹介します。</p>\n<ul>\n  <li><strong>シェルスクリプト</strong>：自動化のために bash スクリプトを書けるようになる</li>\n  <li><strong>awk / sed</strong>：テキスト処理の強力なツール</li>\n  <li><strong>vim</strong>：サーバー環境でも使えるターミナルエディタをマスターする</li>\n  <li><strong>tmux / screen</strong>：複数のターミナルウィンドウをセッション管理する</li>\n  <li><strong>正規表現</strong>：grep や sed をより高度に活用するための必須知識</li>\n  <li><strong>systemd</strong>：サービスの起動・停止・自動起動の管理</li>\n  <li><strong>Docker</strong>：Linuxコンテナを活用した環境構築</li>\n</ul>\n<pre><code># 覚えておくと便利な追加コマンド\nwc -l file.txt        # 行数を数える\nsort file.txt         # ソート\nuniq                  # 重複行を削除\ncut -d, -f1 csv.txt   # 列を抽出\ntr 'a-z' 'A-Z'        # 文字変換\nsed 's/old/new/g'     # テキスト置換\nawk '{print $1}'      # フィールド抽出\ndate +%Y-%m-%d        # 日付フォーマット\ncurl -s URL           # URLのコンテンツを取得\nwget URL              # ファイルをダウンロード</code></pre>\n\n<h2>つまずきやすいポイント・失敗例</h2>\n<h3>失敗例：本番サーバーで未検証の rm -rf パイプを実行</h3>\n<p>練習はWSLやテスト用ディレクトリで。本番では <code>--dry-run</code> 相当の確認を挟みましょう。</p>\n<h3>失敗例：コマンド列をメモせず毎回試行錯誤</h3>\n<p>うまくいった一行はシェル履歴かREADMEに残すと次回が速くなります。</p>\n<pre><code># ディスク使用量\ndf -h\n\n# ログのエラー行数\ngrep -c ERROR /var/log/app.log\n\n# ホーム配下の大きいファイル上位5件\ndu -ah ~ | sort -rh | head -5</code></pre>\n\n<h2>まとめ：Linuxコマンドライン習得のロードマップ</h2>\n<p>このコースで学んだ内容を振り返り、次のステップへの指針をまとめます。Linuxは使い続けることで自然と身についていくものです。毎日のちょっとした作業をターミナルで行う習慣が、最短で上達する道です。</p>\n<ul>\n  <li><strong>Step 1（入門）</strong>：pwd、ls、cd、mkdir、touch、cp、mv、rm をマスター</li>\n  <li><strong>Step 2（初級）</strong>：grep、less、head、tail、chmod、ps、kill を活用</li>\n  <li><strong>Step 3（中級）</strong>：パイプ・リダイレクト、find、シェルスクリプト基礎</li>\n  <li><strong>Step 4（上級）</strong>：awk、sed、systemd、SSH、Dockerなど本格的なサーバー管理</li>\n</ul>",
   "conclusion": "Linuxコマンドラインの基礎から実践テクニックまで10回にわたって学んできました。find によるファイル検索、シェルスクリプトによる自動化、apt によるパッケージ管理、SSH によるリモート接続は現場で毎日使うスキルです。コマンドは覚えるより「引き出し方を知っておいて、必要なときに調べる」という姿勢で問題ありません。毎日ターミナルを触ることで、自然とコマンドが身についていきます。",
   "tags": [
     "Linux",
@@ -17,12 +17,12 @@
   "theme": "linux - Linux コマンドライン入門",
   "status": "published",
   "createdAt": "2026-05-30T04:13:06.965Z",
-  "updatedAt": "2026-05-30T04:13:06.977Z",
+  "updatedAt": "2026-05-30T05:17:18.940Z",
   "publishedAt": "2026-05-30T04:13:06.965Z",
   "metaTitle": "Linux 実践コマンド集｜現場で使える linux コマンド テクニック総まとめ",
-  "metaDescription": "【Linux初心者向け】linux コマンドの実践テクニックを総まとめ。find xargs ssh apt シェルスクリプト基礎まで、現場で使えるターミナル 使い方をすべて解説します。 図解・具体例つきで丁寧に解説します。",
+  "metaDescription": "Linuxコマンド総合演習：ログ確認・ディスク調査・ファイル操作の実践例を解説。本番での危険操作やコマンド記録の失敗例も紹介します。",
   "ogTitle": "Linux実践コマンド集｜現場で使えるテクニック総まとめ",
-  "ogDescription": "【Linux初心者向け】【Linux初心者向け】Linuxコマンドラインの実践的な使い方を総まとめ。現場で役立つテクニックを習得しましょう。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
+  "ogDescription": "Linuxコマンドラインの実践的な使い方を総まとめ。現場で役立つテクニックを習得しましょう。",
   "knowledge": {
     "topic": "linux",
     "courseId": "linux",
@@ -44,6 +44,10 @@
     {
       "question": "Linuxコマンドを忘れた場合どうすればいいですか？",
       "answer": "man コマンドやコマンド --help で調べるのが基本です。インターネットで「linux コマンド やりたいこと」と検索するのも有効です。tldr というコマンドもあり、manより簡潔にコマンドの使い方を確認できます（apt install tldr でインストール可能）。"
+    },
+    {
+      "question": "Linuxコマンドは覚えきれません",
+      "answer": "すべて覚える必要はありません。よく使う10〜20個を繰り返し使い、分からないときは man コマンドや --help で調べる習慣をつけましょう。"
     }
   ],
   "nextEpisodeHint": "Linuxコマンドラインコースはここで完了です。次はシェルスクリプトの本格的な書き方、または Gitを使ったバージョン管理、Dockerを使ったコンテナ技術など、さらに上のレベルへ進みましょう。",
@@ -56,9 +60,9 @@
         "@context": "https://schema.org",
         "@type": "TechArticle",
         "headline": "Linux実践コマンド集｜現場で使えるテクニック総まとめ【完全版】",
-        "description": "【Linux初心者向け】linux コマンドの実践テクニックを総まとめ。find xargs ssh apt シェルスクリプト基礎まで、現場で使えるターミナル 使い方をすべて解説します。 図解・具体例つきで丁寧に解説します。",
+        "description": "Linuxコマンド総合演習：ログ確認・ディスク調査・ファイル操作の実践例を解説。本番での危険操作やコマンド記録の失敗例も紹介します。",
         "datePublished": "2026-05-30T04:13:06.965Z",
-        "dateModified": "2026-05-30T04:13:06.977Z",
+        "dateModified": "2026-05-30T05:17:18.940Z",
         "author": {
           "@type": "Organization",
           "name": "StackShelf",
@@ -79,7 +83,7 @@
         },
         "image": "https://ai-site-iota-nine.vercel.app/og-default.svg",
         "inLanguage": "ja",
-        "wordCount": 4065,
+        "wordCount": 4417,
         "mainEntityOfPage": {
           "@type": "WebPage",
           "@id": "https://ai-site-iota-nine.vercel.app/article/linux-commands-practice"
@@ -174,6 +178,14 @@
               "@type": "Answer",
               "text": "man コマンドやコマンド --help で調べるのが基本です。インターネットで「linux コマンド やりたいこと」と検索するのも有効です。tldr というコマンドもあり、manより簡潔にコマンドの使い方を確認できます（apt install tldr でインストール可能）。"
             }
+          },
+          {
+            "@type": "Question",
+            "name": "Linuxコマンドは覚えきれません",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "すべて覚える必要はありません。よく使う10〜20個を繰り返し使い、分からないときは man コマンドや --help で調べる習慣をつけましょう。"
+            }
           }
         ]
       }
@@ -263,7 +275,43 @@
           "@type": "Answer",
           "text": "man コマンドやコマンド --help で調べるのが基本です。インターネットで「linux コマンド やりたいこと」と検索するのも有効です。tldr というコマンドもあり、manより簡潔にコマンドの使い方を確認できます（apt install tldr でインストール可能）。"
         }
+      },
+      {
+        "@type": "Question",
+        "name": "Linuxコマンドは覚えきれません",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "すべて覚える必要はありません。よく使う10〜20個を繰り返し使い、分からないときは man コマンドや --help で調べる習慣をつけましょう。"
+        }
       }
     ]
-  }
+  },
+  "internalLinkCandidates": [
+    {
+      "slug": "linux-pipe-redirect",
+      "title": "パイプ（|）とリダイレクト（> >> 2>&1）の使い方【Linux中級】",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "linux-processes",
+      "title": "ps/top/kill/jobs でLinuxのプロセスを管理する【完全解説】",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "linux-view-search",
+      "title": "cat/less/head/tail/grep でファイルを表示・検索する【Linux入門】",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "linux-files-directories",
+      "title": "ls/cd/pwd/mkdir でファイルとディレクトリを操作する【Linux基礎】",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "linux-environment",
+      "title": "環境変数・.bashrc・PATHの仕組みを理解する【Linux設定入門】",
+      "reason": "同じ講座の関連回です"
+    }
+  ],
+  "nextAction": "次はLinuxコマンドラインコースはここで完了です。次はシェルスクリプトの本格的な書き方、または Gitを使ったバージョン管理、Dockerを使ったコンテナ技術など、さらに上のレベルへ進みましょう。"
 }

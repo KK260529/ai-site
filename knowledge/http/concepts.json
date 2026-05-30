@@ -1,0 +1,30 @@
+{
+  "topic": "http",
+  "coreConcepts": [
+    {
+      "id": "http-intro",
+      "title": "HTTPとは？Webの通信の仕組み",
+      "summary": "HTTP・Web API入門の第1回で学ぶ内容"
+    },
+    {
+      "id": "http-request-response",
+      "title": "リクエストとレスポンスの構造",
+      "summary": "HTTP・Web API入門の第2回で学ぶ内容"
+    },
+    {
+      "id": "http-methods-status",
+      "title": "HTTPメソッドとステータスコード",
+      "summary": "HTTP・Web API入門の第3回で学ぶ内容"
+    },
+    {
+      "id": "http-headers",
+      "title": "ヘッダーの役割とよく使う項目",
+      "summary": "HTTP・Web API入門の第4回で学ぶ内容"
+    },
+    {
+      "id": "http-cookies-session",
+      "title": "Cookie・セッション・認証の基礎",
+      "summary": "HTTP・Web API入門の第5回で学ぶ内容"
+    }
+  ]
+}

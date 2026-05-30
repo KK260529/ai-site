@@ -2,9 +2,9 @@
   "id": "art_docker_docker-first-container",
   "slug": "docker-first-container",
   "title": "Dockerで初めてのコンテナを動かす：hello-world・nginx実践入門",
-  "summary": "docker run hello-worldからnginxの起動まで、初めてのコンテナ操作を丁寧に解説。コンテナの起動・停止・削除の基本コマンドを実際に手を動かしながら学びます。",
-  "body": "<h2>docker run hello-world：最初のコンテナ実行</h2>\n<p>Dockerをインストールしたら、まず最初に実行するコマンドは <code>docker run hello-world</code> です。このシンプルなコマンドの裏側では、Dockerが自動的に多くの処理を行っています。実際に実行して、その出力を読み解いてみましょう。</p>\n<pre><code># 初めてのコンテナを実行\ndocker run hello-world</code></pre>\n<p>このコマンドを実行すると、まず「Unable to find image 'hello-world:latest' locally」というメッセージが表示されます。これはローカルにイメージが存在しないため、Docker HubからダウンロードしていることをDockerが知らせています。次に「latest: Pulling from library/hello-world」と表示されてダウンロードが始まり、完了後に「Hello from Docker!」というメッセージが表示されます。</p>\n<p><strong>docker runの内部処理：</strong></p>\n<ol>\n  <li>ローカルに指定したイメージがあるか確認</li>\n  <li>なければDocker Hubから自動ダウンロード（pull）</li>\n  <li>イメージからコンテナを作成（create）</li>\n  <li>コンテナを起動して実行（start）</li>\n</ol>\n<pre><code># 実行後にコンテナの状態を確認\ndocker ps         # 実行中のコンテナ（hello-worldは終了済みなので表示されない）\ndocker ps -a      # 全コンテナ（停止中も含む）\n# 出力例:\n# CONTAINER ID  IMAGE        COMMAND   CREATED       STATUS                    NAMES\n# 3d2f1a8e9b7c  hello-world  \"/hello\"  2 seconds ago Exited (0) 1 second ago  gracious_morse</code></pre>\n\n<h2>docker runの基本オプションを理解する</h2>\n<p><code>docker run</code>コマンドには多くのオプションがあります。最もよく使うオプションを覚えておきましょう。</p>\n<pre><code># -d オプション：バックグラウンド（デタッチドモード）で実行\ndocker run -d nginx\n# コンテナIDのみ表示されてコマンドが返ってくる\n\n# -p オプション：ポートのマッピング（ホスト:コンテナ）\ndocker run -d -p 8080:80 nginx\n# ホストの8080番ポートをコンテナの80番ポートに接続\n\n# --name オプション：コンテナに名前をつける\ndocker run -d -p 8080:80 --name my-nginx nginx\n\n# -it オプション：対話的なターミナルとして実行\ndocker run -it ubuntu bash\n# ubuntuコンテナの中でbashが起動し、操作できるようになる\n\n# --rm オプション：コンテナ終了後に自動削除\ndocker run --rm hello-world</code></pre>\n<p>これらのオプションは組み合わせて使えます。例えば <code>docker run -it --rm ubuntu bash</code> とすると、ubuntuコンテナの中でbashが起動し、exitで終了すると自動的にコンテナが削除されます。</p>\n\n<h2>nginxコンテナを起動してブラウザで確認する</h2>\n<p>nginxはWebサーバーの代表格です。Dockerを使えばnginxをローカルにインストールすることなく、コマンド一発でWebサーバーを起動できます。</p>\n<pre><code># nginxコンテナをバックグラウンドで起動、ポート8080に割り当て\ndocker run -d -p 8080:80 --name my-nginx nginx\n\n# コンテナが起動しているか確認\ndocker ps\n# 出力例:\n# CONTAINER ID  IMAGE  COMMAND                CREATED        STATUS        PORTS                  NAMES\n# a1b2c3d4e5f6  nginx  \"/docker-entrypoint…\"  5 seconds ago  Up 4 seconds  0.0.0.0:8080->80/tcp   my-nginx</code></pre>\n<p>起動後、ブラウザで <code>http://localhost:8080</code> にアクセスすると、nginxのデフォルトページ「Welcome to nginx!」が表示されます。これが<strong>ポートマッピング</strong>です。ホストの8080番ポートへのアクセスがコンテナ内の80番ポート（nginxのデフォルトポート）に転送されています。</p>\n<pre><code># コンテナのログを確認\ndocker logs my-nginx\n\n# リアルタイムでログを追跡\ndocker logs -f my-nginx\n\n# コンテナのリソース使用状況\ndocker stats my-nginx</code></pre>\n\n<h2>コンテナの停止・再起動・削除</h2>\n<p>コンテナのライフサイクルを管理するコマンドを覚えましょう。コンテナは「起動中」「停止中」「削除済み」の状態を持ちます。</p>\n<pre><code># コンテナを停止（graceful stop：シグナルを送って安全に停止）\ndocker stop my-nginx\n\n# 停止したコンテナを再起動\ndocker start my-nginx\n\n# コンテナを再起動（stop → start を一度に行う）\ndocker restart my-nginx\n\n# コンテナを強制停止（SIGKILLを送る）\ndocker kill my-nginx\n\n# 停止したコンテナを削除\ndocker rm my-nginx\n\n# 実行中のコンテナを強制削除\ndocker rm -f my-nginx\n\n# 停止中の全コンテナを一括削除\ndocker container prune</code></pre>\n<p>コンテナを削除してもイメージは残ります。同じイメージから何度でもコンテナを作り直せます。この「イメージ（設計図）とコンテナ（実行インスタンス）の分離」がDockerの重要な特徴です。</p>\n\n<h2>コンテナの中に入って操作する（exec）</h2>\n<p>実行中のコンテナの中に入って、直接コマンドを実行したい場面があります。デバッグや動作確認に非常に便利です。</p>\n<pre><code># 実行中のnginxコンテナの中でbashを起動\ndocker exec -it my-nginx bash\n\n# コンテナの中でコマンドを実行できる\nls /etc/nginx/        # nginx設定ファイルの確認\ncat /etc/nginx/nginx.conf\nexit                  # コンテナから抜ける（コンテナは停止しない）\n\n# bashがない場合はshを使う\ndocker exec -it my-nginx sh\n\n# コンテナ内で一つのコマンドだけ実行（対話モードなし）\ndocker exec my-nginx nginx -v</code></pre>\n<p><code>docker exec -it</code> コマンドはトラブルシューティングで頻繁に使います。コンテナの中に「潜入」して設定ファイルを確認したり、ネットワーク疎通を確認したりできます。</p>\n\n<h2>様々なイメージを試してみる</h2>\n<p>Docker Hubには公式イメージが豊富に揃っています。いくつかの代表的なイメージを試してみましょう。</p>\n<pre><code># Ubuntuコンテナを対話的に起動\ndocker run -it --rm ubuntu bash\n# 中でLinuxコマンドが使える\napt update && apt install -y curl\nexit\n\n# MySQLを起動（環境変数でrootパスワードを設定）\ndocker run -d   --name my-mysql   -e MYSQL_ROOT_PASSWORD=mysecretpassword   -p 3306:3306   mysql:8.0\n\n# Redisを起動\ndocker run -d --name my-redis -p 6379:6379 redis\n\n# Alpineコンテナ（超軽量Linux、約5MB）\ndocker run -it --rm alpine sh</code></pre>\n<p>これらのコマンドだけで、ローカルにソフトウェアをインストールすることなく様々なサービスを起動できます。実験が終わったら <code>docker stop</code> と <code>docker rm</code> で削除すれば、システムは元通りです。</p>\n\n<h2>コンテナ操作のまとめと次のステップ</h2>\n<p>ここまでで学んだコンテナ操作の主要コマンドをまとめます。これらのコマンドは日常的に使うので、ぜひ手を動かして覚えましょう。</p>\n<pre><code># ===== よく使うdockerコマンドまとめ =====\n\n# コンテナ起動\ndocker run [オプション] イメージ名\n\n# コンテナ一覧\ndocker ps         # 実行中のみ\ndocker ps -a      # 全て（停止中含む）\n\n# コンテナ操作\ndocker stop コンテナ名/ID    # 停止\ndocker start コンテナ名/ID   # 起動\ndocker restart コンテナ名/ID # 再起動\ndocker rm コンテナ名/ID      # 削除\n\n# コンテナ内部へのアクセス\ndocker exec -it コンテナ名 bash\n\n# ログ確認\ndocker logs コンテナ名\ndocker logs -f コンテナ名    # リアルタイム追跡\n\n# イメージ一覧\ndocker images\n\n# 不要なリソースを一括削除\ndocker system prune</code></pre>\n<p>コンテナの基本操作を習得したら、次はイメージの仕組みとDockerfileによる独自イメージの作成を学んでいきましょう。自分のアプリをコンテナ化する第一歩です。</p>",
-  "conclusion": "docker run コマンドでhello-worldやnginxなどのコンテナを簡単に起動できます。-d（バックグラウンド）、-p（ポートマッピング）、--name（名前指定）オプションを組み合わせることで、実用的なコンテナ起動が可能になります。docker exec -itでコンテナの中に入って操作することもできます。",
+  "summary": "hello-worldとnginxで docker run の基本を学びます。-d・-p・--name など主要オプション、停止・削除・exec の操作まで、初めてコンテナを動かす人向けに手順を整理します。",
+  "body": "<h2>結論：docker run 一行でコンテナを起動できる</h2>\n<p>コンテナ操作の第一歩は<strong><code>docker run</code> でイメージからコンテナを起動する</strong>ことです。まず <code>docker run hello-world</code> で仕組みを確認し、続けて <code>docker run -d -p 8080:80 nginx</code> のようにポートを公開すれば、ブラウザからWebサーバーにアクセスできます。</p>\n\n<h2>docker run hello-world：最初のコンテナ実行</h2>\n<p>Dockerをインストールしたら、まず最初に実行するコマンドは <code>docker run hello-world</code> です。このシンプルなコマンドの裏側では、Dockerが自動的に多くの処理を行っています。実際に実行して、その出力を読み解いてみましょう。</p>\n<pre><code># 初めてのコンテナを実行\ndocker run hello-world</code></pre>\n<p>このコマンドを実行すると、まず「Unable to find image 'hello-world:latest' locally」というメッセージが表示されます。これはローカルにイメージが存在しないため、Docker HubからダウンロードしていることをDockerが知らせています。次に「latest: Pulling from library/hello-world」と表示されてダウンロードが始まり、完了後に「Hello from Docker!」というメッセージが表示されます。</p>\n<p><strong>docker runの内部処理：</strong></p>\n<ol>\n  <li>ローカルに指定したイメージがあるか確認</li>\n  <li>なければDocker Hubから自動ダウンロード（pull）</li>\n  <li>イメージからコンテナを作成（create）</li>\n  <li>コンテナを起動して実行（start）</li>\n</ol>\n<pre><code># 実行後にコンテナの状態を確認\ndocker ps         # 実行中のコンテナ（hello-worldは終了済みなので表示されない）\ndocker ps -a      # 全コンテナ（停止中も含む）\n# 出力例:\n# CONTAINER ID  IMAGE        COMMAND   CREATED       STATUS                    NAMES\n# 3d2f1a8e9b7c  hello-world  \"/hello\"  2 seconds ago Exited (0) 1 second ago  gracious_morse</code></pre>\n\n<h2>docker runの基本オプションを理解する</h2>\n<p><code>docker run</code>コマンドには多くのオプションがあります。最もよく使うオプションを覚えておきましょう。</p>\n<pre><code># -d オプション：バックグラウンド（デタッチドモード）で実行\ndocker run -d nginx\n# コンテナIDのみ表示されてコマンドが返ってくる\n\n# -p オプション：ポートのマッピング（ホスト:コンテナ）\ndocker run -d -p 8080:80 nginx\n# ホストの8080番ポートをコンテナの80番ポートに接続\n\n# --name オプション：コンテナに名前をつける\ndocker run -d -p 8080:80 --name my-nginx nginx\n\n# -it オプション：対話的なターミナルとして実行\ndocker run -it ubuntu bash\n# ubuntuコンテナの中でbashが起動し、操作できるようになる\n\n# --rm オプション：コンテナ終了後に自動削除\ndocker run --rm hello-world</code></pre>\n<p>これらのオプションは組み合わせて使えます。例えば <code>docker run -it --rm ubuntu bash</code> とすると、ubuntuコンテナの中でbashが起動し、exitで終了すると自動的にコンテナが削除されます。</p>\n\n<h2>nginxコンテナを起動してブラウザで確認する</h2>\n<p>nginxはWebサーバーの代表格です。Dockerを使えばnginxをローカルにインストールすることなく、コマンド一発でWebサーバーを起動できます。</p>\n<pre><code># nginxコンテナをバックグラウンドで起動、ポート8080に割り当て\ndocker run -d -p 8080:80 --name my-nginx nginx\n\n# コンテナが起動しているか確認\ndocker ps\n# 出力例:\n# CONTAINER ID  IMAGE  COMMAND                CREATED        STATUS        PORTS                  NAMES\n# a1b2c3d4e5f6  nginx  \"/docker-entrypoint…\"  5 seconds ago  Up 4 seconds  0.0.0.0:8080->80/tcp   my-nginx</code></pre>\n<p>起動後、ブラウザで <code>http://localhost:8080</code> にアクセスすると、nginxのデフォルトページ「Welcome to nginx!」が表示されます。これが<strong>ポートマッピング</strong>です。ホストの8080番ポートへのアクセスがコンテナ内の80番ポート（nginxのデフォルトポート）に転送されています。</p>\n<pre><code># コンテナのログを確認\ndocker logs my-nginx\n\n# リアルタイムでログを追跡\ndocker logs -f my-nginx\n\n# コンテナのリソース使用状況\ndocker stats my-nginx</code></pre>\n\n<h2>コンテナの停止・再起動・削除</h2>\n<p>コンテナのライフサイクルを管理するコマンドを覚えましょう。コンテナは「起動中」「停止中」「削除済み」の状態を持ちます。</p>\n<pre><code># コンテナを停止（graceful stop：シグナルを送って安全に停止）\ndocker stop my-nginx\n\n# 停止したコンテナを再起動\ndocker start my-nginx\n\n# コンテナを再起動（stop → start を一度に行う）\ndocker restart my-nginx\n\n# コンテナを強制停止（SIGKILLを送る）\ndocker kill my-nginx\n\n# 停止したコンテナを削除\ndocker rm my-nginx\n\n# 実行中のコンテナを強制削除\ndocker rm -f my-nginx\n\n# 停止中の全コンテナを一括削除\ndocker container prune</code></pre>\n<p>コンテナを削除してもイメージは残ります。同じイメージから何度でもコンテナを作り直せます。この「イメージ（設計図）とコンテナ（実行インスタンス）の分離」がDockerの重要な特徴です。</p>\n\n<h2>コンテナの中に入って操作する（exec）</h2>\n<p>実行中のコンテナの中に入って、直接コマンドを実行したい場面があります。デバッグや動作確認に非常に便利です。</p>\n<pre><code># 実行中のnginxコンテナの中でbashを起動\ndocker exec -it my-nginx bash\n\n# コンテナの中でコマンドを実行できる\nls /etc/nginx/        # nginx設定ファイルの確認\ncat /etc/nginx/nginx.conf\nexit                  # コンテナから抜ける（コンテナは停止しない）\n\n# bashがない場合はshを使う\ndocker exec -it my-nginx sh\n\n# コンテナ内で一つのコマンドだけ実行（対話モードなし）\ndocker exec my-nginx nginx -v</code></pre>\n<p><code>docker exec -it</code> コマンドはトラブルシューティングで頻繁に使います。コンテナの中に「潜入」して設定ファイルを確認したり、ネットワーク疎通を確認したりできます。</p>\n\n<h2>様々なイメージを試してみる</h2>\n<p>Docker Hubには公式イメージが豊富に揃っています。いくつかの代表的なイメージを試してみましょう。</p>\n<pre><code># Ubuntuコンテナを対話的に起動\ndocker run -it --rm ubuntu bash\n# 中でLinuxコマンドが使える\napt update && apt install -y curl\nexit\n\n# MySQLを起動（環境変数でrootパスワードを設定）\ndocker run -d   --name my-mysql   -e MYSQL_ROOT_PASSWORD=mysecretpassword   -p 3306:3306   mysql:8.0\n\n# Redisを起動\ndocker run -d --name my-redis -p 6379:6379 redis\n\n# Alpineコンテナ（超軽量Linux、約5MB）\ndocker run -it --rm alpine sh</code></pre>\n<p>これらのコマンドだけで、ローカルにソフトウェアをインストールすることなく様々なサービスを起動できます。実験が終わったら <code>docker stop</code> と <code>docker rm</code> で削除すれば、システムは元通りです。</p>\n\n<h2>よくあるつまずきと失敗例</h2>\n<h3>初めての docker run でハマる点</h3>\n<ul>\n<li><strong>ポート指定を逆にする</strong>：<code>-p 8080:80</code> は「ホスト8080→コンテナ80」です。<code>-p 80:8080</code> にすると接続できません。</li>\n<li><strong>フォアグラウンド実行でターミナルが塞がる</strong>：nginxなど常駐プロセスは <code>-d</code>（デタッチ）を付けてバックグラウンド起動します。</li>\n<li><strong>コンテナ名の衝突</strong>：<code>--name web</code> で同名コンテナが残っているとエラーになります。<code>docker rm web</code> するか別名を使います。</li>\n</ul>\n<p><code>docker ps</code> で動いているコンテナ、<code>docker ps -a</code> で停止中含めて確認する習慣をつけると、トラブル時の切り分けが速くなります。</p>\n\n<h2>コンテナ操作のまとめと次のステップ</h2>\n<p>ここまでで学んだコンテナ操作の主要コマンドをまとめます。これらのコマンドは日常的に使うので、ぜひ手を動かして覚えましょう。</p>\n<pre><code># ===== よく使うdockerコマンドまとめ =====\n\n# コンテナ起動\ndocker run [オプション] イメージ名\n\n# コンテナ一覧\ndocker ps         # 実行中のみ\ndocker ps -a      # 全て（停止中含む）\n\n# コンテナ操作\ndocker stop コンテナ名/ID    # 停止\ndocker start コンテナ名/ID   # 起動\ndocker restart コンテナ名/ID # 再起動\ndocker rm コンテナ名/ID      # 削除\n\n# コンテナ内部へのアクセス\ndocker exec -it コンテナ名 bash\n\n# ログ確認\ndocker logs コンテナ名\ndocker logs -f コンテナ名    # リアルタイム追跡\n\n# イメージ一覧\ndocker images\n\n# 不要なリソースを一括削除\ndocker system prune</code></pre>\n<p>コンテナの基本操作を習得したら、次はイメージの仕組みとDockerfileによる独自イメージの作成を学んでいきましょう。自分のアプリをコンテナ化する第一歩です。</p>",
+  "conclusion": "docker run でイメージからコンテナを起動し、-d でバックグラウンド、-p でポート公開が基本です。hello-world と nginx を試したら、イメージとコンテナの関係を深掘りする次の記事へ進みましょう。",
   "tags": [
     "Docker",
     "docker run",
@@ -17,12 +17,12 @@
   "theme": "docker - Docker 入門",
   "status": "published",
   "createdAt": "2026-05-30T04:13:30.603Z",
-  "updatedAt": "2026-05-30T05:01:27.803Z",
+  "updatedAt": "2026-05-30T05:17:43.701Z",
   "publishedAt": "2026-05-30T04:13:30.603Z",
   "metaTitle": "Dockerで初めてのコンテナを動かす方法【docker run入門・docker 使い方】 | StackShelf",
-  "metaDescription": "docker run hello-worldの仕組みを解説し、nginxコンテナの起動・ポートマッピングまでを初心者向けに丁寧に説明します。docker 初心者向け実践ガイド。",
+  "metaDescription": "docker run でhello-worldとnginxを起動する手順。-d・-pオプション、停止・削除、docker exec まで。初めてコンテナを動かす人向けの実践入門。",
   "ogTitle": "Dockerで初めてのコンテナを動かす：hello-world・nginx入門",
-  "ogDescription": "docker run hello-worldからnginxの起動まで、初めてのコンテナ操作を実践形式で解説します。",
+  "ogDescription": "docker run でhello-worldとnginxを起動する手順。-d・-pオプション、停止・削除、docker exec まで。初めてコンテナを動かす人向けの実践入門。",
   "knowledge": {
     "topic": "docker",
     "courseId": "docker",
@@ -46,8 +46,8 @@
       "answer": "docker runは新しいコンテナを作って起動します。docker execはすでに実行中のコンテナの中で追加のコマンドを実行します。実行中のコンテナの中に入って操作したいときはdocker execを使います。"
     },
     {
-      "question": "DockerはWindows/Macでも使えますか？",
-      "answer": "Docker Desktop をインストールすれば Windows 10/11 や macOS でも利用できます。Linux ネイティブ環境が最も軽量ですが、学習目的なら Desktop で十分です。"
+      "question": "つまずいたときはどうすればいいですか？",
+      "answer": "エラーメッセージをそのまま検索し、公式ドキュメントを当たってください。小さなステップに分けて再現・確認すると原因を特定しやすくなります。"
     }
   ],
   "nextEpisodeHint": "次回は、Dockerのイメージとコンテナの関係をより深く理解し、docker images・docker ps・docker inspectなどのコマンドでイメージとコンテナを管理する方法を学びます。",
@@ -60,9 +60,9 @@
         "@context": "https://schema.org",
         "@type": "TechArticle",
         "headline": "Dockerで初めてのコンテナを動かす：hello-world・nginx実践入門",
-        "description": "【Docker初心者向け】docker run hello-worldの仕組みを解説し、nginxコンテナの起動・ポートマッピングまでを初心者向けに丁寧に説明します。docker 初心者向け実践ガイド。 図解・具体例つきで丁寧に解説します。",
+        "description": "docker run でhello-worldとnginxを起動する手順。-d・-pオプション、停止・削除、docker exec まで。初めてコンテナを動かす人向けの実践入門。",
         "datePublished": "2026-05-30T04:13:30.603Z",
-        "dateModified": "2026-05-30T05:01:27.803Z",
+        "dateModified": "2026-05-30T05:17:43.701Z",
         "author": {
           "@type": "Organization",
           "name": "StackShelf",
@@ -83,7 +83,7 @@
         },
         "image": "https://ai-site-iota-nine.vercel.app/og-default.svg",
         "inLanguage": "ja",
-        "wordCount": 3584,
+        "wordCount": 4027,
         "mainEntityOfPage": {
           "@type": "WebPage",
           "@id": "https://ai-site-iota-nine.vercel.app/article/docker-first-container"
@@ -181,10 +181,10 @@
           },
           {
             "@type": "Question",
-            "name": "DockerはWindows/Macでも使えますか？",
+            "name": "つまずいたときはどうすればいいですか？",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "Docker Desktop をインストールすれば Windows 10/11 や macOS でも利用できます。Linux ネイティブ環境が最も軽量ですが、学習目的なら Desktop で十分です。"
+              "text": "エラーメッセージをそのまま検索し、公式ドキュメントを当たってください。小さなステップに分けて再現・確認すると原因を特定しやすくなります。"
             }
           }
         ]
@@ -278,10 +278,10 @@
       },
       {
         "@type": "Question",
-        "name": "DockerはWindows/Macでも使えますか？",
+        "name": "つまずいたときはどうすればいいですか？",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Docker Desktop をインストールすれば Windows 10/11 や macOS でも利用できます。Linux ネイティブ環境が最も軽量ですが、学習目的なら Desktop で十分です。"
+          "text": "エラーメッセージをそのまま検索し、公式ドキュメントを当たってください。小さなステップに分けて再現・確認すると原因を特定しやすくなります。"
         }
       }
     ]

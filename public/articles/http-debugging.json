@@ -1,0 +1,318 @@
+{
+  "id": "art_http_http-debugging",
+  "slug": "http-debugging",
+  "title": "CORS・エラー・デバッグ",
+  "summary": "CORS（Cross-Origin Resource Sharing）の仕組みと、HTTPエラーのデバッグ技法を解説します。API連携で遭遇する典型的な問題の解決法を学びましょう。",
+  "body": "<h2>CORSとは何か</h2>\n<p><strong>CORS（Cross-Origin Resource Sharing：オリジン間リソース共有）</strong>は、ブラウザのセキュリティ機能です。JavaScript（fetch API等）から<strong>異なるオリジン</strong>のAPIを呼び出すとき、サーバー側の許可が必要になります。</p>\n<p><strong>オリジン</strong>とは、スキーム + ホスト + ポートの組み合わせです。</p>\n<pre><code>https://example.com:443  → オリジン\nhttps://api.example.com   → 別オリジン（サブドメインが違う）\nhttp://example.com        → 別オリジン（スキームが違う）\nhttps://example.com:8080  → 別オリジン（ポートが違う）</code></pre>\n<p>同一オリイン（Same-Origin）のリクエストはCORS制限なし。異なるオリジン（Cross-Origin）へのリクエストは、サーバーがCORSヘッダーで許可しないとブラウザがブロックします。</p>\n<p>なぜCORSが必要か：悪意のあるサイト（evil.com）が、あなたがログイン中の銀行サイト（bank.com）のAPIを勝手に呼び出すのを防ぐためです。curlやPostmanはブラウザではないためCORS制限を受けません——「curlでは動くのにブラウザでは動かない」問題の原因がこれです。</p>\n\n<h2>CORSエラーの典型例</h2>\n<p>DevToolsのConsoleに次のようなエラーが表示されたらCORS問題です。</p>\n<pre><code>Access to fetch at 'https://api.example.com/users' from origin\n'https://frontend.example.com' has been blocked by CORS policy:\nNo 'Access-Control-Allow-Origin' header is present on the requested resource.</code></pre>\n<p>原因：APIサーバー（api.example.com）が <code>Access-Control-Allow-Origin</code> ヘッダーを返していない。ブラウザはセキュリティ上、レスポンスをJavaScriptに渡しません。</p>\n\n<h2>CORSヘッダーの設定</h2>\n<p>サーバー側でCORSを許可するレスポンスヘッダー（第4回で紹介）：</p>\n<pre><code># 特定オリジンのみ許可（推奨）\nAccess-Control-Allow-Origin: https://frontend.example.com\n\n# すべてのオリジンを許可（公開API向け、Cookie使用時は不可）\nAccess-Control-Allow-Origin: *\n\n# 許可するHTTPメソッド\nAccess-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS\n\n# 許可するリクエストヘッダー\nAccess-Control-Allow-Headers: Content-Type, Authorization\n\n# Cookie送信を許可\nAccess-Control-Allow-Credentials: true</code></pre>\n<p><code>Access-Control-Allow-Credentials: true</code> を使う場合、<code>Allow-Origin</code> に <code>*</code> は使えません。具体的なドメインを指定する必要があります。</p>\n\n<h2>プリフライトリクエスト（OPTIONS）</h2>\n<p>「単純リクエスト」（GET、POST with form data等）以外のリクエストでは、ブラウザは本番リクエストの前に<strong>プリフライト（Preflight）</strong> OPTIONSリクエストを自動送信します。</p>\n<pre><code># ブラウザが自動送信するプリフライト\nOPTIONS /api/users HTTP/1.1\nHost: api.example.com\nOrigin: https://frontend.example.com\nAccess-Control-Request-Method: POST\nAccess-Control-Request-Headers: Content-Type, Authorization\n\n# サーバーが許可する場合のレスポンス\nHTTP/1.1 204 No Content\nAccess-Control-Allow-Origin: https://frontend.example.com\nAccess-Control-Allow-Methods: GET, POST, PUT, DELETE\nAccess-Control-Allow-Headers: Content-Type, Authorization\nAccess-Control-Max-Age: 86400</code></pre>\n<p>プリフライトが失敗すると、本番リクエストは送られません。DevToolsのNetworkタブでOPTIONSリクエストのステータスコードを確認しましょう。404や405が返っている場合、サーバーがOPTIONSメソッドに対応していない可能性があります。</p>\n<p><a href=\"/articles/nginx-intro\">nginx</a>でCORSを設定する例：</p>\n<pre><code>location /api/ {\n    add_header Access-Control-Allow-Origin https://frontend.example.com;\n    add_header Access-Control-Allow-Methods \"GET, POST, PUT, DELETE, OPTIONS\";\n    add_header Access-Control-Allow-Headers \"Content-Type, Authorization\";\n    \n    if ($request_method = OPTIONS) {\n        return 204;\n    }\n    proxy_pass http://backend:3000;\n}</code></pre>\n\n<h2>HTTPエラーのデバッグ手順</h2>\n<p>API開発でエラーが発生したときの体系的なデバッグ手順です。</p>\n\n<h3>Step 1：ステータスコードを確認</h3>\n<pre><code># 4xx → クライアント（リクエスト）側の問題\n400 Bad Request    → リクエスト形式・JSON構文を確認\n401 Unauthorized   → Authorizationヘッダー・トークンを確認\n403 Forbidden      → 権限・ロールを確認\n404 Not Found      → URL・リソースIDを確認\n422 Unprocessable  → バリデーションエラー、detailsフィールドを確認\n\n# 5xx → サーバー側の問題\n500 Internal Server Error → サーバーログを確認\n502 Bad Gateway           → nginx/upstream接続を確認\n503 Service Unavailable   → サーバー過負荷・メンテナンス</code></pre>\n\n<h3>Step 2：リクエスト内容を確認</h3>\n<p>DevToolsまたはcurl -vで以下を確認：</p>\n<ul>\n  <li>URL（パス、クエリパラメータ）は正しいか</li>\n  <li>HTTPメソッドは意図したものか（GET vs POST）</li>\n  <li>Content-Typeはボディの形式と一致しているか</li>\n  <li>Authorizationヘッダーは設定されているか、トークンは有効か</li>\n  <li>リクエストボディのJSON構文は正しいか</li>\n</ul>\n\n<h3>Step 3：レスポンス内容を確認</h3>\n<ul>\n  <li>レスポンスボディのerror.code / error.message</li>\n  <li>レスポンスヘッダー（Content-Type、Set-Cookie）</li>\n  <li>DevToolsのPreviewタブでJSONを整形表示</li>\n</ul>\n\n<h3>Step 4：サーバー側ログを確認</h3>\n<p>5xxエラーの場合、クライアント側だけでは原因特定できません。</p>\n<pre><code># nginxエラーログ\ntail -f /var/log/nginx/error.log\n\n# アプリケーションログ（<a href=\"/articles/python-intro\">Python</a> Flask例）\n# ターミナルにスタックトレースが出力される\n\n# Dockerコンテナのログ\ndocker logs -f container_name</code></pre>\n\n<h2>よくある問題と解決法</h2>\n\n<h3>問題1：CORS error（curlでは動く）</h3>\n<p>原因：サーバーにCORSヘッダーが未設定。解決：サーバー側でAccess-Control-Allow-Origin等を設定。開発中はプロキシ（Vite dev server、Create React App proxy）を使う方法もあります。</p>\n\n<h3>問題2：401 Unauthorized</h3>\n<p>原因：トークン未設定・期限切れ・形式不正。解決：Authorizationヘッダーを確認。JWTの場合はjwt.ioでexp（有効期限）を確認。再ログインしてトークンを更新。</p>\n\n<h3>問題3：415 Unsupported Media Type</h3>\n<p>原因：Content-Typeヘッダーが未設定または不正。解決：<code>Content-Type: application/json</code> をリクエストヘッダーに追加。</p>\n\n<h3>問題4：Network Error / Failed to fetch</h3>\n<p>原因：サーバーが起動していない、DNS解決失敗、HTTPS証明書エラー、CORS。解決：curl -vで接続確認、サーバー起動状態確認、証明書確認。</p>\n\n<h3>問題5：504 Gateway Timeout</h3>\n<p>原因：<a href=\"/articles/nginx-intro\">nginx</a>とバックエンドアプリ間のタイムアウト。DB処理が遅い、無限ループ等。解決：nginx timeout設定確認、アプリログでボトルネック特定。</p>\n\n<h2>開発環境でのCORS回避策</h2>\n<p>本番ではサーバー側でCORS設定するのが正攻法ですが、開発中の一時的な回避策：</p>\n<pre><code>// Vite（vite.config.js）——開発サーバーのプロキシ\nexport default {\n  server: {\n    proxy: {\n      '/api': 'http://localhost:3000'\n    }\n  }\n}\n\n// Create React App（package.json）\n\"proxy\": \"http://localhost:3000\"</code></pre>\n<p>フロントエンド（localhost:5173）から <code>/api/users</code> にリクエストすると、開発サーバーが localhost:3000 にプロキシします。同一オリジンになるためCORS問題が発生しません。</p>\n\n<h2>HTTPステータスコード早見表（デバッグ用）</h2>\n<pre><code>200 OK              → 成功\n201 Created         → 作成成功\n204 No Content      → 成功（ボディなし）\n301/302             → リダイレクト（Locationヘッダー確認）\n304 Not Modified    → キャッシュ有効\n400 Bad Request     → リクエスト形式エラー\n401 Unauthorized    → 認証必要/失敗\n403 Forbidden       → 権限不足\n404 Not Found       → リソース不存在\n405 Method Not Allowed → メソッド不可\n409 Conflict        → データ競合\n422 Unprocessable   → バリデーションエラー\n429 Too Many Requests → レート制限\n500 Internal Error  → サーバー内部エラー\n502 Bad Gateway     → 上流サーバーエラー\n503 Unavailable     → サービス停止/過負荷</code></pre>\n\n<h2>まとめ：CORSとエラーデバッグの鉄則</h2>\n<p>CORSはブラウザのセキュリティ機能で、異なるオリジンへのAPI呼び出しにはサーバー側の許可ヘッダーが必要です。「curlでは動くのにブラウザでは動かない」はCORS問題を疑いましょう。HTTPエラーデバッグは「ステータスコード → リクエスト内容 → レスポンス内容 → サーバーログ」の順で調査。次回は公開APIを実際に叩く実践エピソードです。</p>",
+  "conclusion": "CORSはブラウザが異なるオリジンへのAPI呼び出しを制限するセキュリティ機能。サーバー側でAccess-Control-Allow-Origin等を設定して解決。プリフライトOPTIONSリクエストにも対応必要。HTTPエラーはステータスコード→リクエスト→レスポンス→サーバーログの順でデバッグ。",
+  "tags": [
+    "CORS",
+    "HTTP",
+    "デバッグ",
+    "エラー",
+    "API",
+    "Access-Control",
+    "トラブルシュート"
+  ],
+  "category": "HTTP",
+  "theme": "http - HTTP・Web API入門",
+  "status": "published",
+  "createdAt": "2026-05-30T05:14:42.451Z",
+  "updatedAt": "2026-05-30T05:14:42.455Z",
+  "publishedAt": "2026-05-30T05:14:42.451Z",
+  "metaTitle": "CORS・HTTPエラー・デバッグ技法【HTTP入門 第9回】｜HTTP入門 | StackShelf",
+  "metaDescription": "CORSの仕組みと解決法、HTTPエラー（4xx/5xx）のデバッグ技法を解説。Access-Control-Allow-Origin、プリフライトリクエスト、Network タブでの問題切り分けを学びます。 図解・具体例つきで丁寧に解説します。",
+  "ogTitle": "CORS・エラー・デバッグ",
+  "ogDescription": "【HTTP初心者向け】【HTTP初心者向け】CORSの仕組みとHTTPエラーのデバッグ技法を、具体例とトラブルシュート手順で解説します。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
+  "knowledge": {
+    "topic": "http",
+    "courseId": "http",
+    "episode": 9
+  },
+  "faq": [
+    {
+      "question": "CORSエラーはサーバー側で直す？フロント側で直す？",
+      "answer": "CORSはサーバー側（API側）でAccess-Control-Allow-Originヘッダーを設定して解決します。フロント側だけでは解決できません。開発中の一時回避としてプロキシ設定は可能ですが、本番では必ずAPIサーバー側でCORS設定しましょう。"
+    },
+    {
+      "question": "Access-Control-Allow-Origin: * で本番運用してもいい？",
+      "answer": "認証不要の公開読み取りAPI（天気API、公開データ等）では問題ありません。認証が必要なAPIやCookieを使う場合は、具体的なフロントエンドドメインを指定する必要があります。* と Allow-Credentials: true は併用不可です。"
+    },
+    {
+      "question": "OPTIONSリクエストが404になる原因は？",
+      "answer": "サーバーまたはnginxがOPTIONSメソッドに対応していない可能性があります。nginx設定でOPTIONSリクエストに204を返す処理を追加するか、バックエンドフレームワークのCORSミドルウェアを有効にしてください。"
+    },
+    {
+      "question": "500エラーと502エラーの調査方法の違いは？",
+      "answer": "500はアプリケーション内部のエラー（コード例外、DB接続失敗等）なのでアプリログを確認。502はnginx等のゲートウェイがバックエンドから不正なレスポンスを受けた場合なので、バックエンドの起動状態・nginx upstream設定・タイムアウト設定を確認します。"
+    },
+    {
+      "question": "モバイルアプリもCORSの影響を受けますか？",
+      "answer": "いいえ。CORSはブラウザのセキュリティ機能です。iOS/AndroidのネイティブアプリやReact Native等からのHTTPリクエストはCORS制限を受けません。WebView内のJavaScriptはCORSの影響を受けます。"
+    }
+  ],
+  "nextEpisodeHint": "次回は最終回！JSONPlaceholder等の公開APIを実際に叩き、これまで学んだHTTP知識を総動員する実践エピソードです。",
+  "nextAction": "次回は最終回！JSONPlaceholder等の公開APIを実際に叩き、curl・fetch API・DevToolsを使ってこれまで学んだHTTP知識を総動員する実践エピソードです。",
+  "internalLinkCandidates": [
+    {
+      "slug": "http-headers",
+      "title": "HTTPヘッダーの役割とよく使う項目",
+      "reason": "CORSヘッダーの詳細は第4回で紹介しました"
+    },
+    {
+      "slug": "http-fetch-tools",
+      "title": "curlとDevToolsでAPIを試す",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "http-practice",
+      "title": "実践：公開APIを叩いてみる",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "nginx-reverse-proxy",
+      "title": "nginxリバースプロキシの設定",
+      "reason": "nginxでCORS設定やプロキシを行います"
+    },
+    {
+      "slug": "docker-webapp-practice",
+      "title": "Node.js・Python WebアプリをDockerコンテナ化",
+      "reason": "502エラーの原因調査でDockerログを確認します"
+    }
+  ],
+  "ogImage": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+  "canonical": "https://ai-site-iota-nine.vercel.app/article/http-debugging",
+  "jsonLd": {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@context": "https://schema.org",
+        "@type": "TechArticle",
+        "headline": "CORS・エラー・デバッグ",
+        "description": "CORSの仕組みと解決法、HTTPエラー（4xx/5xx）のデバッグ技法を解説。Access-Control-Allow-Origin、プリフライトリクエスト、Network タブでの問題切り分けを学びます。 図解・具体例つきで丁寧に解説します。",
+        "datePublished": "2026-05-30T05:14:42.451Z",
+        "dateModified": "2026-05-30T05:14:42.455Z",
+        "author": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
+        },
+        "image": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+        "inLanguage": "ja",
+        "wordCount": 4526,
+        "mainEntityOfPage": {
+          "@type": "WebPage",
+          "@id": "https://ai-site-iota-nine.vercel.app/article/http-debugging"
+        },
+        "keywords": "CORS, HTTP, デバッグ, エラー, API, Access-Control, トラブルシュート",
+        "articleSection": "HTTP",
+        "url": "https://ai-site-iota-nine.vercel.app/article/http-debugging",
+        "learningResourceType": "tutorial",
+        "educationalLevel": "beginner"
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "ホーム",
+            "item": "https://ai-site-iota-nine.vercel.app/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "http",
+            "item": "https://ai-site-iota-nine.vercel.app/knowledge/http"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "HTTP・Web API入門",
+            "item": "https://ai-site-iota-nine.vercel.app/course/http/http"
+          },
+          {
+            "@type": "ListItem",
+            "position": 4,
+            "name": "CORS・エラー・デバッグ",
+            "item": "https://ai-site-iota-nine.vercel.app/article/http-debugging"
+          }
+        ]
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "Course",
+        "name": "HTTP・Web API入門",
+        "description": "ブラウザとサーバーの通信、REST API、HTTPSを10ステップで理解。バックエンド学習の前提となるHTTPを具体例で学びます。",
+        "provider": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app"
+        },
+        "url": "https://ai-site-iota-nine.vercel.app/course/http/http",
+        "inLanguage": "ja",
+        "educationalLevel": "beginner",
+        "hasCourseInstance": {
+          "@type": "CourseInstance",
+          "courseMode": "online",
+          "courseWorkload": "PT1H"
+        }
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "CORSエラーはサーバー側で直す？フロント側で直す？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "CORSはサーバー側（API側）でAccess-Control-Allow-Originヘッダーを設定して解決します。フロント側だけでは解決できません。開発中の一時回避としてプロキシ設定は可能ですが、本番では必ずAPIサーバー側でCORS設定しましょう。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Access-Control-Allow-Origin: * で本番運用してもいい？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "認証不要の公開読み取りAPI（天気API、公開データ等）では問題ありません。認証が必要なAPIやCookieを使う場合は、具体的なフロントエンドドメインを指定する必要があります。* と Allow-Credentials: true は併用不可です。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "OPTIONSリクエストが404になる原因は？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "サーバーまたはnginxがOPTIONSメソッドに対応していない可能性があります。nginx設定でOPTIONSリクエストに204を返す処理を追加するか、バックエンドフレームワークのCORSミドルウェアを有効にしてください。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "500エラーと502エラーの調査方法の違いは？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "500はアプリケーション内部のエラー（コード例外、DB接続失敗等）なのでアプリログを確認。502はnginx等のゲートウェイがバックエンドから不正なレスポンスを受けた場合なので、バックエンドの起動状態・nginx upstream設定・タイムアウト設定を確認します。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "モバイルアプリもCORSの影響を受けますか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "いいえ。CORSはブラウザのセキュリティ機能です。iOS/AndroidのネイティブアプリやReact Native等からのHTTPリクエストはCORS制限を受けません。WebView内のJavaScriptはCORSの影響を受けます。"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "breadcrumb": {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "ホーム",
+        "item": "https://ai-site-iota-nine.vercel.app/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "http",
+        "item": "https://ai-site-iota-nine.vercel.app/knowledge/http"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "HTTP・Web API入門",
+        "item": "https://ai-site-iota-nine.vercel.app/course/http/http"
+      },
+      {
+        "@type": "ListItem",
+        "position": 4,
+        "name": "CORS・エラー・デバッグ",
+        "item": "https://ai-site-iota-nine.vercel.app/article/http-debugging"
+      }
+    ]
+  },
+  "courseSchema": {
+    "@context": "https://schema.org",
+    "@type": "Course",
+    "name": "HTTP・Web API入門",
+    "description": "ブラウザとサーバーの通信、REST API、HTTPSを10ステップで理解。バックエンド学習の前提となるHTTPを具体例で学びます。",
+    "provider": {
+      "@type": "Organization",
+      "name": "StackShelf",
+      "url": "https://ai-site-iota-nine.vercel.app"
+    },
+    "url": "https://ai-site-iota-nine.vercel.app/course/http/http",
+    "inLanguage": "ja",
+    "educationalLevel": "beginner",
+    "hasCourseInstance": {
+      "@type": "CourseInstance",
+      "courseMode": "online",
+      "courseWorkload": "PT1H"
+    }
+  },
+  "faqSchema": {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "CORSエラーはサーバー側で直す？フロント側で直す？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "CORSはサーバー側（API側）でAccess-Control-Allow-Originヘッダーを設定して解決します。フロント側だけでは解決できません。開発中の一時回避としてプロキシ設定は可能ですが、本番では必ずAPIサーバー側でCORS設定しましょう。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Access-Control-Allow-Origin: * で本番運用してもいい？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "認証不要の公開読み取りAPI（天気API、公開データ等）では問題ありません。認証が必要なAPIやCookieを使う場合は、具体的なフロントエンドドメインを指定する必要があります。* と Allow-Credentials: true は併用不可です。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "OPTIONSリクエストが404になる原因は？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "サーバーまたはnginxがOPTIONSメソッドに対応していない可能性があります。nginx設定でOPTIONSリクエストに204を返す処理を追加するか、バックエンドフレームワークのCORSミドルウェアを有効にしてください。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "500エラーと502エラーの調査方法の違いは？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "500はアプリケーション内部のエラー（コード例外、DB接続失敗等）なのでアプリログを確認。502はnginx等のゲートウェイがバックエンドから不正なレスポンスを受けた場合なので、バックエンドの起動状態・nginx upstream設定・タイムアウト設定を確認します。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "モバイルアプリもCORSの影響を受けますか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "いいえ。CORSはブラウザのセキュリティ機能です。iOS/AndroidのネイティブアプリやReact Native等からのHTTPリクエストはCORS制限を受けません。WebView内のJavaScriptはCORSの影響を受けます。"
+        }
+      }
+    ]
+  }
+}

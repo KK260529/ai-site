@@ -1,0 +1,13 @@
+{
+  "slug": "http-debugging",
+  "courseId": "http",
+  "episode": 9,
+  "summaryMemory": [
+    "CORSはブラウザが異なるオリジンへのAPI呼び出しを制限するセキュリティ機能",
+    "curlでは動くがブラウザでは動かない → CORS問題を疑う",
+    "プリフライトOPTIONSリクエストにもサーバー側で対応が必要",
+    "デバッグ順序：ステータスコード → リクエスト → レスポンス → サーバーログ"
+  ],
+  "nextEpisodeHint": "次回は最終回！JSONPlaceholder等の公開APIを実際に叩き、これまで学んだHTTP知識を総動員する実践エピソードです。",
+  "updatedAt": "2026-05-30T05:14:42.451Z"
+}

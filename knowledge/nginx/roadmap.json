@@ -1,0 +1,15 @@
+{
+  "topic": "nginx",
+  "title": "nginx入門",
+  "description": "Webサーバー・リバースプロキシnginxを8ステップで習得。日本語の初心者向け解説が少ないテーマを、設定例つきで学びます。",
+  "beginnerPath": [
+    "nginx-intro",
+    "nginx-install",
+    "nginx-static-site",
+    "nginx-reverse-proxy",
+    "nginx-location",
+    "nginx-ssl",
+    "nginx-logging",
+    "nginx-practice"
+  ]
+}

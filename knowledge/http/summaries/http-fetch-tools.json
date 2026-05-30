@@ -1,0 +1,13 @@
+{
+  "slug": "http-fetch-tools",
+  "courseId": "http",
+  "episode": 8,
+  "summaryMemory": [
+    "curl -X POST -H 'Content-Type: application/json' -d '{...}' でJSON POST",
+    "curl -v で詳細ログ、curl -i でレスポンスヘッダー+ボディ表示",
+    "DevTools Networkタブ + Copy as cURL でブラウザリクエストを再現",
+    "fetch APIはresponse.okをチェック（4xx/5xxは例外にならない）"
+  ],
+  "nextEpisodeHint": "次回は、CORS（Cross-Origin Resource Sharing）の仕組みと、HTTPエラーのデバッグ技法を解説します。",
+  "updatedAt": "2026-05-30T05:14:41.268Z"
+}

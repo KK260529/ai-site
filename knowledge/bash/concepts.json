@@ -1,0 +1,30 @@
+{
+  "topic": "bash",
+  "coreConcepts": [
+    {
+      "id": "bash-intro",
+      "title": "シェルスクリプトとは？",
+      "summary": "Bashシェルスクリプト入門の第1回で学ぶ内容"
+    },
+    {
+      "id": "bash-variables",
+      "title": "変数・引数・終了コード",
+      "summary": "Bashシェルスクリプト入門の第2回で学ぶ内容"
+    },
+    {
+      "id": "bash-conditionals",
+      "title": "ifとtestによる条件分岐",
+      "summary": "Bashシェルスクリプト入門の第3回で学ぶ内容"
+    },
+    {
+      "id": "bash-loops",
+      "title": "for・whileループ",
+      "summary": "Bashシェルスクリプト入門の第4回で学ぶ内容"
+    },
+    {
+      "id": "bash-functions",
+      "title": "関数の定義と使い方",
+      "summary": "Bashシェルスクリプト入門の第5回で学ぶ内容"
+    }
+  ]
+}

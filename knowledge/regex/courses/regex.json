@@ -1,0 +1,59 @@
+{
+  "courseId": "regex",
+  "title": "正規表現入門",
+  "description": "ログ解析・バリデーション・置換に必須の正規表現を10ステップで習得。つまずきやすいエスケープや量詞を具体例で解説します。",
+  "target": "プログラミング初学者・テキスト処理を学びたい人",
+  "topic": "regex",
+  "episodes": [
+    {
+      "episode": 1,
+      "title": "正規表現とは？いつ使うのか",
+      "slug": "regex-intro"
+    },
+    {
+      "episode": 2,
+      "title": "リテラルとメタ文字の基本",
+      "slug": "regex-literals"
+    },
+    {
+      "episode": 3,
+      "title": "文字クラス [] と否定",
+      "slug": "regex-character-classes"
+    },
+    {
+      "episode": 4,
+      "title": "量詞 * + ? {n,m}",
+      "slug": "regex-quantifiers"
+    },
+    {
+      "episode": 5,
+      "title": "アンカー ^ $ と単語境界",
+      "slug": "regex-anchors"
+    },
+    {
+      "episode": 6,
+      "title": "グループとキャプチャ",
+      "slug": "regex-groups"
+    },
+    {
+      "episode": 7,
+      "title": "先読み・後読み（応用）",
+      "slug": "regex-lookahead"
+    },
+    {
+      "episode": 8,
+      "title": "JavaScriptでの正規表現",
+      "slug": "regex-javascript"
+    },
+    {
+      "episode": 9,
+      "title": "grep・エディタ検索での活用",
+      "slug": "regex-cli-tools"
+    },
+    {
+      "episode": 10,
+      "title": "実践：ログとフォーム検証",
+      "slug": "regex-practice"
+    }
+  ]
+}

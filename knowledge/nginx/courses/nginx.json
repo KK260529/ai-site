@@ -1,0 +1,49 @@
+{
+  "courseId": "nginx",
+  "title": "nginx入門",
+  "description": "Webサーバー・リバースプロキシnginxを8ステップで習得。日本語の初心者向け解説が少ないテーマを、設定例つきで学びます。",
+  "target": "Web/Docker学習済み・サーバー設定に興味がある人",
+  "topic": "nginx",
+  "episodes": [
+    {
+      "episode": 1,
+      "title": "nginxとは？Apacheとの違い",
+      "slug": "nginx-intro"
+    },
+    {
+      "episode": 2,
+      "title": "インストールと基本設定",
+      "slug": "nginx-install"
+    },
+    {
+      "episode": 3,
+      "title": "静的サイトの公開",
+      "slug": "nginx-static-site"
+    },
+    {
+      "episode": 4,
+      "title": "リバースプロキシの設定",
+      "slug": "nginx-reverse-proxy"
+    },
+    {
+      "episode": 5,
+      "title": "locationとルーティング",
+      "slug": "nginx-location"
+    },
+    {
+      "episode": 6,
+      "title": "SSL/TLS（HTTPS）設定",
+      "slug": "nginx-ssl"
+    },
+    {
+      "episode": 7,
+      "title": "ログとトラブルシュート",
+      "slug": "nginx-logging"
+    },
+    {
+      "episode": 8,
+      "title": "実践：Nodeアプリの前段にnginx",
+      "slug": "nginx-practice"
+    }
+  ]
+}

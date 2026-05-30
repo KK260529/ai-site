@@ -1,0 +1,323 @@
+{
+  "id": "art_nginx_nginx-static-site",
+  "slug": "nginx-static-site",
+  "title": "nginxで静的サイトを公開する方法【HTML/CSS配信・初心者向け】",
+  "summary": "HTML/CSS/画像からなる静的Webサイトをnginxで公開する手順を解説。ドキュメントルート設定、gzip圧縮、ブラウザキャッシュまで実践的に学びます。",
+  "body": "<h2>静的サイトとは？</h2>\n<p><strong>静的サイト</strong>とは、サーバー側でプログラム処理をせず、HTML・CSS・JavaScript・画像ファイルをそのまま返すWebサイトのことです。個人ブログ、ポートフォリオ、ドキュメントサイト、Jamstackで生成したページなどが該当します。</p>\n<p>nginxは静的ファイルの配信に非常に得意です。Apacheの <code>mod_php</code> のようにアプリを内蔵する必要がなく、ディスク上のファイルを効率的に読み込んで返す設計になっています。</p>\n<pre><code># 典型的な静的サイトのディレクトリ構成\n/var/www/mysite/\n├── index.html\n├── about.html\n├── css/\n│   └── style.css\n├── js/\n│   └── main.js\n└── images/\n    └── logo.png</code></pre>\n\n<h2>サイト用ディレクトリとserverブロックの作成</h2>\n<p>まず公開用ディレクトリを作成し、serverブロックでnginxに公開場所を教えます。</p>\n<pre><code># ディレクトリ作成と権限設定\nsudo mkdir -p /var/www/mysite\nsudo chown -R $USER:www-data /var/www/mysite\nsudo chmod -R 755 /var/www/mysite\n\n# サンプルHTMLを配置\ncat &gt; /var/www/mysite/index.html &lt;&lt;'EOF'\n&lt;!DOCTYPE html&gt;\n&lt;html lang=\"ja\"&gt;\n&lt;head&gt;\n  &lt;meta charset=\"UTF-8\"&gt;\n  &lt;title&gt;My Static Site&lt;/title&gt;\n  &lt;link rel=\"stylesheet\" href=\"/css/style.css\"&gt;\n&lt;/head&gt;\n&lt;body&gt;\n  &lt;h1&gt;nginxで公開中&lt;/h1&gt;\n  &lt;p&gt;静的サイトのテストページです。&lt;/p&gt;\n&lt;/body&gt;\n&lt;/html&gt;\nEOF\n\nmkdir -p /var/www/mysite/css\necho 'body { font-family: sans-serif; max-width: 720px; margin: 2rem auto; }'   &gt; /var/www/mysite/css/style.css</code></pre>\n<pre><code># /etc/nginx/sites-available/mysite.conf\n\nserver {\n    listen 80;\n    server_name mysite.local;\n\n    root /var/www/mysite;\n    index index.html;\n\n    location / {\n        try_files $uri $uri/ =404;\n    }\n}</code></pre>\n<pre><code># 有効化と反映\nsudo ln -sf /etc/nginx/sites-available/mysite.conf /etc/nginx/sites-enabled/\nsudo nginx -t && sudo systemctl reload nginx</code></pre>\n<p>ローカルでドメイン名を試す場合は、<code>/etc/hosts</code> に <code>127.0.0.1 mysite.local</code> を追加してブラウザで <code>http://mysite.local</code> にアクセスします。</p>\n\n<h2>try_filesとフォールバック</h2>\n<p><code>try_files</code> は静的サイト設定の要です。リクエストURIに対応するファイルを順番に探し、見つからなければ指定したレスポンスを返します。</p>\n<pre><code># 基本形：ファイル → ディレクトリ内index → 404\nlocation / {\n    try_files $uri $uri/ =404;\n}\n\n# SPA（Single Page Application）向け：全ルートをindex.htmlへ\nlocation / {\n    try_files $uri $uri/ /index.html;\n}\n\n# カスタム404ページ\nerror_page 404 /404.html;\nlocation = /404.html {\n    internal;\n    root /var/www/mysite;\n}</code></pre>\n<p>ReactやVueでビルドしたSPAをnginxで配信する場合、<code>/about</code> などのパスに直接アクセスしても <code>index.html</code> を返す必要があるため、2番目のパターンがよく使われます。</p>\n\n<h2>gzip圧縮で転送量を削減</h2>\n<p>HTML/CSS/JSはテキストファイルなので、gzip圧縮で転送サイズを70〜80%削減できます。httpコンテキストまたはserverブロック内に設定します。</p>\n<pre><code># /etc/nginx/nginx.conf の http ブロック内、または server 内\n\ngzip on;\ngzip_vary on;\ngzip_proxied any;\ngzip_comp_level 6;\ngzip_min_length 256;\ngzip_types\n    text/plain\n    text/css\n    text/javascript\n    application/javascript\n    application/json\n    application/xml\n    image/svg+xml;</code></pre>\n<p>設定後、ブラウザのDevTools（ネットワークタブ）でレスポンスヘッダー <code>Content-Encoding: gzip</code> が付いていることを確認しましょう。</p>\n\n<h2>ブラウザキャッシュの設定</h2>\n<p>CSSや画像は頻繁に変わらないため、ブラウザにキャッシュさせると再訪問時の表示が高速になります。<code>expires</code> または <code>Cache-Control</code> ヘッダーで制御します。</p>\n<pre><code>server {\n    listen 80;\n    server_name mysite.local;\n    root /var/www/mysite;\n    index index.html;\n\n    # HTMLはキャッシュしない（常に最新を取得）\n    location ~* \\.html$ {\n        expires -1;\n        add_header Cache-Control \"no-cache\";\n    }\n\n    # CSS/JS/画像は1年間キャッシュ\n    location ~* \\.(css|js|png|jpg|jpeg|gif|ico|svg|woff2)$ {\n        expires 1y;\n        add_header Cache-Control \"public, immutable\";\n        access_log off;\n    }\n\n    location / {\n        try_files $uri $uri/ =404;\n    }\n}</code></pre>\n<p>本番ではCSS/JSのファイル名にハッシュを付ける（<code>style.a1b2c3.css</code>）ビルド手法と組み合わせると、長期キャッシュと更新の両立ができます。</p>\n\n<h2>セキュリティの基本設定</h2>\n<p>静的サイトでも、不要なファイルへのアクセスを防ぐ設定は重要です。</p>\n<pre><code>server {\n    listen 80;\n    server_name mysite.local;\n    root /var/www/mysite;\n\n    # 隠しファイル（.git, .env等）へのアクセス拒否\n    location ~ /\\. {\n        deny all;\n        access_log off;\n        log_not_found off;\n    }\n\n    # バックアップファイルの拒否\n    location ~ ~$ {\n        deny all;\n    }\n\n    # ディレクトリ一覧表示を無効化（デフォルトでoff）\n    autoindex off;\n\n    location / {\n        try_files $uri $uri/ =404;\n    }\n}</code></pre>\n\n<h2>複数ページサイトの例</h2>\n<p>about.html や contact.html など複数HTMLがある場合も、rootとtry_filesだけで対応できます。</p>\n<pre><code># /var/www/mysite/about.html がある場合\n# http://mysite.local/about.html でアクセス可能\n\n# 拡張子なしURL（/about → about.html）にしたい場合\nlocation / {\n    try_files $uri $uri.html $uri/ =404;\n}</code></pre>\n<p>Web制作入門で学んだHTML/CSSのファイルを <code>/var/www/mysite</code> に配置すれば、すぐに本番に近い形で公開を試せます。</p>\n\n<h2>まとめ：静的サイト公開のポイント</h2>\n<p>nginxでの静的サイト公開は「rootで場所を指定し、try_filesでファイルを探す」が基本です。gzip圧縮とキャッシュ設定を加えることで、表示速度と帯域コストを大幅に改善できます。次回は、アプリサーバーの前段にnginxを置くリバースプロキシ設定を学びます。</p>",
+  "conclusion": "nginxでの静的サイト公開は root と try_files が基本です。gzip圧縮で転送量を削減し、CSS/JS/画像には長期キャッシュ、HTMLにはno-cacheを設定するのが定番です。隠しファイルへのアクセス拒否などセキュリティ設定も忘れずに行いましょう。",
+  "tags": [
+    "nginx",
+    "静的サイト",
+    "HTML",
+    "CSS",
+    "gzip",
+    "キャッシュ",
+    "初心者"
+  ],
+  "category": "nginx",
+  "theme": "nginx - nginx入門",
+  "status": "published",
+  "createdAt": "2026-05-30T05:15:03.094Z",
+  "updatedAt": "2026-05-30T05:15:03.099Z",
+  "publishedAt": "2026-05-30T05:15:03.094Z",
+  "metaTitle": "nginx静的サイト公開：HTML/CSS配信とキャッシュ設定【nginx 入門】｜nginx入門 | StackSh…",
+  "metaDescription": "【nginx初心者向け】nginxで静的Webサイト（HTML/CSS/画像）を公開する方法を初心者向けに解説。root設定、gzip圧縮、キャッシュヘッダー、セキュリティ設定まで設定例つき。 図解・具体例つきで丁寧に解説します。",
+  "ogTitle": "nginxで静的サイトを公開する方法",
+  "ogDescription": "【nginx初心者向け】【nginx初心者向け】HTML/CSS/画像の静的サイトをnginxで配信する設定を初心者向けに解説。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
+  "knowledge": {
+    "topic": "nginx",
+    "courseId": "nginx",
+    "episode": 3
+  },
+  "faq": [
+    {
+      "question": "CSSや画像が404になります。HTMLは表示されます。",
+      "answer": "HTML内のパスが正しいか、rootディレクトリにファイルが存在するか確認してください。/css/style.css と書いているなら /var/www/mysite/css/style.css にファイルが必要です。大文字小文字もLinuxでは区別されます。"
+    },
+    {
+      "question": "SPA（React/Vue）をnginxで配信するには？",
+      "answer": "ビルド成果物（dist/等）をrootに配置し、location / で try_files $uri $uri/ /index.html; を設定します。これにより/client-side routingのパスでもindex.htmlが返ります。"
+    },
+    {
+      "question": "gzipを有効にしても効果が見えません。",
+      "answer": "gzip_min_length より小さいファイルは圧縮されません。また、すでに圧縮済みの画像（jpg/png）はgzip対象外です。HTML/CSS/JSのレスポンスヘッダーでContent-Encoding: gzipを確認してください。"
+    },
+    {
+      "question": "静的サイトとWordPressの違いは？",
+      "answer": "静的サイトはファイルをそのまま返すだけです。WordPressはPHPでDBからページを生成する動的サイトで、nginx+php-fpmの構成が必要です。更新頻度が低いサイトは静的化+nginxの方が高速で運用も簡単です。"
+    },
+    {
+      "question": "CDNとnginxのキャッシュ設定はどう使い分けますか？",
+      "answer": "CDN（Cloudflare等）はエッジでキャッシュし、nginxはオリジンサーバー側のキャッシュ/ヘッダー制御を担当します。両方でCache-Controlを適切に設定すると、多層キャッシュで最高のパフォーマンスが得られます。"
+    }
+  ],
+  "nextEpisodeHint": "次回は、Node.jsやPythonアプリの前段にnginxを置くリバースプロキシ設定を、proxy_pass を使って実践的に学びます。",
+  "nextAction": "",
+  "internalLinkCandidates": [
+    {
+      "slug": "web-intro",
+      "title": "Webサイトの仕組みとは？HTML・CSS・JavaScriptをゼロから理解する",
+      "reason": "公開するHTML/CSSの基礎知識"
+    },
+    {
+      "slug": "web-first-html",
+      "title": "初めてのHTML：Webページの骨組みを作ろう",
+      "reason": "静的サイトのHTML作成スキル"
+    },
+    {
+      "slug": "http-intro",
+      "title": "HTTPとは？Webの通信の仕組み",
+      "reason": "Cache-Control等HTTPヘッダーの理解"
+    },
+    {
+      "slug": "linux-intro",
+      "title": "Linuxとは？コマンドラインの世界へようこそ【初心者向け完全入門】",
+      "reason": "ファイル配置と権限設定"
+    },
+    {
+      "slug": "docker-intro",
+      "title": "Dockerとは？仮想マシンとの違いをわかりやすく解説【初心者向け】",
+      "reason": "nginxコンテナで静的ファイルを配信する応用"
+    },
+    {
+      "slug": "nginx-reverse-proxy",
+      "title": "nginxリバースプロキシの設定方法【proxy_pass入門】",
+      "reason": "同じ講座の次回：動的アプリとの連携"
+    }
+  ],
+  "ogImage": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+  "canonical": "https://ai-site-iota-nine.vercel.app/article/nginx-static-site",
+  "jsonLd": {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@context": "https://schema.org",
+        "@type": "TechArticle",
+        "headline": "nginxで静的サイトを公開する方法【HTML/CSS配信・初心者向け】",
+        "description": "【nginx初心者向け】nginxで静的Webサイト（HTML/CSS/画像）を公開する方法を初心者向けに解説。root設定、gzip圧縮、キャッシュヘッダー、セキュリティ設定まで設定例つき。 図解・具体例つきで丁寧に解説します。",
+        "datePublished": "2026-05-30T05:15:03.094Z",
+        "dateModified": "2026-05-30T05:15:03.099Z",
+        "author": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
+        },
+        "image": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+        "inLanguage": "ja",
+        "wordCount": 3365,
+        "mainEntityOfPage": {
+          "@type": "WebPage",
+          "@id": "https://ai-site-iota-nine.vercel.app/article/nginx-static-site"
+        },
+        "keywords": "nginx, 静的サイト, HTML, CSS, gzip, キャッシュ, 初心者",
+        "articleSection": "nginx",
+        "url": "https://ai-site-iota-nine.vercel.app/article/nginx-static-site",
+        "learningResourceType": "tutorial",
+        "educationalLevel": "beginner"
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "ホーム",
+            "item": "https://ai-site-iota-nine.vercel.app/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "nginx",
+            "item": "https://ai-site-iota-nine.vercel.app/knowledge/nginx"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "nginx入門",
+            "item": "https://ai-site-iota-nine.vercel.app/course/nginx/nginx"
+          },
+          {
+            "@type": "ListItem",
+            "position": 4,
+            "name": "nginxで静的サイトを公開する方法【HTML/CSS配信・初心者向け】",
+            "item": "https://ai-site-iota-nine.vercel.app/article/nginx-static-site"
+          }
+        ]
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "Course",
+        "name": "nginx入門",
+        "description": "Webサーバー・リバースプロキシnginxを8ステップで習得。日本語の初心者向け解説が少ないテーマを、設定例つきで学びます。",
+        "provider": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app"
+        },
+        "url": "https://ai-site-iota-nine.vercel.app/course/nginx/nginx",
+        "inLanguage": "ja",
+        "educationalLevel": "beginner",
+        "hasCourseInstance": {
+          "@type": "CourseInstance",
+          "courseMode": "online",
+          "courseWorkload": "PT1H"
+        }
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "CSSや画像が404になります。HTMLは表示されます。",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "HTML内のパスが正しいか、rootディレクトリにファイルが存在するか確認してください。/css/style.css と書いているなら /var/www/mysite/css/style.css にファイルが必要です。大文字小文字もLinuxでは区別されます。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "SPA（React/Vue）をnginxで配信するには？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "ビルド成果物（dist/等）をrootに配置し、location / で try_files $uri $uri/ /index.html; を設定します。これにより/client-side routingのパスでもindex.htmlが返ります。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "gzipを有効にしても効果が見えません。",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "gzip_min_length より小さいファイルは圧縮されません。また、すでに圧縮済みの画像（jpg/png）はgzip対象外です。HTML/CSS/JSのレスポンスヘッダーでContent-Encoding: gzipを確認してください。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "静的サイトとWordPressの違いは？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "静的サイトはファイルをそのまま返すだけです。WordPressはPHPでDBからページを生成する動的サイトで、nginx+php-fpmの構成が必要です。更新頻度が低いサイトは静的化+nginxの方が高速で運用も簡単です。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "CDNとnginxのキャッシュ設定はどう使い分けますか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "CDN（Cloudflare等）はエッジでキャッシュし、nginxはオリジンサーバー側のキャッシュ/ヘッダー制御を担当します。両方でCache-Controlを適切に設定すると、多層キャッシュで最高のパフォーマンスが得られます。"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "breadcrumb": {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "ホーム",
+        "item": "https://ai-site-iota-nine.vercel.app/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "nginx",
+        "item": "https://ai-site-iota-nine.vercel.app/knowledge/nginx"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "nginx入門",
+        "item": "https://ai-site-iota-nine.vercel.app/course/nginx/nginx"
+      },
+      {
+        "@type": "ListItem",
+        "position": 4,
+        "name": "nginxで静的サイトを公開する方法【HTML/CSS配信・初心者向け】",
+        "item": "https://ai-site-iota-nine.vercel.app/article/nginx-static-site"
+      }
+    ]
+  },
+  "courseSchema": {
+    "@context": "https://schema.org",
+    "@type": "Course",
+    "name": "nginx入門",
+    "description": "Webサーバー・リバースプロキシnginxを8ステップで習得。日本語の初心者向け解説が少ないテーマを、設定例つきで学びます。",
+    "provider": {
+      "@type": "Organization",
+      "name": "StackShelf",
+      "url": "https://ai-site-iota-nine.vercel.app"
+    },
+    "url": "https://ai-site-iota-nine.vercel.app/course/nginx/nginx",
+    "inLanguage": "ja",
+    "educationalLevel": "beginner",
+    "hasCourseInstance": {
+      "@type": "CourseInstance",
+      "courseMode": "online",
+      "courseWorkload": "PT1H"
+    }
+  },
+  "faqSchema": {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "CSSや画像が404になります。HTMLは表示されます。",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "HTML内のパスが正しいか、rootディレクトリにファイルが存在するか確認してください。/css/style.css と書いているなら /var/www/mysite/css/style.css にファイルが必要です。大文字小文字もLinuxでは区別されます。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "SPA（React/Vue）をnginxで配信するには？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "ビルド成果物（dist/等）をrootに配置し、location / で try_files $uri $uri/ /index.html; を設定します。これにより/client-side routingのパスでもindex.htmlが返ります。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "gzipを有効にしても効果が見えません。",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "gzip_min_length より小さいファイルは圧縮されません。また、すでに圧縮済みの画像（jpg/png）はgzip対象外です。HTML/CSS/JSのレスポンスヘッダーでContent-Encoding: gzipを確認してください。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "静的サイトとWordPressの違いは？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "静的サイトはファイルをそのまま返すだけです。WordPressはPHPでDBからページを生成する動的サイトで、nginx+php-fpmの構成が必要です。更新頻度が低いサイトは静的化+nginxの方が高速で運用も簡単です。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "CDNとnginxのキャッシュ設定はどう使い分けますか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "CDN（Cloudflare等）はエッジでキャッシュし、nginxはオリジンサーバー側のキャッシュ/ヘッダー制御を担当します。両方でCache-Controlを適切に設定すると、多層キャッシュで最高のパフォーマンスが得られます。"
+        }
+      }
+    ]
+  }
+}

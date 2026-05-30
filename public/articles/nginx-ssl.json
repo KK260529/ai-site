@@ -1,0 +1,323 @@
+{
+  "id": "art_nginx_nginx-ssl",
+  "slug": "nginx-ssl",
+  "title": "nginxでSSL/TLS（HTTPS）を設定する方法【Let's Encrypt入門】",
+  "summary": "Let's Encryptとcertbotを使ったnginxのHTTPS設定を解説。SSL証明書の取得、nginx.conf設定、HTTP→HTTPSリダイレクト、証明書の自動更新まで学びます。",
+  "body": "<h2>HTTPSが必要な理由</h2>\n<p><strong>HTTPS</strong>はHTTPにSSL/TLS暗号化を加えたプロトコルです。ブラウザとサーバー間の通信が暗号化されるため、パスワードやクレジットカード情報の盗聴を防げます。現代のブラウザはHTTPサイトに「保護されていない通信」と警告を表示し、SEO（Google検索順位）でもHTTPSが有利とされています。</p>\n<p>nginxでは443番ポートでSSL/TLS接続を受け付け、証明書と秘密鍵を設定します。アプリサーバー（Node.js等）までHTTPSを通す必要はなく、nginxで<strong>SSL終端（TLS termination）</strong>——HTTPSを受け取り、裏側のアプリにはHTTPで転送——するのが一般的です。</p>\n<pre><code># HTTP vs HTTPS\n# HTTP:  port 80  → 平文通信（盗聴リスク）\n# HTTPS: port 443 → 暗号化通信（鍵アイコン表示）</code></pre>\n\n<h2>Let's Encryptとcertbot</h2>\n<p>SSL証明書は有料の認証局（CA）から購入することもできますが、個人サイトや開発用途では無料の<strong>Let's Encrypt</strong>が標準的です。<strong>certbot</strong>はLet's Encryptの証明書を自動取得・更新するツールで、nginxプラグインで設定まで自動化できます。</p>\n<pre><code># certbotのインストール（Ubuntu）\nsudo apt update\nsudo apt install certbot python3-certbot-nginx -y\n\n# バージョン確認\ncertbot --version</code></pre>\n<p>certbotを使う前提条件として、<strong>ドメイン名がサーバーのIPアドレスを指している</strong>必要があります。ローカル開発（localhost）ではLet's Encryptは使えません。本番ドメインまたはステージング用サブドメインを用意してください。</p>\n\n<h2>手動でのnginx SSL設定</h2>\n<p>certbot自動設定の前に、手動設定の構造を理解しておきましょう。SSL設定の核心は <code>ssl_certificate</code> と <code>ssl_certificate_key</code> です。</p>\n<pre><code># /etc/nginx/sites-available/example-ssl.conf\n\n# HTTP → HTTPS リダイレクト\nserver {\n    listen 80;\n    listen [::]:80;\n    server_name example.com www.example.com;\n    return 301 https://$host$request_uri;\n}\n\n# HTTPS メイン設定\nserver {\n    listen 443 ssl http2;\n    listen [::]:443 ssl http2;\n    server_name example.com www.example.com;\n\n    # 証明書（Let's Encryptの場合のパス）\n    ssl_certificate     /etc/letsencrypt/live/example.com/fullchain.pem;\n    ssl_certificate_key /etc/letsencrypt/live/example.com/privkey.pem;\n\n    # 推奨SSL設定\n    ssl_protocols TLSv1.2 TLSv1.3;\n    ssl_prefer_server_ciphers off;\n    ssl_session_cache shared:SSL:10m;\n    ssl_session_timeout 1d;\n\n    root /var/www/html;\n    index index.html;\n\n    location / {\n        try_files $uri $uri/ =404;\n    }\n}</code></pre>\n<pre><code># 設定テストと反映\nsudo nginx -t && sudo systemctl reload nginx</code></pre>\n\n<h2>certbotでワンコマンドHTTPS化</h2>\n<p>nginxがすでに動作し、ドメインでHTTPアクセスできる状態なら、certbotが証明書取得とnginx設定を自動で行います。</p>\n<pre><code># 対話式で証明書取得＋nginx設定\nsudo certbot --nginx -d example.com -d www.example.com\n\n# 非対話式（自動化向け）\nsudo certbot --nginx -d example.com -d www.example.com \\\n  --non-interactive --agree-tos -m admin@example.com</code></pre>\n<p>certbotは以下を自動で行います。</p>\n<ul>\n  <li>Let's Encryptにドメイン所有確認（HTTP-01チャレンジ）</li>\n  <li>証明書の取得と <code>/etc/letsencrypt/live/</code> への配置</li>\n  <li>nginx設定への ssl_certificate 追加</li>\n  <li>HTTP→HTTPSリダイレクトの追加</li>\n</ul>\n<pre><code># 証明書の確認\nsudo certbot certificates\n\n# 出力例:\n# Certificate Name: example.com\n#   Domains: example.com www.example.com\n#   Expiry Date: 2026-08-28\n#   Certificate Path: /etc/letsencrypt/live/example.com/fullchain.pem\n#   Private Key Path: /etc/letsencrypt/live/example.com/privkey.pem</code></pre>\n\n<h2>リバースプロキシ + HTTPS</h2>\n<p>Node.jsアプリの前段でHTTPSを終端する典型的な構成です。アプリ側はHTTPのままで問題ありません。</p>\n<pre><code>server {\n    listen 443 ssl http2;\n    server_name app.example.com;\n\n    ssl_certificate     /etc/letsencrypt/live/app.example.com/fullchain.pem;\n    ssl_certificate_key /etc/letsencrypt/live/app.example.com/privkey.pem;\n    ssl_protocols TLSv1.2 TLSv1.3;\n\n    location / {\n        proxy_pass http://127.0.0.1:3000;\n        proxy_set_header Host $host;\n        proxy_set_header X-Real-IP $remote_addr;\n        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;\n        proxy_set_header X-Forwarded-Proto $scheme;  # アプリにHTTPSを通知\n    }\n}\n\nserver {\n    listen 80;\n    server_name app.example.com;\n    return 301 https://$host$request_uri;\n}</code></pre>\n<p>Express.jsでは <code>app.set('trust proxy', 1)</code> を設定し、<code>req.secure</code> や <code>req.protocol</code> でHTTPS接続を判定できます。</p>\n\n<h2>証明書の自動更新</h2>\n<p>Let's Encryptの証明書は90日間有効です。certbotはインストール時にsystemd timerまたはcronで自動更新を設定します。</p>\n<pre><code># 自動更新のテスト（実際には更新しない）\nsudo certbot renew --dry-run\n\n# 更新タイマーの状態確認\nsudo systemctl status certbot.timer\n\n# 手動更新\nsudo certbot renew</code></pre>\n<p>更新後はnginxのreloadが必要です。certbotのrenewフックで自動化するのが一般的です。</p>\n<pre><code># /etc/letsencrypt/renewal-hooks/deploy/reload-nginx.sh\n#!/bin/bash\nnginx -t && systemctl reload nginx</code></pre>\n<pre><code>sudo chmod +x /etc/letsencrypt/renewal-hooks/deploy/reload-nginx.sh</code></pre>\n\n<h2>セキュリティヘッダーの追加</h2>\n<p>HTTPS化に加え、セキュリティ関連のHTTPヘッダーを設定するとより安全です。</p>\n<pre><code>server {\n    listen 443 ssl http2;\n    server_name example.com;\n\n    ssl_certificate     /etc/letsencrypt/live/example.com/fullchain.pem;\n    ssl_certificate_key /etc/letsencrypt/live/example.com/privkey.pem;\n\n    # HSTS: ブラウザにHTTPSのみ使用させる（本番ドメインのみ推奨）\n    add_header Strict-Transport-Security \"max-age=31536000; includeSubDomains\" always;\n\n    # クリックジャッキング防止\n    add_header X-Frame-Options \"SAMEORIGIN\" always;\n\n    # MIMEタイプスニッフィング防止\n    add_header X-Content-Type-Options \"nosniff\" always;\n\n    location / {\n        root /var/www/html;\n        try_files $uri $uri/ =404;\n    }\n}</code></pre>\n<p>HSTS（Strict-Transport-Security）は一度設定するとブラウザがHTTP接続を拒否するため、HTTPSが完全に動作してから有効化してください。</p>\n\n<h2>よくあるトラブル</h2>\n<pre><code># 証明書取得失敗: ドメインがサーバーを指していない\n# → DNSのAレコードを確認\ndig example.com +short\n\n# 証明書取得失敗: ポート80がブロック\n# → ファイアウォールで80/443を開放\nsudo ufw allow 'Nginx Full'\n\n# SSL handshake failed\n# → 証明書パスの確認、nginx -t でエラー確認\nsudo nginx -t\nsudo tail -20 /var/log/nginx/error.log</code></pre>\n\n<h2>まとめ：HTTPS化の流れ</h2>\n<p>nginxのHTTPS化は「証明書取得 → ssl_certificate設定 → HTTP→HTTPSリダイレクト」の3ステップです。Let's Encrypt + certbotなら <code>certbot --nginx</code> 一発で大部分が自動化できます。次回は、アクセスログ・エラーログの読み方とトラブルシューティング手法を学びます。</p>",
+  "conclusion": "nginxのHTTPS化は ssl_certificate/ssl_certificate_key で証明書を設定し、443番ポートで待ち受けます。Let's Encrypt + certbot で無料証明書を取得でき、HTTP→HTTPSリダイレクトとX-Forwarded-Protoの転送を忘れずに。certbot renew --dry-run で自動更新を確認しましょう。",
+  "tags": [
+    "nginx",
+    "SSL",
+    "TLS",
+    "HTTPS",
+    "Let's Encrypt",
+    "certbot",
+    "初心者"
+  ],
+  "category": "nginx",
+  "theme": "nginx - nginx入門",
+  "status": "published",
+  "createdAt": "2026-05-30T05:15:07.209Z",
+  "updatedAt": "2026-05-30T05:15:07.213Z",
+  "publishedAt": "2026-05-30T05:15:07.209Z",
+  "metaTitle": "nginx SSL/TLS設定：Let's EncryptでHTTPS化【nginx 初心者入門】 | StackSh…",
+  "metaDescription": "【nginx初心者向け】nginxでHTTPS（SSL/TLS）を設定する方法を初心者向けに解説。Let's Encrypt・certbotでの証明書取得、nginx設定、自動更新まで設定例つき。 図解・具体例つきで丁寧に解説します。",
+  "ogTitle": "nginxでSSL/TLS（HTTPS）を設定する",
+  "ogDescription": "【nginx初心者向け】【nginx初心者向け】Let's EncryptとcertbotでnginxをHTTPS化する手順を初心者向けに解説。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
+  "knowledge": {
+    "topic": "nginx",
+    "courseId": "nginx",
+    "episode": 6
+  },
+  "faq": [
+    {
+      "question": "localhostでHTTPSを試す方法は？",
+      "answer": "Let's Encryptは公開ドメインが必要です。ローカル開発では自己署名証明書（openssl req -x509 で生成）を使うか、mkcertツールでローカルCAを作成してください。本番と同じcertbotフローは公開ドメインが必要です。"
+    },
+    {
+      "question": "certbot --nginx で失敗します。",
+      "answer": "ドメインのDNS AレコードがサーバーIPを指しているか、ポート80が外部からアクセス可能か確認してください。Cloudflare等のプロキシを使っている場合はDNS only（グレーの雲）に一時変更が必要なことがあります。"
+    },
+    {
+      "question": "SSL終端とは何ですか？",
+      "answer": "nginxでHTTPSを復号し、バックエンドアプリにはHTTP（平文）で転送する構成です。証明書管理をnginxに集約でき、アプリ側のSSL設定が不要になるメリットがあります。社内ネットワーク内の通信は平文になる点に注意してください。"
+    },
+    {
+      "question": "証明書の有効期限が切れるとどうなりますか？",
+      "answer": "ブラウザに「接続はプライベートではありません」という警告が表示され、訪問者がサイトにアクセスできなくなります。certbot.timerによる自動更新を有効にし、renew --dry-run で定期確認してください。"
+    },
+    {
+      "question": "TLSv1.0/1.1は使うべきですか？",
+      "answer": "いいえ。セキュリティ上の理由からTLSv1.2以上のみ有効にしてください。ssl_protocols TLSv1.2 TLSv1.3; が現代の推奨設定です。古いクライアント（IE11等）との互換性が必要な場合のみ例外です。"
+    }
+  ],
+  "nextEpisodeHint": "次回は、nginxのアクセスログ・エラーログの読み方、ログフォーマットのカスタマイズ、502/504等のエラー調査手法を学びます。",
+  "nextAction": "",
+  "internalLinkCandidates": [
+    {
+      "slug": "http-https-tls",
+      "title": "HTTPSとTLSの仕組み",
+      "reason": "SSL/TLS暗号化の理論的背景"
+    },
+    {
+      "slug": "http-intro",
+      "title": "HTTPとは？Webの通信の仕組み",
+      "reason": "HTTPとHTTPSの違いの基礎"
+    },
+    {
+      "slug": "nginx-reverse-proxy",
+      "title": "nginxリバースプロキシの設定方法【proxy_pass入門】",
+      "reason": "HTTPS + リバースプロキシの組み合わせ"
+    },
+    {
+      "slug": "linux-intro",
+      "title": "Linuxとは？コマンドラインの世界へようこそ【初心者向け完全入門】",
+      "reason": "certbotやsystemctl操作の前提"
+    },
+    {
+      "slug": "web-publish-basics",
+      "title": "Webサイトを公開する方法：ドメイン・サーバー・DNSの基礎",
+      "reason": "ドメインとDNS設定（証明書取得の前提）"
+    },
+    {
+      "slug": "nginx-logging",
+      "title": "nginxのログとトラブルシューティング入門",
+      "reason": "同じ講座の次回：SSLエラーのログ調査"
+    }
+  ],
+  "ogImage": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+  "canonical": "https://ai-site-iota-nine.vercel.app/article/nginx-ssl",
+  "jsonLd": {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@context": "https://schema.org",
+        "@type": "TechArticle",
+        "headline": "nginxでSSL/TLS（HTTPS）を設定する方法【Let's Encrypt入門】",
+        "description": "【nginx初心者向け】nginxでHTTPS（SSL/TLS）を設定する方法を初心者向けに解説。Let's Encrypt・certbotでの証明書取得、nginx設定、自動更新まで設定例つき。 図解・具体例つきで丁寧に解説します。",
+        "datePublished": "2026-05-30T05:15:07.209Z",
+        "dateModified": "2026-05-30T05:15:07.213Z",
+        "author": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
+        },
+        "image": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+        "inLanguage": "ja",
+        "wordCount": 4168,
+        "mainEntityOfPage": {
+          "@type": "WebPage",
+          "@id": "https://ai-site-iota-nine.vercel.app/article/nginx-ssl"
+        },
+        "keywords": "nginx, SSL, TLS, HTTPS, Let's Encrypt, certbot, 初心者",
+        "articleSection": "nginx",
+        "url": "https://ai-site-iota-nine.vercel.app/article/nginx-ssl",
+        "learningResourceType": "tutorial",
+        "educationalLevel": "beginner"
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "ホーム",
+            "item": "https://ai-site-iota-nine.vercel.app/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "nginx",
+            "item": "https://ai-site-iota-nine.vercel.app/knowledge/nginx"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "nginx入門",
+            "item": "https://ai-site-iota-nine.vercel.app/course/nginx/nginx"
+          },
+          {
+            "@type": "ListItem",
+            "position": 4,
+            "name": "nginxでSSL/TLS（HTTPS）を設定する方法【Let's Encrypt入門】",
+            "item": "https://ai-site-iota-nine.vercel.app/article/nginx-ssl"
+          }
+        ]
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "Course",
+        "name": "nginx入門",
+        "description": "Webサーバー・リバースプロキシnginxを8ステップで習得。日本語の初心者向け解説が少ないテーマを、設定例つきで学びます。",
+        "provider": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app"
+        },
+        "url": "https://ai-site-iota-nine.vercel.app/course/nginx/nginx",
+        "inLanguage": "ja",
+        "educationalLevel": "beginner",
+        "hasCourseInstance": {
+          "@type": "CourseInstance",
+          "courseMode": "online",
+          "courseWorkload": "PT1H"
+        }
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "localhostでHTTPSを試す方法は？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Let's Encryptは公開ドメインが必要です。ローカル開発では自己署名証明書（openssl req -x509 で生成）を使うか、mkcertツールでローカルCAを作成してください。本番と同じcertbotフローは公開ドメインが必要です。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "certbot --nginx で失敗します。",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "ドメインのDNS AレコードがサーバーIPを指しているか、ポート80が外部からアクセス可能か確認してください。Cloudflare等のプロキシを使っている場合はDNS only（グレーの雲）に一時変更が必要なことがあります。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "SSL終端とは何ですか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "nginxでHTTPSを復号し、バックエンドアプリにはHTTP（平文）で転送する構成です。証明書管理をnginxに集約でき、アプリ側のSSL設定が不要になるメリットがあります。社内ネットワーク内の通信は平文になる点に注意してください。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "証明書の有効期限が切れるとどうなりますか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "ブラウザに「接続はプライベートではありません」という警告が表示され、訪問者がサイトにアクセスできなくなります。certbot.timerによる自動更新を有効にし、renew --dry-run で定期確認してください。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "TLSv1.0/1.1は使うべきですか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "いいえ。セキュリティ上の理由からTLSv1.2以上のみ有効にしてください。ssl_protocols TLSv1.2 TLSv1.3; が現代の推奨設定です。古いクライアント（IE11等）との互換性が必要な場合のみ例外です。"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "breadcrumb": {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "ホーム",
+        "item": "https://ai-site-iota-nine.vercel.app/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "nginx",
+        "item": "https://ai-site-iota-nine.vercel.app/knowledge/nginx"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "nginx入門",
+        "item": "https://ai-site-iota-nine.vercel.app/course/nginx/nginx"
+      },
+      {
+        "@type": "ListItem",
+        "position": 4,
+        "name": "nginxでSSL/TLS（HTTPS）を設定する方法【Let's Encrypt入門】",
+        "item": "https://ai-site-iota-nine.vercel.app/article/nginx-ssl"
+      }
+    ]
+  },
+  "courseSchema": {
+    "@context": "https://schema.org",
+    "@type": "Course",
+    "name": "nginx入門",
+    "description": "Webサーバー・リバースプロキシnginxを8ステップで習得。日本語の初心者向け解説が少ないテーマを、設定例つきで学びます。",
+    "provider": {
+      "@type": "Organization",
+      "name": "StackShelf",
+      "url": "https://ai-site-iota-nine.vercel.app"
+    },
+    "url": "https://ai-site-iota-nine.vercel.app/course/nginx/nginx",
+    "inLanguage": "ja",
+    "educationalLevel": "beginner",
+    "hasCourseInstance": {
+      "@type": "CourseInstance",
+      "courseMode": "online",
+      "courseWorkload": "PT1H"
+    }
+  },
+  "faqSchema": {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "localhostでHTTPSを試す方法は？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Let's Encryptは公開ドメインが必要です。ローカル開発では自己署名証明書（openssl req -x509 で生成）を使うか、mkcertツールでローカルCAを作成してください。本番と同じcertbotフローは公開ドメインが必要です。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "certbot --nginx で失敗します。",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "ドメインのDNS AレコードがサーバーIPを指しているか、ポート80が外部からアクセス可能か確認してください。Cloudflare等のプロキシを使っている場合はDNS only（グレーの雲）に一時変更が必要なことがあります。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "SSL終端とは何ですか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "nginxでHTTPSを復号し、バックエンドアプリにはHTTP（平文）で転送する構成です。証明書管理をnginxに集約でき、アプリ側のSSL設定が不要になるメリットがあります。社内ネットワーク内の通信は平文になる点に注意してください。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "証明書の有効期限が切れるとどうなりますか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "ブラウザに「接続はプライベートではありません」という警告が表示され、訪問者がサイトにアクセスできなくなります。certbot.timerによる自動更新を有効にし、renew --dry-run で定期確認してください。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "TLSv1.0/1.1は使うべきですか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "いいえ。セキュリティ上の理由からTLSv1.2以上のみ有効にしてください。ssl_protocols TLSv1.2 TLSv1.3; が現代の推奨設定です。古いクライアント（IE11等）との互換性が必要な場合のみ例外です。"
+        }
+      }
+    ]
+  }
+}

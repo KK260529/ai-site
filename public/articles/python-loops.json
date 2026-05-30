@@ -3,7 +3,7 @@
   "slug": "python-loops",
   "title": "for/while ループ",
   "summary": "Pythonのfor文とwhile文を使ったループ処理を解説します。range()関数・break・continue・enumerate()・zip()など、実践的なループの書き方を豊富なコード例で学びましょう。",
-  "body": "\n<h2>ループ（繰り返し処理）とは？</h2>\n<p>プログラムでは同じ処理を何度も繰り返す場面がよくあります。たとえば「1から100まで数字を順番に表示する」「リストの全要素に対して計算する」などです。これを一つ一つ手で書くのは非効率なので、「ループ（繰り返し処理）」を使います。</p>\n<p>Pythonには主に2種類のループがあります。</p>\n<ul>\n  <li><strong>for文：</strong>リストや範囲など、決まった回数・要素数だけ繰り返す</li>\n  <li><strong>while文：</strong>条件が真（True）の間ずっと繰り返す</li>\n</ul>\n\n<h2>for文の基本</h2>\n<p>for文はリスト・タプル・文字列・range()などのイテラブルオブジェクトの要素を順番に取り出して処理します。</p>\n<pre><code>fruits = [\"apple\", \"banana\", \"cherry\"]\n\nfor fruit in fruits:\n    print(fruit)\n\n# 出力:\n# apple\n# banana\n# cherry</code></pre>\n<p><code>for 変数名 in イテラブル:</code> という形で書きます。変数名は自由につけられますが、わかりやすい名前にしましょう。ループ本体はインデントで表します。</p>\n\n<h2>range()関数で数値のループ</h2>\n<p>指定した回数だけループするには <code>range()</code> 関数を使います。</p>\n<pre><code># range(終了値)：0から終了値-1まで\nfor i in range(5):\n    print(i)\n# 0, 1, 2, 3, 4\n\n# range(開始値, 終了値)：開始値から終了値-1まで\nfor i in range(1, 6):\n    print(i)\n# 1, 2, 3, 4, 5\n\n# range(開始値, 終了値, ステップ)：ステップずつ増加\nfor i in range(0, 10, 2):\n    print(i)\n# 0, 2, 4, 6, 8\n\n# 逆順（カウントダウン）\nfor i in range(5, 0, -1):\n    print(i)\n# 5, 4, 3, 2, 1</code></pre>\n\n<h3>合計を計算する例</h3>\n<pre><code># 1から100までの合計を計算\ntotal = 0\nfor i in range(1, 101):\n    total += i  # total = total + i の省略形\n\nprint(f\"1から100の合計: {total}\")  # 5050</code></pre>\n\n<h2>文字列のfor文</h2>\n<p>文字列もイテラブルなので、1文字ずつ取り出してループできます。</p>\n<pre><code>word = \"Python\"\nfor char in word:\n    print(char)\n# P, y, t, h, o, n（それぞれ1行ずつ）</code></pre>\n\n<h2>while文の基本</h2>\n<p>while文は条件式がTrueの間、ループを繰り返します。</p>\n<pre><code>count = 0\nwhile count &lt; 5:\n    print(f\"カウント: {count}\")\n    count += 1  # countを1増やす（これがないと無限ループになる！）\n\nprint(\"ループ終了\")\n# カウント: 0\n# カウント: 1\n# ...\n# カウント: 4\n# ループ終了</code></pre>\n<p><strong>重要：</strong> while文ではループの中で条件を変化させる処理を忘れると「無限ループ」になります。無限ループが発生したらCtrl + C で強制終了してください。</p>\n\n<h3>ユーザー入力を使ったwhileループ</h3>\n<pre><code>while True:\n    answer = input(\"終了しますか？(yes/no): \")\n    if answer == \"yes\":\n        print(\"終了します\")\n        break\n    else:\n        print(\"続けます...\")</code></pre>\n\n<h2>break文とcontinue文</h2>\n<p>ループの制御に使う2つの重要なキーワードを覚えましょう。</p>\n\n<h3>break：ループを途中で抜ける</h3>\n<pre><code>numbers = [1, 3, 7, 4, 8, 2, 9]\n\nfor num in numbers:\n    if num == 4:\n        print(\"4が見つかりました。ループを終了します。\")\n        break\n    print(num)\n# 1, 3, 7 と表示後「4が見つかりました...」でループ終了</code></pre>\n\n<h3>continue：現在の繰り返しをスキップ</h3>\n<pre><code># 偶数だけをスキップして奇数を表示\nfor i in range(1, 11):\n    if i % 2 == 0:\n        continue  # 偶数のときはスキップ\n    print(i)\n# 1, 3, 5, 7, 9</code></pre>\n\n<h2>enumerate()でインデックスと値を同時に取得</h2>\n<p>リストをループするとき、インデックス番号も一緒に欲しい場合は <code>enumerate()</code> を使います。</p>\n<pre><code>fruits = [\"apple\", \"banana\", \"cherry\"]\n\nfor index, fruit in enumerate(fruits):\n    print(f\"{index}: {fruit}\")\n# 0: apple\n# 1: banana\n# 2: cherry\n\n# 開始番号を1にしたい場合\nfor index, fruit in enumerate(fruits, start=1):\n    print(f\"{index}番目: {fruit}\")\n# 1番目: apple\n# 2番目: banana\n# 3番目: cherry</code></pre>\n\n<h2>zip()で複数のリストを同時にループ</h2>\n<p><code>zip()</code> 関数を使うと、複数のリストの要素を対応させながらループできます。</p>\n<pre><code>names = [\"田中\", \"鈴木\", \"佐藤\"]\nscores = [85, 92, 78]\n\nfor name, score in zip(names, scores):\n    print(f\"{name}さんの点数: {score}点\")\n# 田中さんの点数: 85点\n# 鈴木さんの点数: 92点\n# 佐藤さんの点数: 78点</code></pre>\n\n<h2>ネストしたループ（二重ループ）</h2>\n<p>ループの中にループを書くことができます。九九の表などによく使われます。</p>\n<pre><code>for i in range(1, 4):\n    for j in range(1, 4):\n        print(f\"{i} × {j} = {i * j}\")\n    print(\"---\")\n# 1 × 1 = 1\n# 1 × 2 = 2\n# 1 × 3 = 3\n# ---\n# 2 × 1 = 2\n# ...（続く）</code></pre>\n\n<h2>リスト内包表記（List Comprehension）</h2>\n<p>for文を使ってリストを生成する処理は、リスト内包表記でより簡潔に書けます。</p>\n<pre><code># 通常のfor文でリストを作る\nsquares = []\nfor i in range(1, 6):\n    squares.append(i ** 2)\nprint(squares)  # [1, 4, 9, 16, 25]\n\n# リスト内包表記で1行で書く\nsquares = [i ** 2 for i in range(1, 6)]\nprint(squares)  # [1, 4, 9, 16, 25]\n\n# 条件付きリスト内包表記（偶数のみ）\nevens = [i for i in range(1, 11) if i % 2 == 0]\nprint(evens)  # [2, 4, 6, 8, 10]</code></pre>\n",
+  "body": "<h2>結論：for は決まった回数・要素、while は条件が真の間繰り返す</h2>\n<p><code>for item in items:</code> でリスト等を走査し、<code>range()</code> で数値ループを書けます。<code>break</code> で脱出、<code>continue</code> でスキップ。while では条件を変えないと<strong>無限ループ</strong>になるので注意です。</p>\n\n<h2>ループ（繰り返し処理）とは？</h2>\n<p>プログラムでは同じ処理を何度も繰り返す場面がよくあります。たとえば「1から100まで数字を順番に表示する」「リストの全要素に対して計算する」などです。これを一つ一つ手で書くのは非効率なので、「ループ（繰り返し処理）」を使います。</p>\n<p>Pythonには主に2種類のループがあります。</p>\n<ul>\n  <li><strong>for文：</strong>リストや範囲など、決まった回数・要素数だけ繰り返す</li>\n  <li><strong>while文：</strong>条件が真（True）の間ずっと繰り返す</li>\n</ul>\n\n<h2>for文の基本</h2>\n<p>for文はリスト・タプル・文字列・range()などのイテラブルオブジェクトの要素を順番に取り出して処理します。</p>\n<pre><code>fruits = [\"apple\", \"banana\", \"cherry\"]\n\nfor fruit in fruits:\n    print(fruit)\n\n# 出力:\n# apple\n# banana\n# cherry</code></pre>\n<p><code>for 変数名 in イテラブル:</code> という形で書きます。変数名は自由につけられますが、わかりやすい名前にしましょう。ループ本体はインデントで表します。</p>\n\n<h2>range()関数で数値のループ</h2>\n<p>指定した回数だけループするには <code>range()</code> 関数を使います。</p>\n<pre><code># range(終了値)：0から終了値-1まで\nfor i in range(5):\n    print(i)\n# 0, 1, 2, 3, 4\n\n# range(開始値, 終了値)：開始値から終了値-1まで\nfor i in range(1, 6):\n    print(i)\n# 1, 2, 3, 4, 5\n\n# range(開始値, 終了値, ステップ)：ステップずつ増加\nfor i in range(0, 10, 2):\n    print(i)\n# 0, 2, 4, 6, 8\n\n# 逆順（カウントダウン）\nfor i in range(5, 0, -1):\n    print(i)\n# 5, 4, 3, 2, 1</code></pre>\n\n<h3>合計を計算する例</h3>\n<pre><code># 1から100までの合計を計算\ntotal = 0\nfor i in range(1, 101):\n    total += i  # total = total + i の省略形\n\nprint(f\"1から100の合計: {total}\")  # 5050</code></pre>\n\n<h2>文字列のfor文</h2>\n<p>文字列もイテラブルなので、1文字ずつ取り出してループできます。</p>\n<pre><code>word = \"Python\"\nfor char in word:\n    print(char)\n# P, y, t, h, o, n（それぞれ1行ずつ）</code></pre>\n\n<h2>while文の基本</h2>\n<p>while文は条件式がTrueの間、ループを繰り返します。</p>\n<pre><code>count = 0\nwhile count &lt; 5:\n    print(f\"カウント: {count}\")\n    count += 1  # countを1増やす（これがないと無限ループになる！）\n\nprint(\"ループ終了\")\n# カウント: 0\n# カウント: 1\n# ...\n# カウント: 4\n# ループ終了</code></pre>\n<p><strong>重要：</strong> while文ではループの中で条件を変化させる処理を忘れると「無限ループ」になります。無限ループが発生したらCtrl + C で強制終了してください。</p>\n\n<h3>ユーザー入力を使ったwhileループ</h3>\n<pre><code>while True:\n    answer = input(\"終了しますか？(yes/no): \")\n    if answer == \"yes\":\n        print(\"終了します\")\n        break\n    else:\n        print(\"続けます...\")</code></pre>\n\n<h2>break文とcontinue文</h2>\n<p>ループの制御に使う2つの重要なキーワードを覚えましょう。</p>\n\n<h3>break：ループを途中で抜ける</h3>\n<pre><code>numbers = [1, 3, 7, 4, 8, 2, 9]\n\nfor num in numbers:\n    if num == 4:\n        print(\"4が見つかりました。ループを終了します。\")\n        break\n    print(num)\n# 1, 3, 7 と表示後「4が見つかりました...」でループ終了</code></pre>\n\n<h3>continue：現在の繰り返しをスキップ</h3>\n<pre><code># 偶数だけをスキップして奇数を表示\nfor i in range(1, 11):\n    if i % 2 == 0:\n        continue  # 偶数のときはスキップ\n    print(i)\n# 1, 3, 5, 7, 9</code></pre>\n\n<h2>enumerate()でインデックスと値を同時に取得</h2>\n<p>リストをループするとき、インデックス番号も一緒に欲しい場合は <code>enumerate()</code> を使います。</p>\n<pre><code>fruits = [\"apple\", \"banana\", \"cherry\"]\n\nfor index, fruit in enumerate(fruits):\n    print(f\"{index}: {fruit}\")\n# 0: apple\n# 1: banana\n# 2: cherry\n\n# 開始番号を1にしたい場合\nfor index, fruit in enumerate(fruits, start=1):\n    print(f\"{index}番目: {fruit}\")\n# 1番目: apple\n# 2番目: banana\n# 3番目: cherry</code></pre>\n\n<h2>zip()で複数のリストを同時にループ</h2>\n<p><code>zip()</code> 関数を使うと、複数のリストの要素を対応させながらループできます。</p>\n<pre><code>names = [\"田中\", \"鈴木\", \"佐藤\"]\nscores = [85, 92, 78]\n\nfor name, score in zip(names, scores):\n    print(f\"{name}さんの点数: {score}点\")\n# 田中さんの点数: 85点\n# 鈴木さんの点数: 92点\n# 佐藤さんの点数: 78点</code></pre>\n\n<h2>ネストしたループ（二重ループ）</h2>\n<p>ループの中にループを書くことができます。九九の表などによく使われます。</p>\n<pre><code>for i in range(1, 4):\n    for j in range(1, 4):\n        print(f\"{i} × {j} = {i * j}\")\n    print(\"---\")\n# 1 × 1 = 1\n# 1 × 2 = 2\n# 1 × 3 = 3\n# ---\n# 2 × 1 = 2\n# ...（続く）</code></pre>\n\n<h2>リスト内包表記（List Comprehension）</h2>\n<p>for文を使ってリストを生成する処理は、リスト内包表記でより簡潔に書けます。</p>\n<pre><code># 通常のfor文でリストを作る\nsquares = []\nfor i in range(1, 6):\n    squares.append(i ** 2)\nprint(squares)  # [1, 4, 9, 16, 25]\n\n# リスト内包表記で1行で書く\nsquares = [i ** 2 for i in range(1, 6)]\nprint(squares)  # [1, 4, 9, 16, 25]\n\n# 条件付きリスト内包表記（偶数のみ）\nevens = [i for i in range(1, 11) if i % 2 == 0]\nprint(evens)  # [2, 4, 6, 8, 10]</code></pre>\n\n<h2>つまずきやすいポイント・失敗例</h2>\n<h3>失敗例：whileで count を増やし忘れる</h3>\n<p>ループ内で <code>count += 1</code> を忘れると止まりません。Ctrl+C で強制終了し、増加処理を追加しましょう。</p>\n<h3>失敗例：range(5) が 1〜5 だと思う</h3>\n<p><code>range(5)</code> は 0,1,2,3,4 です。終了値は<strong>含まれません</strong>。</p>\n<pre><code>for i in range(1, 6):\n    print(i)  # 1〜5\n\ntotal = 0\nfor i in range(1, 101):\n    total += i\nprint(total)  # 5050</code></pre>",
   "conclusion": "for文とwhile文はプログラミングの根幹をなす機能です。range()・break・continue・enumerate()・zip()を組み合わせることで、さまざまなループ処理が表現できます。リスト内包表記も覚えると一段とPythonらしいコードが書けるようになります。次のエピソードでは関数（def）を学び、コードの再利用性を高める方法を習得します。",
   "tags": [
     "python",
@@ -17,12 +17,12 @@
   "theme": "python - Python 入門",
   "status": "published",
   "createdAt": "2026-05-30T04:12:55.931Z",
-  "updatedAt": "2026-05-30T04:12:55.941Z",
+  "updatedAt": "2026-05-30T05:17:15.739Z",
   "publishedAt": "2026-05-30T04:12:55.931Z",
   "metaTitle": "Python for while ループ入門 | Python入門",
-  "metaDescription": "Python入門：for文・while文のループ処理を初心者向けにわかりやすく解説。range()・break・continue・enumerate()・zip()まで豊富なコード例付きで説明します。 図解・具体例つきで丁寧に解説します。",
+  "metaDescription": "Pythonのfor・whileループ、range()・break・continueを解説。無限ループやrange()の範囲など、初心者のつまずきポイントを失敗例付きで紹介します。",
   "ogTitle": "Python for/while ループ | Python入門",
-  "ogDescription": "【Python初心者向け】Pythonのforループとwhileループを初心者向けに解説。range()・break・continue・enumerate()など実践的な使い方を紹介します。 図解・具体例つきで丁寧に解説します。",
+  "ogDescription": "Pythonのforループとwhileループを初心者向けに解説。range()・break・continue・enumerate()など実践的な使い方を紹介します。",
   "knowledge": {
     "topic": "python",
     "courseId": "python",
@@ -40,6 +40,14 @@
     {
       "question": "リスト内包表記は常に使った方がいいですか？",
       "answer": "短くシンプルな場合は読みやすくなりますが、複雑な処理を詰め込むと逆に読みにくくなります。「1行で読んですぐ理解できる」ものだけリスト内包表記を使い、複雑な場合は通常のfor文を使うのがベストプラクティスです。"
+    },
+    {
+      "question": "プログラミング未経験でもPythonは学べますか？",
+      "answer": "はい。Pythonは文法が比較的シンプルで、エラーメッセージも読みやすい言語です。小さなプログラムから手を動かしながら進めましょう。"
+    },
+    {
+      "question": "エラーが出たときの対処法は？",
+      "answer": "エラーメッセージの最終行（例外名と説明）を読み、該当行のコードを確認してください。print() で変数の中身を表示するのも有効です。"
     }
   ],
   "nextEpisodeHint": "次回は関数（def）を学びます。処理をまとめて名前をつけ、何度でも呼び出せる関数の定義方法と、引数・戻り値・デフォルト引数・キーワード引数の使い方を解説します。",
@@ -52,9 +60,9 @@
         "@context": "https://schema.org",
         "@type": "TechArticle",
         "headline": "for/while ループ",
-        "description": "Python入門：for文・while文のループ処理を初心者向けにわかりやすく解説。range()・break・continue・enumerate()・zip()まで豊富なコード例付きで説明します。 図解・具体例つきで丁寧に解説します。",
+        "description": "Pythonのfor・whileループ、range()・break・continueを解説。無限ループやrange()の範囲など、初心者のつまずきポイントを失敗例付きで紹介します。",
         "datePublished": "2026-05-30T04:12:55.931Z",
-        "dateModified": "2026-05-30T04:12:55.941Z",
+        "dateModified": "2026-05-30T05:17:15.739Z",
         "author": {
           "@type": "Organization",
           "name": "StackShelf",
@@ -75,7 +83,7 @@
         },
         "image": "https://ai-site-iota-nine.vercel.app/og-default.svg",
         "inLanguage": "ja",
-        "wordCount": 2511,
+        "wordCount": 2861,
         "mainEntityOfPage": {
           "@type": "WebPage",
           "@id": "https://ai-site-iota-nine.vercel.app/article/python-loops"
@@ -162,6 +170,22 @@
               "@type": "Answer",
               "text": "短くシンプルな場合は読みやすくなりますが、複雑な処理を詰め込むと逆に読みにくくなります。「1行で読んですぐ理解できる」ものだけリスト内包表記を使い、複雑な場合は通常のfor文を使うのがベストプラクティスです。"
             }
+          },
+          {
+            "@type": "Question",
+            "name": "プログラミング未経験でもPythonは学べますか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "はい。Pythonは文法が比較的シンプルで、エラーメッセージも読みやすい言語です。小さなプログラムから手を動かしながら進めましょう。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "エラーが出たときの対処法は？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "エラーメッセージの最終行（例外名と説明）を読み、該当行のコードを確認してください。print() で変数の中身を表示するのも有効です。"
+            }
           }
         ]
       }
@@ -243,7 +267,51 @@
           "@type": "Answer",
           "text": "短くシンプルな場合は読みやすくなりますが、複雑な処理を詰め込むと逆に読みにくくなります。「1行で読んですぐ理解できる」ものだけリスト内包表記を使い、複雑な場合は通常のfor文を使うのがベストプラクティスです。"
         }
+      },
+      {
+        "@type": "Question",
+        "name": "プログラミング未経験でもPythonは学べますか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "はい。Pythonは文法が比較的シンプルで、エラーメッセージも読みやすい言語です。小さなプログラムから手を動かしながら進めましょう。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "エラーが出たときの対処法は？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "エラーメッセージの最終行（例外名と説明）を読み、該当行のコードを確認してください。print() で変数の中身を表示するのも有効です。"
+        }
       }
     ]
-  }
+  },
+  "internalLinkCandidates": [
+    {
+      "slug": "python-classes",
+      "title": "クラスの基礎（class, __init__, メソッド）",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "python-exceptions",
+      "title": "例外処理（try/except）",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "python-modules",
+      "title": "モジュールとパッケージ（import, pip install）",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "python-file-io",
+      "title": "ファイルの読み書き（open, read, write）",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "python-list-dict",
+      "title": "リストと辞書",
+      "reason": "同じ講座の関連回です"
+    }
+  ],
+  "nextAction": "次は関数（def）を学びます。処理をまとめて名前をつけ、何度でも呼び出せる関数の定義方法と、引数・戻り値・デフォルト引数・キーワード引数の使い方を解説します。"
 }

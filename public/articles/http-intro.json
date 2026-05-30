@@ -1,0 +1,317 @@
+{
+  "id": "art_http_http-intro",
+  "slug": "http-intro",
+  "title": "HTTPとは？Webの通信の仕組みを初心者向けに解説",
+  "summary": "HTTPとは何か、ブラウザとサーバーがどのように通信しているのかをゼロから解説します。Web開発・API連携の前提となるHTTPの基本概念を学びましょう。",
+  "body": "<h2>HTTPとは何か？</h2>\n<p>HTTP（HyperText Transfer Protocol：ハイパーテキスト転送プロトコル）とは、<strong>Web上でデータをやり取りするためのルール（プロトコル）</strong>です。ブラウザでWebサイトを開いたり、スマホアプリがサーバーからデータを取得したりするとき、裏側ではほぼ必ずHTTPが使われています。</p>\n<p>「プロトコル」とは、コンピューター同士が通信するときの「約束事」や「手順書」のことです。人間同士が会話するとき「日本語で話す」「相手の話を最後まで聞いてから返事する」といった暗黙のルールがあるように、Webでも「リクエストはこう送る」「レスポンスはこう返す」という決まりがHTTPに定義されています。</p>\n<p>HTTPは1991年にTim Berners-Lee（ティム・バーナーズ＝リー）がWorld Wide Web（WWW）とともに提案した仕組みで、現在もWebの基盤として使われ続けています。HTML/CSSでWebページを作る<a href=\"/articles/web-intro\">Web制作入門</a>を学んだ方にとって、HTTPは「作ったページがどうやってユーザーに届くのか」を理解するための次のステップです。</p>\n\n<h2>クライアント・サーバーモデル</h2>\n<p>HTTP通信の基本は<strong>クライアント・サーバーモデル</strong>です。クライアント（依頼する側）がサーバー（応答する側）に「データをください」とリクエストを送り、サーバーがそれに応じてデータを返す、という一対一のやり取りが基本形です。</p>\n<p>Webブラウザ（Chrome、Firefox、Safariなど）は典型的なHTTPクライアントです。あなたがURLを入力してEnterを押すと、ブラウザがサーバーにHTTPリクエストを送り、返ってきたHTMLやCSS、画像などを画面に表示します。スマホアプリやcurlコマンドもHTTPクライアントとして動作できます。</p>\n<p>サーバー側では、<a href=\"/articles/nginx-intro\">nginx</a>やApacheといったWebサーバーソフトウェアがHTTPリクエストを受け取り、適切なファイルやAPIの処理結果を返します。DockerでWebアプリを動かす<a href=\"/articles/docker-intro\">Docker入門</a>を学ぶと、コンテナ内のサーバーがHTTPで応答する仕組みがより具体的にイメージできるでしょう。</p>\n<pre><code># ブラウザのアドレスバーに入力する例\nhttps://example.com/articles/http-intro\n\n# 内部的には次のような流れが起きている\n# 1. DNSで example.com のIPアドレスを調べる\n# 2. TCP接続を確立する\n# 3. HTTPリクエストを送信する\n# 4. サーバーからHTTPレスポンスを受け取る\n# 5. ブラウザがHTMLを解釈して表示する</code></pre>\n\n<h2>URLの構造を理解する</h2>\n<p>HTTP通信の宛先は<strong>URL（Uniform Resource Locator）</strong>で指定します。URLを分解して理解すると、HTTPの仕組みがより明確になります。</p>\n<pre><code>https://api.example.com:443/v1/users?page=1#profile\n│      │               │   │         │         │\n│      │               │   │         │         └─ フラグメント（ページ内位置）\n│      │               │   │         └─ クエリパラメータ（?以降）\n│      │               │   └─ パス（リソースの場所）\n│      │               └─ ポート番号（省略時は80/443）\n│      └─ ホスト名（サーバーの住所）\n└─ スキーム（http または https）</code></pre>\n<p><strong>スキーム</strong>は通信方式を表します。<code>http://</code> は暗号化なし、<code>https://</code> はTLSで暗号化された通信です（詳しくは第6回で解説します）。<strong>ホスト名</strong>はサーバーのドメイン名またはIPアドレス、<strong>パス</strong>はサーバー上のリソースの場所を示します。</p>\n<p><strong>クエリパラメータ</strong>（<code>?key=value</code>）は、検索条件やページ番号など追加情報を渡すときに使います。例えば <code>/search?q=HTTP&amp;page=2</code> は「HTTPで検索して2ページ目を表示」という意味になります。</p>\n\n<h2>HTTP通信の流れ：リクエストとレスポンス</h2>\n<p>HTTP通信は常に「リクエスト → レスポンス」のペアで行われます。クライアントが先にリクエストを送り、サーバーがそれに対してレスポンスを返す、という一方向の流れです（HTTP/1.1まではこのモデルが基本でした）。</p>\n<p><strong>HTTPリクエスト</strong>には次の情報が含まれます。</p>\n<ul>\n  <li><strong>リクエスト行</strong>：メソッド（GETなど）、パス、HTTPバージョン</li>\n  <li><strong>ヘッダー</strong>：Content-Type、User-Agent、Cookieなどのメタ情報</li>\n  <li><strong>ボディ</strong>：POSTなどで送るデータ（GETには通常なし）</li>\n</ul>\n<p><strong>HTTPレスポンス</strong>には次の情報が含まれます。</p>\n<ul>\n  <li><strong>ステータス行</strong>：HTTPバージョン、ステータスコード（200、404など）、理由フレーズ</li>\n  <li><strong>ヘッダー</strong>：Content-Type、Cache-Controlなど</li>\n  <li><strong>ボディ</strong>：HTML、JSON、画像データなどの本体</li>\n</ul>\n<p>第2回以降で、これらの構造をより詳しく見ていきます。今は「リクエストとレスポンスのペアで通信する」という大枠を押さえておきましょう。</p>\n\n<h2>HTTPとHTML・APIの関係</h2>\n<p>HTTPは「データの運搬手段」、HTMLやJSONは「運ばれる中身」です。Webページを表示するとき、HTTPレスポンスのボディにHTMLが入っています。API連携では、ボディにJSON形式のデータが入っていることが多いです。</p>\n<p>バックエンド開発では、<a href=\"/articles/python-intro\">Python</a>やNode.js、JavaなどでAPIサーバーを作り、HTTPリクエストを受け取って<a href=\"/articles/sql-intro\">SQL</a>でデータベースからデータを取得し、JSONとして返す、という流れが一般的です。HTTPを理解しておくと、フロントエンドとバックエンドの境界が明確になり、開発全体の見通しが良くなります。</p>\n\n<h2>HTTPのバージョン：1.1、2、3</h2>\n<p>HTTPには複数のバージョンが存在します。現場で最もよく見るのは次の3つです。</p>\n<ul>\n  <li><strong>HTTP/1.1</strong>：1997年策定。1接続あたり1リクエストが基本だったが、Keep-Aliveで接続を再利用可能に。現在も広く使われている</li>\n  <li><strong>HTTP/2</strong>：2015年策定。1つのTCP接続で複数リクエストを並列処理（多重化）。ヘッダー圧縮で高速化</li>\n  <li><strong>HTTP/3</strong>：2022年標準化。UDPベースのQUICプロトコルを使用。接続確立が速く、モバイル環境に強い</li>\n</ul>\n<p>初学者の段階では、HTTP/1.1の基本概念（リクエスト・レスポンス・メソッド・ステータスコード）を押さえれば十分です。バージョンの違いはパフォーマンスの話であり、API設計やデバッグの基本は共通しています。</p>\n\n<h2>なぜHTTPを学ぶべきか</h2>\n<p>Web開発、スマホアプリ開発、インフラ運用——どの分野に進んでもHTTPの知識は必須です。具体的には次のような場面で役立ちます。</p>\n<ul>\n  <li><strong>API連携</strong>：外部サービスのAPIを呼び出すとき、リクエストの組み立て方とレスポンスの読み方がわかる</li>\n  <li><strong>バグ調査</strong>：「404 Not Found」「500 Internal Server Error」の意味がわかり、原因を切り分けられる</li>\n  <li><strong>セキュリティ</strong>：HTTPS、Cookie、認証トークンの仕組みを理解し、安全なアプリを作れる</li>\n  <li><strong>パフォーマンス</strong>：キャッシュヘッダーの設定でページ表示を高速化できる</li>\n</ul>\n<p>HTML/CSSだけでは「見た目」は作れても、「データのやり取り」は理解できません。HTTPを学ぶことで、Web開発の全体像——フロント・バックエンド・インフラ——がつながって見えるようになります。</p>\n\n<h2>まとめ：HTTPはWebの「共通言語」</h2>\n<p>HTTPはWeb上でデータをやり取りするためのプロトコル（約束事）です。クライアントがサーバーにリクエストを送り、サーバーがレスポンスを返す——このシンプルなモデルが、Webページの表示からAPI連携まで、あらゆるWeb通信の基盤になっています。URLの構造、リクエストとレスポンスの概念を理解したら、次回は実際のHTTPメッセージの中身を詳しく見ていきましょう。</p>",
+  "conclusion": "HTTPはWeb上でデータをやり取りするためのプロトコルで、クライアントがサーバーにリクエストを送りレスポンスを受け取るモデルが基本です。URLはスキーム・ホスト・パス・クエリで構成され、HTMLやJSONなどのデータはHTTPレスポンスのボディとして運ばれます。Web開発・API連携の前提知識として、HTTPの基本概念を押さえておきましょう。",
+  "tags": [
+    "HTTP",
+    "Web",
+    "API",
+    "初心者",
+    "クライアントサーバー",
+    "Web開発入門"
+  ],
+  "category": "HTTP",
+  "theme": "http - HTTP・Web API入門",
+  "status": "published",
+  "createdAt": "2026-05-30T05:14:33.256Z",
+  "updatedAt": "2026-05-30T05:14:33.267Z",
+  "publishedAt": "2026-05-30T05:14:33.256Z",
+  "metaTitle": "HTTPとは？Webの通信の仕組みを初心者向けに解説【HTTP入門】｜HTTP入門 | StackShelf",
+  "metaDescription": "【HTTP初心者向け】HTTPとは何かを初心者向けにわかりやすく解説。クライアント・サーバーモデル、URLの構造、HTTP通信の流れを具体例で説明します。Web API学習の第一歩。 図解・具体例つきで丁寧に解説します。",
+  "ogTitle": "HTTPとは？Webの通信の仕組みを初心者向けに解説",
+  "ogDescription": "【HTTP初心者向け】【HTTP初心者向け】ブラウザとサーバーがどうやってデータをやり取りしているのか、HTTPの基本をゼロから丁寧に解説します。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
+  "knowledge": {
+    "topic": "http",
+    "courseId": "http",
+    "episode": 1
+  },
+  "faq": [
+    {
+      "question": "HTTPとHTTPSの違いは何ですか？",
+      "answer": "HTTPは暗号化されていない通信方式で、HTTPSはHTTPにTLS（暗号化）を加えた安全な通信方式です。現在のWebではパスワード入力や決済など個人情報を扱うページはHTTPSが必須で、多くのサイトがHTTPSに移行しています。詳しくは第6回で解説します。"
+    },
+    {
+      "question": "HTTPはプログラミング言語ですか？",
+      "answer": "いいえ、HTTPはプログラミング言語ではなく通信プロトコル（約束事）です。PythonやJavaScriptなどのプログラミング言語を使ってHTTPリクエストを送ったり、HTTPサーバーを作ったりしますが、HTTP自体はデータの送受信ルールを定めた仕様書に近いものです。"
+    },
+    {
+      "question": "Webサイトを見るだけならHTTPを学ぶ必要はありますか？",
+      "answer": "HTML/CSSだけで静的なWebページを作る分には必須ではありません。ただし、フォーム送信・API連携・ログイン機能・Webアプリ開発に進む段階ではHTTPの理解が不可欠です。早めに学んでおくと、後のバックエンド学習がスムーズになります。"
+    },
+    {
+      "question": "HTTP/1.1とHTTP/2はどちらを使えばいいですか？",
+      "answer": "サーバーとクライアントの両方が対応していればHTTP/2が自動的に使われることが多いです。開発者が意識する必要は通常ありません。API設計やデバッグの基本（メソッド・ステータスコード・ヘッダー）はHTTP/1.1でもHTTP/2でも同じです。"
+    },
+    {
+      "question": "HTTPを学ぶのに必要な前提知識はありますか？",
+      "answer": "HTML/CSSの基礎（Webページの構造）と、ターミナルやブラウザの基本的な操作がわかると理解が早まります。プログラミング経験は必須ではありませんが、Python入門などで簡単なスクリプトを書いたことがあると、API連携の章でより実感を持って学べます。"
+    }
+  ],
+  "nextEpisodeHint": "次回は、HTTPリクエストとレスポンスの内部構造——リクエスト行・ステータス行・ヘッダー・ボディ——を実際のメッセージ例を見ながら詳しく解説します。",
+  "nextAction": "次回はHTTPリクエストとレスポンスの内部構造を、実際のメッセージ例を見ながら詳しく解説します。リクエスト行・ステータス行・ヘッダー・ボディの4要素を理解しましょう。",
+  "internalLinkCandidates": [
+    {
+      "slug": "http-request-response",
+      "title": "HTTPリクエストとレスポンスの構造を完全理解する",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "web-intro",
+      "title": "Webサイトの仕組みとは？HTML・CSS・JavaScriptをゼロから理解する",
+      "reason": "Web制作の基礎を学ぶとHTTPの理解が深まります"
+    },
+    {
+      "slug": "docker-intro",
+      "title": "Dockerとは？仮想マシンとの違いをわかりやすく解説",
+      "reason": "コンテナ内のWebサーバーがHTTPで応答する仕組みと関連します"
+    },
+    {
+      "slug": "nginx-intro",
+      "title": "nginxとは？Apacheとの違い",
+      "reason": "WebサーバーがHTTPリクエストを受け取る役割を担います"
+    },
+    {
+      "slug": "python-intro",
+      "title": "Pythonとは？プログラミング言語の基礎をゼロから学ぶ",
+      "reason": "バックエンドAPI開発でHTTPを使う際の言語として関連します"
+    }
+  ],
+  "ogImage": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+  "canonical": "https://ai-site-iota-nine.vercel.app/article/http-intro",
+  "jsonLd": {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@context": "https://schema.org",
+        "@type": "TechArticle",
+        "headline": "HTTPとは？Webの通信の仕組みを初心者向けに解説",
+        "description": "【HTTP初心者向け】HTTPとは何かを初心者向けにわかりやすく解説。クライアント・サーバーモデル、URLの構造、HTTP通信の流れを具体例で説明します。Web API学習の第一歩。 図解・具体例つきで丁寧に解説します。",
+        "datePublished": "2026-05-30T05:14:33.256Z",
+        "dateModified": "2026-05-30T05:14:33.267Z",
+        "author": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
+        },
+        "image": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+        "inLanguage": "ja",
+        "wordCount": 3184,
+        "mainEntityOfPage": {
+          "@type": "WebPage",
+          "@id": "https://ai-site-iota-nine.vercel.app/article/http-intro"
+        },
+        "keywords": "HTTP, Web, API, 初心者, クライアントサーバー, Web開発入門",
+        "articleSection": "HTTP",
+        "url": "https://ai-site-iota-nine.vercel.app/article/http-intro",
+        "learningResourceType": "tutorial",
+        "educationalLevel": "beginner"
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "ホーム",
+            "item": "https://ai-site-iota-nine.vercel.app/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "http",
+            "item": "https://ai-site-iota-nine.vercel.app/knowledge/http"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "HTTP・Web API入門",
+            "item": "https://ai-site-iota-nine.vercel.app/course/http/http"
+          },
+          {
+            "@type": "ListItem",
+            "position": 4,
+            "name": "HTTPとは？Webの通信の仕組みを初心者向けに解説",
+            "item": "https://ai-site-iota-nine.vercel.app/article/http-intro"
+          }
+        ]
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "Course",
+        "name": "HTTP・Web API入門",
+        "description": "ブラウザとサーバーの通信、REST API、HTTPSを10ステップで理解。バックエンド学習の前提となるHTTPを具体例で学びます。",
+        "provider": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app"
+        },
+        "url": "https://ai-site-iota-nine.vercel.app/course/http/http",
+        "inLanguage": "ja",
+        "educationalLevel": "beginner",
+        "hasCourseInstance": {
+          "@type": "CourseInstance",
+          "courseMode": "online",
+          "courseWorkload": "PT1H"
+        }
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "HTTPとHTTPSの違いは何ですか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "HTTPは暗号化されていない通信方式で、HTTPSはHTTPにTLS（暗号化）を加えた安全な通信方式です。現在のWebではパスワード入力や決済など個人情報を扱うページはHTTPSが必須で、多くのサイトがHTTPSに移行しています。詳しくは第6回で解説します。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "HTTPはプログラミング言語ですか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "いいえ、HTTPはプログラミング言語ではなく通信プロトコル（約束事）です。PythonやJavaScriptなどのプログラミング言語を使ってHTTPリクエストを送ったり、HTTPサーバーを作ったりしますが、HTTP自体はデータの送受信ルールを定めた仕様書に近いものです。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Webサイトを見るだけならHTTPを学ぶ必要はありますか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "HTML/CSSだけで静的なWebページを作る分には必須ではありません。ただし、フォーム送信・API連携・ログイン機能・Webアプリ開発に進む段階ではHTTPの理解が不可欠です。早めに学んでおくと、後のバックエンド学習がスムーズになります。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "HTTP/1.1とHTTP/2はどちらを使えばいいですか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "サーバーとクライアントの両方が対応していればHTTP/2が自動的に使われることが多いです。開発者が意識する必要は通常ありません。API設計やデバッグの基本（メソッド・ステータスコード・ヘッダー）はHTTP/1.1でもHTTP/2でも同じです。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "HTTPを学ぶのに必要な前提知識はありますか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "HTML/CSSの基礎（Webページの構造）と、ターミナルやブラウザの基本的な操作がわかると理解が早まります。プログラミング経験は必須ではありませんが、Python入門などで簡単なスクリプトを書いたことがあると、API連携の章でより実感を持って学べます。"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "breadcrumb": {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "ホーム",
+        "item": "https://ai-site-iota-nine.vercel.app/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "http",
+        "item": "https://ai-site-iota-nine.vercel.app/knowledge/http"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "HTTP・Web API入門",
+        "item": "https://ai-site-iota-nine.vercel.app/course/http/http"
+      },
+      {
+        "@type": "ListItem",
+        "position": 4,
+        "name": "HTTPとは？Webの通信の仕組みを初心者向けに解説",
+        "item": "https://ai-site-iota-nine.vercel.app/article/http-intro"
+      }
+    ]
+  },
+  "courseSchema": {
+    "@context": "https://schema.org",
+    "@type": "Course",
+    "name": "HTTP・Web API入門",
+    "description": "ブラウザとサーバーの通信、REST API、HTTPSを10ステップで理解。バックエンド学習の前提となるHTTPを具体例で学びます。",
+    "provider": {
+      "@type": "Organization",
+      "name": "StackShelf",
+      "url": "https://ai-site-iota-nine.vercel.app"
+    },
+    "url": "https://ai-site-iota-nine.vercel.app/course/http/http",
+    "inLanguage": "ja",
+    "educationalLevel": "beginner",
+    "hasCourseInstance": {
+      "@type": "CourseInstance",
+      "courseMode": "online",
+      "courseWorkload": "PT1H"
+    }
+  },
+  "faqSchema": {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "HTTPとHTTPSの違いは何ですか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "HTTPは暗号化されていない通信方式で、HTTPSはHTTPにTLS（暗号化）を加えた安全な通信方式です。現在のWebではパスワード入力や決済など個人情報を扱うページはHTTPSが必須で、多くのサイトがHTTPSに移行しています。詳しくは第6回で解説します。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "HTTPはプログラミング言語ですか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "いいえ、HTTPはプログラミング言語ではなく通信プロトコル（約束事）です。PythonやJavaScriptなどのプログラミング言語を使ってHTTPリクエストを送ったり、HTTPサーバーを作ったりしますが、HTTP自体はデータの送受信ルールを定めた仕様書に近いものです。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Webサイトを見るだけならHTTPを学ぶ必要はありますか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "HTML/CSSだけで静的なWebページを作る分には必須ではありません。ただし、フォーム送信・API連携・ログイン機能・Webアプリ開発に進む段階ではHTTPの理解が不可欠です。早めに学んでおくと、後のバックエンド学習がスムーズになります。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "HTTP/1.1とHTTP/2はどちらを使えばいいですか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "サーバーとクライアントの両方が対応していればHTTP/2が自動的に使われることが多いです。開発者が意識する必要は通常ありません。API設計やデバッグの基本（メソッド・ステータスコード・ヘッダー）はHTTP/1.1でもHTTP/2でも同じです。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "HTTPを学ぶのに必要な前提知識はありますか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "HTML/CSSの基礎（Webページの構造）と、ターミナルやブラウザの基本的な操作がわかると理解が早まります。プログラミング経験は必須ではありませんが、Python入門などで簡単なスクリプトを書いたことがあると、API連携の章でより実感を持って学べます。"
+        }
+      }
+    ]
+  }
+}

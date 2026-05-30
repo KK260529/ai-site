@@ -1,0 +1,316 @@
+{
+  "id": "art_markdown_markdown-docs-structure",
+  "slug": "markdown-docs-structure",
+  "title": "技術ドキュメントの構成設計｜読まれるMarkdownの組み立て方",
+  "summary": "設計書・手順書・ADRの役割分担、docsディレクトリ構成、読者別の情報設計と、肥大化・重複などの失敗例を解説します。",
+  "body": "<h2>結論：1ファイルに全部書かず、読者と更新頻度で分割する</h2>\n<p>Markdownの記法が書けるようになっても、<strong>1つのREADMEに全部詰め込む</strong>と誰も読まなくなります。技術ドキュメントの構成設計では、「誰が・いつ・何を知りたいか」でファイルを分け、READMEは入口、詳細は <code>docs/</code>、意思決定の履歴は <code>adr/</code> のように役割を固定します。結論から言うと、<strong>更新頻度と読者が同じものだけを同じファイルに置く</strong>のが保守しやすいドキュメントの原則です。</p>\n\n<h2>ドキュメントの種類と役割</h2>\n<p>中小チームでも次の4種類に分けると迷いが減ります。</p>\n<ul>\n  <li><strong>README</strong>：初見の利用者・開発者が5分で動かすための入口</li>\n  <li><strong>How-to（手順書）</strong>：デプロイ、障害対応、開発環境構築など手順固定の作業</li>\n  <li><strong>Reference（参照）</strong>：環境変数一覧、APIエンドポイント、CLIオプション</li>\n  <li><strong>Explanation（解説）</strong>：アーキテクチャ、設計思想、トレードオフ</li>\n</ul>\n<p>Diátaxis（ディアタクシス）というフレームワークでこの4分類が整理されています。検索ニーズは「やり方」「一覧」「なぜそうなったか」で異なるため、混在させないと検索性が上がります。</p>\n\n<h2>ディレクトリ構成の例</h2>\n<pre><code>project/\n  README.md\n  CONTRIBUTING.md\n  docs/\n    index.md          # ドキュメントの目次\n    getting-started.md\n    configuration.md\n    api/\n      overview.md\n      endpoints.md\n  adr/\n    0001-use-sqlite.md\n    0002-auth-strategy.md</code></pre>\n<p><code>docs/index.md</code> から各ページへリンクし、READMEには「詳細は docs を参照」と一行書く形がよく使われます。静的サイトジェネレーター（MkDocs、Docusaurus、VitePress）を使う場合も、この構造をそのまま活かせます。</p>\n\n<h3>失敗例：docsがコピペの墓場</h3>\n<p>ConfluenceやWordから一度だけ持ってきた長文が、更新されずに残るパターンです。READMEだけ最新で、docs内は古いコマンドのまま、という<strong>ドキュメント負債</strong>になります。対策は、手順書を短く保ち、コマンドはCIやスクリプトと一緒にレビュー対象にすることです。</p>\n\n<h2>ADR（Architecture Decision Record）</h2>\n<p>「なぜSQLiteにしたか」「なぜRESTにしたか」はREADMEに書くと長くなりすぎます。ADRは1決定1ファイルで、次のテンプレートが一般的です。</p>\n<pre><code># ADR 0001: データベースにSQLiteを採用\n\n## 状況\n小規模チーム、単一ノードデプロイ\n\n## 決定\n初期リリースはSQLiteを使用する\n\n## 結果\n運用コストは低いが、水平スケール時に再検討が必要\n\n## ステータス\n承認（2024-03-01）</code></pre>\n<p>番号を付けて時系列に並べると、後から入ったメンバーが設計の経緯を追えます。却下した案も簡潔に残すと、同じ議論の繰り返しを防げます。</p>\n\n<h2>読者別の書き分け</h2>\n<p>同じ機能でも、利用者向けと開発者向けで必要な情報は違います。</p>\n<ul>\n  <li><strong>利用者</strong>：インストール、設定の最小例、トラブル時のFAQ</li>\n  <li><strong>開発者</strong>：ディレクトリ構成、テストの走らせ方、コーディング規約</li>\n  <li><strong>運用者</strong>：デプロイ、ログの見方、バックアップ、SLA</li>\n</ul>\n<p>見出しの先頭に「開発者向け」と明示するか、ファイル名に <code>dev-</code> <code>ops-</code> を付けると、誤読が減ります。</p>\n\n<h2>見出しと命名の規約</h2>\n<p>チームで次を決めておくと、複数人執筆でも統一感が出ます。</p>\n<ol>\n  <li>見出しレベルは # をREADMEに1つ、以降 ## から</li>\n  <li>ファイル名は英小文字＋ハイフン（<code>getting-started.md</code>）</li>\n  <li>日付はISO形式（2024-05-30）で書く</li>\n  <li>用語集（glossary.md）に略語を集約する</li>\n</ol>\n\n<h2>バージョンと製品の対応</h2>\n<p>「v2から設定が変わった」は、本文中に <strong>Since v2.0</strong> のように書くか、バージョン別フォルダ <code>docs/v2/</code> を切ります。古いバージョン用ドキュメントを残す場合は、先頭に「このページは旧バージョン向け」と警告を入れ、現行版へのリンクを置きます。</p>\n\n<h2>用語集（glossary）の置き方</h2>\n<p>略語が多いドメイン（API、インフラ、機械学習）では、<code>docs/glossary.md</code> に用語と定義を集約します。本文では初出時にリンクし、2回目以降は略語のみで済ませます。用語の揺れ（「ユーザー」「利用者」）を防ぐ効果もあり、複数人執筆のプロジェクトでは早めに用意するとよいでしょう。</p>\n\n<h2>レビューとメンテナンスの仕組み</h2>\n<p>コードのPRに「ドキュメント更新」をチェックリストに含める文化が、陳腐化を防ぐ最も効く手段です。機能追加PRで <code>docs/</code> またはREADMEの差分がゼロなら、レビュアーが確認質問をするだけでも効果があります。四半期ごとに「リンク切れチェック」「主要コマンドの手動実行」をカレンダーに入れるチームもあります。</p>\n\n<h2>CHANGELOGとREADMEの役割分担</h2>\n<p>バージョンごとの変更点は <code>CHANGELOG.md</code> に時系列で書き、READMEには「最新版の使い方」だけを残します。利用者はREADME、既存利用者のアップグレードはCHANGELOGを読む、という導線が明確になります。破壊的変更（APIの削除など）はCHANGELOGの先頭に目立つよう書き、READMEの「移行ガイド」から該当セクションへリンクすると親切です。semverに従うチームでは、CHANGELOGの書式もテンプレート化しておくと漏れが減ります。</p>\n\n<h2>障害対応Runbookの例</h2>\n<p>運用向けHow-toでは、症状・確認コマンド・暫定対応・恒久対応・連絡先を固定見出しにします。長文化したRunbookは1障害1ファイルに分割し、indexからリンクします。深夜のオンコールで検索しやすいよう、見出しには障害名（「DB接続タイムアウト」）をそのまま使うのが現場では好まれます。</p>\n\n<h2>まとめ</h2>\n<p>構成設計は、Markdown記法より<strong>情報の分割と更新ルール</strong>が本質です。READMEは入口、手順・参照・解説・ADRで役割を分け、読者とバージョンを明示し、PRレビューでドキュメントを同時に更新する。次回は、執筆を支えるエディタ・プレビュー・Lintツールを扱います。</p>",
+  "conclusion": "技術ドキュメントはREADME・How-to・Reference・Explanation・ADRのように役割で分割し、更新頻度と読者が同じものを同じファイルにまとめます。docs/とadr/のディレクトリ構成を決め、陳腐化した長文のコピペだけが残る状態を避け、PRでドキュメント更新を必須にする運用が効果的です。",
+  "tags": [
+    "Markdown",
+    "技術ドキュメント",
+    "設計書",
+    "ADR",
+    "情報設計"
+  ],
+  "category": "Markdown",
+  "theme": "markdown - Markdown & 技術ドキュメント入門",
+  "status": "published",
+  "createdAt": "2026-05-30T05:14:17.653Z",
+  "updatedAt": "2026-05-30T05:15:45.281Z",
+  "publishedAt": "2026-05-30T05:14:17.653Z",
+  "metaTitle": "技術ドキュメントの構成設計【Markdown】｜Markdown入門 | StackShelf",
+  "metaDescription": "Markdownで設計書・運用手順・ADRを整理する方法、docsフォルダ構成、読者別の書き分けとドキュメント負債の防ぎ方を解説します。",
+  "ogTitle": "技術ドキュメントの構成設計",
+  "ogDescription": "読まれるMarkdownドキュメントのディレクトリ設計と情報の分け方を具体例で解説します。",
+  "knowledge": {
+    "topic": "markdown",
+    "courseId": "markdown",
+    "episode": 6
+  },
+  "faq": [
+    {
+      "question": "Wordの設計書はどう扱えばよいですか？",
+      "answer": "承認済みの正式版がWordの組織もあります。その場合はPDFやWordを正とし、開発者向けの最新手順だけMarkdownでリポジトリに置く二層運用も現実的です。二重管理になるため、どちらを正とするかを決めてください。"
+    },
+    {
+      "question": "ADRは小規模プロジェクトでも必要？",
+      "answer": "必須ではありませんが、2人以上で「なぜそうしたか」を後から争うなら、短いADR1枚から始める価値があります。READMEに長文で書くより追跡しやすいです。"
+    },
+    {
+      "question": "docsフォルダが肥大化したら？",
+      "answer": "古いページに非推奨を明記し、indexから外す。統合できるHow-toは1つにまとめ、参照系は自動生成（OpenAPIからAPIドキュメント生成など）を検討してください。"
+    },
+    {
+      "question": "NotionとGitのdocsは併用できる？",
+      "answer": "できますが、正（ソース・オブ・トゥルース）をどちらにするか決めないと内容がずれます。コードに近い手順はGit、人事・営業向けはNotion、のように役割分担するチームが多いです。"
+    },
+    {
+      "question": "日本語と英語のドキュメントを分けるべき？",
+      "answer": "利用者層に応じて分けます。ファイル名に .ja.md を付ける、または docs/ja/ と docs/en/ に分ける方法があります。相互リンクで対応関係を示すと親切です。"
+    }
+  ],
+  "nextEpisodeHint": "次回は、VS CodeのMarkdownプレビュー、markdownlint、Prettier、静的サイトジェネレーターなど執筆・品質ツールを紹介します。",
+  "nextAction": "架空プロジェクトで README.md と docs/getting-started.md の2ファイル構成を作り、READMEからdocsへリンクし、それぞれの想定読者（利用者/開発者）を見出しで明示してください。",
+  "internalLinkCandidates": [
+    {
+      "slug": "markdown-intro",
+      "title": "Markdownとは？技術文書を書く理由と全体像",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "markdown-practice",
+      "title": "実践：プロジェクトREADMEを一から作る｜Markdown総仕上げ",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "markdown-tools",
+      "title": "エディタ・プレビュー・Lint｜Markdown執筆を効率化するツール",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "markdown-github-readme",
+      "title": "GitHub READMEの書き方｜公開リポジトリの顔を整える",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "markdown-code-tables",
+      "title": "コードブロックと表｜Markdownで技術内容を正確に書く",
+      "reason": "同じ講座の関連回です"
+    }
+  ],
+  "ogImage": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+  "canonical": "https://ai-site-iota-nine.vercel.app/article/markdown-docs-structure",
+  "jsonLd": {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@context": "https://schema.org",
+        "@type": "TechArticle",
+        "headline": "技術ドキュメントの構成設計｜読まれるMarkdownの組み立て方",
+        "description": "【Markdown初心者向け】Markdownで設計書・運用手順・ADRを整理する方法、docsフォルダ構成、読者別の書き分けとドキュメント負債の防ぎ方を解説します。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
+        "datePublished": "2026-05-30T05:14:17.653Z",
+        "dateModified": "2026-05-30T05:15:45.281Z",
+        "author": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
+        },
+        "image": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+        "inLanguage": "ja",
+        "wordCount": 2528,
+        "mainEntityOfPage": {
+          "@type": "WebPage",
+          "@id": "https://ai-site-iota-nine.vercel.app/article/markdown-docs-structure"
+        },
+        "keywords": "Markdown, 技術ドキュメント, 設計書, ADR, 情報設計",
+        "articleSection": "Markdown",
+        "url": "https://ai-site-iota-nine.vercel.app/article/markdown-docs-structure",
+        "learningResourceType": "tutorial",
+        "educationalLevel": "beginner"
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "ホーム",
+            "item": "https://ai-site-iota-nine.vercel.app/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "markdown",
+            "item": "https://ai-site-iota-nine.vercel.app/knowledge/markdown"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "Markdown & 技術ドキュメント入門",
+            "item": "https://ai-site-iota-nine.vercel.app/course/markdown/markdown"
+          },
+          {
+            "@type": "ListItem",
+            "position": 4,
+            "name": "技術ドキュメントの構成設計｜読まれるMarkdownの組み立て方",
+            "item": "https://ai-site-iota-nine.vercel.app/article/markdown-docs-structure"
+          }
+        ]
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "Course",
+        "name": "Markdown & 技術ドキュメント入門",
+        "description": "README・設計書・ブログに使えるMarkdownを8ステップで習得。日本語の体系的入門が少ないテーマを、具体例と失敗例つきで学びます。",
+        "provider": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app"
+        },
+        "url": "https://ai-site-iota-nine.vercel.app/course/markdown/markdown",
+        "inLanguage": "ja",
+        "educationalLevel": "beginner",
+        "hasCourseInstance": {
+          "@type": "CourseInstance",
+          "courseMode": "online",
+          "courseWorkload": "PT1H"
+        }
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "Wordの設計書はどう扱えばよいですか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "承認済みの正式版がWordの組織もあります。その場合はPDFやWordを正とし、開発者向けの最新手順だけMarkdownでリポジトリに置く二層運用も現実的です。二重管理になるため、どちらを正とするかを決めてください。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "ADRは小規模プロジェクトでも必要？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "必須ではありませんが、2人以上で「なぜそうしたか」を後から争うなら、短いADR1枚から始める価値があります。READMEに長文で書くより追跡しやすいです。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "docsフォルダが肥大化したら？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "古いページに非推奨を明記し、indexから外す。統合できるHow-toは1つにまとめ、参照系は自動生成（OpenAPIからAPIドキュメント生成など）を検討してください。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "NotionとGitのdocsは併用できる？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "できますが、正（ソース・オブ・トゥルース）をどちらにするか決めないと内容がずれます。コードに近い手順はGit、人事・営業向けはNotion、のように役割分担するチームが多いです。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "日本語と英語のドキュメントを分けるべき？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "利用者層に応じて分けます。ファイル名に .ja.md を付ける、または docs/ja/ と docs/en/ に分ける方法があります。相互リンクで対応関係を示すと親切です。"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "breadcrumb": {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "ホーム",
+        "item": "https://ai-site-iota-nine.vercel.app/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "markdown",
+        "item": "https://ai-site-iota-nine.vercel.app/knowledge/markdown"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "Markdown & 技術ドキュメント入門",
+        "item": "https://ai-site-iota-nine.vercel.app/course/markdown/markdown"
+      },
+      {
+        "@type": "ListItem",
+        "position": 4,
+        "name": "技術ドキュメントの構成設計｜読まれるMarkdownの組み立て方",
+        "item": "https://ai-site-iota-nine.vercel.app/article/markdown-docs-structure"
+      }
+    ]
+  },
+  "courseSchema": {
+    "@context": "https://schema.org",
+    "@type": "Course",
+    "name": "Markdown & 技術ドキュメント入門",
+    "description": "README・設計書・ブログに使えるMarkdownを8ステップで習得。日本語の体系的入門が少ないテーマを、具体例と失敗例つきで学びます。",
+    "provider": {
+      "@type": "Organization",
+      "name": "StackShelf",
+      "url": "https://ai-site-iota-nine.vercel.app"
+    },
+    "url": "https://ai-site-iota-nine.vercel.app/course/markdown/markdown",
+    "inLanguage": "ja",
+    "educationalLevel": "beginner",
+    "hasCourseInstance": {
+      "@type": "CourseInstance",
+      "courseMode": "online",
+      "courseWorkload": "PT1H"
+    }
+  },
+  "faqSchema": {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "Wordの設計書はどう扱えばよいですか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "承認済みの正式版がWordの組織もあります。その場合はPDFやWordを正とし、開発者向けの最新手順だけMarkdownでリポジトリに置く二層運用も現実的です。二重管理になるため、どちらを正とするかを決めてください。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "ADRは小規模プロジェクトでも必要？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "必須ではありませんが、2人以上で「なぜそうしたか」を後から争うなら、短いADR1枚から始める価値があります。READMEに長文で書くより追跡しやすいです。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "docsフォルダが肥大化したら？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "古いページに非推奨を明記し、indexから外す。統合できるHow-toは1つにまとめ、参照系は自動生成（OpenAPIからAPIドキュメント生成など）を検討してください。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "NotionとGitのdocsは併用できる？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "できますが、正（ソース・オブ・トゥルース）をどちらにするか決めないと内容がずれます。コードに近い手順はGit、人事・営業向けはNotion、のように役割分担するチームが多いです。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "日本語と英語のドキュメントを分けるべき？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "利用者層に応じて分けます。ファイル名に .ja.md を付ける、または docs/ja/ と docs/en/ に分ける方法があります。相互リンクで対応関係を示すと親切です。"
+        }
+      }
+    ]
+  }
+}

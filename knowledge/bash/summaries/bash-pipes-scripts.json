@@ -1,0 +1,13 @@
+{
+  "slug": "bash-pipes-scripts",
+  "courseId": "bash",
+  "episode": 6,
+  "summaryMemory": [
+    "パイプ | で左の stdout を右の stdin に接続",
+    "$(cmd) でコマンド出力を文字列として取得",
+    "here doc <<EOF で複数行テキストをスクリプト内に埋め込む",
+    "find -print0 | xargs -0 で安全な一括処理"
+  ],
+  "nextEpisodeHint": "次回は grep・sed・awk を使ったファイル処理を、スクリプトに組み込む方法を学びます。",
+  "updatedAt": "2026-05-30T05:14:52.095Z"
+}

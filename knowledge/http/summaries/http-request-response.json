@@ -1,0 +1,13 @@
+{
+  "slug": "http-request-response",
+  "courseId": "http",
+  "episode": 2,
+  "summaryMemory": [
+    "HTTPメッセージは開始行・ヘッダー・ボディの3要素で構成される",
+    "空行がヘッダーとボディの境界線になる",
+    "GETリクエストは通常ボディなし、POSTはJSONなどのボディ付き",
+    "DevToolsのNetworkタブで実際のHTTPメッセージを確認できる"
+  ],
+  "nextEpisodeHint": "次回は、GET・POST・PUT・DELETEなどのHTTPメソッドと、200・404・500などのステータスコードを体系的に解説します。",
+  "updatedAt": "2026-05-30T05:14:34.193Z"
+}

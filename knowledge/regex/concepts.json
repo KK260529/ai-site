@@ -1,0 +1,30 @@
+{
+  "topic": "regex",
+  "coreConcepts": [
+    {
+      "id": "regex-intro",
+      "title": "正規表現とは？いつ使うのか",
+      "summary": "正規表現入門の第1回で学ぶ内容"
+    },
+    {
+      "id": "regex-literals",
+      "title": "リテラルとメタ文字の基本",
+      "summary": "正規表現入門の第2回で学ぶ内容"
+    },
+    {
+      "id": "regex-character-classes",
+      "title": "文字クラス [] と否定",
+      "summary": "正規表現入門の第3回で学ぶ内容"
+    },
+    {
+      "id": "regex-quantifiers",
+      "title": "量詞 * + ? {n,m}",
+      "summary": "正規表現入門の第4回で学ぶ内容"
+    },
+    {
+      "id": "regex-anchors",
+      "title": "アンカー ^ $ と単語境界",
+      "summary": "正規表現入門の第5回で学ぶ内容"
+    }
+  ]
+}

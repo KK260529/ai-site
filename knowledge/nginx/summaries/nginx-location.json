@@ -1,0 +1,13 @@
+{
+  "slug": "nginx-location",
+  "courseId": "nginx",
+  "episode": 5,
+  "summaryMemory": [
+    "location修飾子: = 完全一致、^~ プレフィックス優先、~ 正規表現、修飾子なし プレフィックス",
+    "評価順: = → 最長プレフィックス → ^~なら決定 → 正規表現（記述順）",
+    "rootは location+URI、aliasはパス置換（末尾スラッシュに注意）",
+    "複数サービス振り分けは location /api/xxx/ ごとに proxy_pass"
+  ],
+  "nextEpisodeHint": "次回は、Let's Encryptとcertbotを使ったSSL/TLS（HTTPS）設定と、HTTPからHTTPSへのリダイレクトを実践します。",
+  "updatedAt": "2026-05-30T05:15:05.735Z"
+}

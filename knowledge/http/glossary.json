@@ -1,0 +1,16 @@
+{
+  "HTTP": {
+    "definition": "HyperText Transfer Protocol。Webの通信規約",
+    "aliases": []
+  },
+  "REST": {
+    "definition": "リソース指向のAPI設計スタイル",
+    "aliases": [
+      "RESTful"
+    ]
+  },
+  "ステータスコード": {
+    "definition": "200,404等レスポンス結果を示す3桁の数字",
+    "aliases": []
+  }
+}

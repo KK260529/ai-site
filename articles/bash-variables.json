@@ -1,0 +1,317 @@
+{
+  "id": "art_bash_bash-variables",
+  "slug": "bash-variables",
+  "title": "Bashの変数・引数・終了コードをマスターする【シェルスクリプト入門第2回】",
+  "summary": "Bashスクリプトの変数の宣言と参照、コマンドライン引数（$1 $# $@）、終了コード（$?）の使い方を具体例で解説します。",
+  "body": "<h2>Bashの変数の基本</h2>\n<p>Bashでは<strong>変数</strong>を使って、ファイル名・ユーザー名・日付など、スクリプト内で繰り返し使う値を名前で保持します。代入は <code>名前=値</code> の形式で、<strong>等号の前後にスペースを入れない</strong>点に注意してください。参照は <code>$名前</code> または <code>${名前}</code> です。</p>\n<pre><code>#!/usr/bin/env bash\n# 変数の代入（スペース禁止）\nname=\"Tanaka\"\ncount=42\n\n# 変数の参照\necho \"名前: $name\"\necho \"件数: ${count}件\"\n\n# 文字列の連結\ngreeting=\"こんにちは、${name}さん\"\necho \"$greeting\"</code></pre>\n<p><code>${変数}</code> 形式は、変数名の直後に英数字が続くと曖昧になる場合に必須です（例：<code>${name}_san</code>）。また、ダブルクォート <code>\"$var\"</code> で囲むと変数が展開され、シングルクォート <code>'$var'</code> では<strong>文字通り</strong>出力されます。</p>\n\n<h2>読み取り専用変数と環境変数</h2>\n<p><code>readonly</code> で再代入不可の定数を定義できます。環境変数は <code>export</code> で子プロセス（スクリプトから起動したコマンド）にも引き継がれます。</p>\n<pre><code>#!/usr/bin/env bash\nreadonly APP_NAME=\"MyBackupTool\"\nreadonly VERSION=\"1.0.0\"\n\n# 環境変数の参照（設定されていなければ空）\necho \"ホーム: $HOME\"\necho \"PATH: $PATH\"\n\n# デフォルト値付きの参照\necho \"ログレベル: ${LOG_LEVEL:-info}\"\necho \"作業Dir: ${WORK_DIR:-/tmp}\"</code></pre>\n<p><code>${VAR:-default}</code> は VAR が未設定または空のとき default を使う構文です。逆に <code>${VAR:=default}</code> は default を VAR に代入してから使います。運用スクリプトでは「設定がなければ安全なデフォルト」というパターンが頻出します。</p>\n\n<h2>コマンドライン引数</h2>\n<p>スクリプト実行時に渡す値が<strong>引数（arguments）</strong>です。<code>$0</code> はスクリプト名自身、<code>$1</code> 以降が第1引数・第2引数…に対応します。</p>\n<pre><code>#!/usr/bin/env bash\n# 使い方: ./backup.sh /var/log backup-2026.tar.gz\n\necho \"スクリプト名: $0\"\necho \"第1引数（対象Dir）: $1\"\necho \"第2引数（出力ファイル）: $2\"\necho \"引数の個数: $#\"\necho \"すべての引数: $@\"\n\n# 引数が足りない場合のチェック\nif [ $# -lt 2 ]; then\n  echo \"使い方: $0 &lt;対象ディレクトリ&gt; &lt;出力ファイル名&gt;\" >&2\n  exit 1\nfi\n\nSOURCE_DIR=\"$1\"\nOUTPUT_FILE=\"$2\"\necho \"バックアップ: $SOURCE_DIR → $OUTPUT_FILE\"</code></pre>\n<p><code>$#</code> は引数の個数、<code>$@</code> はすべての引数を個別の単語として、<code>$*</code> は1つの文字列として展開します。ループで引数を処理するときは <code>\"$@\"</code> を使うのが安全です（後の回で詳述）。</p>\n\n<h2>shift で引数を順に処理</h2>\n<p><code>shift</code> は引数リストを左にずらし、<code>$1</code> を捨てて次の引数を <code>$1</code> にします。オプション解析（<code>-v</code> や <code>--help</code>）の簡易版に使えます。</p>\n<pre><code>#!/usr/bin/env bash\n# 使い方: ./deploy.sh -e production -v\n\nENV=\"development\"\nVERBOSE=false\n\nwhile [ $# -gt 0 ]; do\n  case \"$1\" in\n    -e|--env)\n      ENV=\"$2\"\n      shift 2\n      ;;\n    -v|--verbose)\n      VERBOSE=true\n      shift\n      ;;\n    -h|--help)\n      echo \"使い方: $0 [-e env] [-v]\"\n      exit 0\n      ;;\n    *)\n      echo \"不明なオプション: $1\" >&2\n      exit 1\n      ;;\n  esac\ndone\n\necho \"環境: $ENV\"\n$VERBOSE && echo \"詳細モード: ON\"</code></pre>\n\n<h2>終了コード（exit status）</h2>\n<p>Linuxのコマンドは終了時に<strong>0〜255の数値</strong>を返します。<strong>0は成功</strong>、<strong>0以外は失敗</strong>と解釈するのがUnixの慣習です。直前のコマンドの終了コードは <code>$?</code> で参照できます。</p>\n<pre><code>#!/usr/bin/env bash\n# ファイル存在チェックの例\nTARGET=\"/etc/hosts\"\n\nif [ -f \"$TARGET\" ]; then\n  echo \"$TARGET は存在します\"\nelse\n  echo \"$TARGET が見つかりません\" >&2\n  exit 1\nfi\n\n# 直前のコマンドの終了コード\ngrep -q \"localhost\" /etc/hosts\nif [ $? -eq 0 ]; then\n  echo \"localhost の記述あり\"\nelse\n  echo \"localhost の記述なし\"\nfi\n\n# exit でスクリプト自体の終了コードを指定\nexit 0</code></pre>\n<p>スクリプトの最終行のコマンドの終了コードが、そのスクリプト全体の終了コードになります。意図的に失敗を伝えたいときは <code>exit 1</code> などを明示しましょう。CI/CDではこの終了コードでジョブの成否が判定されます。</p>\n\n<h2>算術演算</h2>\n<p>Bashは文字列処理が主ですが、整数演算もできます。<code>$(( ))</code> または <code>let</code> を使います。</p>\n<pre><code>#!/usr/bin/env bash\na=10\nb=3\n\necho \"加算: $((a + b))\"\necho \"除算: $((a / b))\"\necho \"剰余: $((a % b))\"\n\n# カウンタのインクリメント\ncount=0\ncount=$((count + 1))\necho \"count=$count\"\n\n# ループ条件などでよく使う\nMAX=5\nfor i in $(seq 1 $MAX); do\n  echo \"処理 $i / $MAX\"\ndone</code></pre>\n\n<h2>コマンド置換で変数に結果を入れる</h2>\n<p>コマンドの標準出力を変数に代入する方法は2つあります。現代のBashでは <code>$(command)</code> を推奨します（バッククォート <code>`command`</code> よりネストしやすい）。</p>\n<pre><code>#!/usr/bin/env bash\ntoday=$(date '+%Y-%m-%d')\nfile_count=$(ls -1 | wc -l)\ngit_branch=$(git branch --show-current 2>/dev/null || echo \"unknown\")\n\necho \"今日: $today\"\necho \"カレントDirのファイル数: $file_count\"\necho \"Gitブランチ: $git_branch\"</code></pre>\n\n<h2>実践：設定ファイルから変数を読み込む</h2>\n<p>小さな設定はスクリプト先頭に書くか、別ファイルに <code>KEY=value</code> 形式で置きます。</p>\n<pre><code>#!/usr/bin/env bash\n# config.env の例:\n# BACKUP_DIR=/var/backups\n# RETENTION_DAYS=7\n\nCONFIG_FILE=\"${1:-./config.env}\"\n\nif [ ! -f \"$CONFIG_FILE\" ]; then\n  echo \"設定ファイルが見つかりません: $CONFIG_FILE\" >&2\n  exit 1\nfi\n\n# source で設定を読み込む（ファイル内容を信頼できる場合のみ）\nsource \"$CONFIG_FILE\"\n\necho \"バックアップ先: $BACKUP_DIR\"\necho \"保持日数: $RETENTION_DAYS\"</code></pre>\n<p><code>source</code> は外部ファイルを現在のシェルで実行するため、信頼できないファイルを source すると危険です。運用では権限管理された設定ファイルだけを読み込むようにしてください。</p>\n\n<h2>まとめ</h2>\n<p>変数で値を名前付きで保持し、<code>$1</code> 以降で引数を受け取り、<code>$?</code> と <code>exit</code> で成功・失敗を伝える——これがBashスクリプトを「プログラム」にする三要素です。次回は <code>if</code> と <code>test</code> を使った条件分岐を学び、引数チェックやファイル存在確認をより読みやすく書けるようにしていきましょう。</p>",
+  "conclusion": "Bashの変数は name=value で代入し $name または ${name} で参照します。$0〜$9、$#、$@ がコマンドライン引数、$? が直前コマンドの終了コード（0=成功）です。export で環境変数を子プロセスに渡し、exit でスクリプトの成否を呼び出し元に返せます。",
+  "tags": [
+    "Bash",
+    "変数",
+    "引数",
+    "終了コード",
+    "シェルスクリプト",
+    "exit status"
+  ],
+  "category": "Bash",
+  "theme": "bash - Bashシェルスクリプト入門",
+  "status": "published",
+  "createdAt": "2026-05-30T05:14:47.437Z",
+  "updatedAt": "2026-05-30T05:15:42.997Z",
+  "publishedAt": "2026-05-30T05:14:47.437Z",
+  "metaTitle": "Bash 変数 引数 終了コード の使い方｜シェルスクリプト入門",
+  "metaDescription": "Bashスクリプトの変数、コマンドライン引数、終了コード（exit status）を初心者向けに解説。$1 $# $? の意味と実践例を具体例で学べます。",
+  "ogTitle": "Bashの変数・引数・終了コード入門",
+  "ogDescription": "スクリプトに入力を渡し、実行結果を判定するための基本テクニックを解説します。",
+  "knowledge": {
+    "topic": "bash",
+    "courseId": "bash",
+    "episode": 2
+  },
+  "faq": [
+    {
+      "question": "変数代入で = の前後にスペースを入れるとどうなりますか？",
+      "answer": "name = value と書くと、name をコマンド名、= と value を引数と解釈されてエラーになります。必ず name=value のようにスペースなしで書いてください。"
+    },
+    {
+      "question": "$? はいつリセットされますか？",
+      "answer": "次のコマンドを実行した時点で $? は上書きされます。直前の終了コードを使う場合は、すぐに変数に保存する（code=$?）のが安全です。"
+    },
+    {
+      "question": "引数にスペースを含む文字列を渡すには？",
+      "answer": "呼び出し側でダブルクォートで囲みます。例: ./script.sh \"My Documents\"。スクリプト内でも \"$1\" のようにクォートして使うと、単語分割を防げます。"
+    },
+    {
+      "question": "exit 255 以上は使えますか？",
+      "answer": "exit に256以上を指定すると下位8ビットだけが親に渡されます（例: exit 256 → 0）。通常は 0（成功）、1（一般エラー）、2（使い方エラー）など小さな値を使います。"
+    },
+    {
+      "question": "環境変数と通常の変数の違いは？",
+      "answer": "export した変数だけが、スクリプトから起動した子プロセス（別コマンド）に引き継がれます。スクリプト内だけで使う値は export 不要です。"
+    }
+  ],
+  "nextEpisodeHint": "次回は if 文と test（[ ]）による条件分岐を学びます。ファイルの有無や文字列比較をスクリプトに組み込めるようになります。",
+  "nextAction": "引数を2つ取る backup.sh を書き、引数不足時に使い方を表示して exit 1 する処理を入れて実行してみてください。ls /存在しないパス のあと echo $? で終了コードも確認しましょう。",
+  "internalLinkCandidates": [
+    {
+      "slug": "bash-pipes-scripts",
+      "title": "Bashのパイプとコマンド置換｜CLIを組み合わせるデータ処理【第6回】",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "bash-functions",
+      "title": "Bash関数の定義と使い方｜再利用可能なスクリプトを書く【第5回】",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "bash-loops",
+      "title": "Bashのfor・whileループ完全ガイド｜一括処理と対話入力【シェルスクリプト第4回】",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "bash-conditionals",
+      "title": "Bashのifとtestによる条件分岐｜ファイル判定・文字列比較をマスター【第3回】",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "bash-intro",
+      "title": "Bashシェルスクリプトとは？自動化の第一歩をわかりやすく解説【初心者向け】",
+      "reason": "同じ講座の関連回です"
+    }
+  ],
+  "ogImage": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+  "canonical": "https://ai-site-iota-nine.vercel.app/article/bash-variables",
+  "jsonLd": {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@context": "https://schema.org",
+        "@type": "TechArticle",
+        "headline": "Bashの変数・引数・終了コードをマスターする【シェルスクリプト入門第2回】",
+        "description": "【Bash初心者向け】Bashスクリプトの変数、コマンドライン引数、終了コード（exit status）を初心者向けに解説。$1 $# $? の意味と実践例を具体例で学べます。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
+        "datePublished": "2026-05-30T05:14:47.437Z",
+        "dateModified": "2026-05-30T05:15:42.997Z",
+        "author": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
+        },
+        "image": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+        "inLanguage": "ja",
+        "wordCount": 3115,
+        "mainEntityOfPage": {
+          "@type": "WebPage",
+          "@id": "https://ai-site-iota-nine.vercel.app/article/bash-variables"
+        },
+        "keywords": "Bash, 変数, 引数, 終了コード, シェルスクリプト, exit status",
+        "articleSection": "Bash",
+        "url": "https://ai-site-iota-nine.vercel.app/article/bash-variables",
+        "learningResourceType": "tutorial",
+        "educationalLevel": "beginner"
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "ホーム",
+            "item": "https://ai-site-iota-nine.vercel.app/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "bash",
+            "item": "https://ai-site-iota-nine.vercel.app/knowledge/bash"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "Bashシェルスクリプト入門",
+            "item": "https://ai-site-iota-nine.vercel.app/course/bash/bash"
+          },
+          {
+            "@type": "ListItem",
+            "position": 4,
+            "name": "Bashの変数・引数・終了コードをマスターする【シェルスクリプト入門第2回】",
+            "item": "https://ai-site-iota-nine.vercel.app/article/bash-variables"
+          }
+        ]
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "Course",
+        "name": "Bashシェルスクリプト入門",
+        "description": "Linux/macOS/WSLで使えるBashスクリプトを10ステップで習得。自動化・運用の第一歩となるニッチスキルを具体例で学びます。",
+        "provider": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app"
+        },
+        "url": "https://ai-site-iota-nine.vercel.app/course/bash/bash",
+        "inLanguage": "ja",
+        "educationalLevel": "beginner",
+        "hasCourseInstance": {
+          "@type": "CourseInstance",
+          "courseMode": "online",
+          "courseWorkload": "PT1H"
+        }
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "変数代入で = の前後にスペースを入れるとどうなりますか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "name = value と書くと、name をコマンド名、= と value を引数と解釈されてエラーになります。必ず name=value のようにスペースなしで書いてください。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "$? はいつリセットされますか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "次のコマンドを実行した時点で $? は上書きされます。直前の終了コードを使う場合は、すぐに変数に保存する（code=$?）のが安全です。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "引数にスペースを含む文字列を渡すには？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "呼び出し側でダブルクォートで囲みます。例: ./script.sh \"My Documents\"。スクリプト内でも \"$1\" のようにクォートして使うと、単語分割を防げます。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "exit 255 以上は使えますか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "exit に256以上を指定すると下位8ビットだけが親に渡されます（例: exit 256 → 0）。通常は 0（成功）、1（一般エラー）、2（使い方エラー）など小さな値を使います。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "環境変数と通常の変数の違いは？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "export した変数だけが、スクリプトから起動した子プロセス（別コマンド）に引き継がれます。スクリプト内だけで使う値は export 不要です。"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "breadcrumb": {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "ホーム",
+        "item": "https://ai-site-iota-nine.vercel.app/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "bash",
+        "item": "https://ai-site-iota-nine.vercel.app/knowledge/bash"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "Bashシェルスクリプト入門",
+        "item": "https://ai-site-iota-nine.vercel.app/course/bash/bash"
+      },
+      {
+        "@type": "ListItem",
+        "position": 4,
+        "name": "Bashの変数・引数・終了コードをマスターする【シェルスクリプト入門第2回】",
+        "item": "https://ai-site-iota-nine.vercel.app/article/bash-variables"
+      }
+    ]
+  },
+  "courseSchema": {
+    "@context": "https://schema.org",
+    "@type": "Course",
+    "name": "Bashシェルスクリプト入門",
+    "description": "Linux/macOS/WSLで使えるBashスクリプトを10ステップで習得。自動化・運用の第一歩となるニッチスキルを具体例で学びます。",
+    "provider": {
+      "@type": "Organization",
+      "name": "StackShelf",
+      "url": "https://ai-site-iota-nine.vercel.app"
+    },
+    "url": "https://ai-site-iota-nine.vercel.app/course/bash/bash",
+    "inLanguage": "ja",
+    "educationalLevel": "beginner",
+    "hasCourseInstance": {
+      "@type": "CourseInstance",
+      "courseMode": "online",
+      "courseWorkload": "PT1H"
+    }
+  },
+  "faqSchema": {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "変数代入で = の前後にスペースを入れるとどうなりますか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "name = value と書くと、name をコマンド名、= と value を引数と解釈されてエラーになります。必ず name=value のようにスペースなしで書いてください。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "$? はいつリセットされますか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "次のコマンドを実行した時点で $? は上書きされます。直前の終了コードを使う場合は、すぐに変数に保存する（code=$?）のが安全です。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "引数にスペースを含む文字列を渡すには？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "呼び出し側でダブルクォートで囲みます。例: ./script.sh \"My Documents\"。スクリプト内でも \"$1\" のようにクォートして使うと、単語分割を防げます。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "exit 255 以上は使えますか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "exit に256以上を指定すると下位8ビットだけが親に渡されます（例: exit 256 → 0）。通常は 0（成功）、1（一般エラー）、2（使い方エラー）など小さな値を使います。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "環境変数と通常の変数の違いは？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "export した変数だけが、スクリプトから起動した子プロセス（別コマンド）に引き継がれます。スクリプト内だけで使う値は export 不要です。"
+        }
+      }
+    ]
+  }
+}

@@ -1,0 +1,317 @@
+{
+  "id": "art_http_http-rest-api",
+  "slug": "http-rest-api",
+  "title": "REST APIの設計原則",
+  "summary": "REST APIの設計原則——リソース指向、URL設計、HTTPメソッドの使い分け、JSONレスポンス——を具体例で解説します。",
+  "body": "<h2>REST APIとは</h2>\n<p><strong>REST（Representational State Transfer）</strong>は、2000年にRoy Fieldingが提唱したWeb APIの設計思想です。RESTful API（RESTに従ったAPI）は、HTTPの仕組み（メソッド、ステータスコード、ヘッダー）を最大限活用し、<strong>リソース（Resource）</strong>をURLで表現して操作するAPI設計方式です。</p>\n<p>「REST API」は現代のWeb開発で最も広く使われるAPI設計パターンです。<a href=\"/articles/python-intro\">Python</a>のFlask/FastAPI、Node.jsのExpress、JavaのSpring Bootなど、ほぼすべてのWebフレームワークがREST APIの構築をサポートしています。</p>\n<p>RESTの核心原則：</p>\n<ul>\n  <li><strong>リソース指向</strong>：URLは「操作」ではなく「もの（名詞）」を表す</li>\n  <li><strong>HTTPメソッドで操作を表現</strong>：GET=取得、POST=作成、PUT/PATCH=更新、DELETE=削除</li>\n  <li><strong>ステートレス</strong>：各リクエストは独立（認証情報はヘッダー/Cookieで毎回送信）</li>\n  <li><strong>統一インターフェース</strong>：HTTP標準に従い、独自プロトコルを作らない</li>\n</ul>\n\n<h2>URL設計：リソースを名詞で表現</h2>\n<p>RESTful APIのURLは<strong>名詞（リソース名）</strong>で設計します。動詞はHTTPメソッドが担うため、URLに含めません。</p>\n<pre><code># ❌ 悪い例（動詞をURLに含める）\nPOST /createUser\nGET  /getUserById/42\nPOST /deleteUser/42\n\n# ✅ 良い例（名詞 + HTTPメソッド）\nPOST   /users          → ユーザー作成\nGET    /users/42       → ID=42のユーザー取得\nPUT    /users/42       → ID=42のユーザー更新\nDELETE /users/42       → ID=42のユーザー削除\nGET    /users          → ユーザー一覧取得</code></pre>\n<p>URL設計のルール：</p>\n<ul>\n  <li>複数形を使う（<code>/users</code> 而不是 <code>/user</code>）</li>\n  <li>小文字 + ハイフン（<code>/blog-posts</code>）</li>\n  <li>階層で関連リソースを表現（<code>/users/42/posts</code> = ユーザー42の投稿一覧）</li>\n  <li>バージョンはパスまたはヘッダーで指定（<code>/v1/users</code>）</li>\n</ul>\n\n<h2>HTTPメソッドとCRUDの対応</h2>\n<p>第3回で学んだHTTPメソッドをREST API設計に適用します。</p>\n<pre><code># ユーザーAPI設計例\nGET    /api/v1/users           → 一覧取得（200 OK）\nGET    /api/v1/users/42        → 詳細取得（200 OK / 404 Not Found）\nPOST   /api/v1/users           → 新規作成（201 Created）\nPUT    /api/v1/users/42        → 完全更新（200 OK）\nPATCH  /api/v1/users/42        → 部分更新（200 OK）\nDELETE /api/v1/users/42        → 削除（204 No Content）\n\n# ネストしたリソース\nGET    /api/v1/users/42/posts  → ユーザー42の投稿一覧\nPOST   /api/v1/users/42/posts  → ユーザー42の新規投稿作成</code></pre>\n<p>クエリパラメータはフィルタ・ページネーション・ソートに使います：</p>\n<pre><code>GET /api/v1/users?page=2&amp;limit=20&amp;sort=created_at&amp;order=desc\nGET /api/v1/users?role=admin&amp;status=active\nGET /api/v1/posts?q=HTTP&amp;category=tutorial</code></pre>\n\n<h2>JSONレスポンスの設計</h2>\n<p>REST APIのレスポンスボディは<strong>JSON</strong>が標準です。<code>Content-Type: application/json</code> を設定します。</p>\n<pre><code># 単一リソースのレスポンス\nHTTP/1.1 200 OK\nContent-Type: application/json\n\n{\n  \"id\": 42,\n  \"name\": \"田中太郎\",\n  \"email\": \"tanaka@example.com\",\n  \"created_at\": \"2026-05-30T10:00:00Z\"\n}\n\n# 一覧レスポンス（ページネーション付き）\nHTTP/1.1 200 OK\nContent-Type: application/json\n\n{\n  \"data\": [\n    {\"id\": 1, \"name\": \"田中太郎\"},\n    {\"id\": 2, \"name\": \"鈴木花子\"}\n  ],\n  \"meta\": {\n    \"total\": 100,\n    \"page\": 1,\n    \"limit\": 20,\n    \"total_pages\": 5\n  }\n}</code></pre>\n<p>JSON設計のベストプラクティス：</p>\n<ul>\n  <li>snake_case（Python/Ruby系）または camelCase（JavaScript系）で統一</li>\n  <li>日時はISO 8601形式（<code>2026-05-30T10:00:00Z</code>）</li>\n  <li>一覧は <code>data</code> + <code>meta</code>（ページネーション情報）構造</li>\n  <li>関連リソースはIDのみ含め、必要なら別エンドポイントで取得（過度なネストを避ける）</li>\n</ul>\n\n<h2>エラーレスポンスの設計</h2>\n<p>REST APIでは、エラー情報もJSONで返すのが慣例です。適切なステータスコードと組み合わせます。</p>\n<pre><code># バリデーションエラー（422 Unprocessable Entity）\nHTTP/1.1 422 Unprocessable Entity\nContent-Type: application/json\n\n{\n  \"error\": {\n    \"code\": \"VALIDATION_ERROR\",\n    \"message\": \"入力内容に問題があります\",\n    \"details\": [\n      {\"field\": \"email\", \"message\": \"メールアドレスの形式が正しくありません\"},\n      {\"field\": \"name\", \"message\": \"名前は必須です\"}\n    ]\n  }\n}\n\n# 認証エラー（401 Unauthorized）\nHTTP/1.1 401 Unauthorized\nContent-Type: application/json\n\n{\n  \"error\": {\n    \"code\": \"UNAUTHORIZED\",\n    \"message\": \"認証が必要です\"\n  }\n}\n\n# リソース未存在（404 Not Found）\nHTTP/1.1 404 Not Found\nContent-Type: application/json\n\n{\n  \"error\": {\n    \"code\": \"NOT_FOUND\",\n    \"message\": \"指定されたユーザーが見つかりません\"\n  }\n}</code></pre>\n<p>エラーレスポンスには <code>code</code>（機械可読）、<code>message</code>（人間可読）、必要に応じて <code>details</code> を含めます。クライアント側はcodeで分岐処理、messageをユーザーに表示、という使い分けが一般的です。</p>\n\n<h2>APIバージョニング</h2>\n<p>APIは後方互換性を保ちながら進化する必要があります。バージョニングの主な方式：</p>\n<pre><code># 1. URLパス（最も一般的・わかりやすい）\nGET /api/v1/users\nGET /api/v2/users\n\n# 2. ヘッダー\nGET /api/users\nAccept: application/vnd.example.v2+json\n\n# 3. クエリパラメータ\nGET /api/users?version=2</code></pre>\n<p>初学者・小規模プロジェクトではURLパス方式（<code>/api/v1/</code>）が最もシンプルでおすすめです。破壊的変更が必要になったら v2 を作り、v1は一定期間並行運用します。</p>\n\n<h2>RESTful API設計チェックリスト</h2>\n<p>API設計時に確認すべき項目：</p>\n<ul>\n  <li>URLは名詞（複数形）で、動詞を含まない</li>\n  <li>HTTPメソッドが操作を正しく表現している</li>\n  <li>適切なステータスコードを返している（201 for POST、204 for DELETE等）</li>\n  <li>Content-Type: application/json を設定している</li>\n  <li>エラーレスポンスもJSON形式で統一されている</li>\n  <li>認証が必要なエンドポイントで401/403を正しく返している</li>\n  <li>ページネーション（一覧API）が実装されている</li>\n  <li>HTTPSで提供されている</li>\n</ul>\n\n<h2>REST vs GraphQL vs gRPC</h2>\n<p>REST以外のAPI設計方式も存在します。概要だけ押さえておきましょう。</p>\n<ul>\n  <li><strong>REST</strong>：HTTP標準ベース。シンプルで学習コスト低。最も普及</li>\n  <li><strong>GraphQL</strong>：クライアントが必要なフィールドだけ指定して取得。Facebook開発。複雑なデータ取得に強い</li>\n  <li><strong>gRPC</strong>：Google開発。Protocol Buffers + HTTP/2。マイクロサービス間通信向け。高速</li>\n</ul>\n<p>初学者はREST APIをマスターしてから、必要に応じてGraphQLやgRPCを学ぶのが良い順序です。</p>\n\n<h2>まとめ：RESTはHTTPの力を借りたAPI設計</h2>\n<p>REST APIはHTTPのメソッド・ステータスコード・ヘッダーを活用し、リソースをURLで表現する設計思想です。名詞URL + HTTPメソッド + JSONレスポンス + 適切なステータスコード——この組み合わせが現代Web APIの標準です。次回はcurlとDevToolsで実際にAPIを試す方法を学びます。</p>",
+  "conclusion": "REST APIはHTTPの仕組みを活用し、リソースを名詞URLで表現、HTTPメソッドで操作、JSONでデータをやり取りする設計方式です。URLは複数形名詞、エラーもJSON形式、適切なステータスコードを返す。/api/v1/ でバージョニング。現代Web APIの標準パターンです。",
+  "tags": [
+    "REST API",
+    "HTTP",
+    "API設計",
+    "JSON",
+    "Web API",
+    "バックエンド"
+  ],
+  "category": "HTTP",
+  "theme": "http - HTTP・Web API入門",
+  "status": "published",
+  "createdAt": "2026-05-30T05:14:39.977Z",
+  "updatedAt": "2026-05-30T05:14:39.982Z",
+  "publishedAt": "2026-05-30T05:14:39.977Z",
+  "metaTitle": "REST APIの設計原則【HTTP入門 第7回】｜HTTP入門 | StackShelf",
+  "metaDescription": "【HTTP初心者向け】REST APIの設計原則を具体例で解説。リソース指向URL、HTTPメソッドの使い分け、JSONレスポンス形式、APIバージョニング、エラーレスポンス設計を学びます。 図解・具体例つきで丁寧に解説します。",
+  "ogTitle": "REST APIの設計原則",
+  "ogDescription": "【HTTP初心者向け】【HTTP初心者向け】RESTful APIの設計原則——URL設計、HTTPメソッド、JSONレスポンス——を具体例で解説します。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
+  "knowledge": {
+    "topic": "http",
+    "courseId": "http",
+    "episode": 7
+  },
+  "faq": [
+    {
+      "question": "RESTful APIとREST APIの違いは？",
+      "answer": "REST APIはRESTの考え方を取り入れたAPI全般を指します。RESTful APIはRESTの原則により忠実に従ったAPIというニュアンスです。実務ではほぼ同義で使われ、厳密な区別はあまり意識されません。"
+    },
+    {
+      "question": "POST /users/search のような「検索」エンドポイントはRESTfulですか？",
+      "answer": "厳密なRESTでは検索条件をクエリパラメータ（GET /users?q=田中）で表現するのが理想です。ただし複雑な検索条件（JSONボディが必要）では POST /users/search も実務では広く使われます。実用性とREST原則のバランスで判断しましょう。"
+    },
+    {
+      "question": "APIレスポンスにHTMLを返してもいいですか？",
+      "answer": "REST APIではJSON/XMLを返すのが標準です。HTMLを返すのはWebページ（サーバーサイドレンダリング）の役割です。Acceptヘッダーで形式を分岐するContent Negotiationも可能ですが、現代ではAPI=JSON、Webページ=HTMLと分けるのが一般的です。"
+    },
+    {
+      "question": "マイクロサービスでもREST APIを使いますか？",
+      "answer": "サービス間通信ではREST APIが使われますが、パフォーマンス重視の内部通信ではgRPCが選ばれることもあります。外部公開APIはREST、内部通信はgRPCという使い分けも一般的です。"
+    },
+    {
+      "question": "OpenAPI（Swagger）とは何ですか？",
+      "answer": "REST APIの仕様をYAML/JSONで記述する標準フォーマットです。APIドキュメントの自動生成、クライアントSDKの生成、モックサーバーの構築に使います。第8回でcurlと合わせてAPIテストの方法として触れます。"
+    }
+  ],
+  "nextEpisodeHint": "次回は、curlコマンドとブラウザDevToolsを使って実際にAPIを呼び出す方法を hands-on で学びます。",
+  "nextAction": "次回はcurlコマンドとブラウザDevToolsを使って実際にAPIを呼び出す hands-on 方法を学びます。学んだREST API設計を実践で確認しましょう。",
+  "internalLinkCandidates": [
+    {
+      "slug": "http-methods-status",
+      "title": "HTTPメソッドとステータスコード完全ガイド",
+      "reason": "REST API設計の基礎となるHTTPメソッドとステータスコード"
+    },
+    {
+      "slug": "http-fetch-tools",
+      "title": "curlとDevToolsでAPIを試す",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "python-intro",
+      "title": "Pythonとは？",
+      "reason": "PythonでREST APIサーバーを構築する際の言語基礎"
+    },
+    {
+      "slug": "sql-intro",
+      "title": "データベースとSQLとは？",
+      "reason": "APIの裏側でSQLを使ってデータを取得・保存します"
+    },
+    {
+      "slug": "docker-webapp-practice",
+      "title": "Node.js・Python WebアプリをDockerコンテナ化",
+      "reason": "APIサーバーをDockerでデプロイする方法"
+    }
+  ],
+  "ogImage": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+  "canonical": "https://ai-site-iota-nine.vercel.app/article/http-rest-api",
+  "jsonLd": {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@context": "https://schema.org",
+        "@type": "TechArticle",
+        "headline": "REST APIの設計原則",
+        "description": "【HTTP初心者向け】REST APIの設計原則を具体例で解説。リソース指向URL、HTTPメソッドの使い分け、JSONレスポンス形式、APIバージョニング、エラーレスポンス設計を学びます。 図解・具体例つきで丁寧に解説します。",
+        "datePublished": "2026-05-30T05:14:39.977Z",
+        "dateModified": "2026-05-30T05:14:39.982Z",
+        "author": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
+        },
+        "image": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+        "inLanguage": "ja",
+        "wordCount": 3595,
+        "mainEntityOfPage": {
+          "@type": "WebPage",
+          "@id": "https://ai-site-iota-nine.vercel.app/article/http-rest-api"
+        },
+        "keywords": "REST API, HTTP, API設計, JSON, Web API, バックエンド",
+        "articleSection": "HTTP",
+        "url": "https://ai-site-iota-nine.vercel.app/article/http-rest-api",
+        "learningResourceType": "tutorial",
+        "educationalLevel": "beginner"
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "ホーム",
+            "item": "https://ai-site-iota-nine.vercel.app/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "http",
+            "item": "https://ai-site-iota-nine.vercel.app/knowledge/http"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "HTTP・Web API入門",
+            "item": "https://ai-site-iota-nine.vercel.app/course/http/http"
+          },
+          {
+            "@type": "ListItem",
+            "position": 4,
+            "name": "REST APIの設計原則",
+            "item": "https://ai-site-iota-nine.vercel.app/article/http-rest-api"
+          }
+        ]
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "Course",
+        "name": "HTTP・Web API入門",
+        "description": "ブラウザとサーバーの通信、REST API、HTTPSを10ステップで理解。バックエンド学習の前提となるHTTPを具体例で学びます。",
+        "provider": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app"
+        },
+        "url": "https://ai-site-iota-nine.vercel.app/course/http/http",
+        "inLanguage": "ja",
+        "educationalLevel": "beginner",
+        "hasCourseInstance": {
+          "@type": "CourseInstance",
+          "courseMode": "online",
+          "courseWorkload": "PT1H"
+        }
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "RESTful APIとREST APIの違いは？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "REST APIはRESTの考え方を取り入れたAPI全般を指します。RESTful APIはRESTの原則により忠実に従ったAPIというニュアンスです。実務ではほぼ同義で使われ、厳密な区別はあまり意識されません。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "POST /users/search のような「検索」エンドポイントはRESTfulですか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "厳密なRESTでは検索条件をクエリパラメータ（GET /users?q=田中）で表現するのが理想です。ただし複雑な検索条件（JSONボディが必要）では POST /users/search も実務では広く使われます。実用性とREST原則のバランスで判断しましょう。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "APIレスポンスにHTMLを返してもいいですか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "REST APIではJSON/XMLを返すのが標準です。HTMLを返すのはWebページ（サーバーサイドレンダリング）の役割です。Acceptヘッダーで形式を分岐するContent Negotiationも可能ですが、現代ではAPI=JSON、Webページ=HTMLと分けるのが一般的です。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "マイクロサービスでもREST APIを使いますか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "サービス間通信ではREST APIが使われますが、パフォーマンス重視の内部通信ではgRPCが選ばれることもあります。外部公開APIはREST、内部通信はgRPCという使い分けも一般的です。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "OpenAPI（Swagger）とは何ですか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "REST APIの仕様をYAML/JSONで記述する標準フォーマットです。APIドキュメントの自動生成、クライアントSDKの生成、モックサーバーの構築に使います。第8回でcurlと合わせてAPIテストの方法として触れます。"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "breadcrumb": {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "ホーム",
+        "item": "https://ai-site-iota-nine.vercel.app/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "http",
+        "item": "https://ai-site-iota-nine.vercel.app/knowledge/http"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "HTTP・Web API入門",
+        "item": "https://ai-site-iota-nine.vercel.app/course/http/http"
+      },
+      {
+        "@type": "ListItem",
+        "position": 4,
+        "name": "REST APIの設計原則",
+        "item": "https://ai-site-iota-nine.vercel.app/article/http-rest-api"
+      }
+    ]
+  },
+  "courseSchema": {
+    "@context": "https://schema.org",
+    "@type": "Course",
+    "name": "HTTP・Web API入門",
+    "description": "ブラウザとサーバーの通信、REST API、HTTPSを10ステップで理解。バックエンド学習の前提となるHTTPを具体例で学びます。",
+    "provider": {
+      "@type": "Organization",
+      "name": "StackShelf",
+      "url": "https://ai-site-iota-nine.vercel.app"
+    },
+    "url": "https://ai-site-iota-nine.vercel.app/course/http/http",
+    "inLanguage": "ja",
+    "educationalLevel": "beginner",
+    "hasCourseInstance": {
+      "@type": "CourseInstance",
+      "courseMode": "online",
+      "courseWorkload": "PT1H"
+    }
+  },
+  "faqSchema": {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "RESTful APIとREST APIの違いは？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "REST APIはRESTの考え方を取り入れたAPI全般を指します。RESTful APIはRESTの原則により忠実に従ったAPIというニュアンスです。実務ではほぼ同義で使われ、厳密な区別はあまり意識されません。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "POST /users/search のような「検索」エンドポイントはRESTfulですか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "厳密なRESTでは検索条件をクエリパラメータ（GET /users?q=田中）で表現するのが理想です。ただし複雑な検索条件（JSONボディが必要）では POST /users/search も実務では広く使われます。実用性とREST原則のバランスで判断しましょう。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "APIレスポンスにHTMLを返してもいいですか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "REST APIではJSON/XMLを返すのが標準です。HTMLを返すのはWebページ（サーバーサイドレンダリング）の役割です。Acceptヘッダーで形式を分岐するContent Negotiationも可能ですが、現代ではAPI=JSON、Webページ=HTMLと分けるのが一般的です。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "マイクロサービスでもREST APIを使いますか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "サービス間通信ではREST APIが使われますが、パフォーマンス重視の内部通信ではgRPCが選ばれることもあります。外部公開APIはREST、内部通信はgRPCという使い分けも一般的です。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "OpenAPI（Swagger）とは何ですか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "REST APIの仕様をYAML/JSONで記述する標準フォーマットです。APIドキュメントの自動生成、クライアントSDKの生成、モックサーバーの構築に使います。第8回でcurlと合わせてAPIテストの方法として触れます。"
+        }
+      }
+    ]
+  }
+}

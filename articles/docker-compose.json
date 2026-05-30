@@ -2,9 +2,9 @@
   "id": "art_docker_docker-compose",
   "slug": "docker-compose",
   "title": "Docker Compose入門：docker-compose.ymlでマルチコンテナを管理する",
-  "summary": "Docker Composeの使い方をゼロから解説。docker-compose.ymlの書き方、services・networks・volumes設定、docker compose up/downコマンドを実践的に学びます。",
-  "body": "<h2>Docker Composeとは何か</h2>\n<p>Docker Compose（ドッカーコンポーズ）は、複数のDockerコンテナを定義・管理するためのツールです。Webアプリケーションは通常「Webサーバー」「アプリケーションサーバー」「データベース」「キャッシュ（Redis）」など複数のサービスが連携して動作します。これらを個別に <code>docker run</code> コマンドで起動・管理するのは非常に煩雑です。</p>\n<p>Docker Composeを使えば、これらのサービス設定を<strong>docker-compose.yml</strong>という1つのファイルにまとめて記述し、<code>docker compose up</code> の一コマンドで全サービスを起動できます。開発環境のセットアップが劇的に簡素化されます。</p>\n<pre><code># Docker Composeのバージョン確認\ndocker compose version\n# 出力例: Docker Compose version v2.27.1\n\n# 全サービスを起動（バックグラウンド）\ndocker compose up -d\n\n# 全サービスを停止して削除\ndocker compose down</code></pre>\n\n<h2>docker-compose.ymlの基本構造</h2>\n<p>docker-compose.ymlはYAML形式で記述します。インデント（字下げ）が重要な意味を持つため、スペースの数を揃えることに注意してください（タブは使えません）。</p>\n<pre><code># docker-compose.ymlの基本構造\nservices:\n  サービス名1:\n    image: イメージ名\n    ports:\n      - \"ホストポート:コンテナポート\"\n    environment:\n      - 環境変数名=値\n    volumes:\n      - ホストパス:コンテナパス\n    depends_on:\n      - 別のサービス名\n\n  サービス名2:\n    build: .\n    # ...\n\nvolumes:\n  ボリューム名:\n\nnetworks:\n  ネットワーク名:</code></pre>\n<p>最上位キーは <strong>services</strong>（サービス定義）・<strong>volumes</strong>（ボリューム定義）・<strong>networks</strong>（ネットワーク定義）の3つです。最低限 <code>services</code> だけあれば動作します。</p>\n\n<h2>実践：WebアプリとMySQLを組み合わせる</h2>\n<p>Node.jsアプリとMySQLデータベースを組み合わせた構成を例に、docker-compose.ymlの書き方を学びましょう。</p>\n<pre><code># docker-compose.yml（Node.js + MySQL構成）\nservices:\n  app:\n    build: .                    # カレントディレクトリのDockerfileでビルド\n    ports:\n      - \"3000:3000\"\n    environment:\n      - NODE_ENV=development\n      - DB_HOST=db              # サービス名でコンテナを指定できる\n      - DB_USER=appuser\n      - DB_PASSWORD=apppassword\n      - DB_NAME=myapp\n    depends_on:\n      db:\n        condition: service_healthy   # DBが起動してから開始\n    volumes:\n      - .:/app                  # ソースコードをバインドマウント（開発用）\n      - /app/node_modules       # node_modulesはコンテナ側を使う\n\n  db:\n    image: mysql:8.0\n    environment:\n      - MYSQL_ROOT_PASSWORD=rootpassword\n      - MYSQL_DATABASE=myapp\n      - MYSQL_USER=appuser\n      - MYSQL_PASSWORD=apppassword\n    volumes:\n      - mysql_data:/var/lib/mysql    # 名前付きボリュームでデータ永続化\n    ports:\n      - \"3306:3306\"\n    healthcheck:\n      test: [\"CMD\", \"mysqladmin\", \"ping\", \"-h\", \"localhost\"]\n      interval: 10s\n      timeout: 5s\n      retries: 5\n\nvolumes:\n  mysql_data:    # 名前付きボリュームの定義</code></pre>\n<p>重要なポイントは、<code>DB_HOST=db</code> と指定していることです。Docker Composeで定義したサービスは、同じdocker-compose.yml内でサービス名をホスト名として互いに通信できます。IPアドレスを調べる必要はありません。</p>\n\n<h2>docker compose コマンド一覧</h2>\n<p>Docker Composeで日常的に使うコマンドをまとめます。</p>\n<pre><code># サービスを起動（-dでバックグラウンド）\ndocker compose up\ndocker compose up -d\n\n# イメージを再ビルドして起動\ndocker compose up --build\n\n# 特定のサービスだけ起動\ndocker compose up -d db\n\n# サービスを停止（コンテナは残る）\ndocker compose stop\n\n# サービスを停止してコンテナを削除\ndocker compose down\n\n# ボリュームも含めて全削除（データが消えます）\ndocker compose down -v\n\n# サービスの状態を確認\ndocker compose ps\n\n# ログを確認\ndocker compose logs\ndocker compose logs -f app        # 特定サービスのリアルタイムログ\n\n# コンテナ内でコマンドを実行\ndocker compose exec app bash\ndocker compose exec db mysql -u root -p\n\n# サービスを再起動\ndocker compose restart app\n\n# 設定を検証\ndocker compose config</code></pre>\n\n<h2>環境変数と.envファイルの活用</h2>\n<p>docker-compose.ymlにパスワードなどの機密情報を直接書くのはセキュリティ上問題があります。<code>.env</code> ファイルを使って環境変数を外部化しましょう。</p>\n<pre><code># .envファイルの例\nMYSQL_ROOT_PASSWORD=supersecretpassword\nMYSQL_DATABASE=myapp\nMYSQL_USER=appuser\nMYSQL_PASSWORD=apppassword\nAPP_PORT=3000</code></pre>\n<pre><code># docker-compose.ymlで.envの変数を参照\nservices:\n  db:\n    image: mysql:8.0\n    environment:\n      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}\n      - MYSQL_DATABASE=${MYSQL_DATABASE}\n      - MYSQL_USER=${MYSQL_USER}\n      - MYSQL_PASSWORD=${MYSQL_PASSWORD}\n    ports:\n      - \"${APP_PORT:-3000}:3000\"   # デフォルト値を設定することもできる</code></pre>\n<p>docker-compose.ymlと同じディレクトリに <code>.env</code> ファイルがあれば自動的に読み込まれます。<code>.env</code> ファイルは必ず <code>.gitignore</code> に追加して、Gitにコミットしないようにしましょう。</p>\n<pre><code># .gitignoreに追加\n.env\n.env.local\n.env.production</code></pre>\n\n<h2>複数環境（開発・本番）の切り替え</h2>\n<p>Docker Composeでは複数のYAMLファイルを組み合わせることで、開発・本番などの環境切り替えができます。</p>\n<pre><code># docker-compose.yml（共通設定）\nservices:\n  app:\n    image: my-app\n    environment:\n      - DB_HOST=db\n\n  db:\n    image: mysql:8.0</code></pre>\n<pre><code># docker-compose.override.yml（開発用：自動読み込みされる）\nservices:\n  app:\n    build: .\n    volumes:\n      - .:/app             # 開発用: ソースコードをマウント\n    environment:\n      - NODE_ENV=development\n    ports:\n      - \"3000:3000\"</code></pre>\n<pre><code># docker-compose.prod.yml（本番用）\nservices:\n  app:\n    image: myregistry/my-app:latest\n    environment:\n      - NODE_ENV=production\n    restart: always</code></pre>\n<pre><code># 開発環境（docker-compose.yml + docker-compose.override.yml が自動合成）\ndocker compose up -d\n\n# 本番環境（明示的に指定）\ndocker compose -f docker-compose.yml -f docker-compose.prod.yml up -d</code></pre>\n\n<h2>よく使うサービス構成パターン</h2>\n<p>実際の開発でよく使うサービスの組み合わせを紹介します。</p>\n<pre><code># フルスタック開発環境（React + Node.js + PostgreSQL + Redis）\nservices:\n  frontend:\n    build: ./frontend\n    ports:\n      - \"5173:5173\"\n    volumes:\n      - ./frontend:/app\n      - /app/node_modules\n\n  backend:\n    build: ./backend\n    ports:\n      - \"4000:4000\"\n    environment:\n      - DATABASE_URL=postgresql://user:pass@postgres:5432/mydb\n      - REDIS_URL=redis://redis:6379\n    depends_on:\n      - postgres\n      - redis\n\n  postgres:\n    image: postgres:16-alpine\n    environment:\n      - POSTGRES_USER=user\n      - POSTGRES_PASSWORD=pass\n      - POSTGRES_DB=mydb\n    volumes:\n      - postgres_data:/var/lib/postgresql/data\n\n  redis:\n    image: redis:7-alpine\n    volumes:\n      - redis_data:/data\n\nvolumes:\n  postgres_data:\n  redis_data:</code></pre>\n<p>このように定義しておけば、チームメンバーは <code>docker compose up -d</code> の一コマンドでフロントエンド・バックエンド・DB・Redisが全て起動した開発環境を手に入れられます。「環境構築に半日かかる」という問題がなくなります。</p>",
-  "conclusion": "Docker Composeはdocker-compose.ymlに複数サービスを定義し、docker compose up -d一発で全サービスを起動できるツールです。サービス間はサービス名でホスト名として通信でき、depends_onで起動順序も制御できます。.envファイルで機密情報を外部化することを忘れずに。",
+  "summary": "docker-compose.ymlの書き方と docker compose コマンドを解説。Web＋DBの実践例、環境変数・.env、開発と本番の切り替えまで、マルチコンテナ開発の入口を押さえます。",
+  "body": "<h2>結論：docker compose up -d 一発で複数コンテナをまとめて起動できる</h2>\n<p>Webアプリ＋DBのように複数コンテナが必要なとき、<strong>docker-compose.yml にサービスを定義し <code>docker compose up -d</code> で一括起動</strong>するのがDocker Composeです。ネットワークやボリュームも自動で結ばれ、開発環境の再現が劇的に楽になります。</p>\n\n<h2>Docker Composeとは何か</h2>\n<p>Docker Compose（ドッカーコンポーズ）は、複数のDockerコンテナを定義・管理するためのツールです。Webアプリケーションは通常「Webサーバー」「アプリケーションサーバー」「データベース」「キャッシュ（Redis）」など複数のサービスが連携して動作します。これらを個別に <code>docker run</code> コマンドで起動・管理するのは非常に煩雑です。</p>\n<p>Docker Composeを使えば、これらのサービス設定を<strong>docker-compose.yml</strong>という1つのファイルにまとめて記述し、<code>docker compose up</code> の一コマンドで全サービスを起動できます。開発環境のセットアップが劇的に簡素化されます。</p>\n<pre><code># Docker Composeのバージョン確認\ndocker compose version\n# 出力例: Docker Compose version v2.27.1\n\n# 全サービスを起動（バックグラウンド）\ndocker compose up -d\n\n# 全サービスを停止して削除\ndocker compose down</code></pre>\n\n<h2>docker-compose.ymlの基本構造</h2>\n<p>docker-compose.ymlはYAML形式で記述します。インデント（字下げ）が重要な意味を持つため、スペースの数を揃えることに注意してください（タブは使えません）。</p>\n<pre><code># docker-compose.ymlの基本構造\nservices:\n  サービス名1:\n    image: イメージ名\n    ports:\n      - \"ホストポート:コンテナポート\"\n    environment:\n      - 環境変数名=値\n    volumes:\n      - ホストパス:コンテナパス\n    depends_on:\n      - 別のサービス名\n\n  サービス名2:\n    build: .\n    # ...\n\nvolumes:\n  ボリューム名:\n\nnetworks:\n  ネットワーク名:</code></pre>\n<p>最上位キーは <strong>services</strong>（サービス定義）・<strong>volumes</strong>（ボリューム定義）・<strong>networks</strong>（ネットワーク定義）の3つです。最低限 <code>services</code> だけあれば動作します。</p>\n\n<h2>実践：WebアプリとMySQLを組み合わせる</h2>\n<p>Node.jsアプリとMySQLデータベースを組み合わせた構成を例に、docker-compose.ymlの書き方を学びましょう。</p>\n<pre><code># docker-compose.yml（Node.js + MySQL構成）\nservices:\n  app:\n    build: .                    # カレントディレクトリのDockerfileでビルド\n    ports:\n      - \"3000:3000\"\n    environment:\n      - NODE_ENV=development\n      - DB_HOST=db              # サービス名でコンテナを指定できる\n      - DB_USER=appuser\n      - DB_PASSWORD=apppassword\n      - DB_NAME=myapp\n    depends_on:\n      db:\n        condition: service_healthy   # DBが起動してから開始\n    volumes:\n      - .:/app                  # ソースコードをバインドマウント（開発用）\n      - /app/node_modules       # node_modulesはコンテナ側を使う\n\n  db:\n    image: mysql:8.0\n    environment:\n      - MYSQL_ROOT_PASSWORD=rootpassword\n      - MYSQL_DATABASE=myapp\n      - MYSQL_USER=appuser\n      - MYSQL_PASSWORD=apppassword\n    volumes:\n      - mysql_data:/var/lib/mysql    # 名前付きボリュームでデータ永続化\n    ports:\n      - \"3306:3306\"\n    healthcheck:\n      test: [\"CMD\", \"mysqladmin\", \"ping\", \"-h\", \"localhost\"]\n      interval: 10s\n      timeout: 5s\n      retries: 5\n\nvolumes:\n  mysql_data:    # 名前付きボリュームの定義</code></pre>\n<p>重要なポイントは、<code>DB_HOST=db</code> と指定していることです。Docker Composeで定義したサービスは、同じdocker-compose.yml内でサービス名をホスト名として互いに通信できます。IPアドレスを調べる必要はありません。</p>\n\n<h2>docker compose コマンド一覧</h2>\n<p>Docker Composeで日常的に使うコマンドをまとめます。</p>\n<pre><code># サービスを起動（-dでバックグラウンド）\ndocker compose up\ndocker compose up -d\n\n# イメージを再ビルドして起動\ndocker compose up --build\n\n# 特定のサービスだけ起動\ndocker compose up -d db\n\n# サービスを停止（コンテナは残る）\ndocker compose stop\n\n# サービスを停止してコンテナを削除\ndocker compose down\n\n# ボリュームも含めて全削除（データが消えます）\ndocker compose down -v\n\n# サービスの状態を確認\ndocker compose ps\n\n# ログを確認\ndocker compose logs\ndocker compose logs -f app        # 特定サービスのリアルタイムログ\n\n# コンテナ内でコマンドを実行\ndocker compose exec app bash\ndocker compose exec db mysql -u root -p\n\n# サービスを再起動\ndocker compose restart app\n\n# 設定を検証\ndocker compose config</code></pre>\n\n<h2>環境変数と.envファイルの活用</h2>\n<p>docker-compose.ymlにパスワードなどの機密情報を直接書くのはセキュリティ上問題があります。<code>.env</code> ファイルを使って環境変数を外部化しましょう。</p>\n<pre><code># .envファイルの例\nMYSQL_ROOT_PASSWORD=supersecretpassword\nMYSQL_DATABASE=myapp\nMYSQL_USER=appuser\nMYSQL_PASSWORD=apppassword\nAPP_PORT=3000</code></pre>\n<pre><code># docker-compose.ymlで.envの変数を参照\nservices:\n  db:\n    image: mysql:8.0\n    environment:\n      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}\n      - MYSQL_DATABASE=${MYSQL_DATABASE}\n      - MYSQL_USER=${MYSQL_USER}\n      - MYSQL_PASSWORD=${MYSQL_PASSWORD}\n    ports:\n      - \"${APP_PORT:-3000}:3000\"   # デフォルト値を設定することもできる</code></pre>\n<p>docker-compose.ymlと同じディレクトリに <code>.env</code> ファイルがあれば自動的に読み込まれます。<code>.env</code> ファイルは必ず <code>.gitignore</code> に追加して、Gitにコミットしないようにしましょう。</p>\n<pre><code># .gitignoreに追加\n.env\n.env.local\n.env.production</code></pre>\n\n<h2>複数環境（開発・本番）の切り替え</h2>\n<p>Docker Composeでは複数のYAMLファイルを組み合わせることで、開発・本番などの環境切り替えができます。</p>\n<pre><code># docker-compose.yml（共通設定）\nservices:\n  app:\n    image: my-app\n    environment:\n      - DB_HOST=db\n\n  db:\n    image: mysql:8.0</code></pre>\n<pre><code># docker-compose.override.yml（開発用：自動読み込みされる）\nservices:\n  app:\n    build: .\n    volumes:\n      - .:/app             # 開発用: ソースコードをマウント\n    environment:\n      - NODE_ENV=development\n    ports:\n      - \"3000:3000\"</code></pre>\n<pre><code># docker-compose.prod.yml（本番用）\nservices:\n  app:\n    image: myregistry/my-app:latest\n    environment:\n      - NODE_ENV=production\n    restart: always</code></pre>\n<pre><code># 開発環境（docker-compose.yml + docker-compose.override.yml が自動合成）\ndocker compose up -d\n\n# 本番環境（明示的に指定）\ndocker compose -f docker-compose.yml -f docker-compose.prod.yml up -d</code></pre>\n\n<h2>よくあるつまずきと失敗例</h2>\n<h3>Compose運用でつまずく典型例</h3>\n<ul>\n<li><strong>depends_on だけでDBの起動完了を待つ</strong>：depends_onは起動順序のみで、MySQLの初期化完了は保証しません。アプリ側でリトライするか healthcheck を設定します。</li>\n<li><strong>ポート競合</strong>：ホスト側ポートが既に使われていると <code>Bind for 0.0.0.0:5432 failed</code> となります。<code>docker compose down</code> するか ports を変更します。</li>\n<li><strong>古いコンテナが残って設定変更が反映されない</strong>：イメージを作り直すときは <code>docker compose up -d --build</code> を使います。</li>\n</ul>\n\n<h2>よく使うサービス構成パターン</h2>\n<p>実際の開発でよく使うサービスの組み合わせを紹介します。</p>\n<pre><code># フルスタック開発環境（React + Node.js + PostgreSQL + Redis）\nservices:\n  frontend:\n    build: ./frontend\n    ports:\n      - \"5173:5173\"\n    volumes:\n      - ./frontend:/app\n      - /app/node_modules\n\n  backend:\n    build: ./backend\n    ports:\n      - \"4000:4000\"\n    environment:\n      - DATABASE_URL=postgresql://user:pass@postgres:5432/mydb\n      - REDIS_URL=redis://redis:6379\n    depends_on:\n      - postgres\n      - redis\n\n  postgres:\n    image: postgres:16-alpine\n    environment:\n      - POSTGRES_USER=user\n      - POSTGRES_PASSWORD=pass\n      - POSTGRES_DB=mydb\n    volumes:\n      - postgres_data:/var/lib/postgresql/data\n\n  redis:\n    image: redis:7-alpine\n    volumes:\n      - redis_data:/data\n\nvolumes:\n  postgres_data:\n  redis_data:</code></pre>\n<p>このように定義しておけば、チームメンバーは <code>docker compose up -d</code> の一コマンドでフロントエンド・バックエンド・DB・Redisが全て起動した開発環境を手に入れられます。「環境構築に半日かかる」という問題がなくなります。</p>",
+  "conclusion": "Docker Composeはymlにサービスを宣言し、up/downで環境ごとまとめて操作する仕組みです。Web＋DB構成を試したら、データ永続化のためにボリュームの記事へ進みましょう。",
   "tags": [
     "Docker",
     "Docker Compose",
@@ -17,12 +17,12 @@
   "theme": "docker - Docker 入門",
   "status": "published",
   "createdAt": "2026-05-30T04:13:33.332Z",
-  "updatedAt": "2026-05-30T05:01:27.463Z",
+  "updatedAt": "2026-05-30T05:17:44.140Z",
   "publishedAt": "2026-05-30T04:13:33.332Z",
   "metaTitle": "Docker Compose入門：docker-compose.yml完全ガイド【docker 使い方・初心者】 |…",
-  "metaDescription": "Docker Composeでマルチコンテナアプリを管理する方法を初心者向けに解説。docker-compose.ymlの書き方、services定義、よく使うコマンドをわかりやすく説明します。docker 初心者必読。",
+  "metaDescription": "Docker Compose入門。docker-compose.ymlの書き方、Web+DBの例、環境変数、よくあるエラーへの対処。マルチコンテナを一括管理したい人向け。",
   "ogTitle": "Docker Compose入門：docker-compose.ymlの書き方と使い方",
-  "ogDescription": "Docker Composeでアプリ＋DB等の複数コンテナを一括管理する方法をゼロから解説します。",
+  "ogDescription": "Docker Compose入門。docker-compose.ymlの書き方、Web+DBの例、環境変数、よくあるエラーへの対処。マルチコンテナを一括管理したい人向け。",
   "knowledge": {
     "topic": "docker",
     "courseId": "docker",
@@ -46,8 +46,8 @@
       "answer": "「ホストパス:コンテナパス」の形式で記述します。例えば./data:/var/lib/mysqlはホストの./dataフォルダをコンテナの/var/lib/mysqlにマウントする意味です。名前だけ（例：mysql_data）を書くと名前付きボリュームになります。"
     },
     {
-      "question": "DockerはWindows/Macでも使えますか？",
-      "answer": "Docker Desktop をインストールすれば Windows 10/11 や macOS でも利用できます。Linux ネイティブ環境が最も軽量ですが、学習目的なら Desktop で十分です。"
+      "question": "つまずいたときはどうすればいいですか？",
+      "answer": "エラーメッセージをそのまま検索し、公式ドキュメントを当たってください。小さなステップに分けて再現・確認すると原因を特定しやすくなります。"
     }
   ],
   "nextEpisodeHint": "次回は Docker Volume（ボリューム）について詳しく解説します。データの永続化、名前付きボリューム、バインドマウントの違いと使い分けを学びます。",
@@ -60,9 +60,9 @@
         "@context": "https://schema.org",
         "@type": "TechArticle",
         "headline": "Docker Compose入門：docker-compose.ymlでマルチコンテナを管理する",
-        "description": "Docker Composeでマルチコンテナアプリを管理する方法を初心者向けに解説。docker-compose.ymlの書き方、services定義、よく使うコマンドをわかりやすく説明します。docker 初心者必読。",
+        "description": "Docker Compose入門。docker-compose.ymlの書き方、Web+DBの例、環境変数、よくあるエラーへの対処。マルチコンテナを一括管理したい人向け。",
         "datePublished": "2026-05-30T04:13:33.332Z",
-        "dateModified": "2026-05-30T05:01:27.463Z",
+        "dateModified": "2026-05-30T05:17:44.140Z",
         "author": {
           "@type": "Organization",
           "name": "StackShelf",
@@ -83,7 +83,7 @@
         },
         "image": "https://ai-site-iota-nine.vercel.app/og-default.svg",
         "inLanguage": "ja",
-        "wordCount": 4081,
+        "wordCount": 4524,
         "mainEntityOfPage": {
           "@type": "WebPage",
           "@id": "https://ai-site-iota-nine.vercel.app/article/docker-compose"
@@ -181,10 +181,10 @@
           },
           {
             "@type": "Question",
-            "name": "DockerはWindows/Macでも使えますか？",
+            "name": "つまずいたときはどうすればいいですか？",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "Docker Desktop をインストールすれば Windows 10/11 や macOS でも利用できます。Linux ネイティブ環境が最も軽量ですが、学習目的なら Desktop で十分です。"
+              "text": "エラーメッセージをそのまま検索し、公式ドキュメントを当たってください。小さなステップに分けて再現・確認すると原因を特定しやすくなります。"
             }
           }
         ]
@@ -278,10 +278,10 @@
       },
       {
         "@type": "Question",
-        "name": "DockerはWindows/Macでも使えますか？",
+        "name": "つまずいたときはどうすればいいですか？",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Docker Desktop をインストールすれば Windows 10/11 や macOS でも利用できます。Linux ネイティブ環境が最も軽量ですが、学習目的なら Desktop で十分です。"
+          "text": "エラーメッセージをそのまま検索し、公式ドキュメントを当たってください。小さなステップに分けて再現・確認すると原因を特定しやすくなります。"
         }
       }
     ]

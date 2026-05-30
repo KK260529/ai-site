@@ -2,9 +2,9 @@
   "id": "art_web_web-css-practice",
   "slug": "web-css-practice",
   "title": "ランディングページを実際に作ろう：HTML/CSS総合実践",
-  "summary": "これまで学んだHTML/CSSの知識を総動員して、シンプルなランディングページを一から作る実践解説です。ヘッダー・ヒーローセクション・特徴カード・お問い合わせフォーム・フッターを完成させます。",
-  "body": "<h2>このエピソードで作るページの設計</h2>\n<p>これまでのエピソードで学んだHTMLとCSSを総動員して、実際に使えるシンプルなランディングページを作ります。架空の「オンラインプログラミングスクール」のランディングページを題材にして、Webサイトの主要な構成要素をすべて実装します。</p>\n<p>作成するセクションは次のとおりです。</p>\n<ul>\n  <li><strong>ヘッダー</strong>：ロゴとナビゲーション（Flexboxで横並び）</li>\n  <li><strong>ヒーローセクション</strong>：キャッチコピーとCTAボタン（中央揃え）</li>\n  <li><strong>特徴セクション</strong>：3カラムのカードレイアウト（Flexbox）</li>\n  <li><strong>お問い合わせセクション</strong>：シンプルなフォーム</li>\n  <li><strong>フッター</strong>：コピーライト表記</li>\n</ul>\n<p>最初にHTMLの構造を作り、次にCSSでスタイリングするという手順で進めます。「HTML先・CSS後」というアプローチがweb制作の基本的な流れです。</p>\n\n<h2>HTMLの全体構造を組み立てる</h2>\n<p>まずHTMLのセマンティックな構造を作ります。ページのセクションには <code>&lt;header&gt;</code>・<code>&lt;main&gt;</code>・<code>&lt;section&gt;</code>・<code>&lt;footer&gt;</code> など意味のあるタグを使います。</p>\n<pre><code>&lt;!DOCTYPE html&gt;\n&lt;html lang=\"ja\"&gt;\n&lt;head&gt;\n  &lt;meta charset=\"UTF-8\"&gt;\n  &lt;meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\"&gt;\n  &lt;title&gt;CodeLeap - オンラインプログラミングスクール&lt;/title&gt;\n  &lt;link rel=\"stylesheet\" href=\"style.css\"&gt;\n&lt;/head&gt;\n&lt;body&gt;\n  &lt;header class=\"header\"&gt;\n    &lt;div class=\"container\"&gt;\n      &lt;div class=\"logo\"&gt;CodeLeap&lt;/div&gt;\n      &lt;nav&gt;\n        &lt;ul class=\"nav-list\"&gt;\n          &lt;li&gt;&lt;a href=\"#features\"&gt;特徴&lt;/a&gt;&lt;/li&gt;\n          &lt;li&gt;&lt;a href=\"#contact\"&gt;お問い合わせ&lt;/a&gt;&lt;/li&gt;\n          &lt;li&gt;&lt;a href=\"#\" class=\"btn-nav\"&gt;無料登録&lt;/a&gt;&lt;/li&gt;\n        &lt;/ul&gt;\n      &lt;/nav&gt;\n    &lt;/div&gt;\n  &lt;/header&gt;\n\n  &lt;main&gt;\n    &lt;section class=\"hero\"&gt;\n      &lt;div class=\"container\"&gt;\n        &lt;h1&gt;プログラミングを、はじめよう。&lt;/h1&gt;\n        &lt;p class=\"hero-text\"&gt;初心者でも安心。実践的なカリキュラムで、確実にスキルが身につきます。&lt;/p&gt;\n        &lt;a href=\"#contact\" class=\"btn-primary\"&gt;無料で始める&lt;/a&gt;\n      &lt;/div&gt;\n    &lt;/section&gt;\n\n    &lt;section id=\"features\" class=\"features\"&gt;\n      &lt;div class=\"container\"&gt;\n        &lt;h2&gt;選ばれる3つの理由&lt;/h2&gt;\n        &lt;div class=\"card-grid\"&gt;\n          &lt;article class=\"card\"&gt;\n            &lt;div class=\"card-icon\"&gt;📚&lt;/div&gt;\n            &lt;h3&gt;充実したカリキュラム&lt;/h3&gt;\n            &lt;p&gt;HTML/CSSから始め、JavaScriptまで段階的に学べる体系的なカリキュラムを用意しています。&lt;/p&gt;\n          &lt;/article&gt;\n          &lt;article class=\"card\"&gt;\n            &lt;div class=\"card-icon\"&gt;💬&lt;/div&gt;\n            &lt;h3&gt;いつでもサポート&lt;/h3&gt;\n            &lt;p&gt;専任のメンターがチャットとビデオ通話で質問に答えます。一人で悩まず学習を進められます。&lt;/p&gt;\n          &lt;/article&gt;\n          &lt;article class=\"card\"&gt;\n            &lt;div class=\"card-icon\"&gt;🚀&lt;/div&gt;\n            &lt;h3&gt;実践プロジェクト&lt;/h3&gt;\n            &lt;p&gt;学んだ知識をすぐ実践。ポートフォリオになる実際のWebサイトを制作しながら習得できます。&lt;/p&gt;\n          &lt;/article&gt;\n        &lt;/div&gt;\n      &lt;/div&gt;\n    &lt;/section&gt;\n\n    &lt;section id=\"contact\" class=\"contact\"&gt;\n      &lt;div class=\"container\"&gt;\n        &lt;h2&gt;お問い合わせ&lt;/h2&gt;\n        &lt;form class=\"contact-form\"&gt;\n          &lt;div class=\"form-group\"&gt;\n            &lt;label for=\"name\"&gt;お名前&lt;/label&gt;\n            &lt;input type=\"text\" id=\"name\" name=\"name\" placeholder=\"田中 太郎\" required&gt;\n          &lt;/div&gt;\n          &lt;div class=\"form-group\"&gt;\n            &lt;label for=\"email\"&gt;メールアドレス&lt;/label&gt;\n            &lt;input type=\"email\" id=\"email\" name=\"email\" placeholder=\"example@mail.com\" required&gt;\n          &lt;/div&gt;\n          &lt;div class=\"form-group\"&gt;\n            &lt;label for=\"message\"&gt;メッセージ&lt;/label&gt;\n            &lt;textarea id=\"message\" name=\"message\" rows=\"5\" placeholder=\"お問い合わせ内容を入力してください\" required&gt;&lt;/textarea&gt;\n          &lt;/div&gt;\n          &lt;button type=\"submit\" class=\"btn-primary\"&gt;送信する&lt;/button&gt;\n        &lt;/form&gt;\n      &lt;/div&gt;\n    &lt;/section&gt;\n  &lt;/main&gt;\n\n  &lt;footer class=\"footer\"&gt;\n    &lt;div class=\"container\"&gt;\n      &lt;p&gt;&amp;copy; 2024 CodeLeap. All rights reserved.&lt;/p&gt;\n    &lt;/div&gt;\n  &lt;/footer&gt;\n&lt;/body&gt;\n&lt;/html&gt;</code></pre>\n\n<h2>CSSのリセットとベーススタイル</h2>\n<p>style.cssを作成し、まず全要素共通の設定とベーススタイルを書きます。</p>\n<pre><code>/* ベーススタイル */\n*, *::before, *::after {\n  box-sizing: border-box;\n  margin: 0;\n  padding: 0;\n}\n\nbody {\n  font-family: \"Noto Sans JP\", \"Hiragino Kaku Gothic ProN\", sans-serif;\n  font-size: 16px;\n  line-height: 1.7;\n  color: #1e293b;\n  background-color: #ffffff;\n}\n\nimg {\n  max-width: 100%;\n  height: auto;\n}\n\na {\n  text-decoration: none;\n  color: inherit;\n}\n\n/* コンテナ：最大幅1200pxで中央揃え */\n.container {\n  width: 100%;\n  max-width: 1200px;\n  margin: 0 auto;\n  padding: 0 24px;\n}</code></pre>\n<p>CSSリセット（margin・paddingを0にする）を最初に書くことで、ブラウザごとのデフォルトスタイルの差異をなくします。<code>box-sizing: border-box</code> も忘れずに書きましょう。</p>\n\n<h2>ヘッダーとナビゲーションのCSS</h2>\n<pre><code>/* ヘッダー */\n.header {\n  position: sticky;  /* スクロールしても上部に固定 */\n  top: 0;\n  background-color: #ffffff;\n  border-bottom: 1px solid #e2e8f0;\n  z-index: 100;\n}\n\n.header .container {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  padding-top: 16px;\n  padding-bottom: 16px;\n}\n\n.logo {\n  font-size: 22px;\n  font-weight: 700;\n  color: #2563eb;\n}\n\n.nav-list {\n  display: flex;\n  list-style: none;\n  align-items: center;\n  gap: 32px;\n}\n\n.nav-list a {\n  color: #475569;\n  font-size: 15px;\n  font-weight: 500;\n  transition: color 0.2s ease;\n}\n\n.nav-list a:hover {\n  color: #2563eb;\n}\n\n/* ナビの「無料登録」ボタン */\n.btn-nav {\n  background-color: #2563eb;\n  color: white !important;\n  padding: 8px 20px;\n  border-radius: 6px;\n  font-weight: 600;\n  transition: background-color 0.2s ease;\n}\n\n.btn-nav:hover {\n  background-color: #1d4ed8 !important;\n}</code></pre>\n\n<h2>ヒーローセクションとCTAボタンのCSS</h2>\n<pre><code>/* ヒーローセクション */\n.hero {\n  background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);\n  padding: 100px 0;\n  text-align: center;\n}\n\n.hero h1 {\n  font-size: clamp(32px, 5vw, 56px);\n  font-weight: 800;\n  color: #1e293b;\n  margin-bottom: 20px;\n  line-height: 1.3;\n}\n\n.hero-text {\n  font-size: 18px;\n  color: #64748b;\n  max-width: 560px;\n  margin: 0 auto 36px;\n}\n\n/* プライマリーボタン（共通） */\n.btn-primary {\n  display: inline-block;\n  background-color: #2563eb;\n  color: white;\n  padding: 14px 36px;\n  border-radius: 8px;\n  font-size: 17px;\n  font-weight: 600;\n  border: none;\n  cursor: pointer;\n  transition: background-color 0.2s ease, transform 0.1s ease;\n}\n\n.btn-primary:hover {\n  background-color: #1d4ed8;\n  transform: translateY(-1px);\n}\n\n.btn-primary:active {\n  transform: translateY(0);\n}</code></pre>\n\n<h2>特徴セクションとカードのCSS</h2>\n<pre><code>/* 特徴セクション */\n.features {\n  padding: 80px 0;\n  background-color: #f8fafc;\n}\n\n.features h2 {\n  font-size: 32px;\n  font-weight: 700;\n  text-align: center;\n  margin-bottom: 48px;\n  color: #1e293b;\n}\n\n/* カードグリッド */\n.card-grid {\n  display: flex;\n  gap: 24px;\n  flex-wrap: wrap;\n}\n\n.card {\n  flex: 1 1 280px;\n  background-color: #ffffff;\n  border-radius: 12px;\n  padding: 32px 28px;\n  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08), 0 4px 16px rgba(0, 0, 0, 0.04);\n  transition: transform 0.2s ease, box-shadow 0.2s ease;\n}\n\n.card:hover {\n  transform: translateY(-4px);\n  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12), 0 8px 32px rgba(0, 0, 0, 0.08);\n}\n\n.card-icon {\n  font-size: 40px;\n  margin-bottom: 16px;\n}\n\n.card h3 {\n  font-size: 20px;\n  font-weight: 700;\n  margin-bottom: 12px;\n  color: #1e293b;\n}\n\n.card p {\n  color: #64748b;\n  line-height: 1.75;\n}</code></pre>\n\n<h2>お問い合わせフォームとフッターのCSS</h2>\n<pre><code>/* お問い合わせセクション */\n.contact {\n  padding: 80px 0;\n}\n\n.contact h2 {\n  font-size: 32px;\n  font-weight: 700;\n  text-align: center;\n  margin-bottom: 40px;\n}\n\n.contact-form {\n  max-width: 560px;\n  margin: 0 auto;\n}\n\n.form-group {\n  margin-bottom: 24px;\n}\n\n.form-group label {\n  display: block;\n  font-weight: 600;\n  margin-bottom: 8px;\n  color: #374151;\n}\n\n.form-group input,\n.form-group textarea {\n  width: 100%;\n  padding: 12px 16px;\n  border: 1.5px solid #e2e8f0;\n  border-radius: 8px;\n  font-size: 15px;\n  font-family: inherit;\n  color: #1e293b;\n  transition: border-color 0.2s ease;\n  outline: none;\n}\n\n.form-group input:focus,\n.form-group textarea:focus {\n  border-color: #2563eb;\n  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);\n}\n\n/* フッター */\n.footer {\n  background-color: #1e293b;\n  color: #94a3b8;\n  padding: 32px 0;\n  text-align: center;\n}\n\n/* レスポンシブ対応 */\n@media (max-width: 768px) {\n  .header .container {\n    flex-direction: column;\n    gap: 16px;\n  }\n\n  .nav-list {\n    gap: 20px;\n  }\n\n  .hero {\n    padding: 60px 0;\n  }\n\n  .features, .contact {\n    padding: 60px 0;\n  }\n}</code></pre>\n\n<h2>まとめ：一つのページでHTML/CSSを統合する</h2>\n<p>このエピソードではヘッダー・ヒーロー・特徴カード・フォーム・フッターという実際のランディングページの構成要素を、これまで学んだHTML/CSSを使ってゼロから組み上げました。</p>\n<p>実践を通じて気づいていただきたい重要なポイントがいくつかあります。セマンティックなHTMLタグ（header・main・section・footer）を使うこと、CSSリセットとbox-sizingを先頭に書くこと、コンテナパターン（max-width + margin:0 auto）でコンテンツ幅を制御すること、Flexboxでナビゲーションとカードレイアウトを実現すること、メディアクエリでスマホ対応を加えることです。このページをテンプレートとして自分なりにカスタマイズしてみましょう。html css 初心者はコードを写して動かしてみることが上達の最短ルートです。</p>",
-  "conclusion": "ランディングページ制作の実践を通じて、HTML/CSSの各知識がどう組み合わさるかを体験しました。セマンティックHTML・CSSリセット・コンテナパターン・Flexboxカードレイアウト・フォームスタイリング・メディアクエリの流れが実際のweb制作の基本フローです。コードをコピーして自分のページに改造することで理解が深まります。",
+  "summary": "HTML/CSSの総合演習としてランディングページを構築。ヘッダー・ヒーロー・特徴カード・お問い合わせ・フッターをFlexboxとレスポンシブで完成させます。",
+  "body": "<h2>結論：セマンティックHTML＋Flexbox＋メディアクエリでランディングページを組み上げる</h2>\n<p><code>header / main / section / footer</code> で構造を分け、<strong>Flexbox</strong>でナビ・カード配置、<strong>メディアクエリ</strong>でスマホ/PC切替。CSSはセクションごとにコメント分けすると実務に近い構成になります。</p>\n\n<h2>このエピソードで作るページの設計</h2>\n<p>これまでのエピソードで学んだHTMLとCSSを総動員して、実際に使えるシンプルなランディングページを作ります。架空の「オンラインプログラミングスクール」のランディングページを題材にして、Webサイトの主要な構成要素をすべて実装します。</p>\n<p>作成するセクションは次のとおりです。</p>\n<ul>\n  <li><strong>ヘッダー</strong>：ロゴとナビゲーション（Flexboxで横並び）</li>\n  <li><strong>ヒーローセクション</strong>：キャッチコピーとCTAボタン（中央揃え）</li>\n  <li><strong>特徴セクション</strong>：3カラムのカードレイアウト（Flexbox）</li>\n  <li><strong>お問い合わせセクション</strong>：シンプルなフォーム</li>\n  <li><strong>フッター</strong>：コピーライト表記</li>\n</ul>\n<p>最初にHTMLの構造を作り、次にCSSでスタイリングするという手順で進めます。「HTML先・CSS後」というアプローチがweb制作の基本的な流れです。</p>\n\n<h2>HTMLの全体構造を組み立てる</h2>\n<p>まずHTMLのセマンティックな構造を作ります。ページのセクションには <code>&lt;header&gt;</code>・<code>&lt;main&gt;</code>・<code>&lt;section&gt;</code>・<code>&lt;footer&gt;</code> など意味のあるタグを使います。</p>\n<pre><code>&lt;!DOCTYPE html&gt;\n&lt;html lang=\"ja\"&gt;\n&lt;head&gt;\n  &lt;meta charset=\"UTF-8\"&gt;\n  &lt;meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\"&gt;\n  &lt;title&gt;CodeLeap - オンラインプログラミングスクール&lt;/title&gt;\n  &lt;link rel=\"stylesheet\" href=\"style.css\"&gt;\n&lt;/head&gt;\n&lt;body&gt;\n  &lt;header class=\"header\"&gt;\n    &lt;div class=\"container\"&gt;\n      &lt;div class=\"logo\"&gt;CodeLeap&lt;/div&gt;\n      &lt;nav&gt;\n        &lt;ul class=\"nav-list\"&gt;\n          &lt;li&gt;&lt;a href=\"#features\"&gt;特徴&lt;/a&gt;&lt;/li&gt;\n          &lt;li&gt;&lt;a href=\"#contact\"&gt;お問い合わせ&lt;/a&gt;&lt;/li&gt;\n          &lt;li&gt;&lt;a href=\"#\" class=\"btn-nav\"&gt;無料登録&lt;/a&gt;&lt;/li&gt;\n        &lt;/ul&gt;\n      &lt;/nav&gt;\n    &lt;/div&gt;\n  &lt;/header&gt;\n\n  &lt;main&gt;\n    &lt;section class=\"hero\"&gt;\n      &lt;div class=\"container\"&gt;\n        &lt;h1&gt;プログラミングを、はじめよう。&lt;/h1&gt;\n        &lt;p class=\"hero-text\"&gt;初心者でも安心。実践的なカリキュラムで、確実にスキルが身につきます。&lt;/p&gt;\n        &lt;a href=\"#contact\" class=\"btn-primary\"&gt;無料で始める&lt;/a&gt;\n      &lt;/div&gt;\n    &lt;/section&gt;\n\n    &lt;section id=\"features\" class=\"features\"&gt;\n      &lt;div class=\"container\"&gt;\n        &lt;h2&gt;選ばれる3つの理由&lt;/h2&gt;\n        &lt;div class=\"card-grid\"&gt;\n          &lt;article class=\"card\"&gt;\n            &lt;div class=\"card-icon\"&gt;📚&lt;/div&gt;\n            &lt;h3&gt;充実したカリキュラム&lt;/h3&gt;\n            &lt;p&gt;HTML/CSSから始め、JavaScriptまで段階的に学べる体系的なカリキュラムを用意しています。&lt;/p&gt;\n          &lt;/article&gt;\n          &lt;article class=\"card\"&gt;\n            &lt;div class=\"card-icon\"&gt;💬&lt;/div&gt;\n            &lt;h3&gt;いつでもサポート&lt;/h3&gt;\n            &lt;p&gt;専任のメンターがチャットとビデオ通話で質問に答えます。一人で悩まず学習を進められます。&lt;/p&gt;\n          &lt;/article&gt;\n          &lt;article class=\"card\"&gt;\n            &lt;div class=\"card-icon\"&gt;🚀&lt;/div&gt;\n            &lt;h3&gt;実践プロジェクト&lt;/h3&gt;\n            &lt;p&gt;学んだ知識をすぐ実践。ポートフォリオになる実際のWebサイトを制作しながら習得できます。&lt;/p&gt;\n          &lt;/article&gt;\n        &lt;/div&gt;\n      &lt;/div&gt;\n    &lt;/section&gt;\n\n    &lt;section id=\"contact\" class=\"contact\"&gt;\n      &lt;div class=\"container\"&gt;\n        &lt;h2&gt;お問い合わせ&lt;/h2&gt;\n        &lt;form class=\"contact-form\"&gt;\n          &lt;div class=\"form-group\"&gt;\n            &lt;label for=\"name\"&gt;お名前&lt;/label&gt;\n            &lt;input type=\"text\" id=\"name\" name=\"name\" placeholder=\"田中 太郎\" required&gt;\n          &lt;/div&gt;\n          &lt;div class=\"form-group\"&gt;\n            &lt;label for=\"email\"&gt;メールアドレス&lt;/label&gt;\n            &lt;input type=\"email\" id=\"email\" name=\"email\" placeholder=\"example@mail.com\" required&gt;\n          &lt;/div&gt;\n          &lt;div class=\"form-group\"&gt;\n            &lt;label for=\"message\"&gt;メッセージ&lt;/label&gt;\n            &lt;textarea id=\"message\" name=\"message\" rows=\"5\" placeholder=\"お問い合わせ内容を入力してください\" required&gt;&lt;/textarea&gt;\n          &lt;/div&gt;\n          &lt;button type=\"submit\" class=\"btn-primary\"&gt;送信する&lt;/button&gt;\n        &lt;/form&gt;\n      &lt;/div&gt;\n    &lt;/section&gt;\n  &lt;/main&gt;\n\n  &lt;footer class=\"footer\"&gt;\n    &lt;div class=\"container\"&gt;\n      &lt;p&gt;&amp;copy; 2024 CodeLeap. All rights reserved.&lt;/p&gt;\n    &lt;/div&gt;\n  &lt;/footer&gt;\n&lt;/body&gt;\n&lt;/html&gt;</code></pre>\n\n<h2>CSSのリセットとベーススタイル</h2>\n<p>style.cssを作成し、まず全要素共通の設定とベーススタイルを書きます。</p>\n<pre><code>/* ベーススタイル */\n*, *::before, *::after {\n  box-sizing: border-box;\n  margin: 0;\n  padding: 0;\n}\n\nbody {\n  font-family: \"Noto Sans JP\", \"Hiragino Kaku Gothic ProN\", sans-serif;\n  font-size: 16px;\n  line-height: 1.7;\n  color: #1e293b;\n  background-color: #ffffff;\n}\n\nimg {\n  max-width: 100%;\n  height: auto;\n}\n\na {\n  text-decoration: none;\n  color: inherit;\n}\n\n/* コンテナ：最大幅1200pxで中央揃え */\n.container {\n  width: 100%;\n  max-width: 1200px;\n  margin: 0 auto;\n  padding: 0 24px;\n}</code></pre>\n<p>CSSリセット（margin・paddingを0にする）を最初に書くことで、ブラウザごとのデフォルトスタイルの差異をなくします。<code>box-sizing: border-box</code> も忘れずに書きましょう。</p>\n\n<h2>ヘッダーとナビゲーションのCSS</h2>\n<pre><code>/* ヘッダー */\n.header {\n  position: sticky;  /* スクロールしても上部に固定 */\n  top: 0;\n  background-color: #ffffff;\n  border-bottom: 1px solid #e2e8f0;\n  z-index: 100;\n}\n\n.header .container {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  padding-top: 16px;\n  padding-bottom: 16px;\n}\n\n.logo {\n  font-size: 22px;\n  font-weight: 700;\n  color: #2563eb;\n}\n\n.nav-list {\n  display: flex;\n  list-style: none;\n  align-items: center;\n  gap: 32px;\n}\n\n.nav-list a {\n  color: #475569;\n  font-size: 15px;\n  font-weight: 500;\n  transition: color 0.2s ease;\n}\n\n.nav-list a:hover {\n  color: #2563eb;\n}\n\n/* ナビの「無料登録」ボタン */\n.btn-nav {\n  background-color: #2563eb;\n  color: white !important;\n  padding: 8px 20px;\n  border-radius: 6px;\n  font-weight: 600;\n  transition: background-color 0.2s ease;\n}\n\n.btn-nav:hover {\n  background-color: #1d4ed8 !important;\n}</code></pre>\n\n<h2>ヒーローセクションとCTAボタンのCSS</h2>\n<pre><code>/* ヒーローセクション */\n.hero {\n  background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);\n  padding: 100px 0;\n  text-align: center;\n}\n\n.hero h1 {\n  font-size: clamp(32px, 5vw, 56px);\n  font-weight: 800;\n  color: #1e293b;\n  margin-bottom: 20px;\n  line-height: 1.3;\n}\n\n.hero-text {\n  font-size: 18px;\n  color: #64748b;\n  max-width: 560px;\n  margin: 0 auto 36px;\n}\n\n/* プライマリーボタン（共通） */\n.btn-primary {\n  display: inline-block;\n  background-color: #2563eb;\n  color: white;\n  padding: 14px 36px;\n  border-radius: 8px;\n  font-size: 17px;\n  font-weight: 600;\n  border: none;\n  cursor: pointer;\n  transition: background-color 0.2s ease, transform 0.1s ease;\n}\n\n.btn-primary:hover {\n  background-color: #1d4ed8;\n  transform: translateY(-1px);\n}\n\n.btn-primary:active {\n  transform: translateY(0);\n}</code></pre>\n\n<h2>特徴セクションとカードのCSS</h2>\n<pre><code>/* 特徴セクション */\n.features {\n  padding: 80px 0;\n  background-color: #f8fafc;\n}\n\n.features h2 {\n  font-size: 32px;\n  font-weight: 700;\n  text-align: center;\n  margin-bottom: 48px;\n  color: #1e293b;\n}\n\n/* カードグリッド */\n.card-grid {\n  display: flex;\n  gap: 24px;\n  flex-wrap: wrap;\n}\n\n.card {\n  flex: 1 1 280px;\n  background-color: #ffffff;\n  border-radius: 12px;\n  padding: 32px 28px;\n  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08), 0 4px 16px rgba(0, 0, 0, 0.04);\n  transition: transform 0.2s ease, box-shadow 0.2s ease;\n}\n\n.card:hover {\n  transform: translateY(-4px);\n  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12), 0 8px 32px rgba(0, 0, 0, 0.08);\n}\n\n.card-icon {\n  font-size: 40px;\n  margin-bottom: 16px;\n}\n\n.card h3 {\n  font-size: 20px;\n  font-weight: 700;\n  margin-bottom: 12px;\n  color: #1e293b;\n}\n\n.card p {\n  color: #64748b;\n  line-height: 1.75;\n}</code></pre>\n\n<h2>お問い合わせフォームとフッターのCSS</h2>\n<pre><code>/* お問い合わせセクション */\n.contact {\n  padding: 80px 0;\n}\n\n.contact h2 {\n  font-size: 32px;\n  font-weight: 700;\n  text-align: center;\n  margin-bottom: 40px;\n}\n\n.contact-form {\n  max-width: 560px;\n  margin: 0 auto;\n}\n\n.form-group {\n  margin-bottom: 24px;\n}\n\n.form-group label {\n  display: block;\n  font-weight: 600;\n  margin-bottom: 8px;\n  color: #374151;\n}\n\n.form-group input,\n.form-group textarea {\n  width: 100%;\n  padding: 12px 16px;\n  border: 1.5px solid #e2e8f0;\n  border-radius: 8px;\n  font-size: 15px;\n  font-family: inherit;\n  color: #1e293b;\n  transition: border-color 0.2s ease;\n  outline: none;\n}\n\n.form-group input:focus,\n.form-group textarea:focus {\n  border-color: #2563eb;\n  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);\n}\n\n/* フッター */\n.footer {\n  background-color: #1e293b;\n  color: #94a3b8;\n  padding: 32px 0;\n  text-align: center;\n}\n\n/* レスポンシブ対応 */\n@media (max-width: 768px) {\n  .header .container {\n    flex-direction: column;\n    gap: 16px;\n  }\n\n  .nav-list {\n    gap: 20px;\n  }\n\n  .hero {\n    padding: 60px 0;\n  }\n\n  .features, .contact {\n    padding: 60px 0;\n  }\n}</code></pre>\n\n<h2>つまずきやすいポイント・失敗例</h2>\n<h3>失敗例：全部1つのCSSファイルに無秩序に追記</h3>\n<p>/* Header */ /* Hero */ のようにセクションコメントで区切り、後から修正しやすくしましょう。</p>\n<h3>失敗例：スマホ確認を後回し</h3>\n<p>各セクション完成ごとに開発者ツールのデバイスモードで確認すると、後の修正コストが減ります。</p>\n\n<h2>まとめ：一つのページでHTML/CSSを統合する</h2>\n<p>このエピソードではヘッダー・ヒーロー・特徴カード・フォーム・フッターという実際のランディングページの構成要素を、これまで学んだHTML/CSSを使ってゼロから組み上げました。</p>\n<p>実践を通じて気づいていただきたい重要なポイントがいくつかあります。セマンティックなHTMLタグ（header・main・section・footer）を使うこと、CSSリセットとbox-sizingを先頭に書くこと、コンテナパターン（max-width + margin:0 auto）でコンテンツ幅を制御すること、Flexboxでナビゲーションとカードレイアウトを実現すること、メディアクエリでスマホ対応を加えることです。このページをテンプレートとして自分なりにカスタマイズしてみましょう。html css 初心者はコードを写して動かしてみることが上達の最短ルートです。</p>",
+  "conclusion": "ランディングページではセマンティックHTML（header/main/section/footer）とFlexbox、メディアクエリを組み合わせます。コンポーネント単位（ヘッダー、ヒーロー等）でCSSを整理すると保守しやすくなります。",
   "tags": [
     "HTML",
     "CSS",
@@ -18,12 +18,12 @@
   "theme": "web - HTML/CSS Web制作入門",
   "status": "published",
   "createdAt": "2026-05-30T04:13:26.587Z",
-  "updatedAt": "2026-05-30T05:01:28.107Z",
+  "updatedAt": "2026-05-30T05:23:49.442Z",
   "publishedAt": "2026-05-30T04:13:26.587Z",
   "metaTitle": "ランディングページを作ろう！HTML/CSS総合実践【web制作 入門】｜Web開発入門 | StackShelf",
-  "metaDescription": "HTML/CSSを使ってランディングページを実際に作る実践解説。ヘッダー・ヒーロー・カードレイアウト・フォーム・フッターをFlexboxとレスポンシブデザインで組み上げます。html css 初心者向け。",
+  "metaDescription": "HTML/CSS総合演習でランディングページを構築。ヘッダー・ヒーロー・特徴・フォーム・フッターの実装手順を解説します。",
   "ogTitle": "ランディングページを実際に作ろう：HTML/CSS総合実践",
-  "ogDescription": "学んだHTML/CSSでシンプルなランディングページを一から構築。ヘッダー・ヒーロー・カード・フォーム・フッターを実装します。",
+  "ogDescription": "学んだHTML/CSSを使ってランディングページを一から作る実践演習です。",
   "knowledge": {
     "topic": "web",
     "courseId": "web",
@@ -31,24 +31,24 @@
   },
   "faq": [
     {
-      "question": "CSSはどの順番で書けばいいですか？",
-      "answer": "一般的にリセット/ベーススタイル→レイアウト→コンポーネント（ボタン・カードなど）→ページ固有のスタイル→メディアクエリの順で書くと管理しやすいです。BEMやSCSSなどのCSS設計手法を学ぶと大規模なサイトでも破綻しにくいCSSが書けます。"
+      "question": "セマンティックHTMLとは？",
+      "answer": "header/main/nav/section/article/footer等、意味のあるタグで構造を表現すること。SEOとアクセシビリティに有利です。"
     },
     {
-      "question": "position:stickyはどう使いますか？",
-      "answer": "position:stickyを指定した要素は、通常の位置に表示された後スクロールで指定位置（top:0など）まで来ると固定されます。ヘッダーをスクロールしても画面上部に固定するときによく使います。z-indexを設定して他の要素より前面に表示されるようにすることも忘れずに。"
+      "question": "CSSを1ファイルにまとめる？",
+      "answer": "小規模サイトでは1ファイルで十分。大規模ではコンポーネント別分割も検討します。"
     },
     {
-      "question": "box-shadowの書き方がわかりません。",
-      "answer": "box-shadowの基本構文は「水平オフセット 垂直オフセット ぼかし 広がり 色」です。例えば「box-shadow: 0 4px 16px rgba(0,0,0,0.1)」は下方向4px・ぼかし16px・10%透明な黒い影です。複数の影を「, 」で区切って重ねることもできます。ブラウザの開発者ツールでリアルタイムに値を調整すると理解が深まります。"
+      "question": "Google Fontsの使い方は？",
+      "answer": "linkでフォントを読み込み、font-familyで指定します。表示速度に注意し、必要なウェイトだけ読み込みましょう。"
     },
     {
-      "question": "linear-gradientはどう書きますか？",
-      "answer": "linear-gradient(方向, 開始色, 終了色)の形式で書きます。「background: linear-gradient(135deg, #eff6ff, #dbeafe)」は135度方向（右下）に薄い青から水色に変わるグラデーションです。CSSgradient.ioなどのジェネレーターサイトを使うと視覚的に好みのグラデーションのコードを生成できます。"
+      "question": "完成度を上げるコツは？",
+      "answer": "余白（padding/margin）を統一、色を2〜3色に絞る、行間・フォントサイズの階層を意識します。"
     },
     {
       "question": "HTML/CSSだけでWebサイトは作れますか？",
-      "answer": "静的なページなら可能です。フォーム送信やユーザー認証など動的な機能には、後から JavaScript やサーバー側の技術が必要になります。"
+      "answer": "静的ランディングページなら可能です。"
     }
   ],
   "nextEpisodeHint": "最終エピソードでは作ったWebサイトをインターネット上に公開する方法を学びます。GitHub Pagesを使えば無料でサイトを公開できます。GitとGitHubの基本も合わせて解説します。",
@@ -61,9 +61,9 @@
         "@context": "https://schema.org",
         "@type": "TechArticle",
         "headline": "ランディングページを実際に作ろう：HTML/CSS総合実践",
-        "description": "HTML/CSSを使ってランディングページを実際に作る実践解説。ヘッダー・ヒーロー・カードレイアウト・フォーム・フッターをFlexboxとレスポンシブデザインで組み上げます。html css 初心者向け。 図解・具体例つきで丁寧に解説します。",
+        "description": "HTML/CSS総合演習でランディングページを構築。ヘッダー・ヒーロー・特徴・フォーム・フッターの実装手順を解説します。",
         "datePublished": "2026-05-30T04:13:26.587Z",
-        "dateModified": "2026-05-30T05:01:28.107Z",
+        "dateModified": "2026-05-30T05:23:49.442Z",
         "author": {
           "@type": "Organization",
           "name": "StackShelf",
@@ -84,7 +84,7 @@
         },
         "image": "https://ai-site-iota-nine.vercel.app/og-default.svg",
         "inLanguage": "ja",
-        "wordCount": 6827,
+        "wordCount": 7121,
         "mainEntityOfPage": {
           "@type": "WebPage",
           "@id": "https://ai-site-iota-nine.vercel.app/article/web-css-practice"
@@ -150,34 +150,34 @@
         "mainEntity": [
           {
             "@type": "Question",
-            "name": "CSSはどの順番で書けばいいですか？",
+            "name": "セマンティックHTMLとは？",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "一般的にリセット/ベーススタイル→レイアウト→コンポーネント（ボタン・カードなど）→ページ固有のスタイル→メディアクエリの順で書くと管理しやすいです。BEMやSCSSなどのCSS設計手法を学ぶと大規模なサイトでも破綻しにくいCSSが書けます。"
+              "text": "header/main/nav/section/article/footer等、意味のあるタグで構造を表現すること。SEOとアクセシビリティに有利です。"
             }
           },
           {
             "@type": "Question",
-            "name": "position:stickyはどう使いますか？",
+            "name": "CSSを1ファイルにまとめる？",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "position:stickyを指定した要素は、通常の位置に表示された後スクロールで指定位置（top:0など）まで来ると固定されます。ヘッダーをスクロールしても画面上部に固定するときによく使います。z-indexを設定して他の要素より前面に表示されるようにすることも忘れずに。"
+              "text": "小規模サイトでは1ファイルで十分。大規模ではコンポーネント別分割も検討します。"
             }
           },
           {
             "@type": "Question",
-            "name": "box-shadowの書き方がわかりません。",
+            "name": "Google Fontsの使い方は？",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "box-shadowの基本構文は「水平オフセット 垂直オフセット ぼかし 広がり 色」です。例えば「box-shadow: 0 4px 16px rgba(0,0,0,0.1)」は下方向4px・ぼかし16px・10%透明な黒い影です。複数の影を「, 」で区切って重ねることもできます。ブラウザの開発者ツールでリアルタイムに値を調整すると理解が深まります。"
+              "text": "linkでフォントを読み込み、font-familyで指定します。表示速度に注意し、必要なウェイトだけ読み込みましょう。"
             }
           },
           {
             "@type": "Question",
-            "name": "linear-gradientはどう書きますか？",
+            "name": "完成度を上げるコツは？",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "linear-gradient(方向, 開始色, 終了色)の形式で書きます。「background: linear-gradient(135deg, #eff6ff, #dbeafe)」は135度方向（右下）に薄い青から水色に変わるグラデーションです。CSSgradient.ioなどのジェネレーターサイトを使うと視覚的に好みのグラデーションのコードを生成できます。"
+              "text": "余白（padding/margin）を統一、色を2〜3色に絞る、行間・フォントサイズの階層を意識します。"
             }
           },
           {
@@ -185,7 +185,7 @@
             "name": "HTML/CSSだけでWebサイトは作れますか？",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "静的なページなら可能です。フォーム送信やユーザー認証など動的な機能には、後から JavaScript やサーバー側の技術が必要になります。"
+              "text": "静的ランディングページなら可能です。"
             }
           }
         ]
@@ -247,34 +247,34 @@
     "mainEntity": [
       {
         "@type": "Question",
-        "name": "CSSはどの順番で書けばいいですか？",
+        "name": "セマンティックHTMLとは？",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "一般的にリセット/ベーススタイル→レイアウト→コンポーネント（ボタン・カードなど）→ページ固有のスタイル→メディアクエリの順で書くと管理しやすいです。BEMやSCSSなどのCSS設計手法を学ぶと大規模なサイトでも破綻しにくいCSSが書けます。"
+          "text": "header/main/nav/section/article/footer等、意味のあるタグで構造を表現すること。SEOとアクセシビリティに有利です。"
         }
       },
       {
         "@type": "Question",
-        "name": "position:stickyはどう使いますか？",
+        "name": "CSSを1ファイルにまとめる？",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "position:stickyを指定した要素は、通常の位置に表示された後スクロールで指定位置（top:0など）まで来ると固定されます。ヘッダーをスクロールしても画面上部に固定するときによく使います。z-indexを設定して他の要素より前面に表示されるようにすることも忘れずに。"
+          "text": "小規模サイトでは1ファイルで十分。大規模ではコンポーネント別分割も検討します。"
         }
       },
       {
         "@type": "Question",
-        "name": "box-shadowの書き方がわかりません。",
+        "name": "Google Fontsの使い方は？",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "box-shadowの基本構文は「水平オフセット 垂直オフセット ぼかし 広がり 色」です。例えば「box-shadow: 0 4px 16px rgba(0,0,0,0.1)」は下方向4px・ぼかし16px・10%透明な黒い影です。複数の影を「, 」で区切って重ねることもできます。ブラウザの開発者ツールでリアルタイムに値を調整すると理解が深まります。"
+          "text": "linkでフォントを読み込み、font-familyで指定します。表示速度に注意し、必要なウェイトだけ読み込みましょう。"
         }
       },
       {
         "@type": "Question",
-        "name": "linear-gradientはどう書きますか？",
+        "name": "完成度を上げるコツは？",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "linear-gradient(方向, 開始色, 終了色)の形式で書きます。「background: linear-gradient(135deg, #eff6ff, #dbeafe)」は135度方向（右下）に薄い青から水色に変わるグラデーションです。CSSgradient.ioなどのジェネレーターサイトを使うと視覚的に好みのグラデーションのコードを生成できます。"
+          "text": "余白（padding/margin）を統一、色を2〜3色に絞る、行間・フォントサイズの階層を意識します。"
         }
       },
       {
@@ -282,7 +282,7 @@
         "name": "HTML/CSSだけでWebサイトは作れますか？",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "静的なページなら可能です。フォーム送信やユーザー認証など動的な機能には、後から JavaScript やサーバー側の技術が必要になります。"
+          "text": "静的ランディングページなら可能です。"
         }
       }
     ]
@@ -314,5 +314,5 @@
       "reason": "同じ講座の関連回です"
     }
   ],
-  "nextAction": "最終エピソードでは作ったWebサイトをインターネット上に公開する方法を学びます。GitHub Pagesを使えば無料でサイトを公開できます。GitとGitHubの基本も合わせて解説します。"
+  "nextAction": "記事の構成に沿ってヘッダーとヒーローセクションまで実装し、768px以上で2カラムになるようメディアクエリを追加してください。"
 }

@@ -10,6 +10,11 @@ const TOPIC_LABELS = {
   web: "Web",
   docker: "Docker",
   ai: "AI",
+  markdown: "Markdown",
+  regex: "正規表現",
+  http: "HTTP",
+  bash: "Bash",
+  nginx: "nginx",
 };
 
 function escapeRegex(s) {

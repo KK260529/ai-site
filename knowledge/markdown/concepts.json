@@ -1,0 +1,30 @@
+{
+  "topic": "markdown",
+  "coreConcepts": [
+    {
+      "id": "markdown-intro",
+      "title": "Markdownとは？技術文書を書く理由",
+      "summary": "Markdown & 技術ドキュメント入門の第1回で学ぶ内容"
+    },
+    {
+      "id": "markdown-basic-syntax",
+      "title": "見出し・段落・強調の基本",
+      "summary": "Markdown & 技術ドキュメント入門の第2回で学ぶ内容"
+    },
+    {
+      "id": "markdown-lists-links",
+      "title": "リスト・リンク・画像",
+      "summary": "Markdown & 技術ドキュメント入門の第3回で学ぶ内容"
+    },
+    {
+      "id": "markdown-code-tables",
+      "title": "コードブロックと表",
+      "summary": "Markdown & 技術ドキュメント入門の第4回で学ぶ内容"
+    },
+    {
+      "id": "markdown-github-readme",
+      "title": "GitHub READMEの書き方",
+      "summary": "Markdown & 技術ドキュメント入門の第5回で学ぶ内容"
+    }
+  ]
+}

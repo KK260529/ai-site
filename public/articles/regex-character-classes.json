@@ -1,0 +1,322 @@
+{
+  "id": "art_regex_regex-character-classes",
+  "slug": "regex-character-classes",
+  "title": "文字クラス [] と否定｜正規表現で使える文字の範囲指定【入門】",
+  "summary": "正規表現の文字クラス [ ] の書き方、範囲指定、否定 [^ ]、プリ定義クラス \\d \\w などを具体例で解説します。",
+  "body": "<h2>文字クラスとは「この中から1文字」</h2>\n<p>角括弧 <code>[ ]</code> で囲んだ部分を<strong>文字クラス（character class）</strong>といい、<strong>括弧の中に書いた文字のいずれか1文字</strong>にマッチします。ドット <code>.</code> が「何でもよい1文字」なのに対し、文字クラスは<strong>候補を限定</strong>できるため、より安全で読みやすいパターンが書けます。</p>\n<pre><code># [aeiou] → a, e, i, o, u のいずれか1文字\n# [0-9]   → 0から9までの数字1文字（範囲指定）\n# [a-zA-Z] → 英字1文字</code></pre>\n\n<h2>範囲指定とハイフン -</h2>\n<p>文字クラス内では、<code>開始文字-終了文字</code> で<strong>範囲</strong>を表せます。<code>[0-9]</code> は数字1文字、<code>[a-z]</code> は小文字英字1文字です。</p>\n<p>ハイフン <code>-</code> そのものを候補に含めたいときは、<strong>先頭か末尾</strong>に置くか、エスケープします。</p>\n<pre><code>[-09]    # 先頭の - はリテラル、0-9 は範囲 → - と数字\n[0-9-]   # 末尾の - はリテラル\n[0\\-9]  # エスケープした -</code></pre>\n<p>範囲の順序を間違えるとエラーや意図しないマッチになります。<code>[9-0]</code> のように逆順は方言によっては無効です。</p>\n\n<h2>否定文字クラス [^ ]</h2>\n<p>開き括弧の直後に <code>^</code> を置くと<strong>否定文字クラス</strong>になり、「この中の文字<strong>以外</strong>の1文字」にマッチします。</p>\n<pre><code>[^0-9]   # 数字以外の1文字\n[^\\n]   # 改行以外（行の区切りを除く処理などで使う）</code></pre>\n<p>注意：<code>^</code> は文字クラスの<strong>内側の先頭</strong>でのみ否定を意味します。行全体の先頭を表すアンカー <code>^</code>（次回詳しく）と混同しないよう、文脈で区別しましょう。</p>\n\n<h2>プリ定義文字クラス</h2>\n<p>よく使う集合には、エスケープ＋英字の<strong>プリ定義クラス</strong>があります（方言により名称は共通）。</p>\n<ul>\n  <li><code>\\d</code> — 数字（多くは [0-9] 相当）</li>\n  <li><code>\\D</code> — 数字以外</li>\n  <li><code>\\w</code> — 単語構成文字（英数字と _ など）</li>\n  <li><code>\\W</code> — \\w 以外</li>\n  <li><code>\\s</code> — 空白（スペース、タブ、改行など）</li>\n  <li><code>\\S</code> — 空白以外</li>\n</ul>\n<pre><code># 郵便番号の前半3桁（単純例）\n\\d\\d\\d\n\n# 英数字とアンダースコア\n\\w+</code></pre>\n<p>Unicodeの「日本語1文字」などは、プリ定義だけでは足りないことがあります。<code>[ぁ-んァ-ン一-龥]</code> のような範囲や、Unicodeプロパティ（環境が対応している場合）を使います。</p>\n\n<h2>文字クラス内では多くのメタ文字がリテラル</h2>\n<p><code>[ ]</code> の<strong>内側</strong>では、<code>.</code> <code>*</code> <code>?</code> などはたいていリテラルとして扱われます。だから <code>[.]</code> は「ドット1文字」であり、<code>.</code> 単体の「任意の1文字」とは違います。</p>\n<p>例外として <code>^</code> <code>-</code> <code>]</code> <code>\\</code> は位置やエスケープに注意が必要です。閉じ括弧 <code>]</code> を含めたい場合は、先頭に置くか <code>\\]</code> とします。</p>\n\n<h2>. と文字クラスの使い分け</h2>\n<p><strong>ドット .</strong> は手軽ですが広すぎます。<strong>文字クラス</strong> は意図が明確です。</p>\n<pre><code># 16進色コード #RGB 6桁（簡略例）\n#[0-9a-fA-F]{6}\n\n# 「任意1文字」だと # 以外も許してしまう危険\n# .{6} は避けた方がよい場面が多い</code></pre>\n<p>「数字だけ」「英字だけ」と限定したいときは、必ず <code>[0-9]</code> や <code>\\d</code> を使う習慣をつけましょう。</p>\n\n<h2>実務での例</h2>\n<p><strong>ユーザー名の簡易チェック：</strong> 先頭英字、続き英数字とアンダースコア、3〜16文字などは、文字クラスと量詞（次回）の組み合わせで表現します。</p>\n<pre><code>^[a-zA-Z][a-zA-Z0-9_]{2,15}$</code></pre>\n<p><strong>ログからIPの一部を抜く：</strong> <code>\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}</code> のようなパターンは、完全なIP検証ではありませんが、行の絞り込みには有効です（厳密な検証は専用ロジック推奨）。</p>\n\n<h2>よくある間違い</h2>\n<p><strong>[.+*?]</strong> のように、量詞を文字クラス内に入れて「繰り返し」を表そうとするのは誤りです。繰り返しはクラスの<strong>外側</strong>に <code>+</code> などを書きます。</p>\n<p><strong>[^\\d]</strong> と <strong>\\D</strong> はほぼ同じですが、Unicodeの扱いで差が出る方言もあります。重要な検証ではテストケースを複数用意しましょう。</p>\n\n<h2>複数文字クラスを連結する</h2>\n<p>文字クラスは1文字分ですが、<code>[0-9][0-9][0-9]</code> のように並べれば「3桁の数字」を表せます。量詞（次回）と組み合わせると <code>[0-9]{3}</code> のように短く書けます。クラス同士の間にスペースは不要で、<code>[A-Z][a-z]+</code> のように「大文字1文字＋小文字が1文字以上」といったパターンもよく使います。</p>\n<p>「英字または数字」だけを許す入力欄では <code>[a-zA-Z0-9]+</code> が定番です。記号を許すかどうかは要件次第なので、仕様書の「許可文字一覧」と照らし合わせてクラスを設計しましょう。</p>\n\n<h2>CSVやログの区切り文字</h2>\n<p>カンマ区切りの1フィールド目だけ欲しいとき、単純な <code>[^,]+</code>（カンマ以外が1文字以上）で先頭フィールドを抜けることがあります。ただし、引用符で囲まれたCSVでは正規表現だけでは不十分なので、Pythonの csv モジュールのように専用パーサを使う場面も多いです。正規表現は「ほぼ単純な区切り」のときに威力を発揮します。</p>\n<p>ログでよく使う「角括弧で囲まれた日時」<code>\\[[^\\]]+\\]</code> のように、否定クラスで「] 以外」を繰り返すパターンも覚えておくと便利です。角括弧自体はエスケープが必要なため、読みづらくなったら2段階の grep に分けてもよいでしょう。</p>\n\n<h2>練習問題のヒント</h2>\n<p>（1）<code>[0-9]{3}-[0-9]{4}</code> は何を表すか（量詞は次回の復習可）。（2）<code>[^\\s@]+@[^\\s@]+</code> はメールの超簡易版——空白と@以外の連続。（3）<code>[Aa][Pp][Ii]</code> と <code>[Aa][Pp][Ii]</code> の大文字小文字を <code>[Aa][Pp][Ii]</code> またはフラグ i でどう短くするか、エディタで試してください。答え合わせは regex101 で文字列を入力して確認するのが確実です。</p>\n\n<h2>文字クラス設計のチェックリスト</h2>\n<p>仕様を受け取ったら、（1）許可する文字の集合をリストアップ、（2）範囲で書けるか <code>[a-z]</code> を検討、（3）禁止文字は否定 <code>[^...]</code> か別ルールか決める、（4）grep では <code>[0-9]</code>、JS では <code>\\d</code> など環境の記法を確認、（5）テスト文字列を3種類以上用意——この順で進めると、打ち消しの多い試行錯誤が減ります。チームでレビューするときは、許可・禁止の一覧表を添えると議論が速くなります。</p>\n\n<h2>まとめ</h2>\n<p>文字クラス <code>[ ]</code> は「この集合のどれか1文字」を指定する仕組みで、範囲 <code>0-9</code> や否定 <code>[^...]</code> と組み合わせて強力です。プリ定義クラス <code>\\d</code> <code>\\w</code> <code>\\s</code> はよく使うので覚えておきましょう。次回は量詞で「何回繰り返すか」を制御します。</p>",
+  "conclusion": "文字クラス [ ] は候補の中から1文字にマッチし、0-9 のような範囲や [^ ] による否定が使えます。\\d \\w \\s などのプリ定義クラスはよく使うパターンのショートカットです。任意1文字の . より、意図が明確な文字クラスを優先するとバグが減ります。",
+  "tags": [
+    "正規表現",
+    "文字クラス",
+    "regex",
+    "否定",
+    "\\d",
+    "初心者"
+  ],
+  "category": "正規表現",
+  "theme": "regex - 正規表現入門",
+  "status": "published",
+  "createdAt": "2026-05-30T05:14:23.747Z",
+  "updatedAt": "2026-05-30T05:14:23.751Z",
+  "publishedAt": "2026-05-30T05:14:23.747Z",
+  "metaTitle": "正規表現 文字クラス [] | 範囲と否定の書き方",
+  "metaDescription": "【正規表現初心者向け】正規表現の文字クラス [abc] [0-9] [^x] を初心者向けに解説。プリ定義クラス \\d \\s と . との違いも具体例で学べます。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
+  "ogTitle": "文字クラス [] と否定｜正規表現入門",
+  "ogDescription": "【正規表現初心者向け】【正規表現初心者向け】正規表現の文字クラスと否定、プリ定義クラスをわかりやすく解説します。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
+  "knowledge": {
+    "topic": "regex",
+    "courseId": "regex",
+    "episode": 3
+  },
+  "faq": [
+    {
+      "question": "[0-9] と \\d は同じですか？",
+      "answer": "多くの環境で同じですが、\\d が Unicode の数字全般を含む実装もあります。厳密さが必要なら [0-9] を明示する方が安全です。"
+    },
+    {
+      "question": "文字クラス内で . はどう扱われますか？",
+      "answer": "通常はリテラルのドット1文字です。[.] は . と同じ意味になることが多いです。"
+    },
+    {
+      "question": "日本語を1文字マッチさせたいです",
+      "answer": "Unicode対応のエンジンなら [ぁ-ん] などの範囲や、\\p{Script=Hiragana} のようなプロパティ（対応時）を使います。"
+    },
+    {
+      "question": "否定 [^ ] とアンカー ^ の違いは？",
+      "answer": "[^abc] の ^ は「abc以外」。行頭の ^ は別の機能（アンカー）です。位置で意味が変わります。"
+    },
+    {
+      "question": "文字クラスは何文字まで書けますか？",
+      "answer": "理論上は長く書けますが、読みにくくなります。長いリストは複数パターンに分けるか、別の検証方法を検討しましょう。"
+    }
+  ],
+  "nextEpisodeHint": "次回は量詞 * + ? {n,m} を学びます。「0回以上」「1回以上」「ちょうどn回」を組み合わせて、電話番号や繰り返しフィールドを表現できるようになります。",
+  "nextAction": "",
+  "internalLinkCandidates": [
+    {
+      "slug": "regex-literals",
+      "title": "リテラルとメタ文字の基本",
+      "reason": "メタ文字とエスケープの復習"
+    },
+    {
+      "slug": "python-conditions",
+      "title": "条件分岐 if/elif/else",
+      "reason": "マッチ結果に応じた分岐のプログラム基礎"
+    },
+    {
+      "slug": "sql-where-filter",
+      "title": "WHEREで絞り込み",
+      "reason": "条件でデータを絞る考え方が似ている"
+    },
+    {
+      "slug": "linux-view-search",
+      "title": "grepで検索",
+      "reason": "文字クラスをgrepと一緒に使う"
+    },
+    {
+      "slug": "web-forms",
+      "title": "HTMLフォーム",
+      "reason": "入力形式の検証に文字クラスが使われる"
+    },
+    {
+      "slug": "git-intro",
+      "title": "Gitとは？",
+      "reason": "テキストベースの開発フロー全般の基礎"
+    }
+  ],
+  "ogImage": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+  "canonical": "https://ai-site-iota-nine.vercel.app/article/regex-character-classes",
+  "jsonLd": {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@context": "https://schema.org",
+        "@type": "TechArticle",
+        "headline": "文字クラス [] と否定｜正規表現で使える文字の範囲指定【入門】",
+        "description": "【正規表現初心者向け】正規表現の文字クラス [abc] [0-9] [^x] を初心者向けに解説。プリ定義クラス \\d \\s と . との違いも具体例で学べます。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
+        "datePublished": "2026-05-30T05:14:23.747Z",
+        "dateModified": "2026-05-30T05:14:23.751Z",
+        "author": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
+        },
+        "image": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+        "inLanguage": "ja",
+        "wordCount": 2527,
+        "mainEntityOfPage": {
+          "@type": "WebPage",
+          "@id": "https://ai-site-iota-nine.vercel.app/article/regex-character-classes"
+        },
+        "keywords": "正規表現, 文字クラス, regex, 否定, \\d, 初心者",
+        "articleSection": "正規表現",
+        "url": "https://ai-site-iota-nine.vercel.app/article/regex-character-classes",
+        "learningResourceType": "tutorial",
+        "educationalLevel": "beginner"
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "ホーム",
+            "item": "https://ai-site-iota-nine.vercel.app/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "regex",
+            "item": "https://ai-site-iota-nine.vercel.app/knowledge/regex"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "正規表現入門",
+            "item": "https://ai-site-iota-nine.vercel.app/course/regex/regex"
+          },
+          {
+            "@type": "ListItem",
+            "position": 4,
+            "name": "文字クラス [] と否定｜正規表現で使える文字の範囲指定【入門】",
+            "item": "https://ai-site-iota-nine.vercel.app/article/regex-character-classes"
+          }
+        ]
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "Course",
+        "name": "正規表現入門",
+        "description": "ログ解析・バリデーション・置換に必須の正規表現を10ステップで習得。つまずきやすいエスケープや量詞を具体例で解説します。",
+        "provider": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app"
+        },
+        "url": "https://ai-site-iota-nine.vercel.app/course/regex/regex",
+        "inLanguage": "ja",
+        "educationalLevel": "beginner",
+        "hasCourseInstance": {
+          "@type": "CourseInstance",
+          "courseMode": "online",
+          "courseWorkload": "PT1H"
+        }
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "[0-9] と \\d は同じですか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "多くの環境で同じですが、\\d が Unicode の数字全般を含む実装もあります。厳密さが必要なら [0-9] を明示する方が安全です。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "文字クラス内で . はどう扱われますか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "通常はリテラルのドット1文字です。[.] は . と同じ意味になることが多いです。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "日本語を1文字マッチさせたいです",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Unicode対応のエンジンなら [ぁ-ん] などの範囲や、\\p{Script=Hiragana} のようなプロパティ（対応時）を使います。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "否定 [^ ] とアンカー ^ の違いは？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "[^abc] の ^ は「abc以外」。行頭の ^ は別の機能（アンカー）です。位置で意味が変わります。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "文字クラスは何文字まで書けますか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "理論上は長く書けますが、読みにくくなります。長いリストは複数パターンに分けるか、別の検証方法を検討しましょう。"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "breadcrumb": {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "ホーム",
+        "item": "https://ai-site-iota-nine.vercel.app/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "regex",
+        "item": "https://ai-site-iota-nine.vercel.app/knowledge/regex"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "正規表現入門",
+        "item": "https://ai-site-iota-nine.vercel.app/course/regex/regex"
+      },
+      {
+        "@type": "ListItem",
+        "position": 4,
+        "name": "文字クラス [] と否定｜正規表現で使える文字の範囲指定【入門】",
+        "item": "https://ai-site-iota-nine.vercel.app/article/regex-character-classes"
+      }
+    ]
+  },
+  "courseSchema": {
+    "@context": "https://schema.org",
+    "@type": "Course",
+    "name": "正規表現入門",
+    "description": "ログ解析・バリデーション・置換に必須の正規表現を10ステップで習得。つまずきやすいエスケープや量詞を具体例で解説します。",
+    "provider": {
+      "@type": "Organization",
+      "name": "StackShelf",
+      "url": "https://ai-site-iota-nine.vercel.app"
+    },
+    "url": "https://ai-site-iota-nine.vercel.app/course/regex/regex",
+    "inLanguage": "ja",
+    "educationalLevel": "beginner",
+    "hasCourseInstance": {
+      "@type": "CourseInstance",
+      "courseMode": "online",
+      "courseWorkload": "PT1H"
+    }
+  },
+  "faqSchema": {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "[0-9] と \\d は同じですか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "多くの環境で同じですが、\\d が Unicode の数字全般を含む実装もあります。厳密さが必要なら [0-9] を明示する方が安全です。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "文字クラス内で . はどう扱われますか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "通常はリテラルのドット1文字です。[.] は . と同じ意味になることが多いです。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "日本語を1文字マッチさせたいです",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Unicode対応のエンジンなら [ぁ-ん] などの範囲や、\\p{Script=Hiragana} のようなプロパティ（対応時）を使います。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "否定 [^ ] とアンカー ^ の違いは？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "[^abc] の ^ は「abc以外」。行頭の ^ は別の機能（アンカー）です。位置で意味が変わります。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "文字クラスは何文字まで書けますか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "理論上は長く書けますが、読みにくくなります。長いリストは複数パターンに分けるか、別の検証方法を検討しましょう。"
+        }
+      }
+    ]
+  }
+}

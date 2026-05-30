@@ -1,0 +1,316 @@
+{
+  "id": "art_markdown_markdown-code-tables",
+  "slug": "markdown-code-tables",
+  "title": "コードブロックと表｜Markdownで技術内容を正確に書く",
+  "summary": "インラインコード、フェンス付きコードブロック、言語指定、表（table）の記法と、コピペ不能・表崩れなどの失敗例を解説します。",
+  "body": "<h2>結論：コードはバッククォート、ブロックはフェンス3つ、表はパイプ区切り</h2>\n<p>技術ドキュメントで最も重要なのが<strong>そのまま実行できるコード例</strong>と、<strong>比較しやすい表</strong>です。Markdownではインラインが1つのバッククォート <code>`</code>、複数行がフェンス（バッククォート3つ連続）で囲み、表は <code>|</code> で列を区切ります。この回を押さえると、API仕様・コマンド手順・設定一覧を読みやすく書けるようになります。</p>\n<p>検索でよく見られる「コードブロックが効かない」「表が崩れる」は、フェンスの閉じ忘れ・言語名の typo・表の列数不一致が原因であることがほとんどです。以下では正しい例と失敗例を並べて説明します。</p>\n\n<h2>インラインコード（Inline Code）</h2>\n<p>ファイル名、変数名、短いコマンドはバッククォート1つで囲みます。</p>\n<pre><code>環境変数 `PORT` を `3000` に設定します。\n`package.json` の `scripts` を確認してください。</code></pre>\n<p>等幅フォントで表示され、周囲の文章と視覚的に区別されます。日本語の句読点の直後にバッククォートを置くと、閉じ忘れで後ろの文章全体がコード扱いになることがあるため、記号の前後を確認してください。</p>\n\n<h3>失敗例：バッククォートの閉じ忘れ</h3>\n<pre><code>変数 port は `3000 から変更可能です。</code></pre>\n<p>閉じ <code>`</code> がないと、段落の残りがすべてインラインコード風に表示されることがあります。</p>\n\n<h2>フェンス付きコードブロック（Fenced Code Block）</h2>\n<p>3つのバッククォート（またはチルダ3つ）で囲みます。開始行に言語名を書くと、GitHubなどで<strong>シンタックスハイライト</strong>が有効になります。</p>\n<pre><code>```bash\ngit clone https://github.com/user/repo.git\ncd repo\nnpm install\n```\n\n```javascript\nfunction greet(name) {\n  return `Hello, ${name}`;\n}\n```</code></pre>\n<p>言語指定は <code>bash</code> <code>javascript</code> <code>python</code> <code>json</code> <code>yaml</code> など、中身に合わせて選びます。指定がなくても動きますが、読みやすさが落ちるため、可能なら付けましょう。</p>\n\n<h3>ブロック内のバッククォートを表示する</h3>\n<p>JavaScriptのテンプレートリテラルなど、ブロック内にフェンス記号そのものが含まれる場合は、外側を4つに増やすなど、<strong>外側のフェンスを内側より長く</strong>するルールで逃がします。</p>\n<pre><code>````markdown\nここに ``` を含む例\n````</code></pre>\n\n<h3>失敗例：インデント付きコードブロックとの混在</h3>\n<p>古い方式では行頭にスペース4つでコードブロックにしますが、リストと組み合わせるとインデントが崩れやすいです。現場ではフェンス方式（バッククォート3つ）を標準にするのが無難です。</p>\n\n<h2>コードブロックの実務ルール</h2>\n<ul>\n  <li><strong>コピペ可能</strong>：プロンプト記号（<code>$</code>）はコメントで説明し、本文からは外すか、1行目に注釈を書く</li>\n  <li><strong>動作確認済み</strong>：READMEのコマンドは定期的に実行して陳腐化を防ぐ</li>\n  <li><strong>秘密情報を書かない</strong>：APIキーやパスワードはプレースホルダ（<code>YOUR_API_KEY</code>）にする</li>\n  <li><strong>出力例を示す</strong>：コマンドの下にコメントまたは別ブロックで期待出力を書く</li>\n</ul>\n<pre><code>```bash\n# バージョン確認（出力例: git version 2.44.0）\ngit --version\n```</code></pre>\n\n<h2>表（Table）</h2>\n<p>GFMではパイプ <code>|</code> で表を書けます。1行目がヘッダー、2行目が区切り、3行目以降がデータです。</p>\n<pre><code>| 環境変数 | 必須 | 説明 |\n| --- | --- | --- |\n| PORT | はい | 待ち受けポート |\n| LOG_LEVEL | いいえ | debug / info / warn |</code></pre>\n<p>区切り行の <code>---</code> は列の数と一致させます。左右に <code>:</code> を付けると列揃え（左・中央・右）を指定できますが、READMEではシンプルな <code>---</code> で十分なことが多いです。</p>\n\n<h3>失敗例：列数がずれる</h3>\n<pre><code>| A | B |\n| --- |\n| 1 | 2 | 3 |</code></pre>\n<p>パイプの数が行ごとに違うと、表が崩れて単なる文字列に見えることがあります。プレビューで表形式になっているか必ず確認してください。</p>\n\n<h3>失敗例：長いURLを表に直書き</h3>\n<p>表のセルが極端に横に伸び、モバイルで読めなくなります。URLは短いリンクテキストにするか、別セクションのリストに回しましょう。</p>\n\n<h2>リストとコードブロックの組み合わせ</h2>\n<p>番号リストの項目の下にコードを置くときは、コードブロック全体をリストに合わせてインデントします。</p>\n<pre><code>1. 依存関係を入れる\n\n   ```bash\n   npm install\n   ```\n\n2. 起動する\n\n   ```bash\n   npm start\n   ```</code></pre>\n<p>インデントが足りないと、リストの外にコードがはみ出して番号がリセットされたように見えることがあります。</p>\n\n<h2>引用（Blockquote）との使い分け</h2>\n<p>注意書きや引用には行頭 <code>&gt;</code> を使います。</p>\n<pre><code>&gt; **注意:** 本番環境では `DEBUG=true` を設定しないでください。</code></pre>\n<p>コード例そのものは引用ではなくフェンスブロックにし、補足説明だけを引用にすると、コピペミスが減ります。</p>\n\n<h2>まとめ</h2>\n<p>短い識別子は <code>`</code> で囲み、複数行はフェンスの直後に言語名を付けて囲み、表はパイプと区切り行で作ります。列数・インデント・バッククォートの閉じ忘れが三大失敗です。次回は、これらを組み合わせたGitHub READMEの実践に入ります。</p>\n\n<h2>JSONやYAMLの設定例</h2>\n<p>設定ファイルの抜粋は <code>json</code> や <code>yaml</code> を指定すると、キーと値の区別がつきやすくなります。コメントが書けないJSONを説明するときは、別途「このキーは任意」などを本文で補足します。YAMLはインデントが意味を持つため、ブロック内のスペースを消さないよう、エディタの「空白を可視化」をオンにすると安全です。</p>\n<pre><code>```json\n{\n  \"name\": \"my-app\",\n  \"scripts\": { \"start\": \"node index.js\" }\n}\n```</code></pre>\n\n<h2>差分（diff）の掲載</h2>\n<p>変更内容を示すときは <code>diff</code> 言語指定が有効です。PRの説明やCHANGELOGで、追加行が緑・削除行が赤で表示される環境では、レビュアーの理解が早まります。行頭の <code>+</code> <code>-</code> を含むブロックは、コピペ用ではなく説明用として扱い、実行可能なコードブロックと混同しないよう見出しで区別しましょう。</p>",
+  "conclusion": "インラインコードはバッククォート1つ、複数行はフェンス3つ＋言語名でシンタックスハイライトを有効にします。表はGFMのパイプ記法で、区切り行の列数をヘッダーと一致させます。コードはコピペ可能・秘密情報なし・動作確認済みを心がけ、リスト内コードはインデントを揃えてください。",
+  "tags": [
+    "Markdown",
+    "コードブロック",
+    "表",
+    "シンタックスハイライト",
+    "README"
+  ],
+  "category": "Markdown",
+  "theme": "markdown - Markdown & 技術ドキュメント入門",
+  "status": "published",
+  "createdAt": "2026-05-30T05:14:16.024Z",
+  "updatedAt": "2026-05-30T05:15:45.544Z",
+  "publishedAt": "2026-05-30T05:14:16.024Z",
+  "metaTitle": "Markdown コードブロック・表の書き方【技術文書】｜Markdown入門 | StackShelf",
+  "metaDescription": "Markdownのインラインコード、```によるコードブロック、シンタックスハイライト、表の書き方とよくある崩れを具体例で解説します。",
+  "ogTitle": "Markdown：コードブロックと表",
+  "ogDescription": "技術文書に必須のコードブロックと表の記法、失敗例と対策をわかりやすく解説します。",
+  "knowledge": {
+    "topic": "markdown",
+    "courseId": "markdown",
+    "episode": 4
+  },
+  "faq": [
+    {
+      "question": "```の代わりに~~~は使えますか？",
+      "answer": "はい。チルダ3つもフェンスとして使えます。文書内でどちらか一方に統一し、コード例にバッククォートが多い場合は外側を~~~にする手もあります。"
+    },
+    {
+      "question": "表はCSVの方がよい場合は？",
+      "answer": "列が非常に多い、セルに改行を含むなどの場合はCSVや別ファイルへのリンクの方が保守しやすいことがあります。READMEの簡易比較表にはMarkdown表が向いています。"
+    },
+    {
+      "question": "シンタックスハイライトが効かない",
+      "answer": "開始フェンス直後の言語名のスペル（javascript, jsonなど）を確認してください。また、その表示環境がハイライトに対応しているか（GitHub、VS Codeプレビューなど）も確認が必要です。"
+    },
+    {
+      "question": "HTMLの<table>は使える？",
+      "answer": "GitHubなど多くの環境では埋め込みHTMLが許可されますが、Markdown表の方がdiffが読みやすく、Lintも効きやすいです。複雑な表だけHTMLを例外的に使う方針が無難です。"
+    },
+    {
+      "question": "コードブロック内の行番号は？",
+      "answer": "標準Markdownには行番号機能がありません。必要なら静的サイトジェネレーターの拡張や、開始フェンスに方言固有のオプション（例: {.line-numbers}）を使います。"
+    }
+  ],
+  "nextEpisodeHint": "次回は、GitHub READMEの典型的な構成、バッジ、目次、ライセンス表記など、公開リポジトリ向けの実践を学びます。",
+  "nextAction": "手元のREADMEに、インストール用bashブロック1つ、環境変数の表（3列2行以上）、ファイル名をインラインコードで3箇所書き、プレビューで表とハイライトを確認してください。",
+  "internalLinkCandidates": [
+    {
+      "slug": "markdown-practice",
+      "title": "実践：プロジェクトREADMEを一から作る｜Markdown総仕上げ",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "markdown-github-readme",
+      "title": "GitHub READMEの書き方｜公開リポジトリの顔を整える",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "markdown-lists-links",
+      "title": "リスト・リンク・画像｜Markdownで情報を整理する",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "markdown-intro",
+      "title": "Markdownとは？技術文書を書く理由と全体像",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "markdown-tools",
+      "title": "エディタ・プレビュー・Lint｜Markdown執筆を効率化するツール",
+      "reason": "同じ講座の関連回です"
+    }
+  ],
+  "ogImage": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+  "canonical": "https://ai-site-iota-nine.vercel.app/article/markdown-code-tables",
+  "jsonLd": {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@context": "https://schema.org",
+        "@type": "TechArticle",
+        "headline": "コードブロックと表｜Markdownで技術内容を正確に書く",
+        "description": "【Markdown初心者向け】Markdownのインラインコード、```によるコードブロック、シンタックスハイライト、表の書き方とよくある崩れを具体例で解説します。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
+        "datePublished": "2026-05-30T05:14:16.024Z",
+        "dateModified": "2026-05-30T05:15:45.544Z",
+        "author": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
+        },
+        "image": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+        "inLanguage": "ja",
+        "wordCount": 2503,
+        "mainEntityOfPage": {
+          "@type": "WebPage",
+          "@id": "https://ai-site-iota-nine.vercel.app/article/markdown-code-tables"
+        },
+        "keywords": "Markdown, コードブロック, 表, シンタックスハイライト, README",
+        "articleSection": "Markdown",
+        "url": "https://ai-site-iota-nine.vercel.app/article/markdown-code-tables",
+        "learningResourceType": "tutorial",
+        "educationalLevel": "beginner"
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "ホーム",
+            "item": "https://ai-site-iota-nine.vercel.app/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "markdown",
+            "item": "https://ai-site-iota-nine.vercel.app/knowledge/markdown"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "Markdown & 技術ドキュメント入門",
+            "item": "https://ai-site-iota-nine.vercel.app/course/markdown/markdown"
+          },
+          {
+            "@type": "ListItem",
+            "position": 4,
+            "name": "コードブロックと表｜Markdownで技術内容を正確に書く",
+            "item": "https://ai-site-iota-nine.vercel.app/article/markdown-code-tables"
+          }
+        ]
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "Course",
+        "name": "Markdown & 技術ドキュメント入門",
+        "description": "README・設計書・ブログに使えるMarkdownを8ステップで習得。日本語の体系的入門が少ないテーマを、具体例と失敗例つきで学びます。",
+        "provider": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app"
+        },
+        "url": "https://ai-site-iota-nine.vercel.app/course/markdown/markdown",
+        "inLanguage": "ja",
+        "educationalLevel": "beginner",
+        "hasCourseInstance": {
+          "@type": "CourseInstance",
+          "courseMode": "online",
+          "courseWorkload": "PT1H"
+        }
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "```の代わりに~~~は使えますか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "はい。チルダ3つもフェンスとして使えます。文書内でどちらか一方に統一し、コード例にバッククォートが多い場合は外側を~~~にする手もあります。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "表はCSVの方がよい場合は？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "列が非常に多い、セルに改行を含むなどの場合はCSVや別ファイルへのリンクの方が保守しやすいことがあります。READMEの簡易比較表にはMarkdown表が向いています。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "シンタックスハイライトが効かない",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "開始フェンス直後の言語名のスペル（javascript, jsonなど）を確認してください。また、その表示環境がハイライトに対応しているか（GitHub、VS Codeプレビューなど）も確認が必要です。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "HTMLの<table>は使える？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "GitHubなど多くの環境では埋め込みHTMLが許可されますが、Markdown表の方がdiffが読みやすく、Lintも効きやすいです。複雑な表だけHTMLを例外的に使う方針が無難です。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "コードブロック内の行番号は？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "標準Markdownには行番号機能がありません。必要なら静的サイトジェネレーターの拡張や、開始フェンスに方言固有のオプション（例: {.line-numbers}）を使います。"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "breadcrumb": {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "ホーム",
+        "item": "https://ai-site-iota-nine.vercel.app/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "markdown",
+        "item": "https://ai-site-iota-nine.vercel.app/knowledge/markdown"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "Markdown & 技術ドキュメント入門",
+        "item": "https://ai-site-iota-nine.vercel.app/course/markdown/markdown"
+      },
+      {
+        "@type": "ListItem",
+        "position": 4,
+        "name": "コードブロックと表｜Markdownで技術内容を正確に書く",
+        "item": "https://ai-site-iota-nine.vercel.app/article/markdown-code-tables"
+      }
+    ]
+  },
+  "courseSchema": {
+    "@context": "https://schema.org",
+    "@type": "Course",
+    "name": "Markdown & 技術ドキュメント入門",
+    "description": "README・設計書・ブログに使えるMarkdownを8ステップで習得。日本語の体系的入門が少ないテーマを、具体例と失敗例つきで学びます。",
+    "provider": {
+      "@type": "Organization",
+      "name": "StackShelf",
+      "url": "https://ai-site-iota-nine.vercel.app"
+    },
+    "url": "https://ai-site-iota-nine.vercel.app/course/markdown/markdown",
+    "inLanguage": "ja",
+    "educationalLevel": "beginner",
+    "hasCourseInstance": {
+      "@type": "CourseInstance",
+      "courseMode": "online",
+      "courseWorkload": "PT1H"
+    }
+  },
+  "faqSchema": {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "```の代わりに~~~は使えますか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "はい。チルダ3つもフェンスとして使えます。文書内でどちらか一方に統一し、コード例にバッククォートが多い場合は外側を~~~にする手もあります。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "表はCSVの方がよい場合は？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "列が非常に多い、セルに改行を含むなどの場合はCSVや別ファイルへのリンクの方が保守しやすいことがあります。READMEの簡易比較表にはMarkdown表が向いています。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "シンタックスハイライトが効かない",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "開始フェンス直後の言語名のスペル（javascript, jsonなど）を確認してください。また、その表示環境がハイライトに対応しているか（GitHub、VS Codeプレビューなど）も確認が必要です。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "HTMLの<table>は使える？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "GitHubなど多くの環境では埋め込みHTMLが許可されますが、Markdown表の方がdiffが読みやすく、Lintも効きやすいです。複雑な表だけHTMLを例外的に使う方針が無難です。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "コードブロック内の行番号は？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "標準Markdownには行番号機能がありません。必要なら静的サイトジェネレーターの拡張や、開始フェンスに方言固有のオプション（例: {.line-numbers}）を使います。"
+        }
+      }
+    ]
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "Markdown": {
+    "definition": "プレーンテキストで文書構造を記述する軽量マークアップ言語",
+    "aliases": [
+      "MD"
+    ]
+  },
+  "README": {
+    "definition": "プロジェクトの概要・使い方を説明するドキュメントファイル",
+    "aliases": []
+  },
+  "Front Matter": {
+    "definition": "YAML等でメタデータを先頭に書く記法（Jekyll/Hugo等）",
+    "aliases": []
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "slug": "markdown-practice",
+  "courseId": "markdown",
+  "episode": 8,
+  "summaryMemory": [
+    "README作成は骨格→実行確認→表リンク→Lint→初見レビューの順",
+    "動かないコマンドを載せない、秘密情報を書かない",
+    "長くなったらdocs/へ逃がしREADMEは入口に保つ",
+    "提出前チェックリスト8項目で品質を確認",
+    "実プロジェクトへのPR提出が最も定着する"
+  ],
+  "nextEpisodeHint": "Markdown講座は全8回で完了です。次はGit入門でリポジトリ運用を学ぶか、Web入門でHTML/CSSと組み合わせたドキュメント公開に進むのがおすすめです。",
+  "updatedAt": "2026-05-30T05:14:19.531Z"
+}

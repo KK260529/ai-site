@@ -3,7 +3,7 @@
   "slug": "python-classes",
   "title": "クラスの基礎（class, __init__, メソッド）",
   "summary": "Pythonのクラスとオブジェクト指向プログラミングの基礎を解説します。classキーワード・__init__コンストラクタ・インスタンスメソッド・クラス変数・継承など、オブジェクト指向の概念を初心者向けに丁寧に説明します。",
-  "body": "\n<h2>オブジェクト指向プログラミングとは？</h2>\n<p>これまでの学習では、変数・関数・リスト・辞書などを個別に使ってきました。しかし、プログラムが大きくなるにつれ、関連するデータと処理を「まとめて管理」したいという需要が出てきます。これを実現するのが「オブジェクト指向プログラミング（OOP）」です。</p>\n<p>オブジェクト指向では、データ（属性）と処理（メソッド）を「クラス」という設計図にまとめます。そのクラスを使って「インスタンス（実体）」を生成して使います。</p>\n<p>たとえば「犬」をプログラムで表現するとします。</p>\n<ul>\n  <li>属性（データ）：名前、品種、年齢、体重</li>\n  <li>メソッド（処理）：鳴く、食べる、走る</li>\n</ul>\n<p>これらをクラスにまとめることで、何匹の犬でも同じ設計図から作れます。</p>\n\n<h2>クラスの定義と基本構造</h2>\n<pre><code>class Dog:\n    # コンストラクタ（インスタンス生成時に自動で呼ばれる）\n    def __init__(self, name, breed, age):\n        self.name = name    # インスタンス変数\n        self.breed = breed\n        self.age = age\n\n    # メソッド（インスタンスに関連する関数）\n    def bark(self):\n        print(f\"{self.name}: ワンワン！\")\n\n    def introduce(self):\n        print(f\"名前: {self.name}, 品種: {self.breed}, 年齢: {self.age}歳\")\n\n# インスタンスの生成\ndog1 = Dog(\"ポチ\", \"柴犬\", 3)\ndog2 = Dog(\"マックス\", \"ゴールデンレトリバー\", 5)\n\n# メソッドの呼び出し\ndog1.bark()        # ポチ: ワンワン！\ndog2.introduce()   # 名前: マックス, 品種: ゴールデンレトリバー, 年齢: 5歳\n\n# 属性へのアクセス\nprint(dog1.name)   # ポチ\nprint(dog2.age)    # 5</code></pre>\n\n<h2>__init__コンストラクタ</h2>\n<p><code>__init__</code> は「アンダースコア2つ + init + アンダースコア2つ」で書く特別なメソッドです。インスタンスが生成されるとき（<code>Dog(\"ポチ\", ...)</code>）に自動的に呼ばれます。インスタンス変数の初期化に使います。</p>\n<p><code>self</code> は「インスタンス自身」を指します。メソッドの第1引数は必ず <code>self</code> にします（呼び出し時には省略します）。<code>self.name = name</code> のように書くことで、インスタンスに属するデータとして保存されます。</p>\n<pre><code>class Person:\n    def __init__(self, name, age=0):\n        self.name = name\n        self.age = age\n        self.friends = []  # リストで初期化\n\n    def add_friend(self, friend_name):\n        self.friends.append(friend_name)\n        print(f\"{friend_name}さんをフレンドに追加しました\")\n\n    def greet(self):\n        print(f\"こんにちは！{self.name}です。{self.age}歳です。\")\n\np1 = Person(\"田中\", 25)\np1.greet()  # こんにちは！田中です。25歳です。\np1.add_friend(\"鈴木\")\np1.add_friend(\"佐藤\")\nprint(p1.friends)  # ['鈴木', '佐藤']</code></pre>\n\n<h2>インスタンス変数とクラス変数</h2>\n<p>変数にはインスタンスごとに異なる「インスタンス変数」と、クラスで共有する「クラス変数」があります。</p>\n<pre><code>class Counter:\n    count = 0  # クラス変数：全インスタンスで共有\n\n    def __init__(self, name):\n        self.name = name   # インスタンス変数：各インスタンス固有\n        Counter.count += 1 # クラス変数を更新\n\n    def show(self):\n        print(f\"{self.name}（総生成数: {Counter.count}）\")\n\nc1 = Counter(\"カウンター1\")\nc2 = Counter(\"カウンター2\")\nc3 = Counter(\"カウンター3\")\n\nc1.show()  # カウンター1（総生成数: 3）\nc2.show()  # カウンター2（総生成数: 3）\nprint(Counter.count)  # 3</code></pre>\n\n<h2>特殊メソッド（マジックメソッド）</h2>\n<p>アンダースコアで囲まれた <code>__メソッド名__</code> を「特殊メソッド」または「マジックメソッド」と言います。Pythonの組み込み操作（printなど）と連携するためのメソッドです。</p>\n<pre><code>class Vector:\n    def __init__(self, x, y):\n        self.x = x\n        self.y = y\n\n    def __str__(self):\n        # print()やstr()で呼ばれる（人間が読みやすい形式）\n        return f\"Vector({self.x}, {self.y})\"\n\n    def __repr__(self):\n        # repr()で呼ばれる（開発者向け詳細形式）\n        return f\"Vector(x={self.x}, y={self.y})\"\n\n    def __add__(self, other):\n        # + 演算子が使えるようになる\n        return Vector(self.x + other.x, self.y + other.y)\n\n    def __len__(self):\n        # len()が使えるようになる（ここでは次元数を返す）\n        return 2\n\nv1 = Vector(1, 2)\nv2 = Vector(3, 4)\nprint(v1)         # Vector(1, 2)\nprint(v1 + v2)    # Vector(4, 6)\nprint(len(v1))    # 2</code></pre>\n\n<h2>継承（Inheritance）</h2>\n<p>既存のクラスの機能を引き継いで新しいクラスを作ることを「継承」と言います。継承元を「親クラス（スーパークラス）」、継承先を「子クラス（サブクラス）」と呼びます。</p>\n<pre><code>class Animal:\n    def __init__(self, name, age):\n        self.name = name\n        self.age = age\n\n    def eat(self):\n        print(f\"{self.name}が食事をしています\")\n\n    def sleep(self):\n        print(f\"{self.name}が眠っています\")\n\n    def __str__(self):\n        return f\"{self.name}（{self.age}歳）\"\n\n\nclass Dog(Animal):  # Animal を継承\n    def __init__(self, name, age, breed):\n        super().__init__(name, age)  # 親クラスの__init__を呼び出す\n        self.breed = breed\n\n    def bark(self):  # Dogに固有のメソッド\n        print(f\"{self.name}: ワンワン！\")\n\n    def eat(self):   # 親クラスのメソッドを上書き（オーバーライド）\n        super().eat()  # 親の処理も呼び出す\n        print(f\"（{self.breed}は食欲旺盛です）\")\n\n\nclass Cat(Animal):\n    def meow(self):\n        print(f\"{self.name}: ニャー\")\n\n\ndog = Dog(\"ポチ\", 3, \"柴犬\")\ncat = Cat(\"タマ\", 5)\n\ndog.eat()   # ポチが食事をしています（柴犬は食欲旺盛です）\ndog.bark()  # ポチ: ワンワン！\ndog.sleep() # ポチが眠っています（親クラスのメソッドを使える）\ncat.meow()  # タマ: ニャー\n\nprint(dog)  # ポチ（3歳）\nprint(isinstance(dog, Animal))  # True（DogはAnimal型でもある）\nprint(isinstance(dog, Dog))     # True</code></pre>\n\n<h2>カプセル化（アクセス制御）</h2>\n<p>クラスの内部データを外部から直接変更されないように保護することをカプセル化と言います。Pythonではアンダースコアで慣習的なアクセス制御を行います。</p>\n<pre><code>class BankAccount:\n    def __init__(self, owner, balance=0):\n        self.owner = owner\n        self.__balance = balance  # __（2つ）で擬似的なプライベート変数\n\n    def deposit(self, amount):\n        if amount &gt; 0:\n            self.__balance += amount\n            print(f\"{amount}円を入金しました。残高: {self.__balance}円\")\n        else:\n            print(\"入金額は0より大きくしてください\")\n\n    def withdraw(self, amount):\n        if amount &gt; self.__balance:\n            print(\"残高が不足しています\")\n        else:\n            self.__balance -= amount\n            print(f\"{amount}円を出金しました。残高: {self.__balance}円\")\n\n    def get_balance(self):  # プロパティとして残高を公開\n        return self.__balance\n\naccount = BankAccount(\"田中\", 1000)\naccount.deposit(500)    # 500円を入金しました。残高: 1500円\naccount.withdraw(200)   # 200円を出金しました。残高: 1300円\nprint(account.get_balance())  # 1300\n\n# 直接アクセスしようとしても名前が変換されて保護される\n# print(account.__balance)  # AttributeError</code></pre>\n\n<h2>実践例：学生管理クラス</h2>\n<pre><code>class Student:\n    student_count = 0\n\n    def __init__(self, name, grade):\n        self.name = name\n        self.grade = grade\n        self.scores = {}\n        Student.student_count += 1\n\n    def add_score(self, subject, score):\n        self.scores[subject] = score\n\n    def average(self):\n        if not self.scores:\n            return 0\n        return sum(self.scores.values()) / len(self.scores)\n\n    def report(self):\n        print(f\"--- {self.name}の成績表 ---\")\n        for subject, score in self.scores.items():\n            print(f\"  {subject}: {score}点\")\n        print(f\"  平均点: {self.average():.1f}点\")\n\ns1 = Student(\"田中\", 3)\ns1.add_score(\"国語\", 85)\ns1.add_score(\"数学\", 92)\ns1.add_score(\"英語\", 78)\ns1.report()</code></pre>\n",
+  "body": "<h2>結論：class でデータと処理をまとめ、__init__ で初期化する</h2>\n<p>クラスは「設計図」、インスタンスは「実体」です。<code>class Dog:</code> と <code>def __init__(self, name):</code> で属性を設定し、メソッドで振る舞いを定義します。継承で既存クラスを拡張できます。</p>\n\n<h2>オブジェクト指向プログラミングとは？</h2>\n<p>これまでの学習では、変数・関数・リスト・辞書などを個別に使ってきました。しかし、プログラムが大きくなるにつれ、関連するデータと処理を「まとめて管理」したいという需要が出てきます。これを実現するのが「オブジェクト指向プログラミング（OOP）」です。</p>\n<p>オブジェクト指向では、データ（属性）と処理（メソッド）を「クラス」という設計図にまとめます。そのクラスを使って「インスタンス（実体）」を生成して使います。</p>\n<p>たとえば「犬」をプログラムで表現するとします。</p>\n<ul>\n  <li>属性（データ）：名前、品種、年齢、体重</li>\n  <li>メソッド（処理）：鳴く、食べる、走る</li>\n</ul>\n<p>これらをクラスにまとめることで、何匹の犬でも同じ設計図から作れます。</p>\n\n<h2>クラスの定義と基本構造</h2>\n<pre><code>class Dog:\n    # コンストラクタ（インスタンス生成時に自動で呼ばれる）\n    def __init__(self, name, breed, age):\n        self.name = name    # インスタンス変数\n        self.breed = breed\n        self.age = age\n\n    # メソッド（インスタンスに関連する関数）\n    def bark(self):\n        print(f\"{self.name}: ワンワン！\")\n\n    def introduce(self):\n        print(f\"名前: {self.name}, 品種: {self.breed}, 年齢: {self.age}歳\")\n\n# インスタンスの生成\ndog1 = Dog(\"ポチ\", \"柴犬\", 3)\ndog2 = Dog(\"マックス\", \"ゴールデンレトリバー\", 5)\n\n# メソッドの呼び出し\ndog1.bark()        # ポチ: ワンワン！\ndog2.introduce()   # 名前: マックス, 品種: ゴールデンレトリバー, 年齢: 5歳\n\n# 属性へのアクセス\nprint(dog1.name)   # ポチ\nprint(dog2.age)    # 5</code></pre>\n\n<h2>__init__コンストラクタ</h2>\n<p><code>__init__</code> は「アンダースコア2つ + init + アンダースコア2つ」で書く特別なメソッドです。インスタンスが生成されるとき（<code>Dog(\"ポチ\", ...)</code>）に自動的に呼ばれます。インスタンス変数の初期化に使います。</p>\n<p><code>self</code> は「インスタンス自身」を指します。メソッドの第1引数は必ず <code>self</code> にします（呼び出し時には省略します）。<code>self.name = name</code> のように書くことで、インスタンスに属するデータとして保存されます。</p>\n<pre><code>class Person:\n    def __init__(self, name, age=0):\n        self.name = name\n        self.age = age\n        self.friends = []  # リストで初期化\n\n    def add_friend(self, friend_name):\n        self.friends.append(friend_name)\n        print(f\"{friend_name}さんをフレンドに追加しました\")\n\n    def greet(self):\n        print(f\"こんにちは！{self.name}です。{self.age}歳です。\")\n\np1 = Person(\"田中\", 25)\np1.greet()  # こんにちは！田中です。25歳です。\np1.add_friend(\"鈴木\")\np1.add_friend(\"佐藤\")\nprint(p1.friends)  # ['鈴木', '佐藤']</code></pre>\n\n<h2>インスタンス変数とクラス変数</h2>\n<p>変数にはインスタンスごとに異なる「インスタンス変数」と、クラスで共有する「クラス変数」があります。</p>\n<pre><code>class Counter:\n    count = 0  # クラス変数：全インスタンスで共有\n\n    def __init__(self, name):\n        self.name = name   # インスタンス変数：各インスタンス固有\n        Counter.count += 1 # クラス変数を更新\n\n    def show(self):\n        print(f\"{self.name}（総生成数: {Counter.count}）\")\n\nc1 = Counter(\"カウンター1\")\nc2 = Counter(\"カウンター2\")\nc3 = Counter(\"カウンター3\")\n\nc1.show()  # カウンター1（総生成数: 3）\nc2.show()  # カウンター2（総生成数: 3）\nprint(Counter.count)  # 3</code></pre>\n\n<h2>特殊メソッド（マジックメソッド）</h2>\n<p>アンダースコアで囲まれた <code>__メソッド名__</code> を「特殊メソッド」または「マジックメソッド」と言います。Pythonの組み込み操作（printなど）と連携するためのメソッドです。</p>\n<pre><code>class Vector:\n    def __init__(self, x, y):\n        self.x = x\n        self.y = y\n\n    def __str__(self):\n        # print()やstr()で呼ばれる（人間が読みやすい形式）\n        return f\"Vector({self.x}, {self.y})\"\n\n    def __repr__(self):\n        # repr()で呼ばれる（開発者向け詳細形式）\n        return f\"Vector(x={self.x}, y={self.y})\"\n\n    def __add__(self, other):\n        # + 演算子が使えるようになる\n        return Vector(self.x + other.x, self.y + other.y)\n\n    def __len__(self):\n        # len()が使えるようになる（ここでは次元数を返す）\n        return 2\n\nv1 = Vector(1, 2)\nv2 = Vector(3, 4)\nprint(v1)         # Vector(1, 2)\nprint(v1 + v2)    # Vector(4, 6)\nprint(len(v1))    # 2</code></pre>\n\n<h2>継承（Inheritance）</h2>\n<p>既存のクラスの機能を引き継いで新しいクラスを作ることを「継承」と言います。継承元を「親クラス（スーパークラス）」、継承先を「子クラス（サブクラス）」と呼びます。</p>\n<pre><code>class Animal:\n    def __init__(self, name, age):\n        self.name = name\n        self.age = age\n\n    def eat(self):\n        print(f\"{self.name}が食事をしています\")\n\n    def sleep(self):\n        print(f\"{self.name}が眠っています\")\n\n    def __str__(self):\n        return f\"{self.name}（{self.age}歳）\"\n\n\nclass Dog(Animal):  # Animal を継承\n    def __init__(self, name, age, breed):\n        super().__init__(name, age)  # 親クラスの__init__を呼び出す\n        self.breed = breed\n\n    def bark(self):  # Dogに固有のメソッド\n        print(f\"{self.name}: ワンワン！\")\n\n    def eat(self):   # 親クラスのメソッドを上書き（オーバーライド）\n        super().eat()  # 親の処理も呼び出す\n        print(f\"（{self.breed}は食欲旺盛です）\")\n\n\nclass Cat(Animal):\n    def meow(self):\n        print(f\"{self.name}: ニャー\")\n\n\ndog = Dog(\"ポチ\", 3, \"柴犬\")\ncat = Cat(\"タマ\", 5)\n\ndog.eat()   # ポチが食事をしています（柴犬は食欲旺盛です）\ndog.bark()  # ポチ: ワンワン！\ndog.sleep() # ポチが眠っています（親クラスのメソッドを使える）\ncat.meow()  # タマ: ニャー\n\nprint(dog)  # ポチ（3歳）\nprint(isinstance(dog, Animal))  # True（DogはAnimal型でもある）\nprint(isinstance(dog, Dog))     # True</code></pre>\n\n<h2>カプセル化（アクセス制御）</h2>\n<p>クラスの内部データを外部から直接変更されないように保護することをカプセル化と言います。Pythonではアンダースコアで慣習的なアクセス制御を行います。</p>\n<pre><code>class BankAccount:\n    def __init__(self, owner, balance=0):\n        self.owner = owner\n        self.__balance = balance  # __（2つ）で擬似的なプライベート変数\n\n    def deposit(self, amount):\n        if amount &gt; 0:\n            self.__balance += amount\n            print(f\"{amount}円を入金しました。残高: {self.__balance}円\")\n        else:\n            print(\"入金額は0より大きくしてください\")\n\n    def withdraw(self, amount):\n        if amount &gt; self.__balance:\n            print(\"残高が不足しています\")\n        else:\n            self.__balance -= amount\n            print(f\"{amount}円を出金しました。残高: {self.__balance}円\")\n\n    def get_balance(self):  # プロパティとして残高を公開\n        return self.__balance\n\naccount = BankAccount(\"田中\", 1000)\naccount.deposit(500)    # 500円を入金しました。残高: 1500円\naccount.withdraw(200)   # 200円を出金しました。残高: 1300円\nprint(account.get_balance())  # 1300\n\n# 直接アクセスしようとしても名前が変換されて保護される\n# print(account.__balance)  # AttributeError</code></pre>\n\n<h2>実践例：学生管理クラス</h2>\n<pre><code>class Student:\n    student_count = 0\n\n    def __init__(self, name, grade):\n        self.name = name\n        self.grade = grade\n        self.scores = {}\n        Student.student_count += 1\n\n    def add_score(self, subject, score):\n        self.scores[subject] = score\n\n    def average(self):\n        if not self.scores:\n            return 0\n        return sum(self.scores.values()) / len(self.scores)\n\n    def report(self):\n        print(f\"--- {self.name}の成績表 ---\")\n        for subject, score in self.scores.items():\n            print(f\"  {subject}: {score}点\")\n        print(f\"  平均点: {self.average():.1f}点\")\n\ns1 = Student(\"田中\", 3)\ns1.add_score(\"国語\", 85)\ns1.add_score(\"数学\", 92)\ns1.add_score(\"英語\", 78)\ns1.report()</code></pre>\n\n<h2>つまずきやすいポイント・失敗例</h2>\n<h3>失敗例：__init__ の第一引数 self を忘れる</h3>\n<p>インスタンスメソッドには必ず <code>self</code> が必要です。<code>def bark(name):</code> ではなく <code>def bark(self):</code> と書きます。</p>\n<h3>失敗例：クラスとインスタンスを混同</h3>\n<p><code>Dog</code> はクラス、<code>Dog(\"ポチ\")</code> がインスタンスです。属性はインスタンスごとに独立します。</p>\n<pre><code>class Todo:\n    def __init__(self, title):\n        self.title = title\n        self.done = False\n\n    def complete(self):\n        self.done = True</code></pre>",
   "conclusion": "クラスとオブジェクト指向プログラミングを習得すると、データと処理を整理された形でまとめ、大規模なプログラムでも管理しやすいコードが書けるようになります。継承やカプセル化も理解して、Pythonの本格的な活用に備えましょう。次は最終エピソードで実践的なCLI TODOツールを作成します。",
   "tags": [
     "python",
@@ -17,12 +17,12 @@
   "theme": "python - Python 入門",
   "status": "published",
   "createdAt": "2026-05-30T04:12:59.802Z",
-  "updatedAt": "2026-05-30T04:12:59.806Z",
+  "updatedAt": "2026-05-30T05:17:17.387Z",
   "publishedAt": "2026-05-30T04:12:59.802Z",
   "metaTitle": "Python クラス class __init__ メソッド 入門 | Python入門",
-  "metaDescription": "Python入門：classによるオブジェクト指向プログラミングを初心者向けに解説。__init__コンストラクタ・インスタンスメソッド・継承・カプセル化まで豊富なコード例で学べます。 図解・具体例つきで丁寧に解説します。",
+  "metaDescription": "Pythonのclass・__init__・メソッドによるオブジェクト指向の基礎を解説。self忘れやクラスとインスタンスの混同など失敗例を具体例で紹介します。",
   "ogTitle": "Python クラスの基礎 class/__init__/メソッド | Python入門",
-  "ogDescription": "【Python初心者向け】Pythonのクラスとオブジェクト指向を初心者向けに解説。__init__・メソッド・継承・カプセル化まで丁寧に説明します。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
+  "ogDescription": "Pythonのクラスとオブジェクト指向を初心者向けに解説。__init__・メソッド・継承・カプセル化まで丁寧に説明します。",
   "knowledge": {
     "topic": "python",
     "courseId": "python",
@@ -40,6 +40,14 @@
     {
       "question": "Pythonに多重継承はありますか？",
       "answer": "はい、Pythonは複数のクラスを同時に継承できる多重継承をサポートしています。class C(A, B): と書くとAとB両方を継承できます。ただし設計が複雑になりやすいため、慎重に使う必要があります。"
+    },
+    {
+      "question": "プログラミング未経験でもPythonは学べますか？",
+      "answer": "はい。Pythonは文法が比較的シンプルで、エラーメッセージも読みやすい言語です。小さなプログラムから手を動かしながら進めましょう。"
+    },
+    {
+      "question": "エラーが出たときの対処法は？",
+      "answer": "エラーメッセージの最終行（例外名と説明）を読み、該当行のコードを確認してください。print() で変数の中身を表示するのも有効です。"
     }
   ],
   "nextEpisodeHint": "次回はいよいよ最終エピソード！これまでの知識を総動員して、コマンドラインで動くTODOツールを1から作ります。ファイル保存・クラス設計・例外処理・ループを組み合わせた実践的なプロジェクトです。",
@@ -52,9 +60,9 @@
         "@context": "https://schema.org",
         "@type": "TechArticle",
         "headline": "クラスの基礎（class, __init__, メソッド）",
-        "description": "Python入門：classによるオブジェクト指向プログラミングを初心者向けに解説。__init__コンストラクタ・インスタンスメソッド・継承・カプセル化まで豊富なコード例で学べます。 図解・具体例つきで丁寧に解説します。",
+        "description": "Pythonのclass・__init__・メソッドによるオブジェクト指向の基礎を解説。self忘れやクラスとインスタンスの混同など失敗例を具体例で紹介します。",
         "datePublished": "2026-05-30T04:12:59.802Z",
-        "dateModified": "2026-05-30T04:12:59.806Z",
+        "dateModified": "2026-05-30T05:17:17.387Z",
         "author": {
           "@type": "Organization",
           "name": "StackShelf",
@@ -75,7 +83,7 @@
         },
         "image": "https://ai-site-iota-nine.vercel.app/og-default.svg",
         "inLanguage": "ja",
-        "wordCount": 4372,
+        "wordCount": 4764,
         "mainEntityOfPage": {
           "@type": "WebPage",
           "@id": "https://ai-site-iota-nine.vercel.app/article/python-classes"
@@ -162,6 +170,22 @@
               "@type": "Answer",
               "text": "はい、Pythonは複数のクラスを同時に継承できる多重継承をサポートしています。class C(A, B): と書くとAとB両方を継承できます。ただし設計が複雑になりやすいため、慎重に使う必要があります。"
             }
+          },
+          {
+            "@type": "Question",
+            "name": "プログラミング未経験でもPythonは学べますか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "はい。Pythonは文法が比較的シンプルで、エラーメッセージも読みやすい言語です。小さなプログラムから手を動かしながら進めましょう。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "エラーが出たときの対処法は？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "エラーメッセージの最終行（例外名と説明）を読み、該当行のコードを確認してください。print() で変数の中身を表示するのも有効です。"
+            }
           }
         ]
       }
@@ -243,7 +267,51 @@
           "@type": "Answer",
           "text": "はい、Pythonは複数のクラスを同時に継承できる多重継承をサポートしています。class C(A, B): と書くとAとB両方を継承できます。ただし設計が複雑になりやすいため、慎重に使う必要があります。"
         }
+      },
+      {
+        "@type": "Question",
+        "name": "プログラミング未経験でもPythonは学べますか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "はい。Pythonは文法が比較的シンプルで、エラーメッセージも読みやすい言語です。小さなプログラムから手を動かしながら進めましょう。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "エラーが出たときの対処法は？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "エラーメッセージの最終行（例外名と説明）を読み、該当行のコードを確認してください。print() で変数の中身を表示するのも有効です。"
+        }
       }
     ]
-  }
+  },
+  "internalLinkCandidates": [
+    {
+      "slug": "python-exceptions",
+      "title": "例外処理（try/except）",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "python-modules",
+      "title": "モジュールとパッケージ（import, pip install）",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "python-file-io",
+      "title": "ファイルの読み書き（open, read, write）",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "python-list-dict",
+      "title": "リストと辞書",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "python-functions",
+      "title": "関数の定義と使い方（def, 引数, return）",
+      "reason": "同じ講座の関連回です"
+    }
+  ],
+  "nextAction": "次はいよいよ最終エピソード！これまでの知識を総動員して、コマンドラインで動くTODOツールを1から作ります。ファイル保存・クラス設計・例外処理・ループを組み合わせた実践的なプロジェクトです。"
 }

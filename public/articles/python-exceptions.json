@@ -3,7 +3,7 @@
   "slug": "python-exceptions",
   "title": "例外処理（try/except）",
   "summary": "Pythonのtry/except文を使った例外処理の方法を解説します。よくある例外の種類・except節の書き方・else/finally・raise・カスタム例外まで、堅牢なプログラムを作る技術を学びましょう。",
-  "body": "\n<h2>例外（エラー）とは？</h2>\n<p>プログラムを実行しているとき、予期せぬ状況によってエラーが発生することがあります。これを「例外（exception）」と言います。例外が発生してそのまま放置すると、プログラムは強制終了してしまいます。</p>\n<p>例外が発生する典型的な状況をいくつか見てみましょう。</p>\n<pre><code># 存在しないファイルを開こうとしたとき\nopen(\"存在しないファイル.txt\")\n# FileNotFoundError: No such file or directory\n\n# 0で割ったとき\nresult = 10 / 0\n# ZeroDivisionError: division by zero\n\n# 文字列を数値に変換しようとしたとき（不正な形式）\nint(\"hello\")\n# ValueError: invalid literal for int() with base 10: 'hello'\n\n# リストの範囲外にアクセスしたとき\nitems = [1, 2, 3]\nprint(items[10])\n# IndexError: list index out of range</code></pre>\n<p>これらのエラーをうまく処理して、プログラムをクラッシュさせずに適切なメッセージを表示したり、代替処理を実行したりできるのが「例外処理」です。</p>\n\n<h2>try/except文の基本</h2>\n<p>例外処理は <code>try</code> と <code>except</code> を使って記述します。</p>\n<pre><code>try:\n    # 例外が発生するかもしれない処理\n    result = 10 / 0\nexcept ZeroDivisionError:\n    # 例外が発生したときの処理\n    print(\"0で割ることはできません\")</code></pre>\n<p><code>try</code> ブロックの中でエラーが発生すると、すぐに <code>except</code> ブロックに移動します。エラーが発生しなければ <code>except</code> はスキップされます。</p>\n\n<h3>実用例：安全な数値入力</h3>\n<pre><code>def get_number():\n    while True:\n        try:\n            text = input(\"整数を入力してください: \")\n            num = int(text)\n            return num\n        except ValueError:\n            print(\"正しい整数を入力してください。もう一度試してください。\")\n\nnumber = get_number()\nprint(f\"入力された数値: {number}\")</code></pre>\n\n<h2>よくある例外の種類</h2>\n<p>Pythonの主な例外クラスを覚えておきましょう。</p>\n<ul>\n  <li><strong>ValueError：</strong>値が不正（例：int(\"abc\")）</li>\n  <li><strong>TypeError：</strong>型が不一致（例：1 + \"hello\"）</li>\n  <li><strong>IndexError：</strong>リストの範囲外アクセス</li>\n  <li><strong>KeyError：</strong>辞書に存在しないキーへのアクセス</li>\n  <li><strong>FileNotFoundError：</strong>ファイルが見つからない</li>\n  <li><strong>ZeroDivisionError：</strong>0による除算</li>\n  <li><strong>AttributeError：</strong>存在しない属性へのアクセス</li>\n  <li><strong>NameError：</strong>定義されていない変数の参照</li>\n  <li><strong>ImportError：</strong>モジュールのインポート失敗</li>\n  <li><strong>PermissionError：</strong>ファイルのアクセス権限なし</li>\n</ul>\n\n<h2>複数の例外をキャッチする</h2>\n<pre><code>def divide(a, b):\n    try:\n        result = a / b\n        print(f\"結果: {result}\")\n    except ZeroDivisionError:\n        print(\"エラー: 0で割ることはできません\")\n    except TypeError:\n        print(\"エラー: 数値を入力してください\")\n\ndivide(10, 2)      # 結果: 5.0\ndivide(10, 0)      # エラー: 0で割ることはできません\ndivide(10, \"abc\")  # エラー: 数値を入力してください\n\n# 複数の例外を1つのexceptでまとめて処理\ntry:\n    value = int(input(\"値を入力: \"))\n    result = 100 / value\nexcept (ValueError, ZeroDivisionError) as e:\n    print(f\"エラーが発生しました: {e}\")</code></pre>\n\n<h2>例外オブジェクトの情報を取得する</h2>\n<pre><code>try:\n    items = [1, 2, 3]\n    print(items[10])\nexcept IndexError as e:\n    print(f\"例外の種類: {type(e).__name__}\")  # IndexError\n    print(f\"例外メッセージ: {e}\")              # list index out of range</code></pre>\n\n<h2>else節とfinally節</h2>\n<p><code>try/except</code> には <code>else</code> と <code>finally</code> を追加できます。</p>\n<pre><code>try:\n    num = int(input(\"数値を入力: \"))\n    result = 100 / num\nexcept ValueError:\n    print(\"数値を入力してください\")\nexcept ZeroDivisionError:\n    print(\"0以外を入力してください\")\nelse:\n    # 例外が発生しなかった場合のみ実行される\n    print(f\"100 ÷ {num} = {result}\")\nfinally:\n    # 例外の有無に関わらず必ず実行される\n    print(\"処理が終了しました\")</code></pre>\n<ul>\n  <li><strong>else：</strong>try ブロックが例外なく完了したときだけ実行される</li>\n  <li><strong>finally：</strong>例外が発生してもしなくても必ず実行される。ファイルを閉じるなどのクリーンアップ処理に使う</li>\n</ul>\n\n<h3>ファイル操作での例外処理</h3>\n<pre><code>def read_file(filename):\n    try:\n        with open(filename, \"r\", encoding=\"utf-8\") as f:\n            content = f.read()\n    except FileNotFoundError:\n        print(f\"エラー: '{filename}' が見つかりません\")\n        return None\n    except PermissionError:\n        print(f\"エラー: '{filename}' へのアクセス権限がありません\")\n        return None\n    else:\n        print(f\"'{filename}' を正常に読み込みました\")\n        return content\n    finally:\n        print(\"ファイル操作処理完了\")\n\ncontent = read_file(\"sample.txt\")\nif content:\n    print(content[:50])</code></pre>\n\n<h2>raise文で例外を発生させる</h2>\n<p>自分でエラーを意図的に発生させたいときは <code>raise</code> 文を使います。関数の引数が不正な場合のバリデーションなどに使います。</p>\n<pre><code>def set_age(age):\n    if not isinstance(age, int):\n        raise TypeError(\"年齢は整数で指定してください\")\n    if age &lt; 0 or age &gt; 150:\n        raise ValueError(f\"年齢の値が不正です: {age}\")\n    print(f\"年齢を {age} に設定しました\")\n\ntry:\n    set_age(25)   # OK\n    set_age(-5)   # ValueError\nexcept ValueError as e:\n    print(f\"ValueError: {e}\")\n\ntry:\n    set_age(\"二十歳\")  # TypeError\nexcept TypeError as e:\n    print(f\"TypeError: {e}\")</code></pre>\n\n<h2>カスタム例外クラスを作る</h2>\n<p>アプリケーション独自の例外を作ることで、エラーの意味をより明確にできます。</p>\n<pre><code>class InsufficientFundsError(Exception):\n    \"\"\"残高不足を表すカスタム例外\"\"\"\n    def __init__(self, amount, balance):\n        self.amount = amount\n        self.balance = balance\n        super().__init__(\n            f\"残高不足: {amount}円の引き出しを試みましたが、残高は{balance}円です\"\n        )\n\nclass BankAccount:\n    def __init__(self, balance):\n        self.balance = balance\n\n    def withdraw(self, amount):\n        if amount &gt; self.balance:\n            raise InsufficientFundsError(amount, self.balance)\n        self.balance -= amount\n        print(f\"{amount}円引き出しました。残高: {self.balance}円\")\n\naccount = BankAccount(1000)\n\ntry:\n    account.withdraw(500)   # OK\n    account.withdraw(800)   # InsufficientFundsError\nexcept InsufficientFundsError as e:\n    print(f\"エラー: {e}\")</code></pre>\n\n<h2>例外処理のベストプラクティス</h2>\n<ul>\n  <li><strong>広すぎる例外キャッチを避ける：</strong><code>except Exception:</code> や <code>except:</code> で全例外をキャッチするのは、バグの隠蔽につながります。できるだけ具体的な例外クラスを指定しましょう。</li>\n  <li><strong>エラーを握りつぶさない：</strong><code>except: pass</code> はエラーを完全に無視するため危険です。少なくともログに記録しましょう。</li>\n  <li><strong>finallyでリソースを解放：</strong>ファイルやネットワーク接続などのリソースは finally で確実に閉じます（ただし with 文が使える場合はそちらを優先）。</li>\n  <li><strong>エラーメッセージをわかりやすく：</strong>ユーザーが何をすべきかわかるメッセージを表示しましょう。</li>\n</ul>\n",
+  "body": "<h2>結論：try/except で例外を捕まえ、プログラムを止めずに対処する</h2>\n<p>FileNotFoundError や ZeroDivisionError などは <code>try:</code> ブロックで囲み、<code>except 例外型:</code> で処理します。<code>finally</code> は成功・失敗に関わらず実行され、リソース解放に使います。</p>\n\n<h2>例外（エラー）とは？</h2>\n<p>プログラムを実行しているとき、予期せぬ状況によってエラーが発生することがあります。これを「例外（exception）」と言います。例外が発生してそのまま放置すると、プログラムは強制終了してしまいます。</p>\n<p>例外が発生する典型的な状況をいくつか見てみましょう。</p>\n<pre><code># 存在しないファイルを開こうとしたとき\nopen(\"存在しないファイル.txt\")\n# FileNotFoundError: No such file or directory\n\n# 0で割ったとき\nresult = 10 / 0\n# ZeroDivisionError: division by zero\n\n# 文字列を数値に変換しようとしたとき（不正な形式）\nint(\"hello\")\n# ValueError: invalid literal for int() with base 10: 'hello'\n\n# リストの範囲外にアクセスしたとき\nitems = [1, 2, 3]\nprint(items[10])\n# IndexError: list index out of range</code></pre>\n<p>これらのエラーをうまく処理して、プログラムをクラッシュさせずに適切なメッセージを表示したり、代替処理を実行したりできるのが「例外処理」です。</p>\n\n<h2>try/except文の基本</h2>\n<p>例外処理は <code>try</code> と <code>except</code> を使って記述します。</p>\n<pre><code>try:\n    # 例外が発生するかもしれない処理\n    result = 10 / 0\nexcept ZeroDivisionError:\n    # 例外が発生したときの処理\n    print(\"0で割ることはできません\")</code></pre>\n<p><code>try</code> ブロックの中でエラーが発生すると、すぐに <code>except</code> ブロックに移動します。エラーが発生しなければ <code>except</code> はスキップされます。</p>\n\n<h3>実用例：安全な数値入力</h3>\n<pre><code>def get_number():\n    while True:\n        try:\n            text = input(\"整数を入力してください: \")\n            num = int(text)\n            return num\n        except ValueError:\n            print(\"正しい整数を入力してください。もう一度試してください。\")\n\nnumber = get_number()\nprint(f\"入力された数値: {number}\")</code></pre>\n\n<h2>よくある例外の種類</h2>\n<p>Pythonの主な例外クラスを覚えておきましょう。</p>\n<ul>\n  <li><strong>ValueError：</strong>値が不正（例：int(\"abc\")）</li>\n  <li><strong>TypeError：</strong>型が不一致（例：1 + \"hello\"）</li>\n  <li><strong>IndexError：</strong>リストの範囲外アクセス</li>\n  <li><strong>KeyError：</strong>辞書に存在しないキーへのアクセス</li>\n  <li><strong>FileNotFoundError：</strong>ファイルが見つからない</li>\n  <li><strong>ZeroDivisionError：</strong>0による除算</li>\n  <li><strong>AttributeError：</strong>存在しない属性へのアクセス</li>\n  <li><strong>NameError：</strong>定義されていない変数の参照</li>\n  <li><strong>ImportError：</strong>モジュールのインポート失敗</li>\n  <li><strong>PermissionError：</strong>ファイルのアクセス権限なし</li>\n</ul>\n\n<h2>複数の例外をキャッチする</h2>\n<pre><code>def divide(a, b):\n    try:\n        result = a / b\n        print(f\"結果: {result}\")\n    except ZeroDivisionError:\n        print(\"エラー: 0で割ることはできません\")\n    except TypeError:\n        print(\"エラー: 数値を入力してください\")\n\ndivide(10, 2)      # 結果: 5.0\ndivide(10, 0)      # エラー: 0で割ることはできません\ndivide(10, \"abc\")  # エラー: 数値を入力してください\n\n# 複数の例外を1つのexceptでまとめて処理\ntry:\n    value = int(input(\"値を入力: \"))\n    result = 100 / value\nexcept (ValueError, ZeroDivisionError) as e:\n    print(f\"エラーが発生しました: {e}\")</code></pre>\n\n<h2>例外オブジェクトの情報を取得する</h2>\n<pre><code>try:\n    items = [1, 2, 3]\n    print(items[10])\nexcept IndexError as e:\n    print(f\"例外の種類: {type(e).__name__}\")  # IndexError\n    print(f\"例外メッセージ: {e}\")              # list index out of range</code></pre>\n\n<h2>else節とfinally節</h2>\n<p><code>try/except</code> には <code>else</code> と <code>finally</code> を追加できます。</p>\n<pre><code>try:\n    num = int(input(\"数値を入力: \"))\n    result = 100 / num\nexcept ValueError:\n    print(\"数値を入力してください\")\nexcept ZeroDivisionError:\n    print(\"0以外を入力してください\")\nelse:\n    # 例外が発生しなかった場合のみ実行される\n    print(f\"100 ÷ {num} = {result}\")\nfinally:\n    # 例外の有無に関わらず必ず実行される\n    print(\"処理が終了しました\")</code></pre>\n<ul>\n  <li><strong>else：</strong>try ブロックが例外なく完了したときだけ実行される</li>\n  <li><strong>finally：</strong>例外が発生してもしなくても必ず実行される。ファイルを閉じるなどのクリーンアップ処理に使う</li>\n</ul>\n\n<h3>ファイル操作での例外処理</h3>\n<pre><code>def read_file(filename):\n    try:\n        with open(filename, \"r\", encoding=\"utf-8\") as f:\n            content = f.read()\n    except FileNotFoundError:\n        print(f\"エラー: '{filename}' が見つかりません\")\n        return None\n    except PermissionError:\n        print(f\"エラー: '{filename}' へのアクセス権限がありません\")\n        return None\n    else:\n        print(f\"'{filename}' を正常に読み込みました\")\n        return content\n    finally:\n        print(\"ファイル操作処理完了\")\n\ncontent = read_file(\"sample.txt\")\nif content:\n    print(content[:50])</code></pre>\n\n<h2>raise文で例外を発生させる</h2>\n<p>自分でエラーを意図的に発生させたいときは <code>raise</code> 文を使います。関数の引数が不正な場合のバリデーションなどに使います。</p>\n<pre><code>def set_age(age):\n    if not isinstance(age, int):\n        raise TypeError(\"年齢は整数で指定してください\")\n    if age &lt; 0 or age &gt; 150:\n        raise ValueError(f\"年齢の値が不正です: {age}\")\n    print(f\"年齢を {age} に設定しました\")\n\ntry:\n    set_age(25)   # OK\n    set_age(-5)   # ValueError\nexcept ValueError as e:\n    print(f\"ValueError: {e}\")\n\ntry:\n    set_age(\"二十歳\")  # TypeError\nexcept TypeError as e:\n    print(f\"TypeError: {e}\")</code></pre>\n\n<h2>カスタム例外クラスを作る</h2>\n<p>アプリケーション独自の例外を作ることで、エラーの意味をより明確にできます。</p>\n<pre><code>class InsufficientFundsError(Exception):\n    \"\"\"残高不足を表すカスタム例外\"\"\"\n    def __init__(self, amount, balance):\n        self.amount = amount\n        self.balance = balance\n        super().__init__(\n            f\"残高不足: {amount}円の引き出しを試みましたが、残高は{balance}円です\"\n        )\n\nclass BankAccount:\n    def __init__(self, balance):\n        self.balance = balance\n\n    def withdraw(self, amount):\n        if amount &gt; self.balance:\n            raise InsufficientFundsError(amount, self.balance)\n        self.balance -= amount\n        print(f\"{amount}円引き出しました。残高: {self.balance}円\")\n\naccount = BankAccount(1000)\n\ntry:\n    account.withdraw(500)   # OK\n    account.withdraw(800)   # InsufficientFundsError\nexcept InsufficientFundsError as e:\n    print(f\"エラー: {e}\")</code></pre>\n\n<h2>例外処理のベストプラクティス</h2>\n<ul>\n  <li><strong>広すぎる例外キャッチを避ける：</strong><code>except Exception:</code> や <code>except:</code> で全例外をキャッチするのは、バグの隠蔽につながります。できるだけ具体的な例外クラスを指定しましょう。</li>\n  <li><strong>エラーを握りつぶさない：</strong><code>except: pass</code> はエラーを完全に無視するため危険です。少なくともログに記録しましょう。</li>\n  <li><strong>finallyでリソースを解放：</strong>ファイルやネットワーク接続などのリソースは finally で確実に閉じます（ただし with 文が使える場合はそちらを優先）。</li>\n  <li><strong>エラーメッセージをわかりやすく：</strong>ユーザーが何をすべきかわかるメッセージを表示しましょう。</li>\n</ul>\n\n<h2>つまずきやすいポイント・失敗例</h2>\n<h3>失敗例：except: だけで全部握りつぶす</h3>\n<p>原因が分からなくなりデバッグが困難になります。具体的な例外型を指定し、ログを残しましょう。</p>\n<h3>失敗例：except の後にインデント忘れ</h3>\n<p>try/except も if と同様、コロンの次はインデント必須です。</p>\n<pre><code>try:\n    num = int(input(\"数字: \"))\n    print(10 / num)\nexcept ValueError:\n    print(\"整数を入力してください\")\nexcept ZeroDivisionError:\n    print(\"0では割れません\")</code></pre>",
   "conclusion": "例外処理はプログラムの堅牢性を高めるための重要なスキルです。try/except/else/finallyを正しく使い、適切な例外クラスを指定する習慣を身につけましょう。次のエピソードではクラスとオブジェクト指向プログラミングを学びます。",
   "tags": [
     "python",
@@ -17,12 +17,12 @@
   "theme": "python - Python 入門",
   "status": "published",
   "createdAt": "2026-05-30T04:12:59.173Z",
-  "updatedAt": "2026-05-30T04:12:59.182Z",
+  "updatedAt": "2026-05-30T05:17:17.147Z",
   "publishedAt": "2026-05-30T04:12:59.173Z",
   "metaTitle": "Python 例外処理 try except 入門 | Python入門",
-  "metaDescription": "Python入門：try/except例外処理を初心者向けにわかりやすく解説。よくある例外の種類・except/else/finally・raise・カスタム例外まで豊富なコード例で学べます。 図解・具体例つきで丁寧に解説します。",
+  "metaDescription": "Pythonのtry/except例外処理を解説。よくある例外の種類、exceptの書き方、握りつぶしの失敗例をコード例付きで紹介します。",
   "ogTitle": "Python 例外処理 try/except | Python入門",
-  "ogDescription": "【Python初心者向け】Pythonのtry/except例外処理を初心者向けに解説。よくある例外の種類・raise・カスタム例外まで丁寧に説明します。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
+  "ogDescription": "Pythonのtry/except例外処理を初心者向けに解説。よくある例外の種類・raise・カスタム例外まで丁寧に説明します。",
   "knowledge": {
     "topic": "python",
     "courseId": "python",
@@ -40,6 +40,14 @@
     {
       "question": "loggingモジュールとの組み合わせはどうすればいいですか？",
       "answer": "本格的なアプリではprintの代わりにloggingモジュールを使ってエラーを記録します。except節でlogging.error(str(e), exc_info=True)とするとスタックトレースも記録されます。"
+    },
+    {
+      "question": "プログラミング未経験でもPythonは学べますか？",
+      "answer": "はい。Pythonは文法が比較的シンプルで、エラーメッセージも読みやすい言語です。小さなプログラムから手を動かしながら進めましょう。"
+    },
+    {
+      "question": "エラーが出たときの対処法は？",
+      "answer": "エラーメッセージの最終行（例外名と説明）を読み、該当行のコードを確認してください。print() で変数の中身を表示するのも有効です。"
     }
   ],
   "nextEpisodeHint": "次回はクラスとオブジェクト指向プログラミングを学びます。classキーワードで設計図を作り、__init__コンストラクタ・メソッド・継承の基本を解説します。",
@@ -52,9 +60,9 @@
         "@context": "https://schema.org",
         "@type": "TechArticle",
         "headline": "例外処理（try/except）",
-        "description": "Python入門：try/except例外処理を初心者向けにわかりやすく解説。よくある例外の種類・except/else/finally・raise・カスタム例外まで豊富なコード例で学べます。 図解・具体例つきで丁寧に解説します。",
+        "description": "Pythonのtry/except例外処理を解説。よくある例外の種類、exceptの書き方、握りつぶしの失敗例をコード例付きで紹介します。",
         "datePublished": "2026-05-30T04:12:59.173Z",
-        "dateModified": "2026-05-30T04:12:59.182Z",
+        "dateModified": "2026-05-30T05:17:17.147Z",
         "author": {
           "@type": "Organization",
           "name": "StackShelf",
@@ -75,7 +83,7 @@
         },
         "image": "https://ai-site-iota-nine.vercel.app/og-default.svg",
         "inLanguage": "ja",
-        "wordCount": 3703,
+        "wordCount": 4090,
         "mainEntityOfPage": {
           "@type": "WebPage",
           "@id": "https://ai-site-iota-nine.vercel.app/article/python-exceptions"
@@ -162,6 +170,22 @@
               "@type": "Answer",
               "text": "本格的なアプリではprintの代わりにloggingモジュールを使ってエラーを記録します。except節でlogging.error(str(e), exc_info=True)とするとスタックトレースも記録されます。"
             }
+          },
+          {
+            "@type": "Question",
+            "name": "プログラミング未経験でもPythonは学べますか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "はい。Pythonは文法が比較的シンプルで、エラーメッセージも読みやすい言語です。小さなプログラムから手を動かしながら進めましょう。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "エラーが出たときの対処法は？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "エラーメッセージの最終行（例外名と説明）を読み、該当行のコードを確認してください。print() で変数の中身を表示するのも有効です。"
+            }
           }
         ]
       }
@@ -243,7 +267,51 @@
           "@type": "Answer",
           "text": "本格的なアプリではprintの代わりにloggingモジュールを使ってエラーを記録します。except節でlogging.error(str(e), exc_info=True)とするとスタックトレースも記録されます。"
         }
+      },
+      {
+        "@type": "Question",
+        "name": "プログラミング未経験でもPythonは学べますか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "はい。Pythonは文法が比較的シンプルで、エラーメッセージも読みやすい言語です。小さなプログラムから手を動かしながら進めましょう。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "エラーが出たときの対処法は？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "エラーメッセージの最終行（例外名と説明）を読み、該当行のコードを確認してください。print() で変数の中身を表示するのも有効です。"
+        }
       }
     ]
-  }
+  },
+  "internalLinkCandidates": [
+    {
+      "slug": "python-classes",
+      "title": "クラスの基礎（class, __init__, メソッド）",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "python-modules",
+      "title": "モジュールとパッケージ（import, pip install）",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "python-file-io",
+      "title": "ファイルの読み書き（open, read, write）",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "python-list-dict",
+      "title": "リストと辞書",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "python-functions",
+      "title": "関数の定義と使い方（def, 引数, return）",
+      "reason": "同じ講座の関連回です"
+    }
+  ],
+  "nextAction": "次はクラスとオブジェクト指向プログラミングを学びます。classキーワードで設計図を作り、__init__コンストラクタ・メソッド・継承の基本を解説します。"
 }

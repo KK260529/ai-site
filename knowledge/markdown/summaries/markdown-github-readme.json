@@ -1,0 +1,14 @@
+{
+  "slug": "markdown-github-readme",
+  "courseId": "markdown",
+  "episode": 5,
+  "summaryMemory": [
+    "READMEは30秒で価値が伝わる入口、詳細はdocsへ逃がす",
+    "構成は概要・インストール・使い方・ライセンスが最小セット",
+    "バッジは意味があるものだけ、古いバッジは信頼を損なう",
+    "CONTRIBUTINGとLICENSEファイルと表記を一致させる",
+    "秘密情報・本番URLはREADMEに書かず.env.exampleで示す"
+  ],
+  "nextEpisodeHint": "次回は、設計書・ADR・複数Markdownファイルのディレクトリ構成と、読者別（利用者/開発者）の情報設計を学びます。",
+  "updatedAt": "2026-05-30T05:14:16.821Z"
+}

@@ -1,0 +1,318 @@
+{
+  "id": "art_http_http-practice",
+  "slug": "http-practice",
+  "title": "実践：公開APIを叩いてみる",
+  "summary": "JSONPlaceholder等の公開APIをcurl・fetch API・DevToolsで実際に叩き、HTTP入門コースの総仕上げを行います。GET/POST/PUT/DELETEの一連の流れを hands-on で体験しましょう。",
+  "body": "<h2>このエピソードのゴール</h2>\n<p>HTTP入門コースの最終回です。これまで10回にわたって学んだ知識——リクエスト/レスポンス構造、HTTPメソッド、ステータスコード、ヘッダー、認証、HTTPS、REST API設計、curl/DevTools、CORS/デバッグ——を<strong>実際の公開API</strong>で hands-on 体験します。</p>\n<p>使用するAPI：</p>\n<ul>\n  <li><strong>JSONPlaceholder</strong>（https://jsonplaceholder.typicode.com）——練習用REST API</li>\n  <li><strong>HTTPBin</strong>（https://httpbin.org）——HTTPリクエストのエコー・検証サービス</li>\n  <li><strong>GitHub API</strong>（https://api.github.com）——実在する公開API</li>\n</ul>\n<p>必要なもの：ターミナル（curl）、ブラウザ（DevTools）、テキストエディタ。追加インストールは不要です。</p>\n\n<h2>Exercise 1：GETでデータを取得する</h2>\n<p>まず最も基本的なGETリクエストから始めましょう。</p>\n<pre><code># ユーザー一覧を取得\ncurl -s https://jsonplaceholder.typicode.com/users | head -c 500\n\n# 特定ユーザーの詳細\ncurl -s https://jsonplaceholder.typicode.com/users/1\n\n# レスポンスヘッダーも確認\ncurl -i https://jsonplaceholder.typicode.com/users/1</code></pre>\n<p>確認ポイント：</p>\n<ul>\n  <li>ステータスコードは <code>200 OK</code> か</li>\n  <li>Content-Type は <code>application/json</code> か</li>\n  <li>レスポンスボディはJSON形式か</li>\n  <li>id、name、email 等のフィールドがあるか</li>\n</ul>\n<p>ネストしたリソースも試してみましょう：</p>\n<pre><code># ユーザー1の投稿一覧\ncurl -s https://jsonplaceholder.typicode.com/users/1/posts\n\n# 投稿1のコメント一覧\ncurl -s https://jsonplaceholder.typicode.com/posts/1/comments</code></pre>\n<p>REST API設計（第7回）の「階層URL」がそのまま使われています。<code>/users/1/posts</code> = ユーザー1の投稿一覧、という直感的な設計です。</p>\n\n<h2>Exercise 2：POSTでデータを作成する</h2>\n<pre><code># 新規投稿を作成\ncurl -X POST https://jsonplaceholder.typicode.com/posts \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\n    \"title\": \"HTTP入門コースを修了しました\",\n    \"body\": \"curlとfetch APIでAPIを叩けるようになりました！\",\n    \"userId\": 1\n  }'</code></pre>\n<p>確認ポイント：</p>\n<ul>\n  <li>ステータスコードは <code>201 Created</code> か</li>\n  <li>レスポンスにサーバーが割り当てた <code>id</code> が含まれているか</li>\n  <li>送信した title, body, userId がレスポンスに反映されているか</li>\n</ul>\n<p>JSONPlaceholderは練習用APIのため、データは実際には保存されません。しかし、201 Createdと正しいJSONレスポンスが返るため、HTTP通信の練習には最適です。</p>\n\n<h2>Exercise 3：PUT/PATCH/DELETE</h2>\n<pre><code># PUT（完全更新）\ncurl -X PUT https://jsonplaceholder.typicode.com/posts/1 \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\n    \"id\": 1,\n    \"title\": \"更新されたタイトル\",\n    \"body\": \"更新された本文\",\n    \"userId\": 1\n  }'\n\n# PATCH（部分更新）\ncurl -X PATCH https://jsonplaceholder.typicode.com/posts/1 \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\"title\": \"PATCHで更新\"}'\n\n# DELETE\ncurl -X DELETE https://jsonplaceholder.typicode.com/posts/1</code></pre>\n<p>DELETEの成功レスポンスは <code>200 OK</code> または <code>204 No Content</code> です。JSONPlaceholderは200 + 空JSONオブジェクト <code>{}</code> を返します。</p>\n\n<h2>Exercise 4：HTTPBinでリクエストを検証</h2>\n<p>HTTPBinは、送ったリクエストの内容をそのまま返してくれるデバッグサービスです。</p>\n<pre><code># 送ったヘッダー・ボディをエコー\ncurl -s https://httpbin.org/post \\\n  -X POST \\\n  -H \"Content-Type: application/json\" \\\n  -H \"X-Custom-Header: HTTP入門\" \\\n  -d '{\"message\": \"hello\"}' | head -c 800\n\n# クエリパラメータの確認\ncurl -s \"https://httpbin.org/get?search=HTTP&amp;page=1\"\n\n# ステータスコードのテスト\ncurl -s -o /dev/null -w \"Status: %{http_code}\\n\" https://httpbin.org/status/404\ncurl -s -o /dev/null -w \"Status: %{http_code}\\n\" https://httpbin.org/status/500</code></pre>\n<p>HTTPBinの <code>/status/404</code> や <code>/status/500</code> は、意図的にエラーステータスを返すエンドポイントです。第9回で学んだエラーハンドリングの練習に使えます。</p>\n\n<h2>Exercise 5：GitHub APIで実在APIを体験</h2>\n<p>GitHub APIは認証なしでも利用可能な実在のREST APIです。</p>\n<pre><code># GitHubユーザー情報を取得\ncurl -s https://api.github.com/users/github\n\n# レート制限ヘッダーを確認\ncurl -I https://api.github.com/users/github\n\n# レスポンスヘッダーに含まれる情報：\n# X-RateLimit-Limit: 60（認証なしの1時間あたりリクエスト上限）\n# X-RateLimit-Remaining: 59（残りリクエスト数）\n# X-RateLimit-Reset: 1700000000（リミットリセット時刻）</code></pre>\n<p>GitHub APIは <code>429 Too Many Requests</code>（第3回）を返す実例も確認できます。公開APIには<strong>レート制限</strong>があるのが一般的で、X-RateLimit-* ヘッダーで残量を確認する習慣をつけましょう。</p>\n\n<h2>Exercise 6：fetch APIでブラウザからAPI呼び出し</h2>\n<p>ブラウザのDevTools → Consoleタブで以下を実行してみましょう。</p>\n<pre><code>// GET リクエスト\nconst res = await fetch('https://jsonplaceholder.typicode.com/users/1');\nconsole.log('Status:', res.status);\nconst user = await res.json();\nconsole.log('User:', user.name, user.email);\n\n// POST リクエスト\nconst res2 = await fetch('https://jsonplaceholder.typicode.com/posts', {\n  method: 'POST',\n  headers: { 'Content-Type': 'application/json' },\n  body: JSON.stringify({\n    title: 'fetch APIテスト',\n    body: 'ブラウザからAPIを呼び出しました',\n    userId: 1\n  })\n});\nconsole.log('Created:', res2.status, await res2.json());</code></pre>\n<p>DevToolsのNetworkタブを開いた状態で実行すると、リクエスト/レスポンスの詳細をリアルタイムで確認できます。Headers、Preview、Responseタブを行き来して、第2回で学んだHTTPメッセージ構造を確認しましょう。</p>\n\n<h2>Exercise 7：エラーハンドリングの実装</h2>\n<p>実践的なAPI呼び出し関数を作ってみましょう。</p>\n<pre><code>async function fetchUser(userId) {\n  try {\n    const response = await fetch(\n      `https://jsonplaceholder.typicode.com/users/${userId}`\n    );\n    \n    if (response.status === 404) {\n      console.error('ユーザーが見つかりません');\n      return null;\n    }\n    \n    if (!response.ok) {\n      throw new Error(`HTTP error! status: ${response.status}`);\n    }\n    \n    const user = await response.json();\n    console.log(`${user.name} (${user.email})`);\n    return user;\n    \n  } catch (error) {\n    console.error('通信エラー:', error.message);\n    return null;\n  }\n}\n\n// 正常系\nawait fetchUser(1);\n\n// 404エラー\nawait fetchUser(999);</code></pre>\n<p>第3回のステータスコード、第9回のデバッグ技法を組み合わせた実践的なパターンです。本番アプリでは <code>response.ok</code> チェックとtry/catchは必須です。</p>\n\n<h2>Exercise 8：総合課題——ミニAPIクライアント</h2>\n<p>これまでの知識を総動員する課題です。以下の機能を持つAPIクライアントをcurlまたはJavaScriptで実装してみましょう。</p>\n<ol>\n  <li>ユーザー一覧を取得して表示（GET /users）</li>\n  <li>特定ユーザーの投稿一覧を取得（GET /users/:id/posts）</li>\n  <li>新規投稿を作成（POST /posts）</li>\n  <li>作成した投稿を更新（PUT /posts/:id）</li>\n  <li>投稿を削除（DELETE /posts/:id）</li>\n  <li>各操作でステータスコードとレスポンスを確認</li>\n</ol>\n<pre><code># curlでの総合課題例\necho \"=== 1. ユーザー一覧 ===\"\ncurl -s https://jsonplaceholder.typicode.com/users | head -c 200\n\necho \"\\n=== 2. ユーザー1の投稿 ===\"\ncurl -s https://jsonplaceholder.typicode.com/users/1/posts | head -c 200\n\necho \"\\n=== 3. 新規投稿 ===\"\ncurl -s -X POST https://jsonplaceholder.typicode.com/posts \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\"title\":\"総合課題\",\"body\":\"HTTP入門修了\",\"userId\":1}'\n\necho \"\\n=== 4. 投稿更新 ===\"\ncurl -s -X PUT https://jsonplaceholder.typicode.com/posts/1 \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\"id\":1,\"title\":\"更新済み\",\"body\":\"更新本文\",\"userId\":1}'\n\necho \"\\n=== 5. 投稿削除 ===\"\ncurl -s -X DELETE https://jsonplaceholder.typicode.com/posts/1</code></pre>\n\n<h2>HTTP入門コースの学びの振り返り</h2>\n<p>10回のコースで学んだことを振り返りましょう。</p>\n<ul>\n  <li><strong>第1回</strong>：HTTPはWebの通信プロトコル。クライアント・サーバーモデル</li>\n  <li><strong>第2回</strong>：リクエスト/レスポンスの構造（行・ヘッダー・ボディ）</li>\n  <li><strong>第3回</strong>：HTTPメソッド（GET/POST/PUT/PATCH/DELETE）とステータスコード</li>\n  <li><strong>第4回</strong>：ヘッダー（Content-Type、Authorization、Cache-Control、CORS）</li>\n  <li><strong>第5回</strong>：Cookie・セッション・JWT認証</li>\n  <li><strong>第6回</strong>：HTTPS・TLS暗号化</li>\n  <li><strong>第7回</strong>：REST API設計原則</li>\n  <li><strong>第8回</strong>：curl・DevTools・fetch API</li>\n  <li><strong>第9回</strong>：CORS・エラーデバッグ</li>\n  <li><strong>第10回（今回）</strong>：公開APIでの hands-on 実践</li>\n</ul>\n\n<h2>次のステップ：HTTP学習の続き方</h2>\n<p>HTTP入門を修了したら、次の学習パスがおすすめです。</p>\n<ul>\n  <li><strong>バックエンド開発</strong>：<a href=\"/articles/python-intro\">Python</a>（Flask/FastAPI）やNode.js（Express）でAPIサーバーを構築</li>\n  <li><strong>データベース連携</strong>：<a href=\"/articles/sql-intro\">SQL入門</a>でAPIの裏側のデータ管理を学ぶ</li>\n  <li><strong>インフラ</strong>：<a href=\"/articles/nginx-intro\">nginx</a>でリバースプロキシ・HTTPS設定、<a href=\"/articles/docker-intro\">Docker</a>でAPIサーバーをコンテナ化</li>\n  <li><strong>フロントエンド</strong>：<a href=\"/articles/web-intro\">Web制作入門</a>でfetch APIを使ったAPI連携UIを構築</li>\n  <li><strong>自動化</strong>：<a href=\"/articles/bash-intro\">Bash</a>でcurlをスクリプト化し、API監視・テストを自動化</li>\n</ul>\n<p>HTTPの知識は、Web開発のあらゆる分野の「共通言語」です。このコースで身につけた基礎を土台に、バックエンド・フロントエンド・インフラのどの方向に進んでも、HTTPの理解が大きな武器になります。</p>\n\n<h2>まとめ：HTTP入門コース修了おめでとうございます</h2>\n<p>公開APIを実際に叩き、GET/POST/PUT/DELETEの一連の流れを体験しました。curl、DevTools、fetch APIを使いこなせるようになったあなたは、Web APIの世界への扉を開いた状態です。HTTPは一度理解すれば、Python/JavaScript/Java/Goなど言語を問わず、あらゆるWeb開発で活きる一生モノの知識です。次のコースで実際にAPIサーバーを構築し、HTTPの理解をさらに深めていきましょう。</p>",
+  "conclusion": "公開API（JSONPlaceholder、HTTPBin、GitHub API）をcurl・fetch APIで実際に叩き、GET/POST/PUT/DELETEの一連の流れを体験しました。HTTP入門コース10回の学びを総動員する実践でした。次はPython/Node.jsでAPIサーバー構築、SQL、nginx、Dockerなど関連コースでHTTP知識を発展させましょう。",
+  "tags": [
+    "HTTP",
+    "API",
+    "実践",
+    "curl",
+    "fetch",
+    "JSONPlaceholder",
+    "hands-on"
+  ],
+  "category": "HTTP",
+  "theme": "http - HTTP・Web API入門",
+  "status": "published",
+  "createdAt": "2026-05-30T05:14:43.465Z",
+  "updatedAt": "2026-05-30T05:15:43.279Z",
+  "publishedAt": "2026-05-30T05:14:43.465Z",
+  "metaTitle": "実践：公開APIを叩いてみる【HTTP入門 最終回】｜HTTP入門 | StackShelf",
+  "metaDescription": "JSONPlaceholderの公開APIをcurl・fetch API・DevToolsで実際に叩く hands-on 実践。GET/POST/PUT/DELETE、エラーハンドリング、API連携の一連の流れを体験します。",
+  "ogTitle": "実践：公開APIを叩いてみる",
+  "ogDescription": "公開APIをcurl・fetch APIで実際に叩き、HTTP入門コースの学びを総動員する hands-on 実践エピソードです。",
+  "knowledge": {
+    "topic": "http",
+    "courseId": "http",
+    "episode": 10
+  },
+  "faq": [
+    {
+      "question": "JSONPlaceholderのデータは本当に保存されますか？",
+      "answer": "いいえ、JSONPlaceholderは練習用APIで、POST/PUT/DELETEのデータは保存されません。しかし、正しいHTTPステータスコード（201、200等）とJSONレスポンスが返るため、HTTP通信の学習・テストには最適です。"
+    },
+    {
+      "question": "GitHub APIのレート制限を超えたらどうなりますか？",
+      "answer": "429 Too Many Requests が返され、X-RateLimit-Reset ヘッダーで指定された時刻までリクエストが拒否されます。認証（Personal Access Token）を使うと1時間あたり5000リクエストに増えます。"
+    },
+    {
+      "question": "HTTP入門後に最初に学ぶべき関連スキルは？",
+      "answer": "バックエンド開発（Python Flask/FastAPI または Node.js Express）でAPIサーバーを自分で作る経験が最も効果的です。SQL入門と並行またはその後に学ぶと、API + DB連携の全体像がつかめます。"
+    },
+    {
+      "question": "fetch APIとaxiosのどちらを使うべきですか？",
+      "answer": "fetch APIはブラウザ標準で追加インストール不要。axiosはタイムアウト・インターセプター・自動JSON変換等の便利機能がある。初学者はfetch APIをマスターしてから、必要に応じてaxiosを検討するのがおすすめです。"
+    },
+    {
+      "question": "HTTP/2やHTTP/3は意識する必要がありますか？",
+      "answer": "API開発の初学者段階では意識不要です。サーバー（nginx、CDN）が自動的にHTTP/2/3に対応します。HTTP/1.1の基本概念（メソッド・ステータス・ヘッダー・ボディ）が理解できていれば、HTTP/2/3の恩恵は自動的に受けられます。"
+    }
+  ],
+  "nextEpisodeHint": "HTTP入門コースはこれで完了です。Python入門やnginx入門など関連コースで、HTTP知識を活かした開発を進めましょう。",
+  "nextAction": "HTTP入門コースお疲れさまでした！次はPython入門でAPIサーバーを構築するか、nginx入門でWebサーバー設定を学び、HTTP知識を実践で深めていきましょう。",
+  "internalLinkCandidates": [
+    {
+      "slug": "http-fetch-tools",
+      "title": "curlとDevToolsでAPIを試す",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "http-debugging",
+      "title": "CORS・エラー・デバッグ",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "http-intro",
+      "title": "HTTPとは？Webの通信の仕組みを初心者向けに解説",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "http-rest-api",
+      "title": "REST APIの設計原則",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "http-https-tls",
+      "title": "HTTPSとTLSの仕組み",
+      "reason": "同じ講座の関連回です"
+    }
+  ],
+  "ogImage": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+  "canonical": "https://ai-site-iota-nine.vercel.app/article/http-practice",
+  "jsonLd": {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@context": "https://schema.org",
+        "@type": "TechArticle",
+        "headline": "実践：公開APIを叩いてみる",
+        "description": "JSONPlaceholderの公開APIをcurl・fetch API・DevToolsで実際に叩く hands-on 実践。GET/POST/PUT/DELETE、エラーハンドリング、API連携の一連の流れを体験します。",
+        "datePublished": "2026-05-30T05:14:43.465Z",
+        "dateModified": "2026-05-30T05:15:43.279Z",
+        "author": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
+        },
+        "image": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+        "inLanguage": "ja",
+        "wordCount": 5652,
+        "mainEntityOfPage": {
+          "@type": "WebPage",
+          "@id": "https://ai-site-iota-nine.vercel.app/article/http-practice"
+        },
+        "keywords": "HTTP, API, 実践, curl, fetch, JSONPlaceholder, hands-on",
+        "articleSection": "HTTP",
+        "url": "https://ai-site-iota-nine.vercel.app/article/http-practice",
+        "learningResourceType": "tutorial",
+        "educationalLevel": "beginner"
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "ホーム",
+            "item": "https://ai-site-iota-nine.vercel.app/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "http",
+            "item": "https://ai-site-iota-nine.vercel.app/knowledge/http"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "HTTP・Web API入門",
+            "item": "https://ai-site-iota-nine.vercel.app/course/http/http"
+          },
+          {
+            "@type": "ListItem",
+            "position": 4,
+            "name": "実践：公開APIを叩いてみる",
+            "item": "https://ai-site-iota-nine.vercel.app/article/http-practice"
+          }
+        ]
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "Course",
+        "name": "HTTP・Web API入門",
+        "description": "ブラウザとサーバーの通信、REST API、HTTPSを10ステップで理解。バックエンド学習の前提となるHTTPを具体例で学びます。",
+        "provider": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app"
+        },
+        "url": "https://ai-site-iota-nine.vercel.app/course/http/http",
+        "inLanguage": "ja",
+        "educationalLevel": "beginner",
+        "hasCourseInstance": {
+          "@type": "CourseInstance",
+          "courseMode": "online",
+          "courseWorkload": "PT1H"
+        }
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "JSONPlaceholderのデータは本当に保存されますか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "いいえ、JSONPlaceholderは練習用APIで、POST/PUT/DELETEのデータは保存されません。しかし、正しいHTTPステータスコード（201、200等）とJSONレスポンスが返るため、HTTP通信の学習・テストには最適です。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "GitHub APIのレート制限を超えたらどうなりますか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "429 Too Many Requests が返され、X-RateLimit-Reset ヘッダーで指定された時刻までリクエストが拒否されます。認証（Personal Access Token）を使うと1時間あたり5000リクエストに増えます。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "HTTP入門後に最初に学ぶべき関連スキルは？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "バックエンド開発（Python Flask/FastAPI または Node.js Express）でAPIサーバーを自分で作る経験が最も効果的です。SQL入門と並行またはその後に学ぶと、API + DB連携の全体像がつかめます。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "fetch APIとaxiosのどちらを使うべきですか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "fetch APIはブラウザ標準で追加インストール不要。axiosはタイムアウト・インターセプター・自動JSON変換等の便利機能がある。初学者はfetch APIをマスターしてから、必要に応じてaxiosを検討するのがおすすめです。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "HTTP/2やHTTP/3は意識する必要がありますか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "API開発の初学者段階では意識不要です。サーバー（nginx、CDN）が自動的にHTTP/2/3に対応します。HTTP/1.1の基本概念（メソッド・ステータス・ヘッダー・ボディ）が理解できていれば、HTTP/2/3の恩恵は自動的に受けられます。"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "breadcrumb": {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "ホーム",
+        "item": "https://ai-site-iota-nine.vercel.app/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "http",
+        "item": "https://ai-site-iota-nine.vercel.app/knowledge/http"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "HTTP・Web API入門",
+        "item": "https://ai-site-iota-nine.vercel.app/course/http/http"
+      },
+      {
+        "@type": "ListItem",
+        "position": 4,
+        "name": "実践：公開APIを叩いてみる",
+        "item": "https://ai-site-iota-nine.vercel.app/article/http-practice"
+      }
+    ]
+  },
+  "courseSchema": {
+    "@context": "https://schema.org",
+    "@type": "Course",
+    "name": "HTTP・Web API入門",
+    "description": "ブラウザとサーバーの通信、REST API、HTTPSを10ステップで理解。バックエンド学習の前提となるHTTPを具体例で学びます。",
+    "provider": {
+      "@type": "Organization",
+      "name": "StackShelf",
+      "url": "https://ai-site-iota-nine.vercel.app"
+    },
+    "url": "https://ai-site-iota-nine.vercel.app/course/http/http",
+    "inLanguage": "ja",
+    "educationalLevel": "beginner",
+    "hasCourseInstance": {
+      "@type": "CourseInstance",
+      "courseMode": "online",
+      "courseWorkload": "PT1H"
+    }
+  },
+  "faqSchema": {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "JSONPlaceholderのデータは本当に保存されますか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "いいえ、JSONPlaceholderは練習用APIで、POST/PUT/DELETEのデータは保存されません。しかし、正しいHTTPステータスコード（201、200等）とJSONレスポンスが返るため、HTTP通信の学習・テストには最適です。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "GitHub APIのレート制限を超えたらどうなりますか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "429 Too Many Requests が返され、X-RateLimit-Reset ヘッダーで指定された時刻までリクエストが拒否されます。認証（Personal Access Token）を使うと1時間あたり5000リクエストに増えます。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "HTTP入門後に最初に学ぶべき関連スキルは？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "バックエンド開発（Python Flask/FastAPI または Node.js Express）でAPIサーバーを自分で作る経験が最も効果的です。SQL入門と並行またはその後に学ぶと、API + DB連携の全体像がつかめます。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "fetch APIとaxiosのどちらを使うべきですか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "fetch APIはブラウザ標準で追加インストール不要。axiosはタイムアウト・インターセプター・自動JSON変換等の便利機能がある。初学者はfetch APIをマスターしてから、必要に応じてaxiosを検討するのがおすすめです。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "HTTP/2やHTTP/3は意識する必要がありますか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "API開発の初学者段階では意識不要です。サーバー（nginx、CDN）が自動的にHTTP/2/3に対応します。HTTP/1.1の基本概念（メソッド・ステータス・ヘッダー・ボディ）が理解できていれば、HTTP/2/3の恩恵は自動的に受けられます。"
+        }
+      }
+    ]
+  }
+}

@@ -1,0 +1,316 @@
+{
+  "id": "art_markdown_markdown-basic-syntax",
+  "slug": "markdown-basic-syntax",
+  "title": "見出し・段落・強調の基本｜Markdown記法入門",
+  "summary": "Markdownの見出し（#）、段落、太字・斜体・打ち消し線の書き方とよくある失敗を解説。プレビューと表示がずれる原因も押さえます。",
+  "body": "<h2>結論：見出しは # の数、段落は空行、強調は * か _</h2>\n<p>Markdownの骨格は<strong>見出し・段落・強調</strong>の3つでほぼできあがります。見出しは行頭の <code>#</code> の個数（1〜6）でレベルを表し、段落は空行で区切り、強調はアスタリスク <code>*</code> またはアンダースコア <code>_</code> で囲みます。この3つを正確に書けるだけで、READMEの可読性は大きく上がります。</p>\n<p>検索で多いのは「見出しが効かない」「太字にならない」といったトラブルです。多くは<strong>記号の前後にスペースがある</strong>、<strong>空行が足りない</strong>、<strong>全角記号を使っている</strong>のいずれかが原因です。以下で正しい書き方と失敗例を対比します。</p>\n\n<h2>見出し（Heading）</h2>\n<p>行頭に <code>#</code> を1〜6個書き、スペース1つを挟んで見出しテキストを書きます。</p>\n<pre><code># レベル1（ページタイトル相当）\n## レベル2（大見出し）\n### レベル3\n#### レベル4\n##### レベル5\n###### レベル6</code></pre>\n<p>レベルを飛ばさないのが鉄則です。<code>##</code> の次にいきなり <code>####</code> を置くと、アウトラインが不自然になり、目次生成ツールやスクリーンリーダーで混乱を招きます。Wordの「見出し1→見出し2」と同じ感覚で、順番に使いましょう。</p>\n\n<h3>失敗例：#の直後にスペースがない</h3>\n<pre><code>#見出しにならない場合がある\n# 正しくはスペースを1つ入れる</code></pre>\n<p>多くのパーサーは <code>#</code> の直後にスペースがないと見出しと認識しません。コピペ時にスペースが消えることもあるので、プレビューで必ず確認してください。</p>\n\n<h3>別記法：Setext形式（補足）</h3>\n<pre><code>レベル1見出し\n========\n\nレベル2見出し\n--------</code></pre>\n<p>下線だけで見出しにする古い記法もありますが、長い日本語タイトルでは線の本数を合わせるのが面倒です。現場ではATX形式（#方式）を使うのが一般的です。</p>\n\n<h2>段落（Paragraph）</h2>\n<p>段落は<strong>連続する行をそのまま書き、段落の区切りに空行を1行入れる</strong>だけです。HTMLでは <code>&lt;p&gt;</code> タグに相当します。</p>\n<pre><code>これは第一段落です。同じ段落内では\n改行しても、多くの表示では1つの段落に\nつながって見えます。\n\nこれは第二段落です。上に空行があるため\n別の段落として表示されます。</code></pre>\n<p>「1文ごとに改行したい」場合は、行末にスペース2つを入れる方法（ハードブレイク）や、<code>&lt;br&gt;</code> を使う方言もありますが、READMEでは空行で段落を分ける方が読みやすいことが多いです。</p>\n\n<h3>失敗例：空行がなくて全部つながる</h3>\n<p>見出しの直後に本文を続け、空行を入れないと、環境によっては見出しと本文の境界が曖昧になります。見出しの次の行から空行を1行入れてから本文を書く習慣をつけましょう。</p>\n\n<h2>強調：太字・斜体・打ち消し線</h2>\n<p>次の表は、よく使う強調記法の早見表です（GFM前提）。</p>\n<ul>\n  <li><strong>太字</strong>：<code>**太字**</code> または <code>__太字__</code></li>\n  <li><strong>斜体</strong>：<code>*斜体*</code> または <code>_斜体_</code></li>\n  <li><strong>太字＋斜体</strong>：<code>***両方***</code></li>\n  <li><strong>打ち消し線</strong>：<code>~~削除~~</code>（GFM）</li>\n</ul>\n<pre><code>この機能は **安定版** で提供します。\n*ベータ版* は別ドキュメントを参照してください。\n~~旧API~~ は v2 に置き換えました。</code></pre>\n\n<h3>失敗例：強調記号の内側にスペース</h3>\n<pre><code>** 太字にならない **\n* 斜体にならない *</code></pre>\n<p>アスタリスクと文字の間にスペースを入れると、多くの環境では強調になりません。また、日本語文中で <code>*</code> を箇条書きの記号と混同しないよう、文頭・文末の位置に注意します。</p>\n\n<h3>失敗例：全角アスタリスク</h3>\n<p>IMEの変換ミスで <code>＊</code>（全角）を使うと強調になりません。半角 <code>*</code> を使ってください。同様に <code>＃</code> も見出しになりません。</p>\n\n<h2>水平線（区切り線）</h2>\n<p>章の区切りには、次のいずれかだけの行を書きます。</p>\n<pre><code>---\n***\n___</code></pre>\n<p>見出しより弱い区切りとして使えます。ただし多用すると文書が細切れに見えるため、大きな章の切り替え程度に留めるのが無難です。</p>\n\n<h2>エスケープ：記号をそのまま表示する</h2>\n<p>アスタリスクやハッシュを文字として見せたいときは、直前にバックスラッシュ <code>\\</code> を付けます。</p>\n<pre><code>価格は \\*100円\\* ではなく税込表示です。\nタグ名は \\#markdown-intro のように書きます。</code></pre>\n<p>正規表現やファイルパスを説明する技術文書では、エスケープの場面がよく出ます。</p>\n\n<h2>実務での見出し設計のコツ</h2>\n<p>READMEでは次の構成が読みやすいとされています。</p>\n<ol>\n  <li><code>#</code> プロジェクト名（1ページに1つ）</li>\n  <li><code>##</code> 概要・インストール・使い方・ライセンス</li>\n  <li><code>###</code> サブ手順やオプション説明</li>\n</ol>\n<p>見出しテキストは検索キーワードを意識しつつ、短く具体的に。「設定」より「環境変数の設定」、「使い方」より「ローカルでの起動手順」のように書くと、後から自分が検索しやすくなります。</p>\n\n<h2>プレビューで確認する習慣</h2>\n<p>VS Codeでは <code>Ctrl+Shift+V</code>（Macは <code>Cmd+Shift+V</code>）でプレビュー、<code>Ctrl+K V</code> で横並びプレビューが開けます。記法ミスはプレビューで一発わかるため、執筆中は常にプレビューを表示しておくのがおすすめです。</p>\n\n<h2>日本語執筆時の注意</h2>\n<p>日本語は英語より1行の文字数が多くなりがちです。1行が極端に長いと、diffで変更箇所が追いにくくなります。意味の切れ目（。の後）で改行を入れる程度で十分です。また、全角括弧（）と半角()が混在すると検索しづらいため、プロジェクトでどちらかに揃えるとよいでしょう。見出しに絵文字を付ける文化（GitHubのREADME）もありますが、社内の厳格なドキュメントでは控えめにする場合もあります。</p>\n\n<h2>練習課題（5分）</h2>\n<p>次の内容を <code>practice-basic.md</code> に書き、プレビューで確認してください。# タイトル1つ、## が2つ以上、太字1箇所、斜体1箇所、水平線1本、段落は空行で区切る。表示が意図どおりなら、基本記法はクリアです。</p>\n<p>迷ったら、GitHubの人気リポジトリのREADMEを開き、見出しと強調がどう使われているかを観察するのも有効です。真似る際は、レベル構造（#の個数）だけに注目し、文章は自分の言葉で書くと、学習が定着しやすくなります。</p>\n\n<h2>まとめ</h2>\n<p>見出しは <code>#</code>＋スペース、段落は空行、強調は半角の <code>*</code> または <code>_</code> で囲みます。レベルを飛ばさず、全角記号を避け、プレビューで都度確認すれば、大半の表示トラブルは防げます。次回はリスト・リンク・画像に進みます。</p>\n<p>基本記法だけでも、社内メモや個人メモの品質は十分に上がります。毎日1つの見出し構成でメモを書く習慣を1週間続けると、記号の入力が無意識にできるようになります。</p>",
+  "conclusion": "Markdownの基本は、#で見出しレベルを表し、空行で段落を分け、*または_で太字・斜体を付けることです。見出し直後のスペース、強調記号の内側のスペース、全角記号は典型的な失敗原因です。READMEでは#を1つ、##で主要セクション、###で詳細と階層を揃えると読みやすくなります。プレビューを見ながら書く習慣をつけましょう。",
+  "tags": [
+    "Markdown",
+    "見出し",
+    "強調",
+    "基本記法",
+    "初心者"
+  ],
+  "category": "Markdown",
+  "theme": "markdown - Markdown & 技術ドキュメント入門",
+  "status": "published",
+  "createdAt": "2026-05-30T05:14:13.896Z",
+  "updatedAt": "2026-05-30T05:14:13.901Z",
+  "publishedAt": "2026-05-30T05:14:13.896Z",
+  "metaTitle": "Markdown 見出し・段落・強調の書き方【基本記法】｜Markdown入門 | StackShelf",
+  "metaDescription": "【Markdown初心者向け】Markdownの見出しレベル、段落の空行ルール、太字・斜体の記法と失敗例を具体例で解説。markdown 書き方の基礎を固めます。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
+  "ogTitle": "Markdown：見出し・段落・強調の基本",
+  "ogDescription": "【Markdown初心者向け】【Markdown初心者向け】見出しと強調の記法、空行ルール、つまずきやすい失敗例をわかりやすく解説します。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
+  "knowledge": {
+    "topic": "markdown",
+    "courseId": "markdown",
+    "episode": 2
+  },
+  "faq": [
+    {
+      "question": "見出しは最大いくつまで使えますか？",
+      "answer": "Markdownの仕様では # を6個まで（レベル6）使えます。READMEではレベル3程度までが一般的で、それより深い階層はリストで整理する方が読みやすいことが多いです。"
+    },
+    {
+      "question": "**と__はどちらを使うべきですか？",
+      "answer": "どちらも太字になりますが、文書内で一貫した方を選びましょう。アスタリスクはリスト記号と紛らわしいため、太字に__、斜体に*のように役割を分ける人もいます。"
+    },
+    {
+      "question": "1行だけ改行したいときは？",
+      "answer": "段落内の改行は、行末に半角スペース2つを入れる方法があります。ただしREADMEでは空行で段落を分ける方が保守しやすいため、乱用は避けた方がよいでしょう。"
+    },
+    {
+      "question": "見出しに番号を付けられますか？",
+      "answer": "Markdown自体に自動番号機能はありません。番号付き見出しが必要なら、見出しテキストに「1. 概要」のように手動で書くか、MkDocsなどのツールの自動番号機能を使います。"
+    },
+    {
+      "question": "打ち消し線が表示されない",
+      "answer": "~~はGitHub Flavored Markdownなど一部の方言でのみ有効です。使う環境がGFMかどうかを確認し、非対応なら「（廃止）」などテキストで明示してください。"
+    }
+  ],
+  "nextEpisodeHint": "次回は、箇条書き・番号付きリスト、リンク・画像の書き方と、相対パスで壊れやすいリンクの対策を学びます。",
+  "nextAction": "READMEの下書きで # タイトル、## 概要、## インストール の3見出しと、各見出し下に2文ずつ書き、太字で重要語1つを強調してプレビュー確認してください。",
+  "internalLinkCandidates": [
+    {
+      "slug": "markdown-intro",
+      "title": "Markdownとは？入門",
+      "reason": "前回の全体像を踏まえて基本記法に入るため、初回の内容とつなげて復習できます"
+    },
+    {
+      "slug": "git-intro",
+      "title": "Git入門",
+      "reason": "READMEはリポジトリと一緒に管理されるため、Gitの基礎があると実践的です"
+    },
+    {
+      "slug": "web-intro",
+      "title": "Web入門",
+      "reason": "MarkdownがHTMLに変換されるイメージを、Webの表示の仕組みと関連づけられます"
+    },
+    {
+      "slug": "linux-intro",
+      "title": "Linux入門",
+      "reason": "CLIのmanページやログ解説も構造化テキストが多く、ドキュメント文化と相性が良いです"
+    },
+    {
+      "slug": "python-intro",
+      "title": "Python入門",
+      "reason": "PythonプロジェクトのREADMEでも同じ見出し構成が使え、学習の横展開がしやすいです"
+    }
+  ],
+  "ogImage": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+  "canonical": "https://ai-site-iota-nine.vercel.app/article/markdown-basic-syntax",
+  "jsonLd": {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@context": "https://schema.org",
+        "@type": "TechArticle",
+        "headline": "見出し・段落・強調の基本｜Markdown記法入門",
+        "description": "【Markdown初心者向け】Markdownの見出しレベル、段落の空行ルール、太字・斜体の記法と失敗例を具体例で解説。markdown 書き方の基礎を固めます。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
+        "datePublished": "2026-05-30T05:14:13.896Z",
+        "dateModified": "2026-05-30T05:14:13.901Z",
+        "author": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
+        },
+        "image": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+        "inLanguage": "ja",
+        "wordCount": 2567,
+        "mainEntityOfPage": {
+          "@type": "WebPage",
+          "@id": "https://ai-site-iota-nine.vercel.app/article/markdown-basic-syntax"
+        },
+        "keywords": "Markdown, 見出し, 強調, 基本記法, 初心者",
+        "articleSection": "Markdown",
+        "url": "https://ai-site-iota-nine.vercel.app/article/markdown-basic-syntax",
+        "learningResourceType": "tutorial",
+        "educationalLevel": "beginner"
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "ホーム",
+            "item": "https://ai-site-iota-nine.vercel.app/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "markdown",
+            "item": "https://ai-site-iota-nine.vercel.app/knowledge/markdown"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "Markdown & 技術ドキュメント入門",
+            "item": "https://ai-site-iota-nine.vercel.app/course/markdown/markdown"
+          },
+          {
+            "@type": "ListItem",
+            "position": 4,
+            "name": "見出し・段落・強調の基本｜Markdown記法入門",
+            "item": "https://ai-site-iota-nine.vercel.app/article/markdown-basic-syntax"
+          }
+        ]
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "Course",
+        "name": "Markdown & 技術ドキュメント入門",
+        "description": "README・設計書・ブログに使えるMarkdownを8ステップで習得。日本語の体系的入門が少ないテーマを、具体例と失敗例つきで学びます。",
+        "provider": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app"
+        },
+        "url": "https://ai-site-iota-nine.vercel.app/course/markdown/markdown",
+        "inLanguage": "ja",
+        "educationalLevel": "beginner",
+        "hasCourseInstance": {
+          "@type": "CourseInstance",
+          "courseMode": "online",
+          "courseWorkload": "PT1H"
+        }
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "見出しは最大いくつまで使えますか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Markdownの仕様では # を6個まで（レベル6）使えます。READMEではレベル3程度までが一般的で、それより深い階層はリストで整理する方が読みやすいことが多いです。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "**と__はどちらを使うべきですか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "どちらも太字になりますが、文書内で一貫した方を選びましょう。アスタリスクはリスト記号と紛らわしいため、太字に__、斜体に*のように役割を分ける人もいます。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "1行だけ改行したいときは？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "段落内の改行は、行末に半角スペース2つを入れる方法があります。ただしREADMEでは空行で段落を分ける方が保守しやすいため、乱用は避けた方がよいでしょう。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "見出しに番号を付けられますか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Markdown自体に自動番号機能はありません。番号付き見出しが必要なら、見出しテキストに「1. 概要」のように手動で書くか、MkDocsなどのツールの自動番号機能を使います。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "打ち消し線が表示されない",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "~~はGitHub Flavored Markdownなど一部の方言でのみ有効です。使う環境がGFMかどうかを確認し、非対応なら「（廃止）」などテキストで明示してください。"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "breadcrumb": {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "ホーム",
+        "item": "https://ai-site-iota-nine.vercel.app/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "markdown",
+        "item": "https://ai-site-iota-nine.vercel.app/knowledge/markdown"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "Markdown & 技術ドキュメント入門",
+        "item": "https://ai-site-iota-nine.vercel.app/course/markdown/markdown"
+      },
+      {
+        "@type": "ListItem",
+        "position": 4,
+        "name": "見出し・段落・強調の基本｜Markdown記法入門",
+        "item": "https://ai-site-iota-nine.vercel.app/article/markdown-basic-syntax"
+      }
+    ]
+  },
+  "courseSchema": {
+    "@context": "https://schema.org",
+    "@type": "Course",
+    "name": "Markdown & 技術ドキュメント入門",
+    "description": "README・設計書・ブログに使えるMarkdownを8ステップで習得。日本語の体系的入門が少ないテーマを、具体例と失敗例つきで学びます。",
+    "provider": {
+      "@type": "Organization",
+      "name": "StackShelf",
+      "url": "https://ai-site-iota-nine.vercel.app"
+    },
+    "url": "https://ai-site-iota-nine.vercel.app/course/markdown/markdown",
+    "inLanguage": "ja",
+    "educationalLevel": "beginner",
+    "hasCourseInstance": {
+      "@type": "CourseInstance",
+      "courseMode": "online",
+      "courseWorkload": "PT1H"
+    }
+  },
+  "faqSchema": {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "見出しは最大いくつまで使えますか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Markdownの仕様では # を6個まで（レベル6）使えます。READMEではレベル3程度までが一般的で、それより深い階層はリストで整理する方が読みやすいことが多いです。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "**と__はどちらを使うべきですか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "どちらも太字になりますが、文書内で一貫した方を選びましょう。アスタリスクはリスト記号と紛らわしいため、太字に__、斜体に*のように役割を分ける人もいます。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "1行だけ改行したいときは？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "段落内の改行は、行末に半角スペース2つを入れる方法があります。ただしREADMEでは空行で段落を分ける方が保守しやすいため、乱用は避けた方がよいでしょう。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "見出しに番号を付けられますか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Markdown自体に自動番号機能はありません。番号付き見出しが必要なら、見出しテキストに「1. 概要」のように手動で書くか、MkDocsなどのツールの自動番号機能を使います。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "打ち消し線が表示されない",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "~~はGitHub Flavored Markdownなど一部の方言でのみ有効です。使う環境がGFMかどうかを確認し、非対応なら「（廃止）」などテキストで明示してください。"
+        }
+      }
+    ]
+  }
+}

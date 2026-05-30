@@ -1,0 +1,13 @@
+{
+  "slug": "bash-loops",
+  "courseId": "bash",
+  "episode": 4,
+  "summaryMemory": [
+    "for item in list; do ... done でリスト走査",
+    "while [ 条件 ]; do ... done、until は条件が偽の間",
+    "while IFS= read -r line で1行ずつファイル読み込み",
+    "配列ループは \"${array[@]}\"、引数は \"$@\""
+  ],
+  "nextEpisodeHint": "次回は関数の定義と呼び出し、ローカル変数、戻り値を学び、長いスクリプトを整理できるようにします。",
+  "updatedAt": "2026-05-30T05:14:49.791Z"
+}

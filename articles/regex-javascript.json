@@ -1,0 +1,317 @@
+{
+  "id": "art_regex_regex-javascript",
+  "slug": "regex-javascript",
+  "title": "JavaScriptでの正規表現｜RegExp・test・match・replace【入門】",
+  "summary": "JavaScriptの RegExp リテラル、test/match/exec/replace、フラグ g i m s u、文字列との二重エスケープを具体例で解説します。",
+  "body": "<h2>JavaScriptの2つの書き方</h2>\n<p>JavaScriptでは正規表現を、<strong>リテラル</strong> <code>/pattern/flags</code> と、<strong>コンストラクタ</strong> <code>new RegExp(\"pattern\", \"flags\")</code> の2通りで作れます。</p>\n<pre><code>const re1 = /\\d{3}-\\d{4}/;           // 電話番号風（簡易）\nconst re2 = new RegExp(\"\\\\d{3}-\\\\d{4}\");  // 文字列では \\ が増える\n\nconsole.log(re1.test(\"090-1234-5678\")); // 方言・桁数により false のことも</code></pre>\n<p>パターンが実行時まで決まらない（ユーザー入力を含む）場合は <code>RegExp</code> コンストラクタを使います。固定パターンならリテラルの方が読みやすいことが多いです。</p>\n\n<h2>よく使うメソッド</h2>\n<p><strong>test(str)</strong> — マッチするか真偽値で返す。フォームの簡易チェックに向きます。</p>\n<pre><code>/^\\d{7}$/.test(\"1234567\");  // true（郵便番号風・7桁）</code></pre>\n<p><strong>match(str)</strong> — マッチした配列または null。フラグ <code>g</code> があると繰り返しマッチを配列で返します。</p>\n<pre><code>\"a1 b22 c333\".match(/\\d+/g);  // [\"1\", \"22\", \"333\"]</code></pre>\n<p><strong>exec(str)</strong> — 詳細情報とキャプチャグループ。ループで全件取得するときに使います。</p>\n<p><strong>replace(pattern, replacement)</strong> — 置換。キャプチャは <code>$1</code> <code>$2</code> またはコールバック関数で参照します。</p>\n<pre><code>\"2024-05-30\".replace(/(\\d{4})-(\\d{2})-(\\d{2})/, \"$3/$2/$1\");\n// \"30/05/2024\"</code></pre>\n\n<h2>フラグの意味</h2>\n<ul>\n  <li><code>g</code> — グローバル（すべてのマッチを探す）</li>\n  <li><code>i</code> — 大文字小文字を無視</li>\n  <li><code>m</code> — 複数行（^ と $ が各行に効く）</li>\n  <li><code>s</code> — dotAll（. が改行にもマッチ）</li>\n  <li><code>u</code> — Unicode（サロゲートペアなど）</li>\n  <li><code>y</code> — sticky（lastIndex からの連続検索）</li>\n</ul>\n<pre><code>/^error/im.test(\"ERROR\\nok\");  // 複数行・大文字小文字無視の例（要テスト）</code></pre>\n\n<h2>文字列メソッドとの組み合わせ</h2>\n<p><code>str.search(regex)</code> は最初のマッチ位置のインデックス、<code>str.split(regex)</code> は区切り文字として正規表現を使えます。</p>\n<pre><code>\"a,b;c\".split(/[,;]/);  // [\"a\", \"b\", \"c\"]</code></pre>\n<p>テンプレートリテラル内に埋め込む場合も、エスケープの本数に注意してください。</p>\n\n<h2>名前付きキャプチャと replace のコールバック</h2>\n<pre><code>const m = \"2024-05-30\".match(/(?&lt;y&gt;\\d{4})-(?&lt;m&gt;\\d{2})-(?&lt;d&gt;\\d{2})/);\nconsole.log(m.groups.y, m.groups.m, m.groups.d);\n\n\"foo bar\".replace(/(\\w+)/g, (_, word) =&gt; word.toUpperCase());</code></pre>\n<p>置換に関数を渡すと、キャプチャごとに動的な変換ができます。リファクタリングやデータ整形で便利です。</p>\n\n<h2>ブラウザでのフォーム検証</h2>\n<p>HTML5 では <code>input pattern=\"...\"</code> で正規表現を指定できます（全体マッチが前提）。</p>\n<pre><code>&lt;input type=\"text\" pattern=\"[0-9]{3}-[0-9]{4}\" title=\"3桁-4桁の数字\"&gt;</code></pre>\n<p>クライアント側だけでは不十分なので、サーバー側（Node、Python など）でも同様の検証を行います。正規表現は<strong>第一防御線</strong>であり、唯一の防御ではありません。</p>\n\n<h2>Node.js でも同じ RegExp</h2>\n<p>サーバー側の Node.js でも、ブラウザと同じ <code>RegExp</code> API が使えます。ログ解析スクリプト、設定ファイルの検証、API の入力チェックなどで活躍します。</p>\n<pre><code>// Node の例\nconst fs = require(\"fs\");\nconst log = fs.readFileSync(\"app.log\", \"utf8\");\nconst errors = log.match(/^ERROR.*$/gm) || [];</code></pre>\n\n<h2>セキュリティとパフォーマンス</h2>\n<p>ユーザーが入力した文字列をそのまま <code>new RegExp(userInput)</code> に渡すと、悪意あるパターンで<strong>ReDoS</strong>が起きる可能性があります。入力長の上限、危険な入れ子量詞の拒否、タイムアウト付きライブラリの検討が必要です。</p>\n<p>簡単な形式チェックなら正規表現、複雑なメール・URLは専用ライブラリや検証サービスを使うのが現実的です。</p>\n\n<h2>デバッグのコツ</h2>\n<p>ブラウザの開発者ツールコンソール、Node の REPL、regex101.com に <code>javascript</code> フレーバーを選んで試す方法があります。<code>console.log(re)</code> でフラグ付きパターンを確認し、<code>lastIndex</code> の挙動（特に g フラグ）も意識しましょう。</p>\n\n<h2>フロントエンドとバックエンドの役割分担</h2>\n<p>React や Vue などのフレームワークでも、入力値の検証に <code>RegExp</code> やバリデーションライブラリが使われます。クライアントだけ通過してサーバーで弾かれると UX が悪化するため、API 側でも同じルールを適用するのが原則です。正規表現を1か所にまとめた定数にしておくと、フロントと Node でズレにくくなります。</p>\n<p>Web制作入門で学んだフォームと、この回の <code>pattern</code> 属性・<code>test()</code> を組み合わせると、入力チェックまで一通り体験できます。HTML/CSS の知識と正規表現は、フロントエンド初学者にとって相性のよいセットです。</p>\n\n<h2>モジュールとテスト</h2>\n<p>Node では <code>export const ZIP_PATTERN = /^[0-9]{7}$/;</code> のように定数として切り出し、Jest などで <code>expect(ZIP_PATTERN.test(\"1234567\")).toBe(true)</code> とテストできます。パターン変更時にテストが赤くなる仕組みを作っておくと、リファクタリングが安全になります。</p>\n\n<h2>まとめ</h2>\n<p>JavaScriptでは <code>/pattern/flags</code> と RegExp コンストラクタで正規表現を作り、test・match・replace で検証・抽出・置換します。フラグ g i m で挙動が変わるため、フォーム検証やログ処理ではテストを十分に行いましょう。次回は grep とエディタ検索での実践です。</p>",
+  "conclusion": "JavaScriptでは /pattern/flags または new RegExp で正規表現を作り、test で真偽値、match/exec で抽出、replace で置換します。フラグ g i m s u で挙動が変わり、文字列経由ではエスケープが増えます。フォームの pattern 属性や Node のログ処理で使えますが、ユーザー入力をそのまま RegExp に渡すのは危険です。",
+  "tags": [
+    "正規表現",
+    "JavaScript",
+    "RegExp",
+    "regex",
+    "replace",
+    "初心者"
+  ],
+  "category": "正規表現",
+  "theme": "regex - 正規表現入門",
+  "status": "published",
+  "createdAt": "2026-05-30T05:14:29.232Z",
+  "updatedAt": "2026-05-30T05:15:44.344Z",
+  "publishedAt": "2026-05-30T05:14:29.232Z",
+  "metaTitle": "JavaScript 正規表現 | RegExp test match replace",
+  "metaDescription": "JavaScriptでの正規表現を初心者向けに解説。/pattern/flags、test、match、replace、フラグ g i m とエスケープの注意点を学べます。",
+  "ogTitle": "JavaScriptでの正規表現",
+  "ogDescription": "JavaScriptのRegExpとtest/match/replaceをわかりやすく解説します。",
+  "knowledge": {
+    "topic": "regex",
+    "courseId": "regex",
+    "episode": 8
+  },
+  "faq": [
+    {
+      "question": "リテラルと RegExp コンストラクタはどちらを使うべきですか？",
+      "answer": "固定パターンは /.../ が読みやすいです。変数でパターンを組み立てるときは new RegExp を使い、エスケープに注意してください。"
+    },
+    {
+      "question": "match と exec の違いは？",
+      "answer": "match は文字列側のメソッドで結果配列を返します。exec は RegExp 側で、g フラグ時の繰り返し検索やキャプチャの詳細取得に向きます。"
+    },
+    {
+      "question": "replace の $1 が効かないときは？",
+      "answer": "置換文字列は '$1' のように書くか、コールバック関数を使います。パターンにキャプチャグループがあるか確認してください。"
+    },
+    {
+      "question": "ES2018 の後読みは使えますか？",
+      "answer": "モダンブラウザと Node の新しめのバージョンで使えます。対象環境の互換表を確認してください。"
+    },
+    {
+      "question": "正規表現だけでメール検証してもいいですか？",
+      "answer": "学習用途なら可ですが、本番では不完全な場合があります。専用バリデータやサービスとの併用を推奨します。"
+    }
+  ],
+  "nextEpisodeHint": "次回は grep、ripgrep、VS Code の検索など、コマンドラインとエディタでの正規表現活用法を学びます。",
+  "nextAction": "次は grep、ripgrep、VS Code の検索など、コマンドラインとエディタでの正規表現活用法を学びます。",
+  "internalLinkCandidates": [
+    {
+      "slug": "regex-groups",
+      "title": "グループとキャプチャ｜正規表現の ( ) と置換【入門】",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "regex-anchors",
+      "title": "アンカー ^ $ と単語境界｜正規表現で位置を指定する【入門】",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "regex-quantifiers",
+      "title": "量詞 * + ? {n,m}｜正規表現の繰り返しをマスター【入門】",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "regex-character-classes",
+      "title": "文字クラス [] と否定｜正規表現で使える文字の範囲指定【入門】",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "regex-literals",
+      "title": "リテラルとメタ文字の基本｜正規表現の . とエスケープ【初心者向け】",
+      "reason": "同じ講座の関連回です"
+    }
+  ],
+  "ogImage": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+  "canonical": "https://ai-site-iota-nine.vercel.app/article/regex-javascript",
+  "jsonLd": {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@context": "https://schema.org",
+        "@type": "TechArticle",
+        "headline": "JavaScriptでの正規表現｜RegExp・test・match・replace【入門】",
+        "description": "【正規表現初心者向け】JavaScriptでの正規表現を初心者向けに解説。/pattern/flags、test、match、replace、フラグ g i m とエスケープの注意点を学べます。 図解・具体例つきで丁寧に解説します。",
+        "datePublished": "2026-05-30T05:14:29.232Z",
+        "dateModified": "2026-05-30T05:15:44.344Z",
+        "author": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
+        },
+        "image": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+        "inLanguage": "ja",
+        "wordCount": 2583,
+        "mainEntityOfPage": {
+          "@type": "WebPage",
+          "@id": "https://ai-site-iota-nine.vercel.app/article/regex-javascript"
+        },
+        "keywords": "正規表現, JavaScript, RegExp, regex, replace, 初心者",
+        "articleSection": "正規表現",
+        "url": "https://ai-site-iota-nine.vercel.app/article/regex-javascript",
+        "learningResourceType": "tutorial",
+        "educationalLevel": "beginner"
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "ホーム",
+            "item": "https://ai-site-iota-nine.vercel.app/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "regex",
+            "item": "https://ai-site-iota-nine.vercel.app/knowledge/regex"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "正規表現入門",
+            "item": "https://ai-site-iota-nine.vercel.app/course/regex/regex"
+          },
+          {
+            "@type": "ListItem",
+            "position": 4,
+            "name": "JavaScriptでの正規表現｜RegExp・test・match・replace【入門】",
+            "item": "https://ai-site-iota-nine.vercel.app/article/regex-javascript"
+          }
+        ]
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "Course",
+        "name": "正規表現入門",
+        "description": "ログ解析・バリデーション・置換に必須の正規表現を10ステップで習得。つまずきやすいエスケープや量詞を具体例で解説します。",
+        "provider": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app"
+        },
+        "url": "https://ai-site-iota-nine.vercel.app/course/regex/regex",
+        "inLanguage": "ja",
+        "educationalLevel": "beginner",
+        "hasCourseInstance": {
+          "@type": "CourseInstance",
+          "courseMode": "online",
+          "courseWorkload": "PT1H"
+        }
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "リテラルと RegExp コンストラクタはどちらを使うべきですか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "固定パターンは /.../ が読みやすいです。変数でパターンを組み立てるときは new RegExp を使い、エスケープに注意してください。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "match と exec の違いは？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "match は文字列側のメソッドで結果配列を返します。exec は RegExp 側で、g フラグ時の繰り返し検索やキャプチャの詳細取得に向きます。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "replace の $1 が効かないときは？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "置換文字列は '$1' のように書くか、コールバック関数を使います。パターンにキャプチャグループがあるか確認してください。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "ES2018 の後読みは使えますか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "モダンブラウザと Node の新しめのバージョンで使えます。対象環境の互換表を確認してください。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "正規表現だけでメール検証してもいいですか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "学習用途なら可ですが、本番では不完全な場合があります。専用バリデータやサービスとの併用を推奨します。"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "breadcrumb": {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "ホーム",
+        "item": "https://ai-site-iota-nine.vercel.app/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "regex",
+        "item": "https://ai-site-iota-nine.vercel.app/knowledge/regex"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "正規表現入門",
+        "item": "https://ai-site-iota-nine.vercel.app/course/regex/regex"
+      },
+      {
+        "@type": "ListItem",
+        "position": 4,
+        "name": "JavaScriptでの正規表現｜RegExp・test・match・replace【入門】",
+        "item": "https://ai-site-iota-nine.vercel.app/article/regex-javascript"
+      }
+    ]
+  },
+  "courseSchema": {
+    "@context": "https://schema.org",
+    "@type": "Course",
+    "name": "正規表現入門",
+    "description": "ログ解析・バリデーション・置換に必須の正規表現を10ステップで習得。つまずきやすいエスケープや量詞を具体例で解説します。",
+    "provider": {
+      "@type": "Organization",
+      "name": "StackShelf",
+      "url": "https://ai-site-iota-nine.vercel.app"
+    },
+    "url": "https://ai-site-iota-nine.vercel.app/course/regex/regex",
+    "inLanguage": "ja",
+    "educationalLevel": "beginner",
+    "hasCourseInstance": {
+      "@type": "CourseInstance",
+      "courseMode": "online",
+      "courseWorkload": "PT1H"
+    }
+  },
+  "faqSchema": {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "リテラルと RegExp コンストラクタはどちらを使うべきですか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "固定パターンは /.../ が読みやすいです。変数でパターンを組み立てるときは new RegExp を使い、エスケープに注意してください。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "match と exec の違いは？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "match は文字列側のメソッドで結果配列を返します。exec は RegExp 側で、g フラグ時の繰り返し検索やキャプチャの詳細取得に向きます。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "replace の $1 が効かないときは？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "置換文字列は '$1' のように書くか、コールバック関数を使います。パターンにキャプチャグループがあるか確認してください。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "ES2018 の後読みは使えますか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "モダンブラウザと Node の新しめのバージョンで使えます。対象環境の互換表を確認してください。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "正規表現だけでメール検証してもいいですか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "学習用途なら可ですが、本番では不完全な場合があります。専用バリデータやサービスとの併用を推奨します。"
+        }
+      }
+    ]
+  }
+}

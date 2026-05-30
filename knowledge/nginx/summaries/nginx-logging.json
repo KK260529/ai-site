@@ -1,0 +1,13 @@
+{
+  "slug": "nginx-logging",
+  "courseId": "nginx",
+  "episode": 7,
+  "summaryMemory": [
+    "access.log はリクエスト記録、error.log はnginx内部エラー記録",
+    "502 = バックエンド接続失敗、504 = タイムアウト、403 = 権限不足",
+    "log_format で request_time/upstream_response_time を記録すると調査が楽",
+    "nginx -T で全設定をダンプ、error.log を grep で絞り込む"
+  ],
+  "nextEpisodeHint": "最終回は、Node.jsアプリの前段にnginxを構築する実践演習。静的ファイル配信、APIプロキシ、HTTPS、ログ設定を組み合わせた本番に近い構成を作ります。",
+  "updatedAt": "2026-05-30T05:15:08.495Z"
+}

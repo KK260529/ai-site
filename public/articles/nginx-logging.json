@@ -1,0 +1,323 @@
+{
+  "id": "art_nginx_nginx-logging",
+  "slug": "nginx-logging",
+  "title": "nginxのログとトラブルシューティング入門【502/504エラー対処】",
+  "summary": "nginxのアクセスログ・エラーログの読み方、ログフォーマットのカスタマイズ、502/504/403等のよくあるエラーの調査・対処法を解説します。",
+  "body": "<h2>nginxの2種類のログ</h2>\n<p>nginxは<strong>アクセスログ</strong>と<strong>エラーログ</strong>の2種類のログを出力します。トラブルシューティングでは、まずエラーログを確認し、必要に応じてアクセスログでリクエストの流れを追います。</p>\n<p><strong>アクセスログ（access.log）：</strong>すべてのリクエストを記録します。誰が・いつ・どのURLに・どんなステータスコードで応答したかがわかります。</p>\n<p><strong>エラーログ（error.log）：</strong>nginx内部のエラーや警告を記録します。502/504の原因、設定ミス、SSL問題などがここに出力されます。</p>\n<pre><code># デフォルトのログファイル場所（Ubuntu）\n/var/log/nginx/access.log\n/var/log/nginx/error.log\n\n# リアルタイムでログを監視\nsudo tail -f /var/log/nginx/access.log\nsudo tail -f /var/log/nginx/error.log</code></pre>\n\n<h2>アクセスログの読み方</h2>\n<p>Ubuntuのデフォルトログフォーマット（combined）は1行に多くの情報が含まれます。</p>\n<pre><code># アクセスログの1行例\n127.0.0.1 - - [30/May/2026:10:15:32 +0900] \"GET /api/users HTTP/1.1\" 200 1234 \"-\" \"curl/7.81.0\"\n\n# 読み方:\n# 127.0.0.1          → クライアントIP\n# [30/May/2026:...]  → アクセス日時\n# \"GET /api/users\"   → HTTPメソッドとURL\n# 200                → ステータスコード\n# 1234               → レスポンスサイズ（bytes）\n# \"curl/7.81.0\"      → User-Agent</code></pre>\n<p>よく見るステータスコードの意味を押さえましょう。</p>\n<ul>\n  <li><strong>200</strong> — 成功</li>\n  <li><strong>301/302</strong> — リダイレクト</li>\n  <li><strong>404</strong> — ファイルが見つからない</li>\n  <li><strong>403</strong> — アクセス拒否（権限不足）</li>\n  <li><strong>502</strong> — バックエンドから不正な応答</li>\n  <li><strong>504</strong> — バックエンドの応答タイムアウト</li>\n</ul>\n\n<h2>log_formatのカスタマイズ</h2>\n<p>リバースプロキシ環境では、レスポンス時間やアップストリームのステータスを記録すると調査が楽になります。</p>\n<pre><code># /etc/nginx/nginx.conf の http ブロック内\n\nlog_format detailed '$remote_addr - $remote_user [$time_local] '\n                    '\"$request\" $status $body_bytes_sent '\n                    '\"$http_referer\" \"$http_user_agent\" '\n                    'rt=$request_time uct=$upstream_connect_time '\n                    'uht=$upstream_header_time urt=$upstream_response_time';\n\naccess_log /var/log/nginx/access.log detailed;</code></pre>\n<pre><code># サイト別にログを分ける\nserver {\n    listen 80;\n    server_name api.example.com;\n\n    access_log /var/log/nginx/api.access.log detailed;\n    error_log  /var/log/nginx/api.error.log warn;\n\n    location / {\n        proxy_pass http://127.0.0.1:3000;\n    }\n}</code></pre>\n<p><code>request_time</code> が大きいリクエストはパフォーマンス問題の手がかりになります。<code>upstream_response_time</code> でバックエンド側の遅延かnginx側の問題かを切り分けられます。</p>\n\n<h2>エラーログの読み方</h2>\n<p>エラーログは深刻度レベル付きで記録されます。<code>debug</code> &lt; <code>info</code> &lt; <code>notice</code> &lt; <code>warn</code> &lt; <code>error</code> &lt; <code>crit</code> です。通常は <code>warn</code> 以上を記録します。</p>\n<pre><code># エラーログの例\n\n# 502の原因: バックエンドに接続できない\n2026/05/30 10:20:01 [error] 1234#1234: *56 connect() failed\n  (111: Connection refused) while connecting to upstream,\n  client: 127.0.0.1, server: app.local,\n  request: \"GET /api/users HTTP/1.1\",\n  upstream: \"http://127.0.0.1:3000/api/users\"\n\n# 404: ファイルが存在しない\n2026/05/30 10:21:05 [error] 1234#1234: *57 open()\n  \"/var/www/html/missing.html\" failed (2: No such file or directory)\n\n# 403: 権限不足\n2026/05/30 10:22:10 [error] 1234#1234: *58 directory index\n  of \"/var/www/html/private/\" is forbidden</code></pre>\n<pre><code># エラーログから502を検索\nsudo grep '502|upstream|connect() failed' /var/log/nginx/error.log | tail -20\n\n# 特定時間帯のエラー\nsudo grep '2026/05/30 10:' /var/log/nginx/error.log</code></pre>\n\n<h2>502 Bad Gateway の調査手順</h2>\n<p>502はnginxがバックエンドから正常なレスポンスを得られなかったエラーです。以下の手順で調査します。</p>\n<pre><code># ステップ1: バックエンドが起動しているか\ncurl -v http://127.0.0.1:3000/\n\n# ステップ2: nginx error.log を確認\nsudo tail -30 /var/log/nginx/error.log\n\n# ステップ3: proxy_pass のURL typo確認\nsudo nginx -T | grep proxy_pass\n\n# ステップ4: ファイアウォール/SELinux確認\nsudo ss -tlnp | grep 3000</code></pre>\n<p>よくある原因と対処：</p>\n<ul>\n  <li><strong>アプリ未起動</strong> → systemdやpm2でアプリを起動</li>\n  <li><strong>ポート不一致</strong> → proxy_passのポートとアプリのlistenポートを一致させる</li>\n  <li><strong>ソケットパス誤り</strong> → Unix socket使用時のパス確認</li>\n  <li><strong>アプリクラッシュ</strong> → アプリのログ（journalctl -u myapp）を確認</li>\n</ul>\n\n<h2>504 Gateway Timeout の調査手順</h2>\n<p>504はバックエンドの応答がタイムアウトした状態です。重い処理やDB接続遅延が原因のことが多いです。</p>\n<pre><code># タイムアウト設定の確認と調整\nlocation / {\n    proxy_pass http://127.0.0.1:3000;\n    proxy_connect_timeout 60s;\n    proxy_send_timeout    60s;\n    proxy_read_timeout    120s;   # 重いAPIは長めに\n}</code></pre>\n<pre><code># 504が出ているリクエストをアクセスログから特定\nsudo grep ' 504 ' /var/log/nginx/access.log | tail -10\n\n# レスポンス時間が長いリクエスト\nsudo awk '$NF ~ /rt=[5-9]/ || $NF ~ /rt=[0-9]{2,}/' /var/log/nginx/access.log</code></pre>\n<p>根本対策はアプリ側のパフォーマンス改善ですが、一時的には <code>proxy_read_timeout</code> を延長できます。ただし無制限に延ばすのではなく、原因調査を並行してください。</p>\n\n<h2>403 Forbidden の調査手順</h2>\n<pre><code># ファイル権限の確認\nls -la /var/www/html/\nnamei -l /var/www/html/index.html\n\n# nginx worker のユーザー確認\nps aux | grep nginx\n# → www-data で動いているはず\n\n# ディレクトリに実行権(x)が必要\n# ファイルに読み取り権(r)が必要\nsudo chmod 755 /var/www/html\nsudo chmod 644 /var/www/html/index.html\nsudo chown -R www-data:www-data /var/www/html</code></pre>\n<p>403のもう1つの原因は <code>deny all;</code> 設定や、<code>autoindex off</code> でindex.htmlがないディレクトリへのアクセスです。</p>\n\n<h2>nginx -T で設定の全体確認</h2>\n<p>設定が複数ファイルに分散している場合、<code>nginx -T</code> で全設定をダンプして確認できます。</p>\n<pre><code># 全設定のダンプ（includeも展開）\nsudo nginx -T 2>&1 | less\n\n# 特定server_nameの設定だけ抽出\nsudo nginx -T 2>&1 | grep -A 30 'server_name app.local'\n\n# 設定テスト\nsudo nginx -t</code></pre>\n\n<h2>ログローテーション</h2>\n<p>ログファイルが肥大化しないよう、logrotateが自動でローテーションします。設定は <code>/etc/logrotate.d/nginx</code> にあります。</p>\n<pre><code># 手動ローテーション（通常は不要）\nsudo logrotate -f /etc/logrotate.d/nginx\n\n# ログサイズ確認\ndu -sh /var/log/nginx/</code></pre>\n\n<h2>まとめ：ログはトラブルシュートの第一手段</h2>\n<p>nginxの問題は <code>error.log</code> を見れば大半が特定できます。502はバックエンド接続、504はタイムアウト、403は権限、404はファイル不在が典型原因です。log_formatをカスタマイズしてレスポンス時間を記録すると、パフォーマンス問題の調査も効率化できます。次回は、これまで学んだ知識を総動員してNode.jsアプリの前段にnginxを構築する実践演習です。</p>",
+  "conclusion": "nginxのトラブルシュートは error.log を最初に確認します。502はバックエンド未起動・接続失敗、504はタイムアウト、403はファイル権限が典型原因です。log_formatでrequest_time/upstream_response_timeを記録すると調査が効率化されます。nginx -T で全設定をダンプして確認する習慣をつけましょう。",
+  "tags": [
+    "nginx",
+    "ログ",
+    "トラブルシュート",
+    "502",
+    "504",
+    "error.log",
+    "初心者"
+  ],
+  "category": "nginx",
+  "theme": "nginx - nginx入門",
+  "status": "published",
+  "createdAt": "2026-05-30T05:15:08.495Z",
+  "updatedAt": "2026-05-30T05:15:08.499Z",
+  "publishedAt": "2026-05-30T05:15:08.495Z",
+  "metaTitle": "nginxログとトラブルシュート：502/504エラー対処【nginx 入門】｜nginx入門 | StackShelf",
+  "metaDescription": "【nginx初心者向け】nginxのアクセスログ・エラーログの見方と502/504/403エラーの対処法を初心者向けに解説。log_format、tail、grepを使った調査手法まで。 図解・具体例つきで丁寧に解説します。",
+  "ogTitle": "nginxのログとトラブルシューティング",
+  "ogDescription": "【nginx初心者向け】【nginx初心者向け】nginxログの読み方と502/504等のエラー調査手法を初心者向けに解説。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
+  "knowledge": {
+    "topic": "nginx",
+    "courseId": "nginx",
+    "episode": 7
+  },
+  "faq": [
+    {
+      "question": "アクセスログが記録されません。",
+      "answer": "server/locationブロックで access_log off; が設定されていないか確認してください。また、ログディレクトリの書き込み権限（nginx workerユーザー）も確認します。nginx -T でaccess_logディレクティブを検索してください。"
+    },
+    {
+      "question": "error.logに debug レベルのログを出したい。",
+      "answer": "nginx.conf の最上位またはserverブロックで error_log /var/log/nginx/error.log debug; を設定します。ただしdebugは大量のログを出力するため、調査時のみ一時的に有効にし、終わったらwarnに戻してください。"
+    },
+    {
+      "question": "502が断続的に発生します。",
+      "answer": "バックエンドアプリの再起動（OOM kill）、upstreamのserverがdown、ヘルスチェック未設定によるダウンサーバーへの振り分けが原因のことがあります。max_failsとfail_timeoutをupstreamに設定して自動除外を検討してください。"
+    },
+    {
+      "question": "ログから特定IPのアクセスだけ調べたい。",
+      "answer": "grep '192.168.1.100' /var/log/nginx/access.log で絞り込めます。bashの知識があれば、awk/sort/uniqで集計スクリプトを書くこともできます。"
+    },
+    {
+      "question": "本番環境でログを外部に送りたい。",
+      "answer": "Fluentd、Filebeat、Promtail等のログシップperーでElasticsearch/Loki等に転送する構成が一般的です。nginx側ではsyslog出力（access_log syslog:...）も可能です。小規模ならlogrotate + 定期バックアップでも十分な場合があります。"
+    }
+  ],
+  "nextEpisodeHint": "最終回は、Node.jsアプリの前段にnginxを構築する実践演習。静的ファイル配信、APIプロキシ、HTTPS、ログ設定を組み合わせた本番に近い構成を作ります。",
+  "nextAction": "",
+  "internalLinkCandidates": [
+    {
+      "slug": "linux-view-search",
+      "title": "Linuxファイル検索：grep・find・lessでログを調べよう",
+      "reason": "grep/tail/lessでのログ調査スキル"
+    },
+    {
+      "slug": "bash-intro",
+      "title": "シェルスクリプトとは？",
+      "reason": "ログ集計スクリプトの基礎"
+    },
+    {
+      "slug": "bash-file-processing",
+      "title": "bashファイル処理：grep・sed・awk入門",
+      "reason": "ログのgrep/awk集計"
+    },
+    {
+      "slug": "http-methods-status",
+      "title": "HTTPメソッドとステータスコードの完全ガイド",
+      "reason": "502/504等ステータスコードの理解"
+    },
+    {
+      "slug": "nginx-reverse-proxy",
+      "title": "nginxリバースプロキシの設定方法【proxy_pass入門】",
+      "reason": "502/504の原因となるプロキシ設定"
+    },
+    {
+      "slug": "nginx-practice",
+      "title": "実践：Node.jsアプリの前段にnginxを構築する",
+      "reason": "同じ講座の最終回：総合演習"
+    }
+  ],
+  "ogImage": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+  "canonical": "https://ai-site-iota-nine.vercel.app/article/nginx-logging",
+  "jsonLd": {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@context": "https://schema.org",
+        "@type": "TechArticle",
+        "headline": "nginxのログとトラブルシューティング入門【502/504エラー対処】",
+        "description": "【nginx初心者向け】nginxのアクセスログ・エラーログの見方と502/504/403エラーの対処法を初心者向けに解説。log_format、tail、grepを使った調査手法まで。 図解・具体例つきで丁寧に解説します。",
+        "datePublished": "2026-05-30T05:15:08.495Z",
+        "dateModified": "2026-05-30T05:15:08.499Z",
+        "author": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
+        },
+        "image": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+        "inLanguage": "ja",
+        "wordCount": 3888,
+        "mainEntityOfPage": {
+          "@type": "WebPage",
+          "@id": "https://ai-site-iota-nine.vercel.app/article/nginx-logging"
+        },
+        "keywords": "nginx, ログ, トラブルシュート, 502, 504, error.log, 初心者",
+        "articleSection": "nginx",
+        "url": "https://ai-site-iota-nine.vercel.app/article/nginx-logging",
+        "learningResourceType": "tutorial",
+        "educationalLevel": "beginner"
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "ホーム",
+            "item": "https://ai-site-iota-nine.vercel.app/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "nginx",
+            "item": "https://ai-site-iota-nine.vercel.app/knowledge/nginx"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "nginx入門",
+            "item": "https://ai-site-iota-nine.vercel.app/course/nginx/nginx"
+          },
+          {
+            "@type": "ListItem",
+            "position": 4,
+            "name": "nginxのログとトラブルシューティング入門【502/504エラー対処】",
+            "item": "https://ai-site-iota-nine.vercel.app/article/nginx-logging"
+          }
+        ]
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "Course",
+        "name": "nginx入門",
+        "description": "Webサーバー・リバースプロキシnginxを8ステップで習得。日本語の初心者向け解説が少ないテーマを、設定例つきで学びます。",
+        "provider": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app"
+        },
+        "url": "https://ai-site-iota-nine.vercel.app/course/nginx/nginx",
+        "inLanguage": "ja",
+        "educationalLevel": "beginner",
+        "hasCourseInstance": {
+          "@type": "CourseInstance",
+          "courseMode": "online",
+          "courseWorkload": "PT1H"
+        }
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "アクセスログが記録されません。",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "server/locationブロックで access_log off; が設定されていないか確認してください。また、ログディレクトリの書き込み権限（nginx workerユーザー）も確認します。nginx -T でaccess_logディレクティブを検索してください。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "error.logに debug レベルのログを出したい。",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "nginx.conf の最上位またはserverブロックで error_log /var/log/nginx/error.log debug; を設定します。ただしdebugは大量のログを出力するため、調査時のみ一時的に有効にし、終わったらwarnに戻してください。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "502が断続的に発生します。",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "バックエンドアプリの再起動（OOM kill）、upstreamのserverがdown、ヘルスチェック未設定によるダウンサーバーへの振り分けが原因のことがあります。max_failsとfail_timeoutをupstreamに設定して自動除外を検討してください。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "ログから特定IPのアクセスだけ調べたい。",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "grep '192.168.1.100' /var/log/nginx/access.log で絞り込めます。bashの知識があれば、awk/sort/uniqで集計スクリプトを書くこともできます。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "本番環境でログを外部に送りたい。",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Fluentd、Filebeat、Promtail等のログシップperーでElasticsearch/Loki等に転送する構成が一般的です。nginx側ではsyslog出力（access_log syslog:...）も可能です。小規模ならlogrotate + 定期バックアップでも十分な場合があります。"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "breadcrumb": {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "ホーム",
+        "item": "https://ai-site-iota-nine.vercel.app/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "nginx",
+        "item": "https://ai-site-iota-nine.vercel.app/knowledge/nginx"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "nginx入門",
+        "item": "https://ai-site-iota-nine.vercel.app/course/nginx/nginx"
+      },
+      {
+        "@type": "ListItem",
+        "position": 4,
+        "name": "nginxのログとトラブルシューティング入門【502/504エラー対処】",
+        "item": "https://ai-site-iota-nine.vercel.app/article/nginx-logging"
+      }
+    ]
+  },
+  "courseSchema": {
+    "@context": "https://schema.org",
+    "@type": "Course",
+    "name": "nginx入門",
+    "description": "Webサーバー・リバースプロキシnginxを8ステップで習得。日本語の初心者向け解説が少ないテーマを、設定例つきで学びます。",
+    "provider": {
+      "@type": "Organization",
+      "name": "StackShelf",
+      "url": "https://ai-site-iota-nine.vercel.app"
+    },
+    "url": "https://ai-site-iota-nine.vercel.app/course/nginx/nginx",
+    "inLanguage": "ja",
+    "educationalLevel": "beginner",
+    "hasCourseInstance": {
+      "@type": "CourseInstance",
+      "courseMode": "online",
+      "courseWorkload": "PT1H"
+    }
+  },
+  "faqSchema": {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "アクセスログが記録されません。",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "server/locationブロックで access_log off; が設定されていないか確認してください。また、ログディレクトリの書き込み権限（nginx workerユーザー）も確認します。nginx -T でaccess_logディレクティブを検索してください。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "error.logに debug レベルのログを出したい。",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "nginx.conf の最上位またはserverブロックで error_log /var/log/nginx/error.log debug; を設定します。ただしdebugは大量のログを出力するため、調査時のみ一時的に有効にし、終わったらwarnに戻してください。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "502が断続的に発生します。",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "バックエンドアプリの再起動（OOM kill）、upstreamのserverがdown、ヘルスチェック未設定によるダウンサーバーへの振り分けが原因のことがあります。max_failsとfail_timeoutをupstreamに設定して自動除外を検討してください。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "ログから特定IPのアクセスだけ調べたい。",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "grep '192.168.1.100' /var/log/nginx/access.log で絞り込めます。bashの知識があれば、awk/sort/uniqで集計スクリプトを書くこともできます。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "本番環境でログを外部に送りたい。",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Fluentd、Filebeat、Promtail等のログシップperーでElasticsearch/Loki等に転送する構成が一般的です。nginx側ではsyslog出力（access_log syslog:...）も可能です。小規模ならlogrotate + 定期バックアップでも十分な場合があります。"
+        }
+      }
+    ]
+  }
+}

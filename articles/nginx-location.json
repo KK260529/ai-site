@@ -1,0 +1,317 @@
+{
+  "id": "art_nginx_nginx-location",
+  "slug": "nginx-location",
+  "title": "nginxのlocationとルーティング【マッチング優先順位入門】",
+  "summary": "nginxのlocationブロックの書き方とマッチング優先順位を解説。URLパスごとの振り分け、正規表現、aliasとrootの違いまで設定例つきで学びます。",
+  "body": "<h2>locationブロックの役割</h2>\n<p><strong>location</strong>ブロックは、リクエストURLのパス部分（<code>/api/users</code> の <code>/api/users</code> 部分）に応じて処理を分岐するnginxの核心機能です。1つのserverブロック内に複数のlocationを定義し、パスごとに異なるroot、プロキシ先、キャッシュ設定を適用できます。</p>\n<pre><code># 基本形\nserver {\n    listen 80;\n    server_name example.com;\n\n    location / {           # プレフィックスマッチ\n        root /var/www/html;\n    }\n\n    location /api/ {       # /api/ で始まるパス\n        proxy_pass http://127.0.0.1:3000;\n    }\n\n    location = /health {   # 完全一致\n        return 200 'ok';\n        add_header Content-Type text/plain;\n    }\n}</code></pre>\n\n<h2>locationの4つの修飾子</h2>\n<p>locationには修飾子があり、マッチング方法と優先順位が変わります。</p>\n<p><strong>（修飾子なし）プレフィックスマッチ：</strong><code>location /images/</code> — 指定パスで始まるURLにマッチ。最長一致が優先されます。</p>\n<p><strong>= 完全一致：</strong><code>location = /favicon.ico</code> — URLが完全に一致した場合のみ。最優先で評価されます。</p>\n<p><strong>^~ プレフィックス優先：</strong><code>location ^~ /static/</code> — プレフィックスマッチだが、正規表現より優先。マッチしたら正規表現locationは見ない。</p>\n<p><strong>~ 正規表現（大小区別）：</strong><code>location ~ \\.(jpg|png)$</code> — 正規表現でマッチ。最初にマッチしたものが使われる。</p>\n<p><strong>~* 正規表現（大小無視）：</strong><code>location ~* \\.(jpg|png)$</code> — 大文字小文字を区別しない正規表現。</p>\n<pre><code># 修飾子の使い分け例\nserver {\n    listen 80;\n    server_name example.com;\n\n    location = / {                    # 1. 完全一致（最優先）\n        root /var/www/html;\n        index index.html;\n    }\n\n    location = /robots.txt {\n        alias /var/www/seo/robots.txt;\n    }\n\n    location ^~ /static/ {            # 2. プレフィックス優先（正規表現より先）\n        root /var/www/assets;\n        expires 1y;\n    }\n\n    location ~ \\.(php|asp)$ {          # 3. 正規表現（PHPファイル拒否）\n        return 404;\n    }\n\n    location /api/ {                  # 4. 通常プレフィックス\n        proxy_pass http://127.0.0.1:3000;\n    }\n}</code></pre>\n\n<h2>マッチング優先順位の流れ</h2>\n<p>nginxはリクエストURIに対して、次の順序でlocationを探します。</p>\n<ol>\n  <li><strong>完全一致（=）</strong> — マッチすれば即決定</li>\n  <li><strong>最長プレフィックスマッチ</strong> — 通常のプレフィックスと ^~ を比較し、最長のものを選択</li>\n  <li><strong>^~ が選ばれた場合</strong> — 正規表現locationは評価しない（ここで決定）</li>\n  <li><strong>正規表現（~, ~*）</strong> — 設定ファイルに書いた順番で最初にマッチしたもの</li>\n  <li><strong>どれもマッチしない</strong> — 最も短いプレフィックス <code>/</code> にフォールバック</li>\n</ol>\n<pre><code># 優先順位の具体例\n# リクエスト: GET /static/app.js\n\nlocation / {              # プレフィックス（長さ1）→ 候補\nlocation /static/ {       # プレフィックス（長さ8）→ より長いのでこちらが選ばれる\nlocation ~ \\.js$ {       # 正規表現もマッチするが、^~ がなければ\n                          # プレフィックスが先に決まり、^~ でなければ正規表現も評価される\n                          # ※ /static/ に ^~ が付いていれば正規表現は見ない</code></pre>\n<p>設定が意図通り動かないときは、この優先順位を疑いましょう。特に「正規表現locationが思わぬリクエストを横取りする」ケースが多いです。</p>\n\n<h2>rootとaliasの違い</h2>\n<p>ファイルの公開パスを指定する <code>root</code> と <code>alias</code> は、パスの結合方法が異なります。混同しやすいので注意してください。</p>\n<pre><code># root: location + URI = ファイルパス\n# リクエスト /images/logo.png\n# → /var/www/html/images/logo.png\n\nlocation /images/ {\n    root /var/www/html;\n}\n\n# alias: aliasパス + (URI - location) = ファイルパス\n# リクエスト /images/logo.png\n# → /var/www/assets/logo.png （/images/ が置き換わる）\n\nlocation /images/ {\n    alias /var/www/assets/;\n    # 末尾スラッシュ必須！\n}</code></pre>\n<p><code>alias</code> 使用時はlocationとaliasの末尾スラッシュを揃える必要があります。<code>alias /var/www/assets;</code>（スラッシュなし）だとパス結合バグの原因になります。</p>\n\n<h2>returnとrewrite</h2>\n<p>URLのリダイレクトや内部書き換えには <code>return</code> と <code>rewrite</code> を使います。</p>\n<pre><code># 301リダイレクト（恒久的）\nlocation /old-page {\n    return 301 /new-page;\n}\n\n# 404を明示的に返す\nlocation /admin/secret {\n    return 404;\n}\n\n# rewrite（内部URL書き換え）\nlocation /blog/ {\n    rewrite ^/blog/(.*)$ /posts/$1 break;\n    proxy_pass http://127.0.0.1:3000;\n}\n\n# www なしに統一\nserver {\n    listen 80;\n    server_name www.example.com;\n    return 301 $scheme://example.com$request_uri;\n}</code></pre>\n<p>SEO的なURL正規化（www有無、末尾スラッシュ、http→https）でよく使われます。HTTPS設定は次回以降で詳しく扱います。</p>\n\n<h2>実践：マルチサービスルーティング</h2>\n<p>1つのドメインで複数のバックエンドサービスに振り分ける実践例です。</p>\n<pre><code>upstream user_service {\n    server 127.0.0.1:3001;\n}\n\nupstream order_service {\n    server 127.0.0.1:3002;\n}\n\nserver {\n    listen 80;\n    server_name api.example.com;\n\n    # ヘルスチェック（ロードバランサー向け）\n    location = /health {\n        access_log off;\n        return 200 'healthy\\n';\n        add_header Content-Type text/plain;\n    }\n\n    # ユーザーサービス\n    location /api/users/ {\n        proxy_pass http://user_service/;\n        proxy_set_header Host $host;\n        proxy_set_header X-Real-IP $remote_addr;\n    }\n\n    # 注文サービス\n    location /api/orders/ {\n        proxy_pass http://order_service/;\n        proxy_set_header Host $host;\n        proxy_set_header X-Real-IP $remote_addr;\n    }\n\n    # 存在しないAPIパス\n    location /api/ {\n        return 404 '{\"error\":\"not found\"}';\n        add_header Content-Type application/json;\n    }\n}</code></pre>\n\n<h2>location設計のベストプラクティス</h2>\n<p>設定が複雑にならないよう、以下の原則を意識しましょう。</p>\n<ul>\n  <li>具体的なパス（<code>/api/</code>）を先に、汎用的な <code>/</code> を後に書く</li>\n  <li>完全一致（=）は数が少ないエンドポイント（favicon, health, robots.txt）向け</li>\n  <li>正規表現locationは必要最小限に（可読性とデバッグのしやすさのため）</li>\n  <li>キャッシュ設定はファイル拡張子の正規表現locationにまとめる</li>\n  <li>1 serverブロックが100行を超えたら conf.d/ に分割を検討</li>\n</ul>\n<pre><code># ファイル拡張子別キャッシュ（よくあるパターン）\nlocation ~* \\.(css|js|png|jpg|jpeg|gif|ico|svg|woff2)$ {\n    root /var/www/html;\n    expires 1y;\n    add_header Cache-Control \"public, immutable\";\n    access_log off;\n}</code></pre>\n\n<h2>まとめ：locationはnginxルーティングの要</h2>\n<p>locationブロックの修飾子（=, ^~, ~, ~*）と優先順位を理解すれば、複雑なURL設計も自在に扱えます。rootとaliasの違い、proxy_passとの組み合わせも合わせて覚えましょう。次回はSSL/TLS（HTTPS）設定で、安全な通信を実現する方法を学びます。</p>",
+  "conclusion": "nginxのlocationは =（完全一致）→ 最長プレフィックス（^~含む）→ 正規表現（~, ~*）の順で評価されます。rootはlocation+URI、aliasはパス置換でファイルを特定します。複数バックエンドへの振り分けはlocation /api/xxx/ ごとにproxy_passを設定するのが定番です。",
+  "tags": [
+    "nginx",
+    "location",
+    "ルーティング",
+    "正規表現",
+    "alias",
+    "初心者"
+  ],
+  "category": "nginx",
+  "theme": "nginx - nginx入門",
+  "status": "published",
+  "createdAt": "2026-05-30T05:15:05.735Z",
+  "updatedAt": "2026-05-30T05:15:41.049Z",
+  "publishedAt": "2026-05-30T05:15:05.735Z",
+  "metaTitle": "nginx location設定：ルーティングと優先順位を初心者向け解説｜nginx入門 | StackShelf",
+  "metaDescription": "nginxのlocationブロックのマッチングルール（=, ^~, ~, 通常）とURLルーティング設計を初心者向けに解説。alias/rootの違いも設定例つき。",
+  "ogTitle": "nginxのlocationとルーティング",
+  "ogDescription": "locationブロックの優先順位とURLルーティング設計を初心者向けに解説。",
+  "knowledge": {
+    "topic": "nginx",
+    "courseId": "nginx",
+    "episode": 5
+  },
+  "faq": [
+    {
+      "question": "location /api と location /api/ の違いは？",
+      "answer": "location /api は /api で始まるすべて（/api, /api/, /api/users）にマッチします。location /api/ は /api/ で始まるパス（/api/users）にマッチし、/api 単体にはマッチしません。proxy_passと組み合わせるときは末尾スラッシュの有無に注意してください。"
+    },
+    {
+      "question": "正規表現locationが意図しないリクエストにマッチします。",
+      "answer": "正規表現locationは設定ファイルの記述順で最初にマッチしたものが使われます。より具体的な ^~ プレフィックスlocationで先にキャッチするか、正規表現を厳密にしてください。"
+    },
+    {
+      "question": "aliasで404になることがあります。",
+      "answer": "aliasディレクティブの末尾スラッシュとlocationの末尾スラッシュを揃えてください。location /images/ に対して alias /var/www/assets/; が正しい形です。"
+    },
+    {
+      "question": "location内でifは使ってよいですか？",
+      "answer": "nginx公式も「if is evil」と警告しています。可能な限り map ディレクティブや複数locationでの分岐を使いましょう。ifはどうしても必要な場合のみ、限定的に使ってください。"
+    },
+    {
+      "question": "複数ドメインを1つのnginxでホストできますか？",
+      "answer": "はい。server_name example.com; と server_name api.example.com; で別々のserverブロックを定義します。ドメインごとに異なるroot、location、SSL証明書を設定できます。"
+    }
+  ],
+  "nextEpisodeHint": "次回は、Let's Encryptとcertbotを使ったSSL/TLS（HTTPS）設定と、HTTPからHTTPSへのリダイレクトを実践します。",
+  "nextAction": "次はLet's Encryptとcertbotを使ったSSL/TLS（HTTPS）設定と、HTTPからHTTPSへのリダイレクトを実践します。",
+  "internalLinkCandidates": [
+    {
+      "slug": "nginx-logging",
+      "title": "nginxのログとトラブルシューティング入門【502/504エラー対処】",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "nginx-ssl",
+      "title": "nginxでSSL/TLS（HTTPS）を設定する方法【Let's Encrypt入門】",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "nginx-reverse-proxy",
+      "title": "nginxリバースプロキシの設定方法【proxy_pass入門・初心者向け】",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "nginx-static-site",
+      "title": "nginxで静的サイトを公開する方法【HTML/CSS配信・初心者向け】",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "nginx-install",
+      "title": "nginxのインストールと基本設定【Ubuntu/WSL2対応・初心者向け】",
+      "reason": "同じ講座の関連回です"
+    }
+  ],
+  "ogImage": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+  "canonical": "https://ai-site-iota-nine.vercel.app/article/nginx-location",
+  "jsonLd": {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@context": "https://schema.org",
+        "@type": "TechArticle",
+        "headline": "nginxのlocationとルーティング【マッチング優先順位入門】",
+        "description": "【nginx初心者向け】nginxのlocationブロックのマッチングルール（=, ^~, ~, 通常）とURLルーティング設計を初心者向けに解説。alias/rootの違いも設定例つき。 図解・具体例つきで丁寧に解説します。",
+        "datePublished": "2026-05-30T05:15:05.735Z",
+        "dateModified": "2026-05-30T05:15:41.049Z",
+        "author": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
+        },
+        "image": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+        "inLanguage": "ja",
+        "wordCount": 3564,
+        "mainEntityOfPage": {
+          "@type": "WebPage",
+          "@id": "https://ai-site-iota-nine.vercel.app/article/nginx-location"
+        },
+        "keywords": "nginx, location, ルーティング, 正規表現, alias, 初心者",
+        "articleSection": "nginx",
+        "url": "https://ai-site-iota-nine.vercel.app/article/nginx-location",
+        "learningResourceType": "tutorial",
+        "educationalLevel": "beginner"
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "ホーム",
+            "item": "https://ai-site-iota-nine.vercel.app/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "nginx",
+            "item": "https://ai-site-iota-nine.vercel.app/knowledge/nginx"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "nginx入門",
+            "item": "https://ai-site-iota-nine.vercel.app/course/nginx/nginx"
+          },
+          {
+            "@type": "ListItem",
+            "position": 4,
+            "name": "nginxのlocationとルーティング【マッチング優先順位入門】",
+            "item": "https://ai-site-iota-nine.vercel.app/article/nginx-location"
+          }
+        ]
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "Course",
+        "name": "nginx入門",
+        "description": "Webサーバー・リバースプロキシnginxを8ステップで習得。日本語の初心者向け解説が少ないテーマを、設定例つきで学びます。",
+        "provider": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app"
+        },
+        "url": "https://ai-site-iota-nine.vercel.app/course/nginx/nginx",
+        "inLanguage": "ja",
+        "educationalLevel": "beginner",
+        "hasCourseInstance": {
+          "@type": "CourseInstance",
+          "courseMode": "online",
+          "courseWorkload": "PT1H"
+        }
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "location /api と location /api/ の違いは？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "location /api は /api で始まるすべて（/api, /api/, /api/users）にマッチします。location /api/ は /api/ で始まるパス（/api/users）にマッチし、/api 単体にはマッチしません。proxy_passと組み合わせるときは末尾スラッシュの有無に注意してください。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "正規表現locationが意図しないリクエストにマッチします。",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "正規表現locationは設定ファイルの記述順で最初にマッチしたものが使われます。より具体的な ^~ プレフィックスlocationで先にキャッチするか、正規表現を厳密にしてください。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "aliasで404になることがあります。",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "aliasディレクティブの末尾スラッシュとlocationの末尾スラッシュを揃えてください。location /images/ に対して alias /var/www/assets/; が正しい形です。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "location内でifは使ってよいですか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "nginx公式も「if is evil」と警告しています。可能な限り map ディレクティブや複数locationでの分岐を使いましょう。ifはどうしても必要な場合のみ、限定的に使ってください。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "複数ドメインを1つのnginxでホストできますか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "はい。server_name example.com; と server_name api.example.com; で別々のserverブロックを定義します。ドメインごとに異なるroot、location、SSL証明書を設定できます。"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "breadcrumb": {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "ホーム",
+        "item": "https://ai-site-iota-nine.vercel.app/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "nginx",
+        "item": "https://ai-site-iota-nine.vercel.app/knowledge/nginx"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "nginx入門",
+        "item": "https://ai-site-iota-nine.vercel.app/course/nginx/nginx"
+      },
+      {
+        "@type": "ListItem",
+        "position": 4,
+        "name": "nginxのlocationとルーティング【マッチング優先順位入門】",
+        "item": "https://ai-site-iota-nine.vercel.app/article/nginx-location"
+      }
+    ]
+  },
+  "courseSchema": {
+    "@context": "https://schema.org",
+    "@type": "Course",
+    "name": "nginx入門",
+    "description": "Webサーバー・リバースプロキシnginxを8ステップで習得。日本語の初心者向け解説が少ないテーマを、設定例つきで学びます。",
+    "provider": {
+      "@type": "Organization",
+      "name": "StackShelf",
+      "url": "https://ai-site-iota-nine.vercel.app"
+    },
+    "url": "https://ai-site-iota-nine.vercel.app/course/nginx/nginx",
+    "inLanguage": "ja",
+    "educationalLevel": "beginner",
+    "hasCourseInstance": {
+      "@type": "CourseInstance",
+      "courseMode": "online",
+      "courseWorkload": "PT1H"
+    }
+  },
+  "faqSchema": {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "location /api と location /api/ の違いは？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "location /api は /api で始まるすべて（/api, /api/, /api/users）にマッチします。location /api/ は /api/ で始まるパス（/api/users）にマッチし、/api 単体にはマッチしません。proxy_passと組み合わせるときは末尾スラッシュの有無に注意してください。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "正規表現locationが意図しないリクエストにマッチします。",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "正規表現locationは設定ファイルの記述順で最初にマッチしたものが使われます。より具体的な ^~ プレフィックスlocationで先にキャッチするか、正規表現を厳密にしてください。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "aliasで404になることがあります。",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "aliasディレクティブの末尾スラッシュとlocationの末尾スラッシュを揃えてください。location /images/ に対して alias /var/www/assets/; が正しい形です。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "location内でifは使ってよいですか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "nginx公式も「if is evil」と警告しています。可能な限り map ディレクティブや複数locationでの分岐を使いましょう。ifはどうしても必要な場合のみ、限定的に使ってください。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "複数ドメインを1つのnginxでホストできますか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "はい。server_name example.com; と server_name api.example.com; で別々のserverブロックを定義します。ドメインごとに異なるroot、location、SSL証明書を設定できます。"
+        }
+      }
+    ]
+  }
+}

@@ -1,0 +1,316 @@
+{
+  "id": "art_markdown_markdown-github-readme",
+  "slug": "markdown-github-readme",
+  "title": "GitHub READMEの書き方｜公開リポジトリの顔を整える",
+  "summary": "GitHub READMEの推奨構成、バッジ・目次・スクリーンショット、ライセンスとコントリビューションの書き方と、見落としがちな失敗例を解説します。",
+  "body": "<h2>結論：READMEは「30秒で価値が伝わる」入口ドキュメント</h2>\n<p>GitHubではリポジトリ直下の <code>README.md</code> が<strong>リポジトリのトップページ</strong>として自動表示されます。採用担当者、利用者、将来の自分が最初に読むファイルです。結論から言うと、READMEには「何のプロジェクトか」「誰向けか」「どう動かすか」「誰に聞くか」が短時間で伝わる構成が求められます。Markdownの記法は前回までで揃っているので、本回は<strong>情報設計とGitHub固有の慣習</strong>に焦点を当てます。</p>\n\n<h2>推奨セクション構成</h2>\n<p>小〜中規模のOSSや個人プロジェクトでよく使われるテンプレートです。</p>\n<ol>\n  <li><strong>タイトルと一行説明</strong>：プロジェクト名＋何を解決するか</li>\n  <li><strong>バッジ（任意）</strong>：ビルド状態、ライセンス、バージョン</li>\n  <li><strong>スクリーンショット or デモ（任意）</strong>：視覚的な理解</li>\n  <li><strong>特徴・背景</strong>：既存手段との違い</li>\n  <li><strong>インストール・必要条件</strong>：コピペ可能なコマンド</li>\n  <li><strong>使い方</strong>：最小の成功例</li>\n  <li><strong>設定</strong>：環境変数・設定ファイル</li>\n  <li><strong>開発・テスト</strong>：貢献者向け</li>\n  <li><strong>ライセンス</strong>：利用条件</li>\n  <li><strong>問い合わせ・リンク</strong>：Issue、ドキュメントサイト</li>\n</ol>\n<p>すべてを1ファイルに詰め込むと長くなりすぎます。<code>docs/</code> フォルダやWiki、GitHub Pagesに詳細を逃がし、READMEは<strong>最短ルートのガイド</strong>に留めるのが現場の定石です。</p>\n\n<h2>バッジ（Shields.io など）</h2>\n<p>行頭付近に画像リンク形式でステータスを示すバッジを置く文化があります。</p>\n<pre><code>[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)\n[![Node](https://img.shields.io/badge/node-%3E%3D18-green)]()</code></pre>\n<p>バッジは見た目は華やかですが、<strong>更新されない古いバッジ</strong>は信頼を損ないます。CIと連動するものだけ載せ、意味のない飾りは避けましょう。</p>\n\n<h2>目次（Table of Contents）</h2>\n<p>長いREADMEでは、見出しへのリンク一覧を置きます。GitHubは見出しに自動でアンカーが付きます（記号はハイフン化されるなどルールあり）。</p>\n<pre><code>## 目次\n\n- [インストール](#インストール)\n- [使い方](#使い方)\n- [ライセンス](#ライセンス)</code></pre>\n<p>見出しテキストを変えるとアンカーも変わるため、目次リンクが切れることがあります。大規模文書では <code>doctoc</code> など自動生成ツールを使うチームもあります。</p>\n\n<h3>失敗例：英語見出しと日本語目次の不一致</h3>\n<p>目次の <code>#installation</code> と実際の見出し <code>## インストール</code> が対応していないとリンクが機能しません。プレビューで各リンクをクリック確認してください。</p>\n\n<h2>CONTRIBUTING.md と Issue テンプレート</h2>\n<p>貢献のルールは README 本体ではなく <code>CONTRIBUTING.md</code> に分けるのが一般的です。Issueの書き方は <code>.github/ISSUE_TEMPLATE/</code> にMarkdownテンプレートを置きます。READMEには「貢献方法は CONTRIBUTING を参照」と一行で十分なことが多いです。</p>\n\n<h2>ライセンス表記</h2>\n<p>リポジトリの <strong>License</strong> 設定（GitHubのリポジトリ画面）と、README末尾のライセンス文が一致している必要があります。</p>\n<pre><code>## ライセンス\n\nMIT License. 詳細は [LICENSE](LICENSE) を参照してください。</code></pre>\n<p>「ライセンス未定」「All rights reserved」と曖昧なまま公開すると、利用者が商用利用や改変可否を判断できません。オープンにするなら SPDX形式（MIT、Apache-2.0 など）を明示しましょう。</p>\n\n<h2>セキュリティと秘密情報</h2>\n<p>READMEに本番URL、内部APIキー、個人メールを直書きする事故が後を絶ちません。サンプルは <code>.env.example</code> に置き、READMEでは変数名だけ説明する構成が安全です。過去にコミットした秘密は履歴に残るため、<strong>書く前に防ぐ</strong>のが唯一の対策です。</p>\n\n<h2>日本語READMEと英語README</h2>\n<p>グローバル向けなら英語メイン＋日本語は <code>README.ja.md</code>、国内向けなら日本語メインで英語を別ファイル、といった分け方があります。1ファイルに日英を交互に書くと長くなり検索もしづらいため、リンクで相互参照する形が読みやすいです。</p>\n\n<h2>サンプルREADMEの骨格（コピー用）</h2>\n<pre><code># プロジェクト名\n\n一行で何をするツールか。\n\n## インストール\n\n```bash\nnpm install\n```\n\n## 使い方\n\n```bash\nnpm start\n```\n\n## ライセンス\n\nMIT</code></pre>\n<p>まずこの最小形を埋め、動作確認後に「特徴」「設定」「貢献」を足していきます。最初から長文を書くより、短く正確なREADMEの方がスター数・採用面接ともに好印象を与えやすいです。</p>\n\n<h2>良いREADMEのチェックリスト</h2>\n<ul>\n  <li>初見の人が5分以内に「動かす」まで到達できるか</li>\n  <li>コマンドはコピペで動くか（OS・バージョンの前提を書いたか）</li>\n  <li>リンク・画像は404になっていないか</li>\n  <li>メンテナンス状態（最終更新、Issueの有無）が伝わるか</li>\n  <li>ライセンスと貢献ルールが明確か</li>\n</ul>\n\n<h2>Issue・Discussionsとの導線</h2>\n<p>README末尾に「バグ報告はIssueへ」「質問はDiscussionsへ」と書くだけで、サポートコストが下がります。テンプレート（バグ報告用の項目：再現手順・環境・期待動作）へのリンクを貼ると、報告品質も上がります。</p>\n\n<h2>fork・テンプレートリポジトリ</h2>\n<p>GitHubの「テンプレートリポジトリ」や <code>.github/README.md</code> の組織用READMEなど、表示位置が特殊なケースもあります。新規リポジトリ作成時に「Add a README file」にチェックを入れると、空のREADMEから始められます。OSSのコントリビューションでは、まずREADMEを読んでからIssueを読むのが礼儀とされ、メンテナ側もREADMEの手入れに時間をかける傾向があります。</p>\n\n<h2>まとめ</h2>\n<p>GitHub READMEはMarkdown技術より<strong>読者の旅路設計</strong>が重要です。短い入口＋詳細はdocs、バッジは意味のあるものだけ、秘密は書かない、目次と見出しのアンカーを一致させる。次回は、設計書や複数ファイルにまたがるドキュメント構成に進みます。</p>",
+  "conclusion": "GitHub READMEはリポジトリの顔であり、何を・誰向け・どう動かすかが短時間で伝わる構成が求められます。バッジと目次は便利だが陳腐化とリンク切れに注意し、貢献とライセンスはCONTRIBUTINGやLICENSEファイルと整合させます。詳細はdocsに逃がし、READMEは最短の成功体験に集中させましょう。",
+  "tags": [
+    "Markdown",
+    "GitHub",
+    "README",
+    "オープンソース",
+    "バッジ"
+  ],
+  "category": "Markdown",
+  "theme": "markdown - Markdown & 技術ドキュメント入門",
+  "status": "published",
+  "createdAt": "2026-05-30T05:14:16.820Z",
+  "updatedAt": "2026-05-30T05:14:16.824Z",
+  "publishedAt": "2026-05-30T05:14:16.820Z",
+  "metaTitle": "GitHub READMEの書き方【Markdown実践】｜Markdown入門 | StackShelf",
+  "metaDescription": "【Markdown初心者向け】GitHub README.mdの構成、バッジ、目次、ライセンス表記、コントリビューションガイドの書き方と失敗例を具体例で解説します。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
+  "ogTitle": "GitHub READMEの書き方",
+  "ogDescription": "【Markdown初心者向け】【Markdown初心者向け】公開リポジトリ向けREADMEの構成と、よくある落とし穴をわかりやすく解説します。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
+  "knowledge": {
+    "topic": "markdown",
+    "courseId": "markdown",
+    "episode": 5
+  },
+  "faq": [
+    {
+      "question": "README.md 以外の名前は使えますか？",
+      "answer": "GitHubが自動表示するのはリポジトリ直下のREADME.md（および一部README形式）です。別名だけではトップに表示されないため、メイン説明はREADME.mdに置くのが一般的です。"
+    },
+    {
+      "question": "プライベートリポジトリでもREADMEは必要？",
+      "answer": "チーム内でも、セットアップ手順と連絡先があるREADMEは onboarding を短縮します。外部公開しないからといって空のままにしない方が、属人化を防げます。"
+    },
+    {
+      "question": "バッジは必須ですか？",
+      "answer": "必須ではありません。CIやライセンスを示す有用なバッジだけに絞り、更新されない飾りは載せない方が信頼されます。"
+    },
+    {
+      "question": "ForkしたあとREADMEをどう直す？",
+      "answer": "プロジェクト名、説明、インストール手順、ライセンス、連絡先を自分の内容に差し替えます。元リポジトリのバッジやデモURLが残っていないか確認してください。"
+    },
+    {
+      "question": "GitHub PagesとREADMEの関係は？",
+      "answer": "READMEはリポジトリトップ用、GitHub Pagesは別途docsサイト用です。READMEからPagesのURLへリンクする構成がよく使われます。"
+    }
+  ],
+  "nextEpisodeHint": "次回は、設計書・ADR・複数Markdownファイルのディレクトリ構成と、読者別（利用者/開発者）の情報設計を学びます。",
+  "nextAction": "既存または架空のリポジトリ用に、タイトル・一行説明・インストール3コマンド・ライセンス1行を含むREADME.mdを作成し、GitHubまたはプレビューで目次リンクをクリック確認してください。",
+  "internalLinkCandidates": [
+    {
+      "slug": "markdown-code-tables",
+      "title": "コードブロックと表",
+      "reason": "READMEのインストール手順と設定表は前回の記法をそのまま使います"
+    },
+    {
+      "slug": "git-intro",
+      "title": "Git入門",
+      "reason": "READMEはGitリポジトリの中心ファイルで、Gitの基本理解があると運用しやすいです"
+    },
+    {
+      "slug": "github-basics",
+      "title": "GitHubの基本",
+      "reason": "Issueやリポジトリ設定などGitHub機能とREADMEが連携します"
+    },
+    {
+      "slug": "docker-intro",
+      "title": "Docker入門",
+      "reason": "多くのOSS READMEにDocker手順があり、横断的に参考になります"
+    },
+    {
+      "slug": "web-intro",
+      "title": "Web入門",
+      "reason": "GitHub PagesでWeb公開する場合、Webの基礎とREADMEの役割分担がわかります"
+    }
+  ],
+  "ogImage": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+  "canonical": "https://ai-site-iota-nine.vercel.app/article/markdown-github-readme",
+  "jsonLd": {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@context": "https://schema.org",
+        "@type": "TechArticle",
+        "headline": "GitHub READMEの書き方｜公開リポジトリの顔を整える",
+        "description": "【Markdown初心者向け】GitHub README.mdの構成、バッジ、目次、ライセンス表記、コントリビューションガイドの書き方と失敗例を具体例で解説します。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
+        "datePublished": "2026-05-30T05:14:16.820Z",
+        "dateModified": "2026-05-30T05:14:16.824Z",
+        "author": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
+        },
+        "image": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+        "inLanguage": "ja",
+        "wordCount": 2589,
+        "mainEntityOfPage": {
+          "@type": "WebPage",
+          "@id": "https://ai-site-iota-nine.vercel.app/article/markdown-github-readme"
+        },
+        "keywords": "Markdown, GitHub, README, オープンソース, バッジ",
+        "articleSection": "Markdown",
+        "url": "https://ai-site-iota-nine.vercel.app/article/markdown-github-readme",
+        "learningResourceType": "tutorial",
+        "educationalLevel": "beginner"
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "ホーム",
+            "item": "https://ai-site-iota-nine.vercel.app/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "markdown",
+            "item": "https://ai-site-iota-nine.vercel.app/knowledge/markdown"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "Markdown & 技術ドキュメント入門",
+            "item": "https://ai-site-iota-nine.vercel.app/course/markdown/markdown"
+          },
+          {
+            "@type": "ListItem",
+            "position": 4,
+            "name": "GitHub READMEの書き方｜公開リポジトリの顔を整える",
+            "item": "https://ai-site-iota-nine.vercel.app/article/markdown-github-readme"
+          }
+        ]
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "Course",
+        "name": "Markdown & 技術ドキュメント入門",
+        "description": "README・設計書・ブログに使えるMarkdownを8ステップで習得。日本語の体系的入門が少ないテーマを、具体例と失敗例つきで学びます。",
+        "provider": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app"
+        },
+        "url": "https://ai-site-iota-nine.vercel.app/course/markdown/markdown",
+        "inLanguage": "ja",
+        "educationalLevel": "beginner",
+        "hasCourseInstance": {
+          "@type": "CourseInstance",
+          "courseMode": "online",
+          "courseWorkload": "PT1H"
+        }
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "README.md 以外の名前は使えますか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "GitHubが自動表示するのはリポジトリ直下のREADME.md（および一部README形式）です。別名だけではトップに表示されないため、メイン説明はREADME.mdに置くのが一般的です。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "プライベートリポジトリでもREADMEは必要？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "チーム内でも、セットアップ手順と連絡先があるREADMEは onboarding を短縮します。外部公開しないからといって空のままにしない方が、属人化を防げます。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "バッジは必須ですか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "必須ではありません。CIやライセンスを示す有用なバッジだけに絞り、更新されない飾りは載せない方が信頼されます。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "ForkしたあとREADMEをどう直す？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "プロジェクト名、説明、インストール手順、ライセンス、連絡先を自分の内容に差し替えます。元リポジトリのバッジやデモURLが残っていないか確認してください。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "GitHub PagesとREADMEの関係は？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "READMEはリポジトリトップ用、GitHub Pagesは別途docsサイト用です。READMEからPagesのURLへリンクする構成がよく使われます。"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "breadcrumb": {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "ホーム",
+        "item": "https://ai-site-iota-nine.vercel.app/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "markdown",
+        "item": "https://ai-site-iota-nine.vercel.app/knowledge/markdown"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "Markdown & 技術ドキュメント入門",
+        "item": "https://ai-site-iota-nine.vercel.app/course/markdown/markdown"
+      },
+      {
+        "@type": "ListItem",
+        "position": 4,
+        "name": "GitHub READMEの書き方｜公開リポジトリの顔を整える",
+        "item": "https://ai-site-iota-nine.vercel.app/article/markdown-github-readme"
+      }
+    ]
+  },
+  "courseSchema": {
+    "@context": "https://schema.org",
+    "@type": "Course",
+    "name": "Markdown & 技術ドキュメント入門",
+    "description": "README・設計書・ブログに使えるMarkdownを8ステップで習得。日本語の体系的入門が少ないテーマを、具体例と失敗例つきで学びます。",
+    "provider": {
+      "@type": "Organization",
+      "name": "StackShelf",
+      "url": "https://ai-site-iota-nine.vercel.app"
+    },
+    "url": "https://ai-site-iota-nine.vercel.app/course/markdown/markdown",
+    "inLanguage": "ja",
+    "educationalLevel": "beginner",
+    "hasCourseInstance": {
+      "@type": "CourseInstance",
+      "courseMode": "online",
+      "courseWorkload": "PT1H"
+    }
+  },
+  "faqSchema": {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "README.md 以外の名前は使えますか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "GitHubが自動表示するのはリポジトリ直下のREADME.md（および一部README形式）です。別名だけではトップに表示されないため、メイン説明はREADME.mdに置くのが一般的です。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "プライベートリポジトリでもREADMEは必要？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "チーム内でも、セットアップ手順と連絡先があるREADMEは onboarding を短縮します。外部公開しないからといって空のままにしない方が、属人化を防げます。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "バッジは必須ですか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "必須ではありません。CIやライセンスを示す有用なバッジだけに絞り、更新されない飾りは載せない方が信頼されます。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "ForkしたあとREADMEをどう直す？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "プロジェクト名、説明、インストール手順、ライセンス、連絡先を自分の内容に差し替えます。元リポジトリのバッジやデモURLが残っていないか確認してください。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "GitHub PagesとREADMEの関係は？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "READMEはリポジトリトップ用、GitHub Pagesは別途docsサイト用です。READMEからPagesのURLへリンクする構成がよく使われます。"
+        }
+      }
+    ]
+  }
+}

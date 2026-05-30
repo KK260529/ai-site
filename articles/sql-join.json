@@ -2,9 +2,9 @@
   "id": "art_sql_sql-join",
   "slug": "sql-join",
   "title": "INNER/LEFT JOIN｜複数テーブルを結合するSQL完全ガイド",
-  "summary": "SQLのJOIN（結合）構文を徹底解説。INNER JOINで共通データを取得、LEFT JOINで片方のテーブル全件を保持する方法など、実践的なsql 使い方をSQLiteサンプルで習得しましょう。",
-  "body": "<h2>JOINとは？複数テーブルを結合する</h2>\n<p>リレーショナルデータベースでは、データを複数のテーブルに分けて管理します。例えばECサイトなら「ユーザーテーブル」「商品テーブル」「注文テーブル」のように、それぞれの役割に応じてテーブルを分けます。このデータを分散させて管理する設計を<strong>正規化</strong>といい、データの重複を防いで一貫性を保つ重要な考え方です。</p>\n<p>しかし、正規化されたデータは1つのテーブルだけでは情報が不完全です。「誰が・何を・いつ注文したか」を一覧で見たい場合、3つのテーブルをまたいでデータを取得する必要があります。これを実現するのが <strong>JOIN（結合）</strong> です。sql 使い方の中でも少し難しく感じるかもしれませんが、概念を理解すれば非常に強力なツールです。</p>\n\n<h2>学習用テーブルの準備</h2>\n<p>JOINを学ぶためのサンプルテーブルを作成しましょう。</p>\n<pre><code>-- カテゴリテーブル（親）\nCREATE TABLE categories (\n  id   INTEGER PRIMARY KEY AUTOINCREMENT,\n  name TEXT NOT NULL UNIQUE\n);\n\n-- 商品テーブル（子）：category_idで外部キー参照\nCREATE TABLE products (\n  id          INTEGER PRIMARY KEY AUTOINCREMENT,\n  name        TEXT    NOT NULL,\n  price       INTEGER NOT NULL,\n  category_id INTEGER,\n  FOREIGN KEY (category_id) REFERENCES categories(id)\n);\n\n-- サンプルデータを挿入\nINSERT INTO categories (name) VALUES ('果物'), ('野菜'), ('乳製品');\n\nINSERT INTO products (name, price, category_id) VALUES\n  ('りんご',  150, 1),\n  ('バナナ',   80, 1),\n  ('みかん',  120, 1),\n  ('にんじん', 90, 2),\n  ('牛乳',    200, 3),\n  ('チーズ',  350, 3),\n  ('試作品',  999, NULL);  -- category_idがNULL（分類未設定）</code></pre>\n\n<h2>INNER JOIN：両テーブルに存在するデータのみ取得</h2>\n<p>INNER JOINは、両方のテーブルに一致するデータが存在する行だけを結合して返します。外部キーがNULLのレコードや、対応するレコードが存在しないものは結果に含まれません。</p>\n<pre><code>-- 基本構文\nSELECT カラム... FROM テーブルA\nINNER JOIN テーブルB ON テーブルA.共通カラム = テーブルB.共通カラム;\n\n-- 商品とカテゴリを結合（INNER JOIN）\nSELECT\n  products.id,\n  products.name    AS 商品名,\n  products.price   AS 価格,\n  categories.name  AS カテゴリ名\nFROM products\nINNER JOIN categories ON products.category_id = categories.id;\n\n-- 出力（category_idがNULLの「試作品」は含まれない）:\n-- id | 商品名   | 価格 | カテゴリ名\n-- ---+----------+------+-----------\n--  1 | りんご   |  150 | 果物\n--  2 | バナナ   |   80 | 果物\n--  3 | みかん   |  120 | 果物\n--  4 | にんじん |   90 | 野菜\n--  5 | 牛乳     |  200 | 乳製品\n--  6 | チーズ   |  350 | 乳製品</code></pre>\n\n<h3>テーブル別名（エイリアス）でSQLを読みやすくする</h3>\n<pre><code>-- テーブル名が長い場合はASで短縮名を付ける\nSELECT\n  p.id,\n  p.name   AS 商品名,\n  p.price  AS 価格,\n  c.name   AS カテゴリ名\nFROM products AS p\nINNER JOIN categories AS c ON p.category_id = c.id\nWHERE c.name = '果物'\nORDER BY p.price DESC;\n\n-- 出力:\n-- id | 商品名 | 価格 | カテゴリ名\n-- ---+--------+------+-----------\n--  1 | りんご |  150 | 果物\n--  3 | みかん |  120 | 果物\n--  2 | バナナ |   80 | 果物</code></pre>\n\n<h2>LEFT JOIN：左テーブル全件＋一致した右テーブルデータ</h2>\n<p>LEFT JOIN（LEFT OUTER JOIN）は、左側のテーブルの全レコードに対して、右側のテーブルの一致するデータを結合します。右テーブルに一致するデータがない場合は、右テーブルのカラムが <code>NULL</code> として返されます。</p>\n<pre><code>-- LEFT JOINの基本\nSELECT\n  p.id,\n  p.name        AS 商品名,\n  p.price       AS 価格,\n  c.name        AS カテゴリ名\nFROM products AS p\nLEFT JOIN categories AS c ON p.category_id = c.id;\n\n-- 出力（NULLのcategory_idを持つ「試作品」も含まれる）:\n-- id | 商品名 | 価格 | カテゴリ名\n-- ---+--------+------+-----------\n--  1 | りんご |  150 | 果物\n--  2 | バナナ |   80 | 果物\n--  3 | みかん |  120 | 果物\n--  4 | にんじん| 90  | 野菜\n--  5 | 牛乳   |  200 | 乳製品\n--  6 | チーズ |  350 | 乳製品\n--  7 | 試作品 |  999 | NULL  ← カテゴリが未設定でも含まれる\n\n-- 応用：カテゴリ未設定の商品を見つける\nSELECT p.name, p.price\nFROM products AS p\nLEFT JOIN categories AS c ON p.category_id = c.id\nWHERE c.id IS NULL;\n\n-- 出力:\n-- name   | price\n-- -------+------\n-- 試作品 |   999</code></pre>\n\n<h2>INNER JOINとLEFT JOINの違いをまとめる</h2>\n<p>INNER JOINとLEFT JOINの違いを確認しましょう。</p>\n<pre><code>-- まとめ比較\n-- テーブル状況:\n-- products: 7件（うち1件はcategory_id = NULL）\n-- categories: 3件\n\n-- INNER JOINの結果：6件（NULLの1件は除外）\nSELECT COUNT(*) FROM products INNER JOIN categories ON products.category_id = categories.id;\n\n-- LEFT JOINの結果：7件（NULL含めた全件）\nSELECT COUNT(*) FROM products LEFT JOIN categories ON products.category_id = categories.id;\n\n-- 使い分けの基準:\n-- INNER JOIN → 両方に存在するデータだけが必要なとき（厳密な結合）\n-- LEFT JOIN  → 左テーブルの全件を取得し、右テーブルは補足情報のとき</code></pre>\n\n<h2>3つのテーブルを結合する</h2>\n<p>実際のアプリでは3つ以上のテーブルを結合することも多いです。注文データを例に見てみましょう。</p>\n<pre><code>-- 注文テーブルを追加で作成\nCREATE TABLE orders (\n  id         INTEGER PRIMARY KEY AUTOINCREMENT,\n  user_name  TEXT    NOT NULL,\n  product_id INTEGER NOT NULL,\n  quantity   INTEGER NOT NULL DEFAULT 1,\n  order_date TEXT    DEFAULT (date('now')),\n  FOREIGN KEY (product_id) REFERENCES products(id)\n);\n\n-- 注文データを挿入\nINSERT INTO orders (user_name, product_id, quantity) VALUES\n  ('田中太郎', 1, 3),   -- りんごを3個注文\n  ('鈴木花子', 2, 5),   -- バナナを5個注文\n  ('田中太郎', 5, 2),   -- 牛乳を2個注文\n  ('佐藤一郎', 1, 1);   -- りんごを1個注文\n\n-- 3テーブルを結合：注文・商品・カテゴリを一覧表示\nSELECT\n  o.id           AS 注文ID,\n  o.user_name    AS 注文者,\n  p.name         AS 商品名,\n  c.name         AS カテゴリ,\n  o.quantity     AS 個数,\n  p.price * o.quantity AS 小計\nFROM orders AS o\nINNER JOIN products   AS p ON o.product_id   = p.id\nINNER JOIN categories AS c ON p.category_id  = c.id\nORDER BY o.id;\n\n-- 出力:\n-- 注文ID | 注文者   | 商品名 | カテゴリ | 個数 | 小計\n-- ------+----------+--------+----------+------+----\n--     1 | 田中太郎 | りんご | 果物     |    3 |  450\n--     2 | 鈴木花子 | バナナ | 果物     |    5 |  400\n--     3 | 田中太郎 | 牛乳   | 乳製品   |    2 |  400\n--     4 | 佐藤一郎 | りんご | 果物     |    1 |  150</code></pre>\n\n<h2>JOINのよくある間違いと注意点</h2>\n<p>JOINを使う際のよくある間違いと対処法を確認しましょう。</p>\n<pre><code>-- 注意1：ON条件を間違えると意図しない結合になる\n-- 間違い例（全組み合わせが返るデカルト積）\nSELECT * FROM products, categories;  -- ON条件なし → 7 × 3 = 21件\n\n-- 正しい例\nSELECT * FROM products\nINNER JOIN categories ON products.category_id = categories.id;\n\n-- 注意2：同名カラムはテーブル名・別名で修飾する\n-- 両テーブルに id カラムがある場合\nSELECT p.id, c.id AS category_id, p.name, c.name AS category_name\nFROM products AS p\nINNER JOIN categories AS c ON p.category_id = c.id;\n\n-- 注意3：LEFT JOINでNULLになるカラムに集計関数を使うとき\nSELECT c.name, COUNT(p.id) AS product_count\nFROM categories AS c\nLEFT JOIN products AS p ON c.id = p.category_id\nGROUP BY c.id, c.name;</code></pre>",
-  "conclusion": "JOINは複数のテーブルを結合してデータを取得する強力な構文です。INNER JOINは両テーブルに存在するデータのみを返し、LEFT JOINは左テーブルの全件を保持して右テーブルの一致データを補足します。テーブルにASで別名を付けてSQLを読みやすくする習慣も重要です。3つ以上のテーブルを結合する場合も、JOINを連続して書くことで対応できます。JOINをマスターすると、正規化されたデータベースから自由に情報を取り出せるようになります。",
+  "summary": "INNER JOINとLEFT JOINで複数テーブルを結合する方法を解説。正規化の考え方、AS別名、3テーブル以上の結合をSQLite例で習得します。",
+  "body": "<h2>結論：JOINは正規化された複数テーブルを結合して一覧取得する</h2>\n<p>データは役割ごとにテーブル分割（正規化）されます。<strong>INNER JOIN</strong>は両テーブルに一致する行のみ、<strong>LEFT JOIN</strong>は左テーブル全件＋右の一致行を返します。結合条件は <code>ON a.id = b.user_id</code> で指定し、テーブルに<strong>別名（AS）</strong>を付けると可読性が上がります。</p>\n\n<h2>JOINとは？複数テーブルを結合する</h2>\n<p>リレーショナルデータベースでは、データを複数のテーブルに分けて管理します。例えばECサイトなら「ユーザーテーブル」「商品テーブル」「注文テーブル」のように、それぞれの役割に応じてテーブルを分けます。このデータを分散させて管理する設計を<strong>正規化</strong>といい、データの重複を防いで一貫性を保つ重要な考え方です。</p>\n<p>しかし、正規化されたデータは1つのテーブルだけでは情報が不完全です。「誰が・何を・いつ注文したか」を一覧で見たい場合、3つのテーブルをまたいでデータを取得する必要があります。これを実現するのが <strong>JOIN（結合）</strong> です。sql 使い方の中でも少し難しく感じるかもしれませんが、概念を理解すれば非常に強力なツールです。</p>\n\n<h2>学習用テーブルの準備</h2>\n<p>JOINを学ぶためのサンプルテーブルを作成しましょう。</p>\n<pre><code>-- カテゴリテーブル（親）\nCREATE TABLE categories (\n  id   INTEGER PRIMARY KEY AUTOINCREMENT,\n  name TEXT NOT NULL UNIQUE\n);\n\n-- 商品テーブル（子）：category_idで外部キー参照\nCREATE TABLE products (\n  id          INTEGER PRIMARY KEY AUTOINCREMENT,\n  name        TEXT    NOT NULL,\n  price       INTEGER NOT NULL,\n  category_id INTEGER,\n  FOREIGN KEY (category_id) REFERENCES categories(id)\n);\n\n-- サンプルデータを挿入\nINSERT INTO categories (name) VALUES ('果物'), ('野菜'), ('乳製品');\n\nINSERT INTO products (name, price, category_id) VALUES\n  ('りんご',  150, 1),\n  ('バナナ',   80, 1),\n  ('みかん',  120, 1),\n  ('にんじん', 90, 2),\n  ('牛乳',    200, 3),\n  ('チーズ',  350, 3),\n  ('試作品',  999, NULL);  -- category_idがNULL（分類未設定）</code></pre>\n\n<h2>INNER JOIN：両テーブルに存在するデータのみ取得</h2>\n<p>INNER JOINは、両方のテーブルに一致するデータが存在する行だけを結合して返します。外部キーがNULLのレコードや、対応するレコードが存在しないものは結果に含まれません。</p>\n<pre><code>-- 基本構文\nSELECT カラム... FROM テーブルA\nINNER JOIN テーブルB ON テーブルA.共通カラム = テーブルB.共通カラム;\n\n-- 商品とカテゴリを結合（INNER JOIN）\nSELECT\n  products.id,\n  products.name    AS 商品名,\n  products.price   AS 価格,\n  categories.name  AS カテゴリ名\nFROM products\nINNER JOIN categories ON products.category_id = categories.id;\n\n-- 出力（category_idがNULLの「試作品」は含まれない）:\n-- id | 商品名   | 価格 | カテゴリ名\n-- ---+----------+------+-----------\n--  1 | りんご   |  150 | 果物\n--  2 | バナナ   |   80 | 果物\n--  3 | みかん   |  120 | 果物\n--  4 | にんじん |   90 | 野菜\n--  5 | 牛乳     |  200 | 乳製品\n--  6 | チーズ   |  350 | 乳製品</code></pre>\n\n<h3>テーブル別名（エイリアス）でSQLを読みやすくする</h3>\n<pre><code>-- テーブル名が長い場合はASで短縮名を付ける\nSELECT\n  p.id,\n  p.name   AS 商品名,\n  p.price  AS 価格,\n  c.name   AS カテゴリ名\nFROM products AS p\nINNER JOIN categories AS c ON p.category_id = c.id\nWHERE c.name = '果物'\nORDER BY p.price DESC;\n\n-- 出力:\n-- id | 商品名 | 価格 | カテゴリ名\n-- ---+--------+------+-----------\n--  1 | りんご |  150 | 果物\n--  3 | みかん |  120 | 果物\n--  2 | バナナ |   80 | 果物</code></pre>\n\n<h2>LEFT JOIN：左テーブル全件＋一致した右テーブルデータ</h2>\n<p>LEFT JOIN（LEFT OUTER JOIN）は、左側のテーブルの全レコードに対して、右側のテーブルの一致するデータを結合します。右テーブルに一致するデータがない場合は、右テーブルのカラムが <code>NULL</code> として返されます。</p>\n<pre><code>-- LEFT JOINの基本\nSELECT\n  p.id,\n  p.name        AS 商品名,\n  p.price       AS 価格,\n  c.name        AS カテゴリ名\nFROM products AS p\nLEFT JOIN categories AS c ON p.category_id = c.id;\n\n-- 出力（NULLのcategory_idを持つ「試作品」も含まれる）:\n-- id | 商品名 | 価格 | カテゴリ名\n-- ---+--------+------+-----------\n--  1 | りんご |  150 | 果物\n--  2 | バナナ |   80 | 果物\n--  3 | みかん |  120 | 果物\n--  4 | にんじん| 90  | 野菜\n--  5 | 牛乳   |  200 | 乳製品\n--  6 | チーズ |  350 | 乳製品\n--  7 | 試作品 |  999 | NULL  ← カテゴリが未設定でも含まれる\n\n-- 応用：カテゴリ未設定の商品を見つける\nSELECT p.name, p.price\nFROM products AS p\nLEFT JOIN categories AS c ON p.category_id = c.id\nWHERE c.id IS NULL;\n\n-- 出力:\n-- name   | price\n-- -------+------\n-- 試作品 |   999</code></pre>\n\n<h2>つまずきやすいポイント・失敗例</h2>\n<h3>失敗例：JOIN条件をWHEREに書いてしまう</h3>\n<p>結合条件は <code>ON</code> 句に書きます。WHEREに書くと意図しないフィルタや旧来のカンマ結合と混同しやすくなります。</p>\n<h3>失敗例：INNER JOINで「片方だけ存在する行」が消える</h3>\n<p>注文のないユーザーも一覧に出したい場合はLEFT JOINを使い、右側カラムがNULLになることを理解しましょう。</p>\n\n<h2>INNER JOINとLEFT JOINの違いをまとめる</h2>\n<p>INNER JOINとLEFT JOINの違いを確認しましょう。</p>\n<pre><code>-- まとめ比較\n-- テーブル状況:\n-- products: 7件（うち1件はcategory_id = NULL）\n-- categories: 3件\n\n-- INNER JOINの結果：6件（NULLの1件は除外）\nSELECT COUNT(*) FROM products INNER JOIN categories ON products.category_id = categories.id;\n\n-- LEFT JOINの結果：7件（NULL含めた全件）\nSELECT COUNT(*) FROM products LEFT JOIN categories ON products.category_id = categories.id;\n\n-- 使い分けの基準:\n-- INNER JOIN → 両方に存在するデータだけが必要なとき（厳密な結合）\n-- LEFT JOIN  → 左テーブルの全件を取得し、右テーブルは補足情報のとき</code></pre>\n\n<h2>3つのテーブルを結合する</h2>\n<p>実際のアプリでは3つ以上のテーブルを結合することも多いです。注文データを例に見てみましょう。</p>\n<pre><code>-- 注文テーブルを追加で作成\nCREATE TABLE orders (\n  id         INTEGER PRIMARY KEY AUTOINCREMENT,\n  user_name  TEXT    NOT NULL,\n  product_id INTEGER NOT NULL,\n  quantity   INTEGER NOT NULL DEFAULT 1,\n  order_date TEXT    DEFAULT (date('now')),\n  FOREIGN KEY (product_id) REFERENCES products(id)\n);\n\n-- 注文データを挿入\nINSERT INTO orders (user_name, product_id, quantity) VALUES\n  ('田中太郎', 1, 3),   -- りんごを3個注文\n  ('鈴木花子', 2, 5),   -- バナナを5個注文\n  ('田中太郎', 5, 2),   -- 牛乳を2個注文\n  ('佐藤一郎', 1, 1);   -- りんごを1個注文\n\n-- 3テーブルを結合：注文・商品・カテゴリを一覧表示\nSELECT\n  o.id           AS 注文ID,\n  o.user_name    AS 注文者,\n  p.name         AS 商品名,\n  c.name         AS カテゴリ,\n  o.quantity     AS 個数,\n  p.price * o.quantity AS 小計\nFROM orders AS o\nINNER JOIN products   AS p ON o.product_id   = p.id\nINNER JOIN categories AS c ON p.category_id  = c.id\nORDER BY o.id;\n\n-- 出力:\n-- 注文ID | 注文者   | 商品名 | カテゴリ | 個数 | 小計\n-- ------+----------+--------+----------+------+----\n--     1 | 田中太郎 | りんご | 果物     |    3 |  450\n--     2 | 鈴木花子 | バナナ | 果物     |    5 |  400\n--     3 | 田中太郎 | 牛乳   | 乳製品   |    2 |  400\n--     4 | 佐藤一郎 | りんご | 果物     |    1 |  150</code></pre>\n\n<h2>JOINのよくある間違いと注意点</h2>\n<p>JOINを使う際のよくある間違いと対処法を確認しましょう。</p>\n<pre><code>-- 注意1：ON条件を間違えると意図しない結合になる\n-- 間違い例（全組み合わせが返るデカルト積）\nSELECT * FROM products, categories;  -- ON条件なし → 7 × 3 = 21件\n\n-- 正しい例\nSELECT * FROM products\nINNER JOIN categories ON products.category_id = categories.id;\n\n-- 注意2：同名カラムはテーブル名・別名で修飾する\n-- 両テーブルに id カラムがある場合\nSELECT p.id, c.id AS category_id, p.name, c.name AS category_name\nFROM products AS p\nINNER JOIN categories AS c ON p.category_id = c.id;\n\n-- 注意3：LEFT JOINでNULLになるカラムに集計関数を使うとき\nSELECT c.name, COUNT(p.id) AS product_count\nFROM categories AS c\nLEFT JOIN products AS p ON c.id = p.category_id\nGROUP BY c.id, c.name;</code></pre>",
+  "conclusion": "JOINは正規化された複数テーブルから必要な情報を一度に取得する構文です。INNER JOINは両方に存在する行のみ、LEFT JOINは左テーブル全件を保持します。テーブル別名（AS）でSQLを読みやすく書きましょう。",
   "tags": [
     "SQL",
     "JOIN",
@@ -17,12 +17,12 @@
   "theme": "sql - SQL・データベース入門",
   "status": "published",
   "createdAt": "2026-05-30T04:13:10.982Z",
-  "updatedAt": "2026-05-30T05:01:29.191Z",
+  "updatedAt": "2026-05-30T05:23:47.774Z",
   "publishedAt": "2026-05-30T04:13:10.982Z",
   "metaTitle": "INNER LEFT JOIN｜sql 初心者向けテーブル結合完全ガイド",
-  "metaDescription": "SQLのINNER JOINとLEFT JOINをsql 初心者向けに徹底解説。外部キーで繋がったテーブルを結合するsql 使い方を豊富なSQLiteサンプルで学べます。",
+  "metaDescription": "INNER JOIN/LEFT JOINの書き方と使い分けをSQLite例付きで解説。正規化、別名、多対多の中間テーブル結合の注意点を紹介します。",
   "ogTitle": "INNER/LEFT JOIN｜SQLテーブル結合完全ガイド",
-  "ogDescription": "INNER JOINとLEFT JOINの違いを図解・サンプルで丁寧に解説します。",
+  "ogDescription": "複数テーブルを結合してデータを取得するJOIN構文を具体例で学べます。",
   "knowledge": {
     "topic": "sql",
     "courseId": "sql",
@@ -30,24 +30,24 @@
   },
   "faq": [
     {
-      "question": "INNER JOINとLEFT JOINはどちらをよく使いますか？",
-      "answer": "場面によって使い分けます。INNER JOINは「両方に存在するデータだけが欲しい」場合に使います。例えば注文と商品を結合して注文一覧を作る場合など。LEFT JOINは「左テーブルの全件を必ず表示し、右テーブルの情報は任意」の場合に使います。例えば「全商品に対してカテゴリ名があれば表示、なければNULL」のような場合です。"
+      "question": "INNER JOINとLEFT JOINの使い分けは？",
+      "answer": "両方にデータがある行だけ欲しい→INNER JOIN。左側を全件表示し右を補足→LEFT JOIN。"
     },
     {
-      "question": "RIGHT JOINやFULL OUTER JOINはありますか？",
-      "answer": "標準SQLにはRIGHT JOIN（右テーブル全件）とFULL OUTER JOIN（両テーブル全件）もあります。ただしSQLiteはRIGHT JOINとFULL OUTER JOINをサポートしていません（SQLite 3.39.0以降はRIGHT JOINとFULL OUTER JOINをサポート）。MySQLやPostgreSQLではこれらも使えます。RIGHT JOINはLEFT JOINのテーブル順を入れ替えて代用できます。"
+      "question": "JOINは何個まで結合できる？",
+      "answer": "理論上は制限なく連鎖できますが、多すぎるとパフォーマンスと可読性が低下します。必要最小限にしましょう。"
     },
     {
-      "question": "JOINするとパフォーマンスが遅くなりますか？",
-      "answer": "適切なインデックスがなければ遅くなります。特に外部キーカラム（ON句に書くカラム）にインデックスを張ることが重要です。インデックスについては第9回で詳しく学びます。また、不必要な全件JOINを避け、WHERE句で事前に件数を絞ってからJOINするとパフォーマンスが改善することもあります。"
+      "question": "自己結合（SELF JOIN）とは？",
+      "answer": "同じテーブルを別名で2回JOINし、上下関係や隣接関係を表現するテクニックです。"
     },
     {
-      "question": "CROSS JOINとは何ですか？",
-      "answer": "CROSS JOINは2つのテーブルのすべての組み合わせを返す結合で、デカルト積とも呼ばれます。10件×10件なら100件の結果が返ります。通常の開発では意図せずこれが起きると大量のデータが返って問題になるため、ON句は必ず指定しましょう。CROSS JOINが有用なのは「全組み合わせのマスターデータを作る」といった特殊なケースのみです。"
+      "question": "CROSS JOINはいつ使う？",
+      "answer": "全組み合わせ（直積）を生成します。意図しない行爆発に注意し、通常は明示的なON条件付きJOINを使います。"
     },
     {
       "question": "SQLはどんな場面で使いますか？",
-      "answer": "Webアプリのユーザー情報保存、売上分析、ログ集計など、データを保存・検索・集計したい場面で使います。Excelの大量データ版と考えるとイメージしやすいです。"
+      "answer": "注文一覧にユーザ名を付ける、商品と在庫を結合するなど、複数テーブルの情報を1つの結果にまとめる場面です。"
     }
   ],
   "nextEpisodeHint": "次回はCOUNT・SUM・AVG・MIN・MAXなどの集計関数を学びます。データの件数を数えたり、合計・平均を計算したりする操作はデータ分析に欠かせないスキルです。",
@@ -60,9 +60,9 @@
         "@context": "https://schema.org",
         "@type": "TechArticle",
         "headline": "INNER/LEFT JOIN｜複数テーブルを結合するSQL完全ガイド",
-        "description": "【SQL初心者向け】SQLのINNER JOINとLEFT JOINをsql 初心者向けに徹底解説。外部キーで繋がったテーブルを結合するsql 使い方を豊富なSQLiteサンプルで学べます。 図解・具体例つきで丁寧に解説します。",
+        "description": "INNER JOIN/LEFT JOINの書き方と使い分けをSQLite例付きで解説。正規化、別名、多対多の中間テーブル結合の注意点を紹介します。",
         "datePublished": "2026-05-30T04:13:10.982Z",
-        "dateModified": "2026-05-30T05:01:29.191Z",
+        "dateModified": "2026-05-30T05:23:47.774Z",
         "author": {
           "@type": "Organization",
           "name": "StackShelf",
@@ -83,7 +83,7 @@
         },
         "image": "https://ai-site-iota-nine.vercel.app/og-default.svg",
         "inLanguage": "ja",
-        "wordCount": 4071,
+        "wordCount": 4407,
         "mainEntityOfPage": {
           "@type": "WebPage",
           "@id": "https://ai-site-iota-nine.vercel.app/article/sql-join"
@@ -149,34 +149,34 @@
         "mainEntity": [
           {
             "@type": "Question",
-            "name": "INNER JOINとLEFT JOINはどちらをよく使いますか？",
+            "name": "INNER JOINとLEFT JOINの使い分けは？",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "場面によって使い分けます。INNER JOINは「両方に存在するデータだけが欲しい」場合に使います。例えば注文と商品を結合して注文一覧を作る場合など。LEFT JOINは「左テーブルの全件を必ず表示し、右テーブルの情報は任意」の場合に使います。例えば「全商品に対してカテゴリ名があれば表示、なければNULL」のような場合です。"
+              "text": "両方にデータがある行だけ欲しい→INNER JOIN。左側を全件表示し右を補足→LEFT JOIN。"
             }
           },
           {
             "@type": "Question",
-            "name": "RIGHT JOINやFULL OUTER JOINはありますか？",
+            "name": "JOINは何個まで結合できる？",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "標準SQLにはRIGHT JOIN（右テーブル全件）とFULL OUTER JOIN（両テーブル全件）もあります。ただしSQLiteはRIGHT JOINとFULL OUTER JOINをサポートしていません（SQLite 3.39.0以降はRIGHT JOINとFULL OUTER JOINをサポート）。MySQLやPostgreSQLではこれらも使えます。RIGHT JOINはLEFT JOINのテーブル順を入れ替えて代用できます。"
+              "text": "理論上は制限なく連鎖できますが、多すぎるとパフォーマンスと可読性が低下します。必要最小限にしましょう。"
             }
           },
           {
             "@type": "Question",
-            "name": "JOINするとパフォーマンスが遅くなりますか？",
+            "name": "自己結合（SELF JOIN）とは？",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "適切なインデックスがなければ遅くなります。特に外部キーカラム（ON句に書くカラム）にインデックスを張ることが重要です。インデックスについては第9回で詳しく学びます。また、不必要な全件JOINを避け、WHERE句で事前に件数を絞ってからJOINするとパフォーマンスが改善することもあります。"
+              "text": "同じテーブルを別名で2回JOINし、上下関係や隣接関係を表現するテクニックです。"
             }
           },
           {
             "@type": "Question",
-            "name": "CROSS JOINとは何ですか？",
+            "name": "CROSS JOINはいつ使う？",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "CROSS JOINは2つのテーブルのすべての組み合わせを返す結合で、デカルト積とも呼ばれます。10件×10件なら100件の結果が返ります。通常の開発では意図せずこれが起きると大量のデータが返って問題になるため、ON句は必ず指定しましょう。CROSS JOINが有用なのは「全組み合わせのマスターデータを作る」といった特殊なケースのみです。"
+              "text": "全組み合わせ（直積）を生成します。意図しない行爆発に注意し、通常は明示的なON条件付きJOINを使います。"
             }
           },
           {
@@ -184,7 +184,7 @@
             "name": "SQLはどんな場面で使いますか？",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "Webアプリのユーザー情報保存、売上分析、ログ集計など、データを保存・検索・集計したい場面で使います。Excelの大量データ版と考えるとイメージしやすいです。"
+              "text": "注文一覧にユーザ名を付ける、商品と在庫を結合するなど、複数テーブルの情報を1つの結果にまとめる場面です。"
             }
           }
         ]
@@ -246,34 +246,34 @@
     "mainEntity": [
       {
         "@type": "Question",
-        "name": "INNER JOINとLEFT JOINはどちらをよく使いますか？",
+        "name": "INNER JOINとLEFT JOINの使い分けは？",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "場面によって使い分けます。INNER JOINは「両方に存在するデータだけが欲しい」場合に使います。例えば注文と商品を結合して注文一覧を作る場合など。LEFT JOINは「左テーブルの全件を必ず表示し、右テーブルの情報は任意」の場合に使います。例えば「全商品に対してカテゴリ名があれば表示、なければNULL」のような場合です。"
+          "text": "両方にデータがある行だけ欲しい→INNER JOIN。左側を全件表示し右を補足→LEFT JOIN。"
         }
       },
       {
         "@type": "Question",
-        "name": "RIGHT JOINやFULL OUTER JOINはありますか？",
+        "name": "JOINは何個まで結合できる？",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "標準SQLにはRIGHT JOIN（右テーブル全件）とFULL OUTER JOIN（両テーブル全件）もあります。ただしSQLiteはRIGHT JOINとFULL OUTER JOINをサポートしていません（SQLite 3.39.0以降はRIGHT JOINとFULL OUTER JOINをサポート）。MySQLやPostgreSQLではこれらも使えます。RIGHT JOINはLEFT JOINのテーブル順を入れ替えて代用できます。"
+          "text": "理論上は制限なく連鎖できますが、多すぎるとパフォーマンスと可読性が低下します。必要最小限にしましょう。"
         }
       },
       {
         "@type": "Question",
-        "name": "JOINするとパフォーマンスが遅くなりますか？",
+        "name": "自己結合（SELF JOIN）とは？",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "適切なインデックスがなければ遅くなります。特に外部キーカラム（ON句に書くカラム）にインデックスを張ることが重要です。インデックスについては第9回で詳しく学びます。また、不必要な全件JOINを避け、WHERE句で事前に件数を絞ってからJOINするとパフォーマンスが改善することもあります。"
+          "text": "同じテーブルを別名で2回JOINし、上下関係や隣接関係を表現するテクニックです。"
         }
       },
       {
         "@type": "Question",
-        "name": "CROSS JOINとは何ですか？",
+        "name": "CROSS JOINはいつ使う？",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "CROSS JOINは2つのテーブルのすべての組み合わせを返す結合で、デカルト積とも呼ばれます。10件×10件なら100件の結果が返ります。通常の開発では意図せずこれが起きると大量のデータが返って問題になるため、ON句は必ず指定しましょう。CROSS JOINが有用なのは「全組み合わせのマスターデータを作る」といった特殊なケースのみです。"
+          "text": "全組み合わせ（直積）を生成します。意図しない行爆発に注意し、通常は明示的なON条件付きJOINを使います。"
         }
       },
       {
@@ -281,7 +281,7 @@
         "name": "SQLはどんな場面で使いますか？",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Webアプリのユーザー情報保存、売上分析、ログ集計など、データを保存・検索・集計したい場面で使います。Excelの大量データ版と考えるとイメージしやすいです。"
+          "text": "注文一覧にユーザ名を付ける、商品と在庫を結合するなど、複数テーブルの情報を1つの結果にまとめる場面です。"
         }
       }
     ]
@@ -313,5 +313,5 @@
       "reason": "同じ講座の関連回です"
     }
   ],
-  "nextAction": "次はCOUNT・SUM・AVG・MIN・MAXなどの集計関数を学びます。データの件数を数えたり、合計・平均を計算したりする操作はデータ分析に欠かせないスキルです。"
+  "nextAction": "usersとordersの2テーブルを作成し、INNER JOINとLEFT JOINで結果件数がどう変わるか、両方実行して比較してください。"
 }

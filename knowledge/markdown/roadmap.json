@@ -1,0 +1,15 @@
+{
+  "topic": "markdown",
+  "title": "Markdown & 技術ドキュメント入門",
+  "description": "README・設計書・ブログに使えるMarkdownを8ステップで習得。日本語の体系的入門が少ないテーマを、具体例と失敗例つきで学びます。",
+  "beginnerPath": [
+    "markdown-intro",
+    "markdown-basic-syntax",
+    "markdown-lists-links",
+    "markdown-code-tables",
+    "markdown-github-readme",
+    "markdown-docs-structure",
+    "markdown-tools",
+    "markdown-practice"
+  ]
+}

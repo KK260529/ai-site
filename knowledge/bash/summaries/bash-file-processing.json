@@ -1,0 +1,13 @@
+{
+  "slug": "bash-file-processing",
+  "courseId": "bash",
+  "episode": 7,
+  "summaryMemory": [
+    "grep: パターン一致行の抽出、-i -v -c -r がよく使う",
+    "sed: s/旧/新/g で置換、-i でファイル直接編集",
+    "awk: $1 $2 等の列参照、END で集計",
+    "三ツールをパイプ連結してログ解析が定番"
+  ],
+  "nextEpisodeHint": "次回は cron と crontab を使い、今まで作ったスクリプトを定期実行する方法を学びます。",
+  "updatedAt": "2026-05-30T05:14:53.436Z"
+}

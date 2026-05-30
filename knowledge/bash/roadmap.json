@@ -1,0 +1,17 @@
+{
+  "topic": "bash",
+  "title": "Bashシェルスクリプト入門",
+  "description": "Linux/macOS/WSLで使えるBashスクリプトを10ステップで習得。自動化・運用の第一歩となるニッチスキルを具体例で学びます。",
+  "beginnerPath": [
+    "bash-intro",
+    "bash-variables",
+    "bash-conditionals",
+    "bash-loops",
+    "bash-functions",
+    "bash-pipes-scripts",
+    "bash-file-processing",
+    "bash-cron",
+    "bash-error-handling",
+    "bash-practice"
+  ]
+}

@@ -1,0 +1,317 @@
+{
+  "id": "art_regex_regex-cli-tools",
+  "slug": "regex-cli-tools",
+  "title": "grep・エディタ検索での正規表現｜CLIとVS Code活用法【入門】",
+  "summary": "grep、ripgrep、sed、VS Code・Vimの検索置換で正規表現を使う方法、POSIXとPCREの違い、実務のログ調査例を解説します。",
+  "body": "<h2>なぜCLIとエディタで正規表現を使うのか</h2>\n<p>プログラムに書く前に、<strong>ターミナルとエディタ</strong>で正規表現を使えると、調査速度が格段に上がります。本番障害時にログファイルを開き、エラーコードやIPアドレスのパターンで絞り込む——こうした場面では、IDEを立ち上げるより <code>grep</code> の方が速いことが多いです。</p>\n<p>この回では、Linux/macOS/WSL で使える <strong>grep</strong>、高速な <strong>ripgrep (rg)</strong>、エディタの<strong>検索・置換</strong>を中心に解説します。記法はプログラミング言語とほぼ共通ですが、<strong>方言の差</strong>に注意してください。</p>\n\n<h2>grep の基本</h2>\n<p><code>grep</code> はファイルや標準入力から、パターンに合う<strong>行</strong>を表示します。</p>\n<pre><code># リテラル \"error\" を含む行（大文字小文字区別）\ngrep error app.log\n\n# 正規表現モード（基本RE）\ngrep \"ERROR.*timeout\" app.log\n\n# 拡張正規表現 -E（egrep 相当）:+ ? | () などが使いやすい\ngrep -E \"^[0-9]{4}-[0-9]{2}-[0-9]{2}\" access.log\n\n# 大文字小文字無視\ngrep -i error app.log</code></pre>\n<p>行単位でマッチするため、<code>^</code> <code>$</code> は「行の先頭・末尾」として自然に使えます。複数ファイルなら <code>grep -r pattern dir/</code> で再帰検索できます。</p>\n\n<h2>ripgrep (rg) との使い分け</h2>\n<p><strong>ripgrep</strong> は大規模リポジトリの検索に速く、デフォルトで .gitignore を尊重します。正規表現は <code>-e</code> または位置引数で指定します。</p>\n<pre><code>rg \"function\\s+\\w+\" --type js\nrg -i \"TODO|FIXME\" src/</code></pre>\n<p>チーム開発では <code>rg</code> をインストールしておくと、コードベース全体からシンボルを探すのが楽になります。</p>\n\n<h2>sed による置換（概要）</h2>\n<p><code>sed</code> はストリームエディタで、正規表現による<strong>置換</strong>ができます。</p>\n<pre><code># 最初のマッチだけ置換（例）\nsed 's/old/new/' file.txt\n\n# グローバル置換\nsed 's/\\d{4}/YEAR/g' file.txt   # 方言・エスケープに注意</code></pre>\n<p>本番ファイルを直接書き換える前に、必ずバックアップを取るか、<code>-i.bak</code> でバックアップ付き編集を使いましょう。複雑な変換は、一度小さなサンプルファイルで試すのが安全です。</p>\n\n<h2>VS Code の検索・置換</h2>\n<p>VS Code では検索ボックス右の <strong>.*</strong> ボタンで正規表現モードをオンにします。</p>\n<ul>\n  <li><code>\\d</code> <code>\\w</code> など、JavaScript に近い記法が使える</li>\n  <li>置換で <code>$1</code> <code>$2</code> を利用できる</li>\n  <li>ファイル内・ワークスペース全体の検索が可能</li>\n</ul>\n<pre><code># 検索: console\\.log\\((.*)\\)\n# 置換: logger.debug($1)</code></pre>\n<p>リファクタリング前に Git でコミットしておくと、置換ミスからすぐ戻れます。</p>\n\n<h2>Vim / その他エディタ</h2>\n<p>Vim では <code>/pattern</code> で検索、<code>:%s/old/new/g</code> で置換します。記法はやや古い基本正規表現に近く、<code>\\+</code> のようにエスケープが増える場合があります。エディタごとにチートシートを手元に置くとよいでしょう。</p>\n\n<h2>ログ調査の実践フロー</h2>\n<ol>\n  <li>障害時刻前後の行だけを <code>grep</code> で絞る（タイムスタンプパターン）</li>\n  <li>ERROR や 5xx を含む行を <code>grep -E</code> で抽出</li>\n  <li>特定の request_id や user_id でさらに絞る</li>\n  <li>必要なら <code>wc -l</code> で件数を数える</li>\n  <li>詳細はエディタで該当行周辺を開く</li>\n</ol>\n<pre><code>grep -E \"ERROR|WARN\" /var/log/app.log | grep \"user_id=12345\" | tail -20</code></pre>\n<p>パイプと組み合わせることで、巨大なログも段階的に絞れます。Linux入門で学んだパイプの知識と相性が抜群です。</p>\n\n<h2>POSIX と PCRE の違い（ざっくり）</h2>\n<p><code>grep</code> の基本は POSIX 系、<code>grep -P</code> は Perl互換（PCRE）で <code>\\d</code> などが使えやすいですが、環境によっては <code>-P</code> が使えません。その場合は <code>[0-9]</code> のように書くか、<code>rg</code> を使います。</p>\n<p>「同じ記号なのに動かない」ときは、<strong>今どのツールの方言か</strong>を確認するのが第一歩です。</p>\n\n<h2>安全に使うための習慣</h2>\n<p>本番サーバーで <code>sed -i</code> や一括置換をする前に、ステージングで試す。検索パターンは具体的に（<code>.*</code> の乱用を避ける）。結果件数を <code>| wc -l</code> で確認してから次の処理へ進む——これらの習慣が事故を防ぎます。</p>\n\n<h2>チームで共有するパターン集</h2>\n<p>運用チームでは「よく使う grep パターン」を Wiki や README にまとめておくと、障害時の初動が速くなります。たとえば「5xx 抽出」「特定ホスト名」「JSON ログの trace_id」など、環境に合わせた例を5〜10個用意しておくだけでも効果があります。正規表現は個人の暗記に頼らず、<strong>チームの資産</strong>として蓄積するのがおすすめです。</p>\n<p>新メンバーのオンボーディングでは、サンプルログファイルを渡し、grep とエディタ検索で同じ行を探す演習をすると、CLI と GUI の両方に慣れます。Linux入門や Bash入門と並行して進めると、理解が定着しやすいです。</p>\n\n<h2>PowerShell と WSL の選択</h2>\n<p>Windows ユーザーは WSL 上の grep が本番 Linux に近い挙動をします。PowerShell の <code>Select-String -Pattern</code> も正規表現に対応していますが、記法やエスケープが異なるため、学習用には WSL か Git Bash を推奨します。会社のポリシーで WSL が使えない場合は、ドキュメントの「Windows 版」を手元に置きましょう。</p>\n\n<h2>journalctl と Docker ログ</h2>\n<p>systemd の <code>journalctl -u myapp</code> の出力を grep にパイプする、<code>docker logs container 2>&1 | grep ERROR</code> とする——コンテナ運用（Docker入門）と組み合わせると、本番に近い練習ができます。ログはテキストなので、正規表現の練習場として最適です。</p>\n\n<h2>エイリアスとシェル設定</h2>\n<p>よく使う grep を <code>alias logerr='grep -E \"^(ERROR|WARN)\"'</code> のように Bash に登録しておくと、障害時のタイピングミスが減ります。bash-intro で学ぶ <code>.bashrc</code> への追記と組み合わせて、自分専用の「ログ調査キット」を少しずつ育てるのも楽しい発展です。</p>\n\n<h2>まとめ</h2>\n<p>grep と ripgrep でログ・コードを素早く絞り込み、VS Code などのエディタで精緻な置換を行うのが実務の定番です。方言の違いを意識し、パイプと組み合わせて段階的に調査しましょう。次回はログとフォーム検証の総合実践です。</p>",
+  "conclusion": "grep と ripgrep はログ・コードの行単位検索に、VS Code の正規表現置換はリファクタリングに向いています。-E で拡張記法、環境により -P で \\d などが使えます。本番の sed -i 前には必ずバックアップと試験を。パイプで段階的に絞るのがログ調査の定番です。",
+  "tags": [
+    "正規表現",
+    "grep",
+    "ripgrep",
+    "VS Code",
+    "regex",
+    "CLI"
+  ],
+  "category": "正規表現",
+  "theme": "regex - 正規表現入門",
+  "status": "published",
+  "createdAt": "2026-05-30T05:14:30.074Z",
+  "updatedAt": "2026-05-30T05:15:44.261Z",
+  "publishedAt": "2026-05-30T05:14:30.074Z",
+  "metaTitle": "grep 正規表現 | エディタ検索・CLIでのregex活用法",
+  "metaDescription": "grep・ripgrep・VS Code検索での正規表現を初心者向けに解説。ログ解析、一括置換、-E -P オプションの違いも学べます。",
+  "ogTitle": "grep・エディタ検索での正規表現",
+  "ogDescription": "CLIとエディタで正規表現を使う実践テクニックを解説します。",
+  "knowledge": {
+    "topic": "regex",
+    "courseId": "regex",
+    "episode": 9
+  },
+  "faq": [
+    {
+      "question": "grep と ripgrep はどちらを使えばいいですか？",
+      "answer": "単一ファイルやサーバーログなら grep で十分なことが多いです。大きなリポジトリ全体を頻繁に検索するなら rg が速くて便利です。"
+    },
+    {
+      "question": "grep で \\d は使えますか？",
+      "answer": "通常の grep では使えません。grep -P（PCRE）か [0-9]、または ripgrep を検討してください。"
+    },
+    {
+      "question": "Windowsではどう使いますか？",
+      "answer": "WSL、Git Bash、PowerShell の Select-String などがあります。学習では WSL の grep が本番 Linux に近くておすすめです。"
+    },
+    {
+      "question": "VS Code の置換で $1 が動きません",
+      "answer": "正規表現モードがオンか、キャプチャ用の括弧があるか確認してください。エスケープは \\1 ではなく $1 です。"
+    },
+    {
+      "question": "ログが巨大すぎて grep が遅いです",
+      "answer": "先に tail や日付でファイルを分割、zgrep で圧縮ログを扱う、ripgrep を試す、インデックス付きログ基盤の検討などがあります。"
+    }
+  ],
+  "nextEpisodeHint": "最終回は、ログ解析とフォーム検証を題材に、これまで学んだ部品を組み合わせた実践パターンと、テスト・保守のコツをまとめます。",
+  "nextAction": "最終回は、ログ解析とフォーム検証を題材に、これまで学んだ部品を組み合わせた実践パターンと、テスト・保守のコツをまとめます。",
+  "internalLinkCandidates": [
+    {
+      "slug": "regex-practice",
+      "title": "実践：ログとフォーム検証｜正規表現コース総まとめ【入門】",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "regex-javascript",
+      "title": "JavaScriptでの正規表現｜RegExp・test・match・replace【入門】",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "regex-lookahead",
+      "title": "先読み・後読み（応用）｜正規表現で条件だけチェックする【入門】",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "regex-groups",
+      "title": "グループとキャプチャ｜正規表現の ( ) と置換【入門】",
+      "reason": "同じ講座の関連回です"
+    },
+    {
+      "slug": "regex-anchors",
+      "title": "アンカー ^ $ と単語境界｜正規表現で位置を指定する【入門】",
+      "reason": "同じ講座の関連回です"
+    }
+  ],
+  "ogImage": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+  "canonical": "https://ai-site-iota-nine.vercel.app/article/regex-cli-tools",
+  "jsonLd": {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@context": "https://schema.org",
+        "@type": "TechArticle",
+        "headline": "grep・エディタ検索での正規表現｜CLIとVS Code活用法【入門】",
+        "description": "【正規表現初心者向け】grep・ripgrep・VS Code検索での正規表現を初心者向けに解説。ログ解析、一括置換、-E -P オプションの違いも学べます。 図解・具体例つきで丁寧に解説します。 図解・具体例つきで丁寧に解説します。",
+        "datePublished": "2026-05-30T05:14:30.074Z",
+        "dateModified": "2026-05-30T05:15:44.261Z",
+        "author": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://ai-site-iota-nine.vercel.app/favicon.svg"
+          }
+        },
+        "image": "https://ai-site-iota-nine.vercel.app/og-default.svg",
+        "inLanguage": "ja",
+        "wordCount": 2634,
+        "mainEntityOfPage": {
+          "@type": "WebPage",
+          "@id": "https://ai-site-iota-nine.vercel.app/article/regex-cli-tools"
+        },
+        "keywords": "正規表現, grep, ripgrep, VS Code, regex, CLI",
+        "articleSection": "正規表現",
+        "url": "https://ai-site-iota-nine.vercel.app/article/regex-cli-tools",
+        "learningResourceType": "tutorial",
+        "educationalLevel": "beginner"
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "ホーム",
+            "item": "https://ai-site-iota-nine.vercel.app/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "regex",
+            "item": "https://ai-site-iota-nine.vercel.app/knowledge/regex"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "正規表現入門",
+            "item": "https://ai-site-iota-nine.vercel.app/course/regex/regex"
+          },
+          {
+            "@type": "ListItem",
+            "position": 4,
+            "name": "grep・エディタ検索での正規表現｜CLIとVS Code活用法【入門】",
+            "item": "https://ai-site-iota-nine.vercel.app/article/regex-cli-tools"
+          }
+        ]
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "Course",
+        "name": "正規表現入門",
+        "description": "ログ解析・バリデーション・置換に必須の正規表現を10ステップで習得。つまずきやすいエスケープや量詞を具体例で解説します。",
+        "provider": {
+          "@type": "Organization",
+          "name": "StackShelf",
+          "url": "https://ai-site-iota-nine.vercel.app"
+        },
+        "url": "https://ai-site-iota-nine.vercel.app/course/regex/regex",
+        "inLanguage": "ja",
+        "educationalLevel": "beginner",
+        "hasCourseInstance": {
+          "@type": "CourseInstance",
+          "courseMode": "online",
+          "courseWorkload": "PT1H"
+        }
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "grep と ripgrep はどちらを使えばいいですか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "単一ファイルやサーバーログなら grep で十分なことが多いです。大きなリポジトリ全体を頻繁に検索するなら rg が速くて便利です。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "grep で \\d は使えますか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "通常の grep では使えません。grep -P（PCRE）か [0-9]、または ripgrep を検討してください。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Windowsではどう使いますか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "WSL、Git Bash、PowerShell の Select-String などがあります。学習では WSL の grep が本番 Linux に近くておすすめです。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "VS Code の置換で $1 が動きません",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "正規表現モードがオンか、キャプチャ用の括弧があるか確認してください。エスケープは \\1 ではなく $1 です。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "ログが巨大すぎて grep が遅いです",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "先に tail や日付でファイルを分割、zgrep で圧縮ログを扱う、ripgrep を試す、インデックス付きログ基盤の検討などがあります。"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "breadcrumb": {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "ホーム",
+        "item": "https://ai-site-iota-nine.vercel.app/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "regex",
+        "item": "https://ai-site-iota-nine.vercel.app/knowledge/regex"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "正規表現入門",
+        "item": "https://ai-site-iota-nine.vercel.app/course/regex/regex"
+      },
+      {
+        "@type": "ListItem",
+        "position": 4,
+        "name": "grep・エディタ検索での正規表現｜CLIとVS Code活用法【入門】",
+        "item": "https://ai-site-iota-nine.vercel.app/article/regex-cli-tools"
+      }
+    ]
+  },
+  "courseSchema": {
+    "@context": "https://schema.org",
+    "@type": "Course",
+    "name": "正規表現入門",
+    "description": "ログ解析・バリデーション・置換に必須の正規表現を10ステップで習得。つまずきやすいエスケープや量詞を具体例で解説します。",
+    "provider": {
+      "@type": "Organization",
+      "name": "StackShelf",
+      "url": "https://ai-site-iota-nine.vercel.app"
+    },
+    "url": "https://ai-site-iota-nine.vercel.app/course/regex/regex",
+    "inLanguage": "ja",
+    "educationalLevel": "beginner",
+    "hasCourseInstance": {
+      "@type": "CourseInstance",
+      "courseMode": "online",
+      "courseWorkload": "PT1H"
+    }
+  },
+  "faqSchema": {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "grep と ripgrep はどちらを使えばいいですか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "単一ファイルやサーバーログなら grep で十分なことが多いです。大きなリポジトリ全体を頻繁に検索するなら rg が速くて便利です。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "grep で \\d は使えますか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "通常の grep では使えません。grep -P（PCRE）か [0-9]、または ripgrep を検討してください。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Windowsではどう使いますか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "WSL、Git Bash、PowerShell の Select-String などがあります。学習では WSL の grep が本番 Linux に近くておすすめです。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "VS Code の置換で $1 が動きません",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "正規表現モードがオンか、キャプチャ用の括弧があるか確認してください。エスケープは \\1 ではなく $1 です。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "ログが巨大すぎて grep が遅いです",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "先に tail や日付でファイルを分割、zgrep で圧縮ログを扱う、ripgrep を試す、インデックス付きログ基盤の検討などがあります。"
+        }
+      }
+    ]
+  }
+}

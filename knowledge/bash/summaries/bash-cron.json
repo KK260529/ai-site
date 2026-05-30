@@ -1,0 +1,13 @@
+{
+  "slug": "bash-cron",
+  "courseId": "bash",
+  "episode": 8,
+  "summaryMemory": [
+    "crontab -e でスケジュール編集、5フィールド: 分時日月曜",
+    "スクリプトは絶対パス、PATH 明示、ログは >> file 2>&1",
+    "flock -n で前回未完了時の重複起動を防止",
+    "cron 環境は対話シェルと異なるので手動テスト必須"
+  ],
+  "nextEpisodeHint": "次回は set -e、set -u、pipefail、trap によるエラーハンドリングを学び、定期実行されるスクリプトの堅牢性を高めます。",
+  "updatedAt": "2026-05-30T05:14:54.468Z"
+}

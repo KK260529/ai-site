@@ -1,0 +1,13 @@
+{
+  "slug": "bash-intro",
+  "courseId": "bash",
+  "episode": 1,
+  "summaryMemory": [
+    "Bashシェルスクリプトはコマンド列をテキストファイルに書いた自動化の仕組み",
+    "shebang（#!/usr/bin/env bash）で使用するシェルを指定する",
+    "chmod +x で実行権限を付け、./script.sh で実行する",
+    "CI/CD・Docker・運用作業の定番ツールとして現場で広く使われる"
+  ],
+  "nextEpisodeHint": "次回は変数・コマンドライン引数・終了コード（exit status）を学びます。スクリプトに「入力」を渡し、成功・失敗を判定できるようにしていきましょう。",
+  "updatedAt": "2026-05-30T05:14:46.050Z"
+}

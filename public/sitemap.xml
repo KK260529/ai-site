@@ -37,6 +37,12 @@
     <priority>0.85</priority>
   </url>
   <url>
+    <loc>https://ai-site-iota-nine.vercel.app/knowledge/bash</loc>
+    
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
     <loc>https://ai-site-iota-nine.vercel.app/knowledge/docker</loc>
     
     <changefreq>weekly</changefreq>
@@ -44,6 +50,12 @@
   </url>
   <url>
     <loc>https://ai-site-iota-nine.vercel.app/knowledge/git</loc>
+    
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://ai-site-iota-nine.vercel.app/knowledge/http</loc>
     
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
@@ -61,7 +73,25 @@
     <priority>0.85</priority>
   </url>
   <url>
+    <loc>https://ai-site-iota-nine.vercel.app/knowledge/markdown</loc>
+    
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://ai-site-iota-nine.vercel.app/knowledge/nginx</loc>
+    
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
     <loc>https://ai-site-iota-nine.vercel.app/knowledge/python</loc>
+    
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://ai-site-iota-nine.vercel.app/knowledge/regex</loc>
     
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
@@ -85,6 +115,12 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://ai-site-iota-nine.vercel.app/course/bash/bash</loc>
+    
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://ai-site-iota-nine.vercel.app/course/docker/docker</loc>
     
     <changefreq>weekly</changefreq>
@@ -92,6 +128,12 @@
   </url>
   <url>
     <loc>https://ai-site-iota-nine.vercel.app/course/git/git</loc>
+    
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://ai-site-iota-nine.vercel.app/course/http/http</loc>
     
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
@@ -109,7 +151,25 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://ai-site-iota-nine.vercel.app/course/markdown/markdown</loc>
+    
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://ai-site-iota-nine.vercel.app/course/nginx/nginx</loc>
+    
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://ai-site-iota-nine.vercel.app/course/python/python</loc>
+    
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://ai-site-iota-nine.vercel.app/course/regex/regex</loc>
     
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
@@ -127,13 +187,19 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://ai-site-iota-nine.vercel.app/tag/%E5%88%9D%E5%BF%83%E8%80%85</loc>
+    
+    <changefreq>weekly</changefreq>
+    <priority>0.65</priority>
+  </url>
+  <url>
     <loc>https://ai-site-iota-nine.vercel.app/tag/Java</loc>
     
     <changefreq>weekly</changefreq>
     <priority>0.65</priority>
   </url>
   <url>
-    <loc>https://ai-site-iota-nine.vercel.app/tag/%E5%88%9D%E5%BF%83%E8%80%85</loc>
+    <loc>https://ai-site-iota-nine.vercel.app/tag/Linux</loc>
     
     <changefreq>weekly</changefreq>
     <priority>0.65</priority>
@@ -151,7 +217,7 @@
     <priority>0.65</priority>
   </url>
   <url>
-    <loc>https://ai-site-iota-nine.vercel.app/tag/Linux</loc>
+    <loc>https://ai-site-iota-nine.vercel.app/tag/%E6%AD%A3%E8%A6%8F%E8%A1%A8%E7%8F%BE</loc>
     
     <changefreq>weekly</changefreq>
     <priority>0.65</priority>
@@ -175,13 +241,37 @@
     <priority>0.65</priority>
   </url>
   <url>
+    <loc>https://ai-site-iota-nine.vercel.app/tag/Bash</loc>
+    
+    <changefreq>weekly</changefreq>
+    <priority>0.65</priority>
+  </url>
+  <url>
+    <loc>https://ai-site-iota-nine.vercel.app/tag/HTTP</loc>
+    
+    <changefreq>weekly</changefreq>
+    <priority>0.65</priority>
+  </url>
+  <url>
+    <loc>https://ai-site-iota-nine.vercel.app/tag/regex</loc>
+    
+    <changefreq>weekly</changefreq>
+    <priority>0.65</priority>
+  </url>
+  <url>
     <loc>https://ai-site-iota-nine.vercel.app/tag/SQL</loc>
     
     <changefreq>weekly</changefreq>
     <priority>0.65</priority>
   </url>
   <url>
-    <loc>https://ai-site-iota-nine.vercel.app/tag/SQLite</loc>
+    <loc>https://ai-site-iota-nine.vercel.app/tag/nginx</loc>
+    
+    <changefreq>weekly</changefreq>
+    <priority>0.65</priority>
+  </url>
+  <url>
+    <loc>https://ai-site-iota-nine.vercel.app/tag/%E5%AE%9F%E8%B7%B5</loc>
     
     <changefreq>weekly</changefreq>
     <priority>0.65</priority>
@@ -199,19 +289,43 @@
     <priority>0.65</priority>
   </url>
   <url>
+    <loc>https://ai-site-iota-nine.vercel.app/tag/SQLite</loc>
+    
+    <changefreq>weekly</changefreq>
+    <priority>0.65</priority>
+  </url>
+  <url>
+    <loc>https://ai-site-iota-nine.vercel.app/tag/Markdown</loc>
+    
+    <changefreq>weekly</changefreq>
+    <priority>0.65</priority>
+  </url>
+  <url>
     <loc>https://ai-site-iota-nine.vercel.app/tag/sql%20%E4%BD%BF%E3%81%84%E6%96%B9</loc>
     
     <changefreq>weekly</changefreq>
     <priority>0.65</priority>
   </url>
   <url>
-    <loc>https://ai-site-iota-nine.vercel.app/tag/docker%20%E4%BD%BF%E3%81%84%E6%96%B9</loc>
+    <loc>https://ai-site-iota-nine.vercel.app/tag/CSS</loc>
     
     <changefreq>weekly</changefreq>
     <priority>0.65</priority>
   </url>
   <url>
-    <loc>https://ai-site-iota-nine.vercel.app/tag/CSS</loc>
+    <loc>https://ai-site-iota-nine.vercel.app/tag/%E3%82%B7%E3%82%A7%E3%83%AB%E3%82%B9%E3%82%AF%E3%83%AA%E3%83%97%E3%83%88</loc>
+    
+    <changefreq>weekly</changefreq>
+    <priority>0.65</priority>
+  </url>
+  <url>
+    <loc>https://ai-site-iota-nine.vercel.app/tag/README</loc>
+    
+    <changefreq>weekly</changefreq>
+    <priority>0.65</priority>
+  </url>
+  <url>
+    <loc>https://ai-site-iota-nine.vercel.app/tag/docker%20%E4%BD%BF%E3%81%84%E6%96%B9</loc>
     
     <changefreq>weekly</changefreq>
     <priority>0.65</priority>
@@ -229,7 +343,55 @@
     <priority>0.65</priority>
   </url>
   <url>
-    <loc>https://ai-site-iota-nine.vercel.app/tag/%E5%AE%9F%E8%B7%B5</loc>
+    <loc>https://ai-site-iota-nine.vercel.app/tag/API</loc>
+    
+    <changefreq>weekly</changefreq>
+    <priority>0.65</priority>
+  </url>
+  <url>
+    <loc>https://ai-site-iota-nine.vercel.app/tag/GitHub</loc>
+    
+    <changefreq>weekly</changefreq>
+    <priority>0.65</priority>
+  </url>
+  <url>
+    <loc>https://ai-site-iota-nine.vercel.app/tag/Node.js</loc>
+    
+    <changefreq>weekly</changefreq>
+    <priority>0.65</priority>
+  </url>
+  <url>
+    <loc>https://ai-site-iota-nine.vercel.app/tag/%E3%83%AA%E3%83%90%E3%83%BC%E3%82%B9%E3%83%97%E3%83%AD%E3%82%AD%E3%82%B7</loc>
+    
+    <changefreq>weekly</changefreq>
+    <priority>0.65</priority>
+  </url>
+  <url>
+    <loc>https://ai-site-iota-nine.vercel.app/tag/%E3%82%A4%E3%83%B3%E3%82%B9%E3%83%88%E3%83%BC%E3%83%AB</loc>
+    
+    <changefreq>weekly</changefreq>
+    <priority>0.65</priority>
+  </url>
+  <url>
+    <loc>https://ai-site-iota-nine.vercel.app/tag/%E8%87%AA%E5%8B%95%E5%8C%96</loc>
+    
+    <changefreq>weekly</changefreq>
+    <priority>0.65</priority>
+  </url>
+  <url>
+    <loc>https://ai-site-iota-nine.vercel.app/tag/%E3%83%87%E3%83%90%E3%83%83%E3%82%B0</loc>
+    
+    <changefreq>weekly</changefreq>
+    <priority>0.65</priority>
+  </url>
+  <url>
+    <loc>https://ai-site-iota-nine.vercel.app/tag/grep</loc>
+    
+    <changefreq>weekly</changefreq>
+    <priority>0.65</priority>
+  </url>
+  <url>
+    <loc>https://ai-site-iota-nine.vercel.app/tag/CLI</loc>
     
     <changefreq>weekly</changefreq>
     <priority>0.65</priority>
@@ -259,13 +421,187 @@
     <priority>0.65</priority>
   </url>
   <url>
-    <loc>https://ai-site-iota-nine.vercel.app/tag/%E3%82%B3%E3%83%B3%E3%83%86%E3%83%8A</loc>
+    <loc>https://ai-site-iota-nine.vercel.app/tag/%E3%83%AD%E3%82%B0</loc>
     
     <changefreq>weekly</changefreq>
     <priority>0.65</priority>
   </url>
   <url>
-    <loc>https://ai-site-iota-nine.vercel.app/tag/%E3%82%A4%E3%83%B3%E3%82%B9%E3%83%88%E3%83%BC%E3%83%AB</loc>
+    <loc>https://ai-site-iota-nine.vercel.app/tag/%E3%83%88%E3%83%A9%E3%83%96%E3%83%AB%E3%82%B7%E3%83%A5%E3%83%BC%E3%83%88</loc>
+    
+    <changefreq>weekly</changefreq>
+    <priority>0.65</priority>
+  </url>
+  <url>
+    <loc>https://ai-site-iota-nine.vercel.app/tag/SSL</loc>
+    
+    <changefreq>weekly</changefreq>
+    <priority>0.65</priority>
+  </url>
+  <url>
+    <loc>https://ai-site-iota-nine.vercel.app/tag/TLS</loc>
+    
+    <changefreq>weekly</changefreq>
+    <priority>0.65</priority>
+  </url>
+  <url>
+    <loc>https://ai-site-iota-nine.vercel.app/tag/HTTPS</loc>
+    
+    <changefreq>weekly</changefreq>
+    <priority>0.65</priority>
+  </url>
+  <url>
+    <loc>https://ai-site-iota-nine.vercel.app/tag/%E3%82%A4%E3%83%B3%E3%83%95%E3%83%A9</loc>
+    
+    <changefreq>weekly</changefreq>
+    <priority>0.65</priority>
+  </url>
+  <url>
+    <loc>https://ai-site-iota-nine.vercel.app/tag/%E9%81%8B%E7%94%A8</loc>
+    
+    <changefreq>weekly</changefreq>
+    <priority>0.65</priority>
+  </url>
+  <url>
+    <loc>https://ai-site-iota-nine.vercel.app/tag/cron</loc>
+    
+    <changefreq>weekly</changefreq>
+    <priority>0.65</priority>
+  </url>
+  <url>
+    <loc>https://ai-site-iota-nine.vercel.app/tag/%E3%83%86%E3%82%AD%E3%82%B9%E3%83%88%E5%87%A6%E7%90%86</loc>
+    
+    <changefreq>weekly</changefreq>
+    <priority>0.65</priority>
+  </url>
+  <url>
+    <loc>https://ai-site-iota-nine.vercel.app/tag/%E3%83%91%E3%82%A4%E3%83%97</loc>
+    
+    <changefreq>weekly</changefreq>
+    <priority>0.65</priority>
+  </url>
+  <url>
+    <loc>https://ai-site-iota-nine.vercel.app/tag/%E9%96%A2%E6%95%B0</loc>
+    
+    <changefreq>weekly</changefreq>
+    <priority>0.65</priority>
+  </url>
+  <url>
+    <loc>https://ai-site-iota-nine.vercel.app/tag/%E9%85%8D%E5%88%97</loc>
+    
+    <changefreq>weekly</changefreq>
+    <priority>0.65</priority>
+  </url>
+  <url>
+    <loc>https://ai-site-iota-nine.vercel.app/tag/%E5%A4%89%E6%95%B0</loc>
+    
+    <changefreq>weekly</changefreq>
+    <priority>0.65</priority>
+  </url>
+  <url>
+    <loc>https://ai-site-iota-nine.vercel.app/tag/curl</loc>
+    
+    <changefreq>weekly</changefreq>
+    <priority>0.65</priority>
+  </url>
+  <url>
+    <loc>https://ai-site-iota-nine.vercel.app/tag/fetch</loc>
+    
+    <changefreq>weekly</changefreq>
+    <priority>0.65</priority>
+  </url>
+  <url>
+    <loc>https://ai-site-iota-nine.vercel.app/tag/CORS</loc>
+    
+    <changefreq>weekly</changefreq>
+    <priority>0.65</priority>
+  </url>
+  <url>
+    <loc>https://ai-site-iota-nine.vercel.app/tag/REST%20API</loc>
+    
+    <changefreq>weekly</changefreq>
+    <priority>0.65</priority>
+  </url>
+  <url>
+    <loc>https://ai-site-iota-nine.vercel.app/tag/Web%20API</loc>
+    
+    <changefreq>weekly</changefreq>
+    <priority>0.65</priority>
+  </url>
+  <url>
+    <loc>https://ai-site-iota-nine.vercel.app/tag/%E3%82%BB%E3%82%AD%E3%83%A5%E3%83%AA%E3%83%86%E3%82%A3</loc>
+    
+    <changefreq>weekly</changefreq>
+    <priority>0.65</priority>
+  </url>
+  <url>
+    <loc>https://ai-site-iota-nine.vercel.app/tag/%E3%83%98%E3%83%83%E3%83%80%E3%83%BC</loc>
+    
+    <changefreq>weekly</changefreq>
+    <priority>0.65</priority>
+  </url>
+  <url>
+    <loc>https://ai-site-iota-nine.vercel.app/tag/%E3%83%90%E3%83%AA%E3%83%87%E3%83%BC%E3%82%B7%E3%83%A7%E3%83%B3</loc>
+    
+    <changefreq>weekly</changefreq>
+    <priority>0.65</priority>
+  </url>
+  <url>
+    <loc>https://ai-site-iota-nine.vercel.app/tag/VS%20Code</loc>
+    
+    <changefreq>weekly</changefreq>
+    <priority>0.65</priority>
+  </url>
+  <url>
+    <loc>https://ai-site-iota-nine.vercel.app/tag/JavaScript</loc>
+    
+    <changefreq>weekly</changefreq>
+    <priority>0.65</priority>
+  </url>
+  <url>
+    <loc>https://ai-site-iota-nine.vercel.app/tag/%E3%83%97%E3%83%AD%E3%82%B8%E3%82%A7%E3%82%AF%E3%83%88</loc>
+    
+    <changefreq>weekly</changefreq>
+    <priority>0.65</priority>
+  </url>
+  <url>
+    <loc>https://ai-site-iota-nine.vercel.app/tag/%E6%8A%80%E8%A1%93%E3%83%89%E3%82%AD%E3%83%A5%E3%83%A1%E3%83%B3%E3%83%88</loc>
+    
+    <changefreq>weekly</changefreq>
+    <priority>0.65</priority>
+  </url>
+  <url>
+    <loc>https://ai-site-iota-nine.vercel.app/tag/%E8%A1%A8</loc>
+    
+    <changefreq>weekly</changefreq>
+    <priority>0.65</priority>
+  </url>
+  <url>
+    <loc>https://ai-site-iota-nine.vercel.app/tag/%E3%83%AA%E3%82%B9%E3%83%88</loc>
+    
+    <changefreq>weekly</changefreq>
+    <priority>0.65</priority>
+  </url>
+  <url>
+    <loc>https://ai-site-iota-nine.vercel.app/tag/%E3%83%AA%E3%83%B3%E3%82%AF</loc>
+    
+    <changefreq>weekly</changefreq>
+    <priority>0.65</priority>
+  </url>
+  <url>
+    <loc>https://ai-site-iota-nine.vercel.app/tag/%E7%94%BB%E5%83%8F</loc>
+    
+    <changefreq>weekly</changefreq>
+    <priority>0.65</priority>
+  </url>
+  <url>
+    <loc>https://ai-site-iota-nine.vercel.app/tag/%E8%A6%8B%E5%87%BA%E3%81%97</loc>
+    
+    <changefreq>weekly</changefreq>
+    <priority>0.65</priority>
+  </url>
+  <url>
+    <loc>https://ai-site-iota-nine.vercel.app/tag/%E3%82%B3%E3%83%B3%E3%83%86%E3%83%8A</loc>
     
     <changefreq>weekly</changefreq>
     <priority>0.65</priority>
@@ -319,12 +655,6 @@
     <priority>0.65</priority>
   </url>
   <url>
-    <loc>https://ai-site-iota-nine.vercel.app/tag/GitHub</loc>
-    
-    <changefreq>weekly</changefreq>
-    <priority>0.65</priority>
-  </url>
-  <url>
     <loc>https://ai-site-iota-nine.vercel.app/tag/%E3%82%AA%E3%83%96%E3%82%B8%E3%82%A7%E3%82%AF%E3%83%88%E6%8C%87%E5%90%91</loc>
     
     <changefreq>weekly</changefreq>
@@ -367,6 +697,24 @@
     <priority>0.65</priority>
   </url>
   <url>
+    <loc>https://ai-site-iota-nine.vercel.app/category/Bash</loc>
+    
+    <changefreq>weekly</changefreq>
+    <priority>0.65</priority>
+  </url>
+  <url>
+    <loc>https://ai-site-iota-nine.vercel.app/category/HTTP</loc>
+    
+    <changefreq>weekly</changefreq>
+    <priority>0.65</priority>
+  </url>
+  <url>
+    <loc>https://ai-site-iota-nine.vercel.app/category/%E6%AD%A3%E8%A6%8F%E8%A1%A8%E7%8F%BE</loc>
+    
+    <changefreq>weekly</changefreq>
+    <priority>0.65</priority>
+  </url>
+  <url>
     <loc>https://ai-site-iota-nine.vercel.app/category/SQL</loc>
     
     <changefreq>weekly</changefreq>
@@ -380,6 +728,18 @@
   </url>
   <url>
     <loc>https://ai-site-iota-nine.vercel.app/category/Git</loc>
+    
+    <changefreq>weekly</changefreq>
+    <priority>0.65</priority>
+  </url>
+  <url>
+    <loc>https://ai-site-iota-nine.vercel.app/category/nginx</loc>
+    
+    <changefreq>weekly</changefreq>
+    <priority>0.65</priority>
+  </url>
+  <url>
+    <loc>https://ai-site-iota-nine.vercel.app/category/Markdown</loc>
     
     <changefreq>weekly</changefreq>
     <priority>0.65</priority>
@@ -401,6 +761,282 @@
     
     <changefreq>weekly</changefreq>
     <priority>0.65</priority>
+  </url>
+  <url>
+    <loc>https://ai-site-iota-nine.vercel.app/article/nginx-practice</loc>
+    <lastmod>2026-05-30</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://ai-site-iota-nine.vercel.app/article/nginx-logging</loc>
+    <lastmod>2026-05-30</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://ai-site-iota-nine.vercel.app/article/nginx-ssl</loc>
+    <lastmod>2026-05-30</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://ai-site-iota-nine.vercel.app/article/nginx-location</loc>
+    <lastmod>2026-05-30</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://ai-site-iota-nine.vercel.app/article/nginx-reverse-proxy</loc>
+    <lastmod>2026-05-30</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://ai-site-iota-nine.vercel.app/article/nginx-static-site</loc>
+    <lastmod>2026-05-30</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://ai-site-iota-nine.vercel.app/article/nginx-install</loc>
+    <lastmod>2026-05-30</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://ai-site-iota-nine.vercel.app/article/nginx-intro</loc>
+    <lastmod>2026-05-30</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://ai-site-iota-nine.vercel.app/article/bash-practice</loc>
+    <lastmod>2026-05-30</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://ai-site-iota-nine.vercel.app/article/bash-error-handling</loc>
+    <lastmod>2026-05-30</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://ai-site-iota-nine.vercel.app/article/bash-cron</loc>
+    <lastmod>2026-05-30</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://ai-site-iota-nine.vercel.app/article/bash-file-processing</loc>
+    <lastmod>2026-05-30</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://ai-site-iota-nine.vercel.app/article/bash-pipes-scripts</loc>
+    <lastmod>2026-05-30</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://ai-site-iota-nine.vercel.app/article/bash-functions</loc>
+    <lastmod>2026-05-30</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://ai-site-iota-nine.vercel.app/article/bash-loops</loc>
+    <lastmod>2026-05-30</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://ai-site-iota-nine.vercel.app/article/bash-conditionals</loc>
+    <lastmod>2026-05-30</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://ai-site-iota-nine.vercel.app/article/bash-variables</loc>
+    <lastmod>2026-05-30</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://ai-site-iota-nine.vercel.app/article/bash-intro</loc>
+    <lastmod>2026-05-30</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://ai-site-iota-nine.vercel.app/article/http-practice</loc>
+    <lastmod>2026-05-30</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://ai-site-iota-nine.vercel.app/article/http-debugging</loc>
+    <lastmod>2026-05-30</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://ai-site-iota-nine.vercel.app/article/http-fetch-tools</loc>
+    <lastmod>2026-05-30</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://ai-site-iota-nine.vercel.app/article/http-rest-api</loc>
+    <lastmod>2026-05-30</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://ai-site-iota-nine.vercel.app/article/http-https-tls</loc>
+    <lastmod>2026-05-30</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://ai-site-iota-nine.vercel.app/article/http-cookies-session</loc>
+    <lastmod>2026-05-30</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://ai-site-iota-nine.vercel.app/article/http-headers</loc>
+    <lastmod>2026-05-30</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://ai-site-iota-nine.vercel.app/article/http-methods-status</loc>
+    <lastmod>2026-05-30</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://ai-site-iota-nine.vercel.app/article/http-request-response</loc>
+    <lastmod>2026-05-30</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://ai-site-iota-nine.vercel.app/article/http-intro</loc>
+    <lastmod>2026-05-30</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://ai-site-iota-nine.vercel.app/article/regex-practice</loc>
+    <lastmod>2026-05-30</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://ai-site-iota-nine.vercel.app/article/regex-cli-tools</loc>
+    <lastmod>2026-05-30</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://ai-site-iota-nine.vercel.app/article/regex-javascript</loc>
+    <lastmod>2026-05-30</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://ai-site-iota-nine.vercel.app/article/regex-lookahead</loc>
+    <lastmod>2026-05-30</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://ai-site-iota-nine.vercel.app/article/regex-groups</loc>
+    <lastmod>2026-05-30</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://ai-site-iota-nine.vercel.app/article/regex-anchors</loc>
+    <lastmod>2026-05-30</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://ai-site-iota-nine.vercel.app/article/regex-quantifiers</loc>
+    <lastmod>2026-05-30</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://ai-site-iota-nine.vercel.app/article/regex-character-classes</loc>
+    <lastmod>2026-05-30</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://ai-site-iota-nine.vercel.app/article/regex-literals</loc>
+    <lastmod>2026-05-30</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://ai-site-iota-nine.vercel.app/article/regex-intro</loc>
+    <lastmod>2026-05-30</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://ai-site-iota-nine.vercel.app/article/markdown-practice</loc>
+    <lastmod>2026-05-30</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://ai-site-iota-nine.vercel.app/article/markdown-tools</loc>
+    <lastmod>2026-05-30</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://ai-site-iota-nine.vercel.app/article/markdown-docs-structure</loc>
+    <lastmod>2026-05-30</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://ai-site-iota-nine.vercel.app/article/markdown-github-readme</loc>
+    <lastmod>2026-05-30</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://ai-site-iota-nine.vercel.app/article/markdown-code-tables</loc>
+    <lastmod>2026-05-30</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://ai-site-iota-nine.vercel.app/article/markdown-lists-links</loc>
+    <lastmod>2026-05-30</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://ai-site-iota-nine.vercel.app/article/markdown-basic-syntax</loc>
+    <lastmod>2026-05-30</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://ai-site-iota-nine.vercel.app/article/markdown-intro</loc>
+    <lastmod>2026-05-30</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
     <loc>https://ai-site-iota-nine.vercel.app/article/docker-webapp-practice</loc>

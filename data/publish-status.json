@@ -1,9 +1,9 @@
 {
   "siteUrl": "https://ai-site-iota-nine.vercel.app",
-  "nodeEnv": "development",
-  "sitemapUpdatedAt": "2026-05-30T04:37:43.091Z",
-  "rssUpdatedAt": "2026-05-30T04:37:43.184Z",
-  "robotsUpdatedAt": "2026-05-30T04:37:43.185Z",
+  "nodeEnv": "production",
+  "sitemapUpdatedAt": "2026-05-30T04:50:56.013Z",
+  "rssUpdatedAt": "2026-05-30T04:50:56.098Z",
+  "robotsUpdatedAt": "2026-05-30T04:50:56.099Z",
   "lastPublish": {
     "slug": "docker-webapp-practice",
     "title": "Node.js・Python WebアプリをDockerコンテナ化する実践ガイド",

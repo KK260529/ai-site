@@ -25,9 +25,29 @@ const { requireAdminAuth } = require("../utils/auth/adminAuth");
 function sendPublicFile(res, filename, contentType) {
   const filePath = path.join(config.publicDir, filename);
   if (fs.existsSync(filePath)) {
-    return res.type(contentType).sendFile(filePath);
+    const body = fs.readFileSync(filePath, "utf-8");
+    return res
+      .type(`${contentType}; charset=utf-8`)
+      .set("Cache-Control", "public, max-age=3600")
+      .send(body);
   }
   return null;
+}
+
+function sendSitemapXml(res) {
+  const articles = articleStore.listAllArticles();
+  const courses = knowledgeStore.listTopics().flatMap((t) =>
+    knowledgeStore.listCourses(t).map((c) => ({ ...c, topic: t }))
+  );
+  const { collectTagStats, collectCategoryStats } = require("../utils/discovery");
+  const xml = buildSitemapXml(articles, courses, knowledgeStore.listTopics(), {
+    tags: collectTagStats(2),
+    categories: collectCategoryStats(),
+  });
+  return res
+    .type("application/xml; charset=utf-8")
+    .set("Cache-Control", "public, max-age=3600")
+    .send(xml);
 }
 
 function sortArticlesNewest(articles) {
@@ -152,19 +172,7 @@ router.get("/llms.txt", (_req, res) => {
 
 router.get("/sitemap.xml", (_req, res) => {
   if (sendPublicFile(res, "sitemap.xml", "application/xml")) return;
-  const articles = articleStore.listAllArticles();
-  const courses = knowledgeStore.listTopics().flatMap((t) =>
-    knowledgeStore.listCourses(t).map((c) => ({ ...c, topic: t }))
-  );
-  const { collectTagStats, collectCategoryStats } = require("../utils/discovery");
-  res
-    .type("application/xml")
-    .send(
-      buildSitemapXml(articles, courses, knowledgeStore.listTopics(), {
-        tags: collectTagStats(2),
-        categories: collectCategoryStats(),
-      })
-    );
+  sendSitemapXml(res);
 });
 
 router.get("/robots.txt", (_req, res) => {

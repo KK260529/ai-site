@@ -9,3 +9,4 @@ User-agent: ChatGPT-User
 Allow: /
 
 # Site overview for LLMs: https://ai-site-iota-nine.vercel.app/llms.txt
+Disallow: /admin
